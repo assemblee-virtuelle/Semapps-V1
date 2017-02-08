@@ -1,0 +1,6 @@
+{
+  "name": "gv-carto",
+  "short_name": "gv-carto",
+  "start_url": "/",
+  "display": "standalone"
+}

@@ -1,13 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:og="http://ogp.me/ns#">
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!-- metadata -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+        <meta name="description"
+              content="Cartographie des acteurs du site des Grands Voisins à l'Hôpital Saint Vincent de Paul, Paris">
+
+        <meta property="og:type" content="place">
+        <meta property="og:title" content="Les Grands Voisins">
+        <meta property="og:url" content="http://carto.wexample.com">
+        <meta property="og:image" content="/images/og.jpg">
+        <meta property="og:image:width" content="200">
+        <meta property="og:image:height" content="200">
+        <meta property="place:location:latitude" content="123">
+        <meta property="place:location:longitude" content="456">
+        <meta property="og:title" content="Les Grands Voisins | Réseau" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://reseau.lesgrandsvoisins.org" />
+        <meta property="og:image" content="/images/map.min.gif" />
+        <!-- See https://goo.gl/qRE0vM -->
+        <meta name="theme-color" content="#3f51b5">
+
+        <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="application-name" content="Les Grands Voisins">
+
+        <!-- Add to homescreen for Safari on iOS -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style"
+              content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Les Grands Voisins | Réseau">
+        <!-- end metadata-->
+
+        <title>{% block title %}Les Grands Voisins | Réseau{% endblock %}</title>
+
+        <!-- css -->
+        {% block stylesheets %}
+        <link type="text/css" rel="stylesheet"
+              href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.css') }}">
+        <link type="text/css" rel="stylesheet"
+              href="{{ asset('css/style.css') }}">
+        <link type="text/css" rel="stylesheet"
+              href="{{ asset('bower_components/bootstrap/dist/css/bootstrap-theme.css') }}">
+
+        <link href="https://fonts.googleapis.com/css?family=Crafty+Girls" rel="stylesheet">
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+
+        <!-- See https://goo.gl/OOhYW5 -->
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
+
+        <link rel="import" href="{{ asset('bower_components/polymer/polymer.html') }}">
+        <link rel="import" href="{{ asset('bower_components/app-route/app-location.html') }}">
+        <link rel="import" href="{{ asset('bower_components/app-route/app-route.html') }}">
+        <link rel="import" href="{{ asset('bower_components/iron-pages/iron-pages.html') }}">
+        <link rel="import" href="{{ asset('bower_components/page-title/page-title.html') }}">
+
+        <!-- components -->
+        <link rel="import" href="{{ asset('src/search-result/search-result.html') }}">
+        <link rel="import" href="{{ asset('src/gv-logo/gv-logo.html') }}">
+        <link rel="import" href="{{ asset('src/gv-logo-mini/gv-logo-mini.html') }}">
+        <link rel="import" href="{{ asset('src/gv-logo-link/gv-logo-link.html') }}">
+        <link rel="import" href="{{ asset('src/gv-organization/gv-organization.html') }}">
+        <link rel="import" href="{{ asset('src/search-results/search-results.html') }}">
+        <link rel="import" href="{{ asset('src/av-logo/av-logo.html') }}">
+        <link rel="import" href="{{ asset('src/wexample-logo/wexample-logo.html') }}">
+        <link rel="import" href="{{ asset('src/aurore-logo/aurore-logo.html') }}">
+        {% endblock %}
+        <!-- end css -->
+        <!-- js -->
+        {% block javascripts %}
+            <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+            <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('src/gv_carto.js') }}"></script>
+            <script src="{{ asset('bower_components/jquery.scrollTo/jquery.scrollTo.js') }}"></script>
+            <script src="{{ asset('bower_components/jquery.easing/js/jquery.easing.min.js') }}"></script>
+            <script src="{{ asset('bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
+        {% endblock %}
+        <!-- end js -->
+
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+        {% block scripts %}
+            <script>
+                window.addEventListener('WebComponentsReady', function () {
+                    Polymer({
+                        is: 'gv-carto-app',
+                        properties: {
+                            pageTitle: {
+                                type: String,
+                                value: 'Les Grands Voisins'
+                            },
+                            title: {
+                                type: String,
+                                value: 'Les Grands Voisins'
+                            },
+                            route: {
+                                type: Object,
+                                observer: '_routeChanged'
+                            },
+                            searchTail: {
+                                type: Object,
+                                notify: true
+                            },
+                            year: {
+                                value: (new Date()).getFullYear()
+                            }
+                        },
+
+                        _routeChanged: function (data) {
+                            this.pageTitle = 'Les Grands Voisins';
+                        },
+
+                        ready: function () {
+                            new window.GVCarto(this);
+                        }
+                    });
+                });
+            </script>
+        {% endblock %}
     </body>
+
 </html>

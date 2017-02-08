@@ -1,0 +1,212 @@
+@font-face {
+  font-family: 'petitevoisineexpanded';
+  src: url("../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+/* line 10, ../scss/style.scss */
+body {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  font-size: 2em;
+  color: #555; }
+
+/* line 17, ../scss/style.scss */
+.page-detail h2 {
+  font-family: petitevoisineexpanded;
+  font-size: 40px;
+  border-bottom: 4px dashed #FFCC00;
+  padding-bottom: 10px;
+  margin-bottom: 20px; }
+
+/* line 25, ../scss/style.scss */
+a {
+  color: #BB6600; }
+
+/* line 29, ../scss/style.scss */
+a:hover {
+  color: #FFCC00; }
+
+/* line 33, ../scss/style.scss */
+.clearfix {
+  clear: both; }
+
+/* line 39, ../scss/style.scss */
+header {
+  animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+  background-color: #FFCC00;
+  padding: 1.5px 20px;
+  top: 10px;
+  left: 10px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3); }
+@keyframes headerFadeIn {
+  0% {
+    top: -200px; }
+  100% {
+    top: 10px; } }
+  /* line 50, ../scss/style.scss */
+  header .logo-circle {
+    position: absolute;
+    background: #FFCC00;
+    border-radius: 1000px;
+    z-index: 100;
+    width: 110px;
+    height: 110px;
+    padding: 12px 10px;
+    top: -27px; }
+    /* line 59, ../scss/style.scss */
+    header .logo-circle img {
+      width: 80px; }
+    /* line 62, ../scss/style.scss */
+    header .logo-circle h1 {
+      display: none; }
+  /* line 67, ../scss/style.scss */
+  header .search {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+    /* line 70, ../scss/style.scss */
+    header .search .nav {
+      margin: 0 15px; }
+      /* line 72, ../scss/style.scss */
+      header .search .nav li {
+        margin-top: 10px; }
+        /* line 74, ../scss/style.scss */
+        header .search .nav li a {
+          padding-left: 15px; }
+          /* line 76, ../scss/style.scss */
+          header .search .nav li a span {
+            margin-left: 0;
+            margin-right: 8px; }
+    /* line 83, ../scss/style.scss */
+    header .search input[type=submit] {
+      background: #333;
+      border: 0;
+      color: rgba(183, 154, 118, 0.95); }
+    /* line 88, ../scss/style.scss */
+    header .search input[type=submit]:hover {
+      background: #fff192; }
+  @media (max-width: 768px) {
+    /* line 94, ../scss/style.scss */
+    header .logo-circle {
+      position: initial;
+      width: auto;
+      padding: 10px;
+      height: auto;
+      top: 0; }
+      /* line 100, ../scss/style.scss */
+      header .logo-circle img {
+        width: auto; }
+    /* line 104, ../scss/style.scss */
+    header .col-search-logo {
+      margin: -12vw 0 -8vw 0; }
+    /* line 107, ../scss/style.scss */
+    header .col-search-button,
+    header .col-search-building {
+      margin-top: 10px; } }
+
+@keyframes mapZoneFadeIn {
+  from {
+    opacity: 0.05; }
+  to {
+    opacity: 0.2; } }
+@keyframes mapZoneFadeInStrong {
+  from {
+    opacity: 0.2; }
+  to {
+    opacity: 0.5; } }
+@keyframes mapZoneFadeOut {
+  from {
+    opacity: 0.2; }
+  to {
+    opacity: 0.05; } }
+/* line 140, ../scss/style.scss */
+#gvMap .mapContent .mapZone {
+  cursor: pointer;
+  animation: mapZoneFadeIn 0.2s cubic-bezier(0.8, 0, 0.3, 0.9) forwards; }
+/* line 144, ../scss/style.scss */
+#gvMap .mapContent .mapZone.strong {
+  opacity: 0.4; }
+/* line 147, ../scss/style.scss */
+#gvMap .mapContent .mapZone.discreet:not(.strong) {
+  animation: mapZoneFadeOut 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards; }
+/* line 150, ../scss/style.scss */
+#gvMap .mapContent .gvMapInner {
+  border: 8px dashed #F0F0F0;
+  transform: rotate(-1deg);
+  max-width: 100vh;
+  margin: 20px auto; }
+
+@media (max-width: 768px) {
+  /* line 163, ../scss/style.scss */
+  #gvMap .mapContent .gvMapInner {
+    border: 0;
+    transform: none;
+    max-width: inherit;
+    margin: 0; } }
+/* line 173, ../scss/style.scss */
+.nav-tabs a {
+  color: #DDD !important;
+  cursor: pointer !important; }
+  /* line 176, ../scss/style.scss */
+  .nav-tabs a span {
+    margin-right: 8px; }
+
+/* line 182, ../scss/style.scss */
+#searchResults ul {
+  padding: 0; }
+/* line 185, ../scss/style.scss */
+#searchResults li {
+  list-style: none; }
+/* line 188, ../scss/style.scss */
+#searchResults p {
+  text-align: justify; }
+
+/* line 193, ../scss/style.scss */
+.organization-header path,
+.search-result-content .image path {
+  stroke: rgba(0, 0, 0, 0.1); }
+
+/* line 198, ../scss/style.scss */
+footer {
+  margin-top: 80px;
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3); }
+  /* line 206, ../scss/style.scss */
+  footer a, footer a:hover {
+    text-decoration: none; }
+  /* line 210, ../scss/style.scss */
+  footer .wexample-logo,
+  footer .aurore-logo,
+  footer .gv-logo-mini,
+  footer .gv-logo-mini div,
+  footer .gv-logo-mini svg,
+  footer .av-logo-svg {
+    width: 40px;
+    display: inline;
+    vertical-align: middle; }
+  /* line 221, ../scss/style.scss */
+  footer .aurore-logo {
+    fill: rgba(0, 0, 0, 0.3);
+    height: 40px; }
+  /* line 226, ../scss/style.scss */
+  footer .wexample-logo {
+    fill: rgba(0, 0, 0, 0.3);
+    width: 20px;
+    height: 20px; }
+  /* line 233, ../scss/style.scss */
+  footer .av-logo-svg path {
+    fill: rgba(0, 0, 0, 0.3); }
+  /* line 239, ../scss/style.scss */
+  footer .gv-logo-mini svg path {
+    stroke: rgba(0, 0, 0, 0.3); }
+  /* line 244, ../scss/style.scss */
+  footer .separator {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 30px;
+    height: 10px; }
+
+/* line 251, ../scss/style.scss */
+body.dev-env #gv-logo-inner {
+  animation-delay: 0s;
+  display: none; }

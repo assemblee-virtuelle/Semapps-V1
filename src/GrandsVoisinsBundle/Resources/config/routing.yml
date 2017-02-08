@@ -1,0 +1,6 @@
+grands_voisins_homepage:
+    path:     /
+    defaults: { _controller: GrandsVoisinsBundle:Default:index }
+grands_voisins_homepage_search_all:
+    path:     /search/all
+    defaults: { _controller: GrandsVoisinsBundle:Default:search }

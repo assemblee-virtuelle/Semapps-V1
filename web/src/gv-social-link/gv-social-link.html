@@ -1,0 +1,24 @@
+<dom-module id="gv-social-link">
+  <link rel="import" type="css" href="gv-social-link.css">
+  <template>
+    <div>{{user.name}}</div>
+    <template is="dom-if" if="{{url}}">
+      <div class="social">
+        <a href="[[url]]" target="_blank">
+          <img src="/images/social/[[icon]].svg"/>
+        </a>
+      </div>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'gv-social-link',
+      properties: {
+        url: Object,
+        icon: Object
+      }
+    });
+  </script>
+</dom-module>
+

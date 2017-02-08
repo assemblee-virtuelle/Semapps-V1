@@ -1,0 +1,254 @@
+@font-face {
+  font-family: 'petitevoisineexpanded';
+  src: url('../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2') format('woff2'),
+  url('../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+body {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  font-size: 2em;
+  color: #555;
+}
+
+.page-detail h2 {
+  font-family: petitevoisineexpanded;
+  font-size: 40px;
+  border-bottom: 4px dashed #FFCC00;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+a {
+  color: #BB6600;
+}
+
+a:hover {
+  color: #FFCC00;
+}
+
+.clearfix {
+  clear: both;
+}
+
+$shadow_min: 0px 1px 2px rgba(0, 0, 0, 0.3);
+
+header {
+  @keyframes headerFadeIn {
+    0% { top: -200px; }
+    100% { top: 10px; }
+  }
+  animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+  background-color: #FFCC00;
+  padding: 1.5px 20px;
+  top: 10px;
+  left: 10px;
+  box-shadow: $shadow_min;
+  .logo-circle {
+    position: absolute;
+    background: #FFCC00;
+    border-radius: 1000px;
+    z-index: 100;
+    width: 110px;
+    height: 110px;
+    padding: 12px 10px;
+    top: -27px;
+    img {
+      width: 80px;
+    }
+    h1 {
+      display: none;
+    }
+  }
+
+  .search {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .nav {
+      margin: 0 15px;
+      li {
+        margin-top: 10px;
+        a {
+          padding-left: 15px;
+          span {
+            margin-left: 0;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    input[type=submit] {
+      background: #333;
+      border: 0;
+      color: rgba(183, 154, 118, 0.95);
+    }
+    input[type=submit]:hover {
+      background: #fff192;
+    }
+  }
+  // Responsive.
+  @media (max-width: 768px) {
+    .logo-circle {
+      position: initial;
+      width: auto;
+      padding: 10px;
+      height: auto;
+      top: 0;
+      img {
+        width: auto;
+      }
+    }
+    .col-search-logo {
+      margin: -12vw 0 -8vw 0;
+    }
+    .col-search-button,
+    .col-search-building {
+      margin-top: 10px;
+    }
+  }
+}
+
+#gvMap {
+  @keyframes mapZoneFadeIn {
+    from {
+      opacity: 0.05;
+    }
+    to {
+      opacity: 0.2;
+    }
+  }
+  @keyframes mapZoneFadeInStrong {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+  @keyframes mapZoneFadeOut {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 0.05;
+    }
+  }
+  .mapContent {
+    .mapZone {
+      cursor: pointer;
+      animation: mapZoneFadeIn 0.2s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .mapZone.strong {
+      opacity: 0.4;
+    }
+    .mapZone.discreet:not(.strong) {
+      animation: mapZoneFadeOut 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .gvMapInner {
+      border: 8px dashed #F0F0F0;
+      transform: rotate(-1deg);
+      max-width: 100vh;
+      margin: 20px auto;
+    }
+  }
+}
+
+// Responsive.
+@media (max-width: 768px) {
+  #gvMap {
+    .mapContent {
+      .gvMapInner {
+        border: 0;
+        transform: none;
+        max-width: inherit;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.nav-tabs a {
+  color: #DDD !important;
+  cursor: pointer !important;
+  span {
+    margin-right: 8px;
+  }
+}
+
+#searchResults {
+  ul {
+    padding: 0;
+  }
+  li {
+    list-style: none;
+  }
+  p {
+    text-align: justify;
+  }
+}
+
+.organization-header path,
+.search-result-content .image path {
+  stroke: rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  margin-top: 80px;
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  $logoColor: rgba(0, 0, 0, .3);
+  color: $logoColor;
+
+  a, a:hover {
+    text-decoration: none;
+  }
+
+  .wexample-logo,
+  .aurore-logo,
+  .gv-logo-mini,
+  .gv-logo-mini div,
+  .gv-logo-mini svg,
+  .av-logo-svg {
+    width: 40px;
+    display: inline;
+    vertical-align: middle;
+  }
+
+  .aurore-logo {
+    fill: $logoColor;
+    height: 40px;
+  }
+
+  .wexample-logo {
+    fill: $logoColor;
+    width: 20px;
+    height: 20px;
+  }
+
+  .av-logo-svg {
+    path {
+      fill: $logoColor;
+    }
+  }
+
+  .gv-logo-mini svg {
+    path {
+      stroke: $logoColor;
+    }
+  }
+
+  .separator {
+    border-right: 1px solid rgba(0, 0, 0, .1);
+    margin: 0 30px;
+    height: 10px;
+  }
+}
+
+body.dev-env #gv-logo-inner {
+  animation-delay: 0s;
+  display: none;
+}
