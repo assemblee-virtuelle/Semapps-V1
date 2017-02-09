@@ -1,14 +1,24 @@
 grands_voisins_homepage:
     path:     /
     defaults: { _controller: GrandsVoisinsBundle:Default:index }
+
 grands_voisins_homepage_search_all:
     path:     /search/all
     defaults: { _controller: GrandsVoisinsBundle:Default:search }
 
+admin:
+    path: /admin
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /admin/
+        permanent: true
+
 show:
-    path:     /admin
+    path:     /admin/
     defaults: { _controller: GrandsVoisinsBundle:Admin:show }
 
 test:
     path:     testRoute
     defaults: { _controller: GrandsVoisinsBundle:Admin:test }
+
+
