@@ -10,6 +10,10 @@
 .table tbody tr td.padded-value {
   padding: 16px; }
 
+.panel-gv {
+  background: #F0F0F0;
+  color: #555; }
+
 header {
   background: #FFCC00; }
   header .gv-logo-mini-inner {
@@ -26,8 +30,14 @@ header {
 h2, label, input[type=submit] {
   font-family: petitevoisine, sans-serif; }
 
+h1 {
+  font-size: 24px; }
+
 h2 {
-  border-bottom: 4px dashed #FFCC00; }
+  font-size: 18px;
+  font-weight: normal;
+  color: #BB6600;
+  border-bottom: 2px dashed #EEE; }
 
 label {
   font-family: petitevoisine, sans-serif;

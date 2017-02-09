@@ -3,6 +3,13 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\HttpFoundation\Request;
+use GrandsVoisinsBundle\Entity\User;
 
 class AdminController extends Controller
 {
@@ -33,11 +40,88 @@ class AdminController extends Controller
         );
     }
 
-    public function teamAction()
+    public function teamAction(Request $request)
     {
+        $accessLevels = array(
+          'Administrateur' => 'admin',
+          'Editeur'        => 'editor',
+          'Membre'         => 'member',
+        );
+
+        $form = $this->createFormBuilder()
+          ->add(
+            'login',
+            TextType::class,
+            array(
+              'constraints' => array(
+                new NotBlank(),
+              ),
+            )
+          )
+          ->add(
+            'email',
+            TextType::class,
+            array(
+              'constraints' => array(
+                new Email(),
+              ),
+            )
+          )
+          ->add(
+            'access',
+            ChoiceType::class,
+            [
+              'choices' => $accessLevels,
+            ]
+          )
+          ->add('submit', SubmitType::class, array())
+          ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get posted data.
+            $data = $form->getData();
+
+            // Create user.
+            $user = new User();
+
+            // Save login.
+            $user->setUsername($data['login']);
+            $user->setEmail($data['email']);
+
+            // Generate password.
+            $tokenGenerator = $this->container->get(
+              'fos_user.util.token_generator'
+            );
+            $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
+            $user->setPassword($randomPassword);
+
+            // Save it.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            // TODO Grant permission to edit same organisation as current user.
+
+            // Display message.
+            $this->addFlash(
+              'success',
+              'Un compte à bien été créé pour <b>'.
+              $data['login'].
+              '</b>. Un email a été envoyé à <b>'.
+              $data['email'].
+              '</b> pour lui communiquer ses informations de connexion.'
+            );
+
+            // Go back to team page.
+            return $this->redirectToRoute('team');
+        }
+
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
-          array(// ...
+          array(
+            'formAddUser' => $form->createView(),
           )
         );
     }

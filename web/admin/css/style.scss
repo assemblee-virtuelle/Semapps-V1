@@ -25,8 +25,15 @@ h2, label, input[type=submit] {
 
 $lgvDashedUnderline: 4px dashed $lgvMainYellow;
 
+h1 {
+  font-size: 24px;
+}
+
 h2 {
-  border-bottom: $lgvDashedUnderline;
+  font-size: 18px;
+  font-weight: normal;
+  color: $lgvSecondYellow;
+  border-bottom: 2px dashed #EEE;
 }
 
 label {

@@ -156,8 +156,8 @@
                                 </li>
                                 <li>
                                     <a href="{{ path('team') }}">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        Inviter des personnes
+                                        <span class="glyphicon glyphicon-record"></span>
+                                        Equipe
                                     </a>
                                 </li>
                             </ul>
@@ -166,14 +166,21 @@
                 </div>
             </div>
             <div class="col-sm-9 col-md-10 affix-content">
-                <div class="container">
-                    <div class="page-header">
-                        <h3><span class="glyphicon glyphicon-home"></span>
-                            {% block pageContentTitle %}Titre{% endblock %}</h3>
-                    </div>
-                    {% block pageContent %}
-                    {% endblock %}
+                <div class="page-header">
+                    <h1><span class="glyphicon glyphicon-home"></span>
+                        {% block pageContentTitle %}Titre{% endblock %}</h1>
                 </div>
+
+                {% for type, flashes in app.session.flashbag.all %}
+                    {% for flash in flashes %}
+                        <div class="alert alert-{{ type }} fade in">
+                            {{ flash|raw }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% block pageContent %}
+                {% endblock %}
             </div>
         </div>
 

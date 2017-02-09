@@ -79,5 +79,8 @@ fos_user:
     firewall_name: main
     user_class: GrandsVoisinsBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
-        address: test@test.fr
-        sender_name: test
+        address: noreply@lesgrandsvoisins.org
+        sender_name: Les Grands Voisins
+    registration:
+        confirmation:
+            enabled: true

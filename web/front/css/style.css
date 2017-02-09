@@ -10,6 +10,10 @@
 .table tbody tr td.padded-value {
   padding: 16px; }
 
+.panel-gv {
+  background: #F0F0F0;
+  color: #555; }
+
 body {
   margin: 0;
   font-family: Helvetica, sans-serif;
