@@ -30,6 +30,11 @@ input[type=submit] {
   color: #FFF;
 }
 
+input[type=submit]:hover {
+  color: #FFF;
+  background: $lgvSecondYellow;
+}
+
 input.form-control {
   border-radius: 0;
 }
