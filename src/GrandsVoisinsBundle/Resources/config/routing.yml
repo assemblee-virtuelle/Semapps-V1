@@ -29,3 +29,6 @@ organisation:
     path:     /admin/organisation
     defaults: { _controller: GrandsVoisinsBundle:Admin:organisation }
 
+userDelete:
+    path:     /admin/user/delete/{userId}
+    defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }

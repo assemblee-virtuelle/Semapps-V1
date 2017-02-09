@@ -133,4 +133,31 @@ class AdminController extends Controller
           )
         );
     }
+
+    public function userDeleteAction($userId)
+    {
+        /* @var $userManager \FOS\UserBundle\Doctrine\UserManager */
+        $userManager = $this->get('fos_user.user_manager');
+        $user        = $userManager->findUserBy(['id' => $userId]);
+
+        if (!$user) {
+            // Display error message.
+            $this->addFlash(
+              'danger',
+              'Utilisateur introuvable.'
+            );
+        } else {
+            // Delete.
+            $userManager->deleteUser($user);
+            // Display success message.
+            $this->addFlash(
+              'success',
+              'Le compte de <b>'.
+              $user->getUsername().
+              '</b> a bien été supprimé.'
+            );
+        }
+
+        return $this->redirectToRoute('team');
+    }
 }
