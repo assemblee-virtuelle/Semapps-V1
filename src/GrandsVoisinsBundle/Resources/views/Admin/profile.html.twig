@@ -6,4 +6,38 @@
 
 {% block pageContent %}
     {{ parent() }}
+    <div class="col-sm-3">
+        <a href="#" class="thumbnail">
+            <img src="{{ asset('common/images/bobby.jpg') }}" style="width:100%" alt="Picture">
+        </a>
+    </div>
+    <form class="col-sm-9">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Addresse email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1"
+                   aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">L'adresse email est obligatoire</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control"
+                   id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Photo</label>
+            <input type="file" class="form-control"
+                   id="exampleFile" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="exampleSelect1">Example select</label>
+            <select class="form-control" id="exampleSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary-lgv pull-right">Modifier</button>
+    </form>
 {% endblock %}
