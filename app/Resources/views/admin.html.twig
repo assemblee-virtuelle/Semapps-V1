@@ -136,19 +136,25 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ path('home') }}">
+                                        <span class="glyphicon glyphicon-home"></span>
+                                        Accueil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('profile') }}">
                                         <span class="glyphicon glyphicon-user"></span>
                                         Mon profil
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ path('organisation') }}">
                                         <span class="glyphicon glyphicon-tower"></span>
                                         Mon organisation
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ path('invite') }}">
                                         <span class="glyphicon glyphicon-plus"></span>
                                         Inviter des personnes
                                     </a>
@@ -162,18 +168,12 @@
                 <div class="container">
                     <div class="page-header">
                         <h3><span class="glyphicon glyphicon-home"></span>
-                            Bienvenue !</h3>
+                            {% block pageContentTitle %}Titre{% endblock %}</h3>
                     </div>
-                    <p>Bonjour</p>
+                    {% block pageContent %}
+                    {% endblock %}
                 </div>
             </div>
         </div>
     {% endif %}
-
-    <section class="pageContent container">
-
-        {% block pageContent %}
-        {% endblock %}
-    </section>
-
 {% endblock %}

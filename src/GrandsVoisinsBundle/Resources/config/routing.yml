@@ -13,9 +13,21 @@ admin:
         path: /admin/
         permanent: true
 
-show:
+home:
     path:     /admin/
-    defaults: { _controller: GrandsVoisinsBundle:Admin:show }
+    defaults: { _controller: GrandsVoisinsBundle:Admin:home }
+
+profile:
+    path:     /admin/profile
+    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
+
+invite:
+    path:     /admin/invite
+    defaults: { _controller: GrandsVoisinsBundle:Admin:invite }
+
+organisation:
+    path:     /admin/organisation
+    defaults: { _controller: GrandsVoisinsBundle:Admin:organisation }
 
 test:
     path:     testRoute
