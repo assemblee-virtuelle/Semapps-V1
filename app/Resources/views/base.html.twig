@@ -19,7 +19,7 @@
         <meta property="og:title" content="Les Grands Voisins | Réseau" />
         <meta property="og:type" content="article" />
         <meta property="og:url" content="http://reseau.lesgrandsvoisins.org" />
-        <meta property="og:image" content="/images/map.min.gif" />
+        <meta property="og:image" content="/common/images/map.min.gif" />
         <!-- See https://goo.gl/qRE0vM -->
         <meta name="theme-color" content="#3f51b5">
 
@@ -35,50 +35,26 @@
         <!-- end metadata-->
 
         <title>{% block title %}Les Grands Voisins | Réseau{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('common/images/favicon.png') }}" />
+        <!-- See https://goo.gl/OOhYW5 -->
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
 
         <!-- css -->
         {% block stylesheets %}
         <link type="text/css" rel="stylesheet"
               href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.css') }}">
         <link type="text/css" rel="stylesheet"
-              href="{{ asset('css/style.css') }}">
-        <link type="text/css" rel="stylesheet"
               href="{{ asset('bower_components/bootstrap/dist/css/bootstrap-theme.css') }}">
-
-        <link href="https://fonts.googleapis.com/css?family=Crafty+Girls" rel="stylesheet">
-        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
-
-        <!-- See https://goo.gl/OOhYW5 -->
-        <link rel="manifest" href="{{ asset('manifest.json') }}">
-
-        <link rel="import" href="{{ asset('bower_components/polymer/polymer.html') }}">
-        <link rel="import" href="{{ asset('bower_components/app-route/app-location.html') }}">
-        <link rel="import" href="{{ asset('bower_components/app-route/app-route.html') }}">
-        <link rel="import" href="{{ asset('bower_components/iron-pages/iron-pages.html') }}">
-        <link rel="import" href="{{ asset('bower_components/page-title/page-title.html') }}">
-
-        <!-- components -->
-        <link rel="import" href="{{ asset('src/search-result/search-result.html') }}">
-        <link rel="import" href="{{ asset('src/gv-logo/gv-logo.html') }}">
-        <link rel="import" href="{{ asset('src/gv-logo-mini/gv-logo-mini.html') }}">
-        <link rel="import" href="{{ asset('src/gv-logo-link/gv-logo-link.html') }}">
-        <link rel="import" href="{{ asset('src/gv-organization/gv-organization.html') }}">
-        <link rel="import" href="{{ asset('src/search-results/search-results.html') }}">
-        <link rel="import" href="{{ asset('src/av-logo/av-logo.html') }}">
-        <link rel="import" href="{{ asset('src/wexample-logo/wexample-logo.html') }}">
-        <link rel="import" href="{{ asset('src/aurore-logo/aurore-logo.html') }}">
+            <link href="https://fonts.googleapis.com/css?family=Crafty+Girls" rel="stylesheet">
         {% endblock %}
-        <!-- end css -->
-        <!-- js -->
+
+        {% block headTags %}
+        {% endblock %}
+
         {% block javascripts %}
             <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
             <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('src/gv_carto.js') }}"></script>
-            <script src="{{ asset('bower_components/jquery.scrollTo/jquery.scrollTo.js') }}"></script>
-            <script src="{{ asset('bower_components/jquery.easing/js/jquery.easing.min.js') }}"></script>
-            <script src="{{ asset('bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
         {% endblock %}
-        <!-- end js -->
 
     </head>
     <body>

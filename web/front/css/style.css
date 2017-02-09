@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'petitevoisineexpanded';
-  src: url("../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
+  src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
 /* line 10, ../scss/style.scss */

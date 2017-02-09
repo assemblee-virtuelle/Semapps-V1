@@ -18,9 +18,9 @@
       }
 
       this.ajaxMultiple({
-        buildings: '/data/dataBuildings.json',
-        asso: '/data/dataAsso.json',
-        people: '/data/dataPeople.json'
+        buildings: '/front/data/dataBuildings.json',
+        asso: '/front/data/dataAsso.json',
+        people: '/front/data/dataPeople.json'
       }, this.start);
     }
 

@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "::front.html.twig" %}
 
 {% block body %}
     <gv-carto-app></gv-carto-app>
@@ -21,8 +21,6 @@
                         <form id="searchForm">
                             <div class="col col-xs-12 col-sm-2 col-search-logo">
                                 <div class="logo-circle">
-                                    <!--<img alt="Les Grands Voisins - logo"
-                                         src="/images/logo_les-grands-voisins-white.png">-->
                                     <gv-logo-mini></gv-logo-mini>
                                     <h1>[[title]]</h1>
                                 </div>
@@ -60,7 +58,7 @@
                              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
                              x="0px" y="0px" width="100%">
             <g id="gvMapBg">
-                <image x="0" y="-2" width="3508" height="2123" xlink:href="{{ asset('images/map.min.gif') }}"/>
+                <image x="0" y="-2" width="3508" height="2123" xlink:href="{{ asset('common/images/map.min.gif') }}"/>
                 <path class="mapZone" id="mapZone-lepage"  d="M 531 620 C 571 593 744 480 767 465 C 779 467 783 467 791 469 C 792 474 793 481 793 481 L 799 478 C 807 493.6667 830 510 830 510 L 829 526 L 820.6667 529.3333 C 819.3333 536 823.6667 540.6667 823.6667 540.6667 L 852.3333 561 C 852.3333 561 851.3333 617.3333 856 630 C 851 635.3333 837 646 837 646 L 840 672 L 834 672 L 832 665 L 826 657 L 804.3333 672.6667 L 806 692 L 800.6667 695.6667 L 797 678 L 765 702 L 767.3333 718 L 653.6667 794 L 650.3333 775.3333 L 634.3333 757.3333 L 634 751.6667 L 646 742 L 647.3333 734 C 595.3333 694 575 672 531 620 Z" fill="#0099ff"></path>
                 <path class="mapZone" id="mapZone-maisonDesMedecins"  d="M 1428 368 C 1428.5 360.5 1427.5 348.5 1428 341 C 1425.5 340 1425 338.5 1423 337 C 1425.5 333.5 1443.5 313 1447 310 C 1451.5 307.5 1466 307 1475 302.5 C 1478 304 1479.5 305 1482 307 C 1484.5 305 1545.5 247.5 1562 229 C 1568 227.5 1582 226 1588 227 C 1594 228 1592.5 227.5 1597.5 229.5 C 1601.5 232.5 1634 253.5 1643 261 C 1643 266.5 1645.5 288 1645 296 C 1639.5 299.5 1521 410.5 1504 424 C 1489.5 416 1443.5 380.5 1428 368 Z" fill="#9900ff"></path>
                 <path class="mapZone" id="mapZone-laMediatheque"  d="M 593 925.3334 C 599.3333 920.6667 605.3333 915.3333 613 909 C 620.6667 912 749.3333 1002 767 1020 C 770 1024.6666 772.6667 1037.3334 773 1046 C 770.6667 1049.3334 770 1050 767 1053 C 760 1047.3334 612 937.3334 593 925.3334 Z" fill="#ff0033"></path>

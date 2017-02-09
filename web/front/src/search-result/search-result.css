@@ -73,7 +73,7 @@ a .chevron {
     opacity: .2;
     width: 20px;
     font-size: 30px;
-    animation: resultHoverChevron 0.5s cubic-bezier(0,.34,.25,1) forwards;
+    animation: resultHoverChevron 0.5s cubic-bezier(0, .34, .25, 1) forwards;
   }
 
   .description {
