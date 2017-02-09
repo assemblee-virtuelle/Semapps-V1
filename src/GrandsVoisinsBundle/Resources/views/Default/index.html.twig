@@ -122,4 +122,40 @@
 
         </template>
     </dom-module>
+    <script>
+        window.addEventListener('WebComponentsReady', function () {
+            Polymer({
+                is: 'gv-carto-app',
+                properties: {
+                    pageTitle: {
+                        type: String,
+                        value: 'Les Grands Voisins'
+                    },
+                    title: {
+                        type: String,
+                        value: 'Les Grands Voisins'
+                    },
+                    route: {
+                        type: Object,
+                        observer: '_routeChanged'
+                    },
+                    searchTail: {
+                        type: Object,
+                        notify: true
+                    },
+                    year: {
+                        value: (new Date()).getFullYear()
+                    }
+                },
+
+                _routeChanged: function (data) {
+                    this.pageTitle = 'Les Grands Voisins';
+                },
+
+                ready: function () {
+                    new window.GVCarto(this);
+                }
+            });
+        });
+    </script>
 {% endblock %}
