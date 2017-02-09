@@ -12,6 +12,13 @@ header {
   header .gv-logo-mini-inner {
     width: 100px;
     margin: -12px 0; }
+  header .logout {
+    background-color: transparent;
+    font-family: petitevoisine, sans-serif;
+    color: #FFF !important;
+    padding-top: 30px;
+    display: block;
+    float: right; }
 
 h2, label, input[type=submit] {
   font-family: petitevoisine, sans-serif; }
@@ -35,7 +42,21 @@ input[type=submit]:hover {
 input.form-control {
   border-radius: 0; }
 
+.page-header {
+  font-family: petitevoisine, sans-serif;
+  border-bottom: 4px dashed #FFCC00;
+  color: #555; }
+  .page-header .glyphicon {
+    color: #FFCC00; }
+
 .container-auth {
   margin-top: 60px; }
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
+  box-shadow: none;
+  background: #F5F5F5; }
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+  background: #F5F5F5; }
 
 /*# sourceMappingURL=style.css.map */
