@@ -1,0 +1,71 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
+
+{% block pageContentTitle %}Inviter des personnes{% endblock %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <div class="alert alert-info" role="alert">
+        Vous pouvez créer des comptes pour les membres de votre équipe.
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        Le compte à bien été créé pour <b>Pseudo</b>. Un email a été envoyé à <b>email@domaine.com</b> pour lui communiquer ses informations de connexion.
+    </div>
+
+    <form class="row">
+        <div class="col col-sm-5">
+            <input class="form-control" placeholder="Pseudo">
+        </div>
+        <div class="col col-sm-5">
+            <input class="form-control" placeholder="Email">
+        </div>
+        <div class="col col-sm-2">
+            <input class="form-control btn btn-info" value="Créer">
+        </div>
+    </form>
+    <h2>Equipe</h2>
+    <table class="table table-bordered">
+        <tr>
+            <td class="padded-value" style="width:40%">
+                Pseudo1
+            </td>
+            <td class="padded-value" style="width:30%">
+                email@domaine.com
+            </td>
+            <td style="width:30%">
+                <select class="form-control" name="accessLevel">
+                    <option value="ADMIN">Administrateur</option>
+                    <option value="EDITOR">Editeur</option>
+                    <option value="MEMBER">Membre</option>
+                </select>
+            </td>
+            <td class="padded-value">
+                <a class="team-user-destroy" href="#">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td class="padded-value" style="width:40%">
+                Pseudo1
+            </td>
+            <td class="padded-value" style="width:30%">
+                email@domaine.com
+            </td>
+            <td style="width:30%">
+                <select class="form-control" name="accessLevel">
+                    <option value="ADMIN">Administrateur</option>
+                    <option value="EDITOR">Editeur</option>
+                    <option value="MEMBER">Membre</option>
+                </select>
+            </td>
+            <td class="padded-value">
+                <a class="team-user-destroy" href="#">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -21,9 +21,9 @@ profile:
     path:     /admin/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
-invite:
+team:
     path:     /admin/invite
-    defaults: { _controller: GrandsVoisinsBundle:Admin:invite }
+    defaults: { _controller: GrandsVoisinsBundle:Admin:team }
 
 organisation:
     path:     /admin/organisation

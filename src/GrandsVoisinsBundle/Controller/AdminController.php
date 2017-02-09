@@ -33,10 +33,10 @@ class AdminController extends Controller
         );
     }
 
-    public function inviteAction()
+    public function teamAction()
     {
         return $this->render(
-          'GrandsVoisinsBundle:Admin:invite.html.twig',
+          'GrandsVoisinsBundle:Admin:team.html.twig',
           array(// ...
           )
         );

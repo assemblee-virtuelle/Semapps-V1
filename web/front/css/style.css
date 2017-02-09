@@ -7,6 +7,9 @@
   background: #FFCC00;
   border-radius: 0; }
 
+.table tbody tr td.padded-value {
+  padding: 16px; }
+
 body {
   margin: 0;
   font-family: Helvetica, sans-serif;
