@@ -29,8 +29,3 @@ organisation:
     path:     /admin/organisation
     defaults: { _controller: GrandsVoisinsBundle:Admin:organisation }
 
-test:
-    path:     testRoute
-    defaults: { _controller: GrandsVoisinsBundle:Admin:test }
-
-

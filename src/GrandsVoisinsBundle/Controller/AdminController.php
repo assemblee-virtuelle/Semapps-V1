@@ -133,14 +133,4 @@ class AdminController extends Controller
           )
         );
     }
-
-    public function testAction()
-    {
-        return $this->render(
-          'GrandsVoisinsBundle:Admin:test.html.twig',
-          array(// ...
-          )
-        );
-    }
-
 }
