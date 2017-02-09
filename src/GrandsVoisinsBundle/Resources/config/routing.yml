@@ -4,3 +4,11 @@ grands_voisins_homepage:
 grands_voisins_homepage_search_all:
     path:     /search/all
     defaults: { _controller: GrandsVoisinsBundle:Default:search }
+
+show:
+    path:     /admin
+    defaults: { _controller: GrandsVoisinsBundle:Admin:show }
+
+test:
+    path:     testRoute
+    defaults: { _controller: GrandsVoisinsBundle:Admin:test }

@@ -1,0 +1,33 @@
+{
+  "1": {
+    "nom": "Rouyer",
+    "prenom": "Guillaume",
+    "tél": "0102030405",
+    "email": "guitouuu@gmail.com",
+    "website": "http://virtual-assembly.org",
+    "asso": "64"
+  },
+  "2": {
+    "nom": "Vanel",
+    "prenom": "Jean-Marc",
+    "tél": "0908070605",
+    "email": "jeanmarc.vanel@gmail.com",
+    "website": "http://jmvanel.free.fr",
+    "asso": "64"
+  },
+  "3": {
+    "nom": "Weeger",
+    "prenom": "Romain",
+    "tél": "0011223344",
+    "email": "romain.weeger@gmail.com",
+    "website": "http://network.wexample.com",
+    "asso": "64"
+  },
+  "59": {
+    "nom": "Keledjian",
+    "prenom": "Alexandre",
+    "tél": "0908070605",
+    "email": "xx@yy.zz",
+    "asso": "64"
+  }
+}
