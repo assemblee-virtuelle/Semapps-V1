@@ -8,46 +8,28 @@
     {{ parent() }}
     <h2>Membres</h2>
     <table class="table table-bordered">
-        <tr>
-            <td class="padded-value" style="width:40%">
-                Pseudo1
-            </td>
-            <td class="padded-value" style="width:30%">
-                email@domaine.com
-            </td>
-            <td style="width:30%">
-                <select class="form-control" name="accessLevel">
-                    <option value="ADMIN">Administrateur</option>
-                    <option value="EDITOR">Editeur</option>
-                    <option value="MEMBER">Membre</option>
-                </select>
-            </td>
-            <td class="padded-value">
-                <a class="team-user-destroy" href="#">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td class="padded-value" style="width:40%">
-                Pseudo1
-            </td>
-            <td class="padded-value" style="width:30%">
-                email@domaine.com
-            </td>
-            <td style="width:30%">
-                <select class="form-control" name="accessLevel">
-                    <option value="ADMIN">Administrateur</option>
-                    <option value="EDITOR">Editeur</option>
-                    <option value="MEMBER">Membre</option>
-                </select>
-            </td>
-            <td class="padded-value">
-                <a class="team-user-destroy" href="#">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </a>
-            </td>
-        </tr>
+        {% for user in users %}
+            <tr>
+                <td class="padded-value" style="width:40%">
+                {{ user.username }}
+                </td>
+                <td class="padded-value" style="width:30%">
+                    {{ user.email }}
+                </td>
+                <td style="width:30%">
+                    <select class="form-control" name="accessLevel">
+                        <option value="ADMIN">Administrateur</option>
+                        <option value="EDITOR">Editeur</option>
+                        <option value="MEMBER">Membre</option>
+                    </select>
+                </td>
+                <td class="padded-value">
+                    <a class="team-user-delete" href="#" rel="{{ user.id }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
     </table>
     <h2>Ajouter</h2>
     <div class="panel panel-gv">
@@ -60,7 +42,6 @@
             l'annuaire des Grands Voisins.
         </div>
     </div>
-
 
     {{ form_start(formAddUser) }}
     {{ form_errors(formAddUser) }}

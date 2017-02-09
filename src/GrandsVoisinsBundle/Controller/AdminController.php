@@ -42,12 +42,18 @@ class AdminController extends Controller
 
     public function teamAction(Request $request)
     {
+        // Find all users.
+        // TODO Filter users : get only users attaged to this organisation.
+        $userManager = $this->container->get('fos_user.user_manager');
+        $users       = $userManager->findUsers();
+
         $accessLevels = array(
           'Administrateur' => 'admin',
           'Editeur'        => 'editor',
           'Membre'         => 'member',
         );
 
+        // Create user form.
         $form = $this->createFormBuilder()
           ->add(
             'login',
@@ -121,7 +127,9 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'formAddUser' => $form->createView(),
+            'users'        => $users,
+            'accessLevels' => $accessLevels,
+            'formAddUser'  => $form->createView(),
           )
         );
     }

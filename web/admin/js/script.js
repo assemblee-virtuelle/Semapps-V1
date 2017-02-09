@@ -15,15 +15,15 @@ $(function () {
     var $self = this;
 
     // On user profile, remove user button.
-    $('.team-user-destroy').click(function (e) {
+    $('.team-user-delete').click(function (e) {
+      var userId = $(this).attr('rel');
       // Disable default click behavior.
       e.preventDefault();
       // Use custom modal for message.
       $self.modalConfirm('Êtes-vous sûr de vouloir supprimer ce compte ? ' +
         'Toutes les informations du profil seront perdues, ' +
         'et le membre n\'aura plus accès au site.', function () {
-        // TODO Remove user (by redirecting to deletion page, or via ajax)
-        alert('TODO !');
+        window.location.replace('/admin/user/delete/' + userId);
       });
     });
   };
