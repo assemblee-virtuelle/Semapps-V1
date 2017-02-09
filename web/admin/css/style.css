@@ -1,3 +1,37 @@
+@font-face {
+  font-family: 'petitevoisineexpanded';
+  src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+.btn-primary-lgv {
+  background: #FFCC00;
+  border-radius: 0; }
 
+header {
+  background: #FFCC00; }
+  header .gv-logo-mini-inner {
+    width: 100px;
+    margin: -12px 0; }
+
+h2, label, input[type=submit] {
+  font-family: petitevoisine, sans-serif; }
+
+h2 {
+  border-bottom: 4px dashed #FFCC00; }
+
+label {
+  font-family: petitevoisine, sans-serif;
+  color: #555;
+  font-weight: normal;
+  margin: 15px 0 3px 0; }
+
+input[type=submit] {
+  color: #FFF; }
+
+input.form-control {
+  border-radius: 0; }
+
+.container-auth {
+  margin-top: 60px; }
 
 /*# sourceMappingURL=style.css.map */

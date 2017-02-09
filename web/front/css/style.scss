@@ -1,11 +1,4 @@
-@font-face {
-  font-family: 'petitevoisineexpanded';
-  src: url('../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2') format('woff2'),
-  url('../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-
-}
+@import "../../common/css/style.scss";
 
 body {
   margin: 0;
@@ -17,17 +10,17 @@ body {
 .page-detail h2 {
   font-family: petitevoisineexpanded;
   font-size: 40px;
-  border-bottom: 4px dashed #FFCC00;
+  border-bottom: 4px dashed $lgvMainYellow;
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
 
 a {
-  color: #BB6600;
+  color: $lgvSecondYellow;
 }
 
 a:hover {
-  color: #FFCC00;
+  color: $lgvMainYellow;
 }
 
 .clearfix {
@@ -42,14 +35,14 @@ header {
     100% { top: 10px; }
   }
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
-  background-color: #FFCC00;
+  background-color: $lgvMainYellow;
   padding: 1.5px 20px;
   top: 10px;
   left: 10px;
   box-shadow: $shadow_min;
   .logo-circle {
     position: absolute;
-    background: #FFCC00;
+    background: $lgvMainYellow;
     border-radius: 1000px;
     z-index: 100;
     width: 110px;
