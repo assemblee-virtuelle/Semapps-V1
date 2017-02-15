@@ -40,4 +40,22 @@
         </div>
         <button type="submit" class="btn btn-primary-lgv pull-right">Modifier</button>
     </form>
+    <div class="page-header">
+        <h1><span class="glyphicon glyphicon-home"></span>
+            Semantic Form</h1>
+    </div>
+    <div class="col-sm-12">
+    {{ dump(json.fields) }}
+    {% set tab = json.fields %}
+    {% for field in json.fields %}
+        {% if field.value %}
+        <div class="form-group col-sm-6">
+        <label for="{{ field.label }}">{{ field.label }}</label>
+        <input type="text" class="form-control" id="{{ field.label }}" value="{{ field.value }}"
+               aria-describedby="{{ field.comment }}" disabled>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
 {% endblock %}
+

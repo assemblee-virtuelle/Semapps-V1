@@ -24,9 +24,13 @@ class AdminController extends Controller
 
     public function profileAction()
     {
+        $link = "http%3A%2F%2Fjmvanel.free.fr%2Fjmv.rdf%23me";
+        $json = file_get_contents("http://163.172.179.125:9112/form-data?displayuri=".$link);
+        $json = json_decode($json,true);
+
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
-          array(// ...
+          array("json" =>$json
           )
         );
     }
