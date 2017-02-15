@@ -52,9 +52,9 @@ class AdminController extends Controller
         $users       = $userManager->findUsers();
 
         $accessLevels = array(
-          'Administrateur' => 'admin',
-          'Editeur'        => 'editor',
-          'Membre'         => 'member',
+          'Administrateur' => 'ROLE_ADMIN',
+          'Editeur'        => 'ROLE_EDITOR',
+          'Membre'         => 'ROLE_MEMBER',
         );
 
         // Create user form.
@@ -105,8 +105,9 @@ class AdminController extends Controller
               'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
-            $user->setPassword($randomPassword);
+            $user->setPassword(password_hash($randomPassword,PASSWORD_BCRYPT,['cost'=>13]));
 
+            $user->setRoles([$data['access']]);
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
