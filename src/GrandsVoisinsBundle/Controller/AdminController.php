@@ -25,12 +25,15 @@ class AdminController extends Controller
     public function profileAction()
     {
         $link = "http%3A%2F%2Fjmvanel.free.fr%2Fjmv.rdf%23me";
-        $json = file_get_contents("http://163.172.179.125:9112/form-data?displayuri=".$link);
-        $json = json_decode($json,true);
+        $json = file_get_contents(
+          "http://163.172.179.125:9112/form-data?displayuri=".$link
+        );
+        $json = json_decode($json, true);
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
-          array("json" =>$json
+          array(
+            "json" => $json,
           )
         );
     }
@@ -105,7 +108,9 @@ class AdminController extends Controller
               'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
-            $user->setPassword(password_hash($randomPassword,PASSWORD_BCRYPT,['cost'=>13]));
+            $user->setPassword(
+              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+            );
 
             $user->setRoles([$data['access']]);
             // Save it.
@@ -132,9 +137,9 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'users'        => $users,
+            'users' => $users,
             'accessLevels' => $accessLevels,
-            'formAddUser'  => $form->createView(),
+            'formAddUser' => $form->createView(),
           )
         );
     }

@@ -10,6 +10,7 @@ class DefaultController extends Controller
     {
         return $this->render('GrandsVoisinsBundle:Default:index.html.twig');
     }
+
     public function searchAction()
     {
         return $this->render('GrandsVoisinsBundle:Default:index.html.twig');

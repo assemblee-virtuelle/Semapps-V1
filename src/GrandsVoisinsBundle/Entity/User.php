@@ -3,6 +3,7 @@
 namespace GrandsVoisinsBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
+
 /**
  * User
  */
