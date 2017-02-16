@@ -32,3 +32,7 @@ organisation:
 userDelete:
     path:     /admin/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
+
+building:
+    path:     /webservice/building
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:building }
