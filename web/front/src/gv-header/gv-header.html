@@ -12,23 +12,10 @@
                 <h1>[[title]]</h1>
               </div>
             </div>
-            <div class="col col-sm-6 col-search-text">
+            <div class="col col-sm-8 col-search-text">
               <input id="searchText" class="form-control" type="text"
                      placeholder="Entrez ici un terme de recherche...">
             </div>
-            <div class="col col-sm-2 col-search-building">
-              <select id="searchSelectBuilding" class="form-control"
-                      type="text">
-                <option value="all">- Tous -</option>
-                <template is="dom-repeat" items="{{buildings}}">
-                  <option value="{{item.key}}">{{item.name}}</option>
-                </template>
-              </select>
-              <template is="dom-repeat" items={{item in buildings}}>
-                <option value="{{item.key}}">{{item.name}}</option>
-              </template>
-            </div>
-
             <div class="col col-sm-2 col-search-button">
               <input class="form-control btn btn-info" type="submit"
                      value="Ok">

@@ -1,13 +1,16 @@
+@import "../../../common/css/style.scss";
+
 header {
   @keyframes headerFadeIn {
     0% { top: -200px; }
-    100% { top: 10px; }
+    100% { top: 0; }
   }
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
   background-color: $lgvMainYellow;
   padding: 1.5px 20px;
-  top: 10px;
-  left: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
   position: fixed;
   .logo-circle {

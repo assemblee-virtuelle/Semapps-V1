@@ -3,6 +3,7 @@
   src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
+
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
@@ -71,5 +72,3 @@ input.form-control {
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   background: #F5F5F5; }
-
-/*# sourceMappingURL=style.css.map */

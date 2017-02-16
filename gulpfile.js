@@ -6,6 +6,7 @@ var concat = require('gulp-concat');
 var git = require('gulp-git');
 var sync = require('gulp-sync')(gulp);
 var sass = require('gulp-sass');
+var fs = require('fs');
 
 // For each file (with no extension),
 // if value is "true", use the .js version to build .min.js version,
@@ -23,18 +24,27 @@ var filesJs = {
 };
 
 var filesScss = {
-  'web/front/src/gv-carto/gv-carto.scss': true,
-  'web/front/src/gv-header/gv-header.scss': true,
-  'web/admin/scss/menu.scss': true,
-  'web/admin/scss/style.scss': true
+  'web/front/src/gv-carto/gv-carto': true,
+  'web/front/src/gv-header/gv-header': true,
+  'web/admin/css/menu': true,
+  'web/admin/css/style': true
 };
 
-function getFilesOptions(destFile, sourceFiles) {
+function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
   "use strict";
   // Get source from dest if not defined.
   if (sourceFiles === true) {
-    sourceFiles = destFile + '.js';
+    sourceFiles = [destFile + '.' + sourceExt];
   }
+  else if (typeof sourceFiles === 'string') {
+    sourceFiles = [sourceFiles];
+  }
+
+  sourceFiles.map((file) => {
+    if (!fs.existsSync(file)) {
+      console.error('Missing ' + file);
+    }
+  });
 
   var split = destFile.split('/');
   var destFileName = split.pop();
@@ -47,18 +57,18 @@ function getFilesOptions(destFile, sourceFiles) {
   };
 }
 
-function buildFiles(files, action) {
+function buildFiles(files, action, sourceExt, destExt) {
   // One task for each file separately.
   Object.keys(files).map((destFile) => {
-    var fileData = getFilesOptions(destFile, files[destFile]);
-    console.log('Building ' + fileData.destFilePath + fileData.destFileName + '.min.js ...');
-    action(destFile, fileData);
+    var fileData = getFilesOptions(destFile, files[destFile], sourceExt);
+    console.log('Building ' + fileData.destFilePath + fileData.destFileName + '.' + destExt + ' ...');
+    action(destFile, fileData, sourceExt, destExt);
   });
 }
 
-gulp.task('buildCoreJs', () => {
+gulp.task('buildAppFiles', () => {
 
-  buildFiles(filesJs, (destFile, fileData) => {
+  buildFiles(filesJs, (destFile, fileData, sourceExt, destExt) => {
     // Create task.
     gulp.src(fileData.sourceFiles, {base: "./"})
       // Create ap file.
@@ -68,29 +78,36 @@ gulp.task('buildCoreJs', () => {
         presets: ['latest']
       }))
       // Set dest name.
-      .pipe(concat(fileData.destFileName + '.min.js'))
+      .pipe(concat(fileData.destFileName + '.' + destExt))
       // Compress.
       .pipe(uglify())
       // Write map file.
       .pipe(sourcemaps.write('.'))
       // Write.
       .pipe(gulp.dest(fileData.destFilePath));
-  });
+  }, 'js', 'min.js');
 
-  buildFiles(filesScss, (destFile, fileData) => {
+  buildFiles(filesScss, (destFile, fileData, sourceExt, destExt) => {
+    /*console.log(' -- ');
+     console.log(destFile);
+     console.log(fileData);*/
     gulp.src(fileData.sourceFiles, {base: "./"})
-      .pipe(sass().on('error', sass.logError))
+      // Set dest name.
+      .pipe(concat(fileData.destFileName + '.' + destExt))
+      .pipe(sass({
+        includePaths:[fileData.destFilePath]
+      }).on('error', sass.logError))
       .pipe(gulp.dest(fileData.destFilePath));
-  });
+  }, 'scss', 'css');
 });
 
-function getFiles(registery, sourceFiles) {
+function getFiles(registery, ext, sourceFiles) {
   "use strict";
-  Object.keys(filesJs).map((destFiles) => {
+  Object.keys(registery).map((destFiles) => {
     "use strict";
-    let source = filesJs[destFiles];
+    let source = registery[destFiles];
     if (source === true) {
-      sourceFiles.push(destFiles + '.js');
+      sourceFiles.push(destFiles + '.' + ext);
     }
     else if (typeof source === 'string') {
       sourceFiles.push(source);
@@ -106,9 +123,17 @@ function getFiles(registery, sourceFiles) {
 // Define files to watch.
 gulp.task('watch', () => {
   var sourceFiles = [];
-  getFiles(filesJs, sourceFiles);
-  getFiles(filesScss, sourceFiles);
-  gulp.watch(sourceFiles, ['buildCoreJs']);
+  getFiles(filesJs, 'js', sourceFiles);
+  getFiles(filesScss, 'scss', sourceFiles);
+
+  // Check
+  sourceFiles.map((file) => {
+    if (!fs.existsSync(file)) {
+      console.error('Missing watched file : ' + file);
+    }
+  });
+
+  gulp.watch(sourceFiles, ['buildAppFiles']);
 });
 
 gulp.task('default', ['watch']);
