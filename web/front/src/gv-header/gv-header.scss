@@ -1,0 +1,76 @@
+header {
+  @keyframes headerFadeIn {
+    0% { top: -200px; }
+    100% { top: 10px; }
+  }
+  animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+  background-color: $lgvMainYellow;
+  padding: 1.5px 20px;
+  top: 10px;
+  left: 10px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  position: fixed;
+  .logo-circle {
+    position: absolute;
+    background: $lgvMainYellow;
+    border-radius: 1000px;
+    z-index: 100;
+    width: 110px;
+    height: 110px;
+    padding: 12px 10px;
+    top: -27px;
+    border: 7px dotted #FFF;
+    img {
+      width: 80px;
+    }
+    h1 {
+      display: none;
+    }
+  }
+
+  .search {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .nav {
+      margin: 0 15px;
+      li {
+        margin-top: 10px;
+        a {
+          padding-left: 15px;
+          span {
+            margin-left: 0;
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+    input[type=submit] {
+      background: #333;
+      border: 0;
+      color: rgba(183, 154, 118, 0.95);
+    }
+    input[type=submit]:hover {
+      background: #fff192;
+    }
+  }
+  // Responsive.
+  @media (max-width: 768px) {
+    .logo-circle {
+      position: initial;
+      width: auto;
+      padding: 10px;
+      height: auto;
+      top: 0;
+      img {
+        width: auto;
+      }
+    }
+    .col-search-logo {
+      margin: -12vw 0 -8vw 0;
+    }
+    .col-search-button,
+    .col-search-building {
+      margin-top: 10px;
+    }
+  }
+}

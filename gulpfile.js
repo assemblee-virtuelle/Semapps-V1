@@ -5,6 +5,7 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var git = require('gulp-git');
 var sync = require('gulp-sync')(gulp);
+var sass = require('gulp-sass');
 
 // For each file (with no extension),
 // if value is "true", use the .js version to build .min.js version,
@@ -21,26 +22,45 @@ var filesJs = {
   ]
 };
 
-gulp.task('buildCoreJs', () => {
+var filesScss = {
+  'web/front/src/gv-carto/gv-carto.scss': true,
+  'web/front/src/gv-header/gv-header.scss': true,
+  'web/admin/scss/menu.scss': true,
+  'web/admin/scss/style.scss': true
+};
+
+function getFilesOptions(destFile, sourceFiles) {
+  "use strict";
+  // Get source from dest if not defined.
+  if (sourceFiles === true) {
+    sourceFiles = destFile + '.js';
+  }
+
+  var split = destFile.split('/');
+  var destFileName = split.pop();
+  var destFilePath = split.join('/') + '/';
+
+  return {
+    sourceFiles: sourceFiles,
+    destFileName: destFileName,
+    destFilePath: destFilePath
+  };
+}
+
+function buildFiles(files, action) {
   // One task for each file separately.
-  Object.keys(filesJs).map((destFile) => {
-    var sourceFiles = filesJs[destFile];
-    // Get source from dest if not defined.
-    if (sourceFiles === true) {
-      sourceFiles = destFile + '.js';
-    }
-    else if (typeof sourceFiles === 'string') {
-      sourceFiles = sourceFiles;
-    }
+  Object.keys(files).map((destFile) => {
+    var fileData = getFilesOptions(destFile, files[destFile]);
+    console.log('Building ' + fileData.destFilePath + fileData.destFileName + '.min.js ...');
+    action(destFile, fileData);
+  });
+}
 
-    var split = destFile.split('/');
-    var destFileName = split.pop();
-    var destFilePath = split.join('/') + '/';
+gulp.task('buildCoreJs', () => {
 
-    console.log('Building ' + destFilePath + destFileName + '.min.js ...');
-
+  buildFiles(filesJs, (destFile, fileData) => {
     // Create task.
-    gulp.src(sourceFiles, {base: "./"})
+    gulp.src(fileData.sourceFiles, {base: "./"})
       // Create ap file.
       .pipe(sourcemaps.init())
       // Transpile.
@@ -48,19 +68,24 @@ gulp.task('buildCoreJs', () => {
         presets: ['latest']
       }))
       // Set dest name.
-      .pipe(concat(destFileName + '.min.js'))
+      .pipe(concat(fileData.destFileName + '.min.js'))
       // Compress.
       .pipe(uglify())
       // Write map file.
       .pipe(sourcemaps.write('.'))
       // Write.
-      .pipe(gulp.dest(destFilePath));
+      .pipe(gulp.dest(fileData.destFilePath));
+  });
+
+  buildFiles(filesScss, (destFile, fileData) => {
+    gulp.src(fileData.sourceFiles, {base: "./"})
+      .pipe(sass().on('error', sass.logError))
+      .pipe(gulp.dest(fileData.destFilePath));
   });
 });
 
-// Define files to watch.
-gulp.task('watch', () => {
-  var sourceFiles = [];
+function getFiles(registery, sourceFiles) {
+  "use strict";
   Object.keys(filesJs).map((destFiles) => {
     "use strict";
     let source = filesJs[destFiles];
@@ -76,6 +101,13 @@ gulp.task('watch', () => {
       }
     }
   });
+}
+
+// Define files to watch.
+gulp.task('watch', () => {
+  var sourceFiles = [];
+  getFiles(filesJs, sourceFiles);
+  getFiles(filesScss, sourceFiles);
   gulp.watch(sourceFiles, ['buildCoreJs']);
 });
 

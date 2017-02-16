@@ -1,0 +1,46 @@
+<dom-module id="gv-header">
+  <link rel="import" type="css" href="gv-header.css">
+  <link rel="import" href="../gv-logo-mini/gv-logo-mini.html">
+  <template>
+    <header id="gv-header">
+      <div class="container">
+        <div class="search row">
+          <form id="searchForm">
+            <div class="col col-xs-12 col-sm-2 col-search-logo">
+              <div class="logo-circle">
+                <gv-logo-mini></gv-logo-mini>
+                <h1>[[title]]</h1>
+              </div>
+            </div>
+            <div class="col col-sm-6 col-search-text">
+              <input id="searchText" class="form-control" type="text"
+                     placeholder="Entrez ici un terme de recherche...">
+            </div>
+            <div class="col col-sm-2 col-search-building">
+              <select id="searchSelectBuilding" class="form-control"
+                      type="text">
+                <option value="all">- Tous -</option>
+                <template is="dom-repeat" items="{{buildings}}">
+                  <option value="{{item.key}}">{{item.name}}</option>
+                </template>
+              </select>
+              <template is="dom-repeat" items={{item in buildings}}>
+                <option value="{{item.key}}">{{item.name}}</option>
+              </template>
+            </div>
+
+            <div class="col col-sm-2 col-search-button">
+              <input class="form-control btn btn-info" type="submit"
+                     value="Ok">
+            </div>
+          </form>
+        </div>
+      </div>
+    </header>
+  </template>
+  <script>
+    Polymer({
+      is: 'gv-header'
+    });
+  </script>
+</dom-module>
