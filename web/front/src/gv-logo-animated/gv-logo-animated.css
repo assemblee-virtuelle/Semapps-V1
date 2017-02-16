@@ -1,6 +1,7 @@
 @keyframes displayPath {
   to {
     stroke-dashoffset: 0; } }
+
 @keyframes logoHide {
   from {
     bottom: 0;
@@ -10,6 +11,7 @@
     bottom: 100%;
     padding-top: 0;
     padding-bottom: 0; } }
+
 #gv-logo-animated-inner {
   background: #FFCC00;
   position: fixed;
@@ -25,5 +27,3 @@
   #gv-logo-animated-inner #gv-logo-animated-limit {
     max-width: 80vh;
     margin: 0 auto; }
-
-/*# sourceMappingURL=gv-logo-animated.css.map */

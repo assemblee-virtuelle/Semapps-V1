@@ -2,11 +2,6 @@ Polymer({
   is: 'gv-logo-animated',
 
   ready: function () {
-    if (window.location.hostname === '127.0.0.1') {
-      $(() => {
-        document.getElementById('gv-logo-animated-inner').style.display = 'none';
-      });
-    }
     this.pathCounter = 0;
     this.styleSheet = document.createElement('style');
     document.head.appendChild(this.styleSheet);
