@@ -16,7 +16,7 @@ Polymer({
     }
 
     this.ajaxMultiple({
-      buildings: 'webservice/buildings'
+      buildings: 'webservice/building'
     }, this.start);
   },
 
@@ -43,9 +43,9 @@ Polymer({
     }
   },
 
-  start() {
+  start(sources) {
     "use strict";
 
-    log('ok');
+    log(sources);
   }
 });
