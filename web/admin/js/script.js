@@ -1,8 +1,5 @@
-$(function () {
-  "use strict";
-
-  // Use a global object.
-  var LgvAdmin = function () {
+class LgvAdmin {
+  constructor() {
     // Save globally.
     window.lgvAdmin = this;
 
@@ -11,34 +8,30 @@ $(function () {
     this.$modalConfirmBody = this.$modalConfirm.find('.modal-body:first');
     this.$modalConfirmValidate = this.$modalConfirm.find('.btn-primary:first');
 
-    // Create reference for callbacks.
-    var $self = this;
-
     // On user profile, remove user button.
-    $('.team-user-delete').click(function (e) {
-      var userId = $(this).attr('rel');
+    $('.team-user-delete').click((e) => {
       // Disable default click behavior.
       e.preventDefault();
+      var userId = $(e.currentTarget).attr('rel');
       // Use custom modal for message.
-      $self.modalConfirm('Êtes-vous sûr de vouloir supprimer ce compte ? ' +
+      this.modalConfirm('Êtes-vous sûr de vouloir supprimer ce compte ? ' +
         'Toutes les informations du profil seront perdues, ' +
-        'et le membre n\'aura plus accès au site.', function () {
+        'et le membre n\'aura plus accès au site.', () => {
         window.location.replace('/admin/user/delete/' + userId);
       });
     });
-  };
+  }
 
-  LgvAdmin.prototype = {
-    modalConfirm: function (message, callback) {
-      this.$modalConfirmBody.html(message);
-      this.$modalConfirm.modal('show');
-      var $self = this;
-      this.$modalConfirmValidate.one('click', function () {
-        $self.$modalConfirm.modal('hide');
-        callback();
-      });
-    }
-  };
+  modalConfirm(message, callback) {
+    this.$modalConfirmBody.html(message);
+    this.$modalConfirm.modal('show');
+    this.$modalConfirmValidate.one('click', () => {
+      this.$modalConfirm.modal('hide');
+      callback();
+    });
+  }
+}
 
+$(() => {
   new LgvAdmin();
 });
