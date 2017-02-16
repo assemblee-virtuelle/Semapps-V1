@@ -30,4 +30,18 @@ class WebserviceController extends Controller
           ]
         );
     }
+
+    public function searchAction()
+    {
+        return new JsonResponse(
+          [
+            [
+              'title' => 'TestItemOne',
+            ],
+            [
+              'title' => 'TestItemTwo',
+            ],
+          ]
+        );
+    }
 }

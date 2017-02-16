@@ -36,3 +36,7 @@ userDelete:
 building:
     path:     /webservice/building
     defaults: { _controller: GrandsVoisinsBundle:Webservice:building }
+
+search:
+    path:     /webservice/search
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
