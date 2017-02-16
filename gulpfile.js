@@ -1,8 +1,3 @@
-/**
- * To install dependencies run :
- * TODO : Use npm packages installer.
- * npm i -D gulp gulp-git gulp-cached gulp-babel gulp-sync babel-preset-es2015 gulp-sourcemaps gulp-uglify gulp-concat
- */
 var gulp = require('gulp');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
