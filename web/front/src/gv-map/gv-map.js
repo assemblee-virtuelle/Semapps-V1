@@ -1,0 +1,3 @@
+Polymer({
+  is: 'gv-map'
+});

@@ -21,14 +21,19 @@ var filesJs = {
     // Launcher
     'web/admin/js/src/main.js'
   ],
-  'web/front/src/gv-logo-animated/gv-logo-animated': true
+  // Front
+  'web/front/src/gv-logo-animated/gv-logo-animated': true,
+  'web/front/src/gv-map/gv-map': true
 };
 
 var filesScss = {
+  // Admin
+  'web/admin/css/menu': true,
+  'web/admin/css/style': true,
+  // Front
   'web/front/src/gv-carto/gv-carto': true,
   'web/front/src/gv-header/gv-header': true,
-  'web/admin/css/menu': true,
-  'web/admin/css/style': true
+  'web/front/src/gv-map/gv-map': true
 };
 
 function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {

@@ -1,0 +1,58 @@
+#gv-map {
+  @keyframes mapZoneFadeIn {
+    from {
+      opacity: 0.05;
+    }
+    to {
+      opacity: 0.2;
+    }
+  }
+  @keyframes mapZoneFadeInStrong {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+  @keyframes mapZoneFadeOut {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 0.05;
+    }
+  }
+  .mapContent {
+    .mapZone {
+      cursor: pointer;
+      animation: mapZoneFadeIn 0.2s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .mapZone.strong {
+      opacity: 0.4;
+    }
+    .mapZone.discreet:not(.strong) {
+      animation: mapZoneFadeOut 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .gv-mapInner {
+      border: 8px dashed #F0F0F0;
+      transform: rotate(-1deg);
+      max-width: 100vh;
+      margin: 20px auto;
+    }
+  }
+}
+
+// Responsive.
+@media (max-width: 768px) {
+  #gv-map {
+    .mapContent {
+      .gv-mapInner {
+        border: 0;
+        transform: none;
+        max-width: inherit;
+        margin: 0;
+      }
+    }
+  }
+}
