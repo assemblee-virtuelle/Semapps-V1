@@ -20,7 +20,8 @@ var filesJs = {
     'web/admin/js/src/class/lgvAdminPageTeam.js',
     // Launcher
     'web/admin/js/src/main.js'
-  ]
+  ],
+  'web/front/src/gv-logo-animated/gv-logo-animated': true
 };
 
 var filesScss = {
@@ -95,7 +96,7 @@ gulp.task('buildAppFiles', () => {
       // Set dest name.
       .pipe(concat(fileData.destFileName + '.' + destExt))
       .pipe(sass({
-        includePaths:[fileData.destFilePath]
+        includePaths: [fileData.destFilePath]
       }).on('error', sass.logError))
       .pipe(gulp.dest(fileData.destFilePath));
   }, 'scss', 'css');

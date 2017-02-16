@@ -10,7 +10,7 @@
     bottom: 100%;
     padding-top: 0;
     padding-bottom: 0; } }
-#gv-logo-inner {
+#gv-logo-animated-inner {
   background: #FFCC00;
   position: fixed;
   top: 0;
@@ -22,8 +22,8 @@
   overflow: hidden;
   animation: logoHide 1s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
   animation-delay: 2s; }
-  #gv-logo-inner #gv-logo-limit {
+  #gv-logo-animated-inner #gv-logo-animated-limit {
     max-width: 80vh;
     margin: 0 auto; }
 
-/*# sourceMappingURL=gv-logo.css.map */
+/*# sourceMappingURL=gv-logo-animated.css.map */
