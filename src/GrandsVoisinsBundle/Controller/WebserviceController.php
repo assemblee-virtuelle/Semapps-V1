@@ -33,13 +33,18 @@ class WebserviceController extends Controller
 
     public function searchAction()
     {
+        // TODO Bind results from semantic form.
         return new JsonResponse(
           [
             [
-              'title' => 'TestItemOne',
+              'uri'         => 'jmvanel',
+              'title'       => 'Jean-Marc Forever <3',
+              'description' => 'Desc',
             ],
             [
-              'title' => 'TestItemTwo',
+              'uri'         => 'item2',
+              'title'       => 'TestItemTwo',
+              'description' => 'Desc',
             ],
           ]
         );

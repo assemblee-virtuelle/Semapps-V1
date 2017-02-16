@@ -51,6 +51,7 @@ Polymer({
     this.buildings = data.buildings;
     // Shortcuts.
     this.domSearchTextInput = this.domId('searchText');
+    this.domSearchResults = this.domId('searchResults');
     this.stateSet('waiting');
 
     // Listeners.
@@ -119,13 +120,28 @@ Polymer({
 
   search(term, options = {}) {
     this.stateSet('search');
+
+    // Empty content.
+    this.domSearchResults.innerHTML = '';
+
     $.ajax({
       url: 'webservice/search?t=' + encodeURIComponent(term),
       dataType: 'json',
-      complete: function (response) {
-        log(response.responseJSON);
+      complete: (data) => {
+        this.renderSearchResult(data.responseJSON);
       }
     });
+  },
+
+  renderSearchResult(results) {
+    "use strict";
+    for (let data of results) {
+      let result = document.createElement('gv-results-item');
+      result.title = data.title;
+      result.description = data.description;
+      result.uri = data.uri;
+      this.domSearchResults.appendChild(result);
+    }
   },
 
   listen(id, event, callback) {

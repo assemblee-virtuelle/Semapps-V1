@@ -23,6 +23,8 @@ var filesJs = {
   ],
   // Front
   'web/front/src/gv-carto/gv-carto': true,
+  'web/front/src/gv-results/gv-results': true,
+  'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-map/gv-map': true
 };
@@ -34,6 +36,8 @@ var filesScss = {
   // Front
   'web/front/css/style': true,
   'web/front/src/gv-carto/gv-carto': true,
+  'web/front/src/gv-results/gv-results': true,
+  'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-map/gv-map': true

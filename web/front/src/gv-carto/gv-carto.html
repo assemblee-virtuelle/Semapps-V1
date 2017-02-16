@@ -3,14 +3,20 @@
   <link rel="import" href="../gv-header/gv-header.html">
   <link rel="import" href="../gv-logo-animated/gv-logo-animated.html">
   <link rel="import" href="../gv-map/gv-map.html">
+  <link rel="import" href="../gv-results/gv-results.html">
   <template>
     <div id="gv-carto">
       <gv-header></gv-header>
       <gv-map></gv-map>
+      <div class="container">
+        <gv-results name="search" route="{{searchTail}}"></gv-results>
+      </div>
+
       <!-- Overlay -->
       <gv-logo-animated></gv-logo-animated>
     </div>
   </template>
+  <script src="../../../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
   <script src="../../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
   <script src="../gv-carto/gv-carto.min.js"></script>
 </dom-module>
