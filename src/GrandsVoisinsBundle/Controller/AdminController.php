@@ -111,12 +111,32 @@ class AdminController extends Controller
             $user->setPassword(
               password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
+            
+            $conf_token=$tokenGenerator->generateToken();
+            $user->setConfirmationToken($conf_token);
 
             $user->setRoles([$data['access']]);
             // Save it.
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
+            $temp = $em->persist($user);
             $em->flush();
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject('bonjour '.$user->getUsername() )
+                ->setFrom('seb.mail.symfony@gmail.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    "Bonjour ".$user->getUsername()." !<br><br>
+                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
+                    Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
+                    Nom de compte : ".$user->getUsername()."<br>
+                    Mot de passe : ".$randomPassword."<br><br>
+                    Cordialement,
+                    L'équipe"
+                    ,
+                    'text/html'
+                );
+            $this->get('mailer')->send($message);
 
             // TODO Grant permission to edit same organisation as current user.
 
@@ -129,6 +149,7 @@ class AdminController extends Controller
               $data['email'].
               '</b> pour lui communiquer ses informations de connexion.'
             );
+
 
             // Go back to team page.
             return $this->redirectToRoute('team');
@@ -170,4 +191,5 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('team');
     }
+
 }
