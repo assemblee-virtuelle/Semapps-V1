@@ -8,8 +8,8 @@
         <gv-logo-mini></gv-logo-mini>
       </div>
       <div class="info col col-sm-11">
-        <h2>[[title]]</h2>
-        <div class="description">[[description]]</div>
+        <h2>[[label]]</h2>
+        <div class="description"></div>
       </div>
       <div class="chevron glyphicon glyphicon-chevron-right"></div>
     </a>
@@ -19,8 +19,8 @@
     Polymer({
       is: 'gv-results-item',
       properties: {
-        id: String,
-        title: String,
+        uri: String,
+        label: String,
         description: String
       }
     });

@@ -61,8 +61,15 @@ Polymer({
       this.scrollToSearch();
       callbackSearchEvent(e);
     });
+    var timeout;
     // Type in search field.
-    this.listen('searchText', 'keyup', callbackSearchEvent);
+    this.listen('searchText', 'keyup', () => {
+      if (timeout) {
+        window.clearTimeout(timeout);
+      }
+      // Avoid to maike too much requests when typing.
+      timeout = window.setTimeout(callbackSearchEvent, 500);
+    });
   },
 
   stateSet(stateName) {
@@ -124,6 +131,10 @@ Polymer({
     // Empty content.
     this.domSearchResults.innerHTML = '';
 
+    if (!term) {
+      return;
+    }
+
     $.ajax({
       url: 'webservice/search?t=' + encodeURIComponent(term),
       dataType: 'json',
@@ -133,12 +144,12 @@ Polymer({
     });
   },
 
-  renderSearchResult(results) {
+  renderSearchResult(response) {
     "use strict";
-    for (let data of results) {
+    for (let i in response.results) {
+      let data = response.results[i];
       let result = document.createElement('gv-results-item');
-      result.title = data.title;
-      result.description = data.description;
+      result.label = data.label;
       result.uri = data.uri;
       this.domSearchResults.appendChild(result);
     }

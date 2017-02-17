@@ -4,9 +4,12 @@ namespace GrandsVoisinsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class WebserviceController extends Controller
 {
+    var $semanticFormsBaseUrl = 'http://semantic-forms.cc:9112/lookup';
+
     public function buildingAction()
     {
         // TODO return data from SF ?
@@ -31,22 +34,24 @@ class WebserviceController extends Controller
         );
     }
 
-    public function searchAction()
+    public function searchAction(Request $request)
     {
-        // TODO Bind results from semantic form.
-        return new JsonResponse(
-          [
-            [
-              'uri'         => 'jmvanel',
-              'title'       => 'Jean-Marc Forever <3',
-              'description' => 'Desc',
-            ],
-            [
-              'uri'         => 'item2',
-              'title'       => 'TestItemTwo',
-              'description' => 'Desc',
-            ],
-          ]
-        );
+        $term     = $request->query->get('t');
+        // Build a fake empty response in case of fail.
+        $response = (object)['results' => []];
+
+        if ($term) {
+            $curl = curl_init();
+            curl_setopt(
+              $curl,
+              CURLOPT_URL,
+              $this->semanticFormsBaseUrl.'?QueryString='.$term
+            );
+            curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $response = json_decode(curl_exec($curl));
+        }
+
+        return new JsonResponse($response);
     }
 }
