@@ -46,13 +46,13 @@
     {{ form_start(formAddUser) }}
     {{ form_errors(formAddUser) }}
     <div class="col col-sm-4">
-        <div class="form-group {% if formAddUser.login.vars.errors|length %}has-error has-feedback{% endif %}">
-            {{ form_widget(formAddUser.login, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
-            {% if formAddUser.login.vars.errors|length %}
+        <div class="form-group {% if formAddUser.username.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddUser.username, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
+            {% if formAddUser.username.vars.errors|length %}
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 <br>
                 <div class="alert alert-danger" role="alert">
-                    {{ form_errors(formAddUser.login) }}
+                    {{ form_errors(formAddUser.username) }}
                 </div>
             {% endif %}
         </div>
