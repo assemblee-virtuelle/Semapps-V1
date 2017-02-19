@@ -36,7 +36,7 @@ class WebserviceController extends Controller
 
     public function searchAction(Request $request)
     {
-        $term     = $request->query->get('t');
+        $term = $request->query->get('t');
         // Build a fake empty response in case of fail.
         $response = (object)['results' => []];
 
@@ -50,6 +50,7 @@ class WebserviceController extends Controller
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             $response = json_decode(curl_exec($curl));
+            curl_close($curl);
         }
 
         return new JsonResponse($response);
