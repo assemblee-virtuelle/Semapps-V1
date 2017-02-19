@@ -1,2 +1,5 @@
 #searchTabs {
   margin-bottom: 10px; }
+
+#gv-results-error {
+  display: none; }

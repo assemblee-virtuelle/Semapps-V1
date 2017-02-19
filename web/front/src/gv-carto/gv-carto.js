@@ -58,6 +58,7 @@ Polymer({
     var callbackSearchEvent = this.searchEvent.bind(this);
     // Click on submit button.
     this.listen('searchForm', 'submit', (e) => {
+      this.domSearchTextInput.blur();
       this.scrollToSearch();
       callbackSearchEvent(e);
     });
@@ -67,7 +68,7 @@ Polymer({
       if (timeout) {
         window.clearTimeout(timeout);
       }
-      // Avoid to maike too much requests when typing.
+      // Avoid to make too much requests when typing.
       timeout = window.setTimeout(callbackSearchEvent, 500);
     });
   },
@@ -130,15 +131,20 @@ Polymer({
 
     // Empty content.
     this.domSearchResults.innerHTML = '';
+    $('#gv-results-error').hide();
 
     if (!term) {
       return;
     }
 
+    var $loadingSpinner = $('#gv-spinner');
+    $loadingSpinner.show();
+
     $.ajax({
       url: 'webservice/search?t=' + encodeURIComponent(term),
       dataType: 'json',
       complete: (data) => {
+        $loadingSpinner.hide();
         this.renderSearchResult(data.responseJSON);
       }
     });
@@ -146,12 +152,17 @@ Polymer({
 
   renderSearchResult(response) {
     "use strict";
-    for (let i in response.results) {
-      let data = response.results[i];
-      let result = document.createElement('gv-results-item');
-      result.label = data.label;
-      result.uri = data.uri;
-      this.domSearchResults.appendChild(result);
+    if (response.error) {
+      $('#gv-results-error').show();
+    }
+    else {
+      for (let i in response.results) {
+        let data = response.results[i];
+        let result = document.createElement('gv-results-item');
+        result.label = data.label;
+        result.uri = data.uri;
+        this.domSearchResults.appendChild(result);
+      }
     }
   },
 

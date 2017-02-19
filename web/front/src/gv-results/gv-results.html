@@ -3,7 +3,6 @@
   <link rel="import" href="../gv-results-item/gv-results-item.html">
   <link rel="import" href="../gv-spinner/gv-spinner.html">
   <template>
-    <gv-spinner></gv-spinner>
     <div class="row">
       <div class="col col-sm-12">
         <ul id="searchTabs" class="nav nav-tabs">
@@ -15,6 +14,8 @@
         </ul>
       </div>
     </div>
+    <div id="gv-results-error" class="alert alert-danger">Une erreur s'est produite lors du chargement...</div>
+    <gv-spinner></gv-spinner>
     <div id="searchResults" class="col col-sm-12"></div>
     <div class="clearfix"></div>
   </template>
