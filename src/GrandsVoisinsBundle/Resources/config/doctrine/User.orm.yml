@@ -1,6 +1,6 @@
 GrandsVoisinsBundle\Entity\User:
     type: entity
-    table: fos_user
+    table: null
     repositoryClass: GrandsVoisinsBundle\Repository\UserRepository
     id:
         id:
@@ -8,4 +8,8 @@ GrandsVoisinsBundle\Entity\User:
             id: true
             generator:
                 strategy: AUTO
+    fields:
+        sfLink:
+            type: text
+            nullable: true
     lifecycleCallbacks: {  }

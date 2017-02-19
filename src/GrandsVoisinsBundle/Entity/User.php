@@ -1,9 +1,7 @@
 <?php
 
 namespace GrandsVoisinsBundle\Entity;
-
 use FOS\UserBundle\Model\User as BaseUser;
-
 /**
  * User
  */
@@ -14,10 +12,44 @@ class User extends BaseUser
      */
     protected $id;
 
-    public function __construct()
+    /**
+     * @var string
+     */
+    private $sfLink;
+    
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
     {
-        parent::__construct();
-        // your own logic
+        return $this->id;
+    }
+
+    /**
+     * Set sfLink
+     *
+     * @param string $sfLink
+     *
+     * @return User
+     */
+    public function setSfLink($sfLink)
+    {
+        $this->sfLink = $sfLink;
+
+        return $this;
+    }
+
+    /**
+     * Get sfLink
+     *
+     * @return string
+     */
+    public function getSfLink()
+    {
+        return $this->sfLink;
     }
 }
 

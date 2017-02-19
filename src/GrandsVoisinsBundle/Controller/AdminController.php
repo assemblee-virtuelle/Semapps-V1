@@ -2,6 +2,7 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+use GrandsVoisinsBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -54,82 +55,45 @@ class AdminController extends Controller
         $userManager = $this->container->get('fos_user.user_manager');
         $users       = $userManager->findUsers();
 
-        $accessLevels = array(
-          'Administrateur' => 'ROLE_ADMIN',
-          'Editeur'        => 'ROLE_EDITOR',
-          'Membre'         => 'ROLE_MEMBER',
-        );
-
-        // Create user form.
-        $form = $this->createFormBuilder()
-          ->add(
-            'login',
-            TextType::class,
-            array(
-              'constraints' => array(
-                new NotBlank(),
-              ),
-            )
-          )
-          ->add(
-            'email',
-            TextType::class,
-            array(
-              'constraints' => array(
-                new Email(),
-              ),
-            )
-          )
-          ->add(
-            'access',
-            ChoiceType::class,
-            [
-              'choices' => $accessLevels,
-            ]
-          )
-          ->add('submit', SubmitType::class, array())
-          ->getForm();
+        $form = $this->get('form.factory')->create(UserType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Get posted data.
+            // Get posted data of type user
             $data = $form->getData();
-
-            // Create user.
-            $user = new User();
-
-            // Save login.
-            $user->setUsername($data['login']);
-            $user->setEmail($data['email']);
 
             // Generate password.
             $tokenGenerator = $this->container->get(
               'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
-            $user->setPassword(
-              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+            $data->setPassword(
+                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
-            
-            $conf_token=$tokenGenerator->generateToken();
-            $user->setConfirmationToken($conf_token);
 
-            $user->setRoles([$data['access']]);
+            // Generate the token for the confirmation email
+            $conf_token=$tokenGenerator->generateToken();
+            $data->setConfirmationToken($conf_token);
+
+            //Set the roles
+            $data->addRole($form->get('access')->getData());
+
             // Save it.
             $em = $this->getDoctrine()->getManager();
-            $temp = $em->persist($user);
+            $em->persist($data);
             $em->flush();
 
+            //send the email for the new user
             $message = \Swift_Message::newInstance()
-                ->setSubject('bonjour '.$user->getUsername() )
+                ->setSubject('bonjour '.$data->getUsername() )
                 ->setFrom('seb.mail.symfony@gmail.com')
-                ->setTo($user->getEmail())
+                ->setTo($data->getEmail())
                 ->setBody(
-                    "Bonjour ".$user->getUsername()." !<br><br>
+                    "Bonjour ".$data->getUsername()." !<br><br>
                     Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
                     Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
-                    Nom de compte : ".$user->getUsername()."<br>
+                    Nom de compte : ".$data->getUsername()."<br>
                     Mot de passe : ".$randomPassword."<br><br>
                     Cordialement,
                     L'équipe"
@@ -144,12 +108,11 @@ class AdminController extends Controller
             $this->addFlash(
               'success',
               'Un compte à bien été créé pour <b>'.
-              $data['login'].
+              $data->getUsername().
               '</b>. Un email a été envoyé à <b>'.
-              $data['email'].
+              $data->getEmail().
               '</b> pour lui communiquer ses informations de connexion.'
             );
-
 
             // Go back to team page.
             return $this->redirectToRoute('team');
@@ -159,7 +122,6 @@ class AdminController extends Controller
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
             'users' => $users,
-            'accessLevels' => $accessLevels,
             'formAddUser' => $form->createView(),
           )
         );
