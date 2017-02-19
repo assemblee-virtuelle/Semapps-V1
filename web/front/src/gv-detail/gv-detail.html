@@ -1,8 +1,64 @@
 <dom-module id="gv-detail">
   <link rel="import" type="css" href="gv-detail.css">
   <template>
-    <div id="gv-detail">
-      - TODO -
+    <div id="detail" class="page-detail">
+      <ul id="detailTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack"><span class="glyphicon glyphicon-chevron-left"></span>Retour</a>
+        </li>
+      </ul>
+      <div class="row">
+        <div class="col col-sm-12">
+          <h2>[[title]]</h2>
+          <div class="detail-header row">
+            <div class="detail-header col col-sm-4">
+              <gv-logo-mini></gv-logo-mini>
+              <div class="social-links">
+                <gv-social-link url="[[facebook]]"
+                                icon="facebook-square"></gv-social-link>
+                <gv-social-link url="[[twitter]]"
+                                icon="twitter"></gv-social-link>
+              </div>
+            </div>
+            <div class="detail-header col col-sm-8">
+              <table class="detailInfo">
+                <tr class="field field-building">
+                  <td class="fieldLabel">Bâtiment</td>
+                  <td>[[building]]</td>
+                </tr>
+                <tr class="field field-url">
+                  <td class="fieldLabel">Site web</td>
+                  <td>
+                    <a href="[[url]]" target="_blank">[[url]]</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td>
+                    [[description]]
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col col-sm-4">
+        <div class="block">
+        <h3>Emploie</h3>
+        <ul>
+        <li>
+        <a href="#">Personne 1</a>
+        </li>
+        <li>
+        <a href="#">Personne 2</a>
+        </li>
+        <li>
+        <a href="#">Personne 3</a>
+        </li>
+        </ul>
+        </div>
+        </div>
+      </div>
     </div>
   </template>
   <script src="../gv-detail/gv-detail.min.js"></script>
