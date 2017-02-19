@@ -1,5 +1,8 @@
 #searchTabs {
   margin-bottom: 10px; }
+  #searchTabs .glyphicon {
+    margin-right: 8px;
+    opacity: .2; }
 
 #gv-results-error {
   display: none; }
