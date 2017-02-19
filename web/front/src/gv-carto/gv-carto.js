@@ -110,7 +110,7 @@ Polymer({
 
   },
   scrollToSearch() {
-    this.$window.scrollTo('#searchTabs', {
+    this.$window.scrollTo($('#searchTabs').offset().top - 150, {
       duration: 1000,
       easing: 'easeOutQuad'
     });
