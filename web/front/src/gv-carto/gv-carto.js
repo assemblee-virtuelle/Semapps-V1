@@ -131,21 +131,35 @@ Polymer({
 
     // Empty content.
     this.domSearchResults.innerHTML = '';
-    $('#gv-results-error').hide();
+    // Hide all results.
+    $('#gv-results-empty, #gv-results-error').hide();
 
     if (!term) {
       return;
     }
 
     var $loadingSpinner = $('#gv-spinner');
+    // Build callback function.
+    var complete = (data) => {
+      $loadingSpinner.hide();
+      this.renderSearchResult(data.responseJSON);
+    };
+    // Say that this function is the
+    // only one we expect to be executed.
+    // It prevent to execute multiple responses.
+    this.searchQueryLastComplete = complete;
+
     $loadingSpinner.show();
 
     $.ajax({
       url: 'webservice/search?t=' + encodeURIComponent(term),
       dataType: 'json',
       complete: (data) => {
-        $loadingSpinner.hide();
-        this.renderSearchResult(data.responseJSON);
+        "use strict";
+        // Check that we are on the last callback expected.
+        complete === this.searchQueryLastComplete
+          // Continue.
+        && complete(data);
       }
     });
   },
@@ -154,6 +168,9 @@ Polymer({
     "use strict";
     if (response.error) {
       $('#gv-results-error').show();
+    }
+    else if (!response.results.length) {
+      $('#gv-results-empty').show();
     }
     else {
       for (let i in response.results) {
