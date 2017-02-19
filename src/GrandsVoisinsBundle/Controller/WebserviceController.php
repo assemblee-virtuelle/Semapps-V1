@@ -46,7 +46,7 @@ class WebserviceController extends Controller
             curl_setopt(
               $curl,
               CURLOPT_URL,
-              $this->semanticFormsBaseUrl.'?QueryString='.$term
+              $this->semanticFormsBaseUrl.'?QueryString='.urlencode($term)
             );
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
