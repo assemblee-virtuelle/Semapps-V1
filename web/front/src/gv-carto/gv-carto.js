@@ -1,12 +1,12 @@
+// Devel
+window.log = (m) => {
+  console.log(m);
+};
+
 Polymer({
   is: 'gv-carto',
   ready() {
     "use strict";
-
-    // Devel
-    window.log = (m) => {
-      console.log(m);
-    };
 
     window.gvc = this;
 
