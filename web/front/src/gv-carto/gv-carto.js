@@ -19,7 +19,7 @@ Polymer({
     }
 
     this.ajaxMultiple({
-      buildings: 'webservice/building'
+      buildings: window.location.origin + '/webservice/building'
     }, this.start);
   },
 
