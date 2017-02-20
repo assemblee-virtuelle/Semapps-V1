@@ -19,3 +19,6 @@ composer.phar
 web/bower_components/
 web/data
 node_modules
+/src/GrandsVoisinsBundle/Resources/config/routing_test.yml
+/src/GrandsVoisinsBundle/Controller/DefaultController.php
+/src/GrandsVoisinsBundle/Resources/views/Default

@@ -1,14 +1,11 @@
-grands_voisins_homepage:
+# Create a routing_test just to add some route for testing ( this file is in gitignore )
+grands_voisins:
+    resource: "@GrandsVoisinsBundle/Resources/config/routing_test.yml"
+    prefix:   /test
+
+index:
     path:     /
-    defaults: { _controller: GrandsVoisinsBundle:Default:index }
-
-grands_voisins_detail:
-    path:     /detail/{term}
-    defaults: { _controller: GrandsVoisinsBundle:Default:index }
-
-grands_voisins_homepage_search_all:
-    path:     /search/all
-    defaults: { _controller: GrandsVoisinsBundle:Default:search }
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
 admin:
     path: /admin
