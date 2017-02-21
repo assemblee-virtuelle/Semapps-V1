@@ -4,16 +4,17 @@ namespace GrandsVoisinsBundle\Controller;
 
 use GrandsVoisinsBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\HttpFoundation\Request;
-use GrandsVoisinsBundle\Entity\User;
+
 
 class AdminController extends Controller
 {
+    private $server = 'http://localhost:9000';
+    private $baseLinkUserformAction = '/create-data?uri=&uri=http%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FPerson';
+    private $baseLinkSaveAction = '/save';
+    private $baseLinkUserDisplayAction = '/form-data?displayuri='; //need the sf user link
+    private $baseLinkLoginAction = '/authenticate';
+
     public function homeAction()
     {
         return $this->render(
@@ -25,9 +26,8 @@ class AdminController extends Controller
 
     public function profileAction()
     {
-        $link = "http%3A%2F%2Fjmvanel.free.fr%2Fjmv.rdf%23me";
         $json = file_get_contents(
-          "http://163.172.179.125:9112/form-data?displayuri=".$link
+          $this->server.$this->baseLinkUserDisplayAction.$this->getUser()->getSfLink()
         );
         $json = json_decode($json, true);
 
@@ -154,4 +154,77 @@ class AdminController extends Controller
         return $this->redirectToRoute('team');
     }
 
+    public function userCreateSFProfileAction(){
+        //get the form in JSON format
+        $json = file_get_contents($this->server.$this->baseLinkUserformAction);
+        //transform the JSON in array
+        $data_json = json_decode($json,true);
+        //decode the url in html name
+        foreach ($data_json["fields"] as $field ){
+            $field["htmlName"]=urldecode($field["htmlName"]);
+        }
+
+        return $this->render(
+            'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
+            array(
+                'form' => $data_json,
+                'save_link' =>$this->server.$this->baseLinkSaveAction
+            )
+        );
+    }
+
+    public function userSaveSFProfileAction(){
+        //open connection
+        $ch = curl_init();
+        //set POST variables
+        $fields_string='';
+        //url-ify the data for the POST
+        foreach($_POST as $key=>$value) {$fields_string .= str_replace("_",'.',urldecode($key)).'='.$value.'&';}
+        rtrim($fields_string, '&');
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch,CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
+        //curl_setopt($ch,CURLOPT_POST, true);
+        //TODO : use the account of the user
+        curl_setopt($ch,CURLOPT_POSTFIELDS, "userid=aa&password=aa");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__DIR__) . 'cookie/'.$this->getUser()->getUsername().'.txt');
+        //execute post
+        curl_exec($ch);
+        curl_setopt($ch,CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
+        curl_setopt($ch,CURLOPT_POST, 1);
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__DIR__) .'cookie/'.$this->getUser()->getUsername().'.txt');
+        curl_exec($ch);
+        $info = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        //close connection
+        curl_close($ch);
+        if ($info ==200){
+            $userEntity = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:User');
+            $query= $userEntity->createQueryBuilder('q')
+                ->update()
+                ->set('q.sfLink',':link')
+                ->where('q.id=:id')
+                ->setParameter('link',$_POST["uri"])
+                ->setParameter('id',$this->getUser()->getId())
+                ->getQuery();
+            $query->getResult();
+
+            $this->addFlash(
+                'success',
+                'tous est <b>ok !</b>'
+            );
+            return $this->redirectToRoute('profile');
+        }
+        else{
+            $this->addFlash(
+                'success',
+                'tous est <b>nok ...</b>'
+            );
+        } return $this->redirectToRoute('createSfProfile');
+    }
 }

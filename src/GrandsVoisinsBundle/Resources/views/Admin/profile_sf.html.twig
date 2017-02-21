@@ -1,0 +1,32 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
+
+{% block pageContentTitle %}Mon profil semantic forms{% endblock %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <form action="{{ path('saveSfProfile') }}" method="post" id="form" >
+        <input name="url" value="{{ form.subject }}" type="hidden">
+        <input name="uri" value="{{ form.subject }}" type="hidden">
+        <input name="graphURI" value="aa" type="hidden">
+
+        {% for field in form.fields %}
+            <div class="form-group">
+                <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                {% if( field.label|lower == 'type') %}
+                    <input  class="form-control" type="url" name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" >
+                {% else %}
+                    {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+                        <input  class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}">
+                    {% else %}
+                        <input  class="form-control" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <input class="btn btn-primary-lgv pull-right" type="submit" value="sauvegarder">
+    </form>
+
+{% endblock %}
+
