@@ -12,3 +12,9 @@ services:
         arguments: ["@router"]
         tags:
             - { name: kernel.event_subscriber }
+
+    your_module.request_listener:
+        class: GrandsVoisinsBundle\EventListener\sfProfileCreatedListener
+        arguments: ["@router","@security.token_storage","/admin/sfProfile"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 0 }
