@@ -154,6 +154,26 @@ class AdminController extends Controller
         return $this->redirectToRoute('team');
     }
 
+    public function userEditSFProfileAction()
+    {
+        $json = file_get_contents(
+            $this->server.$this->baseLinkUserDisplayAction.$this->getUser()->getSfLink()
+        );
+        $data_json = json_decode($json,true);
+        //decode the url in html name
+        foreach ($data_json["fields"] as $field ){
+            $field["htmlName"]=urldecode($field["htmlName"]);
+        }
+
+        return $this->render(
+            'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
+            array(
+                'form' => $data_json,
+                'save_link' =>$this->server.$this->baseLinkSaveAction,
+            )
+        );
+    }
+
     public function userCreateSFProfileAction(){
         //get the form in JSON format
         $json = file_get_contents($this->server.$this->baseLinkUserformAction);
@@ -168,7 +188,7 @@ class AdminController extends Controller
             'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
             array(
                 'form' => $data_json,
-                'save_link' =>$this->server.$this->baseLinkSaveAction
+                'save_link' =>$this->server.$this->baseLinkSaveAction,
             )
         );
     }
@@ -223,7 +243,7 @@ class AdminController extends Controller
         else{
             $this->addFlash(
                 'success',
-                'tous est <b>nok ...</b>'
+                'quelque chose est <b>nok ...</b>'
             );
         } return $this->redirectToRoute('createSfProfile');
     }
