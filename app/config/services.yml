@@ -9,7 +9,7 @@ services:
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     GrandsVoisinsBundle.EventListener.ConfirmRegistration:
         class: GrandsVoisinsBundle\EventListener\ConfirmRegistrationListener
-        arguments: ["@router"]
+        arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_subscriber }
 

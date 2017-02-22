@@ -16,6 +16,11 @@ class User extends BaseUser
      * @var string
      */
     private $sfLink;
+
+    /**
+     * @var string
+     */
+    private $sfUser;
     
 
     /**
@@ -51,5 +56,40 @@ class User extends BaseUser
     {
         return $this->sfLink;
     }
-}
 
+    /**
+     * Set sfUser
+     *
+     * @param string $sfUser
+     *
+     * @return User
+     */
+    public function setSfUser($sfUser)
+    {
+        $this->sfUser = $sfUser;
+
+        return $this;
+    }
+
+    /**
+     * Get sfUser
+     *
+     * @return string
+     */
+    public function getSfUser()
+    {
+        return $this->sfUser;
+    }
+
+    /**
+     * Get sfLoginSF
+     *
+     * @return string
+     */
+    public function getLoginSF()
+    {
+        return 'mailto:'.$this->getEmail();
+    }
+
+
+}
