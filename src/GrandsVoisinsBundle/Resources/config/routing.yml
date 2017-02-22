@@ -53,3 +53,11 @@ building:
 search:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
+
+home:
+    path:     /orga/home
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:home }
+
+new:
+    path:     /orga/new
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:new }
