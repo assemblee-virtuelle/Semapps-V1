@@ -17,4 +17,6 @@ GrandsVoisinsBundle\Entity\Organisation:
             length: 255
         sfOrganisation:
             type: text
+            nullable: true
+
     lifecycleCallbacks: {  }

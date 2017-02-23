@@ -21,7 +21,8 @@ class User extends BaseUser
      * @var string
      */
     private $sfUser;
-    
+
+    private $fkOrganisation;
 
     /**
      * Get id
@@ -92,4 +93,28 @@ class User extends BaseUser
     }
 
 
+
+    /**
+     * Set fkOrganisation
+     *
+     * @param integer $fkOrganisation
+     *
+     * @return User
+     */
+    public function setFkOrganisation($fkOrganisation)
+    {
+        $this->fkOrganisation = $fkOrganisation;
+
+        return $this;
+    }
+
+    /**
+     * Get fkOrganisation
+     *
+     * @return integer
+     */
+    public function getFkOrganisation()
+    {
+        return $this->fkOrganisation;
+    }
 }

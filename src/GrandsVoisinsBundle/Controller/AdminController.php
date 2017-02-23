@@ -51,9 +51,9 @@ class AdminController extends Controller
     public function teamAction(Request $request)
     {
         // Find all users.
-        // TODO Filter users : get only users attaged to this organisation.
-        $userManager = $this->container->get('fos_user.user_manager');
-        $users       = $userManager->findUsers();
+        // TODO Filter users : get only users attaged to this organisation. <------- DONE !
+        $userManager = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:User');
+        $users = $userManager->findBy(array('fkOrganisation' => $this->getUser()->getFkOrganisation()));
 
         $form = $this->get('form.factory')->create(UserType::class);
 
@@ -79,6 +79,7 @@ class AdminController extends Controller
             //Set the roles
             $data->addRole($form->get('access')->getData());
 
+            $data->setFkOrganisation($this->getUser()->getFkOrganisation());
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);

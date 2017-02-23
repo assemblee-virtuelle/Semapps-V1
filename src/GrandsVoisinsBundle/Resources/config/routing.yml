@@ -54,10 +54,10 @@ search:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
 
-home:
+home_orga:
     path:     /orga/home
     defaults: { _controller: GrandsVoisinsBundle:Organisation:home }
 
-new:
+new_orga:
     path:     /orga/new
     defaults: { _controller: GrandsVoisinsBundle:Organisation:new }

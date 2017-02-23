@@ -8,23 +8,17 @@
     {{ parent() }}
     <h2>Membres</h2>
     <table class="table table-bordered">
-        {% for user in users %}
+        {% for organisation in organisations %}
             <tr>
                 <td class="padded-value" style="width:40%">
-                    {{ user.username }}
+                    {{ organisation.name }}
                 </td>
                 <td class="padded-value" style="width:30%">
-                    {{ user.email }}
+                    {{ organisation.batiment }}
                 </td>
-                <td style="width:30%">
-                    <select class="form-control" name="accessLevel">
-                        <option value="ADMIN">Administrateur</option>
-                        <option value="EDITOR">Editeur</option>
-                        <option value="MEMBER">Membre</option>
-                    </select>
-                </td>
+
                 <td class="padded-value">
-                    <a class="team-user-delete" href="#" rel="{{ user.id }}">
+                    <a class="team-user-delete" href="#" rel="{{ organisation.id }}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>
@@ -43,46 +37,61 @@
         </div>
     </div>
 
-    {{ form_start(formAddUser) }}
-    {{ form_errors(formAddUser) }}
+    {{ form_start(formAddOrganisation) }}
+    {{ form_errors(formAddOrganisation) }}
     <div class="col col-sm-4">
-        <div class="form-group {% if formAddUser.username.vars.errors|length %}has-error has-feedback{% endif %}">
-            {{ form_widget(formAddUser.username, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
-            {% if formAddUser.username.vars.errors|length %}
+        <div class="form-group {% if formAddOrganisation.name.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.name, { 'attr': {'class': 'form-control', 'placeholder':"nom de l'organisation"} }) }}
+            {% if formAddOrganisation.name.vars.errors|length %}
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 <br>
                 <div class="alert alert-danger" role="alert">
-                    {{ form_errors(formAddUser.username) }}
+                    {{ form_errors(formAddOrganisation.name) }}
                 </div>
             {% endif %}
         </div>
     </div>
     <div class="col col-sm-4">
-        <div class="form-group {% if formAddUser.email.vars.errors|length %}has-error has-feedback{% endif %}">
-            {{ form_widget(formAddUser.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'}, 'type' : 'email' }) }}
-            {% if formAddUser.email.vars.errors|length %}
+        <div class="form-group {% if formAddOrganisation.batiment.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.batiment, { 'attr': {'class': 'form-control'} }) }}
+            {% if formAddOrganisation.batiment.vars.errors|length %}
                 <span class="glyphicon glyphicon-remove form-control-feedback"></span>
                 <br>
                 <div class="alert alert-danger" role="alert">
-                    {{ form_errors(formAddUser.email) }}
+                    {{ form_errors(formAddOrganisation.batiment) }}
                 </div>
             {% endif %}
         </div>
     </div>
-    <div class="col col-sm-2 {% if formAddUser.access.vars.errors|length %}has-error has-feedback{% endif %}">
-        {{ form_widget(formAddUser.access, { 'attr': {'class': 'form-control'} }) }}
-        {% if formAddUser.access.vars.errors|length %}
-            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-            <br>
-            <div class="alert alert-danger" role="alert">
-                {{ form_errors(formAddUser.access) }}
-            </div>
-        {% endif %}
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.username.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.username, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
+            {% if formAddOrganisation.username.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.username) }}
+                </div>
+            {% endif %}
+        </div>
     </div>
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.email.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'}, 'type' : 'email' }) }}
+            {% if formAddOrganisation.email.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.email) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
     <div class="col col-sm-2">
-        {{ form_widget(formAddUser.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
+        {{ form_widget(formAddOrganisation.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
     </div>
-    {{ form_end(formAddUser) }}
+    {{ form_end(formAddOrganisation) }}
 {% endblock %}
 
 
