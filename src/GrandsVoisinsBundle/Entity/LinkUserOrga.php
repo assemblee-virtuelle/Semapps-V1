@@ -7,6 +7,7 @@ namespace GrandsVoisinsBundle\Entity;
  */
 class LinkUserOrga
 {
+    const ROLE_DEFAULT = 'ROLE_USER';
     /**
      * @var int
      */
@@ -91,13 +92,17 @@ class LinkUserOrga
      *
      * @param array $roles
      *
-     * @return LinkUserOrga
+     * @return array
      */
-    public function setRoles($roles)
+    public function setRoles(array $roles)
     {
-        $this->roles = $roles;
+        $this->roles = array();
 
-        return $this;
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+
+        return $this->roles;
     }
 
     /**
@@ -105,9 +110,43 @@ class LinkUserOrga
      *
      * @return array
      */
+
     public function getRoles()
     {
-        return $this->roles;
+        $roles = $this->roles;
+
+        return array_unique($roles);
     }
+
+    public function addRole($role)
+    {
+        $role = strtoupper($role);
+        if ($role === static::ROLE_DEFAULT) {
+            return $this;
+        }
+
+        if (!in_array($role, $this->roles, true)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole($role)
+    {
+        if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
+            unset($this->roles[$key]);
+            $this->roles = array_values($this->roles);
+        }
+
+        return $this;
+    }
+
+    public function hasRole($role)
+    {
+        return in_array(strtoupper($role), $this->getRoles(), true);
+    }
+
+
 }
 
