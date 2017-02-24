@@ -2,6 +2,7 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+
 use GrandsVoisinsBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +104,10 @@ class AdminController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function teamAction(Request $request)
     {
         // Find all users.
@@ -142,26 +147,18 @@ class AdminController extends Controller
             $em->persist($data);
             $em->flush();
 
-            //send the email for the new user
-            $message = \Swift_Message::newInstance()
-                ->setSubject('bonjour '.$data->getUsername() )
-                ->setFrom('seb.mail.symfony@gmail.com')
-                ->setTo($data->getEmail())
-                ->setBody(
-                    "Bonjour ".$data->getUsername()." !<br><br>
+
+            //send email to the new user
+            $body="Bonjour ".$data->getUsername()." !<br><br>
                     Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
                     Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
                     Nom de compte : ".$data->getUsername()."<br>
                     Mot de passe : ".$randomPassword."<br><br>
                     Cordialement,
-                    L'équipe"
-                    ,
-                    'text/html'
-                );
-            $this->get('mailer')->send($message);
+                    L'équipe";
+            $this->get('GrandsVoisinsBundle.EventListener.SendMail')->sendConfirmMessage($data, $body);
 
             // TODO Grant permission to edit same organisation as current user.
-
             // Display message.
             $this->addFlash(
               'success',

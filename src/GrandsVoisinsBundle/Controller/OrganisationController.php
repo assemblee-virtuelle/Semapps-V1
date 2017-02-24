@@ -65,26 +65,17 @@ class OrganisationController extends Controller
             $em->persist($user);
             $em->flush();
 
-            //send the email for the new user
-            $message = \Swift_Message::newInstance()
-                ->setSubject('bonjour ' . $user->getUsername())
-                ->setFrom('seb.mail.symfony@gmail.com')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    "Bonjour " . $user->getUsername() . " !<br><br>
-                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/" . $conf_token . ".<br><br>
+            // send email to th new organization
+            $body=  "Bonjour ".$user->getUsername()." !<br><br>
+                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
                     Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
-                    Nom de compte : " . $user->getUsername() . "<br>
-                    Mot de passe : " . $randomPassword . "<br><br>
+                    Nom de compte : ".$user->getUsername()."<br>
+                    Mot de passe : ".$randomPassword."<br><br>
                     Cordialement,
-                    L'équipe"
-                    ,
-                    'text/html'
-                );
-            $this->get('mailer')->send($message);
+                    L'équipe";
+            $this->get('GrandsVoisinsBundle.EventListener.SendMail')->sendConfirmMessage($user, $body);
 
             // TODO Grant permission to edit same organisation as current user.
-
             // Display message.
             $this->addFlash(
                 'success',
