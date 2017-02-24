@@ -39,7 +39,7 @@ class sfProfileCreatedListener
                     if ($this->security->getToken()->getUser()->getSfLink() == "") {
                         //je regarde s'il va autre part que la route envoyé au listener ( doit être celle de sfProfile )
                         if (strpos($event->getRequest()->getRequestUri(), $this->path) === false) {
-                            $event->setResponse(new RedirectResponse($this->router->generate('createSfProfile')));
+                            $event->setResponse(new RedirectResponse($this->router->generate('sfProfile')));
                         }
                     }
                 }

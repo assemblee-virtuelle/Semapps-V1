@@ -22,13 +22,9 @@ profile:
     path:     /admin/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
-createSfProfile:
-    path:     /admin/createSfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userCreateSFProfile }
-
-editSfProfile:
-    path:     /admin/editSfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userEditSFProfile }
+sfProfile:
+    path:     /admin/sfProfile
+    defaults: { _controller: GrandsVoisinsBundle:Admin:userSFProfile }
 
 saveSfProfile:
     path:     /admin/saveSfProfile
