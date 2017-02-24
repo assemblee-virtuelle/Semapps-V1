@@ -72,6 +72,8 @@ class AdminController extends Controller
                 password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
+            $data->setSfUser($randomPassword);
+
             // Generate the token for the confirmation email
             $conf_token=$tokenGenerator->generateToken();
             $data->setConfirmationToken($conf_token);

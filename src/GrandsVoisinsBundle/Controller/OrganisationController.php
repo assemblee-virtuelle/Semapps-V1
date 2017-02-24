@@ -49,6 +49,8 @@ class OrganisationController extends Controller
                 password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
+            $user->setSfUser($randomPassword);
+
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
             $user->setConfirmationToken($conf_token);
