@@ -1,8 +1,3 @@
-# Create a routing_test just to add some route for testing ( this file is in gitignore )
-grands_voisins:
-    resource: "@GrandsVoisinsBundle/Resources/config/routing_test.yml"
-    prefix:   /test
-
 index:
     path:     /
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
