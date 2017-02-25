@@ -16,7 +16,13 @@ class User extends BaseUser
      * @var string
      */
     private $sfLink;
-    
+
+    /**
+     * @var string
+     */
+    private $sfUser;
+
+    private $fkOrganisation;
 
     /**
      * Get id
@@ -51,5 +57,64 @@ class User extends BaseUser
     {
         return $this->sfLink;
     }
-}
 
+    /**
+     * Set sfUser
+     *
+     * @param string $sfUser
+     *
+     * @return User
+     */
+    public function setSfUser($sfUser)
+    {
+        $this->sfUser = $sfUser;
+
+        return $this;
+    }
+
+    /**
+     * Get sfUser
+     *
+     * @return string
+     */
+    public function getSfUser()
+    {
+        return $this->sfUser;
+    }
+
+    /**
+     * Get sfLoginSF
+     *
+     * @return string
+     */
+    public function getLoginSF()
+    {
+        return 'mailto:'.$this->getEmail();
+    }
+
+
+
+    /**
+     * Set fkOrganisation
+     *
+     * @param integer $fkOrganisation
+     *
+     * @return User
+     */
+    public function setFkOrganisation($fkOrganisation)
+    {
+        $this->fkOrganisation = $fkOrganisation;
+
+        return $this;
+    }
+
+    /**
+     * Get fkOrganisation
+     *
+     * @return integer
+     */
+    public function getFkOrganisation()
+    {
+        return $this->fkOrganisation;
+    }
+}

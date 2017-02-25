@@ -1,0 +1,102 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}GrandsVoisinsBundle:Organisation:home{% endblock %}
+
+{% block pageContentTitle %}organisations{% endblock %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <h2>Membres</h2>
+    <table class="table table-bordered">
+        {% for organisation in organisations %}
+            <tr>
+                <td class="padded-value" style="width:40%">
+                    {{ organisation.name }}
+                </td>
+                <td class="padded-value" style="width:30%">
+                    {{ organisation.batiment }}
+                </td>
+
+                <td class="padded-value">
+                    <a class="team-user-delete" href="#" rel="{{ organisation.id }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h2>Ajouter</h2>
+    <div class="panel panel-gv">
+        <div class="panel-body">
+            Vous pouvez créer des comptes pour les membres de votre équipe. Les
+            editeurs auront la possibilité de modifier les informations
+            relatives à
+            votre organisation, les membres auront uniquement accès aux données
+            de
+            l'annuaire des Grands Voisins.
+        </div>
+    </div>
+
+    {{ form_start(formAddOrganisation) }}
+    {{ form_errors(formAddOrganisation) }}
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.name.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.name, { 'attr': {'class': 'form-control', 'placeholder':"nom de l'organisation"} }) }}
+            {% if formAddOrganisation.name.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.name) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.batiment.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.batiment, { 'attr': {'class': 'form-control'} }) }}
+            {% if formAddOrganisation.batiment.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.batiment) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.username.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.username, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
+            {% if formAddOrganisation.username.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.username) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col col-sm-4">
+        <div class="form-group {% if formAddOrganisation.email.vars.errors|length %}has-error has-feedback{% endif %}">
+            {{ form_widget(formAddOrganisation.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'}, 'type' : 'email' }) }}
+            {% if formAddOrganisation.email.vars.errors|length %}
+                <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <br>
+                <div class="alert alert-danger" role="alert">
+                    {{ form_errors(formAddOrganisation.email) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col col-sm-2">
+        {{ form_widget(formAddOrganisation.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
+    </div>
+    {{ form_end(formAddOrganisation) }}
+{% endblock %}
+
+
+
+
+
+
+

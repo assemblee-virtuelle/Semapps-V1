@@ -22,13 +22,9 @@ profile:
     path:     /admin/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
-createSfProfile:
-    path:     /admin/createSfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userCreateSFProfile }
-
-editSfProfile:
-    path:     /admin/editSfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userEditSFProfile }
+sfProfile:
+    path:     /admin/sfProfile
+    defaults: { _controller: GrandsVoisinsBundle:Admin:userSFProfile }
 
 saveSfProfile:
     path:     /admin/saveSfProfile
@@ -42,6 +38,10 @@ organisation:
     path:     /admin/organisation
     defaults: { _controller: GrandsVoisinsBundle:Admin:organisation }
 
+saveOrganisation:
+    path:     /admin/saveOrga
+    defaults: { _controller: GrandsVoisinsBundle:Admin:saveOrganisation }
+
 userDelete:
     path:     /admin/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
@@ -53,3 +53,11 @@ building:
 search:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
+
+home_orga:
+    path:     /orga/home
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:home }
+
+new_orga:
+    path:     /orga/new
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:new }

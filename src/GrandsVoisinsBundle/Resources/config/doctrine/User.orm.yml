@@ -12,4 +12,9 @@ GrandsVoisinsBundle\Entity\User:
         sfLink:
             type: text
             nullable: true
+        sfUser:
+            type: text
+            nullable: true
+        fkOrganisation:
+            type: integer
     lifecycleCallbacks: {  }

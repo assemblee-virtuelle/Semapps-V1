@@ -1,0 +1,22 @@
+GrandsVoisinsBundle\Entity\Organisation:
+    type: entity
+    table: null
+    repositoryClass: GrandsVoisinsBundle\Repository\OrganisationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        batiment:
+            type: string
+            length: 255
+        sfOrganisation:
+            type: text
+            nullable: true
+
+    lifecycleCallbacks: {  }
