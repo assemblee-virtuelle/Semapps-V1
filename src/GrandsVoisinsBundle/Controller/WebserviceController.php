@@ -2,17 +2,15 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7\Stream;
 
 class WebserviceController extends Controller
 {
-
-    function getSemanticFormsUrl()
-    {
-        return 'http://'.$this->getParameter('semantic_forms.domain');
-    }
 
     public function buildingAction()
     {
@@ -45,27 +43,19 @@ class WebserviceController extends Controller
         $output = (object)['results' => []];
 
         if ($term) {
-            $timeout = $this->getParameter('semantic_forms.timeout');
-            $curl    = curl_init();
-            curl_setopt(
-              $curl,
-              CURLOPT_URL,
-              $this->getSemanticFormsUrl().'/lookup?QueryString='.urlencode(
-                $term
-              )
-            );
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
-            $response = json_decode(curl_exec($curl));
-            // No error happened.
-            if (!curl_errno($curl)) {
-                $output = $response;
-            } else {
+            $sfClient = $this->container->get('semantic_forms.client');
+            $response = $sfClient->search($term);
+             // It can be a DNS problem, but we deep look about timeouts.
+            if ($response instanceof RequestException) {
                 $output->error = 'TIMEOUT';
             }
-            curl_close($curl);
+            else if ($response instanceof Stream) {
+                $output->results = $response;
+            }
+            // We don't really know what happened.
+            else {
+                $output->error = 'ERROR';
+            }
         }
 
         return new JsonResponse($output);
@@ -85,7 +75,10 @@ class WebserviceController extends Controller
           $this->getParameter('semantic_forms.password')
         );
 
-        $output['results'] = $sfClient->httpLoadJson($request->query->get('uri'));
+        $client = new Client();
+        $result = $client->request('GET', $request->query->get('uri'));
+
+        $output['results'] = $result->getBody();
 
         return new JsonResponse($output);
     }

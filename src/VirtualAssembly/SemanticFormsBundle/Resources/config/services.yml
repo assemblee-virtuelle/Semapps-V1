@@ -1,4 +1,4 @@
 services:
     semantic_forms.client:
         class: VirtualAssembly\SemanticFormsBundle\SemanticFormsClient
-        # arguments: ["@service_id", "plain_value", "%parameter%"]
+        arguments: ["%semantic_forms.domain%", "%semantic_forms.login%", "%semantic_forms.password%", "%semantic_forms.timeout%"]
