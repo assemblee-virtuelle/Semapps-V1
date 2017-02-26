@@ -233,6 +233,10 @@
     dom(selector) {
       return document.querySelectorAll(selector);
     }
+
+    detailLoad(uri) {
+
+    }
   };
 
   window.GVCarto.ready = function (callback) {

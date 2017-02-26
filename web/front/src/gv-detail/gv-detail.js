@@ -8,8 +8,6 @@ Polymer({
 
   attached: function () {
     "use strict";
-    $('#detailBack').click(() => {
-      history.back();
-    });
+    window.gvc.detailLoad(window.location.hash.slice(1));
   }
 });

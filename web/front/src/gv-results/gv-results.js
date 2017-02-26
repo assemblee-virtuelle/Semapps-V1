@@ -14,7 +14,7 @@ Polymer({
     if (data.prefix === '/rechercher') {
       // Route change may be fired before init.
       window.GVCarto.ready(() => {
-        window.gvc.searchRouteChange(split[2], split[1]);
+        window.gvc.searchRouteChange(split[2], split[2]);
       });
     }
   }
