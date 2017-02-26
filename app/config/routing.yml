@@ -1,10 +1,7 @@
-semantic_forms:
-    resource: "@SemanticFormsBundle/Resources/config/routing.yml"
-    prefix:   /
-
 grands_voisins:
     resource: "@GrandsVoisinsBundle/Resources/config/routing.yml"
     prefix:   /
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
