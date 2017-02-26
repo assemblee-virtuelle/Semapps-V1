@@ -8,9 +8,7 @@ class WebSiteController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('GrandsVoisinsBundle:WebSite:index.html.twig', array(
-            // ...
-        ));
+        return $this->render('GrandsVoisinsBundle:WebSite:index.html.twig');
     }
 
 }
