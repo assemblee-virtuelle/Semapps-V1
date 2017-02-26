@@ -2,7 +2,15 @@ index:
     path:     /
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
-search:
+searchHome:
+    path:     /rechercher
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
+searchBuilding:
+    path:     /rechercher/{building}/
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
+searchBuildingTerm:
     path:     /rechercher/{building}/{term}
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 

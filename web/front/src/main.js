@@ -63,7 +63,7 @@
       // Click on submit button.
       this.listen('searchForm', 'submit', (e) => {
         this.domSearchTextInput.blur();
-        this.scrollToSearch();
+        this.scrollToSearchResults();
         callbackSearchEvent(e);
       });
       // Launch callbacks
@@ -122,10 +122,11 @@
 
     }
 
-    scrollToSearch() {
+    scrollToSearchResults(complete) {
       this.$window.scrollTo($('#searchTabs').offset().top - 150, {
         duration: 1000,
-        easing: 'easeOutQuad'
+        easing: 'easeOutQuad',
+        complete: complete
       });
     }
 
