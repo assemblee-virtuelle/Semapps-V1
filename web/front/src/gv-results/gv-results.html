@@ -20,27 +20,5 @@
     <div id="searchResults" class="col col-sm-12"></div>
     <div class="clearfix"></div>
   </template>
-  <script>
-    Polymer({
-      is: 'gv-results',
-      properties: {
-        route: {
-          type: Object,
-          observer: '_routeChanged'
-        }
-      },
-
-      _routeChanged: function (data) {
-        if (data.prefix === '/search') {
-          window.GVCarto.ready(function () {
-           /* var building = data.path.slice(1);
-            var term = data.path.slice(2);
-            window.gvc.search(term, {
-              building: building
-            });*/
-          }.bind(this));
-        }
-      }
-    });
-  </script>
+  <script src="../gv-results/gv-results.min.js"></script>
 </dom-module>

@@ -12,6 +12,7 @@ var fs = require('fs');
 // if value is "true", use the .js version to build .min.js version,
 // if value is an array, aggregate the files to the .min.js version.
 var filesJs = {
+  'web/front/src/main': true,
   // Main admin script.
   'web/admin/js/dist/script': [
     'web/admin/js/src/class/lgvAdmin.js',

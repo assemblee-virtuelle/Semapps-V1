@@ -3,11 +3,7 @@ Polymer({
   properties: {
     id: String,
     title: String,
-    description: String,
-    route: {
-      type: Object,
-      observer: '_routeChanged'
-    }
+    description: String
   },
 
   attached: function () {

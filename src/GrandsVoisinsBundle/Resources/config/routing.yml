@@ -2,6 +2,10 @@ index:
     path:     /
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
+search:
+    path:     /rechercher/{building}/{term}
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
 admin:
     path: /admin
     defaults:
@@ -41,11 +45,11 @@ userDelete:
     path:     /admin/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
 
-building:
+webserviceBuilding:
     path:     /webservice/building
     defaults: { _controller: GrandsVoisinsBundle:Webservice:building }
 
-search:
+webserviceSearch:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
 

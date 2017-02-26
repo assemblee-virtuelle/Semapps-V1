@@ -20,6 +20,8 @@
                    tail="{{searchTail}}"></app-route>
 
         <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+          <gv-results name="rechercher"
+                      route="{{searchTail}}"></gv-results>
           <gv-detail name="detail"
                            route="{{searchTail}}"></gv-detail>
         </iron-pages>
