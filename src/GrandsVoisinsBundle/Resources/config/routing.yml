@@ -14,6 +14,10 @@ searchBuildingTerm:
     path:     /rechercher/{building}/{term}
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
+detail:
+    path:     /detail
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
 admin:
     path: /admin
     defaults:
