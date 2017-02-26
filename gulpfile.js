@@ -105,9 +105,6 @@ gulp.task('buildAppFiles', () => {
   }, 'js', 'min.js');
 
   buildFiles(filesScss, (destFile, fileData, sourceExt, destExt) => {
-    /*console.log(' -- ');
-     console.log(destFile);
-     console.log(fileData);*/
     gulp.src(fileData.sourceFiles, {base: "./"})
       // Set dest name.
       .pipe(concat(fileData.destFileName + '.' + destExt))
