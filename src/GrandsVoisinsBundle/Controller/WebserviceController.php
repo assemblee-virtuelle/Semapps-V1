@@ -8,8 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WebserviceController extends Controller
 {
-    // Avoid DNS lookup for domain, use direct IP.
-    var $semanticFormsBaseUrl = 'http://163.172.179.125:9112/lookup';
+
+    function getSemanticFormsUrl()
+    {
+        return 'http://'.$this->getParameter('semantic_forms.domain');
+    }
 
     public function buildingAction()
     {
@@ -42,16 +45,19 @@ class WebserviceController extends Controller
         $output = (object)['results' => []];
 
         if ($term) {
-            $curl = curl_init();
+            $timeout = $this->getParameter('semantic_forms.timeout');
+            $curl    = curl_init();
             curl_setopt(
               $curl,
               CURLOPT_URL,
-              $this->semanticFormsBaseUrl.'?QueryString='.urlencode($term)
+              $this->getSemanticFormsUrl().'/lookup?QueryString='.urlencode(
+                $term
+              )
             );
             curl_setopt($curl, CURLOPT_HEADER, false);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
+            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $timeout);
             $response = json_decode(curl_exec($curl));
             // No error happened.
             if (!curl_errno($curl)) {
