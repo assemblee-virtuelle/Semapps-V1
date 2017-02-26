@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new GrandsVoisinsBundle\GrandsVoisinsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
