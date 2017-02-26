@@ -67,6 +67,26 @@ class WebserviceController extends Controller
             }
             curl_close($curl);
         }
+
+        return new JsonResponse($output);
+    }
+
+    public function detailAction(Request $request)
+    {
+        $output = [];
+
+        // URI may point to a place outside SF, but
+        // a lot of them should come from here, so we
+        // have to authenticate.
+        $sfClient = $this->container->get('semantic_forms.client');
+
+        $sfClient->auth(
+          $this->getParameter('semantic_forms.login'),
+          $this->getParameter('semantic_forms.password')
+        );
+
+        $output['results'] = $sfClient->httpLoadJson($request->query->get('uri'));
+
         return new JsonResponse($output);
     }
 }

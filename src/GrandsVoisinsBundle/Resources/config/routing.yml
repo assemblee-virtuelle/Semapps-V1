@@ -65,6 +65,10 @@ webserviceSearch:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
 
+webserviceDetail:
+    path:     /webservice/detail
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:detail }
+
 home_orga:
     path:     /orga/home
     defaults: { _controller: GrandsVoisinsBundle:Organisation:home }
