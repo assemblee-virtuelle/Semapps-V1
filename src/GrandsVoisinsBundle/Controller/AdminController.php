@@ -15,7 +15,7 @@ class AdminController extends Controller
     private $baseLinkSaveAction = '/save';
     private $baseLinkUserDisplayAction = '/form-data?displayuri='; //need the sf user link
     private $baseLinkLoginAction = '/authenticate';
-    private $baseLinkformOrganization ='/create-data?uri=http%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FOrganization';
+    private $baseLinkformOrganization = '/create-data?uri=http%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FOrganization';
 
     public function homeAction()
     {
@@ -29,7 +29,8 @@ class AdminController extends Controller
     public function profileAction()
     {
         $json = file_get_contents(
-          $this->server.$this->baseLinkUserDisplayAction.$this->getUser()->getSfLink()
+          $this->server.$this->baseLinkUserDisplayAction.$this->getUser()
+            ->getSfLink()
         );
         $json = json_decode($json, true);
 
@@ -45,25 +46,36 @@ class AdminController extends Controller
     {
         // questionner la base pour savoir si l'orga est deja créer
 
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:Organisation');
-        $organisation= $organisationEntity->findOneById($this->GetUser()->getFkOrganisation());
-        if ($organisation->getSfOrganisation() == null)
-            $json = file_get_contents($this->server.$this->baseLinkformOrganization);
-
-        else
-            $json = file_get_contents($this->server.$this->baseLinkUserDisplayAction.$organisation->getSfOrganisation());
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+          'GrandsVoisinsBundle:Organisation'
+        );
+        $organisation       = $organisationEntity->findOneById(
+          $this->GetUser()->getFkOrganisation()
+        );
+        if ($organisation->getSfOrganisation() == null) {
+            $json = file_get_contents(
+              $this->server.$this->baseLinkformOrganization
+            );
+        } else {
+            $json = file_get_contents(
+              $this->server.$this->baseLinkUserDisplayAction.$organisation->getSfOrganisation(
+              )
+            );
+        }
 
         //transform the JSON in array
-        $data_json = json_decode($json,true);
+        $data_json = json_decode($json, true);
         //decode the url in html name
-        foreach ($data_json["fields"] as $field ){
-            $field["htmlName"]=urldecode($field["htmlName"]);
+        foreach ($data_json["fields"] as $field) {
+            $field["htmlName"] = urldecode($field["htmlName"]);
         }
 
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:organisation.html.twig',
-          array( 'organisation'=> $data_json, 'save_link' =>$this->server.$this->baseLinkSaveAction,
+          array(
+            'organisation' => $data_json,
+            'save_link'    => $this->server.$this->baseLinkSaveAction,
           )
         );
     }
@@ -71,49 +83,67 @@ class AdminController extends Controller
     public function saveOrganisationAction()
     {
         //set POST variables
-        $fields_string='';
+        $fields_string = '';
         //url-ify the data for the POST
-        foreach($_POST as $key=>$value) {$fields_string .= str_replace("_",'.',urldecode($key)).'='.$value.'&';}
+        foreach ($_POST as $key => $value) {
+            $fields_string .= str_replace(
+                "_",
+                '.',
+                urldecode($key)
+              ).'='.$value.'&';
+        }
         rtrim($fields_string, '&');
         //set the url, number of POST vars, POST data
-        $info = $this->sendToSemanticForm($fields_string); //TODO: a modifier pour prendre l'utilisateur courant !
+        $info = $this->sendToSemanticForm(
+          $fields_string
+        );
 
-        if ($info ==200){
-            $organisationEntity = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:Organisation');
-            $query= $organisationEntity->createQueryBuilder('q')
-                ->update()
-                ->set('q.sfOrganisation',':link')
-                ->where('q.id=:id')
-                ->setParameter('link',$_POST["uri"])
-                ->setParameter('id',$this->getUser()->getfkOrganisation())
-                ->getQuery();
+        //TODO: a modifier pour prendre l'utilisateur courant !
+        if ($info == 200) {
+            $organisationEntity = $this->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:Organisation');
+            $query              = $organisationEntity->createQueryBuilder('q')
+              ->update()
+              ->set('q.sfOrganisation', ':link')
+              ->where('q.id=:id')
+              ->setParameter('link', $_POST["uri"])
+              ->setParameter('id', $this->getUser()->getfkOrganisation())
+              ->getQuery();
             $query->getResult();
 
             $this->addFlash(
-                'success',
-                'tous est <b>ok !</b>'
+              'success',
+              'tous est <b>ok !</b>'
             );
+
             return $this->redirectToRoute('profile');
-        }
-        else{
+        } else {
             $this->addFlash(
-                'success',
-                'quelque chose est <b>nok ...</b>'
+              'success',
+              'quelque chose est <b>nok ...</b>'
             );
-        } return $this->redirectToRoute('organisation');
+        }
+
+        return $this->redirectToRoute('organisation');
     }
 
 
     /**
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function teamAction(Request $request)
     {
         // Find all users.
         // TODO Filter users : get only users attaged to this organisation. <------- DONE !
-        $userManager = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:User');
-        $users = $userManager->findBy(array('fkOrganisation' => $this->getUser()->getFkOrganisation()));
+        $userManager = $this->getDoctrine()->getManager()->getRepository(
+          'GrandsVoisinsBundle:User'
+        );
+        $users       = $userManager->findBy(
+          array('fkOrganisation' => $this->getUser()->getFkOrganisation())
+        );
 
         $form = $this->get('form.factory')->create(UserType::class);
 
@@ -129,13 +159,13 @@ class AdminController extends Controller
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
             $data->setPassword(
-                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $data->setSfUser($randomPassword);
 
             // Generate the token for the confirmation email
-            $conf_token=$tokenGenerator->generateToken();
+            $conf_token = $tokenGenerator->generateToken();
             $data->setConfirmationToken($conf_token);
 
             //Set the roles
@@ -149,14 +179,15 @@ class AdminController extends Controller
 
 
             //send email to the new user
-            $body="Bonjour ".$data->getUsername()." !<br><br>
+            $body = "Bonjour ".$data->getUsername()." !<br><br>
                     Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
                     Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
                     Nom de compte : ".$data->getUsername()."<br>
                     Mot de passe : ".$randomPassword."<br><br>
                     Cordialement,
                     L'équipe";
-            $this->get('GrandsVoisinsBundle.EventListener.SendMail')->sendConfirmMessage($data, $body);
+            $this->get('GrandsVoisinsBundle.EventListener.SendMail')
+              ->sendConfirmMessage($data, $body);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
@@ -176,7 +207,7 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'users' => $users,
+            'users'       => $users,
             'formAddUser' => $form->createView(),
           )
         );
@@ -211,85 +242,117 @@ class AdminController extends Controller
 
     public function userSFProfileAction()
     {
-        if ($this->getUser()->getSfLink() == null)
-            $json = file_get_contents($this->server.$this->baseLinkUserformAction);
+        if ($this->getUser()->getSfLink() == null) {
+            $json = file_get_contents(
+              $this->server.$this->baseLinkUserformAction
+            );
+        } else {
+            $json = file_get_contents(
+              $this->server.$this->baseLinkUserDisplayAction.$this->getUser()
+                ->getSfLink()
+            );
+        }
 
-        else
-            $json = file_get_contents($this->server.$this->baseLinkUserDisplayAction.$this->getUser()->getSfLink());
-
-        $data_json = json_decode($json,true);
+        $data_json = json_decode($json, true);
         //decode the url in html name
-        foreach ($data_json["fields"] as $field ){
-            $field["htmlName"]=urldecode($field["htmlName"]);
+        foreach ($data_json["fields"] as $field) {
+            $field["htmlName"] = urldecode($field["htmlName"]);
         }
 
         return $this->render(
-            'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
-            array(
-                'form' => $data_json,
-                'save_link' =>$this->server.$this->baseLinkSaveAction,
-            )
+          'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
+          array(
+            'form'      => $data_json,
+            'save_link' => $this->server.$this->baseLinkSaveAction,
+          )
         );
     }
 
-    public function userSaveSFProfileAction(){
+    public function userSaveSFProfileAction()
+    {
         //set POST variables
-        $fields_string='';
+        $fields_string = '';
         //url-ify the data for the POST
-        foreach($_POST as $key=>$value) {$fields_string .= str_replace("_",'.',urldecode($key)).'='.$value.'&';}
+        foreach ($_POST as $key => $value) {
+            $fields_string .= str_replace(
+                "_",
+                '.',
+                urldecode($key)
+              ).'='.$value.'&';
+        }
         rtrim($fields_string, '&');
         //set the url, number of POST vars, POST data
-        $info = $this->sendToSemanticForm($fields_string); //TODO: a modifier pour prendre l'utilisateur courant !
-        if ($info ==200){
-            $userEntity = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:User');
-            $query= $userEntity->createQueryBuilder('q')
-                ->update()
-                ->set('q.sfLink',':link')
-                ->where('q.id=:id')
-                ->setParameter('link',$_POST["uri"])
-                ->setParameter('id',$this->getUser()->getId())
-                ->getQuery();
+        $info = $this->sendToSemanticForm(
+          $fields_string
+        ); //TODO: a modifier pour prendre l'utilisateur courant !
+        if ($info == 200) {
+            $userEntity = $this->getDoctrine()->getManager()->getRepository(
+              'GrandsVoisinsBundle:User'
+            );
+            $query      = $userEntity->createQueryBuilder('q')
+              ->update()
+              ->set('q.sfLink', ':link')
+              ->where('q.id=:id')
+              ->setParameter('link', $_POST["uri"])
+              ->setParameter('id', $this->getUser()->getId())
+              ->getQuery();
             $query->getResult();
 
             $this->addFlash(
-                'success',
-                'tous est <b>ok !</b>'
+              'success',
+              'tous est <b>ok !</b>'
             );
+
             return $this->redirectToRoute('profile');
-        }
-        else{
+        } else {
             $this->addFlash(
-                'success',
-                'quelque chose est <b>nok ...</b>'
+              'success',
+              'quelque chose est <b>nok ...</b>'
             );
-        } return $this->redirectToRoute('createSfProfile');
+        }
+
+        return $this->redirectToRoute('createSfProfile');
     }
 
-    private function sendToSemanticForm($data,$user ="aa",$password="aa"){
+    private function sendToSemanticForm($data, $user = "aa", $password = "aa")
+    {
         //open connection
         $ch = curl_init();
         //set the url, number of POST vars, POST data
-        curl_setopt($ch,CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
+        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
         //curl_setopt($ch,CURLOPT_POST, true);
         //TODO : use the account of the user
-        curl_setopt($ch,CURLOPT_POSTFIELDS, "userid=".$user."&password=".$password);
+        curl_setopt(
+          $ch,
+          CURLOPT_POSTFIELDS,
+          "userid=".$user."&password=".$password
+        );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__DIR__) . 'cookie/'.$this->getUser()->getUsername().'.txt');
+        curl_setopt(
+          $ch,
+          CURLOPT_COOKIEJAR,
+          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
+        );
         //execute post
         curl_exec($ch);
-        curl_setopt($ch,CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
-        curl_setopt($ch,CURLOPT_POST, 1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__DIR__) .'cookie/'.$this->getUser()->getUsername().'.txt');
+        curl_setopt(
+          $ch,
+          CURLOPT_COOKIEJAR,
+          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
+        );
         curl_exec($ch);
-        $info = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         //close connection
         curl_close($ch);
+
         return $info;
     }
 }
