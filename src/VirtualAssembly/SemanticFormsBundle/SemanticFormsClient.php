@@ -74,4 +74,50 @@ class SemanticFormsClient
             return $e;
         }
     }
+
+    public function send($data)
+    {
+        $user     = $this->login;
+        $password = $this->password;
+
+        //open connection
+        $ch = curl_init();
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
+        //curl_setopt($ch,CURLOPT_POST, true);
+        // TODO : use the account of the user
+        // TODO Migrate into SF bundle.
+        curl_setopt(
+          $ch,
+          CURLOPT_POSTFIELDS,
+          "userid=".$user."&password=".$password
+        );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt(
+          $ch,
+          CURLOPT_COOKIEJAR,
+          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
+        );
+        //execute post
+        curl_exec($ch);
+        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt(
+          $ch,
+          CURLOPT_COOKIEJAR,
+          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
+        );
+        curl_exec($ch);
+        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        //close connection
+        curl_close($ch);
+
+        return $info;
+    }
 }

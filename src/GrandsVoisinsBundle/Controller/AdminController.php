@@ -94,9 +94,9 @@ class AdminController extends Controller
         }
         rtrim($fields_string, '&');
         //set the url, number of POST vars, POST data
-        $info = $this->sendToSemanticForm(
-          $fields_string
-        );
+        $info = $this->container
+          ->get('semantic_forms.client')
+          ->send($fields_string);
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {
@@ -282,21 +282,28 @@ class AdminController extends Controller
         }
         rtrim($fields_string, '&');
         //set the url, number of POST vars, POST data
-        $info = $this->sendToSemanticForm(
-          $fields_string
-        ); //TODO: a modifier pour prendre l'utilisateur courant !
+        $info = $this
+          ->container
+          ->get('semantic_forms.client')
+          ->send($fields_string);
+
         if ($info == 200) {
-            $userEntity = $this->getDoctrine()->getManager()->getRepository(
-              'GrandsVoisinsBundle:User'
-            );
-            $query      = $userEntity->createQueryBuilder('q')
+            // Get the main user entity.
+            $userRepository = $this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:User');
+
+            // Update sfLink.
+            $userRepository
+              ->createQueryBuilder('q')
               ->update()
               ->set('q.sfLink', ':link')
               ->where('q.id=:id')
               ->setParameter('link', $_POST["uri"])
               ->setParameter('id', $this->getUser()->getId())
-              ->getQuery();
-            $query->getResult();
+              ->getQuery()
+              ->execute();
 
             $this->addFlash(
               'success',
@@ -312,47 +319,5 @@ class AdminController extends Controller
         }
 
         return $this->redirectToRoute('createSfProfile');
-    }
-
-    private function sendToSemanticForm($data, $user = "aa", $password = "aa")
-    {
-        //open connection
-        $ch = curl_init();
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
-        //curl_setopt($ch,CURLOPT_POST, true);
-        //TODO : use the account of the user
-        curl_setopt(
-          $ch,
-          CURLOPT_POSTFIELDS,
-          "userid=".$user."&password=".$password
-        );
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt(
-          $ch,
-          CURLOPT_COOKIEJAR,
-          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
-        );
-        //execute post
-        curl_exec($ch);
-        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt(
-          $ch,
-          CURLOPT_COOKIEJAR,
-          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
-        );
-        curl_exec($ch);
-        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        //close connection
-        curl_close($ch);
-
-        return $info;
     }
 }
