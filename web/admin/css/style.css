@@ -72,3 +72,7 @@ input.form-control {
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   background: #F5F5F5; }
+
+body .nav-tabs li.active a,
+body .nav-tabs li a {
+  cursor: pointer !important; }

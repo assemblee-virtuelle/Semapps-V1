@@ -75,5 +75,10 @@ input.form-control {
   background: #F5F5F5;
 }
 
-//
+body {
+  .nav-tabs li.active a,
+  .nav-tabs li a {
+    cursor: pointer !important;
+  }
+}
 

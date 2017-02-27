@@ -16,6 +16,7 @@ class LgvAdmin {
     this.$modalConfirmValidate = this.$modalConfirm.find('.btn-primary:first');
 
     new LgvAdminPageTeam(this);
+    new LgvAdminPageProfile(this);
   }
 
   modalConfirm(message, callback) {
