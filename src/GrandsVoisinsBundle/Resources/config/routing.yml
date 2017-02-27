@@ -41,14 +41,6 @@ team:
     path:     /admin/invite
     defaults: { _controller: GrandsVoisinsBundle:Admin:team }
 
-organisation:
-    path:     /admin/organisation
-    defaults: { _controller: GrandsVoisinsBundle:Admin:organisation }
-
-saveOrganisation:
-    path:     /admin/saveOrga
-    defaults: { _controller: GrandsVoisinsBundle:Admin:saveOrganisation }
-
 userDelete:
     path:     /admin/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
@@ -65,10 +57,14 @@ webserviceDetail:
     path:     /webservice/detail
     defaults: { _controller: GrandsVoisinsBundle:Webservice:detail }
 
-home_orga:
-    path:     /orga/home
-    defaults: { _controller: GrandsVoisinsBundle:Organisation:home }
+all_orga:
+    path:     /orga/all
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:all }
 
-new_orga:
-    path:     /orga/new
-    defaults: { _controller: GrandsVoisinsBundle:Organisation:new }
+detail_orga:
+    path:     /orga/detail
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:newOrganisation }
+
+save_orga:
+    path:     /orga/save
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
