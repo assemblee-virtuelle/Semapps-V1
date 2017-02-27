@@ -33,13 +33,9 @@ profile:
     path:     /admin/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
-sfProfile:
-    path:     /admin/sfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userSFProfile }
-
-saveSfProfile:
-    path:     /admin/saveSfProfile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:userSaveSFProfile }
+profileSave:
+    path:     /admin/profile/save
+    defaults: { _controller: GrandsVoisinsBundle:Admin:profileSave }
 
 team:
     path:     /admin/invite

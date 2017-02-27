@@ -2,6 +2,7 @@
 
 namespace GrandsVoisinsBundle\Form;
 
+use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,62 +19,50 @@ class OrganisationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name',
-            TextType::class
+        $builder->add(
+          'name',
+          TextType::class
         )
-            ->add('batiment',
+          ->add(
+            'batiment',
             ChoiceType::class,
-            array('choices' =>
-                array(
-                    //TODO: envoyé le tableau dans option ?
-                    "maisonDesMedecins" => "Maison des médecins",
-                    "lepage"            => "Lepage",
-                    "pinard"            => "Pinard",
-                    "lelong"            => "Lelong",
-                    "pierrePetit"       => "Pierre Petit",
-                    "laMediatheque"     => "La Médiathèque",
-                    "ced"               => "CED",
-                    "oratoire"          => "Oratoire",
-                    "colombani"         => "Colombani",
-                    "laLingerie"        => "La Lingerie",
-                    "laChaufferie"      => "La Chaufferie",
-                    "robin"             => "Robin",
-                    "pasteur"           => "Pasteur",
-                    "jalaguier"         => "Jalaguier",
-                    "rapine"            => "Rapine",
-                )
+            array(
+              'choices' =>
+                GrandsVoisinsConfig::$buildings,
             )
-        )
-            ->add(
+          )
+          ->add(
             'username',
             TextType::class,
             array(
-                'mapped' => false,
-                'label'=> 'login',
-                'constraints' => array(
-                    new NotBlank(),
-                ),
+              'mapped'      => false,
+              'label'       => 'login',
+              'constraints' => array(
+                new NotBlank(),
+              ),
             )
-        )
-            ->add(
+          )
+          ->add(
             'email',
             EmailType::class,
             array(
-                'mapped' => false
+              'mapped' => false,
             )
-        )
-            ->add('submit', SubmitType::class, array());
+          )
+          ->add('submit', SubmitType::class, array());
 
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'GrandsVoisinsBundle\Entity\Organisation'
-        ));
+        $resolver->setDefaults(
+          array(
+            'data_class' => 'GrandsVoisinsBundle\Entity\Organisation',
+          )
+        );
     }
 
     /**
@@ -83,6 +72,4 @@ class OrganisationType extends AbstractType
     {
         return 'grandsvoisinsbundle_organisation';
     }
-
-
 }

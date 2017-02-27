@@ -28,18 +28,72 @@ class AdminController extends Controller
 
     public function profileAction()
     {
-        $json = file_get_contents(
-          $this->server.$this->baseLinkUserDisplayAction.$this->getUser()
-            ->getSfLink()
-        );
-        $json = json_decode($json, true);
+        $userSfLink   = $this->getUser()->getSfLink();
+        $sfClient = $this->container->get('semantic_forms.client');
+
+        if (!$userSfLink) {
+            $form = $sfClient->createFoaf('Person');
+        } else {
+            $form = $sfClient->getForm($userSfLink);
+        }
+
+        // decode the url in html name
+        foreach ($form["fields"] as $field) {
+            $form["htmlName"] = urldecode($field["htmlName"]);
+        }
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
-            "json" => $json,
+            "form" => $form,
           )
         );
+    }
+
+    public function profileSaveAction()
+    {
+        foreach ($_POST as $key => $value) {
+            unset($_POST[$key]);
+            $_POST[str_replace("_", '.', urldecode($key))] = $value;
+        }
+
+        $info = $this
+          ->container
+          ->get('semantic_forms.client')
+          ->send($_POST);
+
+        if ($info == 200) {
+            // Get the main user entity.
+            $userRepository = $this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:User');
+
+            // Update sfLink.
+            $userRepository
+              ->createQueryBuilder('q')
+              ->update()
+              ->set('q.sfLink', ':link')
+              ->where('q.id=:id')
+              ->setParameter('link', $_POST["uri"])
+              ->setParameter('id', $this->getUser()->getId())
+              ->getQuery()
+              ->execute();
+
+            $this->addFlash(
+              'success',
+              'tous est <b>ok !</b>'
+            );
+
+            return $this->redirectToRoute('profile');
+        } else {
+            $this->addFlash(
+              'success',
+              'quelque chose est <b>nok ...</b>'
+            );
+        }
+
+        return $this->redirectToRoute('sfProfile');
     }
 
     public function organisationAction()
@@ -238,78 +292,5 @@ class AdminController extends Controller
         }
 
         return $this->redirectToRoute('team');
-    }
-
-    public function userSFProfileAction()
-    {
-
-        $sfLink = $this->getUser()->getSfLink();
-        $sfClient = $this->container->get('semantic_forms.client');
-
-        if (is_null($sfLink)) {
-            $json = $sfClient->createFoaf('Person');
-        }
-        else {
-            $json = $sfClient->getForm($sfLink);
-        }
-
-        // decode the url in html name
-        foreach ($json["fields"] as $field) {
-            $field["htmlName"] = urldecode($field["htmlName"]);
-        }
-
-        return $this->render(
-          'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
-          array(
-            'form'      => $json,
-            'save_link' => $this->server.$this->baseLinkSaveAction,
-          )
-        );
-    }
-
-    public function userSaveSFProfileAction()
-    {
-        foreach ($_POST as $key => $value) {
-            unset($_POST[$key]);
-            $_POST[str_replace("_", '.',urldecode($key))] = $value;
-        }
-
-        $info = $this
-          ->container
-          ->get('semantic_forms.client')
-          ->send($_POST);
-
-        if ($info == 200) {
-            // Get the main user entity.
-            $userRepository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('GrandsVoisinsBundle:User');
-
-            // Update sfLink.
-            $userRepository
-              ->createQueryBuilder('q')
-              ->update()
-              ->set('q.sfLink', ':link')
-              ->where('q.id=:id')
-              ->setParameter('link', $_POST["uri"])
-              ->setParameter('id', $this->getUser()->getId())
-              ->getQuery()
-              ->execute();
-
-            $this->addFlash(
-              'success',
-              'tous est <b>ok !</b>'
-            );
-
-            return $this->redirectToRoute('profile');
-        } else {
-            $this->addFlash(
-              'success',
-              'quelque chose est <b>nok ...</b>'
-            );
-        }
-
-        return $this->redirectToRoute('sfProfile');
     }
 }

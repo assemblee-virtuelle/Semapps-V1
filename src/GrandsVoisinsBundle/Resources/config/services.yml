@@ -1,4 +1,4 @@
 services:
-#    grands_voisins.example:
-#        class: GrandsVoisinsBundle\Example
+    grands_voisins.config:
+        class: GrandsVoisinsBundle\GrandsVoisinsConfig
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
