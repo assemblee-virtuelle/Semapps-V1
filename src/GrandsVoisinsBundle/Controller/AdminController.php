@@ -11,11 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     private $server = 'http://localhost:9000';
-    private $baseLinkUserformAction = '/create-data?uri=&uri=http%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FPerson';
-    private $baseLinkSaveAction = '/save';
     private $baseLinkUserDisplayAction = '/form-data?displayuri='; //need the sf user link
-    private $baseLinkLoginAction = '/authenticate';
-    private $baseLinkformOrganization = '/create-data?uri=http%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FOrganization';
 
     public function homeAction()
     {
@@ -42,93 +38,6 @@ class AdminController extends Controller
         );
     }
 
-    public function organisationAction()
-    {
-        // questionner la base pour savoir si l'orga est deja créer
-
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:Organisation'
-        );
-        $organisation       = $organisationEntity->findOneById(
-          $this->GetUser()->getFkOrganisation()
-        );
-        if ($organisation->getSfOrganisation() == null) {
-            $json = file_get_contents(
-              $this->server.$this->baseLinkformOrganization
-            );
-        } else {
-            $json = file_get_contents(
-              $this->server.$this->baseLinkUserDisplayAction.$organisation->getSfOrganisation(
-              )
-            );
-        }
-
-        //transform the JSON in array
-        $data_json = json_decode($json, true);
-        //decode the url in html name
-        foreach ($data_json["fields"] as $field) {
-            $field["htmlName"] = urldecode($field["htmlName"]);
-        }
-
-
-        return $this->render(
-          'GrandsVoisinsBundle:Admin:organisation.html.twig',
-          array(
-            'organisation' => $data_json,
-            'save_link'    => $this->server.$this->baseLinkSaveAction,
-          )
-        );
-    }
-
-    public function saveOrganisationAction()
-    {
-        //set POST variables
-        $fields_string = '';
-        //url-ify the data for the POST
-        foreach ($_POST as $key => $value) {
-            $fields_string .= str_replace(
-                "_",
-                '.',
-                urldecode($key)
-              ).'='.$value.'&';
-        }
-        rtrim($fields_string, '&');
-        //set the url, number of POST vars, POST data
-        $info = $this->container
-          ->get('semantic_forms.client')
-          ->send($fields_string);
-
-        //TODO: a modifier pour prendre l'utilisateur courant !
-        if ($info == 200) {
-            $organisationEntity = $this->getDoctrine()
-              ->getManager()
-              ->getRepository('GrandsVoisinsBundle:Organisation');
-            $query              = $organisationEntity->createQueryBuilder('q')
-              ->update()
-              ->set('q.sfOrganisation', ':link')
-              ->where('q.id=:id')
-              ->setParameter('link', $_POST["uri"])
-              ->setParameter('id', $this->getUser()->getfkOrganisation())
-              ->getQuery();
-            $query->getResult();
-
-            $this->addFlash(
-              'success',
-              'tous est <b>ok !</b>'
-            );
-
-            return $this->redirectToRoute('profile');
-        } else {
-            $this->addFlash(
-              'success',
-              'quelque chose est <b>nok ...</b>'
-            );
-        }
-
-        return $this->redirectToRoute('organisation');
-    }
-
-
     /**
      * @param Request $request
      *
@@ -137,7 +46,6 @@ class AdminController extends Controller
     public function teamAction(Request $request)
     {
         // Find all users.
-        // TODO Filter users : get only users attaged to this organisation. <------- DONE !
         $userManager = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:User'
         );
@@ -248,9 +156,11 @@ class AdminController extends Controller
 
         if (is_null($sfLink)) {
             $json = $sfClient->createFoaf('Person');
+            $edit = false;
         }
         else {
             $json = $sfClient->getForm($sfLink);
+            $edit =true;
         }
 
         // decode the url in html name
@@ -262,13 +172,16 @@ class AdminController extends Controller
           'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
           array(
             'form'      => $json,
-            'save_link' => $this->server.$this->baseLinkSaveAction,
+            'edit'      => $edit
           )
         );
     }
 
     public function userSaveSFProfileAction()
     {
+        $edit = $_POST["edit"];
+        unset($_POST["edit"]);
+
         foreach ($_POST as $key => $value) {
             unset($_POST[$key]);
             $_POST[str_replace("_", '.',urldecode($key))] = $value;
@@ -280,23 +193,24 @@ class AdminController extends Controller
           ->send($_POST);
 
         if ($info == 200) {
-            // Get the main user entity.
-            $userRepository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('GrandsVoisinsBundle:User');
+            if(!$edit){
+                // Get the main user entity.
+                $userRepository = $this
+                  ->getDoctrine()
+                  ->getManager()
+                  ->getRepository('GrandsVoisinsBundle:User');
 
-            // Update sfLink.
-            $userRepository
-              ->createQueryBuilder('q')
-              ->update()
-              ->set('q.sfLink', ':link')
-              ->where('q.id=:id')
-              ->setParameter('link', $_POST["uri"])
-              ->setParameter('id', $this->getUser()->getId())
-              ->getQuery()
-              ->execute();
-
+                // Update sfLink.
+                $userRepository
+                  ->createQueryBuilder('q')
+                  ->update()
+                  ->set('q.sfLink', ':link')
+                  ->where('q.id=:id')
+                  ->setParameter('link', $_POST["uri"])
+                  ->setParameter('id', $this->getUser()->getId())
+                  ->getQuery()
+                  ->execute();
+            }
             $this->addFlash(
               'success',
               'tous est <b>ok !</b>'

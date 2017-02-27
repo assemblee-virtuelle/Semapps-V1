@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationController extends Controller
 {
-    public function homeAction(Request $request)
+    public function allAction(Request $request)
     {
 
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository('GrandsVoisinsBundle:Organisation');
@@ -85,7 +85,7 @@ class OrganisationController extends Controller
                 $user->getEmail() .
                 '</b> pour lui communiquer ses informations de connexion.'
             );
-            return $this->redirectToRoute('home_orga');
+            return $this->redirectToRoute('all_orga');
         }
         return $this->render('GrandsVoisinsBundle:Organisation:home.html.twig', array(
             "organisations" => $organisations,
@@ -93,11 +93,83 @@ class OrganisationController extends Controller
         ));
     }
 
-    public function newAction()
+    public function newOrganisationAction()
     {
-        return $this->render('GrandsVoisinsBundle:Organisation:new.html.twig', array(
-            // ...
-        ));
+        $sfClient = $this->container->get('semantic_forms.client');
+        // questionner la base pour savoir si l'orga est deja créer
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
+        $organisation = $organisationEntity->findOneById(
+            $this->GetUser()->getFkOrganisation()
+        );
+        if (is_null($organisation->getSfOrganisation())){
+            $json = $sfClient->createFoaf('Organization');
+            $edit = false;
+        }
+
+        else{
+            $json = $sfClient->getForm($organisation->getSfOrganisation());
+            $edit = true;
+        }
+        //decode the url in html name
+        foreach ($json["fields"] as $field) {
+            $field["htmlName"] = urldecode($field["htmlName"]);
+        }
+
+        return $this->render(
+            'GrandsVoisinsBundle:Organisation:organisation.html.twig',
+            array(
+                'organisation'  => $json,
+                'edit'          => $edit
+            )
+        );
+    }
+
+    public function saveOrganisationAction()
+    {
+        $edit = $_POST["edit"];
+        unset($_POST["edit"]);
+
+        foreach ($_POST as $key => $value) {
+            unset($_POST[$key]);
+            $_POST[str_replace("_", '.',urldecode($key))] = $value;
+        }
+
+        $info = $this->container
+            ->get('semantic_forms.client')
+            ->send($_POST);
+
+        //TODO: a modifier pour prendre l'utilisateur courant !
+        if ($info == 200) {
+            if(!$edit){
+                $organisationEntity = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GrandsVoisinsBundle:Organisation');
+                $query              = $organisationEntity->createQueryBuilder('q')
+                    ->update()
+                    ->set('q.sfOrganisation', ':link')
+                    ->where('q.id=:id')
+                    ->setParameter('link', $_POST["uri"])
+                    ->setParameter('id', $this->getUser()->getfkOrganisation())
+                    ->getQuery();
+                $query->getResult();
+            }
+
+            $this->addFlash(
+                'success',
+                'tous est <b>ok !</b>'
+            );
+
+            return $this->redirectToRoute('profile');
+
+        } else {
+            $this->addFlash(
+                'success',
+                'quelque chose est <b>nok ...</b>'
+            );
+            return $this->redirectToRoute('organisation');
+        }
     }
 
 }

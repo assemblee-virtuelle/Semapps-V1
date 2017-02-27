@@ -7,11 +7,11 @@
 {% block pageContent %}
     {{ parent() }}
     {{ dump(organisation) }}
-    <form action="{{ path('saveOrganisation') }}" method="post" id="form" >
+    <form action="{{ path('save_orga') }}" method="post" id="form" >
         <input name="url" value="{{ organisation.subject }}" type="hidden">
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
         <input name="graphURI" value="aa" type="hidden">
-
+        <input name="edit" value="{{ edit }}" type="hidden">
         {% for field in organisation.fields %}
             <div class="form-group">
                 <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>

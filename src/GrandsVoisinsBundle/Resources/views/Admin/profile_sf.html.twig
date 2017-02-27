@@ -10,7 +10,7 @@
         <input name="url" value="{{ form.subject }}" type="hidden">
         <input name="uri" value="{{ form.subject }}" type="hidden">
         <input name="graphURI" value="aa" type="hidden">
-
+        <input name="edit" value="{{ edit }}" type="hidden">
         {% for field in form.fields %}
             <div class="form-group">
                 <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>

@@ -68,7 +68,7 @@ class SemanticFormsClient
 
     public function getJSON($path, $options = [])
     {
-        return json_decode($this->get($path, $options),true);
+        return json_decode($this->get($path, $options),JSON_OBJECT_AS_ARRAY);
     }
 
     public function auth($login, $password)
