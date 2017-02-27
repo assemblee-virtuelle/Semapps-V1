@@ -269,22 +269,15 @@ class AdminController extends Controller
 
     public function userSaveSFProfileAction()
     {
-        //set POST variables
-        $fields_string = '';
-        //url-ify the data for the POST
         foreach ($_POST as $key => $value) {
-            $fields_string .= str_replace(
-                "_",
-                '.',
-                urldecode($key)
-              ).'='.$value.'&';
+            unset($_POST[$key]);
+            $_POST[str_replace("_", '.',urldecode($key))] = $value;
         }
-        rtrim($fields_string, '&');
-        //set the url, number of POST vars, POST data
+
         $info = $this
           ->container
           ->get('semantic_forms.client')
-          ->send($fields_string);
+          ->send($_POST);
 
         if ($info == 200) {
             // Get the main user entity.
@@ -317,6 +310,6 @@ class AdminController extends Controller
             );
         }
 
-        return $this->redirectToRoute('createSfProfile');
+        return $this->redirectToRoute('sfProfile');
     }
 }

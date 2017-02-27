@@ -3,13 +3,14 @@
 namespace VirtualAssembly\SemanticFormsBundle;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
 class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
-
+    var $cookieName = 'cookie.txt';
     public function __construct($domain, $login, $password, $timeout)
     {
         $this->domain   = $domain;
@@ -18,15 +19,34 @@ class SemanticFormsClient
         $this->timeout  = $timeout;
     }
 
-    public function buildClient()
+    public function buildClient($cookie ="")
     {
         return new Client(
           [
             'base_uri'        => 'http://'.$this->domain,
             'timeout'         => $this->timeout,
             'allow_redirects' => true,
+            'cookies'         => $cookie
           ]
         );
+    }
+
+    public function post($path, $options = [])
+    {
+        $cookie = new FileCookieJar($this->cookieName,true);
+        $client = $this->buildClient($cookie);
+
+        try {
+            $response = $client->request(
+                'POST',
+                $path,
+                $options
+            );
+
+            return $response;
+        } catch (RequestException $e) {
+            return $e;
+        }
     }
 
     public function get($path, $options = [])
@@ -53,8 +73,21 @@ class SemanticFormsClient
 
     public function auth($login, $password)
     {
-        $client = new Client();
+        $options =array( 'query' => array('userid'=>$login,'password' =>$password));
+        $cookie = new FileCookieJar($this->cookieName,true);
+        $client = $this->buildClient($cookie);
         // TODO use guzzle for authentication.
+        try {
+            $response = $client->request(
+                'GET',
+                '/authenticate',
+                $options
+            );
+
+            return $response->getBody();
+        } catch (RequestException $e) {
+            return $e;
+        }
     }
 
     public function getSemanticFormsUrl()
@@ -92,48 +125,18 @@ class SemanticFormsClient
 
     public function send($data)
     {
+        // TODO : use the account of the user
         $user     = $this->login;
         $password = $this->password;
 
-        //open connection
-        $ch = curl_init();
-        //set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkLoginAction);
-        //curl_setopt($ch,CURLOPT_POST, true);
-        // TODO : use the account of the user
-        // TODO Migrate into SF bundle.
-        curl_setopt(
-          $ch,
-          CURLOPT_POSTFIELDS,
-          "userid=".$user."&password=".$password
+        $this->auth($user,$password);
+        $response=$this->post(
+            '/save',
+            [
+                'form_params' => $data
+            ]
         );
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt(
-          $ch,
-          CURLOPT_COOKIEJAR,
-          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
-        );
-        //execute post
-        curl_exec($ch);
-        curl_setopt($ch, CURLOPT_URL, $this->server.$this->baseLinkSaveAction);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt(
-          $ch,
-          CURLOPT_COOKIEJAR,
-          dirname(__DIR__).'cookie/'.$this->getUser()->getUsername().'.txt'
-        );
-        curl_exec($ch);
-        $info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        //close connection
-        curl_close($ch);
-
-        return $info;
+        return $response->getStatusCode();
     }
 
     public function createFoaf($foafType)
