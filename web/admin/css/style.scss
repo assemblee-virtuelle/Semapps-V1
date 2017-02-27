@@ -1,5 +1,20 @@
 @import "../../common/css/style.scss";
 
+a {
+  color: $lgvSecondYellow;
+}
+
+a:hover {
+  @keyframes aHover {
+    0% { text-shadow: 0 0 0 rgba(0,0,0,0); }
+    1% { text-shadow: 1px 1px 0 rgba(0,0,0,.2); }
+    100% { text-shadow: 5px 5px 3px rgba(0,0,0,.1); }
+  }
+  text-decoration: none;
+  color: darken($lgvSecondYellow,10);
+  animation: aHover 3s  forwards;
+}
+
 header {
   background: $lgvMainYellow;
   .gv-logo-mini-inner {
@@ -75,10 +90,14 @@ input.form-control {
   background: #F5F5F5;
 }
 
-body {
-  .nav-tabs li.active a,
-  .nav-tabs li a {
-    cursor: pointer !important;
-  }
+.nav-tabs li.active a,
+.nav-tabs li a {
+  cursor: pointer !important;
 }
 
+.list {
+  color: $lgvMainYellow;
+  li span {
+    color: #555;
+  }
+}

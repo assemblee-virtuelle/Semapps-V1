@@ -15,6 +15,22 @@
   background: #F0F0F0;
   color: #555; }
 
+a {
+  color: #BB6600; }
+
+a:hover {
+  text-decoration: none;
+  color: #884a00;
+  animation: aHover 3s  forwards; }
+
+@keyframes aHover {
+  0% {
+    text-shadow: 0 0 0 transparent; }
+  1% {
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
+  100% {
+    text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
+
 header {
   background: #FFCC00; }
   header .gv-logo-mini-inner {
@@ -73,6 +89,11 @@ input.form-control {
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   background: #F5F5F5; }
 
-body .nav-tabs li.active a,
-body .nav-tabs li a {
+.nav-tabs li.active a,
+.nav-tabs li a {
   cursor: pointer !important; }
+
+.list {
+  color: #FFCC00; }
+  .list li span {
+    color: #555; }
