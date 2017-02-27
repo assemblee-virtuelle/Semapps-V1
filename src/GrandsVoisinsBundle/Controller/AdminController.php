@@ -246,8 +246,8 @@ class AdminController extends Controller
         $sfLink = $this->getUser()->getSfLink();
         $sfClient = $this->container->get('semantic_forms.client');
 
-        if ($sfLink) {
-            $json = $sfClient->createFoaf('person');
+        if (is_null($sfLink)) {
+            $json = $sfClient->createFoaf('Person');
         }
         else {
             $json = $sfClient->getForm($sfLink);

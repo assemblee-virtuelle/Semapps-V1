@@ -22,7 +22,7 @@ class SemanticFormsClient
     {
         return new Client(
           [
-            'baseuri'         => 'http://'.$this->domain,
+            'base_uri'        => 'http://'.$this->domain,
             'timeout'         => $this->timeout,
             'allow_redirects' => true,
           ]
@@ -36,7 +36,7 @@ class SemanticFormsClient
         try {
             $response = $client->request(
               'GET',
-              '/lookup',
+              $path,
               $options
             );
 
@@ -48,7 +48,7 @@ class SemanticFormsClient
 
     public function getJSON($path, $options = [])
     {
-        return json_decode($this->get($path, $options));
+        return json_decode($this->get($path, $options),true);
     }
 
     public function auth($login, $password)
