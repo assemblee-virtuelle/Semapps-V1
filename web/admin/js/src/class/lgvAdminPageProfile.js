@@ -2,9 +2,10 @@ class LgvAdminPageProfile extends LgvAdminPage {
   constructor(admin) {
     super(admin);
 
-    $('#profileEditButton').click(() => {
-      $('#profileRead').toggle();
-      $('#profileEdit').toggle();
+    // Click on edit profile button.
+    let $toggle = $('.profileEditToSwitch');
+    $('.profileEditSwitch').click(() => {
+      $toggle.toggle();
     });
   }
 }

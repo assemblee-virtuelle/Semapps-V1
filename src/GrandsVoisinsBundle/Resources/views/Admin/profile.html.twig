@@ -11,7 +11,7 @@
         <div class="col col-sm-12">
             <ul id="searchTabs" class="nav nav-tabs">
                 <li role="presentation" class="active pull-right">
-                    <a id="profileEditButton" href="#">
+                    <a class="profileEditSwitch" href="#">
                         <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editer
                     </a>
                 </li>
@@ -21,13 +21,16 @@
     <br>
 
     <div class="col-sm-3">
-        <a href="#" class="thumbnail">
-            <img src="{{ asset('common/images/bobby.jpg') }}" style="width:100%"
+        <a href="#" class="thumbnail" class="profileEditSwitch">
+            <img src="{{ asset('common/images/no_avatar.jpg') }}" style="width:100%"
                  alt="Picture">
         </a>
+        <div class="profileEditToSwitch" style="display:none">
+            <input type="file" class="form-control" id="changePicture" />
+        </div>
     </div>
     <form class="col-sm-9">
-        <div id="profileRead">
+        <div class="profileEditToSwitch">
             <h2>Prénom Nom</h2>
             <ul class="list">
                 <li><span>3 ans et demi</span></li>
@@ -35,7 +38,7 @@
                 <li><span>Site web : <a href="http://www.site.com" target="_blank">http://www.site.com</a></span></li>
             </ul>
         </div>
-        <div id="profileEdit" style="display:none">
+        <div class="profileEditToSwitch" style="display:none">
             {% if form is not null %}
                 <form action="{{ path('profileSave') }}" method="post"
                       id="form">
