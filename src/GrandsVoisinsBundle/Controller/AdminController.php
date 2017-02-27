@@ -24,8 +24,8 @@ class AdminController extends Controller
 
     public function profileAction()
     {
-        $userSfLink   = $this->getUser()->getSfLink();
-        $sfClient = $this->container->get('semantic_forms.client');
+        $userSfLink = $this->getUser()->getSfLink();
+        $sfClient   = $this->container->get('semantic_forms.client');
 
         if (!$userSfLink) {
             $form = $sfClient->createFoaf('Person');
@@ -33,9 +33,12 @@ class AdminController extends Controller
             $form = $sfClient->getForm($userSfLink);
         }
 
-        // decode the url in html name
-        foreach ($form["fields"] as $field) {
-            $form["htmlName"] = urldecode($field["htmlName"]);
+        // If errors, form will be null.
+        if ($form) {
+            // decode the url in html name
+            foreach ($form["fields"] as $field) {
+                $form["htmlName"] = urldecode($field["htmlName"]);
+            }
         }
 
         return $this->render(
