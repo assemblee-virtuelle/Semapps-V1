@@ -8,6 +8,8 @@ use GuzzleHttp\Exception\RequestException;
 
 class SemanticFormsClient
 {
+    var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
+
     public function __construct($domain, $login, $password, $timeout)
     {
         $this->domain   = $domain;
@@ -25,6 +27,28 @@ class SemanticFormsClient
             'allow_redirects' => true,
           ]
         );
+    }
+
+    public function get($path, $options = [])
+    {
+        $client = $this->buildClient();
+
+        try {
+            $response = $client->request(
+              'GET',
+              '/lookup',
+              $options
+            );
+
+            return $response->getBody();
+        } catch (RequestException $e) {
+            return $e;
+        }
+    }
+
+    public function getJSON($path, $options = [])
+    {
+        return json_decode($this->get($path, $options));
     }
 
     public function auth($login, $password)
@@ -55,24 +79,15 @@ class SemanticFormsClient
 
     public function search($term, $class = false)
     {
-        $client = $this->buildClient();
-
-        try {
-            $response = $client->request(
-              'GET',
-              $this->getSemanticFormsUrl().'/lookup',
-              [
-                'query' => [
-                  'QueryString' => $term,
-                  'QueryClass'  => $class,
-                ],
-              ]
-            );
-
-            return $response->getBody();
-        } catch (RequestException $e) {
-            return $e;
-        }
+        return $this->get(
+          '/lookup',
+          [
+            'query' => [
+              'QueryString' => $term,
+              'QueryClass'  => $class,
+            ],
+          ]
+        );
     }
 
     public function send($data)
@@ -119,5 +134,29 @@ class SemanticFormsClient
         curl_close($ch);
 
         return $info;
+    }
+
+    public function createFoaf($foafType)
+    {
+        return $this->getJSON(
+          '/create-data',
+          [
+            'query' => [
+              'uri' => $this->baseUrlFoaf.$foafType,
+            ],
+          ]
+        );
+    }
+
+    public function getForm($uri)
+    {
+        return $this->getJSON(
+          '/form-data',
+          [
+            'query' => [
+              'displayuri' => $uri,
+            ],
+          ]
+        );
     }
 }

@@ -242,27 +242,26 @@ class AdminController extends Controller
 
     public function userSFProfileAction()
     {
-        if ($this->getUser()->getSfLink() == null) {
-            $json = file_get_contents(
-              $this->server.$this->baseLinkUserformAction
-            );
-        } else {
-            $json = file_get_contents(
-              $this->server.$this->baseLinkUserDisplayAction.$this->getUser()
-                ->getSfLink()
-            );
+
+        $sfLink = $this->getUser()->getSfLink();
+        $sfClient = $this->container->get('semantic_forms.client');
+
+        if ($sfLink) {
+            $json = $sfClient->createFoaf('person');
+        }
+        else {
+            $json = $sfClient->getForm($sfLink);
         }
 
-        $data_json = json_decode($json, true);
-        //decode the url in html name
-        foreach ($data_json["fields"] as $field) {
+        // decode the url in html name
+        foreach ($json["fields"] as $field) {
             $field["htmlName"] = urldecode($field["htmlName"]);
         }
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile_sf.html.twig',
           array(
-            'form'      => $data_json,
+            'form'      => $json,
             'save_link' => $this->server.$this->baseLinkSaveAction,
           )
         );
