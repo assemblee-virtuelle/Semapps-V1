@@ -20,10 +20,13 @@ class sfProfileCreatedListener
     private $security;
     private $path;
 
-    public function __construct(UrlGeneratorInterface $router, TokenStorageInterface $security, $path )
-    {
+    public function __construct(
+      UrlGeneratorInterface $router,
+      TokenStorageInterface $security,
+      $path
+    ) {
         $this->router = $router;
-        $this->security =$security;
+        $this->security = $security;
         $this->path = $path;
     }
 
@@ -31,15 +34,32 @@ class sfProfileCreatedListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         //route qu'il esquive
-        if (strpos($event->getRequest()->getRequestUri(), "/_wdt"  ) === false && strpos($event->getRequest()->getRequestUri(), "/admin/saveSfProfile"  ) === false) {
-        //je regarde si l'utilisateur est connecté
-            if (  $this->security->getToken() != null) {
-                if (  $this->security->getToken()->getUsername() != "anon.") {
+        if (strpos(
+            $event->getRequest()->getRequestUri(),
+            "/_wdt"
+          ) === false && strpos(
+            $event->getRequest()->getRequestUri(),
+            "/admin/saveSfProfile"
+          ) === false
+        ) {
+            //je regarde si l'utilisateur est connecté
+            if ($this->security->getToken() != null) {
+                if ($this->security->getToken()->getUsername() != "anon.") {
                     //je regarde s'il n'a pas déjà un profile semantic form
-                    if ($this->security->getToken()->getUser()->getSfLink() == "") {
+                    if ($this->security->getToken()->getUser()->getSfLink(
+                      ) == ""
+                    ) {
                         //je regarde s'il va autre part que la route envoyé au listener ( doit être celle de sfProfile )
-                        if (strpos($event->getRequest()->getRequestUri(), $this->path) === false) {
-                            $event->setResponse(new RedirectResponse($this->router->generate('sfProfile')));
+                        if (strpos(
+                            $event->getRequest()->getRequestUri(),
+                            $this->path
+                          ) === false
+                        ) {
+                            $event->setResponse(
+                              new RedirectResponse(
+                                $this->router->generate('sfProfile')
+                              )
+                            );
                         }
                     }
                 }
