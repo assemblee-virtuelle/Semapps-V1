@@ -71,6 +71,10 @@ class OrganisationController extends Controller
             $em->persist($user);
             $em->flush();
 
+
+            $organisation->setFkResponsable($user->getId());
+            // tells Doctrine you want to (eventually) save the Product (no queries yet)
+
             // send email to th new organization
             $body = "Bonjour ".$user->getUsername()." !<br><br>
                     Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
