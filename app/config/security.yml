@@ -6,7 +6,8 @@ security:
         ROLE_MEMBER:      ROLE_USER
         ROLE_EDITOR:      ROLE_MEMBER
         ROLE_ADMIN:       ROLE_EDITOR
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_PATRON:      ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN,ROLE_PATRON
 
     providers:
         fos_userbundle:

@@ -140,7 +140,7 @@ class OrganisationController extends Controller
         foreach ($json["fields"] as $field) {
             $field["htmlName"] = urldecode($field["htmlName"]);
         }
-        dump($responsale);
+
         return $this->render(
             'GrandsVoisinsBundle:Organisation:organisation.html.twig',
             array(
