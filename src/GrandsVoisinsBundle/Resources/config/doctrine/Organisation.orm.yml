@@ -18,5 +18,7 @@ GrandsVoisinsBundle\Entity\Organisation:
         sfOrganisation:
             type: text
             nullable: true
-
+        fkResponsable:
+            type: integer
+            nullable: true
     lifecycleCallbacks: {  }

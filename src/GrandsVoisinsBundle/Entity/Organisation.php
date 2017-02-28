@@ -27,6 +27,7 @@ class Organisation
      */
     private $sfOrganisation;
 
+    private $fkResponsable;
 
     /**
      * Get id
@@ -109,5 +110,28 @@ class Organisation
     {
         return $this->sfOrganisation;
     }
-}
 
+    /**
+     * Set fkResponsable
+     *
+     * @param integer $fkResponsable
+     *
+     * @return Organisation
+     */
+    public function setFkResponsable($fkResponsable)
+    {
+        $this->fkResponsable = $fkResponsable;
+
+        return $this;
+    }
+
+    /**
+     * Get fkResponsable
+     *
+     * @return integer
+     */
+    public function getFkResponsable()
+    {
+        return $this->fkResponsable;
+    }
+}
