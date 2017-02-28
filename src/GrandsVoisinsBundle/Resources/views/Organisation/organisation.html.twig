@@ -1,12 +1,11 @@
 {% extends "::admin.html.twig" %}
 
-{% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
+{% block title %}GrandsVoisinsBundle:Organisation:home{% endblock %}
 
 {% block pageContentTitle %}Mon organisation{% endblock %}
 
 {% block pageContent %}
     {{ parent() }}
-    {{ dump(organisation) }}
     <form action="{{ path('save_orga') }}" method="post" id="form" >
         <input name="url" value="{{ organisation.subject }}" type="hidden">
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
@@ -29,3 +28,10 @@
         <input class="btn btn-primary-lgv pull-right" type="submit" value="sauvegarder">
     </form>
 {% endblock %}
+
+
+
+
+
+
+
