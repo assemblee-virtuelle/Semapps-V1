@@ -87,9 +87,9 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getLoginSF()
+    public function getGraphURI()
     {
-        return 'mailto:'.$this->getEmail();
+        return urlencode('mailto:'.$this->getEmail());
     }
 
 

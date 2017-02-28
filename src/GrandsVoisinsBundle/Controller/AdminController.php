@@ -45,6 +45,7 @@ class AdminController extends Controller
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
             "form" => $form,
+            "graphURI" => $this->getUser()->getGraphURI(),
           )
         );
     }
@@ -59,7 +60,7 @@ class AdminController extends Controller
         $info = $this
           ->container
           ->get('semantic_forms.client')
-          ->send($_POST);
+          ->send($_POST,$this->getUser()->getEmail(),$this->getUser()->getSfUser());
 
         if ($info == 200) {
             // Get the main user entity.

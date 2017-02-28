@@ -123,13 +123,9 @@ class SemanticFormsClient
         );
     }
 
-    public function send($data)
+    public function send($data,$login,$password)
     {
-        // TODO : use the account of the user
-        $user     = $this->login;
-        $password = $this->password;
-
-        $this->auth($user,$password);
+        $this->auth($login,$password);
         $response=$this->post(
             '/save',
             [
