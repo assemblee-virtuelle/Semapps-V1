@@ -38,9 +38,10 @@
                 <li><span>Site web : <a href="http://www.site.com" target="_blank">http://www.site.com</a></span></li>
             </ul>
         </div>
+    </form>
         <div class="profileEditToSwitch" style="display:none">
             {% if form is not null %}
-                <form action="{{ path('profileSave') }}" method="post"
+                <form class="col-sm-9" action="{{ path('profileSave') }}" method="post"
                       id="form">
                     <input name="url" value="{{ form.subject }}" type="hidden">
                     <input name="uri" value="{{ form.subject }}" type="hidden">
@@ -74,6 +75,5 @@
                 <div class="alert alert-info">Une erreur s'est produite lors de l'affichage du formulaire</div>
             {% endif %}
         </div>
-    </form>
 {% endblock %}
 
