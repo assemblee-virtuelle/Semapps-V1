@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 /**
  * Listener responsible to change the redirection at the end of the password resetting
@@ -18,15 +19,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class ConfirmRegistrationListener implements EventSubscriberInterface
 {
     private $router;
-    private $server = 'localhost:9000';
-    private $baseLinkRegisterAction = '/register';
     private $em;
+    private $sfClient;
 
-    public function __construct(UrlGeneratorInterface $router, TokenStorageInterface $security, EntityManager $em)
+    public function __construct(UrlGeneratorInterface $router, TokenStorageInterface $security, EntityManager $em, SemanticFormsClient $sfClient)
     {
         $this->router = $router;
         $this->security =$security;
         $this->em = $em;
+        $this->sfClient = $sfClient;
     }
 
     /**baseLinkRegisterAction
@@ -41,31 +42,11 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationConfirm(GetResponseUserEvent  $event)
     {
-
-        $ch = curl_init();
-        curl_setopt($ch,CURLOPT_URL, $this->server.$this->baseLinkRegisterAction);
-        curl_setopt($ch,CURLOPT_POST, 1);
-        curl_setopt($ch,CURLOPT_POSTFIELDS, "userid=".$event->getUser()->getEmail().'&'.
-            "password=".$event->getUser()->getSfUser().'&'.
-            "confirmPassword=".$event->getUser()->getSfUSer());
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_exec($ch);
-        curl_close($ch);
-
-
-        $userEntity = $this->em->getRepository('GrandsVoisinsBundle:User');
-        $query= $userEntity->createQueryBuilder('q')
-            ->update()
-            ->set('q.sfUser',':link')
-            ->where('q.id=:id')
-            ->setParameter('link',urlencode($event->getUser()->getEmail()))
-            ->setParameter('id',$event->getUser()->getId())
-            ->getQuery();
-        $query->getResult();
-
-
+        $data = array( "userid" => $event->getUser()->getEmail(), "password" =>$event->getUser()->getSfUser(),"confirmPassword" =>$event->getUser()->getSfUser());
+        $this->sfClient->post('/register',
+            [
+                'form_params' => $data
+            ]);
         $url = $this->router->generate('profile');
         $event->setResponse(new RedirectResponse($url));
     }
