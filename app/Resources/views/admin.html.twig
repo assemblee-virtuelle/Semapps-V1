@@ -132,7 +132,9 @@
                                         <h4>
                                             {{ app.user.username }}
                                             <br>
-                                            <small>Administrateur</small>
+                                            <small>{% if "ROLE_ADMIN" in app.user.roles %}Administrateur{% endif %}</small>
+                                            <small>{% if "ROLE_EDITOR" in app.user.roles %}Editeur{% endif %}</small>
+                                            <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
                                         </h4>
                                     </a>
                                 </li>
