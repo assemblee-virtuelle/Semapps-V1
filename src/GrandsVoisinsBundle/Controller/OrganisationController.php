@@ -167,7 +167,6 @@ class OrganisationController extends Controller
 
         $responsable = $userEntity->findOneBy(["email" =>explode(':',urldecode($_POST["graphURI"]))[1]]);
 
-        dump(["email" =>urldecode($_POST["graphURI"])]);
 
         $info = $this->container
             ->get('semantic_forms.client')

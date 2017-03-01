@@ -2,6 +2,8 @@
 
 namespace GrandsVoisinsBundle\Command;
 
+use GrandsVoisinsBundle\Entity\Organisation;
+use GrandsVoisinsBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +39,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
             });
             $questions['organization'] = $question;
         }
-
+        //TODO check if the building exist or not
         if (!$input->getArgument('buildings')) {
             $question = new Question('Please choose a name for the the buildings:');
             $question->setValidator(function($buildings) {
@@ -80,7 +82,13 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $service = $this->getContainer()->get('grands_voisins.command');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $token = $this->getContainer()->get('fos_user.util.token_generator');
+        $mailer = $this->getContainer()->get('GrandsVoisinsBundle.EventListener.SendMail');
+
+        $user = new User();
+        $organization = new Organisation();
+
         $organizationName = $input->getArgument('organization');
         $buildings = $input->getArgument('buildings');
         $username = $input->getArgument('username');
@@ -89,17 +97,48 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         if($input->getOption('manager') != false)array_push($role,"ROLE_PATRON");
 
         $output->writeln(sprintf("creating the organization %s with argumment: \n\t-name:%s \n\t-buildings:%s",$organizationName,$organizationName,$buildings));
-        $organization = $service->createOrganization($organizationName,$buildings);
+        $organization->setName($organizationName);
+        $organization->setBatiment($buildings);
+        $em->persist($organization);
+        $em->flush($organization);
         $output->writeln(sprintf("organization %s created !",$organizationName));
 
         $output->writeln(sprintf("creating the user %s with argument: \n\t-username:%s\n\t-email:%s\n\t-role:%s\n\t-organization id:%s",$username,$username,$email,implode(",", $role),$organization->getId())); // <-- finish
-        $userid = $service->createUser($username,$email,$role,$organization->getId());
+        $user->setUsername($username);
+        $user->setEmail($email);
+        $user->setRoles($role);
+        $user->setFkOrganisation($organization->getId());
+        // Generate password.
+        $randomPassword = substr($token->generateToken(), 0, 12);
+        $user->setPassword(
+            password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+        );
+        $user->setSfUser($randomPassword);
+
+        // Generate the token for the confirmation email
+        $conf_token = $token->generateToken();
+        $user->setConfirmationToken($conf_token);
+
+        $em->persist($user);
+        $em->flush($user);
         $output->writeln(sprintf("user %s created !",$username));
 
         $output->writeln(sprintf("updating the organization %s to place the user %s as responsible",$organizationName,$username));
-        $service->updateOrganization($organization,$userid);
+        $organization->setFkResponsable($user->getId());
+        $em->persist($organization);
+        $em->flush($organization);
         $output->writeln(sprintf("organization %s updated !",$organizationName));
 
+        $output->writeln(sprintf("sending the email for the user with:\n\t-username:%s\n\t-password:%s ",$username,$randomPassword));
+        $body = "Bonjour ".$user->getUsername()." !<br><br>
+                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
+                    Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
+                    Nom de compte : ".$user->getUsername()."<br>
+                    Mot de passe : ".$randomPassword."<br><br>
+                    Cordialement,
+                    L'équipe";
+        $mailer->sendConfirmMessage($user,$body);
+        $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');
     }
 
