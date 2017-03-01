@@ -6,25 +6,41 @@
 
 {% block pageContent %}
     {{ parent() }}
-    <form action="{{ path('save_orga') }}" method="post" id="form" >
+    <form action="{{ path('save_orga') }}" method="post" id="form">
         <input name="url" value="{{ organisation.subject }}" type="hidden">
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
         {% for field in organisation.fields %}
-            <div class="form-group">
+            {% if is_granted('ROLE_EDITOR') %}
+                <div class="form-group">
                 <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
                 {% if( field.label|lower == 'type') %}
                     <input  class="form-control" type="url" name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" >
                 {% else %}
                     {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                        <input  class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}">
+                        <input  class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}" >
                     {% else %}
                         <input  class="form-control" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
                     {% endif %}
+                    </div>
                 {% endif %}
-            </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                    {% if( field.label|lower == 'type') %}
+                        <input  class="form-control" type="url" name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" disabled="disabled" >
+                    {% else %}
+                        {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+                            <input  class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}" disabled="disabled">
+                        {% else %}
+                            <input  class="form-control" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" disabled="disabled" >
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endif %}
         {% endfor %}
+
         <input class="btn btn-primary-lgv pull-right" type="submit" value="sauvegarder">
     </form>
 {% endblock %}
