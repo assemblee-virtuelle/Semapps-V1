@@ -2,11 +2,13 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationController extends Controller
@@ -17,11 +19,11 @@ class OrganisationController extends Controller
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:Organisation'
         );
-        $organisations      = $organisationEntity->findAll();
+        $organisations = $organisationEntity->findAll();
 
         //form pour l'organisation
-        $organisation   = new Organisation();
-        $form           = $this->get('form.factory')->create(
+        $organisation = new Organisation();
+        $form = $this->get('form.factory')->create(
             OrganisationType::class,
             $organisation
         );
@@ -37,8 +39,12 @@ class OrganisationController extends Controller
             $em->persist($organisation);
 
             // actually executes the queries (i.e. the INSERT query)
-            $em->flush($organisation);
-
+            try {
+                $em->flush($organisation);
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "le nom de l'orgnanisation que vous avez saisi est déjà présent");
+                return $this->redirectToRoute('all_orga');
+            }
             //TODO find a way to call teamAction in admin
             //for the user
             $user = new User();
@@ -69,14 +75,33 @@ class OrganisationController extends Controller
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
-            $em->flush();
+            try {
+                $em->flush();
+            } catch (UniqueConstraintViolationException $e) {
+                //removing the organization added before
+                $em = $this->getDoctrine()->resetManager();
+                $em->remove($em->getRepository('GrandsVoisinsBundle:Organisation')->find($organisation->getId()));
+                $em->flush();
+                $this->addFlash('danger', "l'utilisateur saisi est déjà présent");
 
+                return $this->redirectToRoute('all_orga');
+            }
 
             $organisation->setFkResponsable($user->getId());
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($organisation);
-            $em->flush();
+            try {
+                $em->flush();
+            } catch (UniqueConstraintViolationException $e) {
+                //removing the organization and the user added before
+                $em = $this->getDoctrine()->resetManager();
+                $em->remove($em->getRepository('GrandsVoisinsBundle:User')->find($user->getId()));
+                $em->remove($em->getRepository('GrandsVoisinsBundle:Organisation')->find($organisation->getId()));
+                $em->flush();
+                $this->addFlash('danger', "Problème lors de la mise à jour des champs, veuillez contacter un administrateur");
 
+                return $this->redirectToRoute('all_orga');
+            }
             // send email to th new organization
             $body = "Bonjour " . $user->getUsername() . " !<br><br>
                     Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/" . $conf_token . ".<br><br>
@@ -165,12 +190,12 @@ class OrganisationController extends Controller
             'GrandsVoisinsBundle:User'
         );
 
-        $responsable = $userEntity->findOneBy(["email" =>explode(':',urldecode($_POST["graphURI"]))[1]]);
+        $responsable = $userEntity->findOneBy(["email" => explode(':', urldecode($_POST["graphURI"]))[1]]);
 
 
         $info = $this->container
             ->get('semantic_forms.client')
-            ->send($_POST,$responsable->getEmail(),$responsable->getSfUser());
+            ->send($_POST, $responsable->getEmail(), $responsable->getSfUser());
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {

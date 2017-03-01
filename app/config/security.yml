@@ -28,3 +28,4 @@ security:
         - { path: ^/register, role: ROLE_NO_ACCESS }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_MEMBER }
+        - { path: ^/orga/, role: ROLE_MEMBER }

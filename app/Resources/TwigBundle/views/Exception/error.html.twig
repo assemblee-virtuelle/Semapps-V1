@@ -1,0 +1,15 @@
+{% extends "::front.html.twig" %}
+
+{% block title %}Les Grands Voisins | ERROR {{ status_code }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Oops! Quelque chose c'est mal passée</h1>
+        <h2>Message : "{{ status_code }} {{ status_text }}".</h2>
+
+        <div class="row">
+            retourner à la <a href="{{ path('index') }}">page d'accueil</a><br>
+            retourner à la <a href="{{ path('admin') }}">page d'administration</a>
+        </div>
+    </div>
+{% endblock %}

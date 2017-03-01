@@ -1,6 +1,3 @@
 services:
     grands_voisins.config:
         class: GrandsVoisinsBundle\GrandsVoisinsConfig
-    grands_voisins.command:
-        class: GrandsVoisinsBundle\Services\GrandsVoisinsCommandServices
-        arguments: ["@doctrine.orm.entity_manager","@fos_user.util.token_generator"]

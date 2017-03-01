@@ -12,6 +12,7 @@ GrandsVoisinsBundle\Entity\Organisation:
         name:
             type: string
             length: 255
+            unique: true
         batiment:
             type: string
             length: 255
