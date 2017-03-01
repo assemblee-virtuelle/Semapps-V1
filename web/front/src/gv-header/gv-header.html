@@ -5,6 +5,12 @@
     <header id="gv-header">
       <div class="container">
         <div class="search row">
+          <form id="admin" action="/admin">
+            <div class="col col-sm-1 col-search-button">
+              <input class="form-control btn btn-info" type="submit"
+                     value="Admin">
+            </div>
+          </form>
           <form id="searchForm">
             <div class="col col-xs-12 col-sm-2 col-search-logo">
               <div class="logo-circle">
@@ -12,13 +18,14 @@
                 <h1>[[title]]</h1>
               </div>
             </div>
-            <div class="col col-sm-8 col-search-text">
+            <div class="col col-sm-7 col-search-text">
               <input id="searchText" class="form-control" type="text"
                      placeholder="Entrez ici un terme de recherche...">
             </div>
             <div class="col col-sm-2 col-search-button">
               <input class="form-control btn btn-info" type="submit"
                      value="Ok">
+
             </div>
           </form>
         </div>
