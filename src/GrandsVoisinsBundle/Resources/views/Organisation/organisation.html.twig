@@ -4,6 +4,21 @@
 
 {% block pageContentTitle %}Mon organisation{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('form/formInteractions.js') }}"></script>
+    <script type='text/javascript'>
+        $(document).ready( function () {
+            $(".form-group").on('click', '.add-widget', function (event) {
+                $model = $(this).parent().parent().find('.sf-value-block').first().children().last()
+                console.log('Clonage du champ :');
+                console.log($model);
+                cloneWidget($model)
+            });
+        })
+    </script>
+{% endblock %}
+
 {% block pageContent %}
     {{ parent() }}
     <form action="{{ path('save_orga') }}" method="post" id="form">
@@ -13,8 +28,12 @@
         <input name="edit" value="{{ edit }}" type="hidden">
         {% for field in organisation.fields %}
             {% if is_granted('ROLE_EDITOR') %}
-                <div class="form-group">
-                <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                <div class="form-group col col-lg-12">
+                    <div class="col-lg-4">
+                        <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                    </div>
+                    <div class="col-lg-6 sf-value-block">
+
                 {% if( field.label|lower == 'type') %}
                     <input  class="form-control" type="url" name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" >
                 {% else %}
@@ -23,8 +42,13 @@
                     {% else %}
                         <input  class="form-control" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
                     {% endif %}
-                    </div>
+
                 {% endif %}
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="button" class="btn btn-primary add-widget" readonly="yes" size="1" title="Add another value for label">add line</button>
+                    </div>
+                </div >
             {% else %}
                 <div class="form-group">
                     <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
