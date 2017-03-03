@@ -7,6 +7,7 @@
  * Time: 15:33
  */
 namespace GrandsVoisinsBundle\Services;
+use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\Templating\EngineInterface;
 use GrandsVoisinsBundle\Entity\User;
@@ -37,11 +38,11 @@ class Mailer
         $this->mailer->send($mail);
     }
 
-    public function sendConfirmMessage(User $user, $name, $conf_token, $randomPassword)
+    public function sendConfirmMessage(User $user, $name, $conf_token, $randomPassword, Organisation $organisation = null)
     {
         $subject = "Bonjour " . $user->getUsername();
         $to = $user->getEmail();
-        $body = GrandsVoisinsConfig::bodyMail($name, $user, $conf_token, $randomPassword);
+        $body = GrandsVoisinsConfig::bodyMail($name, $user, $conf_token, $randomPassword, $organisation);
         $this->sendMessage($to, $subject, $body);
     }
 }

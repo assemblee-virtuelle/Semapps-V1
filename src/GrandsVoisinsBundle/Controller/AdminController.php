@@ -145,7 +145,7 @@ class AdminController extends Controller
 
             //send email to the new user
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($data, GrandsVoisinsConfig::$team, $conf_token, $randomPassword);
+                ->sendConfirmMessage($data, GrandsVoisinsConfig::TEAM, $conf_token, $randomPassword);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.

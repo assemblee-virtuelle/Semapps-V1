@@ -105,7 +105,7 @@ class OrganisationController extends Controller
             }
             // send email to the new organization
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($user, GrandsVoisinsConfig::$organisation, $conf_token, $randomPassword);
+                ->sendConfirmMessage($user, GrandsVoisinsConfig::ORGANISATION, $conf_token, $randomPassword, $organisation);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
