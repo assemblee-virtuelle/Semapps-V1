@@ -3,7 +3,24 @@ Polymer({
   properties: {
     id: String,
     title: String,
-    description: String
+    description: String,
+    route: {
+      type: Object,
+      observer: '_routeChanged'
+    }
+  },
+
+  _routeChanged: function (data) {
+    // Don't know how to filter out this.
+    /*if (data.prefix === '/organization') {
+     window.GVCarto.ready(function () {
+     this.refresh(data.path.slice(1));
+     }.bind(this));
+     }
+     else {
+     // Hide all maps on live route change.
+     window.gvc && window.gvc.mapDeselectBuilding();
+     }*/
   },
 
   attached: function () {
