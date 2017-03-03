@@ -6,11 +6,13 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\TransferStats;
 
 class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
     var $cookieName = 'cookie.txt';
+
     public function __construct($domain, $login, $password, $timeout)
     {
         $this->domain   = $domain;
@@ -19,28 +21,28 @@ class SemanticFormsClient
         $this->timeout  = $timeout;
     }
 
-    public function buildClient($cookie ="")
+    public function buildClient($cookie = "")
     {
         return new Client(
           [
             'base_uri'        => 'http://'.$this->domain,
             'timeout'         => $this->timeout,
             'allow_redirects' => true,
-            'cookies'         => $cookie
+            'cookies'         => $cookie,
           ]
         );
     }
 
     public function post($path, $options = [])
     {
-        $cookie = new FileCookieJar($this->cookieName,true);
+        $cookie = new FileCookieJar($this->cookieName, true);
         $client = $this->buildClient($cookie);
 
         try {
             $response = $client->request(
-                'POST',
-                $path,
-                $options
+              'POST',
+              $path,
+              $options
             );
 
             return $response;
@@ -52,6 +54,18 @@ class SemanticFormsClient
     public function get($path, $options = [])
     {
         $client = $this->buildClient();
+
+        // Useful for debug to have full URL.
+        $options['on_stats'] = function (TransferStats $stats) use (&$url) {
+            $url = $stats->getEffectiveUri();
+        };
+
+        $options['headers'] = [
+            // Sign request.
+          'User-Agent' => 'GrandsVoisinsBundle',
+            // Ensure to get JSON response.
+          'Accept'     => 'application/json',
+        ];
 
         try {
             $response = $client->request(
@@ -68,31 +82,32 @@ class SemanticFormsClient
 
     public function getJSON($path, $options = [])
     {
-        return json_decode($this->get($path, $options),JSON_OBJECT_AS_ARRAY);
+        return json_decode($this->get($path, $options), JSON_OBJECT_AS_ARRAY);
     }
 
-    public function auth($login, $password)
+    public function auth($login = null, $password = null)
     {
-        $options =array( 'query' => array('userid'=>$login,'password' =>$password));
-        $cookie = new FileCookieJar($this->cookieName,true);
-        $client = $this->buildClient($cookie);
-        // TODO use guzzle for authentication.
+        $login    = $login ? $login : $this->login;
+        $password = $password ? $password : $this->password;
+        $options  = array(
+          'query' => array(
+            'userid'   => $login,
+            'password' => $password,
+          ),
+        );
+        $cookie   = new FileCookieJar($this->cookieName, true);
+        $client   = $this->buildClient($cookie);
         try {
             $response = $client->request(
-                'GET',
-                '/authenticate',
-                $options
+              'GET',
+              '/authenticate',
+              $options
             );
 
-            return $response->getBody();
+            return $response->getStatusCode();
         } catch (RequestException $e) {
             return $e;
         }
-    }
-
-    public function getSemanticFormsUrl()
-    {
-        return 'http://'.$this->domain;
     }
 
     /**
@@ -112,26 +127,29 @@ class SemanticFormsClient
 
     public function search($term, $class = false)
     {
-        return $this->get(
-          '/lookup',
-          [
-            'query' => [
-              'QueryString' => $term,
-              'QueryClass'  => $class,
-            ],
-          ]
+        return json_decode(
+          $this->get(
+            '/lookup',
+            [
+              'query' => [
+                'QueryString' => $term,
+                'QueryClass'  => $class ? $class : '',
+              ],
+            ]
+          )
         );
     }
 
-    public function send($data,$login,$password)
+    public function send($data, $login, $password)
     {
-        $this->auth($login,$password);
-        $response=$this->post(
-            '/save',
-            [
-                'form_params' => $data
-            ]
+        $this->auth($login, $password);
+        $response = $this->post(
+          '/save',
+          [
+            'form_params' => $data,
+          ]
         );
+
         return $response->getStatusCode();
     }
 

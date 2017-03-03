@@ -5,6 +5,7 @@ namespace GrandsVoisinsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Form\UserType;
+use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -148,15 +149,8 @@ class AdminController extends Controller
             }
 
             //send email to the new user
-            $body = "Bonjour ".$data->getUsername()." !<br><br>
-                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
-                    Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
-                    Nom de compte : ".$data->getUsername()."<br>
-                    Mot de passe : ".$randomPassword."<br><br>
-                    Cordialement,
-                    L'équipe";
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($data, $body);
+                ->sendConfirmMessage($data, GrandsVoisinsConfig::$team, $conf_token, $randomPassword);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
