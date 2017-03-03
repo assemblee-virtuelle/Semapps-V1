@@ -19,30 +19,30 @@ detail:
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
 admin:
-    path: /admin
+    path: /mon-compte
     defaults:
         _controller: FrameworkBundle:Redirect:urlRedirect
-        path: /admin/
+        path: /mon-compte/
         permanent: true
 
 home:
-    path:     /admin/
+    path:     /mon-compte/
     defaults: { _controller: GrandsVoisinsBundle:Admin:home }
 
 profile:
-    path:     /admin/profile
+    path:     /mon-compte/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
 profileSave:
-    path:     /admin/profile/save
+    path:     /mon-compte/profile/save
     defaults: { _controller: GrandsVoisinsBundle:Admin:profileSave }
 
 team:
-    path:     /admin/invite
+    path:     /mon-compte/invite
     defaults: { _controller: GrandsVoisinsBundle:Admin:team }
 
 userDelete:
-    path:     /admin/user/delete/{userId}
+    path:     /mon-compte/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
 
 webserviceBuilding:
