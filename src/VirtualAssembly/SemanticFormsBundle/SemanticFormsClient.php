@@ -76,7 +76,6 @@ class SemanticFormsClient
         $options =array( 'query' => array('userid'=>$login,'password' =>$password));
         $cookie = new FileCookieJar($this->cookieName,true);
         $client = $this->buildClient($cookie);
-        // TODO use guzzle for authentication.
         try {
             $response = $client->request(
                 'GET',
