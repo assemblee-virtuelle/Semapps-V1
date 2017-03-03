@@ -27,14 +27,12 @@ class WebserviceController extends Controller
         if ($term) {
             $sfClient = $this->container->get('semantic_forms.client');
             $response = $sfClient->search($term);
-             // It can be a DNS problem, but we deep look about timeouts.
+            // It can be a DNS problem, but we deep look about timeouts.
             if ($response instanceof RequestException) {
                 $output->error = 'TIMEOUT';
-            }
-            else if ($response instanceof Stream) {
+            } else if ($response instanceof Stream) {
                 $output->results = $response;
-            }
-            // We don't really know what happened.
+            } // We don't really know what happened.
             else {
                 $output->error = 'ERROR';
             }
