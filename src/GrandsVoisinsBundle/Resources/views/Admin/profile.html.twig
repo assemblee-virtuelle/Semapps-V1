@@ -7,7 +7,7 @@
     {{ parent() }}
     <script src="{{ asset('form/formInteractions.js') }}"></script>
     <script type='text/javascript'>
-        $(document).ready( function () {
+        $(document).ready(function () {
             $(".form-group").on('click', '.add-widget', function (event) {
                 $model = $(this).parent().parent().find('.sf-value-block').first().find('.ref').first();
                 console.log('Clonage du champ :');
@@ -39,7 +39,7 @@
                  alt="Picture">
         </a>
         <div class="profileEditToSwitch" style="display:none">
-            <input type="file" class="form-control" id="changePicture" />
+            <input type="file" class="form-control" id="changePicture"/>
         </div>
     </div>
     <form class="col-sm-9">
@@ -52,43 +52,57 @@
             </ul>
         </div>
     </form>
-        <div class="profileEditToSwitch" style="display:none">
-            {% if form is not null %}
-                <form class="col-sm-9" action="{{ path('profileSave') }}" method="post"
-                      id="form">
-                    <input name="url" value="{{ form.subject }}" type="hidden">
-                    <input name="uri" value="{{ form.subject }}" type="hidden">
-                    <input name="graphURI" value="{{ graphURI }}" type="hidden">
+    <div class="profileEditToSwitch" style="display:none">
+        {% if form is not null %}
+            <form class="col-sm-9" action="{{ path('profileSave') }}" method="post"
+                  id="form">
+                <input name="url" value="{{ form.subject }}" type="hidden">
+                <input name="uri" value="{{ form.subject }}" type="hidden">
+                <input name="graphURI" value="{{ graphURI }}" type="hidden">
+                {% set temp ='' %}
+                {% for field in form.fields %}
+                    <div class="form-group col col-lg-12">
+                        <div class="col-lg-4">
+                            {% if field.label != temp %}
+                                <label for="{{ field.label }}"
+                                       data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                            {% else %}
+                                <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-6 sf-value-block">
 
-                    {% for field in form.fields %}
-                        <div class="form-group col col-lg-12">
-                            <div class="col-lg-4">
-                                <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
-                            </div>
-                            <div class="col-lg-6 sf-value-block">
-
-                                {% if( field.label|lower == 'type') %}
-                                    <input  class="form-control" type="url" name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" >
+                            {% if( field.label|lower == 'type') %}
+                                <input class="form-control" type="url"
+                                       name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
+                                       value="{{ field.value }}">
+                            {% else %}
+                                {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+                                    <input class="form-control ref" type="url" name="{{ field.htmlName }}"
+                                           value="{{ field.value }}">
                                 {% else %}
-                                    {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                        <input  class="form-control ref" type="url" name="{{ field.htmlName }}" value="{{ field.value }}" >
-                                    {% else %}
-                                        <input  class="form-control ref" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
-                                    {% endif %}
-
+                                    <input class="form-control ref" type="{{ field.widgetType|lower|split(' ')[0] }}"
+                                           name={{ field.htmlName }} value="{{ field.value }}">
                                 {% endif %}
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-primary add-widget" readonly="yes" size="1" title="Add another value for label">add line</button>
-                            </div>
-                        </div >
-                    {% endfor %}
-                    <input class="btn btn-primary-lgv pull-right" type="submit"
-                           value="sauvegarder">
-                </form>
-            {% else %}
-                <div class="alert alert-info">Une erreur s'est produite lors de l'affichage du formulaire</div>
-            {% endif %}
-        </div>
+
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-2">
+                            {% if field.label != temp %}
+                                <button type="button" class="btn btn-primary add-widget" readonly="yes" size="1"
+                                        title="Add another value for label">add line
+                                </button>
+                                {% set temp =field.label %}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <input class="btn btn-primary-lgv pull-right" type="submit"
+                       value="sauvegarder">
+            </form>
+        {% else %}
+            <div class="alert alert-info">Une erreur s'est produite lors de l'affichage du formulaire</div>
+        {% endif %}
+    </div>
 {% endblock %}
 
