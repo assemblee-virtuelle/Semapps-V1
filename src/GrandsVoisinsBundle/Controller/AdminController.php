@@ -86,14 +86,14 @@ class AdminController extends AbstractController
 
             $this->addFlash(
               'success',
-              'tous est <b>ok !</b>'
+              'Votre profil a bien été mis à jour.'
             );
 
             return $this->redirectToRoute('profile');
         } else {
             $this->addFlash(
               'success',
-              'quelque chose est <b>nok ...</b>'
+              'Une erreur s\'est produite. Merci de contacter l\'administrateur du site <a href="mailto:romain.weeger@wexample.com">romain.weeger@wexample.com</a>.'
             );
         }
 
