@@ -10,7 +10,7 @@
     <script type='text/javascript'>
         $(document).ready( function () {
             $(".form-group").on('click', '.add-widget', function (event) {
-                $model = $(this).parent().parent().find('.sf-value-block').first().children().last()
+                $model = $(this).parent().parent().find('.sf-value-block').first().find('.ref').first();
                 console.log('Clonage du champ :');
                 console.log($model);
                 cloneWidget($model)
@@ -38,9 +38,9 @@
                     <input  class="form-control" type="url" name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+." value="{{ field.value }}" >
                 {% else %}
                     {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                        <input  class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}" >
+                        <input  class="form-control ref" type="url" name="{{ field.htmlName }}" value="{{ field.value }}" >
                     {% else %}
-                        <input  class="form-control" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
+                        <input  class="form-control ref" type="{{  field.widgetType|lower|split(' ')[0] }}" name={{ field.htmlName }} value="{{ field.value }}" >
                     {% endif %}
 
                 {% endif %}

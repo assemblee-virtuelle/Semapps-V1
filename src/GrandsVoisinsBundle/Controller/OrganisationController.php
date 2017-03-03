@@ -175,11 +175,6 @@ class OrganisationController extends Controller
         $edit = $_POST["edit"];
         unset($_POST["edit"]);
 
-        foreach ($_POST as $key => $value) {
-            unset($_POST[$key]);
-            $_POST[str_replace("_", '.', urldecode($key))] = $value;
-        }
-
         $userEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:User'
         );

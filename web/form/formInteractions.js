@@ -10,8 +10,16 @@ function cloneWidget(widget) {
     addedWidget
         .addClass('hasLookup form-control ui-autocomplete-input')
         .attr('id', widget.attr('id')+'-'+cardinal)
-        .attr('name', widget.attr('name'))
         .attr('type',widget.attr('type'));
+    if(widget.attr('name').includes('[0]')){
+
+        addedWidget.attr('name',widget.attr('name').substring(0,widget.attr('name').length-3)+"["+cardinal+"]");
+    }
+    else
+    {
+        addedWidget.attr('name', widget.attr('name')+'['+cardinal+']');
+        widget.attr('name',widget.attr('name')+'[0]');
+    }
 
     parent.prepend(addedWidget, widget);
     addedWidget.focus();
