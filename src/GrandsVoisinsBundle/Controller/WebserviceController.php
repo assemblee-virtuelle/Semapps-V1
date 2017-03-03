@@ -30,8 +30,9 @@ class WebserviceController extends Controller
             // It can be a DNS problem, but we deep look about timeouts.
             if ($response instanceof RequestException) {
                 $output->error = 'TIMEOUT';
-            } else if ($response instanceof Stream) {
-                $output->results = $response;
+            } // Success
+            else if (is_object($response)) {
+                $output->results = $response->results;
             } // We don't really know what happened.
             else {
                 $output->error = 'ERROR';

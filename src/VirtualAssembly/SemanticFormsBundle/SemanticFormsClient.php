@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\TransferStats;
 
 class SemanticFormsClient
 {
@@ -54,6 +55,18 @@ class SemanticFormsClient
     {
         $client = $this->buildClient();
 
+        // Useful for debug to have full URL.
+        $options['on_stats'] = function (TransferStats $stats) use (&$url) {
+            $url = $stats->getEffectiveUri();
+        };
+
+        $options['headers'] = [
+            // Sign request.
+          'User-Agent' => 'GrandsVoisinsBundle',
+            // Ensure to get JSON response.
+          'Accept'     => 'application/json',
+        ];
+
         try {
             $response = $client->request(
               'GET',
@@ -74,22 +87,23 @@ class SemanticFormsClient
 
     public function auth($login = null, $password = null)
     {
-        $login = $login ? $login : $this->login;
+        $login    = $login ? $login : $this->login;
         $password = $password ? $password : $this->password;
-        $options = array(
+        $options  = array(
           'query' => array(
             'userid'   => $login,
             'password' => $password,
           ),
         );
-        $cookie  = new FileCookieJar($this->cookieName, true);
-        $client  = $this->buildClient($cookie);
+        $cookie   = new FileCookieJar($this->cookieName, true);
+        $client   = $this->buildClient($cookie);
         try {
             $response = $client->request(
               'GET',
               '/authenticate',
               $options
             );
+
             return $response->getStatusCode();
         } catch (RequestException $e) {
             return $e;
@@ -113,14 +127,16 @@ class SemanticFormsClient
 
     public function search($term, $class = false)
     {
-        return $this->get(
-          '/lookup',
-          [
-            'query' => [
-              'QueryString' => $term,
-              'QueryClass'  => $class,
-            ],
-          ]
+        return json_decode(
+          $this->get(
+            '/lookup',
+            [
+              'query' => [
+                'QueryString' => $term,
+                'QueryClass'  => $class ? $class : '',
+              ],
+            ]
+          )
         );
     }
 
