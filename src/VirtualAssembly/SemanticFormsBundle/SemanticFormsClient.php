@@ -11,6 +11,7 @@ class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
     var $cookieName = 'cookie.txt';
+
     public function __construct($domain, $login, $password, $timeout)
     {
         $this->domain   = $domain;
@@ -19,28 +20,28 @@ class SemanticFormsClient
         $this->timeout  = $timeout;
     }
 
-    public function buildClient($cookie ="")
+    public function buildClient($cookie = "")
     {
         return new Client(
           [
             'base_uri'        => 'http://'.$this->domain,
             'timeout'         => $this->timeout,
             'allow_redirects' => true,
-            'cookies'         => $cookie
+            'cookies'         => $cookie,
           ]
         );
     }
 
     public function post($path, $options = [])
     {
-        $cookie = new FileCookieJar($this->cookieName,true);
+        $cookie = new FileCookieJar($this->cookieName, true);
         $client = $this->buildClient($cookie);
 
         try {
             $response = $client->request(
-                'POST',
-                $path,
-                $options
+              'POST',
+              $path,
+              $options
             );
 
             return $response;
@@ -68,19 +69,24 @@ class SemanticFormsClient
 
     public function getJSON($path, $options = [])
     {
-        return json_decode($this->get($path, $options),JSON_OBJECT_AS_ARRAY);
+        return json_decode($this->get($path, $options), JSON_OBJECT_AS_ARRAY);
     }
 
     public function auth($login, $password)
     {
-        $options =array( 'query' => array('userid'=>$login,'password' =>$password));
-        $cookie = new FileCookieJar($this->cookieName,true);
-        $client = $this->buildClient($cookie);
+        $options = array(
+          'query' => array(
+            'userid'   => $login,
+            'password' => $password,
+          ),
+        );
+        $cookie  = new FileCookieJar($this->cookieName, true);
+        $client  = $this->buildClient($cookie);
         try {
             $response = $client->request(
-                'GET',
-                '/authenticate',
-                $options
+              'GET',
+              '/authenticate',
+              $options
             );
 
             return $response->getBody();
@@ -122,15 +128,16 @@ class SemanticFormsClient
         );
     }
 
-    public function send($data,$login,$password)
+    public function send($data, $login, $password)
     {
-        $this->auth($login,$password);
-        $response=$this->post(
-            '/save',
-            [
-                'form_params' => $data
-            ]
+        $this->auth($login, $password);
+        $response = $this->post(
+          '/save',
+          [
+            'form_params' => $data,
+          ]
         );
+
         return $response->getStatusCode();
     }
 
