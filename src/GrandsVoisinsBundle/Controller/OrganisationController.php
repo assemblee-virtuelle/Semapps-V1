@@ -7,6 +7,7 @@ use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
+use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,16 +103,9 @@ class OrganisationController extends Controller
 
                 return $this->redirectToRoute('all_orga');
             }
-            // send email to th new organization
-            $body = "Bonjour " . $user->getUsername() . " !<br><br>
-                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/" . $conf_token . ".<br><br>
-                    Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
-                    Nom de compte : " . $user->getUsername() . "<br>
-                    Mot de passe : " . $randomPassword . "<br><br>
-                    Cordialement,
-                    L'équipe";
+            // send email to the new organization
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($user, $body);
+                ->sendConfirmMessage($user, GrandsVoisinsConfig::$organisation, $conf_token, $randomPassword);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.

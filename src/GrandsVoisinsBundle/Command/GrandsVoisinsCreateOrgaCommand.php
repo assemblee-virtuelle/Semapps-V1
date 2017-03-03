@@ -4,6 +4,7 @@ namespace GrandsVoisinsBundle\Command;
 
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
+use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -130,14 +131,8 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $output->writeln(sprintf("organization %s updated !",$organizationName));
 
         $output->writeln(sprintf("sending the email for the user with:\n\t-username:%s\n\t-password:%s ",$username,$randomPassword));
-        $body = "Bonjour ".$user->getUsername()." !<br><br>
-                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$conf_token.".<br><br>
-                    Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
-                    Nom de compte : ".$user->getUsername()."<br>
-                    Mot de passe : ".$randomPassword."<br><br>
-                    Cordialement,
-                    L'équipe";
-        $mailer->sendConfirmMessage($user,$body);
+
+        $mailer->sendConfirmMessage($user, GrandsVoisinsConfig::$organisation, $conf_token, $randomPassword);
         $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');
     }
