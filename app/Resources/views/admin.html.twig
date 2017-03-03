@@ -112,74 +112,76 @@
 
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <div class="row affix-row">
-            <div class="col-sm-3 col-md-2 affix-sidebar">
-                <div class="sidebar-nav">
-                    <div class="navbar navbar-default" role="navigation">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle"
-                                    data-toggle="collapse"
-                                    data-target=".sidebar-navbar-collapse">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+            {% if menuVisible %}
+                <div class="col-sm-3 col-md-2 affix-sidebar">
+                    <div class="sidebar-nav">
+                        <div class="navbar navbar-default" role="navigation">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle"
+                                        data-toggle="collapse"
+                                        data-target=".sidebar-navbar-collapse">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="navbar-collapse collapse sidebar-navbar-collapse">
+                                <ul class="nav navbar-nav" id="sidenav01">
+                                    <li class="active">
+                                        <a href="#">
+                                            <h4>
+                                                {{ app.user.username }}
+                                                <br>
+                                                <small>{% if "ROLE_ADMIN" in app.user.roles %}Administrateur{% endif %}</small>
+                                                <small>{% if "ROLE_EDITOR" in app.user.roles %}Editeur{% endif %}</small>
+                                                <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
+                                            </h4>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('home') }}">
+                                            <span class="glyphicon glyphicon-home"></span>
+                                            Accueil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('profile') }}">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                            Mon profil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('detail_orga') }}">
+                                            <span class="glyphicon glyphicon-tower"></span>
+                                            Mon organisation
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('team') }}">
+                                            <span class="glyphicon glyphicon-record"></span>
+                                            Equipe
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('all_orga') }}">
+                                            <span class="glyphicon glyphicon-globe"></span>
+                                            Les organisations
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('settings') }}">
+                                            <span class="glyphicon glyphicon-cog"></span>
+                                            Paramètres
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div><!--/.nav-collapse -->
                         </div>
-                        <div class="navbar-collapse collapse sidebar-navbar-collapse">
-                            <ul class="nav navbar-nav" id="sidenav01">
-                                <li class="active">
-                                    <a href="#">
-                                        <h4>
-                                            {{ app.user.username }}
-                                            <br>
-                                            <small>{% if "ROLE_ADMIN" in app.user.roles %}Administrateur{% endif %}</small>
-                                            <small>{% if "ROLE_EDITOR" in app.user.roles %}Editeur{% endif %}</small>
-                                            <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
-                                        </h4>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('home') }}">
-                                        <span class="glyphicon glyphicon-home"></span>
-                                        Accueil
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('profile') }}">
-                                        <span class="glyphicon glyphicon-user"></span>
-                                        Mon profil
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('detail_orga') }}">
-                                        <span class="glyphicon glyphicon-tower"></span>
-                                        Mon organisation
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('team') }}">
-                                        <span class="glyphicon glyphicon-record"></span>
-                                        Equipe
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('all_orga') }}">
-                                        <span class="glyphicon glyphicon-globe"></span>
-                                        Les organisations
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('settings') }}">
-                                        <span class="glyphicon glyphicon-cog"></span>
-                                        Paramètres
-                                    </a>
-                                </li>
-                            </ul>
-                        </div><!--/.nav-collapse -->
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-9 col-md-10 affix-content">
+            {% endif %}
+            <div class="{% if menuVisible %}col-sm-9 col-md-10{% else %}col-sm-12 col-md-12{% endif %} affix-content">
                 <div class="page-header">
                     <h1><span class="glyphicon glyphicon-home"></span>
                         {% block pageContentTitle %}Titre{% endblock %}</h1>

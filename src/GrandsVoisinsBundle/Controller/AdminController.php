@@ -10,15 +10,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
 
     public function homeAction()
     {
         return $this->render(
-            'GrandsVoisinsBundle:Admin:home.html.twig',
-            array(// ...
-            )
+          'GrandsVoisinsBundle:Admin:home.html.twig',
+          array(// ...
+          )
         );
     }
 
@@ -42,11 +42,11 @@ class AdminController extends Controller
         }
 
         return $this->render(
-            'GrandsVoisinsBundle:Admin:profile.html.twig',
-            array(
-                "form" => $form,
-                "graphURI" => $this->getUser()->getGraphURI(),
-            )
+          'GrandsVoisinsBundle:Admin:profile.html.twig',
+          array(
+            "form"     => $form,
+            "graphURI" => $this->getUser()->getGraphURI(),
+          )
         );
     }
 
@@ -58,42 +58,46 @@ class AdminController extends Controller
         }
 
         $info = $this
-            ->container
-            ->get('semantic_forms.client')
-            ->send($_POST,$this->getUser()->getEmail(),$this->getUser()->getSfUser());
+          ->container
+          ->get('semantic_forms.client')
+          ->send(
+            $_POST,
+            $this->getUser()->getEmail(),
+            $this->getUser()->getSfUser()
+          );
 
         if ($info == 200) {
             // Get the main user entity.
             $userRepository = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('GrandsVoisinsBundle:User');
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:User');
 
             // Update sfLink.
             $userRepository
-                ->createQueryBuilder('q')
-                ->update()
-                ->set('q.sfLink', ':link')
-                ->where('q.id=:id')
-                ->setParameter('link', $_POST["uri"])
-                ->setParameter('id', $this->getUser()->getId())
-                ->getQuery()
-                ->execute();
+              ->createQueryBuilder('q')
+              ->update()
+              ->set('q.sfLink', ':link')
+              ->where('q.id=:id')
+              ->setParameter('link', $_POST["uri"])
+              ->setParameter('id', $this->getUser()->getId())
+              ->getQuery()
+              ->execute();
 
             $this->addFlash(
-                'success',
-                'tous est <b>ok !</b>'
+              'success',
+              'tous est <b>ok !</b>'
             );
 
             return $this->redirectToRoute('profile');
         } else {
             $this->addFlash(
-                'success',
-                'quelque chose est <b>nok ...</b>'
+              'success',
+              'quelque chose est <b>nok ...</b>'
             );
         }
 
-        return $this->redirectToRoute('sfProfile');
+        return $this->redirectToRoute('profile');
     }
 
     /**
@@ -105,10 +109,10 @@ class AdminController extends Controller
     {
         // Find all users.
         $userManager = $this->getDoctrine()->getManager()->getRepository(
-            'GrandsVoisinsBundle:User'
+          'GrandsVoisinsBundle:User'
         );
         $users       = $userManager->findBy(
-            array('fkOrganisation' => $this->getUser()->getFkOrganisation())
+          array('fkOrganisation' => $this->getUser()->getFkOrganisation())
         );
 
         $form = $this->get('form.factory')->create(UserType::class);
@@ -121,11 +125,11 @@ class AdminController extends Controller
 
             // Generate password.
             $tokenGenerator = $this->container->get(
-                'fos_user.util.token_generator'
+              'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
             $data->setPassword(
-                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $data->setSfUser($randomPassword);
@@ -141,26 +145,32 @@ class AdminController extends Controller
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
-            try{
+            try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('danger', "l'utilisateur saisi existe déjà");
+
                 return $this->redirectToRoute('team');
             }
 
             //send email to the new user
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($data, GrandsVoisinsConfig::$team, $conf_token, $randomPassword);
+              ->sendConfirmMessage(
+                $data,
+                GrandsVoisinsConfig::$team,
+                $conf_token,
+                $randomPassword
+              );
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
             $this->addFlash(
-                'success',
-                'Un compte à bien été créé pour <b>'.
-                $data->getUsername().
-                '</b>. Un email a été envoyé à <b>'.
-                $data->getEmail().
-                '</b> pour lui communiquer ses informations de connexion.'
+              'success',
+              'Un compte à bien été créé pour <b>'.
+              $data->getUsername().
+              '</b>. Un email a été envoyé à <b>'.
+              $data->getEmail().
+              '</b> pour lui communiquer ses informations de connexion.'
             );
 
             // Go back to team page.
@@ -168,11 +178,11 @@ class AdminController extends Controller
         }
 
         return $this->render(
-            'GrandsVoisinsBundle:Admin:team.html.twig',
-            array(
-                'users'       => $users,
-                'formAddUser' => $form->createView(),
-            )
+          'GrandsVoisinsBundle:Admin:team.html.twig',
+          array(
+            'users'       => $users,
+            'formAddUser' => $form->createView(),
+          )
         );
     }
 
@@ -185,18 +195,18 @@ class AdminController extends Controller
         if (!$user) {
             // Display error message.
             $this->addFlash(
-                'danger',
-                'Utilisateur introuvable.'
+              'danger',
+              'Utilisateur introuvable.'
             );
         } else {
             // Delete.
             $userManager->deleteUser($user);
             // Display success message.
             $this->addFlash(
-                'success',
-                'Le compte de <b>'.
-                $user->getUsername().
-                '</b> a bien été supprimé.'
+              'success',
+              'Le compte de <b>'.
+              $user->getUsername().
+              '</b> a bien été supprimé.'
             );
         }
 

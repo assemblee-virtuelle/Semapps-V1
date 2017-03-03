@@ -38,9 +38,9 @@
             </form>
         </div>
         <div class="col col-sm-6 col-sm-offset-1">
-            <div class="alert-bobby">
-                <div class="alert-bobby-inner">
-                    <h3> Salut à toi Ô Voisin !</h3>
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Salut à toi Ô Voisin !{% endblock %}
+                {% block content %}
                     <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur l’application de cartographie des Grands Voisins !</p>
 
                     <p>Tu as sans doute remarqué que tu ne pouvais pas te créer un compte tout seul. C’est normal, il s’agit d’un outil interne aux Grands Voisins :</p>
@@ -48,8 +48,8 @@
                     <p>Si tu es affilié à une organisation, un référent de ta structure a du t’attribuer un identifiant / mot de passe. Demande lui si ce n’est pas le cas !</p>
 
                     <p>Si tu es résident et que tu n’as pas reçu d’identifiant, écris un mail à c.gondouin@aurore.asso.fr</p>
-                </div>
-            </div>
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 </div>

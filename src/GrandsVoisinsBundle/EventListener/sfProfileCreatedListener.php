@@ -48,7 +48,12 @@ class sfProfileCreatedListener
             ) {
                 $event->setResponse(
                   new RedirectResponse(
-                    $this->router->generate($this->route)
+                    $this->router->generate(
+                      $this->route,
+                      [
+                        'edit' => true,
+                      ]
+                    )
                   )
                 );
             }

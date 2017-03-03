@@ -7,5 +7,10 @@ class LgvAdminPageProfile extends LgvAdminPage {
     $('.profileEditSwitch').click(() => {
       $toggle.toggle();
     });
+
+    // Display form if asked.
+    if (this.getParameterByName('edit')) {
+      $toggle.toggle();
+    }
   }
 }

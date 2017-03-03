@@ -4,13 +4,11 @@ namespace GrandsVoisinsBundle\Controller;
 
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GuzzleHttp\Client;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Stream;
 
-class WebserviceController extends Controller
+class WebserviceController extends AbstractController
 {
 
     public function buildingAction()

@@ -8,11 +8,9 @@ use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
-class OrganisationController extends Controller
+class OrganisationController extends AbstractController
 {
     public function allAction(Request $request)
     {

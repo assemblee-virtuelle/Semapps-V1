@@ -2,9 +2,7 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
     public function indexAction()
     {
