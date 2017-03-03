@@ -182,8 +182,7 @@ class SemanticFormsClient
             unset($data[$key]);
             if (is_array($value)) {
                 foreach ($value as $newValue) {
-                    dump($newValue);
-                    $test= $newValue;
+
                     $temp = explode('+', $key);
                     $temp[0] .= '+';
                     $temp[1] .= '+';
@@ -191,7 +190,6 @@ class SemanticFormsClient
                         $temp[2] = '<' . $newValue . '>+';
                     else
                         $temp[2] = '"' . $newValue . '"+';
-                    dump('$data['. str_replace("_", '.', urldecode(implode($temp))).']='.$newValue);
                     $data[str_replace("_", '.', urldecode(implode($temp)))] = $newValue;
                 }
             } else
