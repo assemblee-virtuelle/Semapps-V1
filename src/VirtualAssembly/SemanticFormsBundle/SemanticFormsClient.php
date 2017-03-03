@@ -72,8 +72,10 @@ class SemanticFormsClient
         return json_decode($this->get($path, $options), JSON_OBJECT_AS_ARRAY);
     }
 
-    public function auth($login, $password)
+    public function auth($login = null, $password = null)
     {
+        $login = $login ? $login : $this->login;
+        $password = $password ? $password : $this->password;
         $options = array(
           'query' => array(
             'userid'   => $login,
@@ -88,8 +90,7 @@ class SemanticFormsClient
               '/authenticate',
               $options
             );
-
-            return $response->getBody();
+            return $response->getStatusCode();
         } catch (RequestException $e) {
             return $e;
         }
