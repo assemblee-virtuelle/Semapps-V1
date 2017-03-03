@@ -15,13 +15,20 @@
   background: #F0F0F0;
   color: #555; }
 
+@font-face {
+  font-family: "Quicksand";
+  src: url("../../common/fonts/quicksand/Quicksand-Regular.ttf"); }
+
+* {
+  font-family: Quicksand; }
+
 a {
   color: #BB6600; }
 
 a:hover {
   text-decoration: none;
   color: #884a00;
-  animation: aHover 3s  forwards; }
+  animation: aHover 3s forwards; }
 
 @keyframes aHover {
   0% {
@@ -97,3 +104,27 @@ input.form-control {
   color: #FFCC00; }
   .list li span {
     color: #555; }
+
+.alert-bobby {
+  background: url("../../common/images/bobby-min.png") no-repeat center top;
+  padding-top: 80px; }
+  .alert-bobby .alert-bobby-inner {
+    background: #f1f6fb;
+    background: linear-gradient(to bottom, #f5faff 1%, #f1f6fb 100%);
+    border: 3px solid #f1f6fb;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.1); }
+    .alert-bobby .alert-bobby-inner h3 {
+      font-family: petitevoisine, sans-serif;
+      margin: 15px;
+      opacity: .7; }
+    .alert-bobby .alert-bobby-inner p {
+      letter-spacing: 1px;
+      margin: 25px; }
+
+#login-form {
+  margin-bottom: 60px; }
+
+@media (min-width: 750px) {
+  #login-form {
+    margin-top: 130px; } }
