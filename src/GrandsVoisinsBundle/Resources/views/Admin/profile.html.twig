@@ -3,7 +3,20 @@
 {% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
 
 {% block pageContentTitle %}Mon profil{% endblock %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('form/formInteractions.js') }}"></script>
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            $(".form-group").on('click', '.add-widget', function (event) {
+                $model = $(this).parent().parent().find('.sf-value-block').first().find('.ref').first();
+                console.log('Clonage du champ :');
+                console.log($model);
+                cloneWidget($model)
+            });
+        })
+    </script>
+{% endblock %}
 {% block pageContent %}
     {{ parent() }}
 
@@ -30,7 +43,7 @@
             <input type="file" class="form-control" id="changePicture"/>
         </div>
     </div>
-    <form class="col-sm-6">
+    <form class="col-sm-9">
         <div class="profileEditToSwitch">
             <h2>Prénom Nom</h2>
             <ul class="list">
@@ -42,60 +55,71 @@
             </ul>
         </div>
     </form>
+        <div class="profileEditToSwitch" style="display:none">
+            {% if form is not null %}
+                <form class="col-sm-6" action="{{ path('profileSave') }}" method="post"
+                      id="form">
+                    <input name="url" value="{{ form.subject }}" type="hidden">
+                    <input name="uri" value="{{ form.subject }}" type="hidden">
+                    <input name="graphURI" value="{{ graphURI }}" type="hidden">
+                    {% set temp ='' %}
+                    {% for field in form.fields %}
+                        <div class="form-group col col-lg-12">
+                            <div class="col-lg-4">
+                                {% if field.label != temp %}
+                                    <label for="{{ field.label }}"
+                                           data-uri-property="{{ field.property }}">{{ field.label }}</label>
+                                {% else %}
+                                    <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-6 sf-value-block">
 
-    <div class="profileEditToSwitch" style="display:none">
-        {% if form is not null %}
-            <form class="col-sm-6" action="{{ path('profileSave') }}"
-                  method="post"
-                  id="form">
-                <input name="url" value="{{ form.subject }}" type="hidden">
-                <input name="uri" value="{{ form.subject }}" type="hidden">
-                <input name="graphURI" value="{{ graphURI }}" type="hidden">
+                                {% if( field.label|lower == 'type') %}
+                                    <input class="form-control" type="url"
+                                           name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
+                                           value="{{ field.value }}">
+                                {% else %}
+                                    {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+                                        <input class="form-control ref" type="url" name="{{ field.htmlName }}"
+                                               value="{{ field.value }}">
+                                    {% else %}
+                                        <input class="form-control ref" type="{{ field.widgetType|lower|split(' ')[0] }}"
+                                               name={{ field.htmlName }} value="{{ field.value }}">
+                                    {% endif %}
 
-                {% for field in form.fields %}
-                    <div class="form-group">
-                        <label for="{{ field.label }}"
-                               data-uri-property="{{ field.property }}">{{ field.label }}</label>
-                        {% if( field.label|lower == 'type') %}
-                            <input class="form-control" type="url"
-                                   name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
-                                   value="{{ field.value }}">
-                        {% else %}
-                            {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                <input class="form-control" type="url"
-                                       name="{{ field.htmlName }}"
-                                       value="{{ field.value }}">
-                            {% else %}
-                                <input class="form-control"
-                                       type="{{ field.widgetType|lower|split(' ')[0] }}"
-                                       name={{ field.htmlName }} value="{{ field.value }}">
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                <input class="btn btn-primary-lgv pull-right" type="submit"
-                       value="sauvegarder">
-            </form>
-        {% else %}
-            <div class="alert alert-info">Une erreur s'est produite lors de
-                l'affichage du formulaire
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-2">
+                                {% if field.label != temp %}
+                                    <button type="button" class="btn btn-primary add-widget" readonly="yes" size="1"
+                                            title="Add another value for label">add line
+                                    </button>
+                                    {% set temp =field.label %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <input class="btn btn-primary-lgv pull-right" type="submit"
+                           value="sauvegarder">
+                </form>
+            {% else %}
+                <div class="alert alert-info">Une erreur s'est produite lors de l'affichage du formulaire</div>
+            {% endif %}
+            <div class="col col-sm-4">
+                {% embed "alertBobby.html.twig" %}
+                    {% block title %}Qui es-tu ?{% endblock %}
+                    {% block content %}
+                        <p>Voici la question à laquelle je te propose maintenant de répondre … </p>
+
+                        <p>Tu es libre de remplir les champs que tu veux et rassure toi, ces données ne sont pas publiques, elles ne sont partagées qu’entre voisins sur le site ... </p>
+
+                        <p>Petite info : Plus tu renseigneras ton profil, plus tu auras de chances de te faire des amis ! </p>
+
+                        <p>Et n'oublie pas : To be Bobby or not Bobby, that is the question ... </p>
+                    {% endblock %}
+                {% endembed %}
             </div>
-        {% endif %}
-        <div class="col col-sm-4">
-            {% embed "alertBobby.html.twig" %}
-                {% block title %}Qui es-tu ?{% endblock %}
-                {% block content %}
-                    <p>Voici la question à laquelle je te propose maintenant de répondre … </p>
-
-                    <p>Tu es libre de remplir les champs que tu veux et rassure toi, ces données ne sont pas publiques, elles ne sont partagées qu’entre voisins sur le site ... </p>
-
-                    <p>Petite info : Plus tu renseigneras ton profil, plus tu auras de chances de te faire des amis ! </p>
-
-                    <p>Et n'oublie pas : To be Bobby or not Bobby, that is the question ... </p>
-                {% endblock %}
-            {% endembed %}
         </div>
-    </div>
-
 {% endblock %}
 

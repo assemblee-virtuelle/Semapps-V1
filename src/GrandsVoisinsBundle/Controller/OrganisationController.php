@@ -103,7 +103,7 @@ class OrganisationController extends AbstractController
             }
             // send email to the new organization
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage($user, GrandsVoisinsConfig::$organisation, $conf_token, $randomPassword);
+                ->sendConfirmMessage($user, GrandsVoisinsConfig::ORGANISATION, $conf_token, $randomPassword, $organisation);
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
@@ -172,11 +172,6 @@ class OrganisationController extends AbstractController
     {
         $edit = $_POST["edit"];
         unset($_POST["edit"]);
-
-        foreach ($_POST as $key => $value) {
-            unset($_POST[$key]);
-            $_POST[str_replace("_", '.', urldecode($key))] = $value;
-        }
 
         $userEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:User'

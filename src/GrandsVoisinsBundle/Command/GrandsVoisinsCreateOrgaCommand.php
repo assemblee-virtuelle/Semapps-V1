@@ -132,7 +132,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 
         $output->writeln(sprintf("sending the email for the user with:\n\t-username:%s\n\t-password:%s ",$username,$randomPassword));
 
-        $mailer->sendConfirmMessage($user, GrandsVoisinsConfig::$organisation, $conf_token, $randomPassword);
+        $mailer->sendConfirmMessage($user, GrandsVoisinsConfig::ORGANISATION, $conf_token, $randomPassword, $organization);
         $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');
     }
