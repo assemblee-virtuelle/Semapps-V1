@@ -95,11 +95,6 @@ class SemanticFormsClient
         }
     }
 
-    public function getSemanticFormsUrl()
-    {
-        return 'http://'.$this->domain;
-    }
-
     /**
      * Retrieve simple json data.
      *
