@@ -42,14 +42,16 @@ class AdminSettings extends AbstractType
             PasswordType::class,
             [
               'label' => 'Mot de passe',
+              'mapped'  => false,
             ]
           )
           ->add(
             'passwordNew',
             PasswordType::class,
             [
-              'label'  => 'Nouveau mot de passe',
-              'mapped' => false,
+              'label'   => 'Nouveau mot de passe',
+              'mapped'  => false,
+              'required' => false,
             ]
           )
           ->add(
@@ -58,6 +60,7 @@ class AdminSettings extends AbstractType
             [
               'label'  => 'Confirmation',
               'mapped' => false,
+              'required' => false,
             ]
           )
           ->add('submit', SubmitType::class, ['label' => 'Enregistrer']);

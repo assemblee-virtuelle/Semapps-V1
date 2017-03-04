@@ -213,16 +213,23 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('team');
     }
 
-    public function settingsAction()
+    public function settingsAction(Request $request)
     {
         $user = $this->GetUser();
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // TODO Check password match
+            // TODO Save.
+        }
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:settings.html.twig',
           array(
             'form' => $form->createView(),
-            'user' => $user
+            'user' => $user,
           )
         );
     }
