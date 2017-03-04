@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+    semantic_forms.domain: 'dev.wexample.com:9000'
+    semantic_forms.login: 'aa'
+    semantic_forms.password: 'aa'
+    semantic_forms.timeout: 10
