@@ -131,6 +131,8 @@ class OrganisationController extends AbstractController
     public function newOrganisationAction()
     {
         $sfClient = $this->container->get('semantic_forms.client');
+
+        /* @var $organisation \GrandsVoisinsBundle\Repository\OrganisationRepository */
         // questionner la base pour savoir si l'orga est deja créer
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:Organisation'
@@ -140,11 +142,12 @@ class OrganisationController extends AbstractController
             'GrandsVoisinsBundle:User'
         );
 
+        /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->findOneById(
             $this->GetUser()->getFkOrganisation()
         );
 
-        $responsale = $userEntity->find($organisation->getFkResponsable());
+        $responsible = $userEntity->find($organisation->getFkResponsable());
 
         if (is_null($organisation->getSfOrganisation())) {
             $json = $sfClient->createFoaf('Organization');
@@ -153,6 +156,7 @@ class OrganisationController extends AbstractController
             $json = $sfClient->getForm($organisation->getSfOrganisation());
             $edit = true;
         }
+
         //decode the url in html name
         foreach ($json["fields"] as $field) {
             $field["htmlName"] = urldecode($field["htmlName"]);
@@ -163,7 +167,7 @@ class OrganisationController extends AbstractController
             array(
                 'organisation' => $json,
                 'edit' => $edit,
-                'graphURI' => $responsale->getGraphURI()
+                'graphURI' => $responsible->getGraphURI()
             )
         );
     }
