@@ -5,7 +5,6 @@ namespace GrandsVoisinsBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
-use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\HttpFoundation\Request;
@@ -221,19 +220,5 @@ class OrganisationController extends AbstractController
 
             return $this->redirectToRoute('organisation');
         }
-    }
-
-    public function settingsAction()
-    {
-        $user = $this->GetUser();
-        $form = $this->get('form.factory')->create(AdminSettings::class, $user);
-
-        return $this->render(
-            'GrandsVoisinsBundle:Admin:settings.html.twig',
-            array(
-                'form' => $form->createView(),
-                'user' => $user
-            )
-        );
     }
 }

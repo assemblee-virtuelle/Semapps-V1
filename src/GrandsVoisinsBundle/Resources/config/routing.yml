@@ -25,6 +25,10 @@ admin:
         path: /mon-compte/
         permanent: true
 
+settings:
+    path:     /parametres
+    defaults: { _controller: GrandsVoisinsBundle:Admin:settings }
+
 home:
     path:     /mon-compte/
     defaults: { _controller: GrandsVoisinsBundle:Admin:home }
@@ -68,8 +72,4 @@ detail_orga:
 save_orga:
     path:     /orga/save
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
-
-settings:
-    path:     /parametres
-    defaults: { _controller: GrandsVoisinsBundle:Organisation:settings }
 

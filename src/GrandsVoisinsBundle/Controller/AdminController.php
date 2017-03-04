@@ -6,7 +6,7 @@ namespace GrandsVoisinsBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Form\UserType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use GrandsVoisinsBundle\Form\AdminSettings;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -211,5 +211,19 @@ class AdminController extends AbstractController
         }
 
         return $this->redirectToRoute('team');
+    }
+
+    public function settingsAction()
+    {
+        $user = $this->GetUser();
+        $form = $this->get('form.factory')->create(AdminSettings::class, $user);
+
+        return $this->render(
+          'GrandsVoisinsBundle:Admin:settings.html.twig',
+          array(
+            'form' => $form->createView(),
+            'user' => $user
+          )
+        );
     }
 }
