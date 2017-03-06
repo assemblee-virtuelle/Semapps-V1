@@ -24,6 +24,8 @@ class User extends BaseUser
 
     private $fkOrganisation;
 
+    private $pictureName;
+
     /**
      * Get id
      *
