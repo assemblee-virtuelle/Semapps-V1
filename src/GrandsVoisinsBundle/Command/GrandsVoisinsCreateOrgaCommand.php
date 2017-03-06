@@ -28,7 +28,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
     }
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-
+        $output->writeln("you can only choose a building on this list:".implode(',',array_keys(GrandsVoisinsConfig::$buildings)));
         $questions = array();
         if (!$input->getArgument('organization')) {
             $question = new Question('Please choose a name for the organization:');
@@ -46,6 +46,9 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
             $question->setValidator(function($buildings) {
                 if (empty($buildings)) {
                     throw new \Exception('organization can not be empty');
+                }
+                else if (!array_key_exists($buildings,GrandsVoisinsConfig::$buildings)){
+                    throw new \Exception('the buildings need to be in the list:'.implode(',',array_keys(GrandsVoisinsConfig::$buildings)));
                 }
                 return $buildings;
             });
