@@ -5,8 +5,12 @@ namespace GrandsVoisinsBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
+use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationController extends AbstractController
@@ -221,4 +225,40 @@ class OrganisationController extends AbstractController
             return $this->redirectToRoute('organisation');
         }
     }
+
+    public function settingsAction(Request $request)
+    {
+        $user = $this->GetUser();
+
+        $form = $this->get('form.factory')->create(AdminSettings::class, $user);
+        $picture = $this->createFormBuilder($user)
+            ->add('pictureName',FileType::class,array('data_class' =>null))
+            ->add('oldPicture',HiddenType::class,array('mapped' => false,'data'=>$user->getPictureName()))
+            ->add('enregister',SubmitType::class)
+            ->getForm();
+
+        $picture->handleRequest($request);
+
+        if ($picture->isSubmitted() && $picture->isValid()) {
+            if($picture->get('oldPicture')->getData()){
+                $this->get('GrandsVoisinsBundle.fileUploader')->remove($picture->get('oldPicture')->getData());
+            }
+            $user->setPictureName($this->get('GrandsVoisinsBundle.fileUploader')->upload($user->getPictureName()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('settings');
+        }
+
+        return $this->render(
+            'GrandsVoisinsBundle:Admin:settings.html.twig',
+            array(
+                'form' => $form->createView(),
+                'user' => $user,
+                'picture' => $picture->createView()
+            )
+        );
+    }
+
 }

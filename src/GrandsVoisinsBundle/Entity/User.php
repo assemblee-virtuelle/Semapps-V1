@@ -24,6 +24,8 @@ class User extends BaseUser
 
     private $fkOrganisation;
 
+    private $pictureName;
+
     /**
      * Get id
      *
@@ -116,5 +118,29 @@ class User extends BaseUser
     public function getFkOrganisation()
     {
         return $this->fkOrganisation;
+    }
+
+    /**
+     * Set pictureName
+     *
+     * @param string $pictureName
+     *
+     * @return User
+     */
+    public function setPictureName($pictureName)
+    {
+        $this->pictureName = $pictureName;
+
+        return $this;
+    }
+
+    /**
+     * Get pictureName
+     *
+     * @return string
+     */
+    public function getPictureName()
+    {
+        return $this->pictureName;
     }
 }

@@ -1,3 +1,7 @@
 services:
     grands_voisins.config:
         class: GrandsVoisinsBundle\GrandsVoisinsConfig
+
+    GrandsVoisinsBundle.fileUploader:
+        class: GrandsVoisinsBundle\Services\FileUploader
+        arguments: ['%picture_directory%']
