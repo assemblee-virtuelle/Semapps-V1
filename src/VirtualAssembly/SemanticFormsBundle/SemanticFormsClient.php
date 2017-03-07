@@ -11,6 +11,9 @@ use GuzzleHttp\TransferStats;
 class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
+    var $specsMap = [
+      'Person' => 'http://raw.githubusercontent.com/jmvanel/semantic_forms/master/vocabulary/forms#personForm',
+    ];
     var $cookieName = 'cookie.txt';
 
     public function __construct($domain, $login, $password, $timeout)
@@ -154,16 +157,26 @@ class SemanticFormsClient
         return $response->getStatusCode();
     }
 
-    public function createFoaf($foafType)
+    public function createSpec($specUrl)
     {
         return $this->getJSON(
           '/create-data',
           [
             'query' => [
-              'uri' => $this->baseUrlFoaf.$foafType,
+              'uri' => $specUrl,
             ],
           ]
         );
+    }
+
+    public function createSpecType($specType)
+    {
+        return $this->createSpec($this->specsMap[$specType]);
+    }
+
+    public function createFoaf($foafType)
+    {
+        return $this->createSpec($this->baseUrlFoaf.$foafType);
     }
 
     public function getForm($uri)
@@ -177,7 +190,9 @@ class SemanticFormsClient
           ]
         );
     }
-    private function format($data){
+
+    private function format($data)
+    {
         foreach ($data as $key => $value) {
             unset($data[$key]);
             if (is_array($value)) {
@@ -186,15 +201,22 @@ class SemanticFormsClient
                     $temp = explode('+', $key);
                     $temp[0] .= '+';
                     $temp[1] .= '+';
-                    if (strpos($temp[2], '<') !== false)
-                        $temp[2] = '<' . $newValue . '>+';
-                    else
-                        $temp[2] = '"' . $newValue . '"+';
-                    $data[str_replace("_", '.', urldecode(implode($temp)))] = $newValue;
+                    if (strpos($temp[2], '<') !== false) {
+                        $temp[2] = '<'.$newValue.'>+';
+                    } else {
+                        $temp[2] = '"'.$newValue.'"+';
+                    }
+                    $data[str_replace(
+                      "_",
+                      '.',
+                      urldecode(implode($temp))
+                    )] = $newValue;
                 }
-            } else
+            } else {
                 $data[str_replace("_", '.', urldecode($key))] = $value;
+            }
         }
+
         return $data;
     }
 

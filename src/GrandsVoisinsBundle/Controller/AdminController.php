@@ -32,7 +32,7 @@ class AdminController extends AbstractController
         $sfClient   = $this->container->get('semantic_forms.client');
 
         if (!$userSfLink) {
-            $form = $sfClient->createFoaf('Person');
+            $form = $sfClient->createSpecType('Person');
         } else {
             $form = $sfClient->getForm($userSfLink);
         }
