@@ -74,7 +74,7 @@
                     {% set temp ='' %}
                     {% for field in form.fields %}
                         <div class="form-group col col-lg-12">
-                            <div class="col-lg-4">
+                            <div class="row">
                                 {% if field.label != temp %}
                                     <label for="{{ field.label }}"
                                            data-uri-property="{{ field.property }}">{{ field.label }}</label>
@@ -83,36 +83,38 @@
                                            data-uri-property="{{ field.property }}">--</label>
                                 {% endif %}
                             </div>
-                            <div class="col-lg-6 sf-value-block">
+                            <div class="row">
+                                <div class="col-lg-11 sf-value-block">
 
-                                {% if( field.label|lower == 'type') %}
-                                    <input class="form-control" type="url"
-                                           name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
-                                           value="{{ field.value }}">
-                                {% else %}
-                                    {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                        <input class="form-control ref"
-                                               type="url"
-                                               name="{{ field.htmlName }}"
+                                    {% if( field.label|lower == 'type') %}
+                                        <input class="form-control" type="url"
+                                               name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                                value="{{ field.value }}">
                                     {% else %}
-                                        <input class="form-control ref"
-                                               type="{{ field.widgetType|lower|split(' ')[0] }}"
-                                               name={{ field.htmlName }} value="{{ field.value }}">
-                                    {% endif %}
+                                        {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+                                            <input class="form-control ref"
+                                                   type="url"
+                                                   name="{{ field.htmlName }}"
+                                                   value="{{ field.value }}">
+                                        {% else %}
+                                            <input class="form-control ref"
+                                                   type="{{ field.widgetType|lower|split(' ')[0] }}"
+                                                   name={{ field.htmlName }} value="{{ field.value }}">
+                                        {% endif %}
 
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-2">
-                                {% if field.label != temp %}
-                                    <button type="button"
-                                            class="btn btn-primary add-widget"
-                                            readonly="yes" size="1"
-                                            title="Add another value for label">
-                                        add line
-                                    </button>
-                                    {% set temp =field.label %}
-                                {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-1">
+                                    {% if field.label != temp %}
+                                        <button type="button"
+                                                class="btn btn-primary add-widget"
+                                                readonly="yes" size="1"
+                                                title="Add another value for label">
+                                            &plus;
+                                        </button>
+                                        {% set temp =field.label %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
