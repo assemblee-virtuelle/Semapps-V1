@@ -6,6 +6,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script>
+    <script src="{{ asset('form/wikipedia.js') }}"></script>
     <script src="{{ asset('form/formInteractions.js') }}"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
@@ -21,7 +23,7 @@
 
 {% block pageContent %}
     {{ parent() }}
-    <form action="{{ path('save_orga') }}" method="post" id="form">
+    <form action="{{ path('save_orga') }}" method="post" id="form" class="sf-standard-form">
         <input name="url" value="{{ organisation.subject }}" type="hidden">
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
         <input name="graphURI" value="{{ graphURI }}" type="hidden">

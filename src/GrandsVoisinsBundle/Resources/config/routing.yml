@@ -73,3 +73,19 @@ save_orga:
     path:     /orga/save
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
 
+
+show:
+    path:     /component/show
+    defaults: { _controller: GrandsVoisinsBundle:Component:show }
+
+show_all:
+    path:     /component/showAll
+    defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
+
+show_all_spec:
+    path:     /component/showAll/{type}
+    defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
+
+save:
+    path:     /component/save
+    defaults: { _controller: GrandsVoisinsBundle:Component:save }
