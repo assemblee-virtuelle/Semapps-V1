@@ -30,3 +30,4 @@ security:
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
         - { path: ^/orga/, role: ROLE_MEMBER }
         - { path: ^/component/, role: ROLE_MEMBER }
+        - { path: ^/component/new, role: ROLE_EDITOR }
