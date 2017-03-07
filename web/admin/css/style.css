@@ -3,6 +3,7 @@
   src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
+
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
@@ -35,6 +36,7 @@
 @font-face {
   font-family: "Quicksand";
   src: url("../../common/fonts/quicksand/Quicksand-Regular.ttf"); }
+
 * {
   font-family: Quicksand; }
 
@@ -45,6 +47,7 @@ a:hover {
   text-decoration: none;
   color: #884a00;
   animation: aHover 3s forwards; }
+
 @keyframes aHover {
   0% {
     text-shadow: 0 0 0 transparent; }
@@ -52,6 +55,7 @@ a:hover {
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
   100% {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
+
 header {
   background: #FFCC00;
   min-height: 60px; }
@@ -159,4 +163,8 @@ input.form-control {
   border: 5px solid rgba(255, 50, 0, 0.2);
   transform: rotate(-2deg); }
 
-/*# sourceMappingURL=style.css.map */
+.banner-top {
+  min-height: 170px;
+  background-color: #F5F5F5;
+  background-size: cover;
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5); }
