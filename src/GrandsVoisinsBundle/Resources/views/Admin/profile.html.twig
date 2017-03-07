@@ -32,40 +32,41 @@
         </div>
     </div>
     <br>
-
-    <div class="col-sm-2">
-        {% if app.user.pictureName == null %}
-        <a href="#" class="thumbnail" class="profileEditSwitch">
-            <img src="{{ asset('common/images/no_avatar.jpg') }}"
-                 style="width:100%"
-                 alt="Picture">
-        </a>
-        {% else %}
-            <a href="#" class="thumbnail" class="profileEditSwitch">
-                <img src="{{ asset('uploads/pictures/'~app.user.pictureName) }}"
-                     style="width:100%"
-                     alt="Picture">
-            </a>
-        {% endif %}
-        <div class="profileEditToSwitch" style="display:none">
-            {{ form(picture) }}
+    <div class="row">
+        <div class="col-sm-2">
+            {% if app.user.pictureName == null %}
+                <a href="#" class="thumbnail" class="profileEditSwitch">
+                    <img src="{{ asset('common/images/no_avatar.jpg') }}"
+                         style="width:100%"
+                         alt="Picture">
+                </a>
+            {% else %}
+                <a href="#" class="thumbnail" class="profileEditSwitch">
+                    <img src="{{ asset('uploads/pictures/'~app.user.pictureName) }}"
+                         style="width:100%"
+                         alt="Picture">
+                </a>
+            {% endif %}
+            <div class="profileEditToSwitch" style="display:none">
+                {{ form(picture) }}
+            </div>
         </div>
-    </div>
-    <form class="col-sm-9">
-        <div class="profileEditToSwitch">
-            <h2>Prénom Nom</h2>
-            <ul class="list">
-                <li><span>3 ans et demi</span></li>
-                <li><span>Téléphone : 01 23 45 67 89</span></li>
-                <li><span>Site web : <a href="http://www.site.com"
-                                        target="_blank">http://www.site.com</a></span>
-                </li>
-            </ul>
-        </div>
-    </form>
+        <form class="col-sm-9">
+            <div class="profileEditToSwitch">
+                <h2>Prénom Nom</h2>
+                <ul class="list">
+                    <li><span>3 ans et demi</span></li>
+                    <li><span>Téléphone : 01 23 45 67 89</span></li>
+                    <li><span>Site web : <a href="http://www.site.com"
+                                            target="_blank">http://www.site.com</a></span>
+                    </li>
+                </ul>
+            </div>
+        </form>
         <div class="profileEditToSwitch" style="display:none">
             {% if form is not null %}
-                <form class="col-sm-6" action="{{ path('profileSave') }}" method="post"
+                <form class="col-sm-6" action="{{ path('profileSave') }}"
+                      method="post"
                       id="form">
                     <input name="url" value="{{ form.subject }}" type="hidden">
                     <input name="uri" value="{{ form.subject }}" type="hidden">
@@ -78,7 +79,8 @@
                                     <label for="{{ field.label }}"
                                            data-uri-property="{{ field.property }}">{{ field.label }}</label>
                                 {% else %}
-                                    <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
+                                    <label for="{{ field.label }}"
+                                           data-uri-property="{{ field.property }}">--</label>
                                 {% endif %}
                             </div>
                             <div class="col-lg-6 sf-value-block">
@@ -89,10 +91,13 @@
                                            value="{{ field.value }}">
                                 {% else %}
                                     {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                        <input class="form-control ref" type="url" name="{{ field.htmlName }}"
+                                        <input class="form-control ref"
+                                               type="url"
+                                               name="{{ field.htmlName }}"
                                                value="{{ field.value }}">
                                     {% else %}
-                                        <input class="form-control ref" type="{{ field.widgetType|lower|split(' ')[0] }}"
+                                        <input class="form-control ref"
+                                               type="{{ field.widgetType|lower|split(' ')[0] }}"
                                                name={{ field.htmlName }} value="{{ field.value }}">
                                     {% endif %}
 
@@ -100,8 +105,11 @@
                             </div>
                             <div class="col-lg-2">
                                 {% if field.label != temp %}
-                                    <button type="button" class="btn btn-primary add-widget" readonly="yes" size="1"
-                                            title="Add another value for label">add line
+                                    <button type="button"
+                                            class="btn btn-primary add-widget"
+                                            readonly="yes" size="1"
+                                            title="Add another value for label">
+                                        add line
                                     </button>
                                     {% set temp =field.label %}
                                 {% endif %}
@@ -112,22 +120,31 @@
                            value="sauvegarder">
                 </form>
             {% else %}
-                <div class="alert alert-info">Une erreur s'est produite lors de l'affichage du formulaire</div>
+                <div class="alert alert-info">Une erreur s'est produite lors de
+                    l'affichage du formulaire
+                </div>
             {% endif %}
             <div class="col col-sm-4">
                 {% embed "alertBobby.html.twig" %}
                     {% block title %}Qui es-tu ?{% endblock %}
                     {% block content %}
-                        <p>Voici la question à laquelle je te propose maintenant de répondre … </p>
+                        <p>Voici la question à laquelle je te propose maintenant
+                            de répondre … </p>
 
-                        <p>Tu es libre de remplir les champs que tu veux et rassure toi, ces données ne sont pas publiques, elles ne sont partagées qu’entre voisins sur le site ... </p>
+                        <p>Tu es libre de remplir les champs que tu veux et
+                            rassure toi, ces données ne sont pas publiques,
+                            elles ne sont partagées qu’entre voisins sur le site
+                            ... </p>
 
-                        <p>Petite info : Plus tu renseigneras ton profil, plus tu auras de chances de te faire des amis ! </p>
+                        <p>Petite info : Plus tu renseigneras ton profil, plus
+                            tu auras de chances de te faire des amis ! </p>
 
-                        <p>Et n'oublie pas : To be Bobby or not Bobby, that is the question ... </p>
+                        <p>Et n'oublie pas : To be Bobby or not Bobby, that is
+                            the question ... </p>
                     {% endblock %}
                 {% endembed %}
             </div>
         </div>
+    </div>
 {% endblock %}
 
