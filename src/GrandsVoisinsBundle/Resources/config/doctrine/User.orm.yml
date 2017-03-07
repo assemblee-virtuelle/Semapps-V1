@@ -17,4 +17,7 @@ GrandsVoisinsBundle\Entity\User:
             nullable: true
         fkOrganisation:
             type: integer
+        pictureName:
+            type: text
+            nullable: true
     lifecycleCallbacks: {  }

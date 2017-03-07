@@ -1,12 +1,12 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 <div class="container container-auth">
     <div class="row">
         <div class="col col-sm-4">
             <form id="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
                 {% if csrf_token %}
                     <input class="form-control" type="hidden" name="_csrf_token"
                            value="{{ csrf_token }}"/>
@@ -39,7 +39,7 @@
         </div>
         <div class="col col-sm-6 col-sm-offset-1">
             {% embed "alertBobby.html.twig" %}
-                {% block title %}Salut à toi Ô Voisin !{% endblock %}
+                {% block title %}Salut à toi Ô Voisin&nbsp;!{% endblock %}
                 {% block content %}
                     <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur l’application de cartographie des Grands Voisins !</p>
 

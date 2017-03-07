@@ -34,13 +34,21 @@
     <br>
 
     <div class="col-sm-2">
+        {% if app.user.pictureName == null %}
         <a href="#" class="thumbnail" class="profileEditSwitch">
             <img src="{{ asset('common/images/no_avatar.jpg') }}"
                  style="width:100%"
                  alt="Picture">
         </a>
+        {% else %}
+            <a href="#" class="thumbnail" class="profileEditSwitch">
+                <img src="{{ asset('uploads/pictures/'~app.user.pictureName) }}"
+                     style="width:100%"
+                     alt="Picture">
+            </a>
+        {% endif %}
         <div class="profileEditToSwitch" style="display:none">
-            <input type="file" class="form-control" id="changePicture"/>
+            Changer de photos ? Allez à la page <a href="/parametres" >settings</a>. Vous y trouverez le formulaire !
         </div>
     </div>
     <form class="col-sm-9">

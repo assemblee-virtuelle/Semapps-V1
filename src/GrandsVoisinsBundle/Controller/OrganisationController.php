@@ -8,6 +8,9 @@ use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationController extends AbstractController
@@ -131,6 +134,8 @@ class OrganisationController extends AbstractController
     public function newOrganisationAction()
     {
         $sfClient = $this->container->get('semantic_forms.client');
+
+        /* @var $organisation \GrandsVoisinsBundle\Repository\OrganisationRepository */
         // questionner la base pour savoir si l'orga est deja créer
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:Organisation'
@@ -140,11 +145,12 @@ class OrganisationController extends AbstractController
             'GrandsVoisinsBundle:User'
         );
 
+        /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->findOneById(
             $this->GetUser()->getFkOrganisation()
         );
 
-        $responsale = $userEntity->find($organisation->getFkResponsable());
+        $responsible = $userEntity->find($organisation->getFkResponsable());
 
         if (is_null($organisation->getSfOrganisation())) {
             $json = $sfClient->createFoaf('Organization');
@@ -153,6 +159,7 @@ class OrganisationController extends AbstractController
             $json = $sfClient->getForm($organisation->getSfOrganisation());
             $edit = true;
         }
+
         //decode the url in html name
         foreach ($json["fields"] as $field) {
             $field["htmlName"] = urldecode($field["htmlName"]);
@@ -163,7 +170,7 @@ class OrganisationController extends AbstractController
             array(
                 'organisation' => $json,
                 'edit' => $edit,
-                'graphURI' => $responsale->getGraphURI()
+                'graphURI' => $responsible->getGraphURI()
             )
         );
     }
@@ -219,17 +226,39 @@ class OrganisationController extends AbstractController
         }
     }
 
-    public function settingsAction()
+    public function settingsAction(Request $request)
     {
         $user = $this->GetUser();
+
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
+        $picture = $this->createFormBuilder($user)
+            ->add('pictureName',FileType::class,array('data_class' =>null))
+            ->add('oldPicture',HiddenType::class,array('mapped' => false,'data'=>$user->getPictureName()))
+            ->add('enregister',SubmitType::class)
+            ->getForm();
+
+        $picture->handleRequest($request);
+
+        if ($picture->isSubmitted() && $picture->isValid()) {
+            if($picture->get('oldPicture')->getData()){
+                $this->get('GrandsVoisinsBundle.fileUploader')->remove($picture->get('oldPicture')->getData());
+            }
+            $user->setPictureName($this->get('GrandsVoisinsBundle.fileUploader')->upload($user->getPictureName()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('settings');
+        }
 
         return $this->render(
             'GrandsVoisinsBundle:Admin:settings.html.twig',
             array(
                 'form' => $form->createView(),
-                'user' => $user
+                'user' => $user,
+                'picture' => $picture->createView()
             )
         );
     }
+
 }

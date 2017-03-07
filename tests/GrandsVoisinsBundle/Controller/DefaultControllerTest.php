@@ -2,7 +2,9 @@
 
 namespace GrandsVoisinsBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+require_once '../../../src/Wexample/Test/Symfony3/WebTestCase.php';
+
+use Wexample\Test\Symfony3\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -13,5 +15,7 @@ class DefaultControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertContains('Hello World', $client->getResponse()->getContent());
+
+        $this->assert(true);
     }
 }
