@@ -34,7 +34,7 @@ header {
     background-color: transparent;
     font-family: petitevoisine, sans-serif;
     color: #FFF !important;
-    padding-top: 30px;
+    padding-top: 20px;
     display: block;
     float: right;
   }
@@ -95,7 +95,7 @@ input.form-control {
 }
 
 .container-auth {
-  margin-top: 60px;
+  margin-top: -140px;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
@@ -143,10 +143,10 @@ input.form-control {
 
 #login-form {
   margin-bottom: 60px;
-}
-
-#login-form {
-  margin-top: 130px;
+  margin-top: 110px;
+  background: #FFF;
+  padding: 10px 25px;
+  border-radius: 5px;
 }
 
 .logo-circle {

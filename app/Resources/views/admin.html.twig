@@ -18,7 +18,7 @@
 
         <div class="container">
             <div class="row">
-                <div class="col col-xs-6 col-sm-10">
+                <div class="col col-xs-4 col-sm-8">
                     <div class="logo-circle style-scope gv-header">
                         <gv-logo-mini class="style-scope gv-header">
                             <div class="gv-logo-mini-inner style-scope gv-logo-mini">
@@ -57,7 +57,13 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-                <div class="col col-xs-6 col-sm-2">
+                <div class="col col-xs-4 col-sm-2">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a class="logout"
+                           href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                    {% endif %}
+                </div>
+                <div class="col col-xs-4 col-sm-2">
                     <a class="map" href="/" style="display:block; max-width:40px; margin-top:8px;">
                         <?xml version="1.0" ?><svg id="Слой_1" style="enable-background:new 0 0 139 139;" version="1.1" viewBox="0 0 139 139" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style type="text/css">
                                 .st1{fill:#FFCC00;}
@@ -68,12 +74,6 @@
                             <path fill="white" d="M69.5,121c0.9,0,2.2-1.3,2.2-1.3c38-43.7,33-65.2,33-65.2s-11,35.1-35.2,35.2" id="XMLID_6_"/></svg>
 
                     </a>
-                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                        <a class="logout"
-                           href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
-                    {% else %}
-                        {#<a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>#}
-                    {% endif %}
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
 {% block pageContentTitle %}Mon profil{% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="{{ asset('form/wikipedia.js') }}"></script>
     <script src="{{ asset('form/formInteractions.js') }}"></script>
     <script type='text/javascript'>
@@ -36,19 +36,11 @@
     <br>
     <div class="row">
         <div class="col-sm-2">
-            {% if app.user.pictureName == null %}
-                <a href="#" class="thumbnail" class="profileEditSwitch">
-                    <img src="{{ asset('common/images/no_avatar.jpg') }}"
-                         style="width:100%"
-                         alt="Picture">
-                </a>
-            {% else %}
-                <a href="#" class="thumbnail" class="profileEditSwitch">
-                    <img src="{{ asset('uploads/pictures/'~app.user.pictureName) }}"
-                         style="width:100%"
-                         alt="Picture">
-                </a>
-            {% endif %}
+            <a href="#" class="thumbnail" class="profileEditSwitch">
+                <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
+                     style="width:100%"
+                     alt="Picture">
+            </a>
             <div class="profileEditToSwitch" style="display:none">
                 {{ form(picture) }}
             </div>
@@ -67,7 +59,8 @@
         </form>
         <div class="profileEditToSwitch" style="display:none">
             {% if form is not null %}
-                <form class="col-sm-6 sf-standard-form" action="{{ path('profileSave') }}" method="post"
+                <form class="col-sm-6 sf-standard-form"
+                      action="{{ path('profileSave') }}" method="post"
                       id="form">
                     <input name="url" value="{{ form.subject }}" type="hidden">
                     <input name="uri" value="{{ form.subject }}" type="hidden">
@@ -85,7 +78,7 @@
                                 {% endif %}
                             </div>
                             <div class="row">
-                                <div class="col-lg-11 sf-value-block">
+                                <div class="col-xs-11 sf-value-block">
 
                                     {% if( field.label|lower == 'type') %}
                                         <input class="form-control" type="url"
@@ -105,7 +98,7 @@
 
                                     {% endif %}
                                 </div>
-                                <div class="col-lg-1">
+                                <div class="col-xs-1">
                                     {% if field.label != temp %}
                                         <button type="button"
                                                 class="btn btn-primary add-widget"
