@@ -40,10 +40,10 @@
                 <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
                      style="width:100%"
                      alt="Picture">
+                <span class="profileEditToSwitch" style="display:none">
+                    {{ form(picture) }}
+                </span>
             </a>
-            <div class="profileEditToSwitch" style="display:none">
-                {{ form(picture) }}
-            </div>
         </div>
         <form class="col-sm-9">
             <div class="profileEditToSwitch">
