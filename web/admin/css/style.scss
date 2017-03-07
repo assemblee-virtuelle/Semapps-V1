@@ -143,8 +143,19 @@ input.form-control {
   margin-bottom: 60px;
 }
 
-@media (min-width: 750px) {
-  #login-form {
-    margin-top: 130px;
-  }
+#login-form {
+  margin-top: 130px;
+}
+
+.logo-circle {
+  width: 133px;
+  height: 133px;
+  padding-top: 22px;
+}
+
+.alert-danger {
+  background: none;
+  border-radius: 0;
+  border: 5px solid rgba(255, 50, 0, .2);
+  transform: rotate(-2deg);
 }
