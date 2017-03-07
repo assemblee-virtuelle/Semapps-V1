@@ -8,6 +8,8 @@ use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganisationController extends AbstractController
@@ -219,17 +221,30 @@ class OrganisationController extends AbstractController
         }
     }
 
-    public function settingsAction()
+    public function settingsAction(Request $request)
     {
         $user = $this->GetUser();
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
+        $picture = $this->createFormBuilder($user)
+                ->add('pictureName',FileType::class)
+                ->add('enregister',SubmitType::class)
+                ->getForm();
 
+        $picture->handleRequest($request);
+        if ($picture->isSubmitted() && $picture->isValid()) {
+            $user->setPictureName($this->get('GrandsVoisinsBundle.fileUploader')->upload($user->getPictureName()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+        }
         return $this->render(
             'GrandsVoisinsBundle:Admin:settings.html.twig',
             array(
                 'form' => $form->createView(),
-                'user' => $user
+                'user' => $user,
+                'picture' => $picture->createView()
             )
         );
     }
+
 }

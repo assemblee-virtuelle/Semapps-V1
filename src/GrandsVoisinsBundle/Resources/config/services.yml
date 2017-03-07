@@ -2,6 +2,6 @@ services:
     grands_voisins.config:
         class: GrandsVoisinsBundle\GrandsVoisinsConfig
 
-    GrandsVoisinsBundle.EventListener.SendMail:
+    GrandsVoisinsBundle.fileUploader:
         class: GrandsVoisinsBundle\Services\FileUploader
         arguments: ['%picture_directory%']
