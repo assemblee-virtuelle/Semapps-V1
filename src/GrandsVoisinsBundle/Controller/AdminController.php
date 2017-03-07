@@ -157,7 +157,7 @@ class AdminController extends AbstractController
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
                 $data,
-                GrandsVoisinsConfig::$team,
+                GrandsVoisinsConfig::TEAM,
                 $conf_token,
                 $randomPassword
               );
