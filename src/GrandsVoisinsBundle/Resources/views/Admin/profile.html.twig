@@ -116,10 +116,11 @@
                            value="sauvegarder">
                 </form>
             {% else %}
-                <div class="alert alert-info">Une erreur s'est produite lors de
+                <div class="col col-sm-6 alert alert-info">Une erreur s'est produite lors de
                     l'affichage du formulaire
                 </div>
             {% endif %}
+
             <div class="col col-sm-4">
                 {% embed "alertBobby.html.twig" %}
                     {% block title %}Qui es-tu ?{% endblock %}
