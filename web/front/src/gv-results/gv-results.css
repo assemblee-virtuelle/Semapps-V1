@@ -6,3 +6,11 @@
 
 #gv-results-error {
   display: none; }
+
+#gv-results-empty {
+  text-align: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #AAA;
+  padding: 40px; }
