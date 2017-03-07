@@ -3,7 +3,6 @@
   src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
-
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
@@ -30,10 +29,12 @@
   .logo-circle h1 {
     display: none; }
 
+.clearfix {
+  clear: both; }
+
 @font-face {
   font-family: "Quicksand";
   src: url("../../common/fonts/quicksand/Quicksand-Regular.ttf"); }
-
 * {
   font-family: Quicksand; }
 
@@ -44,7 +45,6 @@ a:hover {
   text-decoration: none;
   color: #884a00;
   animation: aHover 3s forwards; }
-
 @keyframes aHover {
   0% {
     text-shadow: 0 0 0 transparent; }
@@ -52,9 +52,9 @@ a:hover {
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
   100% {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
-
 header {
-  background: #FFCC00; }
+  background: #FFCC00;
+  min-height: 60px; }
   header .gv-logo-mini-inner {
     width: 100px;
     margin: -12px 0; }
@@ -158,3 +158,5 @@ input.form-control {
   border-radius: 0;
   border: 5px solid rgba(255, 50, 0, 0.2);
   transform: rotate(-2deg); }
+
+/*# sourceMappingURL=style.css.map */
