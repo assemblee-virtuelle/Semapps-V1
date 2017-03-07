@@ -77,10 +77,10 @@ class AdminController extends AbstractController
 
     public function profileSaveAction()
     {
-        foreach ($_POST as $key => $value) {
+        /*foreach ($_POST as $key => $value) {
             unset($_POST[$key]);
             $_POST[str_replace("_", '.', urldecode($key))] = $value;
-        }
+        }*/
 
         $info = $this
           ->container
