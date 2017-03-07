@@ -30,6 +30,9 @@
   .logo-circle h1 {
     display: none; }
 
+.clearfix {
+  clear: both; }
+
 @font-face {
   font-family: "Quicksand";
   src: url("../../common/fonts/quicksand/Quicksand-Regular.ttf"); }
@@ -54,7 +57,8 @@ a:hover {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
 
 header {
-  background: #FFCC00; }
+  background: #FFCC00;
+  min-height: 60px; }
   header .gv-logo-mini-inner {
     width: 100px;
     margin: -12px 0; }
@@ -158,3 +162,9 @@ input.form-control {
   border-radius: 0;
   border: 5px solid rgba(255, 50, 0, 0.2);
   transform: rotate(-2deg); }
+
+.banner-top {
+  min-height: 170px;
+  background-color: #F5F5F5;
+  background-size: cover;
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5); }

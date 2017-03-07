@@ -38,6 +38,8 @@ header {
     display: block;
     float: right;
   }
+
+  min-height: 60px;
 }
 
 footer {
@@ -158,4 +160,11 @@ input.form-control {
   border-radius: 0;
   border: 5px solid rgba(255, 50, 0, .2);
   transform: rotate(-2deg);
+}
+
+.banner-top {
+  min-height: 170px;
+  background-color: #F5F5F5;
+  background-size: cover;
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.5);
 }

@@ -30,6 +30,9 @@
   .logo-circle h1 {
     display: none; }
 
+.clearfix {
+  clear: both; }
+
 header {
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
   background-color: #FFCC00;
