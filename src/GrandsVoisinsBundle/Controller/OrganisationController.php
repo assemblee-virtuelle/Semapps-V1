@@ -159,7 +159,10 @@ class OrganisationController extends AbstractController
             $json = $sfClient->getForm($organisation->getSfOrganisation());
             $edit = true;
         }
-
+        if(!$json){
+            $this->addFlash('info','Une erreur s\'est produite lors de l\'affichage du formulaire');
+            return $this->redirectToRoute('home');
+        }
         //decode the url in html name
         foreach ($json["fields"] as $field) {
             $field["htmlName"] = urldecode($field["htmlName"]);

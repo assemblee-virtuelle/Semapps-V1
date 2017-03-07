@@ -5,6 +5,8 @@
 {% block pageContentTitle %}Mon profil{% endblock %}
 {% block javascripts %}
     {{ parent() }}
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script>
+    <script src="{{ asset('form/wikipedia.js') }}"></script>
     <script src="{{ asset('form/formInteractions.js') }}"></script>
     <script type='text/javascript'>
         $(document).ready(function () {
@@ -65,7 +67,7 @@
     </form>
         <div class="profileEditToSwitch" style="display:none">
             {% if form is not null %}
-                <form class="col-sm-6" action="{{ path('profileSave') }}" method="post"
+                <form class="col-sm-6 sf-standard-form" action="{{ path('profileSave') }}" method="post"
                       id="form">
                     <input name="url" value="{{ form.subject }}" type="hidden">
                     <input name="uri" value="{{ form.subject }}" type="hidden">
