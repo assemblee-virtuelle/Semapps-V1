@@ -8,6 +8,8 @@
 
 namespace GrandsVoisinsBundle\Services;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
@@ -31,5 +33,12 @@ class FileUploader
     public function getTargetDir()
     {
         return $this->targetDir;
+    }
+
+    public function remove($fileName){
+        $fs = new Filesystem();
+        $file = new File($this->targetDir.'/'.$fileName);
+        $fs->remove($file);
+
     }
 }
