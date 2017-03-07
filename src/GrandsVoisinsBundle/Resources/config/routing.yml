@@ -74,18 +74,22 @@ save_orga:
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
 
 
-show:
-    path:     /component/show
+show_component:
+    path:     /component/show/{uri}
     defaults: { _controller: GrandsVoisinsBundle:Component:show }
 
-show_all:
+show_all_component:
     path:     /component/showAll
     defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
 
-show_all_spec:
+show_all_spec_component:
     path:     /component/showAll/{type}
     defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
 
-save:
+save_component:
     path:     /component/save
     defaults: { _controller: GrandsVoisinsBundle:Component:save }
+
+new_component:
+    path:     /component/new/{type}
+    defaults: { _controller: GrandsVoisinsBundle:Component:new }
