@@ -18,6 +18,7 @@ class LgvAdmin {
 
     new LgvAdminPageTeam(this);
     new LgvAdminPageProfile(this);
+    new LgvAdminPageOrga(this);
   }
 
   modalConfirm(message, callback) {

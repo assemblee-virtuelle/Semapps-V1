@@ -11,7 +11,7 @@ class LgvAdminPageTeam extends LgvAdminPage {
       this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer ce compte ? ' +
         'Toutes les informations du profil seront perdues, ' +
         'et le membre n\'aura plus accès au site.', () => {
-        window.location.replace('/admin/user/delete/' + userId);
+        window.location.replace('/mon-compte/user/delete/' + userId);
       });
     });
   }

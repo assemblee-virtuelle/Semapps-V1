@@ -20,6 +20,7 @@ var filesJs = {
     // Page specific scripts.
     'web/admin/js/src/class/lgvAdminPageTeam.js',
     'web/admin/js/src/class/lgvAdminPageProfile.js',
+    'web/admin/js/src/class/LgvAdminPageOrga.js',
     // Launcher
     'web/admin/js/src/main.js'
   ],

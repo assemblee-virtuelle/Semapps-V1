@@ -73,6 +73,9 @@ save_orga:
     path:     /orga/save
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
 
+orgaDelete:
+    path:     /mon-compte/orga/delete/{orgaId}
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
 
 show_component:
     path:     /component/show/{uri}

@@ -123,7 +123,11 @@ class OrganisationController extends AbstractController
 
                 return $this->redirectToRoute('all_orga');
             }
-            $url = $this->generateUrl('fos_user_registration_confirm',array('token' => $conf_token),UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->generateUrl(
+              'fos_user_registration_confirm',
+              array('token' => $conf_token),
+              UrlGeneratorInterface::ABSOLUTE_URL
+            );
             // send email to the new organization
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
@@ -151,8 +155,8 @@ class OrganisationController extends AbstractController
         return $this->render(
           'GrandsVoisinsBundle:Organisation:home.html.twig',
           array(
-            "tabOrga" => GrandsVoisinsConfig::$buildings,
-            "organisations" => $organisations,
+            "tabOrga"             => GrandsVoisinsConfig::$buildings,
+            "organisations"       => $organisations,
             "formAddOrganisation" => $form->createView(),
           )
         );
@@ -259,5 +263,35 @@ class OrganisationController extends AbstractController
 
             return $this->redirectToRoute('organisation');
         }
+    }
+
+    public function orgaDeleteAction($orgaId)
+    {
+        $organisationRepository = $this->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:Organisation');
+
+        $organisation  = $organisationRepository->find($orgaId);
+        $entityManager = $this->getDoctrine()->getManager();
+        if (!$organisation) {
+            // Display error message.
+            $this->addFlash(
+              'danger',
+              'Organisation introuvable.'
+            );
+        } else {
+            // Delete.
+            $entityManager->remove($organisation);
+            $entityManager->flush();
+            // Display success message.
+            $this->addFlash(
+              'success',
+              'L\'organisation <b>'.
+              $organisation->getName().
+              '</b> a bien été supprimée.'
+            );
+        }
+
+        return $this->redirectToRoute('all_orga');
     }
 }
