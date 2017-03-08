@@ -1,0 +1,15 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% import "@FOSUser/layout.html.twig" as layout %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    {{ layout.photoBanner('banner-01') }}
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <p>
+                {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+            </p>
+        </div>
+    </div>
+{% endblock %}

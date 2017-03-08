@@ -40,8 +40,8 @@ class GrandsVoisinsConfig
         $body = '';
         switch($type){
             case GrandsVoisinsConfig::ORGANISATION:
-                $body = "Bonjour ".$user->getUsername()." !<br><br> Votre organisation ".$organisation->getName()." a été créer. <br><br>                   
-                    Pour valider votre compte utilisateur, merci de vous rendre sur ".$url.".<br><br>
+                $body = "Bonjour ".$user->getUsername()." !<br><br> Votre organisation ".$organisation->getName()." a été créee. <br><br>
+                    Pour valider votre compte utilisateur, merci de vous rendre sur http://localhost:8000/register/confirm/".$url.".<br><br>
                     Ce lien ne peut être utilisé qu'une seule fois pour valider votre compte.<br><br>
                     Nom de compte : ".$user->getUsername()."<br>
                     Mot de passe : ".$randomPassword."<br><br>

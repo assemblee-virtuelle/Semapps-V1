@@ -1,5 +1,11 @@
 {% extends "::admin.html.twig" %}
 
+{% macro photoBanner(filename) %}
+    <div class="banner-top"
+         style="background-image: url( '{{ asset('common/images/' ~ filename ~ '.jpg') }}');">
+    </div>
+{% endmacro %}
+
 {% block bodyContent %}
     {{ parent() }}
 
