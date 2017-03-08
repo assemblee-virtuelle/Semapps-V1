@@ -81,3 +81,9 @@ header {
     header .col-search-button,
     header .col-search-building {
       margin-top: 10px; } }
+
+@media (max-width: 768px) {
+  header {
+    position: absolute; }
+    header .logo-circle.gv-header {
+      border: 0; } }

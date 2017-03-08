@@ -61,3 +61,12 @@ header {
     }
   }
 }
+
+@media (max-width: 768px) {
+  header {
+    position: absolute;
+    .logo-circle.gv-header {
+      border: 0;
+    }
+  }
+}
