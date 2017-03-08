@@ -37,7 +37,7 @@
     <div class="row">
         <div class="col-sm-2">
             {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
-            <a href="#" id="profilePicture" class="thumbnail profileEditSwitch">
+            <a href="#" id="profilePicture" class="thumbnail">
                 <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
                      style="width:100%"
                      alt="Picture">

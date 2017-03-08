@@ -7,6 +7,7 @@ class LgvAdmin {
   }
 
   init() {
+    this.$loadingPageSpin = $('#loadingPageSpin');
     // Save globally.
     window.lgvAdmin = this;
 
@@ -26,6 +27,18 @@ class LgvAdmin {
       this.$modalConfirm.modal('hide');
       callback();
     });
+  }
+
+  pageLoadingStart() {
+    this.$loadingPageSpin
+      .removeClass('fadeOut')
+      .addClass('fadeIn');
+  }
+
+  pageLoadingStop() {
+    this.$loadingPageSpin
+      .removeClass('fadeIn')
+      .addClass('fadeOut');
   }
 }
 

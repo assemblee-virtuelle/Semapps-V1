@@ -85,6 +85,81 @@ input.form-control {
   border-radius: 0;
 }
 
+#loadingPageSpin {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  .spinner {
+    margin: 30vw auto 0;
+    text-align: center;
+    svg {
+      max-width: 80px;
+      margin: 0 auto;
+      display: block;
+    }
+    h3 {
+      color: rgba(255, 255, 255, .8);
+      font-size: 14px;
+      opacity: 0;
+    }
+  }
+}
+
+#loadingPageSpin.fadeIn {
+  display: block;
+  @keyframes loadingFadeIn {
+    0% { background-color: rgba(0, 0, 0, 0); }
+    100% { background-color: rgba(0, 0, 0, .7); }
+  }
+  animation: loadingFadeIn cubic-bezier(0, .9, .1, 1) 4s forwards;
+  .spinner {
+    @keyframes loadingSpinFadeIn {
+      0% { opacity: 0; margin-top: 30vw; }
+      100% { opacity: 1; margin-top: 20vw; }
+    }
+    animation: loadingSpinFadeIn cubic-bezier(0, .9, .1, 1) 2s forwards;
+    @keyframes loadingSpinFadeInText {
+      0% { opacity: 0; margin-top: 20px; }
+      100% { opacity: .4; margin-top: 10px; }
+    }
+    h3 {
+      animation: loadingSpinFadeInText cubic-bezier(0, .9, .1, 1) 2s forwards;
+      animation-delay: .2s;
+    }
+  }
+}
+
+#loadingPageSpin.fadeOut {
+  display: block;
+  @keyframes loadingFadeOut {
+    0% { background-color: rgba(0, 0, 0, .7); }
+    100% { background-color: rgba(0, 0, 0, 0); display: none; }
+  }
+  background-color: rgba(0, 0, 0, .7);
+  animation: loadingFadeOut cubic-bezier(0, .9, .1, 1) 2s forwards;
+  animation-delay: .2s;
+  .spinner {
+    @keyframes loadingSpinFadeOut {
+      0% { opacity: 1; margin-top: 20vw; }
+      100% { opacity: 0; margin-top: 30vw; }
+    }
+    animation: loadingSpinFadeOut cubic-bezier(.9, 0, 1, .1) .5s forwards;
+    @keyframes loadingSpinFadeOutText {
+      0% { opacity: .4; margin-top: 10px; }
+      100% { opacity: 0; margin-top: 20px; }
+    }
+    h3 {
+      opacity: .4; margin-top: 10px;
+      animation: loadingSpinFadeOutText cubic-bezier(.9, 0, 1, .1) .5s forwards;
+      animation-delay: .2s;
+    }
+  }
+}
+
 .page-header {
   font-family: petitevoisine, sans-serif;
   border-bottom: $lgvDashedUnderline;
