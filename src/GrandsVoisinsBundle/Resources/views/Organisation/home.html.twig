@@ -14,7 +14,7 @@
                     {{ organisation.name }}
                 </td>
                 <td class="padded-value" style="width:30%">
-                    {{ organisation.batiment }}
+                    {{ tabOrga[organisation.batiment] }}
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">

@@ -151,6 +151,7 @@ class OrganisationController extends AbstractController
         return $this->render(
           'GrandsVoisinsBundle:Organisation:home.html.twig',
           array(
+            "tabOrga" => GrandsVoisinsConfig::$buildings,
             "organisations" => $organisations,
             "formAddOrganisation" => $form->createView(),
           )
