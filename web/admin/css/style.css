@@ -3,6 +3,7 @@
   src: url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2") format("woff2"), url("../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal; }
+
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
@@ -22,7 +23,7 @@
   width: 110px;
   height: 110px;
   padding: 12px 10px;
-  top: -33px;
+  top: -27px;
   border: 7px dotted #FFF; }
   .logo-circle img {
     width: 80px; }
@@ -35,6 +36,7 @@
 @font-face {
   font-family: "Quicksand";
   src: url("../../common/fonts/quicksand/Quicksand-Regular.ttf"); }
+
 * {
   font-family: Quicksand; }
 
@@ -45,6 +47,7 @@ a:hover {
   text-decoration: none;
   color: #884a00;
   animation: aHover 3s forwards; }
+
 @keyframes aHover {
   0% {
     text-shadow: 0 0 0 transparent; }
@@ -52,6 +55,7 @@ a:hover {
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); }
   100% {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
+
 header {
   background: #FFCC00;
   min-height: 60px; }
@@ -122,6 +126,7 @@ input.form-control {
 #loadingPageSpin.fadeIn {
   display: block;
   animation: loadingFadeIn cubic-bezier(0, 0.9, 0.1, 1) 4s forwards; }
+
 @keyframes loadingFadeIn {
   0% {
     background-color: transparent; }
@@ -129,6 +134,7 @@ input.form-control {
     background-color: rgba(0, 0, 0, 0.7); } }
   #loadingPageSpin.fadeIn .spinner {
     animation: loadingSpinFadeIn cubic-bezier(0, 0.9, 0.1, 1) 2s forwards; }
+
 @keyframes loadingSpinFadeIn {
   0% {
     opacity: 0;
@@ -136,6 +142,7 @@ input.form-control {
   100% {
     opacity: 1;
     margin-top: 20vw; } }
+
 @keyframes loadingSpinFadeInText {
   0% {
     opacity: 0;
@@ -152,6 +159,7 @@ input.form-control {
   background-color: rgba(0, 0, 0, 0.7);
   animation: loadingFadeOut cubic-bezier(0, 0.9, 0.1, 1) 2s forwards;
   animation-delay: .2s; }
+
 @keyframes loadingFadeOut {
   0% {
     background-color: rgba(0, 0, 0, 0.7); }
@@ -160,6 +168,7 @@ input.form-control {
     display: none; } }
   #loadingPageSpin.fadeOut .spinner {
     animation: loadingSpinFadeOut cubic-bezier(0.9, 0, 1, 0.1) 0.5s forwards; }
+
 @keyframes loadingSpinFadeOut {
   0% {
     opacity: 1;
@@ -167,6 +176,7 @@ input.form-control {
   100% {
     opacity: 0;
     margin-top: 30vw; } }
+
 @keyframes loadingSpinFadeOutText {
   0% {
     opacity: .4;
@@ -266,5 +276,3 @@ input.form-control {
       bottom: 0;
       right: 0;
       opacity: 0; }
-
-/*# sourceMappingURL=style.css.map */

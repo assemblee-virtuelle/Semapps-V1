@@ -149,8 +149,14 @@
       this.search(term, building);
     }
 
+    textRemove(term, char) {
+      return term.replace(new RegExp(char, 'g'), '');
+    }
+
     search(term, building) {
       this.stateSet('search');
+
+      term = term.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
 
       // Prevent recursions due to route event changes,
       // and also prevent to search two times the same values.
