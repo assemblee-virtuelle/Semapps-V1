@@ -1,11 +1,12 @@
 {% trans_default_domain 'FOSUserBundle' %}
-<div class="banner-top" style="background-image: url('{{ asset('common/images/banner-01.jpg') }}');">
+{% import "@FOSUser/layout.html.twig" as layout %}
+{{ layout.photoBanner('banner-01') }}
 
-</div>
 <div class="container container-auth">
     <div class="row">
         <div class="col col-sm-4">
-            <form id="login-form" action="{{ path("fos_user_security_check") }}" method="post">
+            <form id="login-form" action="{{ path("fos_user_security_check") }}"
+                  method="post">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                 {% endif %}
@@ -26,7 +27,6 @@
                        id="password" name="_password" required="required"/>
 
                 <div class="checkbox">
-
                     <label for="remember_me"><input type="checkbox"
                                                     id="remember_me"
                                                     name="_remember_me"
@@ -37,19 +37,32 @@
                 <input class="form-control btn btn-primary-lgv" type="submit"
                        id="_submit" name="_submit"
                        value="{{ 'security.login.submit'|trans }}"/>
+                <br/>
+                <br/>
+                <a href="{{ url('fos_user_resetting_request') }}">Mot de passe
+                    oublié ?</a>
             </form>
+
         </div>
         <div class="col col-sm-6 col-sm-offset-1">
             {% embed "alertBobby.html.twig" %}
                 {% block title %}Salut à toi Ô Voisin&nbsp;!{% endblock %}
                 {% block content %}
-                    <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur l’application de cartographie des Grands Voisins !</p>
+                    <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur
+                        l’application de cartographie des Grands Voisins !</p>
 
-                    <p>Tu as sans doute remarqué que tu ne pouvais pas te créer un compte tout seul. C’est normal, il s’agit d’un outil interne aux Grands Voisins :</p>
+                    <p>Tu as sans doute remarqué que tu ne pouvais pas te créer
+                        un compte tout seul. C’est normal, il s’agit d’un outil
+                        interne aux Grands Voisins :</p>
 
-                    <p>Si tu es affilié à une organisation, un référent de ta structure a du t’attribuer un identifiant / mot de passe. Demande lui si ce n’est pas le cas !</p>
+                    <p>Si tu es affilié à une organisation, un référent de ta
+                        structure a du t’attribuer un identifiant / mot de
+                        passe. Demande lui si ce n’est pas le cas !</p>
 
-                    <p>Si tu es résident et que tu n’as pas reçu d’identifiant, écris un mail à <a href="mailto:c.gondouin@aurore.asso.fr">c.gondouin@aurore.asso.fr</a></p>
+                    <p>Si tu es résident et que tu n’as pas reçu d’identifiant,
+                        écris un mail à <a
+                                href="mailto:c.gondouin@aurore.asso.fr">c.gondouin@aurore.asso.fr</a>
+                    </p>
                 {% endblock %}
             {% endembed %}
         </div>
