@@ -6,8 +6,7 @@ security:
         ROLE_MEMBER:      ROLE_USER
         ROLE_EDITOR:      ROLE_MEMBER
         ROLE_ADMIN:       ROLE_EDITOR
-        ROLE_PATRON:      ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN,ROLE_PATRON
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
         fos_userbundle:
@@ -28,7 +27,7 @@ security:
         - { path: ^/register, role: ROLE_NO_ACCESS }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
-        - { path: ^/orga/, role: ROLE_PATRON }
         - { path: ^/orga/detail, role: ROLE_ADMIN }
+        - { path: ^/orga/, role: ROLE_SUPER_ADMIN }
         - { path: ^/component/, role: ROLE_MEMBER }
         - { path: ^/component/new, role: ROLE_EDITOR }

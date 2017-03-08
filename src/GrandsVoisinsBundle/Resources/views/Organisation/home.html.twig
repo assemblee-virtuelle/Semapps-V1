@@ -26,7 +26,7 @@
             </tr>
         {% endfor %}
     </table>
-    {% if is_granted('ROLE_PATRON') %}
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
         <h2>Ajouter</h2>
         <div class="panel panel-gv">
             <div class="panel-body">

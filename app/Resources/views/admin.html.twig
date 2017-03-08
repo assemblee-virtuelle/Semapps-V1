@@ -222,7 +222,7 @@
                                             </a>
                                         </li>
                                         {% endif %}
-                                        {% if is_granted('ROLE_PATRON') %}
+                                        {% if is_granted('ROLE_SUPER_ADMIN') %}
                                         <li>
                                             <a href="{{ path('all_orga') }}">
                                                 <span class="glyphicon glyphicon-globe"></span>
