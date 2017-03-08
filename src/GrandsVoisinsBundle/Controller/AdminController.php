@@ -18,11 +18,7 @@ class AdminController extends AbstractController
 
     public function homeAction()
     {
-        return $this->render(
-          'GrandsVoisinsBundle:Admin:home.html.twig',
-          array(// ...
-          )
-        );
+        return $this->redirectToRoute('profile');
     }
 
     public function profileAction(Request $request)
