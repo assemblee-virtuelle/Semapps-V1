@@ -11,10 +11,20 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminController extends AbstractController
 {
+
+    public function render(
+      $view,
+      array $parameters = array(),
+      Response $response = null
+    ) {
+        $parameters['photoBannerFileName'] = 'banner-01';
+
+        return parent::render($view, $parameters, $response);
+    }
 
     public function homeAction()
     {
@@ -23,7 +33,7 @@ class AdminController extends AbstractController
 
     public function profileAction(Request $request)
     {
-        $user = $this->GetUser();
+        $user       = $this->GetUser();
         $userSfLink = $this->getUser()->getSfLink();
         $sfClient   = $this->container->get('semantic_forms.client');
 
@@ -42,17 +52,27 @@ class AdminController extends AbstractController
         }
 
         $picture = $this->createFormBuilder($user)
-            ->add('pictureName',FileType::class,array('data_class' =>null))
-            ->add('oldPicture',HiddenType::class,array('mapped' => false,'data'=>$user->getPictureName()))
-            ->getForm();
+          ->add('pictureName', FileType::class, array('data_class' => null))
+          ->add(
+            'oldPicture',
+            HiddenType::class,
+            array('mapped' => false, 'data' => $user->getPictureName())
+          )
+          ->getForm();
 
         $picture->handleRequest($request);
 
         if ($picture->isSubmitted() && $picture->isValid()) {
-            if($picture->get('oldPicture')->getData()){
-                $this->get('GrandsVoisinsBundle.fileUploader')->remove($picture->get('oldPicture')->getData());
+            if ($picture->get('oldPicture')->getData()) {
+                $this->get('GrandsVoisinsBundle.fileUploader')->remove(
+                  $picture->get('oldPicture')->getData()
+                );
             }
-            $user->setPictureName($this->get('GrandsVoisinsBundle.fileUploader')->upload($user->getPictureName()));
+            $user->setPictureName(
+              $this->get('GrandsVoisinsBundle.fileUploader')->upload(
+                $user->getPictureName()
+              )
+            );
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -65,7 +85,7 @@ class AdminController extends AbstractController
           array(
             "form"     => $form,
             "graphURI" => $this->getUser()->getGraphURI(),
-            'picture' => $picture->createView()
+            'picture'  => $picture->createView(),
           )
         );
     }
@@ -172,7 +192,11 @@ class AdminController extends AbstractController
 
                 return $this->redirectToRoute('team');
             }
-            $url = $this->generateUrl('fos_user_registration_confirm',array('token' => $conf_token),UrlGeneratorInterface::ABSOLUTE_URL);
+            $url = $this->generateUrl(
+              'fos_user_registration_confirm',
+              array('token' => $conf_token),
+              UrlGeneratorInterface::ABSOLUTE_URL
+            );
             //send email to the new user
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
@@ -237,42 +261,68 @@ class AdminController extends AbstractController
     {
         $user = $this->GetUser();
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
-        $em = $this->getDoctrine()->getManager();
+        $em   = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
 
-        $isOldPasswordMatch = (password_verify ( $form->get('password')->getData() , $this->getUser()->getPassword()));
-        $isNewPasswordMatch = ($form->get('passwordNew')->getdata() == $form->get('passwordNewConfirm')->getdata());
-        $isChangedUsername = ($form->get('username')->getdata() != $this->getUser()->getUsername());
-        $isOK=false;
+        $isOldPasswordMatch = (password_verify(
+          $form->get('password')->getData(),
+          $this->getUser()->getPassword()
+        ));
+        $isNewPasswordMatch = ($form->get('passwordNew')->getdata(
+          ) == $form->get('passwordNewConfirm')->getdata());
+        $isChangedUsername  = ($form->get('username')->getdata(
+          ) != $this->getUser()->getUsername());
+        $isOK               = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($isOldPasswordMatch){
-                if($isChangedUsername){
+            if ($isOldPasswordMatch) {
+                if ($isChangedUsername) {
                     $user->setUsername($form->get('username')->getdata());
-                    $isOK=true;
+                    $isOK = true;
                 }
-                if($form->get('passwordNew')->getdata() && $form->get('passwordNewConfirm')->getdata()){
-                    if ($isNewPasswordMatch){
-                        $user->setPassword(password_hash($form->get('passwordNew')->getdata(), PASSWORD_BCRYPT, ['cost' => 13]));
-                        $isOK=true;
-                    }
-                    else{
-                        $this->addFlash('info' ,"les mots de passe saisi ne correspondent pas");
+                if ($form->get('passwordNew')->getdata() && $form->get(
+                    'passwordNewConfirm'
+                  )->getdata()
+                ) {
+                    if ($isNewPasswordMatch) {
+                        $user->setPassword(
+                          password_hash(
+                            $form->get('passwordNew')->getdata(),
+                            PASSWORD_BCRYPT,
+                            ['cost' => 13]
+                          )
+                        );
+                        $isOK = true;
+                    } else {
+                        $this->addFlash(
+                          'info',
+                          "les mots de passe saisi ne correspondent pas"
+                        );
                     }
                 }
                 $em->persist($user);
                 try {
-                    if($isOK) {
+                    if ($isOK) {
                         $em->flush();
-                        $this->addFlash("success", "les informations ont été correctement enregistés");
+                        $this->addFlash(
+                          "success",
+                          "les informations ont été correctement enregistés"
+                        );
                     }
 
                 } catch (UniqueConstraintViolationException $e) {
-                    $this->addFlash('danger', "le nom d'utilisateur saisi existe déjà");
+                    $this->addFlash(
+                      'danger',
+                      "le nom d'utilisateur saisi existe déjà"
+                    );
+
                     return $this->redirectToRoute('settings');
                 }
-            }else{
-                $this->addFlash('info', "le mot de passe courant saisi est incorrect");
+            } else {
+                $this->addFlash(
+                  'info',
+                  "le mot de passe courant saisi est incorrect"
+                );
             }
         }
 

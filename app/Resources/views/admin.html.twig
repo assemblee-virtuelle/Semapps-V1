@@ -15,7 +15,6 @@
 
 {% block body %}
     <header>
-
         <div class="container">
             <div class="row">
                 <div class="col col-xs-4 col-sm-8">
@@ -162,6 +161,11 @@
         </div>
         <div class="clearfix"></div>
     </header>
+
+    <div class="banner-top"
+         style="background-image: url( '{{ asset('common/images/' ~ photoBannerFileName ~ '.jpg') }}');">
+    </div>
+
     {{ parent() }}
     {% block bodyContent %}
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
