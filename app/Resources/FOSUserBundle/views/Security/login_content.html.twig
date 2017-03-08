@@ -5,66 +5,80 @@
 <div class="container container-auth">
     <div class="row">
         <div class="col col-sm-4">
-            <form id="login-form" action="{{ path("fos_user_security_check") }}"
-                  method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-                {% if csrf_token %}
-                    <input class="form-control" type="hidden" name="_csrf_token"
-                           value="{{ csrf_token }}"/>
-                {% endif %}
+            <div class="block-banner-overflow">
+                <form id="login-form"
+                      action="{{ path("fos_user_security_check") }}"
+                      method="post">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    {% endif %}
+                    {% if csrf_token %}
+                        <input class="form-control" type="hidden"
+                               name="_csrf_token"
+                               value="{{ csrf_token }}"/>
+                    {% endif %}
 
-                <label for="username">{{ 'security.login.username'|trans }}</label>
-                <input class="form-control" placeholder="MyPseudo" type="text"
-                       id="username" name="_username"
-                       value="{{ last_username }}"
-                       required="required"/>
+                    <label for="username">{{ 'security.login.username'|trans }}</label>
+                    <input class="form-control" placeholder="MyPseudo"
+                           type="text"
+                           id="username" name="_username"
+                           value="{{ last_username }}"
+                           required="required"/>
 
-                <label for="password">{{ 'security.login.password'|trans }}</label>
-                <input class="form-control" placeholder="Password"
-                       type="password"
-                       id="password" name="_password" required="required"/>
+                    <label for="password">{{ 'security.login.password'|trans }}</label>
+                    <input class="form-control" placeholder="Password"
+                           type="password"
+                           id="password" name="_password" required="required"/>
 
-                <div class="checkbox">
-                    <label for="remember_me"><input type="checkbox"
-                                                    id="remember_me"
-                                                    name="_remember_me"
-                                                    value="on"/> {{ 'security.login.remember_me'|trans }}
-                    </label>
-                </div>
+                    <div class="checkbox">
+                        <label for="remember_me"><input type="checkbox"
+                                                        id="remember_me"
+                                                        name="_remember_me"
+                                                        value="on"/> {{ 'security.login.remember_me'|trans }}
+                        </label>
+                    </div>
 
-                <input class="form-control btn btn-primary-lgv" type="submit"
-                       id="_submit" name="_submit"
-                       value="{{ 'security.login.submit'|trans }}"/>
-                <br/>
-                <br/>
-                <a href="{{ url('fos_user_resetting_request') }}">Mot de passe
-                    oublié ?</a>
-            </form>
-
+                    <input class="form-control btn btn-primary-lgv"
+                           type="submit"
+                           id="_submit" name="_submit"
+                           value="{{ 'security.login.submit'|trans }}"/>
+                    <br/>
+                    <br/>
+                    <a href="{{ url('fos_user_resetting_request') }}">Mot de
+                        passe
+                        oublié ?</a>
+                </form>
+            </div>
         </div>
         <div class="col col-sm-6 col-sm-offset-1">
-            {% embed "alertBobby.html.twig" %}
-                {% block title %}Salut à toi Ô Voisin&nbsp;!{% endblock %}
-                {% block content %}
-                    <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur
-                        l’application de cartographie des Grands Voisins !</p>
+            <div class="block-banner-overflow-transparent">
+                {% embed "alertBobby.html.twig" %}
+                    {% block title %}Salut à toi Ô Voisin&nbsp;!{% endblock %}
+                    {% block content %}
+                        <p>Je m’appelle Bobby, et je te souhaite la bienvenue
+                            sur
+                            l’application de cartographie des Grands Voisins
+                            !</p>
 
-                    <p>Tu as sans doute remarqué que tu ne pouvais pas te créer
-                        un compte tout seul. C’est normal, il s’agit d’un outil
-                        interne aux Grands Voisins :</p>
+                        <p>Tu as sans doute remarqué que tu ne pouvais pas te
+                            créer
+                            un compte tout seul. C’est normal, il s’agit d’un
+                            outil
+                            interne aux Grands Voisins :</p>
 
-                    <p>Si tu es affilié à une organisation, un référent de ta
-                        structure a du t’attribuer un identifiant / mot de
-                        passe. Demande lui si ce n’est pas le cas !</p>
+                        <p>Si tu es affilié à une organisation, un référent de
+                            ta
+                            structure a du t’attribuer un identifiant / mot de
+                            passe. Demande lui si ce n’est pas le cas !</p>
 
-                    <p>Si tu es résident et que tu n’as pas reçu d’identifiant,
-                        écris un mail à <a
-                                href="mailto:c.gondouin@aurore.asso.fr">c.gondouin@aurore.asso.fr</a>
-                    </p>
-                {% endblock %}
-            {% endembed %}
+                        <p>Si tu es résident et que tu n’as pas reçu
+                            d’identifiant,
+                            écris un mail à <a
+                                    href="mailto:c.gondouin@aurore.asso.fr">c.gondouin@aurore.asso.fr</a>
+                        </p>
+                    {% endblock %}
+                {% endembed %}
+            </div>
         </div>
     </div>
 </div>

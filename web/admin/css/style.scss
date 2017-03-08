@@ -170,7 +170,6 @@ input.form-control {
 }
 
 .container-auth {
-  margin-top: -140px;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
@@ -217,11 +216,20 @@ input.form-control {
 }
 
 #login-form {
-  margin-bottom: 60px;
-  margin-top: 110px;
+}
+
+.block-banner-overflow {
   background: #FFF;
-  padding: 10px 25px;
-  border-radius: 5px;
+}
+
+.block-banner-overflow,
+.block-banner-overflow-transparent {
+  margin-bottom: 60px;
+  margin-top: -60px;
+  padding: 10px 40px;
+  .alert-bobby {
+    margin-top: -90px;
+  }
 }
 
 .logo-circle {
