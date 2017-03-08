@@ -14,9 +14,9 @@ class LgvAdminPageProfile extends LgvAdminPage {
     }
 
     // Change image field.
-    let $form = $('#profilePicture');
+    let $form = $('#profilePictureForm');
     $form.find('input[type="file"]').change(()=> {
-      $form.find('form').submit();
+      $form.submit();
     });
   }
 }

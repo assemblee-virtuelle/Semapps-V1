@@ -36,14 +36,18 @@
     <br>
     <div class="row">
         <div class="col-sm-2">
-            <a href="#" id="profilePicture" class="thumbnail" class="profileEditSwitch">
+            {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
+            <a href="#" id="profilePicture" class="thumbnail profileEditSwitch">
                 <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
                      style="width:100%"
                      alt="Picture">
-                <span class="profileEditToSwitch" style="display:none">
+                <span id="profileEditPictureField" class="profileEditToSwitch" style="display:none">
+                    {{ form_errors(picture) }}
+                    {{ form_widget(picture.pictureName) }}
                     {{ form(picture) }}
                 </span>
             </a>
+            {{ form_end(picture) }}
         </div>
         <form class="col-sm-9">
             <div class="profileEditToSwitch">

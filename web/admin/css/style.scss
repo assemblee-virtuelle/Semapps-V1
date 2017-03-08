@@ -171,19 +171,20 @@ input.form-control {
 
 #profilePicture {
   position: relative;
-  label {
-    display: none;
-  }
-  [type="submit"] {
-    display: none;
-  }
-/*  [type="file"], div {
+  #profileEditPictureField {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     overflow: hidden;
-    //background: red;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-  }*/
+    input[type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+    }
+  }
 }

@@ -48,7 +48,6 @@ class AdminController extends AbstractController
         $picture = $this->createFormBuilder($user)
             ->add('pictureName',FileType::class,array('data_class' =>null))
             ->add('oldPicture',HiddenType::class,array('mapped' => false,'data'=>$user->getPictureName()))
-            ->add('enregister',SubmitType::class)
             ->getForm();
 
         $picture->handleRequest($request);
