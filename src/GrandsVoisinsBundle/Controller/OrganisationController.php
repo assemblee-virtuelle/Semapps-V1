@@ -153,7 +153,7 @@ class OrganisationController extends AbstractController
         return $this->render(
           'GrandsVoisinsBundle:Organisation:home.html.twig',
           array(
-            "organisations" => $organisations,
+            "organisations"       => $organisations,
             "formAddOrganisation" => $form->createView(),
           )
         );
@@ -222,7 +222,6 @@ class OrganisationController extends AbstractController
         $responsable = $userEntity->findOneBy(
           ["email" => explode(':', urldecode($_POST["graphURI"]))[1]]
         );
-
 
         $info = $this->container
           ->get('semantic_forms.client')
