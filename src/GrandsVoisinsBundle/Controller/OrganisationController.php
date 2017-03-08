@@ -5,13 +5,10 @@ namespace GrandsVoisinsBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
-use GrandsVoisinsBundle\Form\AdminSettings;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OrganisationController extends AbstractController
 {
@@ -126,12 +123,13 @@ class OrganisationController extends AbstractController
 
                 return $this->redirectToRoute('all_orga');
             }
+            $url = $this->generateUrl('fos_user_registration_confirm',array('token' => $conf_token),UrlGeneratorInterface::ABSOLUTE_URL);
             // send email to the new organization
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
                 $user,
                 GrandsVoisinsConfig::ORGANISATION,
-                $conf_token,
+                $url,
                 $randomPassword,
                 $organisation
               );
@@ -153,7 +151,8 @@ class OrganisationController extends AbstractController
         return $this->render(
           'GrandsVoisinsBundle:Organisation:home.html.twig',
           array(
-            "organisations"       => $organisations,
+            "tabOrga" => GrandsVoisinsConfig::$buildings,
+            "organisations" => $organisations,
             "formAddOrganisation" => $form->createView(),
           )
         );
