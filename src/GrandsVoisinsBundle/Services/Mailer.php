@@ -18,7 +18,7 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
-    private $from = "seb.mail.symfony@gmail.com";
+    private $from = "noreply@lesgrandsvoisins.org";
 
     public function __construct($mailer, EngineInterface $templating)
     {
