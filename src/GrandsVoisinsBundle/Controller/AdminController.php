@@ -9,8 +9,8 @@ use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GrandsVoisinsBundle\Form\AdminSettings;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 class AdminController extends AbstractController
@@ -176,13 +176,13 @@ class AdminController extends AbstractController
 
                 return $this->redirectToRoute('team');
             }
-
+            $url = $this->generateUrl('fos_user_registration_confirm',array('token' => $conf_token),UrlGeneratorInterface::ABSOLUTE_URL);
             //send email to the new user
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
                 $data,
                 GrandsVoisinsConfig::TEAM,
-                $conf_token,
+                $url,
                 $randomPassword
               );
 

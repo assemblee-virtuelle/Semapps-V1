@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 {
@@ -135,7 +136,9 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 
         $output->writeln(sprintf("sending the email for the user with:\n\t-username:%s\n\t-password:%s ",$username,$randomPassword));
 
-        $mailer->sendConfirmMessage($user, GrandsVoisinsConfig::ORGANISATION, $conf_token, $randomPassword, $organization);
+        $url = $this->getContainer()->get('router')->generate('fos_user_registration_confirm',array('token' => $conf_token),UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $mailer->sendConfirmMessage($user, GrandsVoisinsConfig::ORGANISATION, $url, $randomPassword, $organization);
         $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');
     }

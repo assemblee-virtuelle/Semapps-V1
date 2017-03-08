@@ -18,6 +18,7 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
+    //TODO:no-reply@lesgrandsvoising.org in parameters
     private $from = "seb.mail.symfony@gmail.com";
 
     public function __construct($mailer, EngineInterface $templating)
@@ -38,11 +39,11 @@ class Mailer
         $this->mailer->send($mail);
     }
 
-    public function sendConfirmMessage(User $user, $name, $conf_token, $randomPassword, Organisation $organisation = null)
+    public function sendConfirmMessage(User $user, $name, $url, $randomPassword, Organisation $organisation = null)
     {
         $subject = "Bonjour " . $user->getUsername();
         $to = $user->getEmail();
-        $body = GrandsVoisinsConfig::bodyMail($name, $user, $conf_token, $randomPassword, $organisation);
+        $body = GrandsVoisinsConfig::bodyMail($name, $user, $url, $randomPassword, $organisation);
         $this->sendMessage($to, $subject, $body);
     }
 }
