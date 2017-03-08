@@ -7,9 +7,9 @@
 {% block pageContent %}
     {{ parent() }}
     <h2>Membres</h2>
-    <table class="table table-bordered">
+    <table id="teamManager" class="table table-bordered">
         {% for user in users %}
-            <tr>
+            <tr rel="{{ user.id }}">
                 <td class="padded-value" style="width:40%">
                     {{ user.username }}
                 </td>
