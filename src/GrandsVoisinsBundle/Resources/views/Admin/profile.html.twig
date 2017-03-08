@@ -22,17 +22,6 @@
 {% block pageContent %}
     {{ parent() }}
 
-    <div class="row">
-        <div class="col col-sm-12">
-            <ul id="searchTabs" class="nav nav-tabs">
-                <li role="presentation" class="active pull-right">
-                    <a class="profileEditSwitch" href="#">
-                        <span class="glyphicon glyphicon-pencil"></span>&nbsp;Editer
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
     <br>
     <div class="row">
         <div class="col-sm-2">
@@ -41,7 +30,7 @@
                 <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
                      style="width:100%"
                      alt="Picture">
-                <span id="profileEditPictureField" class="profileEditToSwitch" style="display:none">
+                <span id="profileEditPictureField">
                     {{ form_errors(picture) }}
                     {{ form_widget(picture.pictureName) }}
                     {{ form(picture) }}
@@ -49,19 +38,7 @@
             </a>
             {{ form_end(picture) }}
         </div>
-        <form class="col-sm-9">
-            <div class="profileEditToSwitch">
-                <h2>Prénom Nom</h2>
-                <ul class="list">
-                    <li><span>3 ans et demi</span></li>
-                    <li><span>Téléphone : 01 23 45 67 89</span></li>
-                    <li><span>Site web : <a href="http://www.site.com"
-                                            target="_blank">http://www.site.com</a></span>
-                    </li>
-                </ul>
-            </div>
-        </form>
-        <div class="profileEditToSwitch" style="display:none">
+        <div>
             {% if form is not null %}
                 <form class="col-sm-6 sf-standard-form"
                       action="{{ path('profileSave') }}" method="post"
