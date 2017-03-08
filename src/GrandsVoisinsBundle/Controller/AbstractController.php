@@ -14,6 +14,7 @@ class AbstractController extends Controller
       array $parameters = array(),
       Response $response = null
     ) {
+        /* @var $user \GrandsVoisinsBundle\Entity\User */
         $user = $this->getUser();
         if ($user) {
             // Navigation is disabled when user has no profile.
