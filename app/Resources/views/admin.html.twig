@@ -206,24 +206,30 @@
                                                 Mon profil
                                             </a>
                                         </li>
+                                        {% if is_granted('ROLE_ADMIN') %}
                                         <li>
                                             <a href="{{ path('detail_orga') }}">
                                                 <span class="glyphicon glyphicon-tower"></span>
                                                 Mon organisation
                                             </a>
                                         </li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_ADMIN') %}
                                         <li>
                                             <a href="{{ path('team') }}">
                                                 <span class="glyphicon glyphicon-record"></span>
                                                 Equipe
                                             </a>
                                         </li>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_PATRON') %}
                                         <li>
                                             <a href="{{ path('all_orga') }}">
                                                 <span class="glyphicon glyphicon-globe"></span>
                                                 Les organisations
                                             </a>
                                         </li>
+                                        {% endif %}
                                         <li>
                                             <a href="{{ path('settings') }}">
                                                 <span class="glyphicon glyphicon-cog"></span>
