@@ -197,6 +197,9 @@ input.form-control {
   .page-header .glyphicon {
     color: #FFCC00; }
 
+.page-content {
+  min-height: 60vh; }
+
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
   background: #F5F5F5; }
@@ -275,3 +278,17 @@ input.form-control {
       bottom: 0;
       right: 0;
       opacity: 0; }
+  top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden; }
+    #profilePicture #profileEditPictureField input[type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0; }
+
+/*# sourceMappingURL=style.css.map */
