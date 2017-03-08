@@ -197,9 +197,6 @@ input.form-control {
   .page-header .glyphicon {
     color: #FFCC00; }
 
-.container-auth {
-  margin-top: -140px; }
-
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
   background: #F5F5F5; }
@@ -233,12 +230,17 @@ input.form-control {
       letter-spacing: 1px;
       margin: 25px; }
 
-#login-form {
+.block-banner-overflow {
+  background: #FFF; }
+
+.block-banner-overflow,
+.block-banner-overflow-transparent {
   margin-bottom: 60px;
-  margin-top: 110px;
-  background: #FFF;
-  padding: 10px 25px;
-  border-radius: 5px; }
+  margin-top: -60px;
+  padding: 10px 40px; }
+  .block-banner-overflow .alert-bobby,
+  .block-banner-overflow-transparent .alert-bobby {
+    margin-top: -90px; }
 
 .logo-circle {
   width: 133px;
