@@ -5,6 +5,7 @@
   <link rel="import" href="../gv-map/gv-map.html">
   <link rel="import" href="../gv-results/gv-results.html">
   <link rel="import" href="../gv-detail/gv-detail.html">
+  <link rel="import" href="../gv-spinner/gv-spinner.html">
   <template>
     <div id="gv-carto">
       <a id="my-account-link" href="/mon-compte" target="_parent">
@@ -17,7 +18,8 @@
         app-route elements to consume. Since this demo needs to run without
         server cooperation (e.g. with polyserve, in the elements catalog, etc) we'll
         use the hash portion of the URL for our route paths. -->
-        <app-location route='{{route}}' query-params="{{queryParams}}"></app-location>
+        <app-location route='{{route}}'
+                      query-params="{{queryParams}}"></app-location>
 
         <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"
                    tail="{{searchTail}}"></app-route>
@@ -26,8 +28,10 @@
           <gv-results name="rechercher"
                       route="{{searchTail}}"></gv-results>
           <gv-detail name="detail"
-                           route="{{searchTail}}"></gv-detail>
+                     route="{{searchTail}}"></gv-detail>
         </iron-pages>
+
+        <gv-spinner></gv-spinner>
 
       </div>
 

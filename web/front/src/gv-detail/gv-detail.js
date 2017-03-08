@@ -14,13 +14,20 @@ Polymer({
     if (data.prefix === '/detail' &&
       data.__queryParams &&
       data.__queryParams.uri) {
-      this.detailLoad(data.__queryParams.uri);
+      // Wait main object to be ready.
+      GVCarto.ready(() => {
+        this.detailLoad(data.__queryParams.uri);
+      });
     }
   },
 
   detailLoad: function (encodedUri) {
     "use strict";
-
+    // Show spin.
+    gvc.loadingPageContentStart();
+    // Hide content.
+    this.$.detail.style.display = 'none';
+    // Request server.
     $.ajax({
       url: '/webservice/detail?uri=' + encodedUri,
       dataType: 'json',
@@ -34,6 +41,10 @@ Polymer({
 
   detailLoadComplete: function (data) {
     "use strict";
-    log(data);
+    // Show detail content.
+    this.$.detail.style.display = '';
+    // Hide spin.
+    gvc.loadingPageContentStop();
+    log(data.responseJSON);
   }
 });

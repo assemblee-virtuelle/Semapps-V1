@@ -16,6 +16,7 @@
       this.firstSearch = true;
       this.$window = $(window);
       this.buildingSelected = 'partout';
+      this.$loadingSpinner = $('#gv-spinner');
 
       // Special class for dev env.
       if (window.location.hostname === '127.0.0.1') {
@@ -99,6 +100,14 @@
       }
     }
 
+    loadingPageContentStart() {
+      this.$loadingSpinner.show();
+    }
+
+    loadingPageContentStop() {
+      this.$loadingSpinner.hide();
+    }
+
     /* -- Waiting --*/
     stateWaitingInit() {
 
@@ -174,11 +183,11 @@
 
       // Hide all results.
       $('#gv-results-empty, #gv-results-error').hide();
-      let $loadingSpinner = $('#gv-spinner');
+      this.loadingPageContentStart();
 
       // Build callback function.
       let complete = (data) => {
-        $loadingSpinner.hide();
+        this.loadingPageContentStop();
         this.renderSearchResult(data.responseJSON);
       };
 
@@ -187,7 +196,7 @@
       // It prevent to parse multiple responses.
       this.searchQueryLastComplete = complete;
 
-      $loadingSpinner.show();
+      this.loadingPageContentStart();
 
       $.ajax({
         url: '/webservice/search?b=' + encodeURIComponent(building) + '&t=' + encodeURIComponent(term),
