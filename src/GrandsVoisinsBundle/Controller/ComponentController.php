@@ -76,7 +76,7 @@ class ComponentController extends AbstractController
 
 
         if(!$json){
-            $this->addFlash('info','Une erreur s\'est produite lors de l\'affichage du formulaire');
+            $this->addFlash('danger','Une erreur s\'est produite lors de l\'affichage du formulaire');
             return $this->redirectToRoute('home');
         }
 
