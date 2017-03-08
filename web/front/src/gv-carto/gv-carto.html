@@ -17,7 +17,7 @@
         app-route elements to consume. Since this demo needs to run without
         server cooperation (e.g. with polyserve, in the elements catalog, etc) we'll
         use the hash portion of the URL for our route paths. -->
-        <app-location route='{{route}}'></app-location>
+        <app-location route='{{route}}' query-params="{{queryParams}}"></app-location>
 
         <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"
                    tail="{{searchTail}}"></app-route>

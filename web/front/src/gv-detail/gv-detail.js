@@ -11,20 +11,29 @@ Polymer({
   },
 
   _routeChanged: function (data) {
-    // Don't know how to filter out this.
-    /*if (data.prefix === '/organization') {
-     window.GVCarto.ready(function () {
-     this.refresh(data.path.slice(1));
-     }.bind(this));
-     }
-     else {
-     // Hide all maps on live route change.
-     window.gvc && window.gvc.mapDeselectBuilding();
-     }*/
+    if (data.prefix === '/detail' &&
+      data.__queryParams &&
+      data.__queryParams.uri) {
+      this.detailLoad(data.__queryParams.uri);
+    }
   },
 
-  attached: function () {
+  detailLoad: function (encodedUri) {
     "use strict";
-    window.gvc.detailLoad(window.location.hash.slice(1));
+
+    $.ajax({
+      url: '/webservice/detail?uri=' + encodedUri,
+      dataType: 'json',
+      complete: (data) => {
+        "use strict";
+        // Check that we are on the last callback expected.
+        this.detailLoadComplete(data)
+      }
+    });
+  },
+
+  detailLoadComplete: function (data) {
+    "use strict";
+    log(data);
   }
 });
