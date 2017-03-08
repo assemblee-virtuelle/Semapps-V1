@@ -282,6 +282,14 @@ class OrganisationController extends AbstractController
         } else {
             // Delete.
             $entityManager->remove($organisation);
+
+            $entityManager
+              ->getConnection()
+              ->prepare(
+                'DELETE FROM user WHERE fk_organisation = :id_organisation'
+              )
+              ->execute([':id_organisation' => $organisation->getId()]);
+
             $entityManager->flush();
             // Display success message.
             $this->addFlash(
