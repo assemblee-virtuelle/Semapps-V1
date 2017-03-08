@@ -25,18 +25,13 @@ class AdminSettings extends AbstractType
           TextType::class,
           array(
             'label'       => 'login',
+            'mapped'  => false,
+            'data' =>$options["data"]->getUsername(),
             'constraints' => array(
               new NotBlank(),
             ),
           )
         )
-          ->add(
-            'email',
-            EmailType::class,
-            [
-              'label' => 'Adresse email',
-            ]
-          )
           ->add(
             'password',
             PasswordType::class,

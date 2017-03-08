@@ -241,12 +241,43 @@ class AdminController extends AbstractController
     {
         $user = $this->GetUser();
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
-
+        $em = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
 
+        $isOldPasswordMatch = (password_verify ( $form->get('password')->getData() , $this->getUser()->getPassword()));
+        $isNewPasswordMatch = ($form->get('passwordNew')->getdata() == $form->get('passwordNewConfirm')->getdata());
+        $isChangedUsername = ($form->get('username')->getdata() != $this->getUser()->getUsername());
+        $isOK=false;
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // TODO Check password match
-            // TODO Save.
+            if($isOldPasswordMatch){
+                if($isChangedUsername){
+                    $user->setUsername($form->get('username')->getdata());
+                    $isOK=true;
+                }
+                if($form->get('passwordNew')->getdata() && $form->get('passwordNewConfirm')->getdata()){
+                    if ($isNewPasswordMatch){
+                        $user->setPassword(password_hash($form->get('passwordNew')->getdata(), PASSWORD_BCRYPT, ['cost' => 13]));
+                        $isOK=true;
+                    }
+                    else{
+                        $this->addFlash('info' ,"les mots de passe saisi ne correspondent pas");
+                    }
+                }
+                $em->persist($user);
+                try {
+                    if($isOK) {
+                        $em->flush();
+                        $this->addFlash("success", "les informations ont été correctement enregistés");
+                    }
+
+                } catch (UniqueConstraintViolationException $e) {
+                    $this->addFlash('danger', "le nom d'utilisateur saisi existe déjà");
+                    return $this->redirectToRoute('settings');
+                }
+            }else{
+                $this->addFlash('info', "le mot de passe courant saisi est incorrect");
+            }
         }
 
         return $this->render(
