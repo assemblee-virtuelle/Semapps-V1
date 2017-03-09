@@ -18,10 +18,11 @@ class LgvAdminPageTeam extends LgvAdminPage {
     $(document.getElementById('teamManager')).find('tr').each(function () {
       let $this = $(this);
       let userId = $this.attr('rel');
+
       // Manage select changes.
       $this.find('select[name=accessLevel]').change(function () {
-        // TODO Faire les contolleurs change-user-access/userId/accessLevel
-        console.log(userId);
+          let roles = $(this).val();
+          window.location.replace('/mon-compte/access/change/' + userId + '/' + roles);
       });
     });
   }

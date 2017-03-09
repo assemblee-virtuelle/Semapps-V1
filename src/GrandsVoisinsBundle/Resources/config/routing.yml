@@ -49,6 +49,10 @@ userDelete:
     path:     /mon-compte/user/delete/{userId}
     defaults: { _controller: GrandsVoisinsBundle:Admin:userDelete }
 
+changeAccess:
+    path:    /mon-compte/access/change/{userId}/{roles}
+    defaults: { _controller: GrandsVoisinsBundle:Admin:changeAccess }
+
 webserviceBuilding:
     path:     /webservice/building
     defaults: { _controller: GrandsVoisinsBundle:Webservice:building }

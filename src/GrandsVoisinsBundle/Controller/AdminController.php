@@ -334,4 +334,17 @@ class AdminController extends AbstractController
           )
         );
     }
+
+    public function changeAccessAction($userId, $roles){
+
+        $em = $this->getDoctrine()->getManager();
+        $userManager = $em->getRepository('GrandsVoisinsBundle:User')->find($userId);
+
+        $userManager->setRoles(array($roles));
+        $em->persist($userManager);
+        $em->flush($userManager);
+
+
+        return $this->redirectToRoute('team');
+    }
 }
