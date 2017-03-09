@@ -224,14 +224,27 @@ class SemanticFormsClient
 
     public function request($sparqlRequest)
     {
-        $this->auth();
+        $options['headers'] = [
+            // Sign request.
+          'User-Agent' => 'GrandsVoisinsBundle',
+            // Ensure to get JSON response.
+          'Accept'     => 'application/json',
+        ];
 
-        echo $this->post(
-          '/sparql-data',
-          [
-            'query' => urlencode($sparqlRequest),
-          ]
-        );
+        try {
+            $result = $this->post(
+              '/sparql-data',
+              [
+                'form_params' => [
+                  'query' => $sparqlRequest,
+                ],
+              ]
+            );
+
+            return $result->getStatusCode() === 200 ? $result->getBody() : '{}';
+        } catch (RequestException $e) {
+            return $e;
+        }
     }
 
 }

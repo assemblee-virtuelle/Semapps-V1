@@ -18,16 +18,6 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 class AdminController extends AbstractController
 {
 
-    public function render(
-      $view,
-      array $parameters = array(),
-      Response $response = null
-    ) {
-        $parameters['photoBannerFileName'] = 'banner-01';
-
-        return parent::render($view, $parameters, $response);
-    }
-
     public function homeAction()
     {
         return $this->redirectToRoute('profile');

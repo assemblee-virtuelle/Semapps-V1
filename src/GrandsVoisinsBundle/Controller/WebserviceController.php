@@ -47,21 +47,43 @@ class WebserviceController extends AbstractController
      */
     public function detailAction(Request $request)
     {
-        $output = [];
+        return new JsonResponse(
+          (object)[
+            'detail' => $this->requestPair($request->get('uri')),
+          ]
+        );
+    }
+
+    public function requestPair($uri)
+    {
+        $request = 'PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> '.
+          'PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> '.
+          'prefix foaf: <http://xmlns.com/foaf/0.1/> '.
+          'prefix cco: <http://purl.org/ontology/cco/core#> '.
+          'CONSTRUCT { '.
+          '<'.$uri.'> foaf:givenName ?GN . '.
+          '<'.$uri.'> foaf:familyName ?FN . '.
+          '<'.$uri.'> foaf:homepage ?H . '.
+          '<'.$uri.'> foaf:topic_interest ?TI . '.
+          '<'.$uri.'> foaf:knows ?KN . '.
+          '<'.$uri.'> foaf:currentProject ?P . '.
+          '<'.$uri.'> cco:expertise ?EX . '.
+          '} WHERE { GRAPH ?G { '.
+          'OPTIONAL { <'.$uri.'> foaf:givenName ?GN } '.
+          'OPTIONAL { <'.$uri.'> foaf:familyName ?FN } '.
+          'OPTIONAL { <'.$uri.'> foaf:homepage ?H } '.
+          'OPTIONAL { <'.$uri.'> foaf:topic_interest ?TI } '.
+          'OPTIONAL { <'.$uri.'> foaf:knows ?KN } '.
+          'OPTIONAL { <'.$uri.'> foaf:currentProject ?P } '.
+          'OPTIONAL { <'.$uri.'> cco:expertise ?EX } } }';
 
         // URI may point to a place outside SF, but
         // a lot of them should come from here, so we
         // have to authenticate.
         $sfClient = $this->container->get('semantic_forms.client');
 
-        $sfClient->request('prefix foaf: <http://xmlns.com/foaf/0.1/>
-        SELECT DISTINCT *
-        WHERE {GRAPH ?G {
-        ?S ?P ?O .
-        ?S a foaf:Organization .
-        }}
-        LIMIT 111');
+        $json = json_decode($sfClient->request($request));
 
-        exit;
+        return isset($json->fields) ? $json->fields : (object)[];
     }
 }
