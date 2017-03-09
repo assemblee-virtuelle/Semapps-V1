@@ -8,10 +8,21 @@ use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 class OrganisationController extends AbstractController
 {
+    public function render(
+        $view,
+        array $parameters = array(),
+        Response $response = null
+    ) {
+        $parameters['photoBannerFileName'] = 'banner-01';
+
+        return parent::render($view, $parameters, $response);
+    }
     public function allAction(Request $request)
     {
 
@@ -184,10 +195,10 @@ class OrganisationController extends AbstractController
         $responsible = $userEntity->find($organisation->getFkResponsable());
 
         if (is_null($organisation->getSfOrganisation())) {
-            $json = $sfClient->createFoaf('Organization');
+            $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
             $edit = false;
         } else {
-            $json = $sfClient->getForm($organisation->getSfOrganisation());
+            $json = $sfClient->edit($organisation->getSfOrganisation(),SemanticFormsClient::ORGANISATION);
             $edit = true;
         }
         if (!$json) {

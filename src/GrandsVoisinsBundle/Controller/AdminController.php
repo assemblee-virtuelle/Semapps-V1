@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+
 
 class AdminController extends AbstractController
 {
@@ -38,9 +40,9 @@ class AdminController extends AbstractController
         $sfClient   = $this->container->get('semantic_forms.client');
 
         if (!$userSfLink) {
-            $form = $sfClient->createSpecType('Person');
+            $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
         } else {
-            $form = $sfClient->getForm($userSfLink);
+            $form = $sfClient->edit($userSfLink,SemanticFormsClient::PERSON_EDIT);
         }
 
         // If errors, form will be null.

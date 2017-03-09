@@ -39,6 +39,7 @@
             {{ form_end(picture) }}
         </div>
         <div>
+            {{ dump(form) }}
             {% if form is not null %}
                 <form class="col-sm-6 sf-standard-form"
                       action="{{ path('profileSave') }}" method="post"
@@ -69,12 +70,21 @@
                                         {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
                                             <input class="form-control ref"
                                                    type="url"
+                                                   placeholder="http://..."
                                                    name="{{ field.htmlName }}"
                                                    value="{{ field.value }}">
-                                        {% else %}
+                                        {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
                                             <input class="form-control ref"
-                                                   type="{{ field.widgetType|lower|split(' ')[0] }}"
+                                                   type="text"
+                                                   placeholder="texte..."
                                                    name={{ field.htmlName }} value="{{ field.value }}">
+
+                                        {% else %}
+                                            <input class="hasLookup form-control ui-autocomplete-input ref"
+                                                   type="url"
+                                                   placeholder="DBPedia..."
+                                                   name="{{ field.htmlName }}"
+                                                   value="{{ field.value }}">
                                         {% endif %}
 
                                     {% endif %}

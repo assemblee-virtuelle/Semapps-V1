@@ -45,11 +45,23 @@
                                    value="{{ field.value }}">
                         {% else %}
                             {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                <input class="form-control ref" type="url" name="{{ field.htmlName }}"
+                                <input class="form-control ref"
+                                       type="url"
+                                       placeholder="http://..."
+                                       name="{{ field.htmlName }}"
                                        value="{{ field.value }}">
-                            {% else %}
-                                <input class="form-control ref" type="{{ field.widgetType|lower|split(' ')[0] }}"
+                            {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
+                                <input class="form-control ref"
+                                       type="text"
+                                       placeholder="texte..."
                                        name={{ field.htmlName }} value="{{ field.value }}">
+
+                            {% else %}
+                                <input class="hasLookup form-control ui-autocomplete-input ref"
+                                       type="url"
+                                       placeholder="DBPedia..."
+                                       name="{{ field.htmlName }}"
+                                       value="{{ field.value }}">
                             {% endif %}
 
                         {% endif %}

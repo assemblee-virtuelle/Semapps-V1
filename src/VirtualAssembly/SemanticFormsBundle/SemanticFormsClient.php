@@ -10,11 +10,17 @@ use GuzzleHttp\TransferStats;
 
 class SemanticFormsClient
 {
-    var $baseUrlFoaf = 'http://xmlns.com/foaf/0.1/';
-    var $specsMap = [
-      'Person' => 'http://raw.githubusercontent.com/jmvanel/semantic_forms/master/vocabulary/forms#personForm',
-    ];
+    var $baseUrlFoaf = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
     var $cookieName = 'cookie.txt';
+
+    CONST PERSON_CREATE = 'form1-Person';
+    CONST PERSON_EDIT = 'form-Person';
+    CONST ORGANISATION = 'form-Organization';
+    CONST PROJET = 'form-Project';
+    //preparing
+    //CONST EVENT = 'form-Event';
+    //CONST PROPOSITION = 'form-Proposition';
+
 
     public function __construct($domain, $login, $password, $timeout)
     {
@@ -157,38 +163,34 @@ class SemanticFormsClient
         return $response->getStatusCode();
     }
 
-    public function createSpec($specUrl)
+    public function create($specType)
     {
         return $this->getJSON(
           '/create-data',
           [
             'query' => [
-              'uri' => $specUrl,
+              'uri' => $this->getSpec($specType),
             ],
           ]
         );
     }
 
-    public function createSpecType($specType)
-    {
-        return $this->createSpec($this->specsMap[$specType]);
-    }
-
-    public function createFoaf($foafType)
-    {
-        return $this->createSpec($this->baseUrlFoaf.$foafType);
-    }
-
-    public function getForm($uri)
+    public function edit($uri,$specType)
     {
         return $this->getJSON(
           '/form-data',
           [
             'query' => [
               'displayuri' => $uri,
+              'formuri' => $this->getSpec($specType),
             ],
           ]
         );
+    }
+
+    public function getSpec($specType)
+    {
+        return $this->baseUrlFoaf.$specType;
     }
 
     private function format($data)
