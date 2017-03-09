@@ -200,7 +200,6 @@ input.form-control {
 .alert-bobby {
   background: url("../../common/images/bobby-min.png") no-repeat center top;
   padding-top: 80px;
-  margin-top: -90px;
   .alert-bobby-inner {
     background: #f1f6fb;
     background: linear-gradient(to bottom, #f5faff 1%, #f1f6fb 100%);
@@ -270,5 +269,11 @@ input.form-control {
       right: 0;
       opacity: 0;
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .alert-bobby {
+    margin-top: -90px;
   }
 }

@@ -198,12 +198,6 @@
                                                 </h4>
                                             </a>
                                         </li>
-                                        {#<li>#}
-                                            {#<a href="{{ path('home') }}">#}
-                                                {#<span class="glyphicon glyphicon-home"></span>#}
-                                                {#Accueil#}
-                                            {#</a>#}
-                                        {#</li>#}
                                         <li>
                                             <a href="{{ path('profile') }}">
                                                 <span class="glyphicon glyphicon-user"></span>
@@ -211,28 +205,28 @@
                                             </a>
                                         </li>
                                         {% if is_granted('ROLE_ADMIN') %}
-                                        <li>
-                                            <a href="{{ path('detail_orga') }}">
-                                                <span class="glyphicon glyphicon-tower"></span>
-                                                Mon organisation
-                                            </a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ path('detail_orga') }}">
+                                                    <span class="glyphicon glyphicon-tower"></span>
+                                                    Mon organisation
+                                                </a>
+                                            </li>
                                         {% endif %}
                                         {% if is_granted('ROLE_ADMIN') %}
-                                        <li>
-                                            <a href="{{ path('team') }}">
-                                                <span class="glyphicon glyphicon-record"></span>
-                                                Equipe
-                                            </a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ path('team') }}">
+                                                    <span class="glyphicon glyphicon-record"></span>
+                                                    Equipe
+                                                </a>
+                                            </li>
                                         {% endif %}
                                         {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                        <li>
-                                            <a href="{{ path('all_orga') }}">
-                                                <span class="glyphicon glyphicon-globe"></span>
-                                                Les organisations
-                                            </a>
-                                        </li>
+                                            <li>
+                                                <a href="{{ path('all_orga') }}">
+                                                    <span class="glyphicon glyphicon-globe"></span>
+                                                    Les organisations
+                                                </a>
+                                            </li>
                                         {% endif %}
                                         <li>
                                             <a href="{{ path('settings') }}">
