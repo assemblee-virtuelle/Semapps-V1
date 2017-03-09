@@ -4,8 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e467ee3134f4312a80b2ae7ea96ed2e",
+    "content-hash": "5b04d4cb731b486d0051457aba595d03",
     "packages": [
+        {
+            "name": "bordercloud/sparql",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BorderCloud/SPARQL.git",
+                "reference": "4adc41ff0de72c95aa82829e1d6a9801f1dd903c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BorderCloud/SPARQL/zipball/4adc41ff0de72c95aa82829e1d6a9801f1dd903c",
+                "reference": "4adc41ff0de72c95aa82829e1d6a9801f1dd903c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "evert/phpdoc-md": "0.0.*",
+                "phpdocumentor/phpdocumentor": "2.*"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-SA-4.0"
+            ],
+            "authors": [
+                {
+                    "name": "Karima Rafes",
+                    "email": "karima.rafes@bordercloud.com",
+                    "homepage": "http://www.bordercloud.com/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Lib PHP very easy for SPARQL 1.1",
+            "homepage": "https://github.com/BorderCloud/SPARQL",
+            "keywords": [
+                "RDF",
+                "sparql"
+            ],
+            "time": "2016-08-09T15:48:07+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "v1.3.1",

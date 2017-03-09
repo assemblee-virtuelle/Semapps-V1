@@ -175,14 +175,14 @@ class SemanticFormsClient
         );
     }
 
-    public function edit($uri,$specType)
+    public function edit($uri, $specType)
     {
         return $this->getJSON(
           '/form-data',
           [
             'query' => [
               'displayuri' => $uri,
-              'formuri' => $this->getSpec($specType),
+              'formuri'    => $this->getSpec($specType),
             ],
           ]
         );
@@ -220,6 +220,18 @@ class SemanticFormsClient
         }
 
         return $data;
+    }
+
+    public function request($sparqlRequest)
+    {
+        $this->auth();
+
+        echo $this->post(
+          '/sparql-data',
+          [
+            'query' => urlencode($sparqlRequest),
+          ]
+        );
     }
 
 }

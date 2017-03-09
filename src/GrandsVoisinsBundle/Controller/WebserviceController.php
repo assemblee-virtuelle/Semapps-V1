@@ -40,6 +40,11 @@ class WebserviceController extends AbstractController
         return new JsonResponse($output);
     }
 
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
     public function detailAction(Request $request)
     {
         $output = [];
@@ -49,16 +54,14 @@ class WebserviceController extends AbstractController
         // have to authenticate.
         $sfClient = $this->container->get('semantic_forms.client');
 
-        $sfClient->auth(
-          $this->getParameter('semantic_forms.login'),
-          $this->getParameter('semantic_forms.password')
-        );
+        $sfClient->request('prefix foaf: <http://xmlns.com/foaf/0.1/>
+        SELECT DISTINCT *
+        WHERE {GRAPH ?G {
+        ?S ?P ?O .
+        ?S a foaf:Organization .
+        }}
+        LIMIT 111');
 
-        $client = new Client();
-        $result = $client->request('GET', $request->query->get('uri'));
-
-        $output['results'] = $result->getBody();
-
-        return new JsonResponse($output);
+        exit;
     }
 }
