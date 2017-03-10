@@ -247,4 +247,15 @@ class SemanticFormsClient
         }
     }
 
+    public function sparql($test){
+        return $this->getJSON(
+            '/sparql',
+            [
+                'query' => [
+                    'query' => $test,
+                ],
+            ]
+        );
+    }
+
 }
