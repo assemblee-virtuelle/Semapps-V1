@@ -30,7 +30,8 @@ var filesJs = {
   'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-detail/gv-detail': true,
-  'web/front/src/gv-map/gv-map': true
+  'web/front/src/gv-map/gv-map': true,
+  'web/front/src/gv-map-pin/gv-map-pin': true
 };
 
 var filesScss = {
@@ -46,7 +47,8 @@ var filesScss = {
   'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-detail/gv-detail': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
-  'web/front/src/gv-map/gv-map': true
+  'web/front/src/gv-map/gv-map': true,
+  'web/front/src/gv-map-pin/gv-map-pin': true
 };
 
 function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
