@@ -157,7 +157,8 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 
         $sfClient = $this->getContainer()->get('semantic_forms.client');
         $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
-
+        $post = array("uri" => $json["subject"], "url" => $json["subject"], "graphURI" => $json["subject"], "<".$json["subject"]."> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization>." =>'http://xmlns.com/foaf/0.1/Organization');
+        $sfClient->send($post,$this->getUser()->getEmail(),$this->getUser()->getSfUser());
 
         $output->writeln(
           sprintf(
