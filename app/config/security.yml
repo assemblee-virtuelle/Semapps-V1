@@ -28,6 +28,7 @@ security:
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
         - { path: ^/orga/detail, role: ROLE_ADMIN }
+        - { path: ^/orga/save, role: ROLE_ADMIN }
         - { path: ^/orga/, role: ROLE_SUPER_ADMIN }
         - { path: ^/component/, role: ROLE_MEMBER }
         - { path: ^/component/new, role: ROLE_EDITOR }
