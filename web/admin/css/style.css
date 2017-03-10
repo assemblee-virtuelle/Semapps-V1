@@ -103,6 +103,14 @@ input[type=submit]:hover {
 input.form-control {
   border-radius: 0; }
 
+.add-widget {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  background: none;
+  color: rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  border-radius: 20px;
+  margin: -3px -11px; }
+
 #loadingPageSpin {
   display: none;
   position: fixed;

@@ -38,7 +38,10 @@ class AdminController extends AbstractController
         if (!$userSfLink) {
             $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
         } else {
-            $form = $sfClient->edit($userSfLink,SemanticFormsClient::PERSON_EDIT);
+            $form = $sfClient->edit(
+              $userSfLink,
+              SemanticFormsClient::PERSON_EDIT
+            );
         }
 
         // If errors, form will be null.
@@ -62,9 +65,16 @@ class AdminController extends AbstractController
 
         if ($picture->isSubmitted() && $picture->isValid()) {
             if ($picture->get('oldPicture')->getData()) {
-                $this->get('GrandsVoisinsBundle.fileUploader')->remove(
-                  $picture->get('oldPicture')->getData()
-                );
+                $oldDir      = $this->get('GrandsVoisinsBundle.fileUploader')
+                  ->getTargetDir(
+                    $picture->get('oldPicture')->getData()
+                  );
+                $oldFileName = $picture->get('oldPicture')->getData();
+                // Check if file exists to avoid all errors.
+                if (is_file($oldDir.'/'.$oldFileName)) {
+                    $this->get('GrandsVoisinsBundle.fileUploader')
+                      ->remove($oldFileName);
+                }
             }
             $user->setPictureName(
               $this->get('GrandsVoisinsBundle.fileUploader')->upload(
@@ -333,10 +343,13 @@ class AdminController extends AbstractController
         );
     }
 
-    public function changeAccessAction($userId, $roles){
+    public function changeAccessAction($userId, $roles)
+    {
 
-        $em = $this->getDoctrine()->getManager();
-        $userManager = $em->getRepository('GrandsVoisinsBundle:User')->find($userId);
+        $em          = $this->getDoctrine()->getManager();
+        $userManager = $em->getRepository('GrandsVoisinsBundle:User')->find(
+          $userId
+        );
 
         $userManager->setRoles(array($roles));
         $em->persist($userManager);
