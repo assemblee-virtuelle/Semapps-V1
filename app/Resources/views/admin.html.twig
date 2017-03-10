@@ -162,7 +162,8 @@
         <div class="clearfix"></div>
     </header>
 
-    <div id="banner-top" class="banner-top">
+    <div class="banner-top"
+         style="background-image: url( '{{ asset('common/images/banner-' ~ random(['01']) ~ '.jpg') }}');">
     </div>
 
     {{ parent() }}
@@ -197,6 +198,7 @@
                                                 </h4>
                                             </a>
                                         </li>
+
                                         <li>
                                             <a href="{{ path('profile') }}">
                                                 <span class="glyphicon glyphicon-user"></span>
