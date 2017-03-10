@@ -1,9 +1,21 @@
 Polymer({
   is: 'gv-map',
 
+  properties: {
+    route: {
+      type: Object,
+      observer: '_routeChanged'
+    }
+  },
+
+  _routeChanged: function () {
+    this.updateVisibility();
+  },
+
   // Wait all HTML to be loaded.
   attached() {
-    this.$mapZones = $('#gv-map .mapZone');
+    this.$gvMap = $(document.getElementById('gv-map'));
+    this.$mapZones = this.$gvMap.find('.mapZone');
     this.hoverActive = true;
     // Global ref.
     window.gvmap = this;
@@ -32,6 +44,8 @@ Polymer({
           this.hoverActive = true;
         });
       });
+
+    this.updateVisibility();
   },
 
   mapSelectBuilding(key) {
@@ -85,5 +99,19 @@ Polymer({
 
   mapGetZone(key) {
     return document.getElementById('mapZone-' + key);
+  },
+
+  updateVisibility() {
+    "use strict";
+    switch (gvc.mainComponent.get('route.path').split('/')[1]) {
+      case 'detail':
+        // Hide.
+        this.$gvMap.addClass('fadeOut').removeClass('fadeIn');
+        break;
+      default:
+        // Show.
+        this.$gvMap.addClass('fadeIn').removeClass('fadeOut');
+        break;
+    }
   }
 });
