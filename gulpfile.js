@@ -154,4 +154,4 @@ gulp.task('watch', () => {
   gulp.watch(sourceFiles, ['buildAppFiles']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['buildAppFiles', 'watch']);
