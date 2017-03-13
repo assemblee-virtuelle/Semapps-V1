@@ -13,8 +13,7 @@ class SemanticFormsClient
     var $baseUrlFoaf = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
     var $cookieName = 'cookie.txt';
 
-    CONST PERSON_CREATE = 'form1-Person';
-    CONST PERSON_EDIT = 'form-Person';
+    CONST PERSON = 'form-Person';
     CONST ORGANISATION = 'form-Organization';
     CONST PROJET = 'form-Project';
     //preparing

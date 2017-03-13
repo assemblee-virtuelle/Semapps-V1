@@ -35,11 +35,11 @@ class AdminController extends Controller
           $this->getUser()->getFkOrganisation()
         );
         if (!$userSfLink) {
-            $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
+            $form = $sfClient->create(SemanticFormsClient::PERSON);
         } else {
             $form = $sfClient->edit(
               $userSfLink,
-              SemanticFormsClient::PERSON_EDIT
+              SemanticFormsClient::PERSON
             );
         }
 
