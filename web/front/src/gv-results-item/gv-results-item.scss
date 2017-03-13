@@ -81,3 +81,9 @@ a .chevron {
     margin-right: 60px;
   }
 }
+
+@media (max-width: 768px) {
+  .image {
+    display: none;
+  }
+}

@@ -2,13 +2,31 @@
   position: relative;
   font-size: 12px;
   font-weight: bold;
-  .number {
+  top: 0;
+  left: 0;
+  cursor:pointer;
+  .inner {
     position: absolute;
-    text-align: center;
-    top: 0;
-    left: -5px;
-    width: 40px;
-    background: #FFCC00;
-    border-radius: 100px;
+    svg {
+      width: 30px;
+      margin: 0 auto;
+      display: block;
+    }
+    .number {
+      text-align: center;
+      width: 33px;
+      background: #FFCC00;
+      border-radius: 100px;
+      margin: -44px auto 0;
+      display: block;
+      height: 33px;
+      color: #FFF;
+      font-size: 20px;
+      .number-inner {
+        padding-top: 6px;
+        text-align: center;
+        font-size: 17px;
+      }
+    }
   }
 }

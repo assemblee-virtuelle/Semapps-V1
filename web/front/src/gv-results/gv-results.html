@@ -5,15 +5,25 @@
     <div class="row">
       <div class="col col-sm-12">
         <ul id="searchTabs" class="nav nav-tabs">
-          <li role="presentation" class="active">
-            <a href="#">
-              <span class="glyphicon glyphicon-th-list"></span>Tout
+          <li role="presentation" class$="[[isActiveAll]]">
+            <a href="#" rel="all">
+              <span class="glyphicon glyphicon-th-list"></span>Tous
+            </a>
+          </li>
+          <li role="presentation" class$="[[isActiveOrganization]]">
+            <a href="#" rel="Organisation">
+              <span class="glyphicon glyphicon-tower"></span>Organisations
+            </a>
+          </li>
+          <li role="presentation" class$="[[isActivePerson]]">
+            <a href="#" rel="Person">
+              <span class="glyphicon glyphicon-user"></span>Personnes
             </a>
           </li>
         </ul>
       </div>
     </div>
-    <div id="gv-results-empty" class="alert alert-info">Aucun résultat...</div>
+    <div id="gv-results-empty" class="alert alert-info" style="display:none">Aucun résultat...</div>
     <div id="gv-results-error" class="alert alert-danger">Une erreur s'est produite lors du chargement...</div>
     <div id="searchResults" class="col col-sm-12"></div>
     <div class="clearfix"></div>

@@ -8,6 +8,29 @@
 
   var readyCallbacks = [];
 
+  // A custom client for Semantic Forms specific treatments.
+  class SFClient {
+    sortFormFields(fields) {
+      let sorted = {};
+      for (let index in Object.keys(fields)) {
+        let key = fields[index].property;
+        let field = fields[index];
+        if (field.cardinality === '0 Or More') {
+          sorted[key] = sorted[key] || [];
+          sorted[key].push(field);
+        }
+        else {
+          sorted[key] = field;
+        }
+      }
+      return sorted;
+    }
+
+    getFirstFieldValue(key, fields) {
+      return typeof fields[key] === 'array' ? fields[key] : fields[key][0];
+    }
+  }
+
   window.GVCarto = class {
 
     constructor(mainComponent) {
@@ -17,6 +40,8 @@
       this.$window = $(window);
       this.buildingSelected = 'partout';
       this.$loadingSpinner = $('#gv-spinner');
+      this.sfClient = new SFClient();
+      this.$gvMap = $(document.getElementById('gv-map'));
 
       // Special class for dev env.
       if (window.location.hostname === '127.0.0.1') {
@@ -54,6 +79,10 @@
     start(data) {
       "use strict";
       this.buildings = data.buildings;
+      // Save key for furthe usage.
+      for (let key in this.buildings) {
+        this.buildings[key].key = key;
+      }
       // Shortcuts.
       this.domSearchTextInput = this.domId('searchText');
       this.domSearchResults = this.domId('searchResults');
@@ -110,7 +139,7 @@
 
     /* -- Waiting --*/
     stateWaitingInit() {
-
+      gvmap.mapShowBuildingPinAll();
     }
 
     stateWaitingExit() {
@@ -213,13 +242,19 @@
 
     renderSearchResult(response) {
       "use strict";
+      // Allow empty response.
+      response = response || this.renderSearchResultResponse || {};
+      // Save last data for potential reload.
+      this.renderSearchResultResponse = response;
+
       if (response.error) {
         $('#gv-results-error').show();
       }
-      else if (!response.results.length) {
+      else if (!response.results || !response.results.length) {
         $('#gv-results-empty').show();
       }
       else {
+        gvmap.mapShowBuildingPin(this.buildingSelected);
         for (let i in response.results) {
           let data = response.results[i];
           let result = document.createElement('gv-results-item');
