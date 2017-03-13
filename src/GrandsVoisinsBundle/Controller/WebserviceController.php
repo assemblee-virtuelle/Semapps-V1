@@ -7,8 +7,9 @@ use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class WebserviceController extends AbstractController
+class WebserviceController extends Controller
 {
 
     public function buildingAction()

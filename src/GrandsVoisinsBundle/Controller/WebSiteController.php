@@ -2,7 +2,9 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
-class WebSiteController extends AbstractController
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+class WebSiteController extends Controller
 {
     public function indexAction()
     {

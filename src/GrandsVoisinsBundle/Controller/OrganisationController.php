@@ -8,11 +8,11 @@ use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class OrganisationController extends AbstractController
+class OrganisationController extends Controller
 {
 
     public function allAction(Request $request)
@@ -39,7 +39,9 @@ class OrganisationController extends AbstractController
 
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($organisation);
-            $organisation->setGraphURI(GrandsVoisinsConfig::PREFIX.$organisation->getId().'-org');
+            $organisation->setGraphURI(
+              GrandsVoisinsConfig::PREFIX.$organisation->getId().'-org'
+            );
             // actually executes the queries (i.e. the INSERT query)
             try {
                 $em->flush($organisation);
@@ -184,7 +186,10 @@ class OrganisationController extends AbstractController
             $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
             $edit = false;
         } else {
-            $json = $sfClient->edit($organisation->getSfOrganisation(),SemanticFormsClient::ORGANISATION);
+            $json = $sfClient->edit(
+              $organisation->getSfOrganisation(),
+              SemanticFormsClient::ORGANISATION
+            );
             $edit = true;
         }
         if (!$json) {
@@ -217,7 +222,11 @@ class OrganisationController extends AbstractController
 
         $info = $this->container
           ->get('semantic_forms.client')
-          ->send($_POST, $this->getUser()->getEmail(), $this->getUser()->getSfUser());
+          ->send(
+            $_POST,
+            $this->getUser()->getEmail(),
+            $this->getUser()->getSfUser()
+          );
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {

@@ -2,7 +2,6 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
-
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Form\UserType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
@@ -12,9 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
-class AdminController extends AbstractController
+class AdminController extends Controller
 {
 
     public function homeAction()
@@ -29,10 +28,12 @@ class AdminController extends AbstractController
         $sfClient   = $this->container->get('semantic_forms.client');
 
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-            'GrandsVoisinsBundle:Organisation'
+          'GrandsVoisinsBundle:Organisation'
         );
 
-        $organisation = $organisationEntity->find($this->getUser()->getFkOrganisation());
+        $organisation = $organisationEntity->find(
+          $this->getUser()->getFkOrganisation()
+        );
         if (!$userSfLink) {
             $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
         } else {

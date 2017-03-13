@@ -99,6 +99,7 @@
       this.stateSet('waiting');
 
       // Listeners.
+      var timeout;
       var callbackSearchEvent = this.searchEvent.bind(this);
       // Click on submit button.
       this.listen('searchForm', 'submit', (e) => {
@@ -108,7 +109,6 @@
       });
       // Launch callbacks
       this.isReady = true;
-      var timeout;
       // Type in search field.
       this.listen('searchText', 'keyup', () => {
         if (timeout) {
@@ -228,7 +228,7 @@
       if (this.lastSearchTerm === term && this.lastSearchBuilding === building) {
         return;
       }
-
+console.trace(building);
       this.lastSearchTerm = term;
       this.lastSearchBuilding = building;
       this.mainComponent.set('route.path', '/rechercher/' + (building || 'partout') + '/' + term);
