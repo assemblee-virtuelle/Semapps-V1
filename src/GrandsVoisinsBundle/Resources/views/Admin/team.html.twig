@@ -16,18 +16,20 @@
                 <td class="padded-value" style="width:30%">
                     {{ user.email }}
                 </td>
-                <td style="width:30%">
-                    {% if app.user.username == user.username %}
-                        {% if "ROLE_ADMIN" in user.roles %}
-                            {{ "Administrateur" }}
-                        {% endif %}
-                    {% else %}
-                    <select class="form-control" name="accessLevel" id="test">
-                        <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
-                        <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
-                        {% endif %}
-                    </select>
-                </td>
+
+                {% if app.user.username == user.username %}
+                    <td class="padded-value" style="width:30%">
+                        {{ usersRolesLabels[user.roles[0]] }}
+                    </td>
+                {% else %}
+                    <td style="width:30%">
+                        <select class="form-control" name="accessLevel">
+                            <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
+                            <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
+                        </select>
+                    </td>
+                {% endif %}
+
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">
                         <a class="team-user-delete" href="#" rel="{{ user.id }}">
