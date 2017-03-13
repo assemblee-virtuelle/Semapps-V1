@@ -3,6 +3,7 @@ Polymer({
   properties: {
     uri: String,
     label: String,
+    type: String,
     description: String
   },
   handleClick(e) {

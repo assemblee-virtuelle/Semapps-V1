@@ -38,15 +38,25 @@
       this.mainComponent = mainComponent;
       this.firstSearch = true;
       this.$window = $(window);
-      this.buildingSelected = 'partout';
+      this.buildingSelectedAll = 'partout';
+      this.buildingSelected = this.buildingSelectedAll;
       this.$loadingSpinner = $('#gv-spinner');
       this.sfClient = new SFClient();
       this.$gvMap = $(document.getElementById('gv-map'));
+      this.$tabs = $('.nav-tabs');
+      this.searchTypeCurrent = 'all';
+      this.searchTypes = {
+        // TODO use URI for type keys (change should be made in sf lookup results).
+        Personne: 'Personne',
+        Organisation: 'Organisation'
+      };
 
       // Special class for dev env.
       if (window.location.hostname === '127.0.0.1') {
         window.document.body.classList.add('dev-env');
       }
+
+      this.setSearchType(this.searchTypeCurrent);
 
       this.ajaxMultiple({
         buildings: '/webservice/building'
@@ -79,7 +89,7 @@
     start(data) {
       "use strict";
       this.buildings = data.buildings;
-      // Save key for furthe usage.
+      // Save key for further usage.
       for (let key in this.buildings) {
         this.buildings[key].key = key;
       }
@@ -127,6 +137,23 @@
           this.stateCurrent = stateName;
         }
       }
+    }
+
+    setSearchType(type) {
+      if (type !== this.searchTypeCurrent) {
+        this.$tabs
+          .find('li[rel=' + this.searchTypeCurrent + ']')
+          .removeClass('active');
+      }
+
+      this.searchTypeCurrent = type;
+
+      this.$tabs
+        .find('li[rel=' + type + ']')
+        .addClass('active');
+
+      // Reload render results.
+      gvc.renderSearchResult();
     }
 
     loadingPageContentStart() {
@@ -179,7 +206,7 @@
       if (this.firstSearch) {
         // Set value to input (used at first page load)
         this.domSearchTextInput.value = term;
-        this.buildingSelected = 'building';
+        this.buildingSelected = gvc.buildingSelectedAll;
         this.firstSearch = false;
       }
 
@@ -209,6 +236,8 @@
       // Empty content.
       this.domId('searchResults');
       this.domSearchResults.innerHTML = '';
+      // Hide counters.
+      this.$tabs.find('li .counter').hide();
 
       // Hide all results.
       $('#gv-results-empty, #gv-results-error').hide();
@@ -242,6 +271,7 @@
 
     renderSearchResult(response) {
       "use strict";
+
       // Allow empty response.
       response = response || this.renderSearchResultResponse || {};
       // Save last data for potential reload.
@@ -254,14 +284,37 @@
         $('#gv-results-empty').show();
       }
       else {
+        // Empty if not already.
+        this.domSearchResults.innerHTML = '';
         gvmap.mapShowBuildingPin(this.buildingSelected);
+        let typesCounter = {};
         for (let i in response.results) {
           let data = response.results[i];
-          let result = document.createElement('gv-results-item');
-          result.label = data.label;
-          result.uri = data.uri;
-          this.domSearchResults.appendChild(result);
+          // Count results event there are not displayed.
+          typesCounter[data.type] = typesCounter[data.type] || 0;
+          typesCounter[data.type]++;
+          // Data is allowed.
+          if (this.searchTypes[data.type] && (this.searchTypeCurrent === 'all' || data.type === this.searchTypeCurrent)) {
+            let result = document.createElement('gv-results-item');
+            // Apply all parameters (type / desc / etc... ).
+            $.extend(result, data);
+            this.domSearchResults.appendChild(result);
+          }
         }
+
+        // Set counters.
+        this.$tabs.find('li .counter').html(0);
+        let keys = Object.keys(typesCounter);
+        let total = 0;
+        for (let i in keys) {
+          let type = keys[i]
+          let value = typesCounter[type] || 0;
+          this.$tabs.find('li[rel="' + type + '"] .counter').html(value);
+          total += value;
+        }
+        this.$tabs.find('li[rel="all"] .counter').html(total);
+        // Show counters.
+        this.$tabs.find('li .counter').show();
       }
     }
 
