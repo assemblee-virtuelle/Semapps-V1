@@ -21,15 +21,12 @@
 {% endblock %}
 {% block pageContent %}
     {{ parent() }}
-
     <br>
     <div class="row">
         <div class="col-sm-2">
             {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
             <a href="#" id="profilePicture" class="thumbnail">
-                <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) }}"
-                     style="width:100%"
-                     alt="Picture">
+                <img src="{{  asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}" />
                 <span id="profileEditPictureField">
                     {{ form_errors(picture) }}
                     {{ form_widget(picture.pictureName) }}
