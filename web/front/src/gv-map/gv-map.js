@@ -15,6 +15,7 @@ Polymer({
   // Wait all HTML to be loaded.
   attached() {
     this.$gvMap = $(document.getElementById('gv-map'));
+    this.$gvMapPins = $(document.getElementById('gv-map-pins'));
     this.$mapZones = this.$gvMap.find('.mapZone');
     this.hoverActive = true;
     // Global ref.
@@ -30,7 +31,7 @@ Polymer({
       // Click.
       .on('click', (e) => {
         let key = e.currentTarget.getAttribute('id').split('-')[1];
-        key = key !== window.gvc.buildingSelected ? key : 'partout';
+        key = key !== window.gvc.buildingSelected ? key : gvc.buildingSelectedAll;
         // Set value to current select.
         window.gvc.buildingSelected = key;
         // Display.
@@ -52,7 +53,8 @@ Polymer({
     // Deselect if already selected.
     this.mapDeselectBuilding();
     this.mapIsOver = true;
-    this.mapSelectCurrent = key;
+    gvc.buildingSelected =
+      this.mapSelectCurrent = key;
     let zone = this.mapGetZone(this.mapSelectCurrent);
     if (zone) {
       zone.classList.add('strong');
@@ -99,6 +101,22 @@ Polymer({
 
   mapGetZone(key) {
     return document.getElementById('mapZone-' + key);
+  },
+
+  mapShowBuildingPinAll() {
+    "use strict";
+    this.$gvMapPins.empty();
+    for (let i of Object.keys(gvc.buildings)) {
+      this.mapShowBuildingPin(gvc.buildings[i].key);
+    }
+  },
+
+  mapShowBuildingPin(buildingKey) {
+    if (buildingKey !== gvc.buildingSelectedAll) {
+      let pin = document.createElement('gv-map-pin');
+      pin.building = buildingKey;
+      this.$gvMapPins.append(pin);
+    }
   },
 
   updateVisibility() {

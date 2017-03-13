@@ -45,6 +45,8 @@ Polymer({
     this.$.detail.style.display = '';
     // Hide spin.
     gvc.loadingPageContentStop();
-    log(data.responseJSON);
+    log(data.responseJSON.detail);
+    let fields = gvc.sfClient.sortFormFields(data.responseJSON.detail);
+    log(gvc.sfClient.getFirstFieldValue('http://xmlns.com/foaf/0.1/givenName', fields));
   }
 });

@@ -44,6 +44,12 @@
   }
 }
 
+#gv-map-pins {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 // Responsive.
 @media (max-width: 768px) {
   #gv-map {

@@ -1,11 +1,15 @@
 Polymer({
   is: 'gv-results',
-
   properties: {
     route: {
       type: Object,
       observer: '_routeChanged'
     }
+  },
+
+  handleTabClick(e) {
+    "use strict";
+    gvc.setSearchType($(e.currentTarget).parent().attr('rel'));
   },
 
   _routeChanged: function (data) {
