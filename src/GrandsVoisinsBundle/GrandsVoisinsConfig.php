@@ -14,6 +14,7 @@ use GrandsVoisinsBundle\Entity\User;
 
 class GrandsVoisinsConfig
 {
+    const PREFIX = 'urn:gv/contacts/new/row/';
     const ORGANISATION = 1;
     const TEAM = 2;
 

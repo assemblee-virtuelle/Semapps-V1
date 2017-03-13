@@ -27,6 +27,8 @@ class Organisation
      */
     private $sfOrganisation;
 
+    private $graphURI;
+
     private $fkResponsable;
 
     /**
@@ -133,5 +135,29 @@ class Organisation
     public function getFkResponsable()
     {
         return $this->fkResponsable;
+    }
+
+    /**
+     * Set graphURI
+     *
+     * @param string $graphURI
+     *
+     * @return Organisation
+     */
+    public function setGraphURI($graphURI)
+    {
+        $this->graphURI = $graphURI;
+
+        return $this;
+    }
+
+    /**
+     * Get graphURI
+     *
+     * @return string
+     */
+    public function getGraphURI()
+    {
+        return $this->graphURI;
     }
 }

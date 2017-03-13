@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Response;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 
@@ -34,7 +33,6 @@ class AdminController extends AbstractController
         );
 
         $organisation = $organisationEntity->find($this->getUser()->getFkOrganisation());
-
         if (!$userSfLink) {
             $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
         } else {
@@ -92,7 +90,7 @@ class AdminController extends AbstractController
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
             "form"     => $form,
-            "graphURI" => $organisation->getSfOrganisation(),
+            "graphURI" => $organisation->getGraphURI(),
             'picture'  => $picture->createView(),
           )
         );
@@ -100,11 +98,6 @@ class AdminController extends AbstractController
 
     public function profileSaveAction()
     {
-        /*foreach ($_POST as $key => $value) {
-            unset($_POST[$key]);
-            $_POST[str_replace("_", '.', urldecode($key))] = $value;
-        }*/
-
         $info = $this
           ->container
           ->get('semantic_forms.client')

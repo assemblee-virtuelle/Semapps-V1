@@ -16,8 +16,13 @@ GrandsVoisinsBundle\Entity\Organisation:
         batiment:
             type: string
             length: 255
+            nullable: true
         sfOrganisation:
             type: text
+            nullable: true
+        graphURI:
+            type: text
+            length: 255
             nullable: true
         fkResponsable:
             type: integer
