@@ -13,12 +13,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    your_module.request_listener:
-        class: GrandsVoisinsBundle\EventListener\sfProfileCreatedListener
-        arguments: ["@router","@security.token_storage","profile"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 0 }
-
     GrandsVoisinsBundle.EventListener.SendMail:
         class: GrandsVoisinsBundle\Services\Mailer
         arguments: ["@mailer", "@templating"]
