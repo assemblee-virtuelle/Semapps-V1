@@ -17,10 +17,16 @@
                     {{ user.email }}
                 </td>
                 <td style="width:30%">
+                    {% if app.user.username == user.username %}
+                        {% if "ROLE_ADMIN" in user.roles %}
+                            {{ "Administrateur" }}
+                        {% endif %}
+                    {% else %}
                     <select class="form-control" name="accessLevel" id="test">
                         <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
                         <option value="ROLE_EDITOR" {% if "ROLE_EDITOR" in user.roles %}selected="true"{% endif %}>Editeur</option>
                         <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
+                        {% endif %}
                     </select>
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
