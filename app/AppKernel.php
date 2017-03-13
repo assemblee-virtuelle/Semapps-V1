@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new GrandsVoisinsBundle\GrandsVoisinsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle(),
+            new \Liip\ImagineBundle\LiipImagineBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
