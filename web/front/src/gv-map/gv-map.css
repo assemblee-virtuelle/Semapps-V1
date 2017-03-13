@@ -31,6 +31,11 @@
     max-width: 100vh;
     margin: 20px auto; }
 
+#gv-map-pins {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
 @media (max-width: 768px) {
   #gv-map .mapContent .gv-mapInner {
     border: 0;

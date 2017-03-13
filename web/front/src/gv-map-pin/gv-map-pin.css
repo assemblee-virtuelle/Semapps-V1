@@ -1,12 +1,22 @@
 .gv-map-pin {
   position: relative;
   font-size: 12px;
-  font-weight: bold; }
-  .gv-map-pin .number {
-    position: absolute;
-    text-align: center;
-    top: 0;
-    left: -5px;
-    width: 40px;
-    background: #FFCC00;
-    border-radius: 100px; }
+  font-weight: bold;
+  top: 0;
+  left: 0; }
+  .gv-map-pin .inner {
+    position: absolute; }
+    .gv-map-pin .inner svg {
+      width: 30px;
+      margin: 0 auto;
+      display: block; }
+    .gv-map-pin .inner .number {
+      position: absolute;
+      text-align: center;
+      top: 0;
+      left: -5px;
+      width: 40px;
+      background: #FFCC00;
+      border-radius: 100px;
+      margin: 0 auto;
+      display: block; }

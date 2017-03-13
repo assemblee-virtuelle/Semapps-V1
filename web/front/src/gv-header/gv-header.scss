@@ -64,7 +64,7 @@ header {
 
 @media (max-width: 768px) {
   header {
-    position: absolute;
+    position: inherit;
     .logo-circle.gv-header {
       border: 0;
     }

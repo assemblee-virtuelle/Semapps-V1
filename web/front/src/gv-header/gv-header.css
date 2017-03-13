@@ -84,6 +84,6 @@ header {
 
 @media (max-width: 768px) {
   header {
-    position: absolute; }
+    position: inherit; }
     header .logo-circle.gv-header {
       border: 0; } }
