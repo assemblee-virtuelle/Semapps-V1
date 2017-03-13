@@ -228,7 +228,7 @@
       if (this.lastSearchTerm === term && this.lastSearchBuilding === building) {
         return;
       }
-console.trace(building);
+
       this.lastSearchTerm = term;
       this.lastSearchBuilding = building;
       this.mainComponent.set('route.path', '/rechercher/' + (building || 'partout') + '/' + term);
