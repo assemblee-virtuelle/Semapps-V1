@@ -1,3 +1,8 @@
+window.log = (m) => {
+  "use strict";
+  console.log(m);
+};
+
 class LgvAdmin {
   constructor() {
     // Wait document loaded.

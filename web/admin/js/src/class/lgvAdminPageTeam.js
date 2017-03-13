@@ -1,6 +1,6 @@
 class LgvAdminPageTeam extends LgvAdminPage {
-  constructor(admin) {
-    super(admin);
+  init() {
+    super.init();
 
     // On user profile, remove user button.
     $('.team-user-delete').click((e) => {
