@@ -23,5 +23,11 @@ Polymer({
     "use strict";
     this.x = gvc.buildings[this.building].x;
     this.y = gvc.buildings[this.building].y;
+  },
+
+  handleClick() {
+    "use strict";
+    gvmap.mapSelectBuilding(this.building);
+    gvc.searchEvent();
   }
 });

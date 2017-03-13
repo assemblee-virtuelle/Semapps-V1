@@ -42,7 +42,6 @@
       this.$loadingSpinner = $('#gv-spinner');
       this.sfClient = new SFClient();
       this.$gvMap = $(document.getElementById('gv-map'));
-      this.$gvMapPins = $(document.getElementById('gv-map-pins'));
 
       // Special class for dev env.
       if (window.location.hostname === '127.0.0.1') {
@@ -140,7 +139,7 @@
 
     /* -- Waiting --*/
     stateWaitingInit() {
-      this.mapShowBuildingPinAll();
+      gvmap.mapShowBuildingPinAll();
     }
 
     stateWaitingExit() {
@@ -255,7 +254,7 @@
         $('#gv-results-empty').show();
       }
       else {
-        this.mapShowPins(this.buildingSelected);
+        gvmap.mapShowBuildingPin(this.buildingSelected);
         for (let i in response.results) {
           let data = response.results[i];
           let result = document.createElement('gv-results-item');
@@ -283,21 +282,6 @@
 
     dom(selector) {
       return document.querySelectorAll(selector);
-    }
-
-    mapShowBuildingPinAll() {
-      "use strict";
-      this.$gvMapPins.empty();
-      for (let i of Object.keys(this.buildings)) {
-        this.mapShowBuildingPin(this.buildings[i].key);
-      }
-    }
-
-    mapShowBuildingPin(buildingKey) {
-      //log(buildingKey);
-      let pin = document.createElement('gv-map-pin');
-      pin.building = buildingKey;
-      this.$gvMapPins.append(pin);
     }
   };
 
