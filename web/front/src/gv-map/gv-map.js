@@ -69,7 +69,7 @@ Polymer({
   },
 
   mapDeselectBuilding() {
-    if (this.mapSelectCurrent) {
+    if (this.mapSelectCurrent) { log(this.mapSelectCurrent);
       this.mapGetZone(this.mapSelectCurrent).classList.remove('strong');
       delete this.mapSelectCurrent;
     }
