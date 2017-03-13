@@ -29,6 +29,12 @@ class AdminController extends AbstractController
         $userSfLink = $this->getUser()->getSfLink();
         $sfClient   = $this->container->get('semantic_forms.client');
 
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
+
+        $organisation = $organisationEntity->find($this->getUser()->getFkOrganisation());
+
         if (!$userSfLink) {
             $form = $sfClient->create(SemanticFormsClient::PERSON_CREATE);
         } else {
@@ -86,7 +92,7 @@ class AdminController extends AbstractController
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
             "form"     => $form,
-            "graphURI" => $this->getUser()->getGraphURI(),
+            "graphURI" => $organisation->getSfOrganisation(),
             'picture'  => $picture->createView(),
           )
         );

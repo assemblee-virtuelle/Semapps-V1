@@ -8,11 +8,13 @@ function cloneWidget(widget) {
         cardinal = widget.parent().children().length;
     console.log("nombre de widgets : "+cardinal);
     addedWidget
-        //.addClass('hasLookup form-control ui-autocomplete-input')
-        .attr('class',widget.attr('class'))
         .attr('id', widget.attr('id')+'-'+cardinal)
         .attr('type',widget.attr('type'))
         .attr('placeholder',widget.attr('placeholder'));
+    if(widget.hasClass('hasLookup'))
+        addedWidget.attr('class','hasLookup form-control ui-autocomplete-input');
+    else
+        addedWidget.attr('class','form-control');
     if(widget.attr('name').includes('[0]')){
 
         addedWidget.attr('name',widget.attr('name').substring(0,widget.attr('name').length-3)+"["+cardinal+"]");

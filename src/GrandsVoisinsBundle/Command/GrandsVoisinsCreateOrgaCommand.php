@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 {
@@ -42,7 +43,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
             InputArgument::REQUIRED,
             'email of the responsible of the organization'
           )
-          ->addOption('manager', null, InputOption::VALUE_REQUIRED, false);
+          ->addOption('super_admin', null, InputOption::VALUE_REQUIRED, false);
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -69,7 +70,6 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
             );
             $questions['organization'] = $question;
         }
-        //TODO check if the building exist or not
         if (!$input->getArgument('buildings')) {
             $question = new Question(
               'Please choose a name for the the buildings:'
@@ -155,6 +155,11 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $role[] = $input->getOption('super_admin') != false ?
           "ROLE_SUPER_ADMIN" : "ROLE_ADMIN";
 
+        $sfClient = $this->getContainer()->get('semantic_forms.client');
+        $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
+        $post = array("uri" => $json["subject"], "url" => $json["subject"], "graphURI" => $json["subject"], "<".$json["subject"]."> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization>." =>'http://xmlns.com/foaf/0.1/Organization');
+        $sfClient->send($post,$this->getUser()->getEmail(),$this->getUser()->getSfUser());
+
         $output->writeln(
           sprintf(
             "creating the organization %s with argumment: \n\t-name:%s \n\t-buildings:%s",
@@ -165,6 +170,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         );
         $organization->setName($organizationName);
         $organization->setBatiment($buildings);
+        $organization->setSfOrganisation($json["subject"]);
         $em->persist($organization);
         $em->flush($organization);
         $output->writeln(

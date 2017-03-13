@@ -37,6 +37,11 @@ class OrganisationController extends AbstractController
             //for the organisation
             $em = $this->getDoctrine()->getManager();
 
+            $sfClient = $this->container->get('semantic_forms.client');
+            $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
+            $post = array("uri" => $json["subject"], "url" => $json["subject"], "graphURI" => $json["subject"], "<".$json["subject"]."> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Organization>." =>'http://xmlns.com/foaf/0.1/Organization');
+            $sfClient->send($post,$this->getUser()->getEmail(),$this->getUser()->getSfUser());
+            $organisation->setSfOrganisation($json["subject"]);
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($organisation);
 
@@ -175,16 +180,10 @@ class OrganisationController extends AbstractController
           'GrandsVoisinsBundle:Organisation'
         );
 
-        $userEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:User'
-        );
-
         /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->findOneById(
           $this->GetUser()->getFkOrganisation()
         );
-
-        $responsible = $userEntity->find($organisation->getFkResponsable());
 
         if (is_null($organisation->getSfOrganisation())) {
             $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
@@ -211,7 +210,7 @@ class OrganisationController extends AbstractController
           array(
             'organisation' => $json,
             'edit'         => $edit,
-            'graphURI'     => $responsible->getGraphURI(),
+            'graphURI'     => $organisation->getSfOrganisation(),
           )
         );
     }
@@ -221,17 +220,9 @@ class OrganisationController extends AbstractController
         $edit = $_POST["edit"];
         unset($_POST["edit"]);
 
-        $userEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:User'
-        );
-
-        $responsable = $userEntity->findOneBy(
-          ["email" => explode(':', urldecode($_POST["graphURI"]))[1]]
-        );
-
         $info = $this->container
           ->get('semantic_forms.client')
-          ->send($_POST, $responsable->getEmail(), $responsable->getSfUser());
+          ->send($_POST, $this->getUser()->getEmail(), $this->getUser()->getSfUser());
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {
