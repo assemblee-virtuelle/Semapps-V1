@@ -226,8 +226,14 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'users'       => $users,
-            'formAddUser' => $form->createView(),
+            'users'            => $users,
+            'usersRolesLabels' => [
+              'ROLE_SUPER_ADMIN' => 'Super admin',
+              'ROLE_ADMIN'       => 'Administration',
+              'ROLE_EDITOR'      => 'Editeur',
+              'ROLE_MEMBER'      => 'Member',
+            ],
+            'formAddUser'      => $form->createView(),
           )
         );
     }
