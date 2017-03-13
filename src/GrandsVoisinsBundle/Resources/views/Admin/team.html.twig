@@ -24,7 +24,6 @@
                     {% else %}
                     <select class="form-control" name="accessLevel" id="test">
                         <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
-                        <option value="ROLE_EDITOR" {% if "ROLE_EDITOR" in user.roles %}selected="true"{% endif %}>Editeur</option>
                         <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
                         {% endif %}
                     </select>
