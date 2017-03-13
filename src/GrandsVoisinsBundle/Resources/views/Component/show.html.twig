@@ -6,19 +6,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script>
-    <script src="{{ asset('form/wikipedia.js') }}"></script>
-    <script src="{{ asset('form/formInteractions.js') }}"></script>
-    <script type='text/javascript'>
-        $(document).ready(function () {
-            $(".form-group").on('click', '.add-widget', function (event) {
-                $model = $(this).parent().parent().find('.sf-value-block').first().find('.ref').first();
-                console.log('Clonage du champ :');
-                console.log($model);
-                cloneWidget($model)
-            });
-        })
-    </script>
+    <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
+    <script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>
 {% endblock %}
 
 {% block pageContent %}

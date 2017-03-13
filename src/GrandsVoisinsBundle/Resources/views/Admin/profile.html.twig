@@ -3,22 +3,13 @@
 {% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
 
 {% block pageContentTitle %}Mon profil{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{ asset('form/wikipedia.js') }}"></script>
-    <script src="{{ asset('form/formInteractions.js') }}"></script>
-    <script type='text/javascript'>
-        $(document).ready(function () {
-            $(".form-group").on('click', '.add-widget', function (event) {
-                $model = $(this).parent().parent().find('.sf-value-block').first().find('.ref').first();
-                console.log('Clonage du champ :');
-                console.log($model);
-                cloneWidget($model)
-            });
-        })
-    </script>
+    <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
+    <script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>
 {% endblock %}
+
 {% block pageContent %}
     {{ parent() }}
     <br>
@@ -26,7 +17,7 @@
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
             {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
             <a href="#" id="profilePicture" class="thumbnail">
-                <img src="{{  asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}" />
+                <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
                 <span id="profileEditPictureField">
                     {{ form_errors(picture) }}
                     {{ form_widget(picture.pictureName) }}
@@ -103,7 +94,8 @@
                            value="sauvegarder">
                 </form>
             {% else %}
-                <div class="col col-sm-6 alert alert-danger">Une erreur s'est produite lors de
+                <div class="col col-sm-6 alert alert-danger">Une erreur s'est
+                    produite lors de
                     l'affichage du formulaire
                 </div>
             {% endif %}

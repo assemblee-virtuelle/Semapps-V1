@@ -1,6 +1,20 @@
 class LgvAdminPage {
   constructor(admin) {
     this.admin = admin;
+
+    // Need wikipedia.js and formInteraction.js
+    if (window.cloneWidget) {
+      // Manage widgets duplication.
+      $(".form-group").on('click', '.add-widget', function () {
+        cloneWidget($(this)
+          .parent()
+          .parent()
+          .find('.sf-value-block')
+          .first()
+          .find('.ref')
+          .first())
+      });
+    }
   }
 
   getParameterByName(name, url) {
