@@ -247,15 +247,37 @@ class SemanticFormsClient
         }
     }
 
-    public function sparql($test){
+    public function sparql($test)
+    {
         return $this->getJSON(
-            '/sparql',
-            [
-                'query' => [
-                    'query' => $test,
-                ],
-            ]
+          '/sparql',
+          [
+            'query' => [
+              'query' => $test,
+            ],
+          ]
         );
+    }
+
+    /**
+     * Add a triplet to the given data object.
+     *
+     * @param        $destination
+     * @param        $subject
+     * @param        $type
+     * @param        $value
+     * @param string $rdfType
+     */
+    public function tripletSet(
+      &$destination,
+      $subject,
+      $type,
+      $value,
+      $rdfType = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
+    ) {
+        $destination["<".$subject."> <".$rdfType."> <".
+        $type.
+        ">."] = $value;
     }
 
 }

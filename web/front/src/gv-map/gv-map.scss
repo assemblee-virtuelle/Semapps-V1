@@ -25,6 +25,8 @@
   }
   margin-top: 60px;
   .mapContent {
+    position: relative;
+
     .mapZone {
       cursor: pointer;
       animation: mapZoneFadeIn 0.2s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
