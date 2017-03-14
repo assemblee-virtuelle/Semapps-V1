@@ -42,13 +42,12 @@ class AdminController extends Controller
               SemanticFormsClient::PERSON
             );
         }
-
-        // If errors, form will be null.
-        if ($form) {
-            // decode the url in html name
-            foreach ($form["fields"] as $field) {
-                $form["htmlName"] = urldecode($field["htmlName"]);
-            }
+        if (!$form) {
+            $this->addFlash(
+                'danger',
+                'Une erreur s\'est produite lors de l\'affichage du formulaire'
+            );
+            return $this->redirectToRoute('profile');
         }
 
         $picture = $this->createFormBuilder($user)
