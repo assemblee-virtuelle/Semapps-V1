@@ -284,6 +284,23 @@ input.form-control {
       right: 0;
       opacity: 0; }
 
+#organisationPicture {
+  position: relative; }
+  #organisationPicture #organisationEditPictureField {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden; }
+    #organisationPicture #organisationEditPictureField input[type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0; }
+
 @media (min-width: 768px) {
   .alert-bobby {
     margin-top: -90px; } }

@@ -12,7 +12,22 @@
 
 {% block pageContent %}
     {{ parent() }}
-    <form action="{{ path('save_orga') }}" method="post" id="form" class="sf-standard-form">
+    <br>
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+            {{ form_start(picture, {'attr':{'id':'organisationPictureForm'}}) }}
+            <a href="#" id="organisationPicture" class="thumbnail">
+                <img src="{{ asset(OrganisationPicture == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~OrganisationPicture) | imagine_filter('organisation') }}"/>
+                <span id="organisationEditPictureField">
+                {{ form_errors(picture) }}
+                    {{ form_widget(picture.OrganisationPicture) }}
+                    {{ form(picture) }}
+            </span>
+            </a>
+            {{ form_end(picture) }}
+        </div>
+
+    <form action="{{ path('save_orga') }}" method="post" id="form" class="col-sm-6 sf-standard-form">
         <input name="url" value="{{ organisation.subject }}" type="hidden">
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
@@ -29,7 +44,7 @@
                             <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
                         {% endif %}
                     </div>
-                    <div class="col-lg-6 sf-value-block">
+                    <div class="col-xs-11 sf-value-block">
                         {% if( field.label|lower == 'type') %}
                             <input class="form-control" type="url"
                                    name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
@@ -88,6 +103,7 @@
 
         <input class="btn btn-primary-lgv pull-right" type="submit" value="sauvegarder">
     </form>
+    </div>
 {% endblock %}
 
 
