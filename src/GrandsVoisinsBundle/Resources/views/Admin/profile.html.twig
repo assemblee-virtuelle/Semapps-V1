@@ -59,7 +59,11 @@
                                                placeholder="http://..."
                                                name="{{ field.htmlName }}"
                                                value="{{ urlPicture }}">
+                                        {% if urlPicture is not null %}
                                         <a href="{{ urlPicture }}">{{ urlPicture }}</a>
+                                        {% else %}
+                                            Vous n'avez pas encore choisi votre photo de profile !
+                                        {% endif %}
                                     {% else %}
                                         {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
                                             <input class="form-control ref"
