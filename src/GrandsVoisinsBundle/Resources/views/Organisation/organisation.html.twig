@@ -49,6 +49,13 @@
                             <input class="form-control" type="url"
                                    name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                    value="{{ field.value }}">
+                        {% elseif( field.label|lower == 'image') %}
+                            <input class="form-control ref"
+                                   type="hidden"
+                                   placeholder="http://..."
+                                   name="{{ field.htmlName }}"
+                                   value="{{ urlPicture }}">
+                            <a href="{{ urlPicture }}">{{ urlPicture }}</a>
                         {% else %}
                             {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
                                 <input class="form-control ref"

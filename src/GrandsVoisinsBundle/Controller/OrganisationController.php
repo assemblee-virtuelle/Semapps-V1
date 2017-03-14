@@ -263,7 +263,7 @@ class OrganisationController extends Controller
             'graphURI'     => $organisation->getGraphURI(),
             'picture'      => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
-
+            'urlPicture'   =>($organisation->getOrganisationPicture()) ? 'http://'.$request->getHost().':'.$request->getPort().'/uploads/pictures/'.$organisation->getOrganisationPicture(): null
           )
         );
     }
