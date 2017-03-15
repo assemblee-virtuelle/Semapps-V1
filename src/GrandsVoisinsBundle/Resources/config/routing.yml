@@ -82,7 +82,7 @@ orgaDelete:
     defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
 
 show_component:
-    path:     /component/show/{uri}
+    path:     /component/show/
     defaults: { _controller: GrandsVoisinsBundle:Component:show }
 
 show_all_component:
