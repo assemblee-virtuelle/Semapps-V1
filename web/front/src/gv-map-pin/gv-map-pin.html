@@ -1,15 +1,19 @@
 <dom-module id="gv-map-pin">
   <link rel="import" type="css" href="gv-map-pin.css">
   <template>
-    <div class="gv-map-pin" style$="top:[[y]]px; left:[[x]]px" on-click="handleClick">
+    <div class="gv-map-pin-wrapper" style$="top:[[y]]; left:[[x]]" on-click="handleClick">
       <div class="inner">
+        <div class="select-circle">
+        </div>
         <svg style="width:30px" version="1.1" viewBox="0 0 139 139" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
           <circle class="st0" cx="69.5" cy="54.5" r="36" fill="#FFCC00"></circle>
           <circle class="st1" cx="69.5" cy="54.5" r="20.8" fill="#FFCC00"></circle>
           <path fill="#FFCC00" d="M69.5,121c-0.9,0-2.2-1.3-2.2-1.3c-38-43.7-33-65.2-33-65.2s11,35.1,35.2,35.2"></path>
           <path fill="#FFCC00" d="M69.5,121c0.9,0,2.2-1.3,2.2-1.3c38-43.7,33-65.2,33-65.2s-11,35.1-35.2,35.2"></path>
         </svg>
-        <div class="number"><div class="number-inner">[[number]]</div></div>
+        <div class="number">
+          <div class="number-inner">[[number]]</div>
+        </div>
       </div>
     </div>
   </template>

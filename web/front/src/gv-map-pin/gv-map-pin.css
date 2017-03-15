@@ -1,17 +1,24 @@
-.gv-map-pin {
-  position: relative;
+.gv-map-pin-wrapper {
+  position: absolute;
   font-size: 12px;
   font-weight: bold;
   top: 0;
   left: 0;
+  width: 0;
+  height: 0;
   cursor: pointer; }
-  .gv-map-pin .inner {
-    position: absolute; }
-    .gv-map-pin .inner svg {
+  .gv-map-pin-wrapper .inner {
+    position: absolute;
+    top: -28px;
+    left: -15px; }
+    .gv-map-pin-wrapper .inner svg {
       width: 30px;
+      height: 30px;
       margin: 0 auto;
-      display: block; }
-    .gv-map-pin .inner .number {
+      display: block;
+      top: -30px;
+      left: -15px; }
+    .gv-map-pin-wrapper .inner .number {
       text-align: center;
       width: 33px;
       background: #FFCC00;
@@ -21,7 +28,33 @@
       height: 33px;
       color: #FFF;
       font-size: 20px; }
-      .gv-map-pin .inner .number .number-inner {
+      .gv-map-pin-wrapper .inner .number .number-inner {
         padding-top: 6px;
         text-align: center;
         font-size: 17px; }
+
+@keyframes mapPinFadeIn {
+  0% {
+    width: 33px;
+    height: 33px;
+    border-width: 4px;
+    margin-top: -14px;
+    margin-left: 0px;
+    opacity: 1; }
+  80% {
+    opacity: .5; }
+  100% {
+    width: 60px;
+    height: 60px;
+    border-width: 0;
+    margin-top: -27.5px;
+    margin-left: -13.5px;
+    opacity: 0; } }
+  .gv-map-pin-wrapper .select-circle {
+    border: 0 solid #FFF;
+    border-radius: 500px;
+    position: absolute;
+    margin-top: -28px;
+    margin-left: -14px; }
+  .gv-map-pin-wrapper .inner:hover .select-circle {
+    animation: mapPinFadeIn 3s cubic-bezier(0, 0.6, 0.4, 1) forwards; }
