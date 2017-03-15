@@ -18,6 +18,7 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
     public function showAction()
     {
         $uri = urldecode($_POST["uri"]);
+        $name = urldecode($_POST["name"]);
         $sfClient = $this->container->get('semantic_forms.client');
         $form = $sfClient->edit(
             $uri,
@@ -34,7 +35,7 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
         return $this->render(
           'GrandsVoisinsBundle:Component:show.html.twig',
           array(
-              'title' => 'edit',
+              'title' => 'Edition du projet : '.$name,
               'graphURI' => $organisation->getGraphURI(),
               'form' => $form
           )
@@ -62,22 +63,28 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
                 $temp = $sfClient->sparql($project);
-                $result = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $result["Project"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $title = 'Affichage de tous les Projets';
                 break;
             default:
-                /*$project = '
+                $project = '
                 prefix foaf: <http://xmlns.com/foaf/0.1/>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
-                $result = $sfClient->sparql($project)["results"]["bindings"];*/
+                $temp = $sfClient->sparql($project);
+                $result["Project"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $result["Event"] = null; // (is_array($temp)) ? $temp["results"]["bindings"] :
+                $result["Proposition"] = null; //(is_array($temp)) ? $temp["results"]["bindings"] :
+                $title = 'Affichage de tous les Projets, Evenements, Propositions';
+
         }
 
 
         return $this->render(
           'GrandsVoisinsBundle:Component:show_all.html.twig',
           array(
-              'title' => 'show all '.$type,
+              'title' => $title,
               'data' => $result
           )
         );
