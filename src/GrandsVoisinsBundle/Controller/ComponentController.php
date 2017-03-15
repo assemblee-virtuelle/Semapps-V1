@@ -61,15 +61,16 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
-                $result = $sfClient->sparql($project)["results"]["bindings"];
+                $temp = $sfClient->sparql($project);
+                $result = (is_array($temp)) ? $temp["results"]["bindings"] : null;
                 break;
             default:
-                $project = '
+                /*$project = '
                 prefix foaf: <http://xmlns.com/foaf/0.1/>
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
-                $result = $sfClient->sparql($project)["results"]["bindings"];
+                $result = $sfClient->sparql($project)["results"]["bindings"];*/
         }
 
 
