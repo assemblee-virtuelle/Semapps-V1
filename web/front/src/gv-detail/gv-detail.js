@@ -49,6 +49,8 @@ Polymer({
     gvc.sfClient.loadFormFields(data.responseJSON.detail.properties);
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-organization');
-    document.getElementById('gv-detail-inner').appendChild(inner);
+    let domInner = document.getElementById('gv-detail-inner');
+    domInner.innerHTML = '';
+    domInner.appendChild(inner);
   }
 });

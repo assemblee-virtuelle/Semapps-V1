@@ -17,3 +17,7 @@ ul, li {
 
 .detailInfo .field-empty {
   display: none; }
+
+h2 {
+  font-family: petitevoisine, sans-serif;
+  color: #FFCC00; }

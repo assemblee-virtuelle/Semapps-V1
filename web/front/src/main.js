@@ -55,8 +55,11 @@
     getValue(key) {
       let fields = this.formFieldsSorted;
       key = this.fieldsAliases[key] || key;
-      let data = typeof fields[key] === 'array' ? fields[key] : fields[key][0];
-      return data.value;
+      if (fields[key]) {
+        let data = typeof fields[key] === 'array' ? fields[key] : fields[key][0];
+        return data.value;
+      }
+      return '';
     }
   }
 
