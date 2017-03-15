@@ -28,7 +28,7 @@ class OrganisationType extends AbstractType
             ChoiceType::class,
             array(
               'choices' =>
-                array_flip(GrandsVoisinsConfig::$buildings),
+                array_flip(GrandsVoisinsConfig::$buildingsSimple),
             )
           )
           ->add(

@@ -50,7 +50,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $output->writeln(
           "you can only choose a building on this list:".implode(
             ',',
-            array_keys(GrandsVoisinsConfig::$buildings)
+            array_keys(GrandsVoisinsConfig::$buildingsSimple)
           )
         );
         $questions = array();
@@ -79,13 +79,13 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
                       throw new \Exception('organization can not be empty');
                   } else if (!array_key_exists(
                     $buildings,
-                    GrandsVoisinsConfig::$buildings
+                    GrandsVoisinsConfig::$buildingsSimple
                   )
                   ) {
                       throw new \Exception(
                         'the buildings need to be in the list:'.implode(
                           ',',
-                          array_keys(GrandsVoisinsConfig::$buildings)
+                          array_keys(GrandsVoisinsConfig::$buildingsSimple)
                         )
                       );
                   }

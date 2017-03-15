@@ -96,6 +96,24 @@ class GrandsVoisinsConfig
       ],
     ];
 
+    static $buildingsSimple = [
+        "maisonDesMedecins" => "Maison des médecins",
+        "lepage" => "Lepage",
+        "pinard" => "Pinard",
+        "lelong" =>"Lelong",
+        "pierrePetit" => "Pierre Petit",
+        "laMediatheque" => "La Médiathèque",
+        "ced" => "CED",
+        "oratoire" => "Oratoire",
+        "colombani"=> "Colombani",
+        "laLingerie" => "La Lingerie",
+        "laChaufferie" => "La Chaufferie",
+        "robin" => "Robin",
+        "pasteur" => "Pasteur",
+        "jalaguier" => "Jalaguier",
+        "rapine" => "Rapine",
+    ];
+
     // E-mail configuration
     public static function bodyMail(
       $type,
