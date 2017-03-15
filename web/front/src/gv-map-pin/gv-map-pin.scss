@@ -1,16 +1,24 @@
-.gv-map-pin {
-  position: relative;
+.gv-map-pin-wrapper {
+  $circlePinRadius: 33px;
+  position: absolute;
   font-size: 12px;
   font-weight: bold;
   top: 0;
   left: 0;
-  cursor:pointer;
+  width: 0;
+  height: 0;
+  cursor: pointer;
   .inner {
     position: absolute;
+    top: -28px;
+    left: -15px;
     svg {
       width: 30px;
+      height: 30px;
       margin: 0 auto;
       display: block;
+      top: -30px;
+      left: -15px;
     }
     .number {
       text-align: center;
@@ -27,6 +35,44 @@
         text-align: center;
         font-size: 17px;
       }
+    }
+  }
+
+  @keyframes mapPinFadeIn {
+    0% {
+      $radius: $circlePinRadius;
+      width: $radius;
+      height: $radius;
+      border-width: 4px;
+      margin-top: - (14px + (($radius - $circlePinRadius) / 2));
+      margin-left: (($radius - $circlePinRadius) / 2);
+      opacity: 1;
+    }
+    80% {
+      opacity: .5;
+    }
+    100% {
+      $radius: 60px;
+      width: $radius;
+      height: $radius;
+      border-width: 0;
+      margin-top: - (14px + (($radius - $circlePinRadius) / 2));
+      margin-left: -  (($radius - $circlePinRadius) / 2);
+      opacity: 0;
+    }
+  }
+
+  .select-circle {
+    border: 0 solid #FFF;
+    border-radius: 500px;
+    position: absolute;
+    margin-top: -28px;
+    margin-left: -14px;
+  }
+
+  .inner:hover {
+    .select-circle {
+      animation: mapPinFadeIn 3s cubic-bezier(0, 0.6, 0.4, 1) forwards;
     }
   }
 }
