@@ -8,6 +8,7 @@
     {{ parent() }}
     <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
     <script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>
+
 {% endblock %}
 
 {% block pageContent %}
@@ -28,6 +29,7 @@
         </div>
         <div>
             {% if form is not null %}
+                {{dump(form)}};
                 <form class="col-sm-6 sf-standard-form"
                       action="{{ path('profileSave') }}" method="post"
                       id="form">
@@ -36,6 +38,8 @@
                     <input name="graphURI" value="{{ graphURI }}" type="hidden">
                     {% set temp ='' %}
                     {% for field in form.fields %}
+                        {% set cardinality_only = field.cardinality|split(':') %}
+                        {% set cardinality_several = field.cardinality|split(':') %}
                         <div class="form-group col col-lg-12">
                             <div class="row">
                                 {% if field.label != temp %}
@@ -50,9 +54,11 @@
                                 <div class="col-xs-11 sf-value-block">
 
                                     {% if( field.label|lower == 'type') %}
+
                                         <input class="form-control" type="url"
                                                name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                                value="{{ field.value }}">
+
                                     {% elseif( field.label|lower == 'image') %}
                                         <input class="form-control ref"
                                                type="hidden"
@@ -72,10 +78,17 @@
                                                    name="{{ field.htmlName }}"
                                                    value="{{ field.value }}">
                                         {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
+                                            {% if cardinality_only[0] == 1 %}
                                             <input class="form-control ref"
                                                    type="text"
                                                    placeholder="texte..."
-                                                   name={{ field.htmlName }} value="{{ field.value }}">
+                                                   name={{ field.htmlName }} value="{{ field.value }}" required="required">
+                                            {% else %}
+                                                <input class="form-control ref"
+                                                       type="text"
+                                                       placeholder="texte..."
+                                                       name={{ field.htmlName }} value="{{ field.value }}" >
+                                            {% endif %}
 
                                         {% else %}
                                             <input class="hasLookup form-control ui-autocomplete-input ref"
@@ -88,12 +101,11 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-xs-1">
-                                    {% if false and field.label != temp %}
+                                    {% if cardinality_several[1] == "*" and field.label != temp %}
                                         <button type="button"
                                                 class="btn btn-primary add-widget"
                                                 readonly="yes" size="1"
-                                                title="Add another value for label">
-                                            &plus;
+                                                title="Add another value for label">add line
                                         </button>
                                         {% set temp =field.label %}
                                     {% endif %}
