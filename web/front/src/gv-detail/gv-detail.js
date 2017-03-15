@@ -45,8 +45,10 @@ Polymer({
     this.$.detail.style.display = '';
     // Hide spin.
     gvc.loadingPageContentStop();
-    log(data.responseJSON.detail);
-    let fields = gvc.sfClient.sortFormFields(data.responseJSON.detail);
-    log(gvc.sfClient.getFirstFieldValue('http://xmlns.com/foaf/0.1/givenName', fields));
+    // Load and sort fields.
+    gvc.sfClient.loadFormFields(data.responseJSON.detail.properties);
+    // Create inner depending of type.
+    let inner = document.createElement('gv-detail-organization');
+    document.getElementById('gv-detail-inner').appendChild(inner);
   }
 });

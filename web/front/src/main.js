@@ -10,24 +10,53 @@
 
   // A custom client for Semantic Forms specific treatments.
   class SFClient {
+    constructor(options) {
+      $.extend(true, this, {
+        formFields: {},
+        fieldsAliases: {
+          'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': 'rdfType',
+        }
+      }, options);
+    }
+
     sortFormFields(fields) {
       let sorted = {};
       for (let index in Object.keys(fields)) {
-        let key = fields[index].property;
+        let key = this.fieldsAliases[fields[index].property] || fields[index].property;
         let field = fields[index];
-        if (field.cardinality === '0 Or More') {
+        // 0:1 or 1:1
+        if (field.cardinality[2] === '1') {
+          sorted[key] = field;
+
+        }
+        // 0:* or 1:*
+        else {
           sorted[key] = sorted[key] || [];
           sorted[key].push(field);
-        }
-        else {
-          sorted[key] = field;
         }
       }
       return sorted;
     }
 
-    getFirstFieldValue(key, fields) {
-      return typeof fields[key] === 'array' ? fields[key] : fields[key][0];
+    loadFormFields(fieldsData) {
+      this.formFields = fieldsData;
+      this.formFieldsSorted = this.sortFormFields(fieldsData);
+
+      if (this.formFieldsSorted.rdfType) {
+        for (let i in Object.keys(this.formFieldsSorted.rdfType)) {
+          // Delete unwanted type.
+          if (this.formFieldsSorted.rdfType[i].value === 'http://vocab.sindice.net/csv/Row') {
+            delete this.formFieldsSorted.rdfType[i];
+          }
+        }
+      }
+    }
+
+    getValue(key) {
+      let fields = this.formFieldsSorted;
+      key = this.fieldsAliases[key] || key;
+      let data = typeof fields[key] === 'array' ? fields[key] : fields[key][0];
+      return data.value;
     }
   }
 
@@ -41,7 +70,25 @@
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
       this.$loadingSpinner = $('#gv-spinner');
-      this.sfClient = new SFClient();
+      this.sfClient = new SFClient({
+        fieldsAliases: {
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status': 'gvStatus',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution': 'realisedContribution',
+          'http://xmlns.com/foaf/0.1/status': 'foafStatus',
+          'http://xmlns.com/foaf/0.1/name': 'foafName',
+          'http://vocab.sindice.net/csv/rowPosition': 'rowPosition',
+          'urn:gv/contactsPrint': 'contactsPrint',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType': 'conventionType',
+          'http://virtual-assembly.org/pair_v2#hasResponsible': 'hasResponsible',
+          'urn:displayLabel': 'displayLabel',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName': 'administrativeName',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building': 'building',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution': 'proposedContribution',
+          'http://purl.org/dc/elements/1.1/subject': 'subject',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate': 'arrivalDate',
+          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room': 'room'
+        }
+      });
       this.$gvMap = $(document.getElementById('gv-map'));
       this.$tabs = $('.nav-tabs');
       this.searchTypeCurrent = 'all';

@@ -1,5 +1,7 @@
 <dom-module id="gv-detail">
   <link rel="import" type="css" href="gv-detail.css">
+  <link rel="import" href="../gv-detail-organization/gv-detail-organization.html">
+  <link rel="import" href="../gv-detail-person/gv-detail-person.html">
   <template>
     <div id="detail" class="page-detail" style="display: none">
       <ul id="detailTools" class="nav nav-tabs">
@@ -10,37 +12,7 @@
       <div class="row">
         <div class="col col-sm-12">
           <h2>[[title]]</h2>
-          <div class="detail-header row">
-            <div class="detail-header col col-sm-4">
-              <gv-logo-mini></gv-logo-mini>
-              <div class="social-links">
-                <gv-social-link url="[[facebook]]"
-                                icon="facebook-square"></gv-social-link>
-                <gv-social-link url="[[twitter]]"
-                                icon="twitter"></gv-social-link>
-              </div>
-            </div>
-            <div class="detail-header col col-sm-8">
-              <table class="detailInfo">
-                <tr class="field field-building">
-                  <td class="fieldLabel">Bâtiment</td>
-                  <td>[[building]]</td>
-                </tr>
-                <tr class="field field-url">
-                  <td class="fieldLabel">Site web</td>
-                  <td>
-                    <a href="[[url]]" target="_blank">[[url]]</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>
-                    [[description]]
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
+          <div id="gv-detail-inner"></div>
         </div>
         <div class="col col-sm-4">
         <div class="block">

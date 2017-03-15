@@ -1,0 +1,75 @@
+<dom-module id="gv-detail-organization">
+  <link rel="import" type="css" href="gv-detail-organization.css">
+  <template>
+    <div id="gv-detail-organization">
+      <div class="detail-header row">
+        <div class="detail-header col col-sm-4">
+          <gv-logo-mini text-color="#FFCC00"></gv-logo-mini>
+          <div class="social-links">
+            <gv-social-link url="[[facebook]]"
+                            icon="facebook-square"></gv-social-link>
+            <gv-social-link url="[[twitter]]"
+                            icon="twitter"></gv-social-link>
+          </div>
+        </div>
+        <div class="detail-header col col-sm-8">
+          <table class="detailInfo">
+            <tr class="field field-building">
+              <td class="fieldLabel">Bâtiment</td>
+              <td>[[building]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Etat</td>
+              <td>[[state]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Date d'arrivée</td>
+              <td>[[arrivalDate]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Convention</td>
+              <td>[[convention]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Thématiques</td>
+              <td>[[themes]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Propose</td>
+              <td>[[proposedContribution]]</td>
+            </tr>
+            <tr class="field field-building">
+              <td class="fieldLabel">Effectue</td>
+              <td>[[realisedContribution]]</td>
+            </tr>
+          </table>
+        </div>
+        <div class="detail-description col col-sm-12">
+          [[subject]]
+        </div>
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'gv-detail-organization',
+      properties: {},
+
+      attached() {
+        $.extend(true, this, {
+          title: gvc.sfClient.getValue('foafName'),
+          arrivalDate: gvc.sfClient.getValue('arrivalDate'),
+          state: gvc.sfClient.getValue('gvStatus'),
+          convention: gvc.sfClient.getValue('conventionType'),
+          themes: gvc.sfClient.getValue('foafStatus'),
+          proposedContribution: gvc.sfClient.getValue('proposedContribution'),
+          realisedContribution: gvc.sfClient.getValue('realisedContribution'),
+          room: gvc.sfClient.getValue('room'),
+          subject: gvc.sfClient.getValue('subject'),
+          building: gvc.sfClient.getValue('building'),
+          description: gvc.sfClient.getValue('building')
+        });
+      }
+    });
+  </script>
+</dom-module>
