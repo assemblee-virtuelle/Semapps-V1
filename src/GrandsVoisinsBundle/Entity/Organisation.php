@@ -31,6 +31,8 @@ class Organisation
 
     private $fkResponsable;
 
+    private $organisationPicture;
+
     /**
      * Get id
      *
@@ -160,4 +162,29 @@ class Organisation
     {
         return $this->graphURI;
     }
+
+    /**
+     * Set OrganisationPicture
+     *
+     * @param string $organisation_picture
+     *
+     * @return Organisation
+     */
+    public function setOrganisationPicture($organisationPicture)
+    {
+        $this->organisationPicture = $organisationPicture;
+
+        return $this;
+    }
+
+    /**
+     * Get OrganisationPicture
+     *
+     * @return string
+     */
+    public function getOrganisationPicture()
+    {
+        return $this->organisationPicture;
+    }
+
 }

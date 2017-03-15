@@ -104,3 +104,7 @@ liip_imagine :
                 # create a thumbnail: set size to 140x140 and use the "outbound" mode
                 # to crop the image when the size ratio of the input differs
                 thumbnail  : { size : [140, 140], mode : outbound }
+        organisation:
+            quality: 75
+            filters:
+                thumbnail: {size : [140, 140], mode: outbound}

@@ -3,26 +3,40 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 // TODO Do not remove until we implement components.
 
 class ComponentController extends Controller
 {
-    //request type SELECT ?S WHERE { GRAPH <mailto:admin@admin.fr> {?S  ?P <http://xmlns.com/foaf/0.1/Project>   . } } LIMIT 100
-    //url : http://localhost:9000/select-ui?query=SELECT+%3FS+WHERE+%7B+GRAPH+%3Cmailto%3Aadmin%40admin.fr%3E+%7B%3FS++%3FP+%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2FProject%3E+++.+%7D+%7D+LIMIT+100%0D%0A+%23+SELECT+DISTINCT+%3FCLASS+WHERE+%7B+GRAPH+%3FG+%7B+%5B%5D+a++%3FCLASS+.+%7D+%7D+LIMIT+100%0D%0A+%23+SELECT+DISTINCT+%3FPROP+WHERE+%7B+GRAPH+%3FG+%7B+%5B%5D+%3FPROP+%5B%5D+.+%7D+%7D+LIMIT+100%0D%0A
-    //structure of the request : 2 steps
-    //SELECT * WHERE { GRAPH <mailto:admin@admin.fr> { ?S  ?P <http://xmlns.com/foaf/0.1/Project> . } } LIMIT 100 <-- req 1
-    //SELECT * WHERE { GRAPH <mailto:admin@admin.fr> { <http://localhost:9000/ldp/1488897146798-101028408537283>  ?P ?O   . } } LIMIT 100 <-- req 2
-
-    public function showAction($uri)
+/* requete MIS A JOUR !!!!!!
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Project . ?S rdfs:label ?O2} }
+ */
+    public function showAction()
     {
+        $uri = urldecode($_POST["uri"]);
         $sfClient = $this->container->get('semantic_forms.client');
+        $form = $sfClient->edit(
+            $uri,
+            SemanticFormsClient::PROJET
+        );
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
 
-        //$json = $sfClient->getForm();
-
+        /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
+        $organisation = $organisationEntity->find(
+            $this->GetUser()->getFkOrganisation()
+        );
         return $this->render(
           'GrandsVoisinsBundle:Component:show.html.twig',
-          array(// ...
+          array(
+              'title' => 'edit',
+              'graphURI' => $organisation->getGraphURI(),
+              'form' => $form
           )
         );
     }
@@ -32,10 +46,39 @@ class ComponentController extends Controller
         $sfClient = $this->container->get('semantic_forms.client');
         //On récupère un tableau qui viens de sparql ( tous les uri de projet event etc... ) - req1
         //Pour chaque ligne on fait une requete pour récupérer le nom du projet etc.. - req2
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
+
+        $organisation = $organisationEntity->find(
+            $this->getUser()->getFkOrganisation()
+        );
+        $result = array();
+        switch ($type){
+            case 'Project':
+                $project = '
+                prefix foaf: <http://xmlns.com/foaf/0.1/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
+                $temp = $sfClient->sparql($project);
+                $result = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                break;
+            default:
+                /*$project = '
+                prefix foaf: <http://xmlns.com/foaf/0.1/>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
+                $result = $sfClient->sparql($project)["results"]["bindings"];*/
+        }
+
 
         return $this->render(
           'GrandsVoisinsBundle:Component:show_all.html.twig',
-          array(// ...
+          array(
+              'title' => 'show all '.$type,
+              'data' => $result
           )
         );
     }
@@ -44,19 +87,10 @@ class ComponentController extends Controller
     {
         $sfClient = $this->container->get('semantic_forms.client');
 
-        $userEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:User'
-        );
-
-        $responsable = $userEntity->findOneBy(
-          ["email" => explode(':', urldecode($_POST["graphURI"]))[1]]
-        );
-
-
         $info = $sfClient->send(
           $_POST,
-          $responsable->getEmail(),
-          $responsable->getSfUser()
+          $this->getUser()->getEmail(),
+          $this->getUser()->getSfUser()
         );
         if ($info != 200) {
             $this->addFlash(
@@ -77,19 +111,18 @@ class ComponentController extends Controller
           'GrandsVoisinsBundle:Organisation'
         );
 
-        $userEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:User'
-        );
-
         /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->find(
           $this->GetUser()->getFkOrganisation()
         );
-
-        $responsable = $userEntity->find($organisation->getFkResponsable());
-
-        $json = $sfClient->createFoaf($type);
-
+        switch ($type){
+            case 'Project':
+                $json = $sfClient->create(SemanticFormsClient::PROJET);
+                break;
+            default:
+                $this->addFlash('info','le type ne correspond à aucun formulaire');
+                return $this->redirectToRoute('show_all_component');
+        }
 
         if (!$json) {
             $this->addFlash(
@@ -100,15 +133,11 @@ class ComponentController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        foreach ($json["fields"] as $field) {
-            $field["htmlName"] = urldecode($field["htmlName"]);
-        }
-
         return $this->render(
           'GrandsVoisinsBundle:Component:show.html.twig',
           array(
             'form'     => $json,
-            'graphURI' => $responsable->getGraphURI(),
+            'graphURI' => $organisation->getGraphURI(),
             'title'    => $type,
           )
         );

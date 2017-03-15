@@ -1,7 +1,31 @@
-{% extends "::base.html.twig" %}
+{% extends "::admin.html.twig" %}
 
-{% block title %}GrandsVoisinsBundle:Component:showAll{% endblock %}
+{% block title %}GrandsVoisinsBundle:form:home{% endblock %}
 
-{% block body %}
-<h1>Welcome to the Component:showAll page</h1>
+{% block pageContentTitle %}{{ title }}{% endblock %}
+
+
+{% block pageContent %}
+    {{ parent() }}
+    <table class="table table-bordered">
+        {% for value in data %}
+            <tr >
+                <td class="padded-value" style="width:40%">
+                    {{ value["NAME"]["value"] }}
+                </td>
+                <td class="padded-value" style="width:30%">
+                    {{ value["URI"]["value"] }}
+                </td>
+                <td class="padded-value" style="width:30%">
+
+                    <form action="{{ url('show_component') }}" method="POST" >
+                        <input type="hidden" name="uri" value="{{ value["URI"]["value"] }}">
+                        <input type="submit" value="editer">
+                    </form>
+                </td>
+
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

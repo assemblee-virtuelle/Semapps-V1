@@ -12,5 +12,14 @@ class LgvAdminPageOrga extends LgvAdminPage {
         window.location.replace('/mon-compte/orga/delete/' + userId);
       });
     });
+
+    // Change image field.
+    let $form = $('#organisationPictureForm');
+    $form.find('input[type="file"]').change(()=> {
+        // Display a nice spinner.
+        lgvAdmin.pageLoadingStart();
+        // Send form will reload the page.
+        $form.submit();
+    });
   }
 }

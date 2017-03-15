@@ -73,6 +73,7 @@ class SemanticFormsClient
           'User-Agent' => 'GrandsVoisinsBundle',
             // Ensure to get JSON response.
           'Accept'     => 'application/json',
+          'Accept-Language' => 'fr'
         ];
 
         try {
