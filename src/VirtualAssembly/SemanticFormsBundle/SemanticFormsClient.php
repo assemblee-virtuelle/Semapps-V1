@@ -12,21 +12,40 @@ class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
     var $cookieName = 'cookie.txt';
+    var $prefixes = [
+      'xsd'  => '<http://www.w3.org/2001/XMLSchema#>',
+      'fn'   => '<http://www.w3.org/2005/xpath-functions#>',
+      'text' => '<http://jena.apache.org/text#>',
+      'rdf'  => '<http://www.w3.org/1999/02/22-rdf-syntax-ns#>',
+      'foaf' => '<http://xmlns.com/foaf/0.1/>',
+      'purl' => '<http://purl.org/dc/elements/1.1/>',
+    ];
+    var $prefixesCompiled = '';
 
     CONST PERSON = 'form-Person';
     CONST ORGANISATION = 'form-Organization';
     CONST PROJET = 'form-Project';
-    //preparing
-    //CONST EVENT = 'form-Event';
-    //CONST PROPOSITION = 'form-Proposition';
+    // preparing
+    // CONST EVENT = 'form-Event';
+    // CONST PROPOSITION = 'form-Proposition';
 
+    public function __construct(
+      $domain,
+      $login,
+      $password,
+      $timeout,
+      $prefixes = []
+    ) {
 
-    public function __construct($domain, $login, $password, $timeout)
-    {
         $this->domain   = $domain;
         $this->login    = $login;
         $this->password = $password;
         $this->timeout  = $timeout;
+        $this->prefixes = array_merge($this->prefixes, $prefixes);
+
+        foreach ($this->prefixes as $key => $uri) {
+            $this->prefixesCompiled .= "\nPREFIX ".$key.': '.$uri.' ';
+        }
     }
 
     public function buildClient($cookie = "")
@@ -70,10 +89,10 @@ class SemanticFormsClient
 
         $options['headers'] = [
             // Sign request.
-          'User-Agent' => 'GrandsVoisinsBundle',
+          'User-Agent'      => 'GrandsVoisinsBundle',
             // Ensure to get JSON response.
-          'Accept'     => 'application/json',
-          'Accept-Language' => 'fr'
+          'Accept'          => 'application/json',
+          'Accept-Language' => 'fr',
         ];
 
         try {
@@ -247,13 +266,13 @@ class SemanticFormsClient
         }
     }
 
-    public function sparql($test)
+    public function sparql($request)
     {
         return $this->getJSON(
           '/sparql',
           [
             'query' => [
-              'query' => $test,
+              'query' => $request,
             ],
           ]
         );
