@@ -42,13 +42,12 @@ class AdminController extends Controller
               SemanticFormsClient::PERSON
             );
         }
+
         if (!$form) {
             $this->addFlash(
               'danger',
               'Une erreur s\'est produite lors de l\'affichage du formulaire'
             );
-
-            return $this->redirectToRoute('profile');
         }
 
         $picture = $this->createFormBuilder($user)
