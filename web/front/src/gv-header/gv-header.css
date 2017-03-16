@@ -61,6 +61,9 @@ header {
           header .search .nav li a span {
             margin-left: 0;
             margin-right: 8px; }
+    header .search #searchText {
+      border-color: #FFCC00;
+      border-radius: 0; }
     header .search input[type=submit] {
       background: #333;
       border: 0;
