@@ -64,9 +64,14 @@ header {
     header .search input[type=submit] {
       background: #333;
       border: 0;
-      color: rgba(183, 154, 118, 0.95); }
+      color: #888;
+      text-shadow: none; }
     header .search input[type=submit]:hover {
       background: #fff192; }
+  header #my-account-link span {
+    margin-top: 0;
+    font-size: 18px;
+    color: #FFF; }
   @media (max-width: 768px) {
     header .logo-circle {
       position: initial;
@@ -77,13 +82,24 @@ header {
       header .logo-circle img {
         width: auto; }
     header .col-search-logo {
-      margin: -12vw 0 -8vw 0; }
-    header .col-search-button,
-    header .col-search-building {
-      margin-top: 10px; } }
+      margin: -12vw 0 -8vw 0; } }
+  header h1 {
+    display: none;
+    font-family: petitevoisine;
+    font-size: 7vw;
+    text-align: center;
+    color: #FFF;
+    margin: 0 0 20px;
+    border-bottom: 2px dashed black;
+    padding-bottom: 14px; }
+  header #my-account-link {
+    margin: 7px 0 0 0;
+    display: block; }
 
 @media (max-width: 768px) {
   header {
     position: inherit; }
     header .logo-circle.gv-header {
-      border: 0; } }
+      border: 0; }
+    header h1 {
+      display: block; } }

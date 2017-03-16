@@ -34,10 +34,18 @@ header {
     input[type=submit] {
       background: #333;
       border: 0;
-      color: rgba(183, 154, 118, 0.95);
+      color: #888;
+      text-shadow: none;
     }
     input[type=submit]:hover {
       background: #fff192;
+    }
+  }
+  #my-account-link {
+    span {
+      margin-top: 0;
+      font-size: 18px;
+      color: #FFF;
     }
   }
   // Responsive.
@@ -55,10 +63,22 @@ header {
     .col-search-logo {
       margin: -12vw 0 -8vw 0;
     }
-    .col-search-button,
-    .col-search-building {
-      margin-top: 10px;
-    }
+  }
+
+  h1 {
+    display: none;
+    font-family: petitevoisine;
+    font-size: 7vw;
+    text-align: center;
+    color: #FFF;
+    margin: 0 0 20px;
+    border-bottom: 2px dashed black;
+    padding-bottom: 14px;
+  }
+
+  #my-account-link {
+    margin: 7px 0 0 0;
+    display: block;
   }
 }
 
@@ -67,6 +87,9 @@ header {
     position: inherit;
     .logo-circle.gv-header {
       border: 0;
+    }
+    h1 {
+      display: block;
     }
   }
 }

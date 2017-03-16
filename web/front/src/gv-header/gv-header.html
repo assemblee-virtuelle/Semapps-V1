@@ -6,20 +6,28 @@
       <div class="container">
         <div class="search row">
           <form id="searchForm">
-            <div class="col col-xs-12 col-sm-2 col-search-logo">
+            <h1>Les Grands Voisins</h1>
+            <div class="col hidden-xs col-sm-2 col-search-logo">
               <div class="logo-circle">
                 <a title="Accueil" href="/" target="_parent">
                   <gv-logo-mini></gv-logo-mini>
                 </a>
               </div>
             </div>
-            <div class="col col-sm-7 col-search-text">
-              <input id="searchText" class="form-control" type="text"
-                     placeholder="Entrez ici un terme de recherche...">
+            <div class="col col-xs-10 col-sm-8 col-search-text">
+              <div class="input-group">
+                <input id="searchText" class="form-control" type="text"
+                       placeholder="Vous recherchez sur le lieu...">
+               <span class="input-group-btn">
+                <input class="btn btn-default btn-info" type="submit"
+                       value="Hop !">
+              </span>
+              </div>
             </div>
-            <div class="col col-sm-2 col-search-button">
-              <input class="form-control btn btn-info" type="submit"
-                     value="Ok">
+            <div class="col-xs-2 col-sm-2">
+              <a id="my-account-link" href="/mon-compte" target="_parent">
+                <span class="glyphicon glyphicon-user"></span>
+              </a>
             </div>
           </form>
         </div>
