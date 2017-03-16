@@ -46,6 +46,7 @@ var filesScss = {
   'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-detail/gv-detail': true,
+  'web/front/src/gv-detail/gv-detail-inner': true,
   'web/front/src/gv-detail-organization/gv-detail-organization': true,
   'web/front/src/gv-detail-person/gv-detail-person': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
