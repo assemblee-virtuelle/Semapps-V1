@@ -134,7 +134,7 @@ class SemanticFormsClient
         return $result->getBody();
     }
 
-    public function search($term, $class = false)
+    public function lookup($term, $class = false)
     {
         return json_decode(
           $this->get(
@@ -222,7 +222,7 @@ class SemanticFormsClient
         return $data;
     }
 
-    public function request($sparqlRequest)
+    public function sparqlData($sparqlRequest)
     {
         $options['headers'] = [
             // Sign request.

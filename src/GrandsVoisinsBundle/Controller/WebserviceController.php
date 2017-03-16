@@ -25,7 +25,7 @@ class WebserviceController extends Controller
 
         if ($term) {
             $sfClient = $this->container->get('semantic_forms.client');
-            $response = $sfClient->search($term);
+            $response = $sfClient->lookup($term);
             // It can be a DNS problem, but we deep look about timeouts.
             if ($response instanceof RequestException) {
                 $output->error = 'TIMEOUT';
@@ -66,7 +66,7 @@ class WebserviceController extends Controller
           '} WHERE { GRAPH ?G { '.
           '<'.$uri.'> ?P ?O . '.
           '}}';
-        $properties = json_decode($sfClient->request($request))->fields;
+        $properties = json_decode($sfClient->sparqlData($request))->fields;
 
         // Things pointing to the item.
         $request = 'CONSTRUCT { '.
@@ -75,7 +75,7 @@ class WebserviceController extends Controller
           '?S ?P1 <'.$uri.'> . '.
           ' }}';
 
-        $related = json_decode($sfClient->request($request))->fields;
+        $related = json_decode($sfClient->sparqlData($request))->fields;
 
         return [
           'properties' => $properties,
