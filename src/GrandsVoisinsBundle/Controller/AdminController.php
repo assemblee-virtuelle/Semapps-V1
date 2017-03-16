@@ -44,9 +44,10 @@ class AdminController extends Controller
         }
         if (!$form) {
             $this->addFlash(
-                'danger',
-                'Une erreur s\'est produite lors de l\'affichage du formulaire'
+              'danger',
+              'Une erreur s\'est produite lors de l\'affichage du formulaire'
             );
+
             return $this->redirectToRoute('profile');
         }
 
@@ -89,10 +90,12 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
-            "form"     => $form,
-            "graphURI" => $organisation->getGraphURI(),
-            'picture'  => $picture->createView(),
-            'urlPicture' => ($user->getPictureName()) ? 'http://'.$request->getHost().':'.$request->getPort().'/uploads/pictures/'.$user->getPictureName(): null
+            "form"       => $form,
+            "graphURI"   => $organisation->getGraphURI(),
+            'picture'    => $picture->createView(),
+            'urlPicture' => ($user->getPictureName(
+            )) ? 'http://'.$request->getHost().':'.$request->getPort(
+              ).'/uploads/pictures/'.$user->getPictureName() : null,
           )
         );
     }
