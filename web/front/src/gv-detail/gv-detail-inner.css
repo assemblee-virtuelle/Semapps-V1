@@ -1,0 +1,23 @@
+h3 {
+  font-size: 16px;
+  color: #CCC; }
+
+ul, li {
+  list-style: none; }
+
+.fieldLabel {
+  text-align: right;
+  color: #C0C0C0;
+  padding-right: 10px; }
+
+.social-links .social {
+  width: 40%;
+  margin: 5%;
+  float: left; }
+
+.detailInfo .field-empty {
+  display: none; }
+
+h2 {
+  font-family: petitevoisine, sans-serif;
+  color: #FFCC00; }
