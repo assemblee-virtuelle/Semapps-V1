@@ -38,7 +38,7 @@
     }
   }
 
-  @keyframes mapPinFadeIn {
+  @keyframes mapPinHoverIn {
     0% {
       $radius: $circlePinRadius;
       width: $radius;
@@ -72,7 +72,22 @@
 
   .inner:hover {
     .select-circle {
-      animation: mapPinFadeIn 3s cubic-bezier(0, 0.6, 0.4, 1) forwards;
+      animation: mapPinHoverIn 3s cubic-bezier(0, 0.6, 0.4, 1) forwards;
     }
   }
+
+  @keyframes mapPinFadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  &.fadeOut {
+    animation: mapPinFadeOut 3s cubic-bezier(0, 0.6, 0.4, 1) forwards;
+  }
 }
+
+

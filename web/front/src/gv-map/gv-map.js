@@ -18,6 +18,7 @@ Polymer({
     this.$gvMapPins = $(document.getElementById('gv-map-pins'));
     this.$mapZones = this.$gvMap.find('.mapZone');
     this.hoverActive = true;
+    this.domPins = {};
     // Global ref.
     window.gvmap = this;
     // Bind events.
@@ -46,7 +47,21 @@ Polymer({
         });
       });
 
-    this.updateVisibility();
+    this.ready = false;
+
+    // Wait for buildings to be loaded.
+    GVCarto.ready(() => {
+      "use strict";
+      this.ready = true;
+      // Create pins.
+      for (let buildingKey of Object.keys(gvc.buildings)) {
+        let pin = document.createElement('gv-map-pin');
+        pin.building = buildingKey;
+        this.$gvMapPins.append(pin);
+        this.domPins[buildingKey] = pin;
+      }
+      this.updateVisibility();
+    });
   },
 
   mapSelectBuilding(key) {
@@ -69,7 +84,6 @@ Polymer({
   },
 
   mapDeselectBuilding() {
-    log(this.mapSelectCurrent);
     if (this.mapSelectCurrent) {
       this.mapGetZone(this.mapSelectCurrent).classList.remove('strong');
       delete this.mapSelectCurrent;
@@ -106,17 +120,27 @@ Polymer({
 
   mapShowBuildingPinAll() {
     "use strict";
-    this.$gvMapPins.empty();
-    for (let i of Object.keys(gvc.buildings)) {
-      this.mapShowBuildingPin(gvc.buildings[i].key);
+    if (this.ready) {
+      for (let buildingKey of Object.keys(gvc.buildings)) {
+        if (gvc.buildings[buildingKey].organizationCount > 0) {
+          this.domPins[buildingKey].show(gvc.buildings[buildingKey].organizationCount);
+        }
+      }
     }
   },
 
-  mapShowBuildingPin(buildingKey) {
-    if (buildingKey !== gvc.buildingSelectedAll) {
-      let pin = document.createElement('gv-map-pin');
-      pin.building = buildingKey;
-      this.$gvMapPins.append(pin);
+  mapHideBuildingPinAll() {
+    "use strict";
+    if (this.ready) {
+      for (let buildingKey of Object.keys(gvc.buildings)) {
+        this.domPins[buildingKey].hide();
+      }
+    }
+  },
+
+  mapHideBuildingPin(buildingKey) {
+    if (this.domPins[buildingKey]) {
+      this.domPins[buildingKey].hide();
     }
   },
 

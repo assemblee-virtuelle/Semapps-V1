@@ -14,7 +14,36 @@ class WebserviceController extends Controller
 
     public function buildingAction()
     {
-        return new JsonResponse(GrandsVoisinsConfig::$buildings);
+
+        $sfClient = $this->container->get('semantic_forms.client');
+        // Count buildings.
+        $response = $sfClient->sparql(
+        // Use common and custom prefixes.
+          $sfClient->prefixesCompiled."\n\n ".
+          // Query.
+          'SELECT ?building ( STR(xsd:integer(COUNT(?building))) AS ?count ) '.
+          'WHERE { '.
+          '  GRAPH ?GR { '.
+          // Retrieve building.
+          '    ?ORGA gvoi:building ?building . '.
+          // Only organizations.
+          '    ?ORGA rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.
+          '  } '.
+          '} '.
+          'GROUP BY ?building '.
+          'ORDER BY fn:lower-case(?building) '
+        );
+
+        $response = $sfClient->sparqlResultsValues($response);
+
+        $buildings = GrandsVoisinsConfig::$buildings;
+        foreach ($response as $item) {
+            if (isset($buildings[$item['building']])) {
+                $buildings[$item['building']]['organizationCount'] = (int)$item['count'];
+            }
+        }
+
+        return new JsonResponse($buildings);
     }
 
     public function searchAction(Request $request)
@@ -47,6 +76,7 @@ class WebserviceController extends Controller
               'WHERE { '.
               '  GRAPH ?GR { '.
               '    ?uri text:query "'.$term.'" . '.
+              // TODO Remove type filter.
               '    ?uri rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.$requestFields;
 
             $request .= '}}';
@@ -67,15 +97,7 @@ class WebserviceController extends Controller
                 $response
               ) && isset($response['results']['bindings'])
             ) {
-                $resultsFiltered = [];
-                foreach ($response['results']['bindings'] as $index => $result) {
-                    $item = [];
-                    foreach ($result as $fieldName => $data) {
-                        $item[$fieldName] = $data['value'];
-                    }
-                    $resultsFiltered[$index] = $item;
-                }
-                $output->results = $resultsFiltered;
+                $output->results = $sfClient->sparqlResultsValues($response);
             } // We don't really know what happened.
             else {
                 $output->error = 'ERROR';

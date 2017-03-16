@@ -21,5 +21,8 @@ Polymer({
     if (this.subject) {
       this.info += ' | ' + this.subject;
     }
+    if (gvc.buildings[this.building]) {
+      this.info += ' | ' + gvc.buildings[this.building].title;
+    }
   }
 });

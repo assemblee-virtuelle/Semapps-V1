@@ -219,7 +219,7 @@
     }
 
     stateWaitingExit() {
-
+      gvmap.mapHideBuildingPinAll();
     }
 
     /* -- Search -- */
@@ -325,6 +325,7 @@
       response = response || this.renderSearchResultResponse || {};
       // Save last data for potential reload.
       this.renderSearchResultResponse = response;
+      window.gvmap && gvmap.mapHideBuildingPinAll();
 
       if (response.error) {
         $('#gv-results-error').show();
@@ -335,8 +336,8 @@
       else {
         // Empty if not already.
         this.domSearchResults.innerHTML = '';
-        gvmap.mapShowBuildingPin(this.buildingSelected);
         let typesCounter = {};
+        let buildingsCounter = {};
         for (let i in response.results) {
           let data = response.results[i];
           // Data is allowed.
@@ -344,12 +345,23 @@
             // Count results event there are not displayed.
             typesCounter[data.type] = typesCounter[data.type] || 0;
             typesCounter[data.type]++;
+            if (this.buildings[data.building]) {
+              buildingsCounter[data.building] = buildingsCounter[data.building] || 0;
+              buildingsCounter[data.building]++;
+            }
             if ((this.searchTypeCurrent === 'all' || data.type === this.searchTypeCurrent)) {
               let result = document.createElement('gv-results-item');
               // Apply all parameters (type / desc / etc... ).
               $.extend(result, data);
               this.domSearchResults.appendChild(result);
             }
+          }
+        }
+
+        if (window.gvmap) {
+          let keys = Object.keys(buildingsCounter);
+          for (let i in keys) {
+            gvmap.domPins[keys[i]].show(buildingsCounter[keys[i]]);
           }
         }
 

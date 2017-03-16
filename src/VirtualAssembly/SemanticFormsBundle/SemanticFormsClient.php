@@ -279,6 +279,28 @@ class SemanticFormsClient
     }
 
     /**
+     * Iterates over results from sparql request
+     * to return only key => value pairs.
+     *
+     * @param $results
+     *
+     * @return array
+     */
+    public function sparqlResultsValues($results)
+    {
+        $resultsFiltered = [];
+        foreach ($results['results']['bindings'] as $index => $result) {
+            $item = [];
+            foreach ($result as $fieldName => $data) {
+                $item[$fieldName] = $data['value'];
+            }
+            $resultsFiltered[$index] = $item;
+        }
+
+        return $resultsFiltered;
+    }
+
+    /**
      * Add a triplet to the given data object.
      *
      * @param        $destination
