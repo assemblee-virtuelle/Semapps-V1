@@ -96,9 +96,8 @@
       this.$tabs = $('.nav-tabs');
       this.searchTypeCurrent = 'all';
       this.searchTypes = {
-        // TODO use URI for type keys (change should be made in sf lookup results).
-        Personne: 'Personne',
-        Organisation: 'Organisation'
+        "http://xmlns.com/foaf/0.1/Person": 'Personne',
+        "http://xmlns.com/foaf/0.1/Organization": 'Organisation'
       };
 
       // Special class for dev env.
@@ -340,15 +339,17 @@
         let typesCounter = {};
         for (let i in response.results) {
           let data = response.results[i];
-          // Count results event there are not displayed.
-          typesCounter[data.type] = typesCounter[data.type] || 0;
-          typesCounter[data.type]++;
           // Data is allowed.
-          if (this.searchTypes[data.type] && (this.searchTypeCurrent === 'all' || data.type === this.searchTypeCurrent)) {
-            let result = document.createElement('gv-results-item');
-            // Apply all parameters (type / desc / etc... ).
-            $.extend(result, data);
-            this.domSearchResults.appendChild(result);
+          if (this.searchTypes[data.type]) {
+            // Count results event there are not displayed.
+            typesCounter[data.type] = typesCounter[data.type] || 0;
+            typesCounter[data.type]++;
+            if ((this.searchTypeCurrent === 'all' || data.type === this.searchTypeCurrent)) {
+              let result = document.createElement('gv-results-item');
+              // Apply all parameters (type / desc / etc... ).
+              $.extend(result, data);
+              this.domSearchResults.appendChild(result);
+            }
           }
         }
 

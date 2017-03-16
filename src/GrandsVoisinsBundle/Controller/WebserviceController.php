@@ -28,7 +28,7 @@ class WebserviceController extends Controller
 
             // Common fields.
             $fields = [
-              'name'     => 'foaf:name',
+              'title'    => 'foaf:name',
               'image'    => 'foaf:img',
               'type'     => 'rdf:type',
               'subject'  => 'purl:subject',
@@ -43,11 +43,11 @@ class WebserviceController extends Controller
                 $requestFields .= 'OPTIONAL { ?ORGA '.$type.' ?'.$alias.' } ';
             }
 
-            $request = 'SELECT '.$requestSelect.' '.
+            $request = 'SELECT ?uri '.$requestSelect.' '.
               'WHERE { '.
               '  GRAPH ?GR { '.
-              '    ?ORGA text:query "'.$term.'" . '.
-              '    ?ORGA rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.$requestFields;
+              '    ?uri text:query "'.$term.'" . '.
+              '    ?uri rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.$requestFields;
 
             $request .= '}}';
 
@@ -63,7 +63,10 @@ class WebserviceController extends Controller
             if ($response instanceof RequestException) {
                 $output->error = 'TIMEOUT';
             } // Success
-            else if (is_array($response) && isset($response['results']['bindings'])) {
+            else if (is_array(
+                $response
+              ) && isset($response['results']['bindings'])
+            ) {
                 $resultsFiltered = [];
                 foreach ($response['results']['bindings'] as $index => $result) {
                     $item = [];

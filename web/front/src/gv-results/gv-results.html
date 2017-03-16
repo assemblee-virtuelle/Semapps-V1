@@ -3,7 +3,7 @@
   <link rel="import" href="../gv-results-item/gv-results-item.html">
   <template>
     <div class="row">
-      <div class="col col-sm-12">
+      <div class="col col-sm-8">
         <ul id="searchTabs" class="nav nav-tabs">
           <li rel="all">
             <a href="#" on-click="handleTabClick">
@@ -22,16 +22,22 @@
             </a>
           </li>
         </ul>
+        <div class="clearfix"></div>
+        <div id="searchResults" class="col col-sm-12"></div>
+        <div id="gv-results-empty" class="alert alert-info" style="display:none">
+          Aucun résultat...
+        </div>
+        <div id="gv-results-error" class="alert alert-danger">Une erreur s'est
+          produite lors du chargement...
+        </div>
+      </div>
+      <div class="col col-sm-4 col-blocks">
+        <div class="block">
+          N'oubliez pas de venir nous voir au trocshop !
+        </div>
       </div>
     </div>
-    <div id="gv-results-empty" class="alert alert-info" style="display:none">
-      Aucun résultat...
-    </div>
-    <div id="gv-results-error" class="alert alert-danger">Une erreur s'est
-      produite lors du chargement...
-    </div>
-    <div id="searchResults" class="col col-sm-12"></div>
-    <div class="clearfix"></div>
+
   </template>
   <script src="../gv-results/gv-results.min.js"></script>
 </dom-module>
