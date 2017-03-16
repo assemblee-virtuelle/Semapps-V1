@@ -1,6 +1,6 @@
 class LgvAdminPageOrga extends LgvAdminPage {
-  constructor(admin) {
-    super(admin);
+  init() {
+    super.init();
 
     // On user profile, remove user button.
     $('.orga-delete').click((e) => {
