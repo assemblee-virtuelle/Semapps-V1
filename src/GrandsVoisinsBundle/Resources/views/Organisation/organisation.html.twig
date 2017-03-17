@@ -10,6 +10,8 @@
     <script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>
 {% endblock %}
 
+{% set menuSelected = 'detail_orga' %}
+
 {% block pageContent %}
     {{ parent() }}
     <br>
@@ -37,7 +39,6 @@
         {% for field in organisation.fields %}
             {% set cardinality_only = field.cardinality|split(':') %}
             {% set cardinality_several = field.cardinality|split(':') %}
-
             {% if is_granted('ROLE_EDITOR') %}
                 <div class="form-group col col-lg-12">
                     <div class="col-lg-4">
