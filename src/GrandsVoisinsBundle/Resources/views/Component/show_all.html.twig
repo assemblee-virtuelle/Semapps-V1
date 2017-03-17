@@ -9,10 +9,10 @@
 {% block pageContent %}
     {{ parent() }}
     {% for key,type in data %}
+        <h2>{{ key }} --
+            <a href="{{ path('new_component', {'type': key })}}"> Créer un nouveau {{ key }}</a></h2>
+        <table class="table table-bordered" >
         {% if type is not null %}
-            <h2>{{ key }} --
-                <a href="{{ path('new_component', {'type': key })}}"> Créer un nouveau {{ key }}</a></h2>
-            <table class="table table-bordered" >
             {% for value in type %}
                 <tr>
                     <td class="padded-value" style="width:30%">
@@ -32,6 +32,7 @@
                 </tr>
             {% endfor %}
         {% endif %}
+        </table>
     {% endfor %}
-    </table>
+
 {% endblock %}
