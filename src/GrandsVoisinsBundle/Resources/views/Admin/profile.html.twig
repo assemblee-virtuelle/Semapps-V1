@@ -39,8 +39,7 @@
                     <input name="graphURI" value="{{ graphURI }}" type="hidden">
                     {% set temp ='' %}
                     {% for field in form.fields %}
-                        {% set cardinality_only = field.cardinality|split(':') %}
-                        {% set cardinality_several = field.cardinality|split(':') %}
+                        {% set cardinality = field.cardinality|split(':') %}
                         <div class="form-group col col-lg-12">
                             <div class="row">
                                 {% if field.label != temp %}
@@ -77,39 +76,33 @@
                                                    type="url"
                                                    placeholder="http://..."
                                                    name="{{ field.htmlName }}"
-                                                   value="{{ field.value }}">
+                                                   value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
                                         {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
-                                            {% if cardinality_only[0] == 1 %}
                                             <input class="form-control ref"
                                                    type="text"
                                                    placeholder="texte..."
-                                                   name={{ field.htmlName }} value="{{ field.value }}" required="required">
-                                            {% else %}
-                                                <input class="form-control ref"
-                                                       type="text"
-                                                       placeholder="texte..."
-                                                       name={{ field.htmlName }} value="{{ field.value }}" >
-                                            {% endif %}
+                                                   name="{{ field.htmlName }}" value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
 
                                         {% else %}
                                             <input class="hasLookup form-control ui-autocomplete-input ref"
                                                    type="url"
                                                    placeholder="DBPedia..."
                                                    name="{{ field.htmlName }}"
-                                                   value="{{ field.value }}">
+                                                   value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
                                         {% endif %}
 
                                     {% endif %}
                                 </div>
                                 <div class="col-xs-1">
-                                    {#{% if cardinality_several[1] == "*" and field.label != temp %}#}
-                                        {#<button type="button"#}
-                                                {#class="btn btn-primary add-widget"#}
-                                                {#readonly="yes" size="1"#}
-                                                {#title="Add another value for label">add line#}
-                                        {#</button>#}
-                                        {#{% set temp =field.label %}#}
-                                    {#{% endif %}#}
+                                    {% if cardinality[1] == "*" and field.label != temp %}
+                                        <button type="button"
+                                                class="btn btn-primary add-widget"
+                                                readonly="yes"
+                                                size="1"
+                                                title="Add another value for label">add line
+                                        </button>
+                                        {% set temp =field.label %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
