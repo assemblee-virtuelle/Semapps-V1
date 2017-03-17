@@ -185,9 +185,15 @@ input.form-control {
 .container-auth {
 }
 
+.navbar-default .navbar-nav > .main {
+  background: #F0F0F0;
+  padding: 5px 15px;
+}
+
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
-  background: #F5F5F5;
+  background: #FFCC00;
+  color: #FFF;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {

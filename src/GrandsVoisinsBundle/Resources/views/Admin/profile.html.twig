@@ -4,6 +4,8 @@
 
 {% block pageContentTitle %}Mon profil{% endblock %}
 
+{% set menuSelected = 'profile' %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>

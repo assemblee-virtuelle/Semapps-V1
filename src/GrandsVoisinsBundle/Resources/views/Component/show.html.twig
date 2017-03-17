@@ -4,6 +4,8 @@
 
 {% block pageContentTitle %}{{ title }}{% endblock %}
 
+{% set menuSelected = 'show_all_component' %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
