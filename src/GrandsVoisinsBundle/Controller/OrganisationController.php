@@ -44,20 +44,21 @@ class OrganisationController extends Controller
 
             // tells Doctrine you want to (eventually) save the Product (no queries yet)
             $em->persist($organisation);
-            $organisation->setGraphURI(
-              GrandsVoisinsConfig::PREFIX.$organisation->getId().'-org'
-            );
-            // actually executes the queries (i.e. the INSERT query)
             try {
                 $em->flush($organisation);
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash(
-                  'danger',
-                  "le nom de l'orgnanisation que vous avez saisi est déjà présent"
+                    'danger',
+                    "le nom de l'orgnanisation que vous avez saisi est déjà présent"
                 );
 
                 return $this->redirectToRoute('all_orga');
             }
+            $organisation->setGraphURI(
+              GrandsVoisinsConfig::PREFIX.$organisation->getId().'-org'
+            );
+            $em->flush();
+
             //TODO find a way to call teamAction in admin
             //for the user
             $user = new User();
