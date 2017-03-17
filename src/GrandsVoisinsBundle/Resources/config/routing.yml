@@ -100,3 +100,7 @@ save_component:
 new_component:
     path:     /component/new/{type}
     defaults: { _controller: GrandsVoisinsBundle:Component:new }
+
+test:
+    path:     /test
+    defaults: { _controller: GrandsVoisinsBundle:Default:index }
