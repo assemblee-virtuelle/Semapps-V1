@@ -62,15 +62,21 @@ class DefaultController extends AbstractController
         $responsableRes = $sfClient->sparql($responsable)["results"]["bindings"];
         $batimentRes = $sfClient->sparql($batiment)["results"]["bindings"];
         $tab =array();
-        $i=0;
-        $orga = array();
-        foreach ($nomRes as $element){
-            $tab[$element["G"]["value"] ] = array($responsableRes[$i]["O"]["value"],$element["O"]["value"]);
-            $i++;
+        $noThisOrga= ["urn:gv/contacts/row/112-org"];
+
+        foreach ($responsableRes as $nom){
+            if(!in_array($nom["G"]["value"],$noThisOrga))
+                $tab[$nom["G"]["value"] ] = array($nom["O"]["value"]);
+        }
+
+        foreach ($nomRes as $nom){
+            if(!in_array($nom["G"]["value"],$noThisOrga))
+                array_push($tab[$nom["G"]["value"]],$nom["O"]["value"]);
         }
 
         foreach ($batimentRes as $batiment){
-            array_push($tab[$batiment["G"]["value"]],$batiment["O"]["value"]);
+            if(!in_array($batiment["G"]["value"],$noThisOrga))
+                array_push($tab[$batiment["G"]["value"]],$batiment["O"]["value"]);
         }
         $tabwith2 = array();
         $tabwith3 = array();
@@ -129,20 +135,22 @@ class DefaultController extends AbstractController
                 $organisation = new Organisation();
                 $user = new User();
                 //for the organisation
-                $organisation->setBatiment(key_exists(2,$tab)? $tab[2] : 'Robin');
+                $organisation->setBatiment(key_exists(2,$tab)? str_replace(' ','',lcfirst(ucwords($tab[2]))) : 'robin');
                 $organisation->setName($tab[1]);
                 array_push($orga,$tab[1]);
                 $organisation->setSfOrganisation($key);
                 // tells Doctrine you want to (eventually) save the Product (no queries yet)
-                $em->persist($organisation);
+
                 $organisation->setGraphURI(
                     $key
                 );
+                $em->persist($organisation);
                 // actually executes the queries (i.e. the INSERT query)
                 try {
                     $em->flush($organisation);
                 } catch (UniqueConstraintViolationException $e) {
-                        dump("le nom de l'orgnanisation que vous avez saisi est déjà présent");
+                    dump($key,$tab);
+                    dump("le nom de l'orgnanisation que vous avez saisi est déjà présent");
                     exit;
                     //return $this->redirectToRoute('all_orga');
                 }
