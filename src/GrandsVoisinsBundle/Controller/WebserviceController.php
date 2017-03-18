@@ -11,6 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class WebserviceController extends Controller
 {
+    var $entitiesTypesUris = [
+      'organization' => 'http://xmlns.com/foaf/0.1/Organization',
+      'person'       => 'http://xmlns.com/foaf/0.1/Person',
+    ];
 
     public function buildingAction()
     {
