@@ -255,8 +255,12 @@
       if (this.firstSearch) {
         // Set value to input (used at first page load)
         this.domSearchTextInput.value = term;
-        this.buildingSelected = gvc.buildingSelectedAll;
         this.firstSearch = false;
+      }
+
+      // There is no building with this name.
+      if (!this.buildings[building]) {
+        building = this.buildingSelectedAll;
       }
 
       // Launch search.
