@@ -98,9 +98,6 @@ class WebserviceController extends Controller
               ) && isset($response['results']['bindings'])
             ) {
                 $output->results = $sfClient->sparqlResultsValues($response);
-            } // We don't really know what happened.
-            else {
-                $output->error = 'ERROR';
             }
         }
 
