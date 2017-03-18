@@ -6,8 +6,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
-    <script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>
+
 {% endblock %}
 
 {% set menuSelected = 'detail_orga' %}
@@ -78,7 +77,7 @@
 
                                 {% else %}
                                     <input class="hasLookup form-control ui-autocomplete-input ref"
-                                           type="url"
+                                           type="text"
                                            placeholder="DBPedia..."
                                            name="{{ field.htmlName }}"
                                            value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
