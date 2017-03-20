@@ -20,7 +20,11 @@
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
             {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
             <a href="#" id="profilePicture" class="thumbnail">
-                <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
+                {% if app.user.pictureName != null or form.thumbnail == null %}
+                    <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
+                {% else  %}
+                    <img src="{{ form.thumbnail }}">
+                {% endif %}
                 <span id="profileEditPictureField">
                     {{ form_errors(picture) }}
                     {{ form_widget(picture.pictureName) }}
@@ -64,9 +68,9 @@
                                                type="hidden"
                                                placeholder="http://..."
                                                name="{{ field.htmlName }}"
-                                               value="{{ urlPicture }}">
-                                        {% if urlPicture is not null %}
-                                        <a href="{{ urlPicture }}">{{ urlPicture }}</a>
+                                               value="{{ field.value }}">
+                                        {% if field.value is not empty %}
+                                        <a href="{{ field.value }}">{{ field.value }}</a>
                                         {% else %}
                                             Vous n'avez pas encore choisi votre photo de profile !
                                         {% endif %}

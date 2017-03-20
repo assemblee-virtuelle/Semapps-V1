@@ -18,7 +18,11 @@
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
             {{ form_start(picture, {'attr':{'id':'organisationPictureForm'}}) }}
             <a href="#" id="organisationPicture" class="thumbnail">
-                <img src="{{ asset(OrganisationPicture == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~OrganisationPicture) | imagine_filter('organisation') }}"/>
+                {% if OrganisationPicture != null or organisation.thumbnail == null %}
+                    <img src="{{ asset(OrganisationPicture == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~OrganisationPicture) | imagine_filter('organisation') }}"/>
+                {% else  %}
+                    <img src="{{ organisation.thumbnail }}">
+                {% endif %}
                 <span id="organisationEditPictureField">
                 {{ form_errors(picture) }}
                     {{ form_widget(picture.OrganisationPicture) }}
@@ -34,7 +38,6 @@
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
         {% set temp ='' %}
-
         {% for field in organisation.fields %}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
@@ -58,11 +61,13 @@
                                    type="hidden"
                                    placeholder="http://..."
                                    name="{{ field.htmlName }}"
-                                   value="{{ urlPicture }}">
-                            <a href="{{ urlPicture }}">{{ urlPicture }}</a>
+                                   value="{{ field.value }}">
+                            {% if field.value is not empty %}
+                                <a href="{{ field.value }}">{{ field.value }}</a>
+                            {% else %}
+                                Vous n'avez pas encore choisi votre photo de profile !
+                            {% endif %}
                         {% else %}
-
-
                                 {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
                                     <input class="form-control ref"
                                            type="url"
@@ -83,10 +88,7 @@
                                            value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
                                 {% endif %}
 
-
                         {% endif %}
-
-
 
                     </div>
                     <div class="col-xs-1">
