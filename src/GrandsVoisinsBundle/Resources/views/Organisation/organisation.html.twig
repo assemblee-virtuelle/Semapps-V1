@@ -38,6 +38,7 @@
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
         {% set temp ='' %}
+
         {% for field in organisation.fields %}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
@@ -62,6 +63,7 @@
                                    placeholder="http://..."
                                    name="{{ field.htmlName }}"
                                    value="{{ field.value }}">
+
                             {% if field.value is not empty %}
                                 <a href="{{ field.value }}">{{ field.value }}</a>
                             {% else %}
@@ -69,16 +71,30 @@
                             {% endif %}
                         {% else %}
                                 {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
+
+                                    {% if (field.label|lower == 'building') %}
+                                    {{ dump(field.value) }}
+                                        <select class="form-control" name="{{ field.htmlName }}">
+                                            {% for key, buildings in building %}
+                                                <option value="{{ key }}" {% if key == field.value %}selected="true"{% endif %}>{{ buildings }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% else %}
+
                                     <input class="form-control ref"
                                            type="url"
                                            placeholder="http://..."
                                            name="{{ field.htmlName }}"
                                            value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
+
+                                    {% endif %}
+
                                 {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
                                     <input class="form-control ref"
                                            type="text"
                                            placeholder="texte..."
                                            name={{ field.htmlName }} value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
+
 
                                 {% else %}
                                     <input class="hasLookup form-control ui-autocomplete-input ref"

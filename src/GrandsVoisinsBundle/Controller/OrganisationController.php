@@ -270,6 +270,7 @@ class OrganisationController extends Controller
             'graphURI'            => $organisation->getGraphURI(),
             'picture'             => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
+            'building'            => GrandsVoisinsConfig::$buildingsSimple,
           )
         );
     }
