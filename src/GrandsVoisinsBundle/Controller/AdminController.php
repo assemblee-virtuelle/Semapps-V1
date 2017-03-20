@@ -92,9 +92,6 @@ class AdminController extends Controller
             "form"       => $form,
             "graphURI"   => $organisation->getGraphURI(),
             'picture'    => $picture->createView(),
-            'urlPicture' => ($user->getPictureName(
-            )) ? 'http://'.$request->getHost().':'.$request->getPort(
-              ).'/uploads/pictures/'.$user->getPictureName() : null,
           )
         );
     }
