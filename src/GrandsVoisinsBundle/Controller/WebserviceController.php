@@ -55,9 +55,9 @@ class WebserviceController extends Controller
           'WHERE { '.
           '  GRAPH ?GR { '.
           // Retrieve building.
-          '    ?ORGA gvoi:building ?building . '.
+          '    ?uri gvoi:building ?building . '.
           // Only organizations.
-          '    ?ORGA rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.
+          '    ?uri rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.
           '  } '.
           '} '.
           'GROUP BY ?building '.
@@ -76,59 +76,113 @@ class WebserviceController extends Controller
         return $buildings;
     }
 
-    public function searchSparqlRequest($term)
-    {
-
+    public function searchSparqlSelect(
+      $selectType,
+      $term,
+      $fieldsRequired,
+      $fieldsOptional = [],
+      $select = ''
+    ) {
+        $sfClient      = $this->container->get('semantic_forms.client');
         $requestSelect = '?uri ';
         $requestFields = '';
 
-        // Required fields.
-        $fieldsRequired = [
-          'type'  => 'rdf:type',
-          'title' => 'foaf:name',
-        ];
-
         foreach ($fieldsRequired as $alias => $type) {
             $requestSelect .= ' ?'.$alias;
-            $requestFields .= ' ?ORGA '.$type.' ?'.$alias.' . ';
+            $requestFields .= ' ?uri '.$type.' ?'.$alias.' . ';
         }
-
-        // Optional fields.
-        $fieldsOptional = [
-          'image'    => 'foaf:img',
-          'subject'  => 'purl:subject',
-          'building' => 'gvoi:building',
-        ];
 
         // Add optional fields.
         foreach ($fieldsOptional as $alias => $type) {
             $requestSelect .= ' ?'.$alias;
-            $requestFields .= 'OPTIONAL { ?ORGA '.$type.' ?'.$alias.' } ';
+            $requestFields .= 'OPTIONAL { ?uri '.$type.' ?'.$alias.' } ';
         }
 
-        $requestTypes = '{ ?uri rdf:type <'.implode(
-            '> } UNION { ?uri rdf:type <',
-            array_keys($this->entitiesParameters)
-          ).'> }';
-
-        $request = 'SELECT '.$requestSelect.' '.
+        $request = $this->container->get(
+            'semantic_forms.client'
+          )->prefixesCompiled.
+          "\n\n ".
+          'SELECT '.$requestSelect.$select.' '.
           'WHERE { '.
           '  GRAPH ?GR { '.
+          '  ?uri rdf:type <'.$selectType.'> .'.
           // If not term specified, do not filter term.
           ($term ? '    ?uri text:query "'.$term.'" . ' : '').
-          // Allowed types.
-          $requestTypes.
           // Requested fields.
           $requestFields.
           // Group all duplicated items.
           '}} GROUP BY '.$requestSelect;
 
-        // Use common and custom prefixes.
-        return $this->container->get(
-          'semantic_forms.client'
-        )->prefixesCompiled."\n\n ".
-        // Query.
-        $request;
+        $results = $sfClient->sparql($request);
+
+        // Key values pairs only.
+        // Avoid "Empty result" string.
+        $results = is_array($results) ? $sfClient->sparqlResultsValues($results) : [];
+
+        // Filter only allowed types.
+        $filtered = [];
+        foreach ($results as $result) {
+            // Type is sometime missing.
+            if (isset($result['type']) && isset($this->entitiesParameters[$result['type']])) {
+                $filtered[] = $result;
+            }
+        }
+
+        return $filtered;
+    }
+
+
+    public function searchSparqlRequest($term)
+    {
+
+        $organizations = $this->searchSparqlSelect(
+        // Type.
+          'http://xmlns.com/foaf/0.1/Organization',
+          // Search term.
+          $term,
+          // Required fields.
+          [
+            'type'  => 'rdf:type',
+            'title' => 'foaf:name',
+          ],
+          // Optional fields..
+          [
+            'image'    => 'foaf:img',
+            'subject'  => 'purl:subject',
+            'building' => 'gvoi:building',
+          ]
+        );
+
+        $persons = $this->searchSparqlSelect(
+        // Type.
+          'http://xmlns.com/foaf/0.1/Person',
+          // Search term.
+          $term,
+          // Required fields.
+          [
+            'type'       => 'rdf:type',
+            'givenName'  => 'foaf:givenName',
+            'familyName' => 'foaf:familyName',
+          ],
+          [
+            'image' => 'foaf:img',
+          ],
+          // Group names into title.
+          ' (fn:concat(?givenName, " ", ?familyName) as ?title) '
+        );
+
+        $results = [];
+
+        while ($organizations || $persons) {
+            if (!empty($organizations)) {
+                $results[] = array_shift($organizations);
+            }
+            if (!empty($persons)) {
+                $results[] = array_shift($persons);
+            }
+        }
+
+        return $results;
     }
 
     public function searchRequestAction(Request $request)
@@ -142,36 +196,10 @@ class WebserviceController extends Controller
 
     public function searchAction(Request $request)
     {
-        $term = $request->query->get('t');
-        // Build a fake empty response in case of fail.
-        $output = (object)['results' => []];
-
-        $sfClient = $this->container->get('semantic_forms.client');
-
         // Search
-        $response = $sfClient->sparql($this->searchSparqlRequest($term));
+        $results = $this->searchSparqlRequest($request->query->get('t'));
 
-        // It can be a DNS problem, but we deep look about timeouts.
-        if ($response instanceof RequestException) {
-            $output->error = 'TIMEOUT';
-        } // Success
-        else if (is_array(
-            $response
-          ) && isset($response['results']['bindings'])
-        ) {
-            $results = $sfClient->sparqlResultsValues($response);
-            // Filter only allowed types.
-            $filtered = [];
-            foreach ($results as $result) {
-                // Type is sometime missing.
-                if (isset($result['type']) && isset($this->entitiesParameters[$result['type']])) {
-                    $filtered[] = $result;
-                }
-            }
-            $output->results = $filtered;
-        }
-
-        return new JsonResponse($output);
+        return new JsonResponse((object)['results' => $results]);
     }
 
     /**
