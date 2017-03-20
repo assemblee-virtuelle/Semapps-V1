@@ -42,6 +42,7 @@
                     <input name="uri" value="{{ form.subject }}" type="hidden">
                     <input name="graphURI" value="{{ graphURI }}" type="hidden">
                     {% set temp ='' %}
+                    {{ dump(form) }}
                     {% for field in form.fields %}
                         {% set cardinality = field.cardinality|split(':') %}
                         <div class="form-group col col-lg-12">
