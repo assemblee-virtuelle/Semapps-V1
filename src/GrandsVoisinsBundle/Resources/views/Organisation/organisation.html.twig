@@ -40,7 +40,6 @@
         {% set temp ='' %}
 
         {% for field in organisation.fields %}
-            {{ dump(field) }}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
                 <div class="form-group col col-lg-12">
