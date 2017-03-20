@@ -57,13 +57,13 @@
                             <div class="row">
                                 <div class="col-xs-11 sf-value-block">
 
-                                    {% if( field.label|lower == 'type') %}
+                                    {% if 'type' in  field.property|lower  %}
 
                                         <input class="form-control" type="url"
                                                name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                                value="{{ field.value }}">
 
-                                    {% elseif( field.label|lower == 'image') %}
+                                    {% elseif 'img' in  field.property|lower %}
                                         <input class="form-control ref"
                                                type="hidden"
                                                placeholder="http://..."

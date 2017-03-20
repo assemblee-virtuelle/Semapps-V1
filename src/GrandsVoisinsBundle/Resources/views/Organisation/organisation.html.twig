@@ -40,6 +40,7 @@
         {% set temp ='' %}
 
         {% for field in organisation.fields %}
+            {{ dump(field) }}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
                 <div class="form-group col col-lg-12">
@@ -53,11 +54,11 @@
                     </div>
                     <div class="col-xs-11 sf-value-block">
 
-                        {% if( field.label|lower == 'type') %}
+                        {% if 'type' in  field.property|lower  %}
                             <input class="form-control" type="url"
                                    name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                    value="{{ field.value }}">
-                        {% elseif( field.label|lower == 'image') %}
+                        {% elseif 'img' in  field.property|lower %}
                             <input class="form-control ref"
                                    type="hidden"
                                    placeholder="http://..."
@@ -69,42 +70,35 @@
                             {% else %}
                                 Vous n'avez pas encore choisi votre photo de profile !
                             {% endif %}
+
+                        {% elseif 'building' in  field.property|lower %}
+                            <select class="form-control" name="{{ field.htmlName }}">
+                                {% for key, buildings in building %}
+                                    <option value="{{ key }}" {% if key == field.value %}selected="true"{% endif %}>{{ buildings }}</option>
+                                {% endfor %}
+                            </select>
                         {% else %}
                                 {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-
-                                    {% if (field.label|lower == 'building') %}
-                                        <select class="form-control" name="{{ field.htmlName }}">
-                                            {% for key, buildings in building %}
-                                                <option value="{{ key }}" {% if key == field.value %}selected="true"{% endif %}>{{ buildings }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    {% else %}
-
                                     <input class="form-control ref"
                                            type="url"
                                            placeholder="http://..."
                                            name="{{ field.htmlName }}"
                                            value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
 
-                                    {% endif %}
-
                                 {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
                                     <input class="form-control ref"
                                            type="text"
                                            placeholder="texte..."
                                            name={{ field.htmlName }} value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
-
-
                                 {% else %}
+
                                     <input class="hasLookup form-control ui-autocomplete-input ref"
                                            type="text"
                                            placeholder="DBPedia..."
                                            name="{{ field.htmlName }}"
                                            value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
                                 {% endif %}
-
                         {% endif %}
-
                     </div>
                     <div class="col-xs-1">
                         {% if cardinality[1]=="*" and field.label != temp %}
