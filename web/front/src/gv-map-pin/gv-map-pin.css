@@ -1,4 +1,5 @@
 .gv-map-pin-wrapper {
+  visibility: visible;
   position: absolute;
   font-size: 12px;
   font-weight: bold;
@@ -21,11 +22,11 @@
     .gv-map-pin-wrapper .inner .number {
       text-align: center;
       width: 33px;
+      height: 33px;
+      margin: -44px auto 0;
       background: #FFCC00;
       border-radius: 100px;
-      margin: -44px auto 0;
       display: block;
-      height: 33px;
       color: #FFF;
       font-size: 20px; }
       .gv-map-pin-wrapper .inner .number .number-inner {
@@ -66,3 +67,28 @@
     opacity: 0; } }
   .gv-map-pin-wrapper.fadeOut {
     animation: mapPinFadeOut 3s cubic-bezier(0, 0.6, 0.4, 1) forwards; }
+  .gv-map-pin-wrapper .fixedSelectionStop {
+    display: none;
+    position: absolute;
+    top: -24px;
+    right: -12px;
+    background: black;
+    border-radius: 100px;
+    padding: 4px;
+    width: 21px;
+    height: 21px;
+    color: #FFF;
+    font-size: 11px;
+    text-align: center; }
+  .gv-map-pin-wrapper.selected .inner {
+    top: -33px;
+    left: -20px; }
+    .gv-map-pin-wrapper.selected .inner .number {
+      border: 5px solid white;
+      width: 43px !important;
+      height: 43px !important; }
+      .gv-map-pin-wrapper.selected .inner .number .number-inner {
+        top: -38px !important;
+        left: -30px !important; }
+  .gv-map-pin-wrapper.selected .fixedSelectionStop {
+    display: block !important; }

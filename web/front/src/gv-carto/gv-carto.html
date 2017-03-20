@@ -5,7 +5,6 @@
   <link rel="import" href="../gv-map/gv-map.html">
   <link rel="import" href="../gv-results/gv-results.html">
   <link rel="import" href="../gv-detail/gv-detail.html">
-  <link rel="import" href="../gv-spinner/gv-spinner.html">
   <template>
     <div id="gv-carto">
       <gv-header></gv-header>
@@ -27,9 +26,6 @@
           <gv-detail name="detail"
                      route="{{searchTail}}"></gv-detail>
         </iron-pages>
-
-        <gv-spinner></gv-spinner>
-
       </div>
 
       <!-- Overlay -->
@@ -38,5 +34,5 @@
   </template>
   <script src="../../../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
   <script src="../../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
-  <script src="../gv-carto/gv-carto.min.js"></script>
+  <script src="gv-carto.min.js"></script>
 </dom-module>

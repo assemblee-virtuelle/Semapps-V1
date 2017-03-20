@@ -2,7 +2,6 @@ a, a:hover, a:active {
   position: relative;
   text-decoration: none;
   color: #555;
-  overflow: hidden;
 }
 
 a {
@@ -34,8 +33,34 @@ a .chevron {
   color: #888;
 }
 
-.image img {
-  width: 100%;
+.image {
+  position: relative;
+  .image-wrapper {
+    width: 70px;
+    height: 70px;
+    border-radius: 200px;
+    margin-top: -20px;
+    margin-left: -30px;
+    overflow: hidden;
+    position: relative;
+    background: #FFF;
+    box-shadow: 0 3px 2px rgba(0, 0, 0, .3);
+
+    .image-default {
+    }
+
+    .image-custom {
+      position: absolute;
+      background-size: cover;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
+    img {
+      width: 100%;
+    }
+  }
 }
 
 .info {
@@ -48,7 +73,6 @@ a .chevron {
 
 /* Desktop only */
 @media (max-width: 768px) {
-
 }
 
 @media (min-width: 768px) {
@@ -62,12 +86,13 @@ a .chevron {
   }
 
   a:hover .chevron {
+    color: #FFCC00;
     display: block;
     position: absolute;
     right: 27px;
     top: 50%;
     height: 14px;
-    opacity: .2;
+    opacity: .8;
     width: 20px;
     font-size: 30px;
     animation: resultHoverChevron 0.5s cubic-bezier(0, .34, .25, 1) forwards;

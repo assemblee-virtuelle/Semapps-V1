@@ -26,7 +26,9 @@ var filesJs = {
   ],
   // Front
   'web/front/src/gv-carto/gv-carto': true,
+  'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-results/gv-results': true,
+  'web/front/src/gv-results-tab/gv-results-tab': true,
   'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-detail/gv-detail': true,
@@ -43,6 +45,7 @@ var filesScss = {
   'web/front/src/gv-carto/gv-carto': true,
   'web/front/src/gv-spinner/gv-spinner': true,
   'web/front/src/gv-results/gv-results': true,
+  'web/front/src/gv-results-tab/gv-results-tab': true,
   'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-detail/gv-detail': true,

@@ -1,34 +1,36 @@
 <dom-module id="gv-results">
   <link rel="import" type="css" href="gv-results.css">
   <link rel="import" href="../gv-results-item/gv-results-item.html">
+  <link rel="import" href="../gv-results-tab/gv-results-tab.html">
+  <link rel="import" href="../gv-spinner/gv-spinner.html">
   <template>
+
     <div class="row">
       <div class="col col-sm-8">
         <ul id="searchTabs" class="nav nav-tabs">
-          <li rel="all">
-            <a href="#" on-click="handleTabClick">
-              <span class="glyphicon glyphicon-th-list"></span>Tous&nbsp;<span class="counter"></span>
-            </a>
-          </li>
-          <!-- TODO use URL for rel types -->
-          <li rel="Organisation">
-            <a href="#" on-click="handleTabClick">
-              <span class="glyphicon glyphicon-tower"></span>Organisations&nbsp;<span class="counter"></span>
-            </a>
-          </li>
-          <li rel="Personne">
-            <a href="#" on-click="handleTabClick">
-              <span class="glyphicon glyphicon-user"></span>Personnes&nbsp;<span class="counter"></span>
-            </a>
-          </li>
+          <template id="searchResultsList" is="dom-repeat" items="{{tabs}}">
+            <gv-results-tab data="[[item]]"></gv-results-tab>
+          </template>
         </ul>
         <div class="clearfix"></div>
-        <div id="searchResults" class="col col-sm-12"></div>
-        <div id="gv-results-empty" class="alert alert-info" style="display:none">
-          Aucun résultat...
+        <div id="searchResults" class="col col-sm-12">
+          <template is="dom-repeat" items="{{results}}">
+            <gv-results-item data="[[item]]"></gv-results-item>
+          </template>
         </div>
-        <div id="gv-results-error" class="alert alert-danger">Une erreur s'est
-          produite lors du chargement...
+        <template is="dom-if" if="[[searchError]]">
+          <div id="gv-results-error" class="alert alert-danger">Une erreur s'est
+            produite lors du chargement...
+          </div>
+        </template>
+        <template is="dom-if" if="[[results.length==0]]">
+          <div id="gv-results-empty" class="alert alert-info"
+               style="display:none">
+            Aucun résultat...
+          </div>
+        </template>
+        <div id="searchLoadingSpinner" class="pageLoadingSpinner">
+          <gv-spinner></gv-spinner>
         </div>
       </div>
       <div class="col col-sm-4 col-blocks">
@@ -39,5 +41,5 @@
     </div>
 
   </template>
-  <script src="../gv-results/gv-results.min.js"></script>
+  <script src="gv-results.min.js"></script>
 </dom-module>

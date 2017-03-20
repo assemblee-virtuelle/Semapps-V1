@@ -21,10 +21,15 @@ Polymer({
     }
   },
 
+  attached:function() {
+    "use strict";
+    this.domLoadingSpinner = gvc.domId('detailSpinner');
+  },
+
   detailLoad: function (encodedUri) {
     "use strict";
-    // Show spin.
-    gvc.loadingPageContentStart();
+    // Show spinner.
+    this.domLoadingSpinner.style.display = 'block';
     // Hide content.
     this.$.detail.style.display = 'none';
     // Request server.
@@ -44,11 +49,10 @@ Polymer({
     // Show detail content.
     this.$.detail.style.display = '';
     // Hide spin.
-    gvc.loadingPageContentStop();
-    // Load and sort fields.
-    gvc.sfClient.loadFormFields(data.responseJSON.detail.properties);
+    this.domLoadingSpinner.style.display = 'none';
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-organization');
+    inner.data = data;
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);

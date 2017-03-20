@@ -1,6 +1,7 @@
 <dom-module id="gv-detail">
   <link rel="import" type="css" href="gv-detail.css">
-  <link rel="import" href="../gv-detail-organization/gv-detail-organization.html">
+  <link rel="import"
+        href="../gv-detail-organization/gv-detail-organization.html">
   <link rel="import" href="../gv-detail-person/gv-detail-person.html">
   <template>
     <div id="detail" class="page-detail" style="display: none">
@@ -11,24 +12,27 @@
       </ul>
       <div class="row">
         <div class="col col-sm-8">
+          <div id="detailSpinner" class="pageLoadingSpinner">
+            <gv-spinner></gv-spinner>
+          </div>
           <div id="gv-detail-inner"></div>
         </div>
-        <div class="col col-sm-4">
-        <div class="block">
-        <h3>Emploie</h3>
-        <ul>
-        <li>
-        <a href="#">Personne 1</a>
-        </li>
-        <li>
-        <a href="#">Personne 2</a>
-        </li>
-        <li>
-        <a href="#">Personne 3</a>
-        </li>
-        </ul>
-        </div>
-        </div>
+        <!--<div class="col col-sm-4">-->
+          <!--<div class="block">-->
+            <!--<h3>Emploie</h3>-->
+            <!--<ul>-->
+              <!--<li>-->
+                <!--<a href="#">Personne 1</a>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<a href="#">Personne 2</a>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<a href="#">Personne 3</a>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
   </template>

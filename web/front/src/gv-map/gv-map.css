@@ -35,6 +35,7 @@
 
 #gv-map-pins {
   position: absolute;
+  visibility: hidden;
   top: 0;
   left: 0;
   bottom: 0;

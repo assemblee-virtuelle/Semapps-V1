@@ -6,6 +6,10 @@ searchHome:
     path:     /rechercher
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
+searchHomeEmpty:
+    path:     /rechercher/
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
 searchBuilding:
     path:     /rechercher/{building}/
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
@@ -53,9 +57,13 @@ changeAccess:
     path:    /mon-compte/access/change/{userId}/{roles}
     defaults: { _controller: GrandsVoisinsBundle:Admin:changeAccess }
 
-webserviceBuilding:
-    path:     /webservice/building
-    defaults: { _controller: GrandsVoisinsBundle:Webservice:building }
+webserviceParameters:
+    path:     /webservice/parameters
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:parameters }
+
+webserviceSearchRequest:
+    path:     /webservice/searchRequest
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:searchRequest }
 
 webserviceSearch:
     path:     /webservice/search

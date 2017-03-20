@@ -1,5 +1,6 @@
 .gv-map-pin-wrapper {
   $circlePinRadius: 33px;
+  visibility: visible;
   position: absolute;
   font-size: 12px;
   font-weight: bold;
@@ -23,11 +24,11 @@
     .number {
       text-align: center;
       width: 33px;
+      height: 33px;
+      margin: -44px auto 0;
       background: #FFCC00;
       border-radius: 100px;
-      margin: -44px auto 0;
       display: block;
-      height: 33px;
       color: #FFF;
       font-size: 20px;
       .number-inner {
@@ -88,6 +89,37 @@
   &.fadeOut {
     animation: mapPinFadeOut 3s cubic-bezier(0, 0.6, 0.4, 1) forwards;
   }
+
+  .fixedSelectionStop {
+    display: none;
+    position: absolute;
+    top: -24px;
+    right: -12px;
+    background: rgba(0, 0, 0, 1);
+    border-radius: 100px;
+    padding: 4px;
+    width: 21px;
+    height: 21px;
+    color: #FFF;
+    font-size: 11px;
+    text-align: center;
+  }
+  &.selected {
+    .inner {
+      top: -33px;
+      left: -20px;
+      .number {
+        border: 5px solid white;
+        width: 43px !important;
+        height: 43px !important;
+        .number-inner {
+          top: -38px !important;
+          left: -30px !important;
+        }
+      }
+    }
+    .fixedSelectionStop {
+      display: block !important;
+    }
+  }
 }
-
-

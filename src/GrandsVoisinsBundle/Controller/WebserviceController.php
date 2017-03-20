@@ -8,17 +8,43 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class WebserviceController extends Controller
 {
-    var $entitiesTypesUris = [
-      'organization' => 'http://xmlns.com/foaf/0.1/Organization',
-      'person'       => 'http://xmlns.com/foaf/0.1/Person',
+    var $entitiesParameters = [
+      'http://xmlns.com/foaf/0.1/Organization' => [
+        'name'   => 'Organisation',
+        'plural' => 'Organisations',
+        'icon'   => 'tower',
+      ],
+      'http://xmlns.com/foaf/0.1/Person'       => [
+        'name'   => 'Personne',
+        'plural' => 'Personnes',
+        'icon'   => 'user',
+      ],
     ];
 
-    public function buildingAction()
+    public function __construct()
     {
+        // We also need to type as property.
+        foreach ($this->entitiesParameters as $key => $item) {
+            $this->entitiesParameters[$key]['type'] = $key;
+        }
+    }
 
+    public function parametersAction()
+    {
+        return new JsonResponse(
+          [
+            'buildings' => $this->getBuildings(),
+            'entities'  => $this->entitiesParameters,
+          ]
+        );
+    }
+
+    public function getBuildings()
+    {
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
         $response = $sfClient->sparql(
@@ -47,7 +73,71 @@ class WebserviceController extends Controller
             }
         }
 
-        return new JsonResponse($buildings);
+        return $buildings;
+    }
+
+    public function searchSparqlRequest($term)
+    {
+
+        $requestSelect = '?uri ';
+        $requestFields = '';
+
+        // Required fields.
+        $fieldsRequired = [
+          'type'  => 'rdf:type',
+          'title' => 'foaf:name',
+        ];
+
+        foreach ($fieldsRequired as $alias => $type) {
+            $requestSelect .= ' ?'.$alias;
+            $requestFields .= ' ?ORGA '.$type.' ?'.$alias.' . ';
+        }
+
+        // Optional fields.
+        $fieldsOptional = [
+          'image'    => 'foaf:img',
+          'subject'  => 'purl:subject',
+          'building' => 'gvoi:building',
+        ];
+
+        // Add optional fields.
+        foreach ($fieldsOptional as $alias => $type) {
+            $requestSelect .= ' ?'.$alias;
+            $requestFields .= 'OPTIONAL { ?ORGA '.$type.' ?'.$alias.' } ';
+        }
+
+        $requestTypes = '{ ?uri rdf:type <'.implode(
+            '> } UNION { ?uri rdf:type <',
+            array_keys($this->entitiesParameters)
+          ).'> }';
+
+        $request = 'SELECT '.$requestSelect.' '.
+          'WHERE { '.
+          '  GRAPH ?GR { '.
+          // If not term specified, do not filter term.
+          ($term ? '    ?uri text:query "'.$term.'" . ' : '').
+          // Allowed types.
+          $requestTypes.
+          // Requested fields.
+          $requestFields.
+          // Group all duplicated items.
+          '}} GROUP BY '.$requestSelect;
+
+        // Use common and custom prefixes.
+        return $this->container->get(
+          'semantic_forms.client'
+        )->prefixesCompiled."\n\n ".
+        // Query.
+        $request;
+    }
+
+    public function searchRequestAction(Request $request)
+    {
+        // Get term.
+        $term = $request->query->get('t');
+
+        // Show request for debug.
+        return new Response($this->searchSparqlRequest($term));
     }
 
     public function searchAction(Request $request)
@@ -56,53 +146,29 @@ class WebserviceController extends Controller
         // Build a fake empty response in case of fail.
         $output = (object)['results' => []];
 
-        if ($term) {
-            $sfClient = $this->container->get('semantic_forms.client');
+        $sfClient = $this->container->get('semantic_forms.client');
 
-            // Common fields.
-            $fields = [
-              'title'    => 'foaf:name',
-              'image'    => 'foaf:img',
-              'type'     => 'rdf:type',
-              'subject'  => 'purl:subject',
-              'building' => 'gvoi:building',
-            ];
+        // Search
+        $response = $sfClient->sparql($this->searchSparqlRequest($term));
 
-            $requestSelect = '';
-            $requestFields = '';
-            // Add optional fields.
-            foreach ($fields as $alias => $type) {
-                $requestSelect .= ' ?'.$alias;
-                $requestFields .= 'OPTIONAL { ?ORGA '.$type.' ?'.$alias.' } ';
+        // It can be a DNS problem, but we deep look about timeouts.
+        if ($response instanceof RequestException) {
+            $output->error = 'TIMEOUT';
+        } // Success
+        else if (is_array(
+            $response
+          ) && isset($response['results']['bindings'])
+        ) {
+            $results = $sfClient->sparqlResultsValues($response);
+            // Filter only allowed types.
+            $filtered = [];
+            foreach ($results as $result) {
+                // Type is sometime missing.
+                if (isset($result['type']) && isset($this->entitiesParameters[$result['type']])) {
+                    $filtered[] = $result;
+                }
             }
-
-            $request = 'SELECT ?uri '.$requestSelect.' '.
-              'WHERE { '.
-              '  GRAPH ?GR { '.
-              '    ?uri text:query "'.$term.'" . '.
-              // TODO Remove type filter.
-              '    ?uri rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.$requestFields;
-
-            $request .= '}}';
-
-            // Search
-            $response = $sfClient->sparql(
-            // Use common and custom prefixes.
-              $sfClient->prefixesCompiled."\n\n ".
-              // Query.
-              $request
-            );
-
-            // It can be a DNS problem, but we deep look about timeouts.
-            if ($response instanceof RequestException) {
-                $output->error = 'TIMEOUT';
-            } // Success
-            else if (is_array(
-                $response
-              ) && isset($response['results']['bindings'])
-            ) {
-                $output->results = $sfClient->sparqlResultsValues($response);
-            }
+            $output->results = $filtered;
         }
 
         return new JsonResponse($output);
@@ -122,34 +188,39 @@ class WebserviceController extends Controller
         );
     }
 
+    public function requestProperties($uri)
+    {
+        $sfClient = $this->container->get('semantic_forms.client');
+        // All properties about organization.
+        $response =
+          $sfClient
+            ->sparql(
+              'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
+            );
+
+        $output = [];
+        foreach ($response['results']['bindings'] as $item) {
+            $key          = $item['P']['value'];
+            $output[$key] = $item['O']['value'];
+        }
+
+        return $output;
+    }
+
     public function requestPair($uri)
     {
 
-        $sfClient = $this->container->get('semantic_forms.client');
+        $output['properties'] = $this->requestProperties($uri);
 
-        // All properties about organization.
-        $properties = $sfClient
-          ->sparqlData(
-            'CONSTRUCT { '.
-            '<'.$uri.'> ?P ?O . '.
-            '} WHERE { GRAPH ?G { '.
-            '<'.$uri.'> ?P ?O . '.
-            '}}'
-          )->fields;
+        switch ($output['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']) {
+            case 'http://xmlns.com/foaf/0.1/Organization':
+                $output['responsible'] = $this->requestProperties(
+                  $output['properties']['http://virtual-assembly.org/pair_v2#hasResponsible']
+                );
+                break;
+        }
 
-        // Things pointing to the item.
-        $related = $sfClient
-          ->sparqlData(
-            'CONSTRUCT { '.
-            '?S ?P1 <'.$uri.'> . '.
-            ' } WHERE { GRAPH ?G { '.
-            '?S ?P1 <'.$uri.'> . '.
-            ' }}'
-          )->fields;
+        return $output;
 
-        return [
-          'properties' => $properties,
-          'related'    => $related,
-        ];
     }
 }

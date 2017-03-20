@@ -19,41 +19,7 @@
       }, options);
     }
 
-    sortFormFields(fields) {
-      let sorted = {};
-      for (let index in Object.keys(fields)) {
-        let key = this.fieldsAliases[fields[index].property] || fields[index].property;
-        let field = fields[index];
-        // 0:1 or 1:1
-        if (field.cardinality[2] === '1') {
-          sorted[key] = field;
-
-        }
-        // 0:* or 1:*
-        else {
-          sorted[key] = sorted[key] || [];
-          sorted[key].push(field);
-        }
-      }
-      return sorted;
-    }
-
-    loadFormFields(fieldsData) {
-      this.formFields = fieldsData;
-      this.formFieldsSorted = this.sortFormFields(fieldsData);
-
-      if (this.formFieldsSorted.rdfType) {
-        for (let i in Object.keys(this.formFieldsSorted.rdfType)) {
-          // Delete unwanted type.
-          if (this.formFieldsSorted.rdfType[i].value === 'http://vocab.sindice.net/csv/Row') {
-            delete this.formFieldsSorted.rdfType[i];
-          }
-        }
-      }
-    }
-
-    getValue(key) {
-      let fields = this.formFieldsSorted;
+    getValue(fields, key) {
       key = this.fieldsAliases[key] || key;
       if (fields[key]) {
         let data = typeof fields[key] === 'array' ? fields[key] : fields[key][0];
@@ -72,7 +38,6 @@
       this.$window = $(window);
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
-      this.$loadingSpinner = $('#gv-spinner');
       this.sfClient = new SFClient({
         fieldsAliases: {
           'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status': 'gvStatus',
@@ -93,8 +58,6 @@
         }
       });
       this.$gvMap = $(document.getElementById('gv-map'));
-      this.$tabs = $('.nav-tabs');
-      this.searchTypeCurrent = 'all';
       this.searchTypes = {
         "http://xmlns.com/foaf/0.1/Person": 'Personne',
         "http://xmlns.com/foaf/0.1/Organization": 'Organisation'
@@ -105,10 +68,8 @@
         window.document.body.classList.add('dev-env');
       }
 
-      this.setSearchType(this.searchTypeCurrent);
-
       this.ajaxMultiple({
-        buildings: '/webservice/building'
+        parameters: '/webservice/parameters'
       }, this.start);
     }
 
@@ -137,35 +98,20 @@
 
     start(data) {
       "use strict";
-      this.buildings = data.buildings;
+      this.buildings = data.parameters.buildings;
+      this.entities = data.parameters.entities;
       // Save key for further usage.
       for (let key in this.buildings) {
         this.buildings[key].key = key;
       }
       // Shortcuts.
       this.domSearchTextInput = this.domId('searchText');
-      this.domSearchResults = this.domId('searchResults');
       this.stateSet('waiting');
 
-      // Listeners.
-      var timeout;
-      var callbackSearchEvent = this.searchEvent.bind(this);
-      // Click on submit button.
-      this.listen('searchForm', 'submit', (e) => {
-        this.domSearchTextInput.blur();
-        this.scrollToSearchResults();
-        callbackSearchEvent(e);
-      });
+      // TODO ? this.setSearchType(this.searchTypeCurrent);
+
       // Launch callbacks
       this.isReady = true;
-      // Type in search field.
-      this.listen('searchText', 'keyup', () => {
-        if (timeout) {
-          window.clearTimeout(timeout);
-        }
-        // Avoid to make too much requests when typing.
-        timeout = window.setTimeout(callbackSearchEvent, 500);
-      });
 
       // Ready callbacks.
       for (let i in readyCallbacks) {
@@ -188,52 +134,47 @@
       }
     }
 
-    setSearchType(type) {
-      if (type !== this.searchTypeCurrent) {
-        this.$tabs
-          .find('li[rel=' + this.searchTypeCurrent + ']')
-          .removeClass('active');
-      }
+    /*setSearchType(type) {
 
-      this.searchTypeCurrent = type;
 
-      this.$tabs
-        .find('li[rel=' + type + ']')
-        .addClass('active');
+     // Reload render results.
+     gvc.renderSearchResult();
+     }*/
 
-      // Reload render results.
-      gvc.renderSearchResult();
-    }
+    /*loadingPageContentStart() {
+     this.$loadingSpinner.show();
+     }
 
-    loadingPageContentStart() {
-      this.$loadingSpinner.show();
-    }
-
-    loadingPageContentStop() {
-      this.$loadingSpinner.hide();
-    }
+     loadingPageContentStop() {
+     this.$loadingSpinner.hide();
+     }*/
 
     /* -- Waiting --*/
     stateWaitingInit() {
-      gvmap.mapShowBuildingPinAll();
+      //gvc.map.mapShowBuildingPinAll();
     }
 
     stateWaitingExit() {
-      gvmap.mapHideBuildingPinAll();
+      //gvc.map.mapHideBuildingPinAll();
     }
 
     /* -- Search -- */
 
-    stateSearchInit() {
-      if (!this.domSearchTextInput.value) {
-        this.stateSet('waiting');
-        // Block saving current state.
-        return false;
-      }
-    }
+    /*stateSearchInit() {
+     if (!this.domSearchTextInput.value) {
+     this.stateSet('waiting');
+     // Block saving current state.
+     return false;
+     }
+     }
 
-    stateSearchExit() {
+     stateSearchExit() {
 
+     }*/
+
+    goSearch() {
+      var term = this.domSearchTextInput.value;
+      this.mainComponent.set('route.path', '/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
     }
 
     scrollToSearchResults(complete) {
@@ -244,146 +185,72 @@
       });
     }
 
-    searchEvent(e) {
-      // Event may be missing.
-      e && e.preventDefault();
-      var term = this.domSearchTextInput.value;
-      this.search(term, this.buildingSelected);
-    }
+    /*
+     searchRouteChange(term, building) {
+     if (this.firstSearch) {
+     // Set value to input (used at first page load)
+     this.domSearchTextInput.value = term;
+     this.firstSearch = false;
+     }
 
-    searchRouteChange(term, building) {
-      if (this.firstSearch) {
-        // Set value to input (used at first page load)
-        this.domSearchTextInput.value = term;
-        this.firstSearch = false;
-      }
+     // There is no building with this name.
+     if (!this.buildings[building]) {
+     building = this.buildingSelectedAll;
+     }
 
-      // There is no building with this name.
-      if (!this.buildings[building]) {
-        building = this.buildingSelectedAll;
-      }
+     // Launch search.
+     this.search(term, building);
+     }
 
-      // Launch search.
-      this.search(term, building);
-    }
+     textRemove(term, char) {
+     return term.replace(new RegExp(char, 'g'), '');
+     }
 
-    textRemove(term, char) {
-      return term.replace(new RegExp(char, 'g'), '');
-    }
+     search(term, building) {
+     this.stateSet('search');
+     log(' SEARCH ');
 
-    search(term, building) {
-      this.stateSet('search');
 
-      term = term.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+     // Prevent recursions due to route event changes,
+     // and also prevent to search two times the same values.
+     if (this.lastSearchTerm === term && this.lastSearchBuilding === building) {
+     return;
+     }
 
-      // Prevent recursions due to route event changes,
-      // and also prevent to search two times the same values.
-      if (this.lastSearchTerm === term && this.lastSearchBuilding === building) {
-        return;
-      }
+     this.lastSearchTerm = term;
+     this.lastSearchBuilding = building;
 
-      this.lastSearchTerm = term;
-      this.lastSearchBuilding = building;
-      this.mainComponent.set('route.path', '/rechercher/' + (building || 'partout') + '/' + term);
 
-      // Empty content.
-      this.domId('searchResults');
-      this.domSearchResults.innerHTML = '';
-      // Hide counters.
-      this.$tabs.find('li .counter').hide();
 
-      // Hide all results.
-      $('#gv-results-empty, #gv-results-error').hide();
-      this.loadingPageContentStart();
 
-      // Build callback function.
-      let complete = (data) => {
-        this.loadingPageContentStop();
-        this.renderSearchResult(data.responseJSON);
-      };
 
-      // Say that this function is the
-      // only one we expect to be executed.
-      // It prevent to parse multiple responses.
-      this.searchQueryLastComplete = complete;
+     // Hide counters.
+     this.$tabs.find('li .counter').hide();
 
-      this.loadingPageContentStart();
+     // Hide all results.
+     $('#gv-results-empty, #gv-results-error').hide();
+     this.loadingPageContentStart();
 
-      $.ajax({
-        url: '/webservice/search?b=' + encodeURIComponent(building) + '&t=' + encodeURIComponent(term),
-        dataType: 'json',
-        complete: (data) => {
-          "use strict";
-          // Check that we are on the last callback expected.
-          complete === this.searchQueryLastComplete
-            // Continue.
-          && complete(data);
-        }
-      });
-    }
 
-    renderSearchResult(response) {
-      "use strict";
 
-      // Allow empty response.
-      response = response || this.renderSearchResultResponse || {};
-      // Save last data for potential reload.
-      this.renderSearchResultResponse = response;
-      window.gvmap && gvmap.mapHideBuildingPinAll();
 
-      if (response.error) {
-        $('#gv-results-error').show();
-      }
-      else if (!response.results || !response.results.length) {
-        $('#gv-results-empty').show();
-      }
-      else {
-        // Empty if not already.
-        this.domSearchResults.innerHTML = '';
-        let typesCounter = {};
-        let buildingsCounter = {};
-        for (let i in response.results) {
-          let data = response.results[i];
-          // Data is allowed.
-          if (this.searchTypes[data.type]) {
-            // Count results event there are not displayed.
-            typesCounter[data.type] = typesCounter[data.type] || 0;
-            typesCounter[data.type]++;
-            if (this.buildings[data.building]) {
-              buildingsCounter[data.building] = buildingsCounter[data.building] || 0;
-              buildingsCounter[data.building]++;
-            }
-            if ((this.searchTypeCurrent === 'all' || data.type === this.searchTypeCurrent)) {
-              let result = document.createElement('gv-results-item');
-              // Apply all parameters (type / desc / etc... ).
-              $.extend(result, data);
-              this.domSearchResults.appendChild(result);
-            }
-          }
-        }
 
-        if (window.gvmap) {
-          let keys = Object.keys(buildingsCounter);
-          for (let i in keys) {
-            gvmap.domPins[keys[i]].show(buildingsCounter[keys[i]]);
-          }
-        }
 
-        // Set counters.
-        this.$tabs.find('li .counter').html(0);
-        let keys = Object.keys(typesCounter);
-        let total = 0;
-        for (let i in keys) {
-          let type = keys[i]
-          let value = typesCounter[type] || 0;
-          this.$tabs.find('li[rel="' + type + '"] .counter').html(value);
-          total += value;
-        }
-        this.$tabs.find('li[rel="all"] .counter').html(total);
-        // Show counters.
-        this.$tabs.find('li .counter').show();
-      }
-    }
+
+
+     }
+
+     renderSearchResult(response) {
+     "use strict";
+
+
+     gvc.map && gvc.map.mapHideBuildingPinAll();
+
+
+     window.gvresults && window.gvresults.selectType(this.searchTypeCurrent);
+
+
+     }*/
 
     listen(id, event, callback) {
       // Support list of events names.

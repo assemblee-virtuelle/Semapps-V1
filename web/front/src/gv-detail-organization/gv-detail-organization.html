@@ -58,17 +58,17 @@
 
       attached() {
         $.extend(true, this, {
-          title: gvc.sfClient.getValue('foafName'),
-          arrivalDate: gvc.sfClient.getValue('arrivalDate'),
-          state: gvc.sfClient.getValue('gvStatus'),
-          convention: gvc.sfClient.getValue('conventionType'),
-          themes: gvc.sfClient.getValue('foafStatus'),
-          proposedContribution: gvc.sfClient.getValue('proposedContribution'),
-          realisedContribution: gvc.sfClient.getValue('realisedContribution'),
-          room: gvc.sfClient.getValue('room'),
-          subject: gvc.sfClient.getValue('subject'),
-          building: gvc.sfClient.getValue('building'),
-          description: gvc.sfClient.getValue('building')
+          title: gvc.sfClient.getValue(this.data, 'foafName'),
+          arrivalDate: gvc.sfClient.getValue(this.data, 'arrivalDate'),
+          state: gvc.sfClient.getValue(this.data, 'gvStatus'),
+          convention: gvc.sfClient.getValue(this.data, 'conventionType'),
+          themes: gvc.sfClient.getValue(this.data, 'foafStatus'),
+          proposedContribution: gvc.sfClient.getValue(this.data, 'proposedContribution'),
+          realisedContribution: gvc.sfClient.getValue(this.data, 'realisedContribution'),
+          room: gvc.sfClient.getValue(this.data, 'room'),
+          subject: gvc.sfClient.getValue(this.data, 'subject'),
+          building: gvc.sfClient.getValue(this.data, 'building'),
+          description: gvc.sfClient.getValue(this.data, 'building')
         });
       }
     });

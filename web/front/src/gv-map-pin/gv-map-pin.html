@@ -1,7 +1,7 @@
 <dom-module id="gv-map-pin">
   <link rel="import" type="css" href="gv-map-pin.css">
   <template>
-    <div class="gv-map-pin-wrapper" style$="top:[[y]]; left:[[x]]; display: none" on-click="handleClick">
+    <div class="gv-map-pin-wrapper" style$="top:[[y]]; left:[[x]]; display: [[display]]" on-click="handleClick" on-mouseover="handleMouseOver">
       <div class="inner">
         <div class="select-circle">
         </div>
@@ -14,6 +14,9 @@
         <div class="number">
           <div class="number-inner">[[text]]</div>
         </div>
+          <a class="fixedSelectionStop" href="#" on-click="handleStopFixedSelection" style="display:none">
+            <span class="glyphicon glyphicon-remove"></span>
+          </a>
       </div>
     </div>
   </template>
