@@ -38,7 +38,6 @@
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
         {% set temp ='' %}
-        {{ dump(organisation) }}
         {% for field in organisation.fields %}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
