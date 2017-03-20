@@ -73,7 +73,6 @@
                                 {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
 
                                     {% if (field.label|lower == 'building') %}
-                                    {{ dump(field.value) }}
                                         <select class="form-control" name="{{ field.htmlName }}">
                                             {% for key, buildings in building %}
                                                 <option value="{{ key }}" {% if key == field.value %}selected="true"{% endif %}>{{ buildings }}</option>
