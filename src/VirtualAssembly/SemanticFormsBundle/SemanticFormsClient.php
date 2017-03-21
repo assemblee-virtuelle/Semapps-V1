@@ -321,4 +321,28 @@ class SemanticFormsClient
         ">."] = $value;
     }
 
+    public function verifMember(&$post,$graphURI,$personne,$orga){
+
+        $person = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                    SELECT *
+                    WHERE
+                    {
+                        {
+                            GRAPH <'.$graphURI.'>
+                            {
+                                        <'.$personne.'> <http://www.w3.org/ns/org#memberOf> ?O .
+                            }
+                        }
+                    }';
+        $result = $this->sparql($person)["results"]["bindings"];
+        //dump($result);exit;
+        if(empty($result)){
+
+            $this->tripletSet($post,$personne,"",$orga,'http://www.w3.org/ns/org#memberOf');
+            $this->tripletSet($post,$orga,"",$personne,'http://www.w3.org/ns/org#hasMember');
+
+        }
+    }
 }

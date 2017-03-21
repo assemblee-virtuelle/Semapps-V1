@@ -98,9 +98,20 @@ class AdminController extends Controller
 
     public function profileSaveAction()
     {
-        $info = $this
-          ->container
-          ->get('semantic_forms.client')
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
+
+        $organisation = $organisationEntity->find(
+            $this->getUser()->getFkOrganisation()
+        );
+        $sfClient = $this
+            ->container
+            ->get('semantic_forms.client');
+        if($organisation->getSfOrganisation())
+            $sfClient
+              ->verifMember($_POST,$_POST["graphURI"],$_POST["uri"],$organisation->getSfOrganisation());
+        $info = $sfClient
           ->send(
             $_POST,
             $this->getUser()->getEmail(),

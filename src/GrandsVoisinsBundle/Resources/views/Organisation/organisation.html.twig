@@ -42,8 +42,8 @@
         {% for field in organisation.fields %}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
-                <div class="form-group col col-lg-12">
-                    <div class="col-lg-4">
+                <div class="form-group col col-xs-12">
+                    <div class="col-xs-4">
                         {% if field.label != temp %}
                             <label for="{{ field.label }}"
                                    data-uri-property="{{ field.property }}">{{ field.label }}</label>
@@ -51,7 +51,7 @@
                             <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
                         {% endif %}
                     </div>
-                    <div class="col-xs-11 sf-value-block">
+                    <div class="col-xs-7 sf-value-block">
 
                         {% if 'type' in  field.property|lower  %}
                             <input class="form-control" type="url"
@@ -76,7 +76,11 @@
                                     <option value="{{ key }}" {% if key == field.value %}selected="true"{% endif %}>{{ buildings }}</option>
                                 {% endfor %}
                             </select>
-                        {% else %}
+
+                        {% elseif 'hasmember' in field.property|lower %}
+                            <a href="http://localhost:8000/detail?uri={{ field.value }}">{{ field.valueLabel }}</a>
+                            {% else %}
+
                                 {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
                                     <input class="form-control ref"
                                            type="url"
