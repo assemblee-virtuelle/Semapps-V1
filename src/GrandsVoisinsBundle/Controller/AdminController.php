@@ -110,7 +110,7 @@ class AdminController extends Controller
             ->get('semantic_forms.client');
         if($organisation->getSfOrganisation())
             $sfClient
-              ->verifMember($_POST,$_POST["graphURI"],$_POST["uri"],$organisation->getSfOrganisation());
+              ->verifMember($_POST,$_POST["graphURI"],$organisation->getSfOrganisation(),$_POST["uri"]);
         $info = $sfClient
           ->send(
             $_POST,

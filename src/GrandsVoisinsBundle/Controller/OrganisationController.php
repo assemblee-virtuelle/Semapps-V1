@@ -280,13 +280,17 @@ class OrganisationController extends Controller
         $edit = $_POST["edit"];
         unset($_POST["edit"]);
 
-        $info = $this->container
-          ->get('semantic_forms.client')
-          ->send(
-            $_POST,
-            $this->getUser()->getEmail(),
-            $this->getUser()->getSfUser()
-          );
+        $sfClient = $this
+            ->container
+            ->get('semantic_forms.client');
+        $sfClient
+            ->verifMember($_POST,$_POST["graphURI"],$_POST["uri"]);
+        $info = $sfClient
+            ->send(
+                $_POST,
+                $this->getUser()->getEmail(),
+                $this->getUser()->getSfUser()
+            );
 
 
         //TODO: a modifier pour prendre l'utilisateur courant !
