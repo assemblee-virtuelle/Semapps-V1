@@ -34,3 +34,36 @@
     {% endif %}
 
 {% endmacro %}
+
+{% macro textarea(field,property,placeholder,collection) %}
+    <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
+    <textarea class="form-control" style="height:180px"
+              placeholder="{{ placeholder|default(field.comment) }}"></textarea>
+{% endmacro %}
+
+{% macro number(field,property,placeholder,collection, min, max, step = 1) %}
+    <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
+    {% for i in 0..field.value|length-1 %}
+        <input class="form-control"
+               min="{{ min }}"
+               max="{{ max }}"
+               step="{{ step }}"
+               placeholder="{{ placeholder|default(field.comment) }}"
+               {% if(field.cardinality|split(':')[0] == '1' and i == 0) %}required="required" {% endif %}
+               name="{{ field.htmlName[i] }}" value="{{ field.value[i] }}"
+               type="number">
+    {% endfor %}
+{% endmacro %}
+
+{% macro allMissingFields(organisation, property) %}
+    {% import _self as formField %}
+    {% for key, field in organisation.fields %}
+        {% if key not in property %}
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endmacro %}

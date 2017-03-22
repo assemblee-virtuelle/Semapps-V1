@@ -17,12 +17,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class OrganisationController extends Controller
 {
     var $property = [
-        "type" => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-        "img" => 'http://xmlns.com/foaf/0.1/img',
-        "batiment" => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
-        "nom" => 'http://xmlns.com/foaf/0.1/name',
-        "nomAdministratif" => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
-        "membres" => 'http://www.w3.org/ns/org#hasMember',
+      "type"                 => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+      "img"                  => 'http://xmlns.com/foaf/0.1/img',
+      "batiment"             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
+      "nom"                  => 'http://xmlns.com/foaf/0.1/name',
+      "nomAdministratif"     => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
+      "membres"              => 'http://www.w3.org/ns/org#hasMember',
+      "subject"              => 'http://purl.org/dc/elements/1.1/subject',
+      'topic_interest'       => 'http://xmlns.com/foaf/0.1/topic_interest',
+      'conventionType'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
+      'headOf'               => 'http://www.w3.org/ns/org#headOf',
+      'employeesCount'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount',
+      'homepage'             => 'http://xmlns.com/foaf/0.1/homepage',
+      'mbox'                 => 'http://xmlns.com/foaf/0.1/mbox',
+      'depiction'            => 'http://xmlns.com/foaf/0.1/depiction',
+      'room'                 => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room',
+      'arrivalDate'          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate',
+      'status'               => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status',
+      'proposedContribution' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution',
+      'realisedContribution' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution',
+      'phone'                => 'http://xmlns.com/foaf/0.1/phone',
+      'twitter'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
+      'linkedin'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
     ];
 
     public function allAction(Request $request)
@@ -40,9 +56,7 @@ class OrganisationController extends Controller
           $organisation
         );
 
-
         $form->handleRequest($request);
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -55,8 +69,8 @@ class OrganisationController extends Controller
                 $em->flush($organisation);
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash(
-                    'danger',
-                    "le nom de l'orgnanisation que vous avez saisi est déjà présent"
+                  'danger',
+                  "le nom de l'orgnanisation que vous avez saisi est déjà présent"
                 );
 
                 return $this->redirectToRoute('all_orga');
@@ -190,10 +204,12 @@ class OrganisationController extends Controller
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
         );
-        $orgaId = ($orgaId != null && $this->getUser()->getRoles('SUPER_ADMIN'))? $orgaId : $this->GetUser()->getFkOrganisation();
+        $orgaId             = ($orgaId != null && $this->getUser()->getRoles(
+            'SUPER_ADMIN'
+          )) ? $orgaId : $this->GetUser()->getFkOrganisation();
         /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->findOneById(
-            $orgaId
+          $orgaId
         );
 
         if (is_null($organisation->getSfOrganisation())) {
@@ -269,6 +285,7 @@ class OrganisationController extends Controller
             return $this->redirectToRoute('detail_orga');
         }
         $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
+
         return $this->render(
           'GrandsVoisinsBundle:Organisation:organisation.html.twig',
           array(
@@ -279,7 +296,7 @@ class OrganisationController extends Controller
             'picture'             => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
             'building'            => GrandsVoisinsConfig::$buildingsSimple,
-            'property'            => $this->property
+            'property'            => $this->property,
           )
         );
     }
@@ -287,21 +304,21 @@ class OrganisationController extends Controller
     public function saveOrganisationAction()
     {
         $edit = $_POST["edit"];
-        $id = $_POST["id"];
+        $id   = $_POST["id"];
         unset($_POST["edit"]);
         unset($_POST["id"]);
 
         $sfClient = $this
-            ->container
-            ->get('semantic_forms.client');
+          ->container
+          ->get('semantic_forms.client');
         $sfClient
-            ->verifMember($_POST,$_POST["graphURI"],$_POST["uri"]);
+          ->verifMember($_POST, $_POST["graphURI"], $_POST["uri"]);
         $info = $sfClient
-            ->send(
-                $_POST,
-                $this->getUser()->getEmail(),
-                $this->getUser()->getSfUser()
-            );
+          ->send(
+            $_POST,
+            $this->getUser()->getEmail(),
+            $this->getUser()->getSfUser()
+          );
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {
@@ -325,7 +342,11 @@ class OrganisationController extends Controller
               'success',
               'Les modifications ont bien été prises en compte.'
             );
-            return $this->redirectToRoute('detail_orga_edit',['orgaId' =>$id]);
+
+            return $this->redirectToRoute(
+              'detail_orga_edit',
+              ['orgaId' => $id]
+            );
 
         } else {
             $this->addFlash(
@@ -374,7 +395,6 @@ class OrganisationController extends Controller
 
         return $this->redirectToRoute('all_orga');
     }
-
 
 
 }
