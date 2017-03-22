@@ -174,7 +174,7 @@ class OrganisationController extends Controller
     }
 
 
-    public function newOrganisationAction(Request $request)
+    public function newOrganisationAction(Request $request, $orgaId = null)
     {
         $sfClient = $this->container->get('semantic_forms.client');
 
@@ -183,10 +183,10 @@ class OrganisationController extends Controller
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
         );
-
+        $orgaId = ($orgaId != null && $this->getUser()->getRoles('SUPER_ADMIN'))? $orgaId : $this->GetUser()->getFkOrganisation();
         /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
         $organisation = $organisationEntity->findOneById(
-          $this->GetUser()->getFkOrganisation()
+            $orgaId
         );
 
         if (is_null($organisation->getSfOrganisation())) {
@@ -267,6 +267,7 @@ class OrganisationController extends Controller
           array(
             'organisation'        => $json,
             'edit'                => $edit,
+            'id'                  => $orgaId,
             'graphURI'            => $organisation->getGraphURI(),
             'picture'             => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
@@ -278,7 +279,9 @@ class OrganisationController extends Controller
     public function saveOrganisationAction()
     {
         $edit = $_POST["edit"];
+        $id = $_POST["id"];
         unset($_POST["edit"]);
+        unset($_POST["id"]);
 
         $sfClient = $this
             ->container
@@ -291,7 +294,6 @@ class OrganisationController extends Controller
                 $this->getUser()->getEmail(),
                 $this->getUser()->getSfUser()
             );
-
 
         //TODO: a modifier pour prendre l'utilisateur courant !
         if ($info == 200) {
@@ -315,8 +317,7 @@ class OrganisationController extends Controller
               'success',
               'Les modifications ont bien été prises en compte.'
             );
-
-            return $this->redirectToRoute('detail_orga');
+            return $this->redirectToRoute('detail_orga_edit',['orgaId' =>$id]);
 
         } else {
             $this->addFlash(
@@ -365,6 +366,7 @@ class OrganisationController extends Controller
 
         return $this->redirectToRoute('all_orga');
     }
+
 
 
 }

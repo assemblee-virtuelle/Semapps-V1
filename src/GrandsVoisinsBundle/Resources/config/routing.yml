@@ -81,6 +81,10 @@ detail_orga:
     path:     /orga/detail
     defaults: { _controller: GrandsVoisinsBundle:Organisation:newOrganisation }
 
+detail_orga_edit:
+    path:     /orga/detail/{orgaId}
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:newOrganisation }
+
 save_orga:
     path:     /orga/save
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }

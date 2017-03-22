@@ -21,10 +21,16 @@
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">
+                        <a href="{{ path('detail_orga_edit', {'orgaId': organisation.id}) }}" >
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td class="padded-value">
                         <a class="orga-delete" href="#" rel="{{ organisation.id }}">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </td>
+
                 {% endif %}
             </tr>
         {% endfor %}

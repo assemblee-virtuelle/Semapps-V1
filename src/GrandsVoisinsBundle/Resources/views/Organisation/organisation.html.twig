@@ -37,8 +37,8 @@
         <input name="uri" value="{{ organisation.subject }}" type="hidden">
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
+        <input name="id" value="{{ id }}" type="hidden">
         {% set temp ='' %}
-
         {% for field in organisation.fields %}
             {% set cardinality = field.cardinality|split(':') %}
             {% if is_granted('ROLE_EDITOR') %}
