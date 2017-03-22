@@ -1,10 +1,16 @@
 Polymer({
   is: 'gv-detail-organization',
-  properties: {
+  properties: {},
 
+  handleClickDetail(e) {
+    e.preventDefault();
+    gvc.goToPath('detail', {
+      uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
+    });
   },
 
   attached() {
+    log(this.data);
     $.extend(true, this, {
       title: this.data.properties.foafName,
       image: this.data.properties.image,

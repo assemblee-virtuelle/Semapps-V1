@@ -1,60 +1,73 @@
 <dom-module id="gv-detail-organization">
   <link rel="import" type="css" href="gv-detail-organization.css">
   <template>
-    <div id="gv-detail-organization">
-      <h2>[[title]]</h2>
-      <div class="detail-header row">
-        <div class="detail-image col col-sm-4">
-          <template is="dom-if" if="[[image]]">
-            <div class="image thumbnail" style$="background-image:url('[[image]]');"></div>
-          </template>
-          <template is="dom-if" if="[[!image]]">
-            <gv-logo-mini text-color="#FFCC00"></gv-logo-mini>
-          </template>
-          <div class="social-links">
-            <gv-social-link url="[[facebook]]"
-                            icon="facebook-square"></gv-social-link>
-            <gv-social-link url="[[twitter]]"
-                            icon="twitter"></gv-social-link>
+    <div id="gv-detail-organization" class="row">
+      <div class="col col-sm-8">
+        <h2>[[title]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[image]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[image]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!image]]">
+              <gv-logo-mini text-color="#FFCC00"></gv-logo-mini>
+            </template>
+            <div class="social-links">
+              <gv-social-link url="[[facebook]]"
+                              icon="facebook-square"></gv-social-link>
+              <gv-social-link url="[[twitter]]"
+                              icon="twitter"></gv-social-link>
+            </div>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <tr class="field field-building">
+                <td class="fieldLabel">Bâtiment</td>
+                <td>[[building]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Espace</td>
+                <td>[[room]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Etat</td>
+                <td>[[state]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Date d'arrivée</td>
+                <td>[[arrivalDate]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Convention</td>
+                <td>[[convention]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Thématiques</td>
+                <td>[[themes]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Propose</td>
+                <td>[[proposedContribution]]</td>
+              </tr>
+              <tr class="field field-building">
+                <td class="fieldLabel">Effectue</td>
+                <td>[[realisedContribution]]</td>
+              </tr>
+            </table>
+          </div>
+          <div class="detail-description col col-sm-12">
+            <div class="detail-description-inner">
+              [[subject]]
+            </div>
           </div>
         </div>
-        <div class="detail-header col col-sm-8">
-          <table class="detailInfo">
-            <tr class="field field-building">
-              <td class="fieldLabel">Bâtiment</td>
-              <td>[[building]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Etat</td>
-              <td>[[state]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Date d'arrivée</td>
-              <td>[[arrivalDate]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Convention</td>
-              <td>[[convention]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Thématiques</td>
-              <td>[[themes]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Propose</td>
-              <td>[[proposedContribution]]</td>
-            </tr>
-            <tr class="field field-building">
-              <td class="fieldLabel">Effectue</td>
-              <td>[[realisedContribution]]</td>
-            </tr>
-          </table>
-        </div>
-        <div class="detail-description col col-sm-12">
-          <div class="detail-description-inner">
-            [[subject]]
-          </div>
-        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <h3>Résponsable</h3>
+        <a href="#" rel="[[data.responsible.uri]]" on-click="handleClickDetail">
+          <span class="glyphicon glyphicon-king"></span>
+          [[data.responsible.givenName]] [[data.responsible.familyName]]</a>
       </div>
     </div>
   </template>

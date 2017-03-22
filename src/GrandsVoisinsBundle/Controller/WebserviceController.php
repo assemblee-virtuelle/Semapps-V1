@@ -228,7 +228,9 @@ class WebserviceController extends Controller
               'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
             );
 
-        $output           = [];
+        $output           = [
+          'uri' => $uri,
+        ];
         $prefixesReverted = array_flip($sfClient->fieldsAliases);
         foreach ($response['results']['bindings'] as $item) {
             $key          = $item['P']['value'];
@@ -244,7 +246,7 @@ class WebserviceController extends Controller
 
         $output['properties'] = $this->requestProperties($uri);
 
-        switch ($output['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']) {
+        switch ($output['properties']['type']) {
             case 'http://xmlns.com/foaf/0.1/Organization':
                 $output['responsible'] = $this->requestProperties(
                   $output['properties']['hasResponsible']

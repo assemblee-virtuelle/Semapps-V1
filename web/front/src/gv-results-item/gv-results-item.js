@@ -9,12 +9,9 @@ Polymer({
 
   handleClick(e) {
     e.preventDefault();
-    // Set first params.
-    gvc.mainComponent.set('queryParams', {
+    gvc.goToPath('detail',{
       uri: window.encodeURIComponent(this.uri)
     });
-    // Changing route fires an event.
-    gvc.mainComponent.set('route.path', 'detail');
   },
 
   noImage() {

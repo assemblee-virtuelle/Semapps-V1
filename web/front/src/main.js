@@ -270,6 +270,13 @@
     dom(selector) {
       return document.querySelectorAll(selector);
     }
+
+    goToPath(path, params) {
+      // Set first params.
+      gvc.mainComponent.set('queryParams', params);
+      // Changing route fires an event.
+      gvc.mainComponent.set('route.path', path);
+    }
   };
 
   window.GVCarto.ready = function (callback) {
