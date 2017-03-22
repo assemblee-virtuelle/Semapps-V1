@@ -22,7 +22,7 @@
             <a href="#" id="organisationPicture" class="thumbnail">
                 {% if OrganisationPicture != null or organisation.thumbnail == null %}
                     <img src="{{ asset(OrganisationPicture == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~OrganisationPicture) | imagine_filter('organisation') }}"/>
-                {% else  %}
+                {% else %}
                     <img src="{{ organisation.thumbnail }}">
                 {% endif %}
                 <span id="organisationEditPictureField">
@@ -34,42 +34,96 @@
             {{ form_end(picture) }}
         </div>
 
-    <form action="{{ path('save_orga') }}" method="post" id="form" class="col-sm-6 sf-standard-form">
-        <input name="url" value="{{ organisation.url }}" type="hidden">
-        <input name="uri" value="{{ organisation.uri }}" type="hidden">
-        <input name="graphURI" value="{{ graphURI }}" type="hidden">
-        <input name="edit" value="{{ edit }}" type="hidden">
-        <input name="id" value="{{ id }}" type="hidden">
-        {{ formField.input(organisation.fields[property.type],property.type,'hidden') }}
-        {{ formField.input(organisation.fields[property.img],property.img,'hidden') }}
-        {{ formField.input(organisation.fields[property.membres],property.membres,'hidden') }}
-        <div class="form-group col col-xs-12">
-            <div class="row">
-                <div class="form-group col-xs-6">
-                    {{ formField.input(organisation.fields[property.nom],property.nom) }}
-                </div>
-                <div class="form-group col-xs-6">
-                    {{ formField.input(organisation.fields[property.nomAdministratif],property.nomAdministratif) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-xs-12">
-                    {{ formField.input(organisation.fields[property.batiment],property.batiment,'collection',organisation.fields[property.batiment].comment,building) }}
-                </div>
-            </div>
-            {% for key, field in organisation.fields %}
-                {% if key not in property %}
-                    <div class="row">
-                        <div class="form-group col-xs-12">
-                            {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
-                        </div>
+        <form action="{{ path('save_orga') }}" method="post" id="form"
+              class="col-sm-6 sf-standard-form">
+            <input name="url" value="{{ organisation.url }}" type="hidden">
+            <input name="uri" value="{{ organisation.uri }}" type="hidden">
+            <input name="graphURI" value="{{ graphURI }}" type="hidden">
+            <input name="edit" value="{{ edit }}" type="hidden">
+            <input name="id" value="{{ id }}" type="hidden">
+            {{ formField.input(organisation.fields[property.type],property.type,'hidden') }}
+            {{ formField.input(organisation.fields[property.img],property.img,'hidden') }}
+            {{ formField.input(organisation.fields[property.membres],property.membres,'hidden') }}
+            <div class="form-group col col-xs-12">
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.nom],property.nom) }}
                     </div>
-                {% endif %}
-            {% endfor %}
-            <input class="btn btn-primary-lgv pull-right" type="submit"
-                   value="sauvegarder">
-        </div>
-    </form>
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.nomAdministratif],property.nomAdministratif) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.arrivalDate],property.arrivalDate,'text',organisation.fields[property.arrivalDate].comment) }}
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.status],property.status,'text',organisation.fields[property.status].comment) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.batiment],property.batiment,'collection',organisation.fields[property.batiment].comment,building) }}
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.room],property.room,'input',organisation.fields[property.room].comment) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.textarea(organisation.fields[property.subject],property.subject,organisation.fields[property.subject].comment) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.conventionType],property.conventionType,'input',organisation.fields[property.conventionType].comment) }}
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ formField.number(organisation.fields[property.employeesCount],property.employeesCount,organisation.fields[property.employeesCount].comment, 1) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.phone],property.phone,'text',organisation.fields[property.phone].comment) }}
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.mbox],property.mbox,'email',organisation.fields[property.mbox].comment) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.input(organisation.fields[property.homepage],property.homepage,'text',organisation.fields[property.homepage].comment) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.twitter],property.twitter,'text',organisation.fields[property.twitter].comment) }}
+                    </div>
+                    <div class="form-group col-xs-6">
+                        {{ formField.input(organisation.fields[property.linkedin],property.linkedin,'text',organisation.fields[property.linkedin].comment) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.textarea(organisation.fields[property.proposedContribution],property.proposedContribution,organisation.fields[property.proposedContribution].comment) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.textarea(organisation.fields[property.realisedContribution],property.realisedContribution,organisation.fields[property.realisedContribution].comment) }}
+                    </div>
+                </div>
+
+                {# formField.allMissingFields(organisation, property) #}
+
+                <input class="btn btn-primary-lgv pull-right" type="submit"
+                       value="sauvegarder">
+            </div>
+        </form>
     </div>
 {% endblock %}
 
