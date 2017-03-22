@@ -363,14 +363,14 @@ class SemanticFormsClient
                         }
                     }';
 
-        $personneMembre = $this->sparql($personneMembre)["results"]["bindings"];
+        $personneMembre = $this->sparql($personneMembre);
         $allPersonne = $this->sparql($allPersonne)["results"]["bindings"];
-        $listMember = $this->sparql($listMember)["results"]["bindings"];
+        $listMember = $this->sparql($listMember);
 
-        if(!empty($allPersonne)){
+        if(!empty($allPersonne) ){
             $allPersonne = $this->getValue($allPersonne);
-            $personneMembre = $this->getValue($personneMembre);
-            $listMember = $this->getValue($listMember);
+            $personneMembre = (is_array($personneMembre))? $this->getValue($personneMembre["results"]["bindings"]) : array();
+            $listMember = (is_array($listMember))? $this->getValue($listMember["results"]["bindings"]) : array();
             if ( $personne && !in_array($personne,$allPersonne))array_push($allPersonne,$personne);
             $result = array_diff($allPersonne,$personneMembre);
 

@@ -5,3 +5,7 @@ services:
     GrandsVoisinsBundle.fileUploader:
         class: GrandsVoisinsBundle\Services\FileUploader
         arguments: ['%picture_directory%']
+
+    GrandsVoisinsBundle.formattingForm:
+            class: GrandsVoisinsBundle\Services\FormattingForm
+            arguments: ~
