@@ -252,6 +252,12 @@ class WebserviceController extends Controller
                   $output['properties']['hasResponsible']
                 );
                 break;
+            case 'http://xmlns.com/foaf/0.1/Person':
+                // Remove mailto: from email.
+                $output['properties']['mbox'] = preg_replace('/^mailto:/', '',  $output['properties']['mbox']);
+                // Remove tel: from phone
+                $output['properties']['phone'] = preg_replace('/^tel:/', '',  $output['properties']['phone']);
+                break;
         }
 
         return $output;

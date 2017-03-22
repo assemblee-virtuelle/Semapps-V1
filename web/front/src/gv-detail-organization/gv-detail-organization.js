@@ -10,7 +10,6 @@ Polymer({
   },
 
   attached() {
-    log(this.data);
     $.extend(true, this, {
       title: this.data.properties.foafName,
       image: this.data.properties.image,
@@ -24,5 +23,5 @@ Polymer({
       subject: this.data.properties.subject,
       building: this.data.properties.building
     });
-  }
+}
 });

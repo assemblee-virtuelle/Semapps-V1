@@ -55,9 +55,10 @@ Polymer({
     this.$.detail.style.display = '';
     // Hide spin.
     this.domLoadingSpinner.style.display = 'none';
+    data = data.responseJSON.detail || {};
     // Create inner depending of type.
-    let inner = document.createElement('gv-detail-organization');
-    inner.data = data && data.responseJSON ? data.responseJSON.detail : {};
+    let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
+    inner.data = data;
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);

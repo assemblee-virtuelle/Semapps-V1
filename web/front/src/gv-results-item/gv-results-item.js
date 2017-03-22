@@ -22,7 +22,7 @@ Polymer({
   attached() {
     "use strict";
     $.extend(this, this.data);
-    this.info = gvc.searchTypes[this.type];
+    this.info = gvc.searchTypes[this.type].label;
     if (this.subject) {
       this.info += ' | ' + this.subject;
     }

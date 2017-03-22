@@ -59,8 +59,14 @@
       });
       this.$gvMap = $(document.getElementById('gv-map'));
       this.searchTypes = {
-        "http://xmlns.com/foaf/0.1/Person": 'Personne',
-        "http://xmlns.com/foaf/0.1/Organization": 'Organisation'
+        "http://xmlns.com/foaf/0.1/Person": {
+          label: 'Personne',
+          type: 'person'
+        },
+        "http://xmlns.com/foaf/0.1/Organization": {
+          label: 'Organisation',
+          type: 'organization'
+        }
       };
 
       // Special class for dev env.
