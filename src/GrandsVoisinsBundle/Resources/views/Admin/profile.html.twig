@@ -6,6 +6,8 @@
 
 {% set menuSelected = 'profile' %}
 
+{% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>
@@ -38,81 +40,38 @@
                 <form class="col-sm-6 sf-standard-form"
                       action="{{ path('profileSave') }}" method="post"
                       id="form">
-                    <input name="url" value="{{ form.subject }}" type="hidden">
-                    <input name="uri" value="{{ form.subject }}" type="hidden">
+                    <input name="url" value="{{ form.url }}" type="hidden">
+                    <input name="uri" value="{{ form.uri }}" type="hidden">
                     <input name="graphURI" value="{{ graphURI }}" type="hidden">
-                    {% set temp ='' %}
-                    {% for field in form.fields %}
-                        {% set cardinality = field.cardinality|split(':') %}
-                        <div class="form-group col col-lg-12">
-                            <div class="row">
-                                {% if field.label != temp %}
-                                    <label for="{{ field.label }}"
-                                           data-uri-property="{{ field.property }}">{{ field.label }}</label>
-                                {% else %}
-                                    <label for="{{ field.label }}"
-                                           data-uri-property="{{ field.property }}">--</label>
-                                {% endif %}
+                    {{ formField.input(form.fields[property.type],property.type,'hidden') }}
+                    {{ formField.input(form.fields[property.img],property.img,'hidden') }}
+
+                    <div class="form-group col col-xs-12">
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                {{ formField.input(form.fields[property.nom],property.nom) }}
                             </div>
-                            <div class="row">
-                                <div class="col-xs-11 sf-value-block">
-
-                                    {% if( field.label|lower == 'type') %}
-
-                                        <input class="form-control" type="url"
-                                               name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
-                                               value="{{ field.value }}">
-
-                                    {% elseif( field.label|lower == 'image') %}
-                                        <input class="form-control ref"
-                                               type="hidden"
-                                               placeholder="http://..."
-                                               name="{{ field.htmlName }}"
-                                               value="{{ field.value }}">
-                                        {% if field.value is not empty %}
-                                        <a href="{{ field.value }}">{{ field.value }}</a>
-                                        {% else %}
-                                            Vous n'avez pas encore choisi votre photo de profile !
-                                        {% endif %}
-                                    {% else %}
-                                        {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                            <input class="form-control ref"
-                                                   type="url"
-                                                   placeholder="http://..."
-                                                   name="{{ field.htmlName }}"
-                                                   value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
-                                        {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
-                                            <input class="form-control ref"
-                                                   type="text"
-                                                   placeholder="texte..."
-                                                   name="{{ field.htmlName }}" value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
-
-                                        {% else %}
-                                            <input class="hasLookup form-control ui-autocomplete-input ref"
-                                                   type="text"
-                                                   placeholder="DBPedia..."
-                                                   name="{{ field.htmlName }}"
-                                                   value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
-                                        {% endif %}
-
-                                    {% endif %}
-                                </div>
-                                <div class="col-xs-1">
-                                    {% if cardinality[1] == "*" and field.label != temp %}
-                                        <button type="button"
-                                                class="btn btn-primary add-widget"
-                                                readonly="yes"
-                                                size="1"
-                                                title="Add another value for label">add line
-                                        </button>
-                                        {% set temp =field.label %}
-                                    {% endif %}
-                                </div>
+                            <div class="form-group col-xs-6">
+                                {{ formField.input(form.fields[property.prenom],property.prenom) }}
                             </div>
                         </div>
-                    {% endfor %}
-                    <input class="btn btn-primary-lgv pull-right" type="submit"
-                           value="sauvegarder">
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                {{ formField.input(form.fields[property.member_of],property.member_of,'notype') }}
+                            </div>
+                        </div>
+                        {% for key, field in form.fields %}
+                            {% if key not in property %}
+                                <div class="row">
+                                    <div class="form-group col-xs-12">
+                                        {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <input class="btn btn-primary-lgv pull-right" type="submit"
+                               value="sauvegarder">
+                    </div>
                 </form>
             {% else %}
                 <div class="col col-sm-6 alert alert-danger">Une erreur s'est

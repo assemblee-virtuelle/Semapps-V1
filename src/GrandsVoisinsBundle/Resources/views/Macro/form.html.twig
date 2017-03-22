@@ -1,0 +1,27 @@
+{% macro input(field,property,type,placeholder,collection) %}
+    {% if type == 'collection' %}
+        <label for="{{ field.label }}" data-uri-property="{{ property }}" >{{ field.label }}</label>
+        <select class="form-control" name="{{ field.htmlName[0] }}">
+            {% for key, elem in collection %}
+                <option value="{{ key }}" {% if key == field.value[0] %}selected="true"{% endif %}>{{ elem }}</option>
+            {% endfor %}
+        </select>
+
+    {% elseif type == 'notype' %}
+        {% if field.value[0] %}
+           <label for="{{ field.label }}" data-uri-property="{{ property }}" >{{ field.label }}</label>
+            {% for i in 0..field.value|length-1  %}
+                {% if i > 0 %} , {% endif %}
+                <a href="{{ field.value[i] }}" name="{{ field.htmlName[i] }}" >{% if field.valueLabel is null%}{{ field.value[i] }} {% else %}{{  field.valueLabel[i]  }}{% endif %}</a>
+            {% endfor %}
+        {% endif %}
+
+    {% else %}
+
+        {% if type != 'hidden' %}<label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>{% endif %}
+        {% for i in 0..field.value|length-1 %}
+            <input class="form-control" placeholder="{{ placeholder|default(field.comment) }}" {% if(field.cardinality|split(':')[0] == '1' and i == 0) %}required="required" {% endif %} name="{{ field.htmlName[i] }}" value="{{ field.value[i] }}" type="{{ type|default('text') }}">
+        {% endfor %}
+    {% endif %}
+
+{% endmacro %}

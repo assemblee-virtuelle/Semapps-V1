@@ -11,6 +11,8 @@
 
 {% set menuSelected = 'detail_orga' %}
 
+{% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
+
 {% block pageContent %}
     {{ parent() }}
     <br>
@@ -33,97 +35,39 @@
         </div>
 
     <form action="{{ path('save_orga') }}" method="post" id="form" class="col-sm-6 sf-standard-form">
-        <input name="url" value="{{ organisation.subject }}" type="hidden">
-        <input name="uri" value="{{ organisation.subject }}" type="hidden">
+        <input name="url" value="{{ organisation.url }}" type="hidden">
+        <input name="uri" value="{{ organisation.uri }}" type="hidden">
         <input name="graphURI" value="{{ graphURI }}" type="hidden">
         <input name="edit" value="{{ edit }}" type="hidden">
-        {% set temp ='' %}
-        {% for field in organisation.fields %}
-            {% set cardinality = field.cardinality|split(':') %}
-            {% if is_granted('ROLE_EDITOR') %}
-                <div class="form-group col col-lg-12">
-                    <div class="col-lg-4">
-                        {% if field.label != temp %}
-                            <label for="{{ field.label }}"
-                                   data-uri-property="{{ field.property }}">{{ field.label }}</label>
-                        {% else %}
-                            <label for="{{ field.label }}" data-uri-property="{{ field.property }}">--</label>
-                        {% endif %}
-                    </div>
-                    <div class="col-xs-11 sf-value-block">
-
-                        {% if( field.label|lower == 'type') %}
-                            <input class="form-control" type="url"
-                                   name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
-                                   value="{{ field.value }}">
-                        {% elseif( field.label|lower == 'image') %}
-                            <input class="form-control ref"
-                                   type="hidden"
-                                   placeholder="http://..."
-                                   name="{{ field.htmlName }}"
-                                   value="{{ field.value }}">
-                            {% if field.value is not empty %}
-                                <a href="{{ field.value }}">{{ field.value }}</a>
-                            {% else %}
-                                Vous n'avez pas encore choisi votre photo de profile !
-                            {% endif %}
-                        {% else %}
-                                {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                                    <input class="form-control ref"
-                                           type="url"
-                                           placeholder="http://..."
-                                           name="{{ field.htmlName }}"
-                                           value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}>
-                                {% elseif ( field.widgetType|lower|split(' ')[0] == 'text') %}
-                                    <input class="form-control ref"
-                                           type="text"
-                                           placeholder="texte..."
-                                           name={{ field.htmlName }} value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
-
-                                {% else %}
-                                    <input class="hasLookup form-control ui-autocomplete-input ref"
-                                           type="text"
-                                           placeholder="DBPedia..."
-                                           name="{{ field.htmlName }}"
-                                           value="{{ field.value }}" {% if cardinality[0] == "1" %}required="required"{% endif %}">
-                                {% endif %}
-
-                        {% endif %}
-
-                    </div>
-                    <div class="col-xs-1">
-                        {% if cardinality[1]=="*" and field.label != temp %}
-                            <button type="button"
-                                    class="btn btn-primary add-widget"
-                                    readonly="yes"
-                                    size="1"
-                                    title="Add another value for label">add line
-                            </button>
-                            {% set temp =field.label %}
-                        {% endif %}
-                    </div>
+        {{ formField.input(organisation.fields[property.type],property.type,'hidden') }}
+        {{ formField.input(organisation.fields[property.img],property.img,'hidden') }}
+        {{ formField.input(organisation.fields[property.membres],property.membres,'hidden') }}
+        <div class="form-group col col-xs-12">
+            <div class="row">
+                <div class="form-group col-xs-6">
+                    {{ formField.input(organisation.fields[property.nom],property.nom) }}
                 </div>
-            {% else %}
-                <div class="form-group">
-                    <label for="{{ field.label }}" data-uri-property="{{ field.property }}">{{ field.label }}</label>
-                    {% if( field.label|lower == 'type') %}
-                        <input class="form-control" type="url"
-                               name="%3C{{ organisation.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
-                               value="{{ field.value }}" disabled="disabled">
-                    {% else %}
-                        {% if( field.widgetType|lower|split(' ')[0] == 'uri') %}
-                            <input class="form-control" type="url" name="{{ field.htmlName }}" value="{{ field.value }}"
-                                   disabled="disabled">
-                        {% else %}
-                            <input class="form-control" type="{{ field.widgetType|lower|split(' ')[0] }}"
-                                   name={{ field.htmlName }} value="{{ field.value }}" disabled="disabled">
-                        {% endif %}
-                    {% endif %}
+                <div class="form-group col-xs-6">
+                    {{ formField.input(organisation.fields[property.nomAdministratif],property.nomAdministratif) }}
                 </div>
-            {% endif %}
-        {% endfor %}
-
-        <input class="btn btn-primary-lgv pull-right" type="submit" value="sauvegarder">
+            </div>
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    {{ formField.input(organisation.fields[property.batiment],property.batiment,'collection',organisation.fields[property.batiment].comment,building) }}
+                </div>
+            </div>
+            {% for key, field in organisation.fields %}
+                {% if key not in property %}
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <input class="btn btn-primary-lgv pull-right" type="submit"
+                   value="sauvegarder">
+        </div>
     </form>
     </div>
 {% endblock %}

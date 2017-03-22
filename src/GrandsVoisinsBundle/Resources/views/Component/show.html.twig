@@ -30,7 +30,7 @@
                         {% endif %}
                     </div>
                     <div class="col-lg-6 sf-value-block">
-                        {% if( field.label|lower == 'type') %}
+                        {% if 'type' in  field.property|lower  %}
                             <input class="form-control" type="url"
                                    name="%3C{{ form.subject }}%3E+%3C{{ field.property }}%3E+%3C{{ field.value }}%3E+."
                                    value="{{ field.value }}">

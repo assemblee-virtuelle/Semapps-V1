@@ -15,6 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdminController extends Controller
 {
+    var $property = [
+        "nom" => 'http://xmlns.com/foaf/0.1/familyName',
+        "prenom" => 'http://xmlns.com/foaf/0.1/givenName',
+        "type" => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        "img" => 'http://xmlns.com/foaf/0.1/img',
+        "member_of" => 'http://www.w3.org/ns/org#memberOf',
+        ];
 
     public function homeAction()
     {
@@ -85,22 +92,34 @@ class AdminController extends Controller
 
             return $this->redirectToRoute('profile');
         }
-
+        $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
             "form"       => $form,
             "graphURI"   => $organisation->getGraphURI(),
-            'picture'    => $picture->createView(),
+            "picture"    => $picture->createView(),
+            "property"   => $this->property
           )
         );
     }
 
     public function profileSaveAction()
     {
-        $info = $this
-          ->container
-          ->get('semantic_forms.client')
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
+
+        $organisation = $organisationEntity->find(
+            $this->getUser()->getFkOrganisation()
+        );
+        $sfClient = $this
+            ->container
+            ->get('semantic_forms.client');
+        if($organisation->getSfOrganisation())
+            $sfClient
+              ->verifMember($_POST,$_POST["graphURI"],$organisation->getSfOrganisation(),$_POST["uri"]);
+        $info = $sfClient
           ->send(
             $_POST,
             $this->getUser()->getEmail(),
