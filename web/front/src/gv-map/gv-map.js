@@ -24,22 +24,14 @@ Polymer({
   attached() {
     this.ready = false;
     this.$gvMap = $(document.getElementById('gv-map'));
-    this.$gvMapPins = $(document.getElementById('gv-map-pins'));
     this.$mapZones = this.$gvMap.find('.mapZone');
     this.hoverActive = true;
-    this.domPins = {};
 
     // Global ref.
     gvc.map = this;
 
     // Wait for buildings to be loaded.
     GVCarto.ready(this.start.bind(this));
-
-    GVCarto.ready(() => {
-      //  "use strict";
-
-      //this.updateVisibility();
-    });
   },
 
   start() {
@@ -153,44 +145,4 @@ Polymer({
     "use strict";
     this.pinsRegistry[building].hide();
   }
-
-  //mapShowBuildingPinAll() {
-  //  "use strict";
-  //  if (this.ready) {
-  //    for (let buildingKey of Object.keys(gvc.buildings)) {
-  //      if (gvc.buildings[buildingKey].organizationCount > 0) {
-  //        this.domPins[buildingKey].show(gvc.buildings[buildingKey].organizationCount);
-  //      }
-  //    }
-  //  }
-  //},
-  //
-  //mapHideBuildingPinAll() {
-  //  "use strict";
-  //  if (this.ready) {
-  //    for (let buildingKey of Object.keys(gvc.buildings)) {
-  //      this.domPins[buildingKey].hide();
-  //    }
-  //  }
-  //},
-  //
-  //mapHideBuildingPin(buildingKey) {
-  //  if (this.domPins[buildingKey]) {
-  //    this.domPins[buildingKey].hide();
-  //  }
-  //},
-  //
-  //updateVisibility() {
-  //  "use strict";
-  //  switch (gvc.mainComponent.get('route.path').split('/')[1]) {
-  //    case 'detail':
-  //      // Hide.
-  //      this.$gvMap.addClass('fadeOut').removeClass('fadeIn');
-  //      break;
-  //    default:
-  //      // Show.
-  //      this.$gvMap.addClass('fadeIn').removeClass('fadeOut');
-  //      break;
-  //  }
-  //}
 });
