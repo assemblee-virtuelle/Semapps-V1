@@ -376,4 +376,21 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('team');
     }
+
+    public function allOrganizationAction(){
+        $sfClient   = $this->container->get('semantic_forms.client');
+        $query = 'SELECT ?G ?P ?O WHERE { GRAPH ?G {?S <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://xmlns.com/foaf/0.1/Organization> . ?S ?P ?O } } GROUP BY ?G ?P ?O ';
+        $result = $sfClient->sparql($query);
+        if(!is_array($result)){
+            $this->addFlash(
+                'danger',
+                'Une erreur s\'est produite lors de l\'affichage du formulaire'
+            );
+            return $this->redirectToRoute('home');
+        }
+        $result = $result["results"]["bindings"];
+        return $this->render(
+            'GrandsVoisinsBundle:Admin:tab.html.twig',
+        ["data" => $result]);
+    }
 }

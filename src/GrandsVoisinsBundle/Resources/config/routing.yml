@@ -116,3 +116,7 @@ new_component:
 test:
     path:     /test
     defaults: { _controller: GrandsVoisinsBundle:Default:index }
+
+tab:
+    path:     /orga/tab
+    defaults: { _controller: GrandsVoisinsBundle:Admin:allOrganization }
