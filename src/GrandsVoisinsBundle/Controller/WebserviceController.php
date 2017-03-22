@@ -117,7 +117,9 @@ class WebserviceController extends Controller
 
         // Key values pairs only.
         // Avoid "Empty result" string.
-        $results = is_array($results) ? $sfClient->sparqlResultsValues($results) : [];
+        $results = is_array($results) ? $sfClient->sparqlResultsValues(
+          $results
+        ) : [];
 
         // Filter only allowed types.
         $filtered = [];
@@ -226,9 +228,13 @@ class WebserviceController extends Controller
               'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
             );
 
-        $output = [];
+        $output           = [
+          'uri' => $uri,
+        ];
+        $prefixesReverted = array_flip($sfClient->fieldsAliases);
         foreach ($response['results']['bindings'] as $item) {
             $key          = $item['P']['value'];
+            $key          = isset($prefixesReverted[$key]) ? $prefixesReverted[$key] : $key;
             $output[$key] = $item['O']['value'];
         }
 
@@ -240,11 +246,17 @@ class WebserviceController extends Controller
 
         $output['properties'] = $this->requestProperties($uri);
 
-        switch ($output['properties']['http://www.w3.org/1999/02/22-rdf-syntax-ns#type']) {
+        switch ($output['properties']['type']) {
             case 'http://xmlns.com/foaf/0.1/Organization':
                 $output['responsible'] = $this->requestProperties(
-                  $output['properties']['http://virtual-assembly.org/pair_v2#hasResponsible']
+                  $output['properties']['hasResponsible']
                 );
+                break;
+            case 'http://xmlns.com/foaf/0.1/Person':
+                // Remove mailto: from email.
+                $output['properties']['mbox'] = preg_replace('/^mailto:/', '',  $output['properties']['mbox']);
+                // Remove tel: from phone
+                $output['properties']['phone'] = preg_replace('/^tel:/', '',  $output['properties']['phone']);
                 break;
         }
 

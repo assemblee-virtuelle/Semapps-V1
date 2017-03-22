@@ -6,7 +6,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\OrganisationType;
-use GrandsVoisinsBundle\GrandsVoisinsBundle;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -17,6 +16,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrganisationController extends Controller
 {
+    var $property = [
+        "type" => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        "img" => 'http://xmlns.com/foaf/0.1/img',
+        "batiment" => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
+        "nom" => 'http://xmlns.com/foaf/0.1/name',
+        "nomAdministratif" => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
+        "membres" => 'http://www.w3.org/ns/org#hasMember',
+    ];
 
     public function allAction(Request $request)
     {
@@ -190,16 +197,16 @@ class OrganisationController extends Controller
         );
 
         if (is_null($organisation->getSfOrganisation())) {
-            $json = $sfClient->create(SemanticFormsClient::ORGANISATION);
+            $form = $sfClient->create(SemanticFormsClient::ORGANISATION);
             $edit = false;
         } else {
-            $json = $sfClient->edit(
+            $form = $sfClient->edit(
               $organisation->getSfOrganisation(),
               SemanticFormsClient::ORGANISATION
             );
             $edit = true;
         }
-        if (!$json) {
+        if (!$form) {
             $this->addFlash(
               'danger',
               'Une erreur s\'est produite lors de l\'affichage du formulaire'
@@ -261,17 +268,18 @@ class OrganisationController extends Controller
 
             return $this->redirectToRoute('detail_orga');
         }
-
+        $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
         return $this->render(
           'GrandsVoisinsBundle:Organisation:organisation.html.twig',
           array(
-            'organisation'        => $json,
+            'organisation'        => $form,
             'edit'                => $edit,
             'id'                  => $orgaId,
             'graphURI'            => $organisation->getGraphURI(),
             'picture'             => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
             'building'            => GrandsVoisinsConfig::$buildingsSimple,
+            'property'            => $this->property
           )
         );
     }

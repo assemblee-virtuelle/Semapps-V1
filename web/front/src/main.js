@@ -59,8 +59,14 @@
       });
       this.$gvMap = $(document.getElementById('gv-map'));
       this.searchTypes = {
-        "http://xmlns.com/foaf/0.1/Person": 'Personne',
-        "http://xmlns.com/foaf/0.1/Organization": 'Organisation'
+        "http://xmlns.com/foaf/0.1/Person": {
+          label: 'Personne',
+          type: 'person'
+        },
+        "http://xmlns.com/foaf/0.1/Organization": {
+          label: 'Organisation',
+          type: 'organization'
+        }
       };
 
       // Special class for dev env.
@@ -269,6 +275,13 @@
 
     dom(selector) {
       return document.querySelectorAll(selector);
+    }
+
+    goToPath(path, params) {
+      // Set first params.
+      gvc.mainComponent.set('queryParams', params);
+      // Changing route fires an event.
+      gvc.mainComponent.set('route.path', path);
     }
   };
 

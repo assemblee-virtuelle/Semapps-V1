@@ -11,6 +11,29 @@ parameters:
     picture_directory: '%kernel.root_dir%/../web/uploads/pictures'
     semantic_forms.prefixes:
         gvoi: "<http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#>"
+    semantic_forms.fields_aliases:
+        type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        mbox: "http://xmlns.com/foaf/0.1/mbox"
+        phone: "http://xmlns.com/foaf/0.1/phone"
+        gvStatus: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status"
+        realisedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution"
+        foafStatus: "http://xmlns.com/foaf/0.1/status"
+        foafName: "http://xmlns.com/foaf/0.1/name"
+        givenName: "http://xmlns.com/foaf/0.1/givenName"
+        familyName: "http://xmlns.com/foaf/0.1/familyName"
+        rowPosition: "http://vocab.sindice.net/csv/rowPosition"
+        contactsPrint: "urn:gv/contactsPrint"
+        conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
+        hasResponsible: "http://virtual-assembly.org/pair_v2#hasResponsible"
+        displayLabel: "urn:displayLabel"
+        administrativeName: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName"
+        building: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building"
+        proposedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution"
+        subject: "http://purl.org/dc/elements/1.1/subject"
+        arrivalDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate"
+        room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
+        image: "http://xmlns.com/foaf/0.1/img"
+        homepage : 'http://xmlns.com/foaf/0.1/homepage'
 
 framework:
     #esi:             ~

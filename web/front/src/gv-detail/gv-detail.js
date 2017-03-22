@@ -21,7 +21,12 @@ Polymer({
     }
   },
 
-  attached:function() {
+  handleBack: function () {
+    "use strict";
+
+  },
+
+  attached: function () {
     "use strict";
     this.domLoadingSpinner = gvc.domId('detailSpinner');
   },
@@ -50,8 +55,9 @@ Polymer({
     this.$.detail.style.display = '';
     // Hide spin.
     this.domLoadingSpinner.style.display = 'none';
+    data = data.responseJSON.detail || {};
     // Create inner depending of type.
-    let inner = document.createElement('gv-detail-organization');
+    let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
     inner.data = data;
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
