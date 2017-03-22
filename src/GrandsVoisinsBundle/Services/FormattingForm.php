@@ -11,30 +11,42 @@ namespace GrandsVoisinsBundle\Services;
 
 class FormattingForm
 {
-    public function format($formBySf){
-        $formTransformed["url"] = $formTransformed["uri"] = $formBySf["subject"];
-        $formTransformed["thumbnail"] = $formBySf["thumbnail"];
-        $formTransformed["fields"] = array();
-        foreach ($formBySf["fields"] as $field){
-            if(array_key_exists($field["property"],$formTransformed["fields"])){
-                array_push($formTransformed["fields"][$field["property"]]["value"],$field["value"]);
-                array_push($formTransformed["fields"][$field["property"]]["htmlName"],$field["htmlName"]);
-                dump($formTransformed);
-                if(array_key_exists('valueLabel',$formTransformed["fields"][$field["property"]]) && $formTransformed["fields"][$field["property"]]['valueLabel'] != null )
-                    array_push($formTransformed["fields"][$field["property"]]["valueLabel"],$field["valueLabel"]);
-            }
-            else{
-                $formTransformed["fields"][$field["property"]]["label"] = $field["label"];
-                $formTransformed["fields"][$field["property"]]["comment"] = $field["comment"];
-                $formTransformed["fields"][$field["property"]]["value"] = array($field["value"]);
-                $formTransformed["fields"][$field["property"]]["widgetType"] = $field["widgetType"];
-                $formTransformed["fields"][$field["property"]]["htmlName"] = array($field["htmlName"]);
-                $formTransformed["fields"][$field["property"]]["cardinality"] = $field["cardinality"];
-                $formTransformed["fields"][$field["property"]]["valueLabel"] = (array_key_exists('valueLabel',$field))? array($field["valueLabel"]) : null;
-            }
-        }
+    public function format($formBySf)
+    {
 
+        $formTransformed["url"]       = $formTransformed["uri"] = $formBySf["subject"];
+        $formTransformed["thumbnail"] = $formBySf["thumbnail"];
+        $formTransformed["fields"]    = array();
+        foreach ($formBySf["fields"] as $field) {
+            $property = $field["property"];
+
+            if (array_key_exists($property, $formTransformed["fields"])) {
+                $fieldContent["value"][]    = $field["value"];
+                $fieldContent["htmlName"][] = $field["htmlName"];
+
+                if (array_key_exists(
+                    'valueLabel',
+                    $formTransformed["fields"][$property]
+                  ) && $formTransformed["fields"][$property]['valueLabel'] != null
+                ) {
+                    $fieldContent["valueLabel"][] = $field["valueLabel"];
+                }
+            } else {
+                $fieldContent = [
+                  "label"       => $field["label"],
+                  "comment"     => $field["comment"],
+                  "value"       => array($field["value"]),
+                  "widgetType"  => $field["widgetType"],
+                  "htmlName"    => array($field["htmlName"]),
+                  "cardinality" => $field["cardinality"],
+                  "valueLabel"  => (array_key_exists(
+                    'valueLabel',
+                    $field
+                  )) ? array($field["valueLabel"]) : null,
+                ];
+            }
+            $formTransformed["fields"][$property] = $fieldContent;
+        }
         return $formTransformed;
     }
-
 }
