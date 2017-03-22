@@ -32,6 +32,7 @@ var filesJs = {
   'web/front/src/gv-results-item/gv-results-item': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-detail/gv-detail': true,
+  'web/front/src/gv-detail-organization/gv-detail-organization': true,
   'web/front/src/gv-map/gv-map': true,
   'web/front/src/gv-map-pin/gv-map-pin': true
 };

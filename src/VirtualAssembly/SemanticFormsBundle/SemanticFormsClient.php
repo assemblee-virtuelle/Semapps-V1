@@ -21,6 +21,7 @@ class SemanticFormsClient
       'purl' => '<http://purl.org/dc/elements/1.1/>',
     ];
     var $prefixesCompiled = '';
+    var $fieldsAliases = [];
 
     CONST PERSON = 'form-Person';
     CONST ORGANISATION = 'form-Organization';
@@ -34,14 +35,16 @@ class SemanticFormsClient
       $login,
       $password,
       $timeout,
-      $prefixes = []
+      $prefixes = [],
+      $fieldsAliases = []
     ) {
 
-        $this->domain   = $domain;
-        $this->login    = $login;
-        $this->password = $password;
-        $this->timeout  = $timeout;
-        $this->prefixes = array_merge($this->prefixes, $prefixes);
+        $this->domain        = $domain;
+        $this->login         = $login;
+        $this->password      = $password;
+        $this->timeout       = $timeout;
+        $this->fieldsAliases = $fieldsAliases;
+        $this->prefixes      = array_merge($this->prefixes, $prefixes);
 
         foreach ($this->prefixes as $key => $uri) {
             $this->prefixesCompiled .= "\nPREFIX ".$key.': '.$uri.' ';

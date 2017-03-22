@@ -21,7 +21,12 @@ Polymer({
     }
   },
 
-  attached:function() {
+  handleBack: function () {
+    "use strict";
+
+  },
+
+  attached: function () {
     "use strict";
     this.domLoadingSpinner = gvc.domId('detailSpinner');
   },
@@ -52,7 +57,7 @@ Polymer({
     this.domLoadingSpinner.style.display = 'none';
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-organization');
-    inner.data = data;
+    inner.data = data && data.responseJSON ? data.responseJSON.detail : {};
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);
