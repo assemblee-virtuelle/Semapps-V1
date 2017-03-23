@@ -64,12 +64,13 @@ class WebserviceController extends Controller
           'ORDER BY fn:lower-case(?building) '
         );
 
-        $response = $sfClient->sparqlResultsValues($response);
-
         $buildings = GrandsVoisinsConfig::$buildings;
-        foreach ($response as $item) {
-            if (isset($buildings[$item['building']])) {
-                $buildings[$item['building']]['organizationCount'] = (int)$item['count'];
+        if (is_array($response)) {
+            $response = $sfClient->sparqlResultsValues($response);
+            foreach ($response as $item) {
+                if (isset($buildings[$item['building']])) {
+                    $buildings[$item['building']]['organizationCount'] = (int)$item['count'];
+                }
             }
         }
 
@@ -254,9 +255,17 @@ class WebserviceController extends Controller
                 break;
             case 'http://xmlns.com/foaf/0.1/Person':
                 // Remove mailto: from email.
-                $output['properties']['mbox'] = preg_replace('/^mailto:/', '',  $output['properties']['mbox']);
+                $output['properties']['mbox'] = preg_replace(
+                  '/^mailto:/',
+                  '',
+                  $output['properties']['mbox']
+                );
                 // Remove tel: from phone
-                $output['properties']['phone'] = preg_replace('/^tel:/', '',  $output['properties']['phone']);
+                $output['properties']['phone'] = preg_replace(
+                  '/^tel:/',
+                  '',
+                  $output['properties']['phone']
+                );
                 break;
         }
 
