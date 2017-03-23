@@ -23,7 +23,7 @@
             <a href="#" id="profilePicture" class="thumbnail">
                 {% if app.user.pictureName != null or form.thumbnail == null %}
                     <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
-                {% else  %}
+                {% else %}
                     <img src="{{ form.thumbnail }}">
                 {% endif %}
                 <span id="profileEditPictureField">
@@ -54,21 +54,26 @@
                                 {{ formField.input(form.fields[property.prenom],property.prenom) }}
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="form-group col-xs-12">
-                                {{ formField.input(form.fields[property.member_of],property.member_of,'notype') }}
+                                {{ formField.input(form.fields[property.homepage],property.homepage) }}
                             </div>
                         </div>
-                        {% for key, field in form.fields %}
-                            {% if key not in property %}
-                                <div class="row">
-                                    <div class="form-group col-xs-12">
-                                        {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
-                                    </div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                        <input class="btn btn-primary-lgv pull-right" type="submit"
+
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                {{ formField.input(form.fields[property.phone],property.phone) }}
+                            </div>
+                            <div class="form-group col-xs-6">
+                                {{ formField.input(form.fields[property.slack],property.slack) }}
+                            </div>
+                        </div>
+
+                        {#{{ formField.allMissingFields(form, property) }}#}
+
+                        <input class="btn btn-primary-lgv pull-right"
+                               type="submit"
                                value="sauvegarder">
                     </div>
                 </form>

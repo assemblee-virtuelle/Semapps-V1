@@ -59,6 +59,7 @@
 
 {% macro allMissingFields(organisation, property) %}
     {% import _self as formField %}
+    <hr>
     {% for key, field in organisation.fields %}
         {% if key not in property %}
             <div class="row">
