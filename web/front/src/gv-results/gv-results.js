@@ -105,7 +105,8 @@ Polymer({
     "use strict";
     // Cleanup term to avoid search errors.
     term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
-    this.searchError = false;
+    this.searchError =
+      this.noResult = false;
     // Empty page.
     this.results = [];
     // Show spinner.
@@ -135,6 +136,9 @@ Polymer({
   searchRender(response) {
     "use strict";
     let results = [];
+    // Reset again if just rendering fired.
+    this.searchError =
+      this.noResult = false;
     this.results.length = 0;
     this.set('results', []);
     let totalCounter = 0;
@@ -149,9 +153,10 @@ Polymer({
     if (response.error) {
       this.searchError = true;
     }
+    else if (response.results.length === 0) {
+      this.noResult = true;
+    }
     else if (response.results) {
-      this.searchError = false;
-
       for (let result of response.results) {
         // Data is allowed.
         if (gvc.searchTypes[result.type]) {

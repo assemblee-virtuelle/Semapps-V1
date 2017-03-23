@@ -23,9 +23,8 @@
             produite lors du chargement...
           </div>
         </template>
-        <template is="dom-if" if="[[results.length==0]]">
-          <div id="gv-results-empty" class="alert alert-info"
-               style="display:none">
+        <template is="dom-if" if="[[noResult]]">
+          <div id="gv-results-empty" class="alert alert-info">
             Aucun résultat...
           </div>
         </template>
