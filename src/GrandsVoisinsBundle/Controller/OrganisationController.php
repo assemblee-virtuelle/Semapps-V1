@@ -7,6 +7,7 @@ use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
 use GrandsVoisinsBundle\Form\OrganisationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
+use SimpleExcel\SimpleExcel;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,30 +18,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class OrganisationController extends Controller
 {
     var $property = [
-      "type"                 => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      "img"                  => 'http://xmlns.com/foaf/0.1/img',
-      "batiment"             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
-      "nom"                  => 'http://xmlns.com/foaf/0.1/name',
-      "nomAdministratif"     => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
-      "membres"              => 'http://www.w3.org/ns/org#hasMember',
-      "description"          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description',
-      'topic_interest'       => 'http://xmlns.com/foaf/0.1/topic_interest',
-      'conventionType'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
-      'headOf'               => 'http://www.w3.org/ns/org#headOf',
-      'employeesCount'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount',
-      'homepage'             => 'http://xmlns.com/foaf/0.1/homepage',
-      'mbox'                 => 'http://xmlns.com/foaf/0.1/mbox',
-      'depiction'            => 'http://xmlns.com/foaf/0.1/depiction',
-      'room'                 => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room',
-      'arrivalDate'          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate',
-      'status'               => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status',
-      'proposedContribution' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution',
-      'realisedContribution' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution',
-      'phone'                => 'http://xmlns.com/foaf/0.1/phone',
-      'twitter'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
-      'linkedin'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
-      'facebook'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
-      'volunteeringProposals'=> 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals',
+      "type"                  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+      "img"                   => 'http://xmlns.com/foaf/0.1/img',
+      "batiment"              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
+      "nom"                   => 'http://xmlns.com/foaf/0.1/name',
+      "nomAdministratif"      => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
+      "membres"               => 'http://www.w3.org/ns/org#hasMember',
+      "description"           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description',
+      'topic_interest'        => 'http://xmlns.com/foaf/0.1/topic_interest',
+      'conventionType'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
+      'headOf'                => 'http://www.w3.org/ns/org#headOf',
+      'employeesCount'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount',
+      'homepage'              => 'http://xmlns.com/foaf/0.1/homepage',
+      'mbox'                  => 'http://xmlns.com/foaf/0.1/mbox',
+      'depiction'             => 'http://xmlns.com/foaf/0.1/depiction',
+      'room'                  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room',
+      'arrivalDate'           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate',
+      'status'                => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status',
+      'proposedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution',
+      'realisedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution',
+      'phone'                 => 'http://xmlns.com/foaf/0.1/phone',
+      'twitter'               => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
+      'linkedin'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
+      'facebook'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
+      'volunteeringProposals' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals',
     ];
 
     public function allAction(Request $request)
@@ -196,6 +197,54 @@ class OrganisationController extends Controller
         );
     }
 
+    public function orgaExportAction()
+    {
+        $lines              = [];
+        $sfClient           = $this->container->get('semantic_forms.client');
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+          'GrandsVoisinsBundle:Organisation'
+        );
+        $organisations      = $organisationEntity->findAll();
+        $columns            = [];
+
+        foreach ($organisations as $organisation) {
+            // Sparql request.
+            $properties = $sfClient->uriProperties(
+              $organisation->getGraphURI()
+            );
+            // We have key / pair values.
+            $lines[] = $properties;
+            // Save new columns if some are missing.
+            $columns = array_unique(
+              array_merge($columns, array_keys($properties))
+            );
+        }
+
+        $output = [];
+        // Rebuild array based on strict columns list.
+        foreach ($lines as $incompleteLine) {
+            $line = [];
+            foreach ($columns as $key) {
+                $line[$key] = isset($incompleteLine[$key]) ? $incompleteLine[$key] : '';
+            }
+            $output[] = $line;
+        }
+
+        // Append first lint.
+        array_unshift($output, $columns);
+
+        $excel = new SimpleExcel('csv');
+        /** @var \SimpleExcel\Writer\CSVWriter $writer */
+        $writer = $excel->writer;
+        // Fill.
+        $writer->setData(
+          $output
+        );
+        $writer->setDelimiter(";");
+        $writer->saveFile('LesGrandsVoisins-'.date('Y_m_d'));
+
+        return $this->redirectToRoute('all_orga');
+    }
 
     public function newOrganisationAction(Request $request, $orgaId = null)
     {

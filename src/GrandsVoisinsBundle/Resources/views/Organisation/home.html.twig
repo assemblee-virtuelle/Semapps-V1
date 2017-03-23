@@ -10,6 +10,12 @@
 {% block pageContent %}
     {{ parent() }}
     <h2>Membres</h2>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path('orgaExport') }}">Export CSV</a>
+        </li>
+    </ul>
+    <br>
     <table class="table table-bordered">
         {% for organisation in organisations %}
             <tr>

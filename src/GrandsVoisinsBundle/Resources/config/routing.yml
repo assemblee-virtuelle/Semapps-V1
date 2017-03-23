@@ -37,6 +37,10 @@ settings:
     path:     /parametres
     defaults: { _controller: GrandsVoisinsBundle:Admin:settings }
 
+orgaExport:
+    path:     /orga-export/csv
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaExport }
+
 home:
     path:     /mon-compte/
     defaults: { _controller: GrandsVoisinsBundle:Admin:home }

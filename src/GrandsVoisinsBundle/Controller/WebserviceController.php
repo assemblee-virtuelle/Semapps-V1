@@ -219,37 +219,14 @@ class WebserviceController extends Controller
         );
     }
 
-    public function requestProperties($uri)
-    {
-        $sfClient = $this->container->get('semantic_forms.client');
-        // All properties about organization.
-        $response =
-          $sfClient
-            ->sparql(
-              'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
-            );
-
-        $output           = [
-          'uri' => $uri,
-        ];
-        $prefixesReverted = array_flip($sfClient->fieldsAliases);
-        foreach ($response['results']['bindings'] as $item) {
-            $key          = $item['P']['value'];
-            $key          = isset($prefixesReverted[$key]) ? $prefixesReverted[$key] : $key;
-            $output[$key] = $item['O']['value'];
-        }
-
-        return $output;
-    }
-
     public function requestPair($uri)
     {
-
-        $output['properties'] = $this->requestProperties($uri);
+        $sfClient             = $this->container->get('semantic_forms.client');
+        $output['properties'] = $sfClient->uriProperties($uri);
 
         switch ($output['properties']['type']) {
             case 'http://xmlns.com/foaf/0.1/Organization':
-                $output['responsible'] = $this->requestProperties(
+                $output['responsible'] = $sfClient->uriProperties(
                   $output['properties']['hasResponsible']
                 );
                 break;

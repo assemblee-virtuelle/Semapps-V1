@@ -93,13 +93,14 @@ class AdminController extends Controller
             return $this->redirectToRoute('profile');
         }
         $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
+
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
-            "form"       => $form,
-            "graphURI"   => $organisation->getGraphURI(),
-            "picture"    => $picture->createView(),
-            "property"   => $this->property
+            "form"     => $form,
+            "graphURI" => $organisation->getGraphURI(),
+            "picture"  => $picture->createView(),
+            "property" => $this->property,
           )
         );
     }
@@ -107,18 +108,24 @@ class AdminController extends Controller
     public function profileSaveAction()
     {
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-            'GrandsVoisinsBundle:Organisation'
+          'GrandsVoisinsBundle:Organisation'
         );
 
         $organisation = $organisationEntity->find(
-            $this->getUser()->getFkOrganisation()
+          $this->getUser()->getFkOrganisation()
         );
-        $sfClient = $this
-            ->container
-            ->get('semantic_forms.client');
-        if($organisation->getSfOrganisation())
+        $sfClient     = $this
+          ->container
+          ->get('semantic_forms.client');
+        if ($organisation->getSfOrganisation()) {
             $sfClient
-              ->verifMember($_POST,$_POST["graphURI"],$organisation->getSfOrganisation(),$_POST["uri"]);
+              ->verifMember(
+                $_POST,
+                $_POST["graphURI"],
+                $organisation->getSfOrganisation(),
+                $_POST["uri"]
+              );
+        }
         $info = $sfClient
           ->send(
             $_POST,
@@ -377,20 +384,24 @@ class AdminController extends Controller
         return $this->redirectToRoute('team');
     }
 
-    public function allOrganizationAction(){
-        $sfClient   = $this->container->get('semantic_forms.client');
-        $query = 'SELECT ?G ?P ?O WHERE { GRAPH ?G {?S <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://xmlns.com/foaf/0.1/Organization> . ?S ?P ?O } } GROUP BY ?G ?P ?O ';
-        $result = $sfClient->sparql($query);
-        if(!is_array($result)){
+    public function allOrganizationAction()
+    {
+        $sfClient = $this->container->get('semantic_forms.client');
+        $query    = 'SELECT ?G ?P ?O WHERE { GRAPH ?G {?S <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://xmlns.com/foaf/0.1/Organization> . ?S ?P ?O } } GROUP BY ?G ?P ?O ';
+        $result   = $sfClient->sparql($query);
+        if (!is_array($result)) {
             $this->addFlash(
-                'danger',
-                'Une erreur s\'est produite lors de l\'affichage du formulaire'
+              'danger',
+              'Une erreur s\'est produite lors de l\'affichage du formulaire'
             );
+
             return $this->redirectToRoute('home');
         }
         $result = $result["results"]["bindings"];
+
         return $this->render(
-            'GrandsVoisinsBundle:Admin:tab.html.twig',
-        ["data" => $result]);
+          'GrandsVoisinsBundle:Admin:tab.html.twig',
+          ["data" => $result]
+        );
     }
 }

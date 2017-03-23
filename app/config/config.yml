@@ -34,6 +34,8 @@ parameters:
         room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
         image: "http://xmlns.com/foaf/0.1/img"
         homepage : 'http://xmlns.com/foaf/0.1/homepage'
+        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#empoyeesCount'
+        volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
 
 framework:
     #esi:             ~

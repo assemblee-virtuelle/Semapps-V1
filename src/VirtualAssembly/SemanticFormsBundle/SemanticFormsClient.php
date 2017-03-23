@@ -319,12 +319,15 @@ class SemanticFormsClient
       $value,
       $rdfType = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'
     ) {
-        $destination[urlencode("<".$subject."> <".$rdfType."> <".
-        $type.
-        ">.")] = $value;
+        $destination[urlencode(
+          "<".$subject."> <".$rdfType."> <".
+          $type.
+          ">."
+        )] = $value;
     }
 
-    public function verifMember(&$post,$graphURI,$orga,$personne =null){
+    public function verifMember(&$post, $graphURI, $orga, $personne = null)
+    {
 
         $personneMembre = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -339,7 +342,7 @@ class SemanticFormsClient
                             }
                         }
                     }';
-        $allPersonne = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+        $allPersonne    = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     SELECT ?val
@@ -352,7 +355,7 @@ class SemanticFormsClient
                             }
                         }
                     }';
-        $listMember = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+        $listMember     = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                     SELECT ?val
@@ -367,30 +370,73 @@ class SemanticFormsClient
                     }';
 
         $personneMembre = $this->sparql($personneMembre);
-        $allPersonne = $this->sparql($allPersonne)["results"]["bindings"];
-        $listMember = $this->sparql($listMember);
+        $allPersonne    = $this->sparql($allPersonne)["results"]["bindings"];
+        $listMember     = $this->sparql($listMember);
 
-        if(!empty($allPersonne) ){
-            $allPersonne = $this->getValue($allPersonne);
-            $personneMembre = (is_array($personneMembre))? $this->getValue($personneMembre["results"]["bindings"]) : array();
-            $listMember = (is_array($listMember))? $this->getValue($listMember["results"]["bindings"]) : array();
-            if ( $personne && !in_array($personne,$allPersonne))array_push($allPersonne,$personne);
-            $result = array_diff($allPersonne,$personneMembre);
-
-            foreach ($result as $key=>$value){
-                $this->tripletSet($post,$value,"",$orga,'http://www.w3.org/ns/org#memberOf');
+        if (!empty($allPersonne)) {
+            $allPersonne    = $this->getValue($allPersonne);
+            $personneMembre = (is_array($personneMembre)) ? $this->getValue(
+              $personneMembre["results"]["bindings"]
+            ) : array();
+            $listMember     = (is_array($listMember)) ? $this->getValue(
+              $listMember["results"]["bindings"]
+            ) : array();
+            if ($personne && !in_array($personne, $allPersonne)) {
+                array_push($allPersonne, $personne);
             }
-            $result = array_diff($allPersonne,$listMember);
-            foreach ($result as $key=>$value){
-                $this->tripletSet($post,$orga,$key,$value,'http://www.w3.org/ns/org#hasMember');
+            $result = array_diff($allPersonne, $personneMembre);
+
+            foreach ($result as $key => $value) {
+                $this->tripletSet(
+                  $post,
+                  $value,
+                  "",
+                  $orga,
+                  'http://www.w3.org/ns/org#memberOf'
+                );
+            }
+            $result = array_diff($allPersonne, $listMember);
+            foreach ($result as $key => $value) {
+                $this->tripletSet(
+                  $post,
+                  $orga,
+                  $key,
+                  $value,
+                  'http://www.w3.org/ns/org#hasMember'
+                );
             }
         }
     }
-    private function getValue($tab){
+
+    private function getValue($tab)
+    {
         $temp = array();
-        foreach ($tab as $value){
-            array_push($temp,$value['val']['value']);
+        foreach ($tab as $value) {
+            array_push($temp, $value['val']['value']);
         }
+
         return $temp;
+    }
+
+    public function uriProperties($uri)
+    {
+        // All properties about organization.
+        $response =
+          $this
+            ->sparql(
+              'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
+            );
+
+        $output           = [
+          'uri' => $uri,
+        ];
+        $prefixesReverted = array_flip($this->fieldsAliases);
+        foreach ($response['results']['bindings'] as $item) {
+            $key          = $item['P']['value'];
+            $key          = isset($prefixesReverted[$key]) ? $prefixesReverted[$key] : $key;
+            $output[$key] = $item['O']['value'];
+        }
+
+        return $output;
     }
 }
