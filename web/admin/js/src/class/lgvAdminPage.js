@@ -15,7 +15,10 @@ class LgvAdminPage {
           .first())
       });
     }
+    this.init();
   }
+
+  init() {}
 
   getParameterByName(name, url) {
     if (!url) {
