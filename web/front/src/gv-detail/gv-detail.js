@@ -21,9 +21,11 @@ Polymer({
     }
   },
 
-  handleBack: function () {
+  handleBack: function (e) {
     "use strict";
-
+    e.preventDefault();
+    history.back();
+    gvc.scrollToSearchResults();
   },
 
   attached: function () {

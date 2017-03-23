@@ -1,3 +1,14 @@
+#detailTools {
+  border-bottom: 1px dashed #EEE; }
+  #detailTools a {
+    border: 1px solid #EEE;
+    border-bottom-color: transparent;
+    border-radius: 0;
+    color: #555555;
+    cursor: pointer; }
+    #detailTools a span {
+      color: #FFCC00; }
+
 .detailInfo tr td {
   padding: 2px 5px; }
 
