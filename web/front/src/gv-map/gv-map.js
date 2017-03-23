@@ -56,7 +56,7 @@ Polymer({
       .on('click', (e) => {
         let key = e.currentTarget.getAttribute('id').split('-')[1];
         // Launch search.
-        this.buildingSelect(key);
+        this.buildingClick(key);
         // Disable hover temporally.
         this.hoverActive = false;
         // Scroll.
@@ -116,6 +116,13 @@ Polymer({
       // On all paths.
       zone.classList[method]('discreet');
     });
+  },
+
+  buildingClick(building) {
+    "use strict";
+    // Do not allow building selection and search term in the same time.
+    gvc.domSearchTextInput.value = '';
+    gvc.map.buildingSelect(building);
   },
 
   buildingSelect(building, reloadSearch) {
