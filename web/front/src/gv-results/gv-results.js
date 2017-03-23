@@ -154,9 +154,6 @@ Polymer({
       this.searchError = true;
     }
     else if (response.results) {
-      if (response.results.length === 0) {
-        this.noResult = true;
-      }
 
       for (let result of response.results) {
         // Data is allowed.
@@ -181,6 +178,15 @@ Polymer({
         }
       }
 
+      this.noResultContext = ' ... ';
+      if (results.length === 0) {
+        this.noResult = true;
+        if (gvc.buildingSelected != gvc.buildingSelectedAll) {
+          this.noResultContext = ' dans le bâtiment ' + gvc.buildings[gvc.buildingSelected].title + '.';
+        }
+      }
+
+      // Show pins.
       $.each(gvc.buildings, (building, data) => {
         if (buildingsCounter[building] || building === gvc.buildingSelected) {
           gvc.map.pinShow(building, buildingsCounter[building] || 0);
