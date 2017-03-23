@@ -7,3 +7,36 @@ body.dev-env #gv-logo-animated-inner {
   .pageLoadingSpinner .gv-spinner {
     width: 50px;
     margin: 40px auto; }
+
+footer {
+  margin-top: 80px;
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3); }
+  footer a, footer a:hover {
+    text-decoration: none; }
+  footer .wexample-logo,
+  footer .aurore-logo,
+  footer .gv-logo-mini,
+  footer .gv-logo-mini div,
+  footer .gv-logo-mini svg,
+  footer .av-logo-svg {
+    width: 40px;
+    display: inline;
+    vertical-align: middle; }
+  footer .logo-aurore {
+    fill: rgba(0, 0, 0, 0.3);
+    height: 40px; }
+  footer .wexample-logo {
+    fill: rgba(0, 0, 0, 0.3);
+    width: 20px;
+    height: 20px; }
+  footer .av-logo-svg path {
+    fill: rgba(0, 0, 0, 0.3); }
+  footer .gv-logo-mini svg path {
+    stroke: rgba(0, 0, 0, 0.3); }
+  footer .separator {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0 30px;
+    height: 10px; }

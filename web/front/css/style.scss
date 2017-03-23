@@ -10,3 +10,57 @@ body.dev-env #gv-logo-animated-inner {
     margin: 40px auto;
   }
 }
+
+footer {
+  margin-top: 80px;
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  $logoColor: rgba(0, 0, 0, .3);
+  color: $logoColor;
+
+  a, a:hover {
+    text-decoration: none;
+  }
+
+  .wexample-logo,
+  .aurore-logo,
+  .gv-logo-mini,
+  .gv-logo-mini div,
+  .gv-logo-mini svg,
+  .av-logo-svg {
+    width: 40px;
+    display: inline;
+    vertical-align: middle;
+  }
+
+  .logo-aurore {
+    fill: $logoColor;
+    height: 40px;
+  }
+
+  .wexample-logo {
+    fill: $logoColor;
+    width: 20px;
+    height: 20px;
+  }
+
+  .av-logo-svg {
+    path {
+      fill: $logoColor;
+    }
+  }
+
+  .gv-logo-mini svg {
+    path {
+      stroke: $logoColor;
+    }
+  }
+
+  .separator {
+    border-right: 1px solid rgba(0, 0, 0, .1);
+    margin: 0 30px;
+    height: 10px;
+  }
+}
+
