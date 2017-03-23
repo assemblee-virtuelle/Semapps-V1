@@ -56,7 +56,8 @@ var filesScss = {
   'web/front/src/gv-detail-person/gv-detail-person': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-map/gv-map': true,
-  'web/front/src/gv-map-pin/gv-map-pin': true
+  'web/front/src/gv-map-pin/gv-map-pin': true,
+  'web/front/src/gv-about/gv-about': true
 };
 
 function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {

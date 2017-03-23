@@ -15,11 +15,15 @@
   .block {
     background: #FFCC00;
     color: #FFF;
-    padding: 10px;
+    padding: 10px 15px;
+    box-shadow: -8px 8px 0px rgba(0, 0, 0, .1);
+    font-family: petitevoisine;
+    text-align: center;
+    transform: rotate(-4deg);
   }
 }
 
 gv-results-tab {
-  float:left;
+  float: left;
 }
 

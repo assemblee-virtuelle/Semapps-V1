@@ -153,29 +153,30 @@ Polymer({
     if (response.error) {
       this.searchError = true;
     }
-    else if (response.results.length === 0) {
-      this.noResult = true;
-    }
     else if (response.results) {
+      if (response.results.length === 0) {
+        this.noResult = true;
+      }
+
       for (let result of response.results) {
         // Data is allowed.
         if (gvc.searchTypes[result.type]) {
-          // Count results event there are not displayed.
-          typesCounter[result.type] = typesCounter[result.type] || 0;
-          typesCounter[result.type]++;
-          totalCounter++;
+
           // Count results by building.
           if (gvc.buildings[result.building]) {
             buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
             buildingsCounter[result.building]++;
           }
-          if (
+          // This building is enabled.
+          if (gvc.buildingSelected === gvc.buildingSelectedAll || result.building === gvc.buildingSelected) {
+            // Count results.
+            typesCounter[result.type] = typesCounter[result.type] || 0;
+            typesCounter[result.type]++;
+            totalCounter++;
             // This tab is enabled.
-          (this.typeSelected === 'all' || result.type === this.typeSelected) &&
-            // This building is enabled.
-          (gvc.buildingSelected === gvc.buildingSelectedAll || result.building === gvc.buildingSelected)
-          ) {
-            results.push(result);
+            if (this.typeSelected === 'all' || result.type === this.typeSelected) {
+              results.push(result);
+            }
           }
         }
       }

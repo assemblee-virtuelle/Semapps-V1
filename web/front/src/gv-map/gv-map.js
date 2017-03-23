@@ -66,7 +66,7 @@ Polymer({
         });
       });
 
-    this.buildingSelect(gvc.buildingSelected);
+    this.buildingSelect(gvc.buildingSelected, false);
   },
 
   buildingHighlight(key) {
@@ -118,12 +118,16 @@ Polymer({
     });
   },
 
-  buildingSelect(building) {
+  buildingSelect(building, reloadSearch) {
     "use strict";
+    // Deselect current.
+    this.pinsRegistry[gvc.buildingSelected] && this.pinsRegistry[gvc.buildingSelected].deselect();
     let selected =
-    gvc.buildingSelected = building || gvc.buildingSelectedAll;
+      gvc.buildingSelected = building || gvc.buildingSelectedAll;
+    // Select new one.
     this.pinsRegistry[selected] && this.pinsRegistry[selected].select();
-    gvc.goSearch();
+    // Reload by default.
+    (reloadSearch !== false) && gvc.goSearch();
   },
 
   zoneGet(key) {

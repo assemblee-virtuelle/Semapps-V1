@@ -33,6 +33,7 @@ Polymer({
     this.x = gvc.buildings[this.building].x;
     this.y = gvc.buildings[this.building].y;
     this.domWrapper = this.querySelector('.gv-map-pin-wrapper');
+    this.$wrapper = this.$$('.gv-map-pin-wrapper');
     if (this.building === gvc.buildingSelected) {
       this.select();
     }
@@ -55,12 +56,12 @@ Polymer({
 
   select() {
     "use strict";
-    this.$$('.gv-map-pin-wrapper').classList.add('selected');
+    this.$wrapper.classList.add('selected');
   },
 
   deselect() {
     "use strict";
-    this.$$('.gv-map-pin-wrapper').classList.remove('selected');
+    this.$wrapper.classList.remove('selected');
   },
 
   handleClick() {

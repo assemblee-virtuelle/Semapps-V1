@@ -22,6 +22,10 @@ detail:
     path:     /detail
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 
+about:
+    path:     /a-propos
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
 admin:
     path: /mon-compte
     defaults:
