@@ -37,8 +37,10 @@
 
 {% macro textarea(field,property,placeholder,collection) %}
     <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
-    <textarea class="form-control" style="height:180px"
-              placeholder="{{ placeholder|default(field.comment) }}"></textarea>
+    {% for i in 0..field.value|length-1 %}
+        <textarea class="form-control" style="height:180px" name="{{ field.htmlName[i] }}"
+                  placeholder="{{ placeholder|default(field.comment) }}">{{ field.value[i] }}</textarea>
+    {% endfor %}
 {% endmacro %}
 
 {% macro number(field,property,placeholder,collection, min, max, step = 1) %}
