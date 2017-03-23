@@ -384,7 +384,6 @@ class SemanticFormsClient
             foreach ($result as $key=>$value){
                 $this->tripletSet($post,$orga,$key,$value,'http://www.w3.org/ns/org#hasMember');
             }
-
         }
     }
     private function getValue($tab){

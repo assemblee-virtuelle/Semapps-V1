@@ -23,7 +23,7 @@ class OrganisationController extends Controller
       "nom"                  => 'http://xmlns.com/foaf/0.1/name',
       "nomAdministratif"     => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
       "membres"              => 'http://www.w3.org/ns/org#hasMember',
-      "subject"              => 'http://purl.org/dc/elements/1.1/subject',
+      "description"          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description',
       'topic_interest'       => 'http://xmlns.com/foaf/0.1/topic_interest',
       'conventionType'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
       'headOf'               => 'http://www.w3.org/ns/org#headOf',
@@ -39,6 +39,8 @@ class OrganisationController extends Controller
       'phone'                => 'http://xmlns.com/foaf/0.1/phone',
       'twitter'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
       'linkedin'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
+      'facebook'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
+      'volunteeringProposals'=> 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals',
     ];
 
     public function allAction(Request $request)

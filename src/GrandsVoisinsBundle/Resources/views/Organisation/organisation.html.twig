@@ -71,7 +71,7 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        {{ formField.textarea(organisation.fields[property.subject],property.subject,organisation.fields[property.subject].comment) }}
+                        {{ formField.textarea(organisation.fields[property.description],property.description,organisation.fields[property.description].comment) }}
                     </div>
                 </div>
                 <div class="row">
@@ -105,7 +105,11 @@
                         {{ formField.input(organisation.fields[property.linkedin],property.linkedin,'text',organisation.fields[property.linkedin].comment) }}
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.input(organisation.fields[property.facebook],property.facebook,organisation.fields[property.facebook].comment) }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="form-group col-xs-12">
                         {{ formField.textarea(organisation.fields[property.proposedContribution],property.proposedContribution,organisation.fields[property.proposedContribution].comment) }}
@@ -117,7 +121,11 @@
                         {{ formField.textarea(organisation.fields[property.realisedContribution],property.realisedContribution,organisation.fields[property.realisedContribution].comment) }}
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ formField.textarea(organisation.fields[property.volunteeringProposals],property.volunteeringProposals,organisation.fields[property.volunteeringProposals].comment) }}
+                    </div>
+                </div>
                 {# formField.allMissingFields(organisation, property) #}
 
                 <input class="btn btn-primary-lgv pull-right" type="submit"
