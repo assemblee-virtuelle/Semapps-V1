@@ -36,7 +36,6 @@ Polymer({
 
   start() {
     "use strict";
-    // TODO  this.ready = true;
 
     // Create pins.
     let pins = [];
@@ -66,6 +65,8 @@ Polymer({
           this.hoverActive = true;
         });
       });
+
+    this.buildingSelect(gvc.buildingSelected);
   },
 
   buildingHighlight(key) {
@@ -119,17 +120,10 @@ Polymer({
 
   buildingSelect(building) {
     "use strict";
-    if (gvc.buildingSelected && gvc.buildingSelected != gvc.buildingSelectedAll) {
-      // Hid pin.
-      this.pinsRegistry[gvc.buildingSelected].$$('.gv-map-pin-wrapper').classList.remove('selected');
-    }
+    let selected =
     gvc.buildingSelected = building || gvc.buildingSelectedAll;
-    if (building) {
-      // Show cross.
-      this.pinsRegistry[building].$$('.gv-map-pin-wrapper').classList.add('selected');
-    }
-    // We don't need to reload all results.
-    gvc.results.searchRender();
+    this.pinsRegistry[selected] && this.pinsRegistry[selected].select();
+    gvc.goSearch();
   },
 
   zoneGet(key) {

@@ -112,71 +112,25 @@
       }
       // Shortcuts.
       this.domSearchTextInput = this.domId('searchText');
-      this.stateSet('waiting');
-
-      // TODO ? this.setSearchType(this.searchTypeCurrent);
 
       // Launch callbacks
       this.isReady = true;
+
+      let split = this.mainComponent.get('route.path').split('/');
+      let isSearchPage = split.length >= 2 && (split[1] === 'rechercher' || split[1] === '');
+      // We started on a search page.
+      if (isSearchPage && split[3]) {
+        this.domSearchTextInput.value = split[3];
+      }
 
       // Ready callbacks.
       for (let i in readyCallbacks) {
         readyCallbacks[i]();
       }
+
+      // We started on the arrival page or on the search page.
+      isSearchPage && this.goSearch();
     }
-
-    stateSet(stateName) {
-      if (this.stateCurrent !== stateName) {
-        let nameCapitalized = stateName.charAt(0).toUpperCase() + stateName.slice(1);
-        if (this.stateCurrent) {
-          let nameCurrentCapitalized = this.stateCurrent.charAt(0).toUpperCase() + this.stateCurrent.slice(1);
-          this['state' + nameCurrentCapitalized + 'Exit']();
-          this.stateCurrent = null;
-        }
-        // Callback should not return false if success.
-        if (this['state' + nameCapitalized + 'Init']() !== false) {
-          this.stateCurrent = stateName;
-        }
-      }
-    }
-
-    /*setSearchType(type) {
-
-
-     // Reload render results.
-     gvc.renderSearchResult();
-     }*/
-
-    /*loadingPageContentStart() {
-     this.$loadingSpinner.show();
-     }
-
-     loadingPageContentStop() {
-     this.$loadingSpinner.hide();
-     }*/
-
-    /* -- Waiting --*/
-    stateWaitingInit() {
-      //gvc.map.mapShowBuildingPinAll();
-    }
-
-    stateWaitingExit() {
-      //gvc.map.mapHideBuildingPinAll();
-    }
-
-    /* -- Search -- */
-
-    /*stateSearchInit() {
-     if (!this.domSearchTextInput.value) {
-     this.stateSet('waiting');
-     // Block saving current state.
-     return false;
-     }
-     }
-
-     stateSearchExit() {
-
-     }*/
 
     goSearch() {
       var term = this.domSearchTextInput.value;
@@ -190,73 +144,6 @@
         complete: complete
       });
     }
-
-    /*
-     searchRouteChange(term, building) {
-     if (this.firstSearch) {
-     // Set value to input (used at first page load)
-     this.domSearchTextInput.value = term;
-     this.firstSearch = false;
-     }
-
-     // There is no building with this name.
-     if (!this.buildings[building]) {
-     building = this.buildingSelectedAll;
-     }
-
-     // Launch search.
-     this.search(term, building);
-     }
-
-     textRemove(term, char) {
-     return term.replace(new RegExp(char, 'g'), '');
-     }
-
-     search(term, building) {
-     this.stateSet('search');
-     log(' SEARCH ');
-
-
-     // Prevent recursions due to route event changes,
-     // and also prevent to search two times the same values.
-     if (this.lastSearchTerm === term && this.lastSearchBuilding === building) {
-     return;
-     }
-
-     this.lastSearchTerm = term;
-     this.lastSearchBuilding = building;
-
-
-
-
-
-     // Hide counters.
-     this.$tabs.find('li .counter').hide();
-
-     // Hide all results.
-     $('#gv-results-empty, #gv-results-error').hide();
-     this.loadingPageContentStart();
-
-
-
-
-
-
-
-
-     }
-
-     renderSearchResult(response) {
-     "use strict";
-
-
-     gvc.map && gvc.map.mapHideBuildingPinAll();
-
-
-     window.gvresults && window.gvresults.selectType(this.searchTypeCurrent);
-
-
-     }*/
 
     listen(id, event, callback) {
       // Support list of events names.

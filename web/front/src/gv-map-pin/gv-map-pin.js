@@ -33,6 +33,9 @@ Polymer({
     this.x = gvc.buildings[this.building].x;
     this.y = gvc.buildings[this.building].y;
     this.domWrapper = this.querySelector('.gv-map-pin-wrapper');
+    if (this.building === gvc.buildingSelected) {
+      this.select();
+    }
   },
 
   show(text) {
@@ -50,6 +53,16 @@ Polymer({
     this.domWrapper.classList.add('fadeOut');
   },
 
+  select() {
+    "use strict";
+    this.$$('.gv-map-pin-wrapper').classList.add('selected');
+  },
+
+  deselect() {
+    "use strict";
+    this.$$('.gv-map-pin-wrapper').classList.remove('selected');
+  },
+
   handleClick() {
     "use strict";
     if (this.display !== 'none') {
@@ -61,5 +74,10 @@ Polymer({
   handleMouseOver() {
     "use strict";
     gvc.map.buildingHighlight(this.building);
+  },
+
+  handleStopFixedSelection() {
+    "use strict";
+    gvc.map.buildingSelect();
   }
 });

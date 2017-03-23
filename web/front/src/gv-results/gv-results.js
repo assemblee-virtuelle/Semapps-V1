@@ -88,14 +88,12 @@ Polymer({
       window.GVCarto.ready(() => {
         let split = data.path.split('/');
         gvc.buildingSelected =
-          this.searchPreviousBuilding = (split[1] || gvc.buildingSelectedAll);
-
+          this.searchPreviousBuilding = (gvc.buildings[split[1]] ? split[1] : gvc.buildingSelectedAll);
         // Term has not changed (maybe building changed).
         if (this.searchPreviousTerm === split[2]) {
           this.searchRender();
         }
         else {
-
           this.searchPreviousTerm = split[2];
           this.search(split[2], split[1]);
         }
@@ -178,8 +176,8 @@ Polymer({
       }
 
       $.each(gvc.buildings, (building, data) => {
-        if (buildingsCounter[building]) {
-          gvc.map.pinShow(building, buildingsCounter[building]);
+        if (buildingsCounter[building] || building === gvc.buildingSelected) {
+          gvc.map.pinShow(building, buildingsCounter[building] || 0);
         }
         else {
           gvc.map.pinHide(building);
