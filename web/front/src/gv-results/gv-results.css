@@ -13,10 +13,16 @@
   background: #FFCC00;
   color: #FFF;
   padding: 10px 15px;
-  box-shadow: -8px 8px 0px rgba(0, 0, 0, 0.1);
-  font-family: petitevoisine;
+  box-shadow: -8px 8px 0 rgba(0, 0, 0, 0.1);
+  font-family: petitevoisine, sans-serif;
   text-align: center;
   transform: rotate(-4deg); }
+
+.col-blocks img.image {
+  width: 90%;
+  border: 1px solid #DDD;
+  margin: 5%;
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.1); }
 
 gv-results-tab {
   float: left; }

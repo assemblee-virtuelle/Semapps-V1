@@ -33,6 +33,9 @@ Polymer({
   searchEvent(e) {
     // Event may be missing.
     e && e.preventDefault();
+    // Do not allow to have both building selected && search term.
+    gvc.map.buildingSelect(undefined, false);
+    // Load search on term.
     gvc.goSearch();
   }
 });

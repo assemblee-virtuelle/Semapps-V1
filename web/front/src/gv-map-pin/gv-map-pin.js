@@ -68,7 +68,7 @@ Polymer({
     "use strict";
     if (this.display !== 'none') {
       // Select building or deselect if already selected.
-      gvc.map.buildingSelect(this.building !== gvc.buildingSelected && this.building);
+      gvc.map.buildingClick(this.building !== gvc.buildingSelected && this.building);
     }
   },
 
