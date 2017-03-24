@@ -19,8 +19,10 @@
   transform: rotate(-4deg); }
 
 .col-blocks img.image {
-  width: 100%;
-  margin-bottom: 20px; }
+  width: 90%;
+  border: 1px solid #DDD;
+  margin: 5%;
+  box-shadow: 7px 7px 0 rgba(0, 0, 0, 0.1); }
 
 gv-results-tab {
   float: left; }
