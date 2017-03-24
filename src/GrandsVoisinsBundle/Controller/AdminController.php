@@ -15,22 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdminController extends Controller
 {
-    var $property = [
-      "nom"            => 'http://xmlns.com/foaf/0.1/familyName',
-      "prenom"         => 'http://xmlns.com/foaf/0.1/givenName',
-      "type"           => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      "img"            => 'http://xmlns.com/foaf/0.1/img',
-      "memberOf"       => 'http://www.w3.org/ns/org#memberOf',
-      'homepage'       => 'http://xmlns.com/foaf/0.1/homepage',
-      'mbox'           => 'http://xmlns.com/foaf/0.1/mbox',
-      'phone'          => 'http://xmlns.com/foaf/0.1/phone',
-      'currentProject' => 'http://xmlns.com/foaf/0.1/currentProject',
-      'topicInterest'  => 'http://xmlns.com/foaf/0.1/topic_interest',
-      'knows'          => 'http://xmlns.com/foaf/0.1/knows',
-      'expertise'      => 'http://purl.org/ontology/cco/core#expertise',
-      'slack'          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',
-      'birthday'       => 'http://xmlns.com/foaf/0.1/birthday',
-    ];
+
 
     public function homeAction()
     {
@@ -109,7 +94,7 @@ class AdminController extends Controller
             "form"     => $form,
             "graphURI" => $organisation->getGraphURI(),
             "picture"  => $picture->createView(),
-            "property" => $this->property,
+            "property" => GrandsVoisinsConfig::$adminFields,
           )
         );
     }
@@ -407,10 +392,32 @@ class AdminController extends Controller
             return $this->redirectToRoute('home');
         }
         $result = $result["results"]["bindings"];
+        $data =[];
+        foreach ($result as $value){
+            $data[$value["G"]["value"]][$value["P"]["value"]][] = $value["O"]["value"];
+        }
+        $data2 = [];
+        $i=0;
+        foreach ($data as $graph =>$value){
+            $j =0;
+            foreach (GrandsVoisinsConfig::$organisationFields as $key){
+                if(array_key_exists($key,$data[$graph])){
+                    $transform = "";
+                    foreach ($data[$graph][$key] as $temp) $transform .=$temp.'<br>';
+                    $data2[$i][$j] = $transform. " ";
+                }
+                else
+                    $data2[$i][$j] = "";
+
+                $j++;
+            }
+            $i++;
+        }
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:tab.html.twig',
-          ["data" => $result]
+          ["data" => $data2,"key" => GrandsVoisinsConfig::$organisationFields]
+
         );
     }
 }

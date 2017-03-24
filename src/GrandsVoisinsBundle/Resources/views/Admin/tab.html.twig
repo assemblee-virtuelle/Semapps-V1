@@ -4,8 +4,36 @@
 
 {% set menuSelected = 'home' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js">
+    </script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js">
+    </script>
+    <script ype="text/javascript" language="javascript">
+        var vmConfigs = {{ data|json_encode()|raw }};
+
+        $(document).ready(function() {
+            $('#example').DataTable( {
+                data: vmConfigs ,
+                columns: [
+                    {% for val in key|keys  %}
+                    { title: '{{ val }}'},
+                    {% endfor %}
+                ]
+            } );
+        } );
+
+    </script>
+{% endblock %}
 {% block pageContent %}
     {{ parent() }}
     Voici votre espace d'administration.
-    {{ dump(data) }}
+    <table id="example" class="display nowrap dataTable dtr-inline stripe" role="grid" width="100%"></table>
 {% endblock %}

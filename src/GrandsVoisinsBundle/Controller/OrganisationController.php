@@ -17,32 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrganisationController extends Controller
 {
-    var $property = [
-      "type"                  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      "img"                   => 'http://xmlns.com/foaf/0.1/img',
-      "batiment"              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
-      "nom"                   => 'http://xmlns.com/foaf/0.1/name',
-      "nomAdministratif"      => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
-      "membres"               => 'http://www.w3.org/ns/org#hasMember',
-      "description"           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description',
-      'topic_interest'        => 'http://xmlns.com/foaf/0.1/topic_interest',
-      'conventionType'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
-      'headOf'                => 'http://www.w3.org/ns/org#headOf',
-      'employeesCount'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount',
-      'homepage'              => 'http://xmlns.com/foaf/0.1/homepage',
-      'mbox'                  => 'http://xmlns.com/foaf/0.1/mbox',
-      'depiction'             => 'http://xmlns.com/foaf/0.1/depiction',
-      'room'                  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room',
-      'arrivalDate'           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate',
-      'status'                => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status',
-      'proposedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution',
-      'realisedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution',
-      'phone'                 => 'http://xmlns.com/foaf/0.1/phone',
-      'twitter'               => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
-      'linkedin'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
-      'facebook'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
-      'volunteeringProposals' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
-    ];
 
     public function allAction(Request $request)
     {
@@ -347,7 +321,7 @@ class OrganisationController extends Controller
             'picture'             => $picture->createView(),
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
             'building'            => GrandsVoisinsConfig::$buildingsSimple,
-            'property'            => $this->property,
+            'property'            => GrandsVoisinsConfig::$organisationFields,
           )
         );
     }
