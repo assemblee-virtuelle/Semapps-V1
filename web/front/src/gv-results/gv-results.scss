@@ -22,8 +22,10 @@
     transform: rotate(-4deg);
   }
   img.image {
-    width: 100%;
-    margin-bottom: 20px;
+    width: 90%;
+    border: 1px solid #DDD;
+    margin: 5%;
+    box-shadow: 7px 7px 0 rgba(0, 0s, 0, .1);
   }
 }
 
