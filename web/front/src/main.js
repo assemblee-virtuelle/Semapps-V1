@@ -157,7 +157,7 @@
 
     goSearch() {
       var term = this.domSearchTextInput.value;
-      this.mainComponent.set('route.path', '/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
+      this.goToPath('/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
     }
 
     scrollToContent(complete) {
