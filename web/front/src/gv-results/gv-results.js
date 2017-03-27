@@ -170,13 +170,17 @@ Polymer({
         }
       }
 
-      this.noResultContext = ' ... ';
-      if (results.length === 0) {
-        this.noResult = true;
-        if (gvc.buildingSelected != gvc.buildingSelectedAll) {
-          this.noResultContext = ' dans le bâtiment ' + gvc.buildings[gvc.buildingSelected].title + '.';
-        }
-      }
+      // Create title.
+      let resultsTitle = '';
+      // Results number.
+      resultsTitle += (results.length) ? results.length + ' résultats dans ' : 'Aucun résultat dans ';
+      // Building.
+      resultsTitle += (gvc.buildingSelected === gvc.buildingSelectedAll) ? 'tous les bâtiments' : 'le bâtiment ' + gvc.buildings[gvc.buildingSelected].title;
+      // Display title.
+      this.resultsTitle = resultsTitle;
+      
+      // Display no results section or not.
+      this.noResult = results.length === 0;
 
       // Show pins with results only.
       gvc.map.pinHideAll();
