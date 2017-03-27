@@ -33,7 +33,6 @@
 
     constructor(mainComponent) {
       window.gvc = this;
-      //this.baseUrl = '/fake_service/'; // Debug mode
       this.baseUrl = '/';
       this.mainComponent = mainComponent;
       this.firstSearch = true;
@@ -76,9 +75,21 @@
         window.document.body.classList.add('dev-env');
       }
 
-      this.ajaxMultiple({
-        parameters: 'webservice/parameters'
-      }, this.start);
+      var loadParameters = () => {
+        this.ajax('webservice/parameters', (response) => {
+          if (response && response.responseJSON && response.responseJSON.no_internet) {
+            // Enter in debug mode.
+            this.baseUrl = '/fake_service/';
+            // Reload fake parameters.
+            loadParameters();
+          }
+          else {
+            this.start(response.responseJSON);
+          }
+        });
+      };
+      // Load.
+      loadParameters();
     }
 
     ajax(path, complete) {
@@ -108,10 +119,10 @@
       }
     }
 
-    start(data) {
+    start(parameters) {
       "use strict";
-      this.buildings = data.parameters.buildings;
-      this.entities = data.parameters.entities;
+      this.buildings = parameters.buildings;
+      this.entities = parameters.entities;
       // Save key for further usage.
       for (let key in this.buildings) {
         this.buildings[key].key = key;

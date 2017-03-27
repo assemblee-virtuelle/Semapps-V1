@@ -1,7 +1,8 @@
 a, a:hover, a:active {
   position: relative;
   text-decoration: none;
-  color: #555; }
+  color: #555;
+  overflow: hidden; }
 
 a {
   border: 1px solid #EEE; }

@@ -44,13 +44,19 @@ class WebserviceController extends Controller
         else if ($user->hasRole('ROLE_MEMBER')) {
             $access = 'member';
         }
-        return new JsonResponse(
-          [
-            'access'    => $access,
-            'buildings' => $this->getBuildings(),
-            'entities'  => $this->entitiesParameters,
-          ]
-        );
+        // If no internet, we use a cached version of services
+        // placed int face_service folder.
+        if ($this->container->hasParameter('no_internet')) {
+            $output = ['no_internet' => 1];
+        }
+        else {
+            $output = [
+              'access'    => $access,
+              'buildings' => $this->getBuildings(),
+              'entities'  => $this->entitiesParameters,
+            ];
+        }
+        return new JsonResponse($output);
     }
 
     public function getBuildings()

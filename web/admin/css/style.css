@@ -4,6 +4,10 @@
   font-weight: normal;
   font-style: normal; }
 
+@font-face {
+  font-family: 'patrickhands';
+  src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf"); }
+
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
