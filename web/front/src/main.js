@@ -72,9 +72,14 @@
         }
       };
 
-      // Special class for dev env.
-      if (window.location.hostname === '127.0.0.1') {
-        window.document.body.classList.add('dev-env');
+      // Play intro only once.
+      if (cookie.get('introAnimation')) {
+        window.document.body.classList.add('skip-intro');
+      }
+      else {
+        cookie.set('introAnimation', true, {
+          expires: 1 // Days
+        });
       }
 
       var loadParameters = () => {
