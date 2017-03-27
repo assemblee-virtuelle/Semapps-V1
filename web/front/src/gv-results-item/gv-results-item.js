@@ -17,9 +17,8 @@ Polymer({
   attached() {
     "use strict";
     $.extend(this, this.data);
-    if (!this.image) {
-      this.image = '/common/images/result-no_picture-' + gvc.searchTypes[this.type].type + '.png';
-    }
+    this.image = gvc.imageOrFallback(this.image, this.type);
+
     this.info = gvc.searchTypes[this.type].label;
     if (this.subject) {
       this.info += ' | ' + this.subject;

@@ -187,6 +187,14 @@
       // Changing route fires an event.
       gvc.mainComponent.set('route.path', path);
     }
+
+    imageOrFallback(path, typeUri) {
+      "use strict";
+      if (!path) {
+        return '/common/images/result-no_picture-' + gvc.searchTypes[typeUri].type + '.png';
+      }
+      return path;
+    }
   };
 
   window.GVCarto.ready = function (callback) {

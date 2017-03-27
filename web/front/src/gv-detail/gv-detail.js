@@ -4,36 +4,35 @@ Polymer({
     id: String,
     title: String,
     description: String,
-    route: {
-      type: Object,
-      observer: '_routeChanged'
+    queryParams: {
+      observer: '_queryChanged'
     }
   },
 
-  _routeChanged: function (data) {
-    if (data.prefix === '/detail' &&
-      data.__queryParams &&
-      data.__queryParams.uri) {
+  _queryChanged (data) {
+    "use strict";
+    console.debug(data);
+    if (data.uri) {
       // Wait main object to be ready.
       GVCarto.ready(() => {
-        this.detailLoad(data.__queryParams.uri);
+        this.detailLoad(data.uri);
       });
     }
   },
 
-  handleBack: function (e) {
+  handleBack (e) {
     "use strict";
     e.preventDefault();
     history.back();
     gvc.scrollToSearchResults();
   },
 
-  attached: function () {
+  attached () {
     "use strict";
     this.domLoadingSpinner = gvc.domId('detailSpinner');
   },
 
-  detailLoad: function (encodedUri) {
+  detailLoad (encodedUri) {
     "use strict";
     // Show spinner.
     this.domLoadingSpinner.style.display = 'block';
@@ -47,13 +46,14 @@ Polymer({
     });
   },
 
-  detailLoadComplete: function (data) {
+  detailLoadComplete (data) {
     "use strict";
     // Show detail content.
     this.$.detail.style.display = '';
     // Hide spin.
     this.domLoadingSpinner.style.display = 'none';
     data = data.responseJSON.detail || {};
+    data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
     inner.data = data;

@@ -5,7 +5,7 @@ Polymer({
   handleClickDetail(e) {
     e.preventDefault();
     gvc.goToPath('detail', {
-      uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
+      uri: '..... ' + window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
     });
   },
 

@@ -1,9 +1,9 @@
 <dom-module id="gv-map-pin">
   <link rel="import" type="css" href="gv-map-pin.css">
   <template>
-    <div class="gv-map-pin-wrapper" style$="top:[[y]]; left:[[x]]; display: [[display]]" on-tap="handleClick" on-mouseover="handleMouseOver">
+    <div class="gv-map-pin-wrapper" style$="top:[[y]]; left:[[x]]; display: [[display]]" on-mouseover="handleMouseOver">
       <div class="inner">
-        <div class="select-circle">
+        <div class="select-circle" on-tap="handleClick">
         </div>
         <svg style="width:30px" version="1.1" viewBox="0 0 139 139" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
           <circle class="st0" cx="69.5" cy="54.5" r="36" fill="#FFCC00"></circle>
