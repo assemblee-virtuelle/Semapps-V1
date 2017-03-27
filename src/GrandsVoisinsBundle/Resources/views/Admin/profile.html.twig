@@ -96,6 +96,12 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                {{ formField.lookup(form.fields[property.knows],property.knows, 'http://xmlns.com/foaf/0.1/Person') }}
+                            </div>
+                        </div>
+
                         {#{{ formField.allMissingFields(form, property) }}#}
 
                         <input class="btn btn-primary-lgv pull-right"

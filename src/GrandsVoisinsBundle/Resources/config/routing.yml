@@ -77,6 +77,10 @@ webserviceSearch:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
 
+webserviceLookup:
+    path:     /webservice/lookup
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:lookup }
+
 webserviceDetail:
     path:     /webservice/detail
     defaults: { _controller: GrandsVoisinsBundle:Webservice:detail }

@@ -64,7 +64,13 @@
     <label for="{{ field.label }}"
            data-uri-property="{{ property }}">{{ field.label }}</label>
     <select class="form-control select2-dbPedia" name="{{ field.htmlName[0] }}">
+    </select>
+{% endmacro %}
 
+{% macro lookup(field, property, queryClass) %}
+    <label for="{{ field.label }}"
+           data-uri-property="{{ property }}">{{ field.label }}</label>
+    <select data-query-class="{{ queryClass }}" class="form-control select2-lookup" name="{{ field.htmlName[0] }}">
     </select>
 {% endmacro %}
 

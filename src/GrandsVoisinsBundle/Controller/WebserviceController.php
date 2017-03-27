@@ -221,6 +221,16 @@ class WebserviceController extends Controller
         return new JsonResponse((object)['results' => $results]);
     }
 
+    public function lookupAction(Request $request)
+    {
+        $queryString = $request->get('QueryString');
+        $queryClass  = $request->get('QueryClass');
+        $sfClient    = $this->container->get('semantic_forms.client');
+        $results     = $sfClient->lookup($queryString, $queryClass);
+
+        return new JsonResponse($results);
+    }
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
