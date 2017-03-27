@@ -124,7 +124,7 @@ class WebserviceController extends Controller
           '  GRAPH ?GR { '.
           '  ?uri rdf:type <'.$selectType.'> .'.
           // If not term specified, do not filter term.
-          ($term ? '    ?uri text:query "'.$term.'" . ' : '').
+          ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : '').
           // Requested fields.
           $requestFields.
           // Group all duplicated items.
