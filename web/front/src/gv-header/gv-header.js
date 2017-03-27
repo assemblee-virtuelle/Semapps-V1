@@ -15,7 +15,7 @@ Polymer({
     // Click on submit button.
     gvc.listen('searchForm', 'submit', (e) => {
       this.domSearchTextInput.blur();
-      gvc.scrollToSearchResults();
+      gvc.scrollToContent();
       callbackSearchEvent(e);
     });
 

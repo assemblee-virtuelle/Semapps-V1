@@ -9,6 +9,7 @@ Polymer({
 
   handleClick(e) {
     e.preventDefault();
+    gvc.scrollToContent();
     gvc.goToPath('detail', {
       uri: window.encodeURIComponent(this.uri)
     });

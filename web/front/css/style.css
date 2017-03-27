@@ -2,11 +2,9 @@ body.skip-intro #gv-logo-animated-inner {
   animation-delay: 0s;
   display: none; }
 
-.pageLoadingSpinner {
-  display: none; }
-  .pageLoadingSpinner .gv-spinner {
-    width: 50px;
-    margin: 40px auto; }
+.pageLoadingSpinner .gv-spinner {
+  width: 50px;
+  margin: 40px auto; }
 
 footer {
   margin-top: 80px;

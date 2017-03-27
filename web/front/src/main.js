@@ -160,8 +160,8 @@
       this.mainComponent.set('route.path', '/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
     }
 
-    scrollToSearchResults(complete) {
-      this.$window.scrollTo($('#searchTabs').offset().top - 150, {
+    scrollToContent(complete) {
+      this.$window.scrollTo($('#pageContent').offset().top - 150, {
         duration: 1000,
         easing: 'easeOutQuad',
         complete: complete

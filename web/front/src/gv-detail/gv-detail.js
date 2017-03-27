@@ -27,7 +27,6 @@ Polymer({
 
   attached () {
     "use strict";
-    this.domLoadingSpinner = gvc.domId('detailSpinner');
     GVCarto.ready(() => {
       gvc.initElementGlobals(this);
     });
@@ -36,7 +35,7 @@ Polymer({
   detailLoad (encodedUri) {
     "use strict";
     // Show spinner.
-    this.domLoadingSpinner.style.display = 'block';
+    this.loading = true;
     // Hide content.
     this.$.detail.style.display = 'none';
     // Request server.
@@ -51,8 +50,6 @@ Polymer({
     "use strict";
     // Show detail content.
     this.$.detail.style.display = '';
-    // Hide spin.
-    this.domLoadingSpinner.style.display = 'none';
     data = data.responseJSON.detail || {};
     data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
     if (data.properties.building) {
@@ -62,8 +59,10 @@ Polymer({
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
     inner.data = data;
+    inner.parent = this;
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);
+    this.loading = false;
   }
 });

@@ -60,7 +60,7 @@ Polymer({
         // Disable hover temporally.
         this.hoverActive = false;
         // Scroll.
-        window.gvc.scrollToSearchResults(() => {
+        gvc.scrollToContent(() => {
           "use strict";
           this.hoverActive = true;
         });
