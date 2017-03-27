@@ -24,11 +24,7 @@ Polymer({
       type: Array,
       value: []
     },
-    searchPreviousTerm: {
-      type: String,
-      value: null
-    },
-    searchPreviousBuilding: {
+    searchLastTerm: {
       type: String,
       value: null
     },
@@ -88,13 +84,12 @@ Polymer({
       window.GVCarto.ready(() => {
         let split = data.path.split('/');
         gvc.buildingSelected =
-          this.searchPreviousBuilding = (gvc.buildings[split[1]] ? split[1] : gvc.buildingSelectedAll);
+          gvc.searchLastBuilding = (gvc.buildings[split[1]] ? split[1] : gvc.buildingSelectedAll);
         // Term has not changed (maybe building changed).
-        if (this.searchPreviousTerm === split[2]) {
+        if (gvc.searchLastTerm === split[2]) {
           this.searchRender();
         }
         else {
-          this.searchPreviousTerm = split[2];
           this.search(split[2], split[1]);
         }
       });
@@ -104,6 +99,7 @@ Polymer({
   search(term) {
     "use strict";
     // Cleanup term to avoid search errors.
+    gvc.searchLastTerm =
     term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
     this.searchError =
       this.noResult = false;

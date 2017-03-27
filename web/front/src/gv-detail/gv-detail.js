@@ -23,8 +23,7 @@ Polymer({
   handleBack (e) {
     "use strict";
     e.preventDefault();
-    history.back();
-    gvc.scrollToSearchResults();
+    gvc.goSearch();
   },
 
   attached () {
