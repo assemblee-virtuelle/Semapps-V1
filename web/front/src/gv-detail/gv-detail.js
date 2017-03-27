@@ -37,7 +37,7 @@ Polymer({
     // Hide content.
     this.$.detail.style.display = 'none';
     // Request server.
-    gvc.ajax('/webservice/detail?uri=' + encodedUri, (data) => {
+    gvc.ajax('webservice/detail?uri=' + encodedUri, (data) => {
       "use strict";
       // Check that we are on the last callback expected.
       this.detailLoadComplete(data)

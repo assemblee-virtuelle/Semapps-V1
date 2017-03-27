@@ -38,11 +38,13 @@ class WebserviceController extends Controller
         $access = 'anonymous';
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user = $this->getUser();
-        if ($user->hasRole('ROLE_SUPER_ADMIN')) {
-            $access = 'super_admin';
-        }
-        else if ($user->hasRole('ROLE_MEMBER')) {
-            $access = 'member';
+        if ($user) {
+            if ($user->hasRole('ROLE_SUPER_ADMIN')) {
+                $access = 'super_admin';
+            }
+            else if ($user->hasRole('ROLE_MEMBER')) {
+                $access = 'member';
+            }
         }
         // If no internet, we use a cached version of services
         // placed int face_service folder.
