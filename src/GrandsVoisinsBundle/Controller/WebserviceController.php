@@ -35,8 +35,18 @@ class WebserviceController extends Controller
 
     public function parametersAction()
     {
+        $access = 'anonymous';
+        /** @var $user \GrandsVoisinsBundle\Entity\User */
+        $user = $this->getUser();
+        if ($user->hasRole('ROLE_SUPER_ADMIN')) {
+            $access = 'super_admin';
+        }
+        else if ($user->hasRole('ROLE_MEMBER')) {
+            $access = 'member';
+        }
         return new JsonResponse(
           [
+            'access'    => $access,
             'buildings' => $this->getBuildings(),
             'entities'  => $this->entitiesParameters,
           ]
