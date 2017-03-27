@@ -100,7 +100,7 @@ Polymer({
     "use strict";
     // Cleanup term to avoid search errors.
     gvc.searchLastTerm =
-    term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+      term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
     this.searchError =
       this.noResult = false;
     // Empty page.
@@ -178,13 +178,11 @@ Polymer({
         }
       }
 
-      // Show pins.
-      $.each(gvc.buildings, (building, data) => {
+      // Show pins with results only.
+      gvc.map.pinHideAll();
+      $.each(gvc.buildings, (building) => {
         if (buildingsCounter[building] || building === gvc.buildingSelected) {
           gvc.map.pinShow(building, buildingsCounter[building] || 0);
-        }
-        else {
-          gvc.map.pinHide(building);
         }
       });
     }

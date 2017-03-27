@@ -52,6 +52,10 @@ Polymer({
     this.domLoadingSpinner.style.display = 'none';
     data = data.responseJSON.detail || {};
     data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
+    if (data.properties.building) {
+      // Display building on the map.
+      gvc.map.pinShowOne(data.properties.building, 'ICI');
+    }
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
     inner.data = data;
