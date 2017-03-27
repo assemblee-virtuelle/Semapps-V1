@@ -253,7 +253,6 @@ class AdminController extends Controller
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
-              'ROLE_EDITOR'      => 'Editeur',
               'ROLE_MEMBER'      => 'Member',
             ],
             'formAddUser'      => $form->createView(),
