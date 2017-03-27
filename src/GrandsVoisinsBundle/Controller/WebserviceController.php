@@ -218,7 +218,7 @@ class WebserviceController extends Controller
     public function searchAction(Request $request)
     {
         // Search
-        $results = $this->searchSparqlRequest($request->query->get('t'));
+        $results = $this->searchSparqlRequest($request->query->get('t') . '*');
 
         return new JsonResponse((object)['results' => $results]);
     }
