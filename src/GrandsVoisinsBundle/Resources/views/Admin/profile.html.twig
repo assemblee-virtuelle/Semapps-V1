@@ -20,18 +20,20 @@
     <div class="row">
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
             {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
-            <a href="#" id="profilePicture" class="thumbnail">
-                {% if app.user.pictureName != null or form.thumbnail == null %}
-                    <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
-                {% else %}
-                    <img src="{{ form.thumbnail }}">
+                {% if form is not null %}
+                    <a href="#" id="profilePicture" class="thumbnail">
+                        {% if app.user.pictureName != null or form.thumbnail == null %}
+                            <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
+                        {% else %}
+                            <img src="{{ form.thumbnail }}">
+                        {% endif %}
+                        <span id="profileEditPictureField">
+                            {{ form_errors(picture) }}
+                            {{ form_widget(picture.pictureName) }}
+                            {{ form(picture) }}
+                        </span>
+                    </a>
                 {% endif %}
-                <span id="profileEditPictureField">
-                    {{ form_errors(picture) }}
-                    {{ form_widget(picture.pictureName) }}
-                    {{ form(picture) }}
-                </span>
-            </a>
             {{ form_end(picture) }}
         </div>
         <div>

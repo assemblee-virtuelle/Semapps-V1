@@ -44,13 +44,6 @@ class AdminController extends Controller
             );
         }
 
-        if (!$form) {
-            $this->addFlash(
-              'danger',
-              'Une erreur s\'est produite lors de l\'affichage du formulaire'
-            );
-        }
-
         $picture = $this->createFormBuilder($user)
           ->add('pictureName', FileType::class, array('data_class' => null))
           ->add(
@@ -86,7 +79,17 @@ class AdminController extends Controller
 
             return $this->redirectToRoute('profile');
         }
-        $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
+
+        if (!$form) {
+            $this->addFlash(
+              'danger',
+              'Une erreur s\'est produite lors de l\'affichage du formulaire'
+            );
+        } else {
+            $form = $this
+              ->get('GrandsVoisinsBundle.formattingForm')
+              ->format($form);
+        }
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
@@ -392,22 +395,24 @@ class AdminController extends Controller
             return $this->redirectToRoute('home');
         }
         $result = $result["results"]["bindings"];
-        $data =[];
-        foreach ($result as $value){
+        $data   = [];
+        foreach ($result as $value) {
             $data[$value["G"]["value"]][$value["P"]["value"]][] = $value["O"]["value"];
         }
         $data2 = [];
-        $i=0;
-        foreach ($data as $graph =>$value){
-            $j =0;
-            foreach (GrandsVoisinsConfig::$organisationFields as $key){
-                if(array_key_exists($key,$data[$graph])){
+        $i     = 0;
+        foreach ($data as $graph => $value) {
+            $j = 0;
+            foreach (GrandsVoisinsConfig::$organisationFields as $key) {
+                if (array_key_exists($key, $data[$graph])) {
                     $transform = "";
-                    foreach ($data[$graph][$key] as $temp) $transform .=$temp.'<br>';
-                    $data2[$i][$j] = $transform. " ";
-                }
-                else
+                    foreach ($data[$graph][$key] as $temp) {
+                        $transform .= $temp.'<br>';
+                    }
+                    $data2[$i][$j] = $transform." ";
+                } else {
                     $data2[$i][$j] = "";
+                }
 
                 $j++;
             }
@@ -416,7 +421,7 @@ class AdminController extends Controller
 
         return $this->render(
           'GrandsVoisinsBundle:Admin:tab.html.twig',
-          ["data" => $data2,"key" => GrandsVoisinsConfig::$organisationFields]
+          ["data" => $data2, "key" => GrandsVoisinsConfig::$organisationFields]
 
         );
     }
