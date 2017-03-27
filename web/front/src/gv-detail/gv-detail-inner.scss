@@ -38,6 +38,20 @@ h3 {
   text-align: right;
 }
 
+.detailInfo {
+  tr {
+    td {
+      padding: 6px 5px;
+      border-bottom: 1px solid #F5F5F5;
+    }
+
+    td:first-of-type {
+      text-align: right;
+      width: 30%;
+    }
+  }
+}
+
 .side-blocks {
   a {
     background-color: #FFCC00;

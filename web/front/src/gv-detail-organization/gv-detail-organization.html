@@ -22,52 +22,73 @@
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
-              <tr class="field field-building">
+              <tr class="field">
                 <td class="fieldLabel">Bâtiment</td>
                 <td>[[building]]</td>
               </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Espace</td>
-                <td>[[room]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Etat</td>
-                <td>[[state]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Date d'arrivée</td>
-                <td>[[arrivalDate]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Convention</td>
-                <td>[[convention]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Thématiques</td>
-                <td>[[themes]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Propose</td>
-                <td>[[proposedContribution]]</td>
-              </tr>
-              <tr class="field field-building">
-                <td class="fieldLabel">Effectue</td>
-                <td>[[realisedContribution]]</td>
-              </tr>
+              <template is="dom-if" if="[[homepage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site</td>
+                  <td>[[homepage]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[isMember]]">
+                <tr class="field">
+                  <td class="fieldLabel">Pièce</td>
+                  <td>[[room]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[isSuperAdmin]]">
+                <tr class="field">
+                  <td class="fieldLabel">Etat</td>
+                  <td>[[state]]</td>
+                </tr>
+                <tr class="field">
+                  <td class="fieldLabel">Date d'arrivée</td>
+                  <td>[[arrivalDate]]</td>
+                </tr>
+                <tr class="field">
+                  <td class="fieldLabel">Convention</td>
+                  <td>[[convention]]</td>
+                </tr>
+                <template is="dom-if" if="[[proposedContribution]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Propose</td>
+                    <td>[[proposedContribution]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[realisedContribution]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Effectue</td>
+                    <td>[[proposedContribution]]</td>
+                  </tr>
+                </template>
+              </template>
+              <template is="dom-if" if="[[themes]]">
+                <tr class="field">
+                  <td class="fieldLabel">Thématiques</td>
+                  <td>[[themes]]</td>
+                </tr>
+              </template>
             </table>
           </div>
-          <div class="detail-description col col-sm-12">
-            <div class="detail-description-inner">
-              [[subject]]
+          <template is="dom-if" if="[[subject]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                [[subject]]
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
+
       <div class="col col-sm-4 side-blocks">
-        <h3>Résponsable</h3>
-        <a href="#" rel="[[data.responsible.uri]]" on-tap="handleClickDetail">
-          <span class="glyphicon glyphicon-king"></span>
-          [[data.responsible.givenName]] [[data.responsible.familyName]]</a>
+        <template is="dom-if" if="[[data.responsible]]">
+          <h3>Résponsable</h3>
+          <a href="#" rel="[[data.responsible.uri]]" on-tap="handleClickDetail">
+            <span class="glyphicon glyphicon-king"></span>
+            [[data.responsible.givenName]] [[data.responsible.familyName]]</a>
+        </template>
       </div>
     </div>
   </template>

@@ -35,29 +35,27 @@ class WebserviceController extends Controller
 
     public function parametersAction()
     {
-        $access = 'anonymous';
-        /** @var $user \GrandsVoisinsBundle\Entity\User */
-        $user = $this->getUser();
-        if ($user) {
-            if ($user->hasRole('ROLE_SUPER_ADMIN')) {
-                $access = 'super_admin';
-            }
-            else if ($user->hasRole('ROLE_MEMBER')) {
-                $access = 'member';
-            }
-        }
+        $user = $this->GetUser();
+
+        $access = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:User')
+          ->getAccessLevelString($user);
+
         // If no internet, we use a cached version of services
         // placed int face_service folder.
         if ($this->container->hasParameter('no_internet')) {
             $output = ['no_internet' => 1];
-        }
-        else {
+        } else {
             $output = [
-              'access'    => $access,
-              'buildings' => $this->getBuildings(),
-              'entities'  => $this->entitiesParameters,
+              'access'       => $access,
+              'fieldsAccess' => $this->container->getParameter('fields_access'),
+              'buildings'    => $this->getBuildings(),
+              'entities'     => $this->entitiesParameters,
             ];
         }
+
         return new JsonResponse($output);
     }
 
@@ -218,7 +216,7 @@ class WebserviceController extends Controller
     public function searchAction(Request $request)
     {
         // Search
-        $results = $this->searchSparqlRequest($request->query->get('t') . '*');
+        $results = $this->searchSparqlRequest($request->query->get('t').'*');
 
         return new JsonResponse((object)['results' => $results]);
     }
@@ -237,32 +235,74 @@ class WebserviceController extends Controller
         );
     }
 
+    public function uriPropertiesFiltered($uri)
+    {
+        $sfClient     = $this->container->get('semantic_forms.client');
+        $properties   = $sfClient->uriProperties($uri);
+        $output       = [];
+        $fieldsFilter = $this->container->getParameter('fields_access');
+        $user         = $this->GetUser();
+        $access       = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:User')
+          ->getAccessLevelString($user);
+
+        foreach ($fieldsFilter as $role => $fields) {
+            // User has role.
+            if ($role === 'anonymous' ||
+              $this->isGranted('ROLE_'.strtoupper($role))
+            ) {
+                foreach ($fields as $fieldName) {
+                    // Field should exist.
+                    if (isset($properties[$fieldName])) {
+                        $output[$fieldName] = $properties[$fieldName];
+                    }
+                }
+            }
+        }
+
+        return $output;
+    }
+
     public function requestPair($uri)
     {
-        $sfClient             = $this->container->get('semantic_forms.client');
-        $output['properties'] = $sfClient->uriProperties($uri);
 
-        switch ($output['properties']['type']) {
+        $properties = $this->uriPropertiesFiltered($uri);
+
+//        print_r($properties);exit;
+
+        switch ($properties['type']) {
+            // Orga.
             case 'http://xmlns.com/foaf/0.1/Organization':
-                $output['responsible'] = $sfClient->uriProperties(
-                  $output['properties']['hasResponsible']
-                );
+                if (isset($properties['hasResponsible'])) {
+                    $output['responsible'] = $this->uriPropertiesFiltered(
+                      $properties['hasResponsible']
+                    );
+                }
                 break;
+            // Person.
             case 'http://xmlns.com/foaf/0.1/Person':
                 // Remove mailto: from email.
-                $output['properties']['mbox'] = preg_replace(
-                  '/^mailto:/',
-                  '',
-                  $output['properties']['mbox']
-                );
-                // Remove tel: from phone
-                $output['properties']['phone'] = preg_replace(
-                  '/^tel:/',
-                  '',
-                  $output['properties']['phone']
-                );
+                if (isset($properties['mbox'])) {
+                    $properties['mbox'] = preg_replace(
+                      '/^mailto:/',
+                      '',
+                      $properties['mbox']
+                    );
+                }
+                if (isset($properties['phone'])) {
+                    // Remove tel: from phone
+                    $properties['phone'] = preg_replace(
+                      '/^tel:/',
+                      '',
+                      $properties['phone']
+                    );
+                }
                 break;
         }
+
+        $output['properties'] = $properties;
 
         return $output;
 

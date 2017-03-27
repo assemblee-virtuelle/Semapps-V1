@@ -36,6 +36,34 @@ parameters:
         homepage : 'http://xmlns.com/foaf/0.1/homepage'
         empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#empoyeesCount'
         volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
+    # Mixed fields from user / organization.
+    fields_access:
+        anonymous:
+           # All
+           - uri
+           - type
+           - foafName
+           - image
+           - homepage
+           # orga
+           - hasResponsible
+           - building
+           - subject
+           # person
+           - displayLabel
+           - givenName
+           - familyName
+        member:
+           # orga
+           - room
+           # person
+           - mbox
+           - phone
+        super_admin:
+           # orga
+           - arrivalDate
+           - gvStatus
+           - conventionType
 
 framework:
     #esi:             ~

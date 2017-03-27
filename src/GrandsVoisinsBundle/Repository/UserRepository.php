@@ -2,6 +2,8 @@
 
 namespace GrandsVoisinsBundle\Repository;
 
+use \GrandsVoisinsBundle\Entity\User;
+
 /**
  * UserRepository
  *
@@ -10,4 +12,21 @@ namespace GrandsVoisinsBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @param $user User|null
+     *
+     * @return string
+     */
+    public function getAccessLevelString($user)
+    {
+        if ($user) {
+            if ($user->hasRole('ROLE_SUPER_ADMIN')) {
+                return 'super_admin';
+            } else if ($user->hasRole('ROLE_MEMBER')) {
+                return 'member';
+            }
+        }
+
+        return 'user';
+    }
 }

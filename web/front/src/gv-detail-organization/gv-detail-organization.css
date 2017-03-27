@@ -30,6 +30,14 @@ h3 {
   font-size: 16px;
   text-align: right; }
 
+.detailInfo tr td {
+  padding: 6px 5px;
+  border-bottom: 1px solid #F5F5F5; }
+
+.detailInfo tr td:first-of-type {
+  text-align: right;
+  width: 30%; }
+
 .side-blocks a {
   background-color: #FFCC00;
   font-weight: bold;
