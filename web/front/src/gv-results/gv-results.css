@@ -27,8 +27,9 @@
 .resultsTitle {
   font-family: petitevoisine, sans-serif; }
 
-gv-results-tab {
-  float: left;
-  display: block;
-  clear: both;
-  width: 100%; }
+@media (max-width: 768px) {
+  gv-results-tab {
+    float: left;
+    display: block;
+    clear: both;
+    width: 100%; } }
