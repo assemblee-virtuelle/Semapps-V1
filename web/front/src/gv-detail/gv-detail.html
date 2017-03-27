@@ -12,10 +12,12 @@
             <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
         </li>
         <template is="dom-if" if="[[isSuperAdmin]]">
-          <li role="presentation" class="active">
-            <a on-click="handleEdit" href="#">
-              <span class="glyphicon glyphicon-edit"></span>Editer</a>
-          </li>
+          <template is="dom-if" if="[[id]]">
+            <li role="presentation" class="active">
+              <a on-click="handleEdit" href="#">
+                <span class="glyphicon glyphicon-edit"></span>Editer</a>
+            </li>
+          </template>
         </template>
       </ul>
 

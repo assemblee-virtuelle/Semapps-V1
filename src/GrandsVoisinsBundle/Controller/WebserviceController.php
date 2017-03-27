@@ -275,6 +275,15 @@ class WebserviceController extends Controller
         switch ($properties['type']) {
             // Orga.
             case 'http://xmlns.com/foaf/0.1/Organization':
+                // Organization should be saved internally.
+                $organization = $this->getDoctrine()->getRepository(
+                  'GrandsVoisinsBundle:Organisation'
+                )->findOneBy(
+                  [
+                    'sfOrganisation' => $uri,
+                  ]
+                );
+                $output['id'] = $organization->getId();
                 if (isset($properties['hasResponsible'])) {
                     $output['responsible'] = $this->uriPropertiesFiltered(
                       $properties['hasResponsible']

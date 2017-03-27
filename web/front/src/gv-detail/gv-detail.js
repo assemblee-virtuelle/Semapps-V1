@@ -25,6 +25,18 @@ Polymer({
     gvc.goSearch();
   },
 
+  handleEdit(e) {
+    "use strict";
+    e.preventDefault();
+    let path = '/';
+    switch (gvc.searchTypes[this.child.type].type) {
+      case 'organization':
+        path += 'orga/detail/' + this.id;
+        break;
+    }
+    window.location.replace(path);
+  },
+
   attached () {
     "use strict";
     GVCarto.ready(() => {
@@ -58,6 +70,8 @@ Polymer({
     }
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
+    this.child = inner;
+    this.id = data.id;
     inner.data = data;
     inner.parent = this;
     let domInner = document.getElementById('gv-detail-inner');
