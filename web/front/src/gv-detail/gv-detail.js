@@ -28,6 +28,9 @@ Polymer({
   attached () {
     "use strict";
     this.domLoadingSpinner = gvc.domId('detailSpinner');
+    GVCarto.ready(() => {
+      gvc.initElementGlobals(this);
+    });
   },
 
   detailLoad (encodedUri) {

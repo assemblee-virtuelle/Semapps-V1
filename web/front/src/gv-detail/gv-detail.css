@@ -7,7 +7,8 @@
     color: #555555;
     cursor: pointer; }
     #detailTools a span {
-      color: #FFCC00; }
+      color: #FFCC00;
+      margin-right: 9px; }
 
 .illustration {
   width: 100%;

@@ -8,8 +8,15 @@
       <ul id="detailTools" class="nav nav-tabs">
         <li role="presentation" class="active">
           <a id="detailBack" on-click="handleBack" href="#">
-            <span class="glyphicon glyphicon-chevron-left"></span>Retour</a>
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
         </li>
+        <template is="dom-if" if="[[isSuperAdmin]]">
+          <li role="presentation" class="active">
+            <a on-click="handleEdit" href="#">
+              <span class="glyphicon glyphicon-edit"></span>Editer</a>
+          </li>
+        </template>
+
       </ul>
       <div id="detailSpinner" class="pageLoadingSpinner">
         <gv-spinner></gv-spinner>

@@ -34,8 +34,12 @@ parameters:
         room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
         image: "http://xmlns.com/foaf/0.1/img"
         homepage : 'http://xmlns.com/foaf/0.1/homepage'
-        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#empoyeesCount'
+        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
         volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
+        description: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'
+        facebook: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'
+        twitter: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter'
+        linkedin: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin'
     # Mixed fields from user / organization.
     fields_access:
         anonymous:
@@ -45,25 +49,33 @@ parameters:
            - foafName
            - image
            - homepage
+           - facebook
+           - twitter
+           - linkedin
            # orga
            - hasResponsible
            - building
            - subject
+           - description
            # person
            - displayLabel
            - givenName
            - familyName
         member:
-           # orga
-           - room
-           # person
+           # all
            - mbox
            - phone
+           # orga
+           - room
         super_admin:
            # orga
            - arrivalDate
            - gvStatus
+           - administrativeName
            - conventionType
+           - empoyeesCount
+           - proposedContribution
+           - realisedContribution
 
 framework:
     #esi:             ~

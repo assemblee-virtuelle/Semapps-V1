@@ -123,8 +123,7 @@
 
     start(parameters) {
       "use strict";
-      this.buildings = parameters.buildings;
-      this.entities = parameters.entities;
+      $.extend(this, parameters);
       // Save key for further usage.
       for (let key in this.buildings) {
         this.buildings[key].key = key;
@@ -196,6 +195,35 @@
         return '/common/images/result-no_picture-' + gvc.searchTypes[typeUri].type + '.png';
       }
       return path;
+    }
+
+    isSuperAdmin() {
+      return this.access === 'super_admin';
+    }
+
+    isAdmin() {
+      return (this.access === 'admin') || this.isSuperAdmin();
+    }
+
+    isMember() {
+      return (this.access === 'super_admin') || this.isAdmin();
+    }
+
+    isAnonymous() {
+      return !this.isMember();
+    }
+
+    /**
+     * Set parameters from global object,
+     * which are user into template as dynamic variables.
+     */
+    initElementGlobals(element) {
+      $.extend(element, {
+        isAnonymous: this.isAnonymous(),
+        isMember: this.isMember(),
+        isAdmin: this.isAdmin(),
+        isSuperAdmin: this.isSuperAdmin()
+      });
     }
   };
 

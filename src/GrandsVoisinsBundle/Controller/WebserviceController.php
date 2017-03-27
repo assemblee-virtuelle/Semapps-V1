@@ -248,6 +248,8 @@ class WebserviceController extends Controller
           ->getRepository('GrandsVoisinsBundle:User')
           ->getAccessLevelString($user);
 
+//        print_r($properties);exit;
+
         foreach ($fieldsFilter as $role => $fields) {
             // User has role.
             if ($role === 'anonymous' ||
@@ -269,8 +271,6 @@ class WebserviceController extends Controller
     {
 
         $properties = $this->uriPropertiesFiltered($uri);
-
-//        print_r($properties);exit;
 
         switch ($properties['type']) {
             // Orga.

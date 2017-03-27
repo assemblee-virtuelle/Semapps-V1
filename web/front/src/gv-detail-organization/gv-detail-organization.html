@@ -22,34 +22,97 @@
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
+              <template is="dom-if" if="[[isSuperAdmin]]">
+                <template is="dom-if" if="[[administrativeName]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Nom administratif</td>
+                    <td>[[administrativeName]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[arrivalDate]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Date d'arrivée</td>
+                    <td>[[arrivalDate]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[gvStatus]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Status</td>
+                    <td>[[gvStatus]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[empoyeesCount]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Employés</td>
+                    <td>[[empoyeesCount]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[conventionType]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Type de convention</td>
+                    <td>[[conventionType]]</td>
+                  </tr>
+                </template>
+              </template>
               <tr class="field">
                 <td class="fieldLabel">Bâtiment</td>
-                <td>[[building]]</td>
+                <td>[[buildingTitle]]</td>
               </tr>
               <template is="dom-if" if="[[homepage]]">
                 <tr class="field">
                   <td class="fieldLabel">Site</td>
-                  <td>[[homepage]]</td>
+                  <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[facebook]]">
+                <tr class="field">
+                  <td class="fieldLabel">Facebook</td>
+                  <td><a href="[[facebook]]" target="_blank">[[facebook]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[twitter]]">
+                <tr class="field">
+                  <td class="fieldLabel">Twitter</td>
+                  <td><a href="[[twitter]]" target="_blank">[[twitter]]</a></td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[linkedin]]">
+                <tr class="field">
+                  <td class="fieldLabel">LinkedIn</td>
+                  <td><a href="[[linkedin]]" target="_blank">[[linkedin]]</a>
+                  </td>
                 </tr>
               </template>
               <template is="dom-if" if="[[isMember]]">
-                <tr class="field">
-                  <td class="fieldLabel">Pièce</td>
-                  <td>[[room]]</td>
-                </tr>
+                <template is="dom-if" if="[[room]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Pièce</td>
+                    <td>[[room]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[phone]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Téléphone</td>
+                    <td>[[phone]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[mbox]]">
+                  <tr class="field">
+                    <td class="fieldLabel">E-mail</td>
+                    <td>[[mbox]]</td>
+                  </tr>
+                </template>
               </template>
               <template is="dom-if" if="[[isSuperAdmin]]">
                 <tr class="field">
                   <td class="fieldLabel">Etat</td>
-                  <td>[[state]]</td>
+                  <td>[[gvStatus]]</td>
                 </tr>
                 <tr class="field">
                   <td class="fieldLabel">Date d'arrivée</td>
                   <td>[[arrivalDate]]</td>
-                </tr>
-                <tr class="field">
-                  <td class="fieldLabel">Convention</td>
-                  <td>[[convention]]</td>
                 </tr>
                 <template is="dom-if" if="[[proposedContribution]]">
                   <tr class="field">
@@ -60,22 +123,28 @@
                 <template is="dom-if" if="[[realisedContribution]]">
                   <tr class="field">
                     <td class="fieldLabel">Effectue</td>
-                    <td>[[proposedContribution]]</td>
+                    <td>[[realisedContribution]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[volunteeringProposals]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Propose diu bénévolat</td>
+                    <td>[[volunteeringProposals]]</td>
                   </tr>
                 </template>
               </template>
               <template is="dom-if" if="[[themes]]">
                 <tr class="field">
                   <td class="fieldLabel">Thématiques</td>
-                  <td>[[themes]]</td>
+                  <td>[[foafStatus]]</td>
                 </tr>
               </template>
             </table>
           </div>
-          <template is="dom-if" if="[[subject]]">
+          <template is="dom-if" if="[[description]]">
             <div class="detail-description col col-sm-12">
               <div class="detail-description-inner">
-                [[subject]]
+                [[description]]
               </div>
             </div>
           </template>

@@ -10,7 +10,14 @@ Polymer({
   },
 
   attached() {
-    log(this.data.properties.mbox.indexOf('mailto'));
+    GVCarto.ready(() => {
+      gvc.initElementGlobals(this);
+    });
+
+    // Raw values.
+    $.extend(this, this.data.properties);
+
+    // Computed values.
     if (this.data.properties.mbox.indexOf('mailto') === 0) {
       this.mbox = 'OKOK';
     }
