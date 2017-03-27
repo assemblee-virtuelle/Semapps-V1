@@ -16,7 +16,7 @@ Polymer({
 
     // Raw values.
     $.extend(this, this.data.properties);
-    log(this.data);
+
     // Computed values.
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
   }
