@@ -11,7 +11,6 @@ Polymer({
 
   _queryChanged (data) {
     "use strict";
-    console.debug(data);
     if (data.uri) {
       // Wait main object to be ready.
       GVCarto.ready(() => {

@@ -3,7 +3,7 @@
 
   // Devel
   window.log = (m) => {
-    console.log(m);
+    console.debug(m);
   };
 
   var readyCallbacks = [];
