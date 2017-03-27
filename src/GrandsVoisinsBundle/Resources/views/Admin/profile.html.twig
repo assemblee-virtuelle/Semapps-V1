@@ -59,10 +59,10 @@
                     <div class="form-group col col-xs-12">
                         <div class="row">
                             <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.nom],property.nom) }}
+                                {{ formField.input(form.fields[property.prenom],property.prenom) }}
                             </div>
                             <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.prenom],property.prenom) }}
+                                {{ formField.input(form.fields[property.nom],property.nom) }}
                             </div>
                         </div>
 
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        {#{{ formField.allMissingFields(form, property) }}#}
+                        {{ formField.allMissingFields(form, property) }}
 
                         <input class="btn btn-primary-lgv pull-right"
                                type="submit"
