@@ -36,15 +36,18 @@
 {% endmacro %}
 
 {% macro textarea(field,property,placeholder,collection) %}
-    <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
+    <label for="{{ field.label }}"
+           data-uri-property="{{ property }}">{{ field.label }}</label>
     {% for i in 0..field.value|length-1 %}
-        <textarea class="form-control" style="height:180px" name="{{ field.htmlName[i] }}"
+        <textarea class="form-control" style="height:180px"
+                  name="{{ field.htmlName[i] }}"
                   placeholder="{{ placeholder|default(field.comment) }}">{{ field.value[i] }}</textarea>
     {% endfor %}
 {% endmacro %}
 
-{% macro number(field,property,placeholder, min, max, step = 1) %}
-    <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
+{% macro number(field,property,placeholder, min, max, step = 1) %}{{ collection }}
+    <label for="{{ field.label }}"
+           data-uri-property="{{ property }}">{{ field.label }}</label>
     {% for i in 0..field.value|length-1 %}
         <input class="form-control"
                min="{{ min }}"
@@ -57,16 +60,24 @@
     {% endfor %}
 {% endmacro %}
 
+{% macro dbPedia(field, property) %}
+    <label for="{{ field.label }}"
+           data-uri-property="{{ property }}">{{ field.label }}</label>
+    <select class="form-control select2-dbPedia" name="{{ field.htmlName[0] }}">
+
+    </select>
+{% endmacro %}
+
 {% macro allMissingFields(organisation, property) %}
     {% import _self as formField %}
     <hr>
     {% for key, field in organisation.fields %}
-        {% if key not in property %}
-            <div class="row">
-                <div class="form-group col-xs-12">
-                    {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
-                </div>
+        {#{% if key not in property %}#}
+        <div class="row">
+            <div class="form-group col-xs-12">
+                {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
             </div>
-        {% endif %}
+        </div>
+        {#{% endif %}#}
     {% endfor %}
 {% endmacro %}

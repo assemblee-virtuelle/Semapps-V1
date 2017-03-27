@@ -8,10 +8,16 @@
 
 {% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/select2/dist/css/select2.css') }}">
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     {#<script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>#}
     {#<script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>#}
+    <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
 {% endblock %}
 
 {% block pageContent %}
@@ -81,7 +87,16 @@
                             </div>
                         </div>
 
-                        {{ formField.allMissingFields(form, property) }}
+                        <div class="row">
+                            <div class="form-group col-xs-6">
+                                {{ formField.dbPedia(form.fields[property.topicInterest],property.topicInterest) }}
+                            </div>
+                            <div class="form-group col-xs-6">
+                                {{ formField.dbPedia(form.fields[property.expertise],property.expertise) }}
+                            </div>
+                        </div>
+
+                        {#{{ formField.allMissingFields(form, property) }}#}
 
                         <input class="btn btn-primary-lgv pull-right"
                                type="submit"
