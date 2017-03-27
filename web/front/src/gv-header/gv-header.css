@@ -4,6 +4,10 @@
   font-weight: normal;
   font-style: normal; }
 
+@font-face {
+  font-family: 'patrickhands';
+  src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf"); }
+
 .btn-primary-lgv {
   background: #FFCC00;
   border-radius: 0; }
@@ -88,7 +92,7 @@ header {
       margin: -12vw 0 -8vw 0; } }
   header h1 {
     display: none;
-    font-family: petitevoisine;
+    font-family: patrickhands, sans-serif;
     font-size: 7vw;
     text-align: center;
     color: #FFF;

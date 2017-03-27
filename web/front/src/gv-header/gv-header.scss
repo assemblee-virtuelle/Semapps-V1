@@ -6,7 +6,7 @@ header {
     100% { top: 0; }
   }
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
-  background-color: $lgvMainYellow;
+  background-color: #FFCC00;
   padding: 1.5px 20px;
   top: 0;
   left: 0;
@@ -71,7 +71,7 @@ header {
 
   h1 {
     display: none;
-    font-family: petitevoisine;
+    font-family: patrickhands, sans-serif;
     font-size: 7vw;
     text-align: center;
     color: #FFF;

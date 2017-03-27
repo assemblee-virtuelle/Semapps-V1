@@ -9,6 +9,11 @@ $lgvSecondYellow: #BB6600;
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'patrickhands';
+  src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf");
+}
+
 .btn-primary-lgv {
   background: $lgvMainYellow;
   border-radius: 0;
