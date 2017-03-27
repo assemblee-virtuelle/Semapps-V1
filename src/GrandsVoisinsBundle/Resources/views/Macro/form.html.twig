@@ -43,7 +43,7 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro number(field,property,placeholder,collection, min, max, step = 1) %}
+{% macro number(field,property,placeholder, min, max, step = 1) %}
     <label for="{{ field.label }}" data-uri-property="{{ property }}">{{ field.label }}</label>
     {% for i in 0..field.value|length-1 %}
         <input class="form-control"

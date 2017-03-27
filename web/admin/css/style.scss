@@ -203,6 +203,10 @@ input.form-control {
 .nav-tabs li.active a,
 .nav-tabs li a {
   cursor: pointer !important;
+  .glyphicon {
+    margin-right: 8px;
+    color: #FFCC00;
+  }
 }
 
 .list {
@@ -304,11 +308,5 @@ input.form-control {
       right: 0;
       opacity: 0;
     }
-  }
-}
-
-@media (min-width: 768px) {
-  .alert-bobby {
-    margin-top: -90px;
   }
 }

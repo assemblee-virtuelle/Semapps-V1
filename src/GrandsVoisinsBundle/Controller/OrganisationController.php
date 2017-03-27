@@ -237,7 +237,9 @@ class OrganisationController extends Controller
           $orgaId
         );
 
-        if (is_null($organisation->getSfOrganisation())) {
+        $sfLink = $organisation->getSfOrganisation();
+
+        if (is_null($sfLink)) {
             $form = $sfClient->create(SemanticFormsClient::ORGANISATION);
             $edit = false;
         } else {
@@ -322,6 +324,7 @@ class OrganisationController extends Controller
             'OrganisationPicture' => $organisation->getOrganisationPicture(),
             'building'            => GrandsVoisinsConfig::$buildingsSimple,
             'property'            => GrandsVoisinsConfig::$organisationFields,
+            "entityUriExists"     => !!$sfLink,
           )
         );
     }
