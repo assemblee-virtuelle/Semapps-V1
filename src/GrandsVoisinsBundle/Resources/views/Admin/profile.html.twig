@@ -8,18 +8,6 @@
 
 {% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/select2/dist/css/select2.css') }}">
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    {#<script src="{{ asset('admin/js/form/wikipedia.js') }}"></script>#}
-    {#<script src="{{ asset('admin/js/form/formInteractions.js') }}"></script>#}
-    <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
-{% endblock %}
-
 {% block pageContent %}
     {{ parent() }}
     {% if entityUriExists %}
