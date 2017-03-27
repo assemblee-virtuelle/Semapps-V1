@@ -21,7 +21,7 @@ Polymer({
       realisedContribution: this.data.properties.realisedContribution,
       room: this.data.properties.room,
       subject: this.data.properties.subject,
-      building: this.data.properties.building
+      building: gvc.buildings[this.data.properties.building].title
     });
-}
+  }
 });
