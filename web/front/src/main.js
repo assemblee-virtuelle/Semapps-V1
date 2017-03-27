@@ -62,11 +62,13 @@
       this.searchTypes = {
         "http://xmlns.com/foaf/0.1/Person": {
           label: 'Personne',
-          type: 'person'
+          type: 'person',
+          plural: 'Personnes'
         },
         "http://xmlns.com/foaf/0.1/Organization": {
           label: 'Organisation',
-          type: 'organization'
+          type: 'organization',
+          plural: 'Organisations'
         }
       };
 

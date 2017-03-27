@@ -40,3 +40,15 @@ li {
       opacity: .7; }
   li.active .counter {
     color: #FFCC00; }
+
+@media (max-width: 768px) {
+  li, a {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%; }
+    li span.counter, a span.counter {
+      float: right; }
+  li.active a {
+    border: 0;
+    border-radius: 4px; } }

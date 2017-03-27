@@ -28,4 +28,7 @@
   font-family: petitevoisine, sans-serif; }
 
 gv-results-tab {
-  float: left; }
+  float: left;
+  display: block;
+  clear: both;
+  width: 100%; }
