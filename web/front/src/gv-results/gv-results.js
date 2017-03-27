@@ -120,16 +120,12 @@ Polymer({
     // only one we expect to be executed.
     // It prevent to parse multiple responses.
     this.searchQueryLastComplete = complete;
-    $.ajax({
-      url: '/webservice/search?t=' + encodeURIComponent(term),
-      dataType: 'json',
-      complete: (data) => {
-        "use strict";
-        // Check that we are on the last callback expected.
-        complete === this.searchQueryLastComplete
-          // Continue.
-        && complete(data);
-      }
+    gvc.ajax('webservice/search?t=' + encodeURIComponent(term), (data) => {
+      "use strict";
+      // Check that we are on the last callback expected.
+      complete === this.searchQueryLastComplete
+        // Continue.
+      && complete(data);
     });
   },
 

@@ -33,6 +33,8 @@
 
     constructor(mainComponent) {
       window.gvc = this;
+      //this.baseUrl = '/fake_service/'; // Debug mode
+      this.baseUrl = '/';
       this.mainComponent = mainComponent;
       this.firstSearch = true;
       this.$window = $(window);
@@ -75,8 +77,15 @@
       }
 
       this.ajaxMultiple({
-        parameters: '/webservice/parameters'
+        parameters: 'webservice/parameters'
       }, this.start);
+    }
+
+    ajax(path, complete) {
+      $.ajax({
+        url: this.baseUrl + path,
+        complete: complete
+      });
     }
 
     ajaxMultiple(sources, callback) {
@@ -86,19 +95,16 @@
       var self = this;
       for (var key in sources) {
         ajaxCounter++;
-        $.ajax({
-          url: sources[key],
-          complete: function (key) {
-            return function (e) {
-              ajaxCounter--;
-              allData[key] = JSON.parse(e.responseText);
-              // Final callback.
-              if (ajaxCounter === 0) {
-                callback.call(self, allData);
-              }
+        this.ajax(sources[key], function (key) {
+          return function (e) {
+            ajaxCounter--;
+            allData[key] = JSON.parse(e.responseText);
+            // Final callback.
+            if (ajaxCounter === 0) {
+              callback.call(self, allData);
             }
-          }(key)
-        });
+          }
+        }(key));
       }
     }
 

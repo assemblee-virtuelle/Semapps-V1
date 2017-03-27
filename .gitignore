@@ -22,3 +22,4 @@ web/data
 node_modules
 web/cookie.txt
 /web/uploads/
+/web/fake_service

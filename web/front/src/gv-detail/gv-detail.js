@@ -40,14 +40,10 @@ Polymer({
     // Hide content.
     this.$.detail.style.display = 'none';
     // Request server.
-    $.ajax({
-      url: '/webservice/detail?uri=' + encodedUri,
-      dataType: 'json',
-      complete: (data) => {
-        "use strict";
-        // Check that we are on the last callback expected.
-        this.detailLoadComplete(data)
-      }
+    gvc.ajax('/webservice/detail?uri=' + encodedUri, (data) => {
+      "use strict";
+      // Check that we are on the last callback expected.
+      this.detailLoadComplete(data)
     });
   },
 
