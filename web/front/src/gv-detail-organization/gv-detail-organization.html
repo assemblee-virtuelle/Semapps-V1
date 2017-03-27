@@ -106,14 +106,18 @@
                 </template>
               </template>
               <template is="dom-if" if="[[isSuperAdmin]]">
-                <tr class="field">
-                  <td class="fieldLabel">Etat</td>
-                  <td>[[gvStatus]]</td>
-                </tr>
-                <tr class="field">
-                  <td class="fieldLabel">Date d'arrivée</td>
-                  <td>[[arrivalDate]]</td>
-                </tr>
+                <template is="dom-if" if="[[gvStatus]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Etat</td>
+                    <td>[[gvStatus]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[arrivalDate]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Date d'arrivée</td>
+                    <td>[[arrivalDate]]</td>
+                  </tr>
+                </template>
                 <template is="dom-if" if="[[proposedContribution]]">
                   <tr class="field">
                     <td class="fieldLabel">Propose</td>
