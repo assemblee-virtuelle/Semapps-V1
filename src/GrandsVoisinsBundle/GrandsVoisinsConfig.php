@@ -18,6 +18,50 @@ class GrandsVoisinsConfig
     const ORGANISATION = 1;
     const TEAM = 2;
 
+    static $organisationFields = [
+        "type"                  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        "img"                   => 'http://xmlns.com/foaf/0.1/img',
+        "batiment"              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building',
+        "nom"                   => 'http://xmlns.com/foaf/0.1/name',
+        "nomAdministratif"      => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName',
+        "membres"               => 'http://www.w3.org/ns/org#hasMember',
+        "description"           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description',
+        'topic_interest'        => 'http://xmlns.com/foaf/0.1/topic_interest',
+        'conventionType'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType',
+        'headOf'                => 'http://www.w3.org/ns/org#headOf',
+        'employeesCount'        => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount',
+        'homepage'              => 'http://xmlns.com/foaf/0.1/homepage',
+        'mbox'                  => 'http://xmlns.com/foaf/0.1/mbox',
+        'depiction'             => 'http://xmlns.com/foaf/0.1/depiction',
+        'room'                  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room',
+        'arrivalDate'           => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate',
+        'status'                => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status',
+        'proposedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution',
+        'realisedContribution'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution',
+        'phone'                 => 'http://xmlns.com/foaf/0.1/phone',
+        'twitter'               => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter',
+        'linkedin'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
+        'facebook'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
+        'volunteeringProposals' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
+    ];
+
+    static $adminFields = [
+        "nom"            => 'http://xmlns.com/foaf/0.1/familyName',
+        "prenom"         => 'http://xmlns.com/foaf/0.1/givenName',
+        "type"           => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+        "img"            => 'http://xmlns.com/foaf/0.1/img',
+        "memberOf"       => 'http://www.w3.org/ns/org#memberOf',
+        'homepage'       => 'http://xmlns.com/foaf/0.1/homepage',
+        'mbox'           => 'http://xmlns.com/foaf/0.1/mbox',
+        'phone'          => 'http://xmlns.com/foaf/0.1/phone',
+        'currentProject' => 'http://xmlns.com/foaf/0.1/currentProject',
+        'topicInterest'  => 'http://xmlns.com/foaf/0.1/topic_interest',
+        'knows'          => 'http://xmlns.com/foaf/0.1/knows',
+        'expertise'      => 'http://purl.org/ontology/cco/core#expertise',
+        'slack'          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',
+        'birthday'       => 'http://xmlns.com/foaf/0.1/birthday',
+    ];
+
     static $buildings = [
       "maisonDesMedecins" => [
         'title' => "Maison des médecins",
@@ -147,8 +191,6 @@ class GrandsVoisinsConfig
         }
 
         return $body;
-
-
     }
 
 
