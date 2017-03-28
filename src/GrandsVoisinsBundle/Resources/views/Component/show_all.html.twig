@@ -26,6 +26,7 @@
                         <form action="{{ url('show_component') }}" method="POST" >
                             <input type="hidden" name="uri" value="{{ value["URI"]["value"] }}">
                             <input type="hidden" name="name" value="{{ value["NAME"]["value"] }}">
+                            <input type="hidden" name="type" value="{{ key }}">
                             <input type="submit" value="Editer" class="btn btn-primary-lgv pull-left">
                         </form>
                     </td>

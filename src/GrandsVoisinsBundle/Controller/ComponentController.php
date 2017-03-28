@@ -9,20 +9,23 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
 
 class ComponentController extends Controller
 {
-/* requete MIS A JOUR !!!!!!
-prefix foaf: <http://xmlns.com/foaf/0.1/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Project . ?S rdfs:label ?O2} }
- */
+
     public function showAction()
     {
         $uri = urldecode($_POST["uri"]);
         $name = urldecode($_POST["name"]);
+
+        $request = $this->getFormSpec($_POST["type"]);
+
+        if (!$request){
+            $this->addFlash('info','le type ne correspond à aucun formulaire');
+            return $this->redirectToRoute('show_all_component');
+        }
+
         $sfClient = $this->container->get('semantic_forms.client');
         $form = $sfClient->edit(
             $uri,
-            SemanticFormsClient::PROJET
+            $request
         );
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
             'GrandsVoisinsBundle:Organisation'
@@ -66,6 +69,26 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
                 $result["Project"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
                 $title = 'Affichage de tous les Projets';
                 break;
+            case 'Event':
+                $event = '
+                prefix event: <http://purl.org/NET/c4dm/event.owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a event:Event . ?URI rdfs:label ?NAME} } ';
+                $temp = $sfClient->sparql($event);
+                $result["Event"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $title = 'Affichage de tous les Projets';
+                break;
+            case 'Proposition':
+                $proposition = '
+                prefix fipa: <http://www.fipa.org/schemas#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
+                $temp = $sfClient->sparql($proposition);
+                $result["Proposition"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $title = 'Affichage de tous les Projets';
+                break;
             default:
                 $project = '
                 prefix foaf: <http://xmlns.com/foaf/0.1/>
@@ -74,10 +97,21 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
                 SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
                 $temp = $sfClient->sparql($project);
                 $result["Project"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-                $result["Event"] = null; // (is_array($temp)) ? $temp["results"]["bindings"] :
-                $result["Proposition"] = null; //(is_array($temp)) ? $temp["results"]["bindings"] :
+                $event = '
+                prefix event: <http://purl.org/NET/c4dm/event.owl#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a event:Event . ?URI rdfs:label ?NAME} } ';
+                $temp = $sfClient->sparql($event);
+                $result["Event"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
+                $proposition = '
+                prefix fipa: <http://www.fipa.org/schemas#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a fipa:Proposition . ?URI rdfs:label ?NAME} } ';
+                $temp = $sfClient->sparql($proposition);
+                $result["Proposition"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
                 $title = 'Affichage de tous les Projets, Evenements, Propositions';
-
         }
 
 
@@ -122,14 +156,15 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
         $organisation = $organisationEntity->find(
           $this->GetUser()->getFkOrganisation()
         );
-        switch ($type){
-            case 'Project':
-                $json = $sfClient->create(SemanticFormsClient::PROJET);
-                break;
-            default:
-                $this->addFlash('info','le type ne correspond à aucun formulaire');
-                return $this->redirectToRoute('show_all_component');
+
+        $request = $this->getFormSpec($type);
+
+        if (!$request){
+            $this->addFlash('info','le type ne correspond à aucun formulaire');
+            return $this->redirectToRoute('show_all_component');
         }
+
+        $json = $sfClient->create($request);
 
         if (!$json) {
             $this->addFlash(
@@ -150,4 +185,16 @@ SELECT ?S ?O2 WHERE { GRAPH <urn:gv/contacts/new/row/1085-org> { ?S  ?P foaf:Pro
         );
     }
 
+    private function getFormSpec($type){
+        switch ($type){
+            case 'Project':
+                return SemanticFormsClient::PROJET;
+            case 'Event':
+                return SemanticFormsClient::EVENT;
+            case 'Proposition':
+                return SemanticFormsClient::PROPOSITION;
+            default:
+                return null;
+        }
+    }
 }

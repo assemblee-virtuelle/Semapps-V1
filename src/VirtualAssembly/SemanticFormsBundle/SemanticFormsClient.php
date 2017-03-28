@@ -4,7 +4,6 @@ namespace VirtualAssembly\SemanticFormsBundle;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\TransferStats;
 
@@ -27,8 +26,8 @@ class SemanticFormsClient
     CONST ORGANISATION = 'form-Organization';
     CONST PROJET = 'form-Project';
     // preparing
-    // CONST EVENT = 'form-Event';
-    // CONST PROPOSITION = 'form-Proposition';
+     CONST EVENT = 'form-Event';
+     CONST PROPOSITION = 'form-Proposition';
 
     public function __construct(
       $domain,
