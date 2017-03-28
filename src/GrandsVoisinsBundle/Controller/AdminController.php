@@ -94,10 +94,11 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:profile.html.twig',
           array(
-            "form"     => $form,
-            "graphURI" => $organisation->getGraphURI(),
-            "picture"  => $picture->createView(),
-            "property" => GrandsVoisinsConfig::$adminFields,
+            "form"       => $form,
+            "graphURI"   => $organisation->getGraphURI(),
+            "picture"    => $picture->createView(),
+            "property"   => GrandsVoisinsConfig::$adminFields,
+            "entityUriExists" => !!$userSfLink,
           )
         );
     }
@@ -252,7 +253,6 @@ class AdminController extends Controller
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
-              'ROLE_EDITOR'      => 'Editeur',
               'ROLE_MEMBER'      => 'Member',
             ],
             'formAddUser'      => $form->createView(),

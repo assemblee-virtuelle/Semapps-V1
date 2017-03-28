@@ -3,7 +3,7 @@
 
   // Devel
   window.log = (m) => {
-    console.log(m);
+    console.debug(m);
   };
 
   var readyCallbacks = [];
@@ -33,7 +33,6 @@
 
     constructor(mainComponent) {
       window.gvc = this;
-      //this.baseUrl = '/fake_service/'; // Debug mode
       this.baseUrl = '/';
       this.mainComponent = mainComponent;
       this.firstSearch = true;
@@ -63,22 +62,41 @@
       this.searchTypes = {
         "http://xmlns.com/foaf/0.1/Person": {
           label: 'Personne',
-          type: 'person'
+          type: 'person',
+          plural: 'Personnes'
         },
         "http://xmlns.com/foaf/0.1/Organization": {
           label: 'Organisation',
-          type: 'organization'
+          type: 'organization',
+          plural: 'Organisations'
         }
       };
 
-      // Special class for dev env.
-      if (window.location.hostname === '127.0.0.1') {
-        window.document.body.classList.add('dev-env');
+      // Play intro only once.
+      if (cookie.get('introAnimation')) {
+        window.document.body.classList.add('skip-intro');
+      }
+      else {
+        cookie.set('introAnimation', true, {
+          expires: 1 // Days
+        });
       }
 
-      this.ajaxMultiple({
-        parameters: 'webservice/parameters'
-      }, this.start);
+      var loadParameters = () => {
+        this.ajax('webservice/parameters', (response) => {
+          if (response && response.responseJSON && response.responseJSON.no_internet) {
+            // Enter in debug mode.
+            this.baseUrl = '/fake_service/';
+            // Reload fake parameters.
+            loadParameters();
+          }
+          else {
+            this.start(response.responseJSON);
+          }
+        });
+      };
+      // Load.
+      loadParameters();
     }
 
     ajax(path, complete) {
@@ -108,10 +126,9 @@
       }
     }
 
-    start(data) {
+    start(parameters) {
       "use strict";
-      this.buildings = data.parameters.buildings;
-      this.entities = data.parameters.entities;
+      $.extend(this, parameters);
       // Save key for further usage.
       for (let key in this.buildings) {
         this.buildings[key].key = key;
@@ -140,11 +157,11 @@
 
     goSearch() {
       var term = this.domSearchTextInput.value;
-      this.mainComponent.set('route.path', '/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
+      this.goToPath('/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
     }
 
-    scrollToSearchResults(complete) {
-      this.$window.scrollTo($('#searchTabs').offset().top - 150, {
+    scrollToContent(complete) {
+      this.$window.scrollTo($('#pageContent').offset().top - 150, {
         duration: 1000,
         easing: 'easeOutQuad',
         complete: complete
@@ -175,6 +192,49 @@
       gvc.mainComponent.set('queryParams', params);
       // Changing route fires an event.
       gvc.mainComponent.set('route.path', path);
+    }
+
+    imageOrFallback(path, typeUri) {
+      "use strict";
+      if (!path) {
+        return '/common/images/result-no_picture-' + gvc.searchTypes[typeUri].type + '.png';
+      }
+      return path;
+    }
+
+    isSuperAdmin() {
+      return this.access === 'super_admin';
+    }
+
+    isAdmin() {
+      return (this.access === 'admin') || this.isSuperAdmin();
+    }
+
+    isMember() {
+      return (this.access === 'super_admin') || this.isAdmin();
+    }
+
+    isAnonymous() {
+      return !this.isMember();
+    }
+
+    /**
+     * Set parameters from global object,
+     * which are user into template as dynamic variables.
+     */
+    initElementGlobals(element) {
+      $.extend(element, {
+        isAnonymous: this.isAnonymous(),
+        isMember: this.isMember(),
+        isAdmin: this.isAdmin(),
+        isSuperAdmin: this.isSuperAdmin()
+      });
+    }
+
+    realLink(e) {
+      e.preventDefault();
+      // Force links to reload the hole page.
+      window.location.replace(e.currentTarget.getAttribute('href'));
     }
   };
 

@@ -10,12 +10,27 @@ Polymer({
   },
 
   attached() {
-    log(this.data.properties.mbox.indexOf('mailto'));
-    if (this.data.properties.mbox.indexOf('mailto') === 0) {
-      this.mbox = 'OKOK';
+    GVCarto.ready(() => {
+      gvc.initElementGlobals(this);
+    });
+
+    // Temp
+    if (this.data.properties.memberOf) {
+      this.data.properties.memberOf = [this.data.properties.memberOf];
     }
-    else {
-      this.mbox = this.data.properties.mbox;
+    if (this.data.properties.expertize) {
+      this.data.properties.expertize = [this.data.properties.expertize];
     }
+    if (this.data.properties.topicInterest) {
+      this.data.properties.topicInterest = [this.data.properties.topicInterest];
+    }
+    if (this.data.properties.knows) {
+      this.data.properties.knows = [this.data.properties.knows];
+    }
+
+    // Raw values.
+    $.extend(this, this.data.properties);
+
+
   }
 });

@@ -9,19 +9,17 @@ Polymer({
 
   handleClick(e) {
     e.preventDefault();
-    gvc.goToPath('detail',{
+    gvc.scrollToContent();
+    gvc.goToPath('detail', {
       uri: window.encodeURIComponent(this.uri)
     });
-  },
-
-  noImage() {
-    "use strict";
-    return !!this.image;
   },
 
   attached() {
     "use strict";
     $.extend(this, this.data);
+    this.image = gvc.imageOrFallback(this.image, this.type);
+
     this.info = gvc.searchTypes[this.type].label;
     if (this.subject) {
       this.info += ' | ' + this.subject;

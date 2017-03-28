@@ -11,6 +11,7 @@ ul, li {
   text-align: right;
   color: #C0C0C0;
   padding-right: 10px;
+  vertical-align: top;
 }
 
 .social-links .social {
@@ -35,6 +36,21 @@ h3 {
   color: #555;
   font-size: 16px;
   text-align: right;
+}
+
+.detailInfo {
+  width: 100%;
+  tr {
+    td {
+      padding: 6px 5px;
+      border-bottom: 1px solid #F5F5F5;
+    }
+
+    td:first-of-type {
+      text-align: right;
+      width: 30%;
+    }
+  }
 }
 
 .side-blocks {

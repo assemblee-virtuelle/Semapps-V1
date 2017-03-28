@@ -60,7 +60,7 @@ Polymer({
         // Disable hover temporally.
         this.hoverActive = false;
         // Scroll.
-        window.gvc.scrollToSearchResults(() => {
+        gvc.scrollToContent(() => {
           "use strict";
           this.hoverActive = true;
         });
@@ -146,8 +146,21 @@ Polymer({
     this.pinsRegistry[building].show(text);
   },
 
+  pinShowOne(building, text) {
+    "use strict";
+    this.pinHideAll();
+    this.pinShow(building, text);
+  },
+
   pinHide(building) {
     "use strict";
     this.pinsRegistry[building].hide();
+  },
+
+  pinHideAll() {
+    "use strict";
+    $.each(gvc.buildings, (building) => {
+      gvc.map.pinHide(building);
+    });
   }
 });

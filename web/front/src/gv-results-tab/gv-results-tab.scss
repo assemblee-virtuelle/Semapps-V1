@@ -1,5 +1,4 @@
 li {
-
   float: left;
   margin-bottom: -1px;
   position: relative;
@@ -45,5 +44,21 @@ li {
     .counter {
       color: #FFCC00;
     }
+  }
+}
+
+@media (max-width: 768px) {
+  li, a {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    span.counter {
+      float: right;
+    }
+  }
+  li.active a {
+    border: 0;
+    border-radius: 4px;
   }
 }

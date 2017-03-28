@@ -4,7 +4,6 @@
   <link rel="import" href="../gv-results-tab/gv-results-tab.html">
   <link rel="import" href="../gv-spinner/gv-spinner.html">
   <template>
-
     <div class="row">
       <div class="col col-sm-8">
         <ul id="searchTabs" class="nav nav-tabs">
@@ -13,6 +12,7 @@
           </template>
         </ul>
         <div class="clearfix"></div>
+        <h3 class="resultsTitle">[[resultsTitle]]</h3>
         <div id="searchResults" class="col col-sm-12">
           <template is="dom-repeat" items="{{results}}">
             <gv-results-item data="[[item]]"></gv-results-item>
@@ -25,7 +25,7 @@
         </template>
         <template is="dom-if" if="[[noResult]]">
           <div id="gv-results-empty" class="alert alert-info">
-            Aucun résultat [[noResultContext]]
+            Ouch !
           </div>
         </template>
         <div id="searchLoadingSpinner" class="pageLoadingSpinner">

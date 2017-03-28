@@ -1,6 +1,11 @@
 Polymer({
   is: 'gv-header',
 
+  handleAccountClick(e) {
+    "use strict";
+    gvc.realLink(e);
+  },
+
   attached() {
     "use strict";
     GVCarto.ready(this.start.bind(this));
@@ -15,7 +20,7 @@ Polymer({
     // Click on submit button.
     gvc.listen('searchForm', 'submit', (e) => {
       this.domSearchTextInput.blur();
-      gvc.scrollToSearchResults();
+      gvc.scrollToContent();
       callbackSearchEvent(e);
     });
 

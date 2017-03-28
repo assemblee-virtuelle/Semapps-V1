@@ -1,10 +1,9 @@
-body.dev-env #gv-logo-animated-inner {
+body.skip-intro #gv-logo-animated-inner {
   animation-delay: 0s;
   display: none;
 }
 
 .pageLoadingSpinner {
-  display: none;
   .gv-spinner {
     width: 50px;
     margin: 40px auto;

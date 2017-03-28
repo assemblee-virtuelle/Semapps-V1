@@ -7,15 +7,8 @@
     color: #555555;
     cursor: pointer; }
     #detailTools a span {
-      color: #FFCC00; }
-
-.detailInfo tr td {
-  padding: 2px 5px; }
-
-.detailInfo tr td:first-of-type {
-  opacity: .5;
-  text-align: right;
-  width: 30%; }
+      color: #FFCC00;
+      margin-right: 9px; }
 
 .illustration {
   width: 100%;

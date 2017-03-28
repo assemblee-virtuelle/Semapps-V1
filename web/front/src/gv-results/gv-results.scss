@@ -29,7 +29,17 @@
   }
 }
 
-gv-results-tab {
-  float: left;
+.resultsTitle {
+  font-family: petitevoisine, sans-serif;
 }
+
+@media (max-width: 768px) {
+  gv-results-tab {
+    float: left;
+    display: block;
+    clear: both;
+    width: 100%;
+  }
+}
+
 

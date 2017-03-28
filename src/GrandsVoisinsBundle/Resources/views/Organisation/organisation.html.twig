@@ -15,7 +15,16 @@
 
 {% block pageContent %}
     {{ parent() }}
-    <br>
+    {% if entityUriExists %}
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active pull-right">
+                <a target="_blank" href="/detail?uri={{ organisation.uri }}"><span
+                            class="glyphicon glyphicon-eye-open"></span>
+                    Voir</a>
+            </li>
+        </ul>
+        <br>
+    {% endif %}
     <div class="row">
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
             {{ form_start(picture, {'attr':{'id':'organisationPictureForm'}}) }}
@@ -35,7 +44,7 @@
         </div>
 
         <form action="{{ path('save_orga') }}" method="post" id="form"
-              class="col-sm-6 sf-standard-form">
+              class="col-sm-10 sf-standard-form">
             <input name="url" value="{{ organisation.url }}" type="hidden">
             <input name="uri" value="{{ organisation.uri }}" type="hidden">
             <input name="graphURI" value="{{ graphURI }}" type="hidden">

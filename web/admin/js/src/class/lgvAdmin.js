@@ -21,6 +21,60 @@ class LgvAdmin {
     this.$modalConfirmBody = this.$modalConfirm.find('.modal-body:first');
     this.$modalConfirmValidate = this.$modalConfirm.find('.btn-primary:first');
 
+    $('.select2-dbPedia').select2({
+      width: '100%',
+      ajax: {
+        url: "http://lookup.dbpedia.org/api/search.asmx/PrefixSearch",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            QueryString: params.term,
+            MaxHits: 15
+          };
+        },
+        processResults: function (data, params) {
+          let items = [];
+          for (let result of data.results) {
+            items.push({
+              id: result.uri,
+              text: result.label
+            });
+          }
+          return {
+            results: items
+          };
+        },
+        cache: true
+      }
+    });
+
+    $('.select2-lookup').select2({
+      ajax: {
+        url: "/webservice/lookup",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+          return {
+            QueryString: params.term,
+            QueryClass: $(this).attr('data-query-class')
+          };
+        },
+        processResults: function (data, params) {
+          let items = [];
+          for (let result of data.results) {
+            items.push({
+              id: result.uri,
+              text: result.label
+            });
+          }
+          return {
+            results: items
+          };
+        }
+      }
+    });
+
     new LgvAdminPageTeam(this);
     new LgvAdminPageProfile(this);
     new LgvAdminPageOrga(this);

@@ -3,6 +3,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bower_components/webcomponentsjs/webcomponents-lite.js') }}"></script>
+    <script src="{{ asset('bower_components/cookie/cookie.min.js') }}"></script>
     <script src="{{ asset('front/src/main.min.js') }}"></script>
 {% endblock %}
 
@@ -14,6 +15,7 @@
 
 {% block components %}
     {{ parent() }}
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="import"
           href="{{ asset('bower_components/polymer/polymer.html') }}">
     <link rel="import"

@@ -5,18 +5,28 @@
   <link rel="import" href="../gv-detail-person/gv-detail-person.html">
   <template>
     <div id="detail" class="page-detail" style="display: none">
+
       <ul id="detailTools" class="nav nav-tabs">
         <li role="presentation" class="active">
           <a id="detailBack" on-click="handleBack" href="#">
-            <span class="glyphicon glyphicon-chevron-left"></span>Retour</a>
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
         </li>
+        <template is="dom-if" if="[[isSuperAdmin]]">
+          <template is="dom-if" if="[[id]]">
+            <li role="presentation" class="active">
+              <a on-click="handleEdit" href="#">
+                <span class="glyphicon glyphicon-edit"></span>Editer</a>
+            </li>
+          </template>
+        </template>
       </ul>
-      <div class="row">
+
+      <template is="dom-if" if="[[loading]]">
         <div id="detailSpinner" class="pageLoadingSpinner">
           <gv-spinner></gv-spinner>
         </div>
-        <div id="gv-detail-inner"></div>
-      </div>
+      </template>
+      <div id="gv-detail-inner"></div>
     </div>
   </template>
   <script src="../gv-detail/gv-detail.min.js"></script>

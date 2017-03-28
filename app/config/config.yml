@@ -34,8 +34,59 @@ parameters:
         room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
         image: "http://xmlns.com/foaf/0.1/img"
         homepage : 'http://xmlns.com/foaf/0.1/homepage'
-        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#empoyeesCount'
+        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
         volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
+        description: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'
+        facebook: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'
+        twitter: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter'
+        linkedin: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin'
+        topicInterest: 'http://xmlns.com/foaf/0.1/topic.interest'
+        expertize: 'http://purl.org/ontology/cco/core#expertise'
+        knows: 'http://xmlns.com/foaf/0.1/knows'
+        memberOf: 'http://www.w3.org/ns/org#memberOf'
+        slack: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack'
+    # Mixed fields from user / organization.
+    fields_access:
+        anonymous:
+           # All
+           - uri
+           - type
+           - foafName
+           - image
+           - homepage
+           - facebook
+           - twitter
+           - linkedin
+           # orga
+           - hasResponsible
+           - building
+           - subject
+           - description
+           # person
+           - displayLabel
+           - givenName
+           - familyName
+           - topicInterest
+           - expertize
+           - knows
+           - memberOf
+        member:
+           # all
+           - mbox
+           - phone
+           # orga
+           - room
+           # person
+           - slack
+        super_admin:
+           # orga
+           - arrivalDate
+           - gvStatus
+           - administrativeName
+           - conventionType
+           - empoyeesCount
+           - proposedContribution
+           - realisedContribution
 
 framework:
     #esi:             ~

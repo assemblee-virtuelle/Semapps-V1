@@ -4,61 +4,79 @@ Polymer({
     id: String,
     title: String,
     description: String,
-    route: {
-      type: Object,
-      observer: '_routeChanged'
+    queryParams: {
+      observer: '_queryChanged'
     }
   },
 
-  _routeChanged: function (data) {
-    if (data.prefix === '/detail' &&
-      data.__queryParams &&
-      data.__queryParams.uri) {
+  _queryChanged (data) {
+    "use strict";
+    if (data && data.uri) {
       // Wait main object to be ready.
       GVCarto.ready(() => {
-        this.detailLoad(data.__queryParams.uri);
+        this.detailLoad(data.uri);
       });
     }
   },
 
-  handleBack: function (e) {
+  handleBack (e) {
     "use strict";
     e.preventDefault();
-    history.back();
-    gvc.scrollToSearchResults();
+    gvc.goSearch();
   },
 
-  attached: function () {
+  handleEdit(e) {
     "use strict";
-    this.domLoadingSpinner = gvc.domId('detailSpinner');
+    e.preventDefault();
+    let path = '/';
+    switch (gvc.searchTypes[this.child.type].type) {
+      case 'organization':
+        path += 'orga/detail/' + this.id;
+        break;
+    }
+    window.location.replace(path);
   },
 
-  detailLoad: function (encodedUri) {
+  attached () {
+    "use strict";
+    GVCarto.ready(() => {
+      gvc.initElementGlobals(this);
+    });
+  },
+
+  detailLoad (encodedUri) {
     "use strict";
     // Show spinner.
-    this.domLoadingSpinner.style.display = 'block';
+    this.loading = true;
     // Hide content.
     this.$.detail.style.display = 'none';
     // Request server.
-    gvc.ajax('/webservice/detail?uri=' + encodedUri, (data) => {
+    gvc.ajax('webservice/detail?uri=' + encodedUri, (data) => {
       "use strict";
       // Check that we are on the last callback expected.
       this.detailLoadComplete(data)
     });
   },
 
-  detailLoadComplete: function (data) {
+  detailLoadComplete (data) {
     "use strict";
     // Show detail content.
     this.$.detail.style.display = '';
-    // Hide spin.
-    this.domLoadingSpinner.style.display = 'none';
     data = data.responseJSON.detail || {};
+    data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
+    if (data.properties.building) {
+      // Display building on the map.
+      gvc.map.pinShowOne(data.properties.building, 'ICI');
+    }
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
+    this.child = inner;
+    this.id = data.id;
     inner.data = data;
+    inner.parent = this;
     let domInner = document.getElementById('gv-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);
+    this.loading = false;
   }
 });

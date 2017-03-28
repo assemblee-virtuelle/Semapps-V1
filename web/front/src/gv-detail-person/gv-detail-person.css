@@ -8,7 +8,8 @@ ul, li {
 .fieldLabel {
   text-align: right;
   color: #C0C0C0;
-  padding-right: 10px; }
+  padding-right: 10px;
+  vertical-align: top; }
 
 .social-links .social {
   width: 40%;
@@ -28,6 +29,15 @@ h3 {
   color: #555;
   font-size: 16px;
   text-align: right; }
+
+.detailInfo {
+  width: 100%; }
+  .detailInfo tr td {
+    padding: 6px 5px;
+    border-bottom: 1px solid #F5F5F5; }
+  .detailInfo tr td:first-of-type {
+    text-align: right;
+    width: 30%; }
 
 .side-blocks a {
   background-color: #FFCC00;
