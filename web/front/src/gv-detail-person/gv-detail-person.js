@@ -14,15 +14,23 @@ Polymer({
       gvc.initElementGlobals(this);
     });
 
+    // Temp
+    if (this.data.properties.memberOf) {
+      this.data.properties.memberOf = [this.data.properties.memberOf];
+    }
+    if (this.data.properties.expertize) {
+      this.data.properties.expertize = [this.data.properties.expertize];
+    }
+    if (this.data.properties.topicInterest) {
+      this.data.properties.topicInterest = [this.data.properties.topicInterest];
+    }
+    if (this.data.properties.knows) {
+      this.data.properties.knows = [this.data.properties.knows];
+    }
+
     // Raw values.
     $.extend(this, this.data.properties);
 
-    // Computed values.
-    if (this.data.properties.mbox.indexOf('mailto') === 0) {
-      this.mbox = 'OKOK';
-    }
-    else {
-      this.mbox = this.data.properties.mbox;
-    }
+
   }
 });
