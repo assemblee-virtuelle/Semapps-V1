@@ -51,7 +51,11 @@
             <input name="edit" value="{{ edit }}" type="hidden">
             <input name="id" value="{{ id }}" type="hidden">
             {{ formField.input(organisation.fields[property.type],property.type,'hidden') }}
-            {{ formField.input(organisation.fields[property.img],property.img,'hidden') }}
+            {% if OrganisationPicture is null %}
+                {{ formField.input(organisation.fields[property.img],property.img,'hidden') }}
+            {% else %}
+                <input name="{{ organisation.fields[property.img].htmlName[0] }}" value="{{ app.request.schemeAndHttpHost ~'/uploads/pictures/'~ OrganisationPicture}}" type="hidden">
+            {% endif %}
             {{ formField.input(organisation.fields[property.membres],property.membres,'hidden') }}
             <div class="form-group col col-xs-12">
                 <div class="row">

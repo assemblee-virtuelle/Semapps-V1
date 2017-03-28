@@ -47,8 +47,13 @@
                     <input name="url" value="{{ form.url }}" type="hidden">
                     <input name="uri" value="{{ form.uri }}" type="hidden">
                     <input name="graphURI" value="{{ graphURI }}" type="hidden">
+                    {% if app.user.pictureName is null %}
+                        {{ formField.input(form.fields[property.img],property.img,'hidden') }}
+                    {% else %}
+                        <input name="{{ form.fields[property.img].htmlName[0] }}" value="{{ app.request.schemeAndHttpHost ~'/uploads/pictures/'~ app.user.pictureName}}" type="hidden">
+                    {% endif %}
                     {{ formField.input(form.fields[property.type],property.type,'hidden') }}
-                    {{ formField.input(form.fields[property.img],property.img,'hidden') }}
+
 
                     <div class="form-group col col-xs-12">
                         <div class="row">
