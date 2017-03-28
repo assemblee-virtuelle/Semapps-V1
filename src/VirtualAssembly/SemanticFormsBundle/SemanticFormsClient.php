@@ -236,7 +236,7 @@ class SemanticFormsClient
                     )] = $newValue;
                 }
             } else {
-                $data[str_replace("_", '.', urldecode($key))] = $value;
+                $data[str_replace('topic.interest','topic_interest',str_replace("_", '.', urldecode($key)))] = $value;
             }
         }
 
