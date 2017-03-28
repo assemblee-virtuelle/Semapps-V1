@@ -230,6 +230,12 @@
         isSuperAdmin: this.isSuperAdmin()
       });
     }
+
+    realLink(e) {
+      e.preventDefault();
+      // Force links to reload the hole page.
+      window.location.replace(e.currentTarget.getAttribute('href'));
+    }
   };
 
   window.GVCarto.ready = function (callback) {

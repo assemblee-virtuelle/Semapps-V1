@@ -1,6 +1,11 @@
 Polymer({
   is: 'gv-header',
 
+  handleAccountClick(e) {
+    "use strict";
+    gvc.realLink(e);
+  },
+
   attached() {
     "use strict";
     GVCarto.ready(this.start.bind(this));
