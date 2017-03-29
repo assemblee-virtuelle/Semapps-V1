@@ -24,7 +24,7 @@ parameters:
         rowPosition: "http://vocab.sindice.net/csv/rowPosition"
         contactsPrint: "urn:gv/contactsPrint"
         conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
-        hasResponsible: "http://virtual-assembly.org/pair_v2#hasResponsible"
+        hasResponsible: "http://www.w3.org/ns/org#headOf"
         displayLabel: "urn:displayLabel"
         administrativeName: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName"
         building: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building"
