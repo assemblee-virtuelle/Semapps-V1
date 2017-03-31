@@ -1,0 +1,11 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col col-sm-4 col-sm-offset-4">
+            <div class="block-banner-overflow">
+                {% include "@FOSUser/Resetting/reset_content.html.twig" %}
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}
