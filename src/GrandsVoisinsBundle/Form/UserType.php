@@ -40,7 +40,6 @@ class UserType extends AbstractType
                 array('mapped' => false,
                     'choices' => array(
                         'Administrateur' => 'ROLE_ADMIN',
-                        'Editeur'        => 'ROLE_EDITOR',
                         'Membre'         => 'ROLE_MEMBER',
                     ),
                 )
