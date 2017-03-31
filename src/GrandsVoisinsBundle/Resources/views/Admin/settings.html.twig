@@ -10,7 +10,7 @@
     <div class="form-group">
         <div class="row">
             <div class="col col-sm-8">
-                {{ form_label(form.username) }}
+                {{ form_label(form.username, "Login") }}
                 {{ form_widget(form.username, { 'attr': {'class': 'form-control'} }) }}
             </div>
         </div>
@@ -26,7 +26,7 @@
                 {{ form_label(form.passwordNewConfirm) }}
                 {{ form_widget(form.passwordNewConfirm, { 'attr': {'class': 'form-control'} }) }}
                 <br>
-                {{ form_widget(form.submit, {'attr':{'class':'btn btn-default'}}) }}
+                {{ form_widget(form.submit, {'attr':{'class':'btn btn-primary-lgv'}}) }}
             </div>
         </div>
     </div>
