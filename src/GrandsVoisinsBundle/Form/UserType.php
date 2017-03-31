@@ -2,7 +2,6 @@
 
 namespace GrandsVoisinsBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -20,32 +19,33 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-            'username',
-            TextType::class,
-            array(
-                'label'=> 'login',
-                'constraints' => array(
-                    new NotBlank(),
-                ),
-            )
+          'username',
+          TextType::class,
+          array(
+            'label'       => 'login',
+            'constraints' => array(
+              new NotBlank(),
+            ),
+          )
         )
-            ->add(
-                'email',
-                EmailType::class,
-                array()
+          ->add(
+            'email',
+            EmailType::class,
+            array()
+          )
+          ->add(
+            'access',
+            ChoiceType::class,
+            array(
+              'mapped'  => false,
+              'choices' => array(
+                'Administrateur' => 'ROLE_ADMIN',
+                'Editeur'        => 'ROLE_EDITOR',
+                'Membre'         => 'ROLE_MEMBER',
+              ),
             )
-            ->add(
-                'access',
-                ChoiceType::class,
-                array('mapped' => false,
-                    'choices' => array(
-                        'Administrateur' => 'ROLE_ADMIN',
-                        'Editeur'        => 'ROLE_EDITOR',
-                        'Membre'         => 'ROLE_MEMBER',
-                    ),
-                )
-            )
-            ->add('submit', SubmitType::class, array());
+          )
+          ->add('submit', SubmitType::class, array());
     }
 
     /**
@@ -53,9 +53,11 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'GrandsVoisinsBundle\Entity\User'
-        ));
+        $resolver->setDefaults(
+          array(
+            'data_class' => 'GrandsVoisinsBundle\Entity\User',
+          )
+        );
     }
 
     /**
@@ -65,6 +67,4 @@ class UserType extends AbstractType
     {
         return 'grandsvoisinsbundle_user';
     }
-
-
 }
