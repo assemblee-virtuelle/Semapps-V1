@@ -132,3 +132,7 @@ test:
 tab:
     path:     /orga/tab
     defaults: { _controller: GrandsVoisinsBundle:Admin:allOrganization }
+
+fos_user_profile_show:
+    path:     /mon-compte/profile
+    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
