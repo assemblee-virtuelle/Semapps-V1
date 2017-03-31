@@ -176,10 +176,13 @@ class AdminController extends Controller
         $userManager = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:User'
         );
+        $organisationManager = $this->getDoctrine()->getManager()->getRepository(
+            'GrandsVoisinsBundle:Organisation'
+        );
         $users       = $userManager->findBy(
           array('fkOrganisation' => $this->getUser()->getFkOrganisation())
         );
-
+        $idResponsible = $organisationManager->find($this->getUser()->getFkOrganisation())->getFkResponsable();
         $form = $this->get('form.factory')->create(UserType::class);
 
         $form->handleRequest($request);
@@ -249,8 +252,9 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'users'            => $users,
-            'usersRolesLabels' => [
+            'users'              => $users,
+            'idResponsable'      => $idResponsible,
+            'usersRolesLabels'   => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
               'ROLE_MEMBER'      => 'Member',
