@@ -230,7 +230,9 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
           array('token' => $conf_token),
           UrlGeneratorInterface::ABSOLUTE_URL
         );
-
+        $output->writeln($url);
+        $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
+        $output->writeln($url);
         $mailer->sendConfirmMessage(
           $user,
           GrandsVoisinsConfig::ORGANISATION,

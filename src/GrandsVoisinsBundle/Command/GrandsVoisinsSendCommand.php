@@ -85,6 +85,7 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
+        $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $mailer->sendConfirmMessage(
             $user,
             GrandsVoisinsConfig::ORGANISATION,
