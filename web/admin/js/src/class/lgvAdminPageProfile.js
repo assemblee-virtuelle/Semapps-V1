@@ -14,7 +14,7 @@ class LgvAdminPageProfile extends LgvAdminPage {
     }
 
     // Change image field.
-    let $form = $('#profilePictureForm');
+    let $form = $('form[name=profile]');
     $form.find('input[type="file"]').change(()=> {
       // Display a nice spinner.
       lgvAdmin.pageLoadingStart();

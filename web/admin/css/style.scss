@@ -310,3 +310,28 @@ input.form-control {
     }
   }
 }
+
+.select2-tags {
+  .tags {
+    display: none;
+    border: 1px solid #CCC;
+    padding: 10px 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    .tag {
+      background: #FFCC00;
+      padding: 5px 11px;
+      margin-right: 5px;
+      a.remove-tag {
+        color: #FFF;
+        padding: 2px 0 0 4px;
+        vertical-align: top;
+      }
+    }
+  }
+  .tags-value {
+    display: none;
+  }
+}
+

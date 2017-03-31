@@ -3,7 +3,7 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 // TODO Do not remove until we implement components.
 
@@ -23,7 +23,7 @@ class ComponentController extends Controller
         }
 
         $sfClient = $this->container->get('semantic_forms.client');
-        $form = $sfClient->edit(
+        $form = $sfClient->formData(
             $uri,
             $request
         );
@@ -164,7 +164,7 @@ class ComponentController extends Controller
             return $this->redirectToRoute('show_all_component');
         }
 
-        $json = $sfClient->create($request);
+        $json = $sfClient->createData($request);
 
         if (!$json) {
             $this->addFlash(

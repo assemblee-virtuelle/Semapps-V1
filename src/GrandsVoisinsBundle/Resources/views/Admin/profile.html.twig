@@ -8,127 +8,122 @@
 
 {% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
 
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
 {% block pageContent %}
     {{ parent() }}
-    {% if entityUriExists %}
+
+    {% if entityUri %}
         <ul class="nav nav-tabs">
             <li role="presentation" class="active pull-right">
-                <a target="_blank" href="/detail?uri={{ form.uri }}"><span
+                <a target="_blank" href="/detail?uri={{ entityUri }}"><span
                             class="glyphicon glyphicon-eye-open"></span>
                     Voir</a>
             </li>
         </ul>
         <br>
     {% endif %}
+
     <div class="row">
+        {{ form_start(form) }}
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
-            {{ form_start(picture, {'attr':{'id':'profilePictureForm'}}) }}
             {% if form is not null %}
                 <a href="#" id="profilePicture" class="thumbnail">
-                    {% if app.user.pictureName != null or form.thumbnail == null %}
-                        <img src="{{ asset(app.user.pictureName == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
-                    {% else %}
-                        <img src="{{ form.thumbnail }}">
-                    {% endif %}
+                    <img src="{{ asset(app.user.getPictureName() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
                     <span id="profileEditPictureField">
-                            {{ form_errors(picture) }}
-                        {{ form_widget(picture.pictureName) }}
-                        {{ form(picture) }}
-                        </span>
+                        {{ form_widget(form.pictureName) }}
+        </span>
                 </a>
             {% endif %}
-            {{ form_end(picture) }}
         </div>
-        <div>
-            {% if form is not null %}
-                <form class="col-sm-6 sf-standard-form"
-                      action="{{ path('profileSave') }}" method="post"
-                      id="form">
-                    <input name="url" value="{{ form.url }}" type="hidden">
-                    <input name="uri" value="{{ form.uri }}" type="hidden">
-                    <input name="graphURI" value="{{ graphURI }}" type="hidden">
-                    {% if app.user.pictureName is null %}
-                        {{ formField.input(form.fields[property.img],property.img,'hidden') }}
-                    {% else %}
-                        <input name="{{ form.fields[property.img].htmlName[0] }}" value="{{ app.request.schemeAndHttpHost ~'/uploads/pictures/'~ app.user.pictureName}}" type="hidden">
-                    {% endif %}
-                    {{ formField.input(form.fields[property.type],property.type,'hidden') }}
+        <div class="col-sm-6">
 
 
-                    <div class="form-group col col-xs-12">
-                        <div class="row">
-                            <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.prenom],property.prenom) }}
-                            </div>
-                            <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.nom],property.nom) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-xs-12">
-                                {{ formField.input(form.fields[property.homepage],property.homepage) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.phone],property.phone) }}
-                            </div>
-                            <div class="form-group col-xs-6">
-                                {{ formField.input(form.fields[property.slack],property.slack) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-xs-6">
-                                {{ formField.dbPedia(form.fields[property.topicInterest],property.topicInterest) }}
-                            </div>
-                            <div class="form-group col-xs-6">
-                                {{ formField.dbPedia(form.fields[property.expertise],property.expertise) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-xs-6">
-                                {{ formField.lookup(form.fields[property.knows],property.knows, 'http://xmlns.com/foaf/0.1/Person') }}
-                            </div>
-                        </div>
-
-                        {#{{ formField.allMissingFields(form, property) }}#}
-
-                        <input class="btn btn-primary-lgv pull-right"
-                               type="submit"
-                               value="sauvegarder">
-                    </div>
-                </form>
-            {% else %}
-                <div class="col col-sm-6 alert alert-danger">Une erreur s'est
-                    produite lors de
-                    l'affichage du formulaire
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.givenName) }}
                 </div>
-            {% endif %}
-
-            <div class="col col-sm-4">
-                {% embed "alertBobby.html.twig" %}
-                    {% block title %}Qui es-tu ?{% endblock %}
-                    {% block content %}
-                        <p>Voici la question à laquelle je te propose maintenant
-                            de répondre … </p>
-
-                        <p>Tu es libre de remplir les champs que tu veux et
-                            rassure toi, ces données ne sont pas publiques,
-                            elles ne sont partagées qu’entre voisins sur le site
-                            ... </p>
-
-                        <p>Petite info : Plus tu renseigneras ton profil, plus
-                            tu auras de chances de te faire des amis ! </p>
-
-                        <p>Et n'oublie pas : To be Bobby or not Bobby, that is
-                            the question ... </p>
-                    {% endblock %}
-                {% endembed %}
+                <div class="col-xs-6">
+                    {{ form_row(form.familyName) }}
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.birthday) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.postalCode) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.city) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.homepage) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.mbox) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.phone) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.slack) }}
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="form-group col-xs-6">
+                    {#{{ formField.dbPedia(form.fields[property.topicInterest],property.topicInterest) }}#}
+                </div>
+                <div class="form-group col-xs-6">
+                    {#{{ formField.dbPedia(form.fields[property.expertise],property.expertise) }}#}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6">
+                    {#{{ formField.lookup(form.fields[property.knows],property.knows, 'http://xmlns.com/foaf/0.1/Person') }}#}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                </div>
+            </div>
+            {{ form_widget(form) }}
+        </div>
+        {{ form_end(form) }}
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Qui es-tu ?{% endblock %}
+                {% block content %}
+                    <p>Voici la question à laquelle je te propose maintenant
+                        de répondre … </p>
+
+                    <p>Tu es libre de remplir les champs que tu veux et
+                        rassure toi, ces données ne sont pas publiques,
+                        elles ne sont partagées qu’entre voisins sur le site
+                        ... </p>
+
+                    <p>Petite info : Plus tu renseigneras ton profil, plus
+                        tu auras de chances de te faire des amis ! </p>
+
+                    <p>Et n'oublie pas : To be Bobby or not Bobby, that is
+                        the question ... </p>
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 {% endblock %}

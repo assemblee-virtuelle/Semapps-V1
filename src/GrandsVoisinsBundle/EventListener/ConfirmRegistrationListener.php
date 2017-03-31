@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 /**
  * Listener responsible to change the redirection at the end of the password resetting

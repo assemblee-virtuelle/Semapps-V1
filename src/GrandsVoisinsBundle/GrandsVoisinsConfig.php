@@ -18,6 +18,8 @@ class GrandsVoisinsConfig
     const ORGANISATION = 1;
     const TEAM = 2;
 
+    // TODO Rename $fieldsAliasesOrganization
+    // TODO Voir si il ne faut pas intervertir clefs / valeurs.
     static $organisationFields = [
       "type"                  => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
       "img"                   => 'http://xmlns.com/foaf/0.1/img',
@@ -43,23 +45,6 @@ class GrandsVoisinsConfig
       'linkedin'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin',
       'facebook'              => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook',
       'volunteeringProposals' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals',
-    ];
-
-    static $adminFields = [
-      "nom"            => 'http://xmlns.com/foaf/0.1/familyName',
-      "prenom"         => 'http://xmlns.com/foaf/0.1/givenName',
-      "type"           => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      "img"            => 'http://xmlns.com/foaf/0.1/img',
-      "memberOf"       => 'http://www.w3.org/ns/org#memberOf',
-      'homepage'       => 'http://xmlns.com/foaf/0.1/homepage',
-      'mbox'           => 'http://xmlns.com/foaf/0.1/mbox',
-      'phone'          => 'http://xmlns.com/foaf/0.1/phone',
-      'currentProject' => 'http://xmlns.com/foaf/0.1/currentProject',
-      'topicInterest'  => 'http://xmlns.com/foaf/0.1/topic_interest',
-      'knows'          => 'http://xmlns.com/foaf/0.1/knows',
-      'expertise'      => 'http://purl.org/ontology/cco/core#expertise',
-      'slack'          => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',
-      'birthday'       => 'http://xmlns.com/foaf/0.1/birthday',
     ];
 
     static $buildings = [
@@ -138,6 +123,28 @@ class GrandsVoisinsConfig
         'x'     => '58%',
         'y'     => '86%',
       ],
+    ];
+
+    static $fieldsAliasesProfile = [
+
+      "familyName"       => 'http://xmlns.com/foaf/0.1/familyName', //
+      "givenName"        => 'http://xmlns.com/foaf/0.1/givenName', //
+      "type"             => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+      "image"            => 'http://xmlns.com/foaf/0.1/img',
+      "memberOf"         => 'http://www.w3.org/ns/org#memberOf',
+      'homepage'         => 'http://xmlns.com/foaf/0.1/homepage',//
+      'mbox'             => 'http://xmlns.com/foaf/0.1/mbox',//
+      'phone'            => 'http://xmlns.com/foaf/0.1/phone',//
+      'currentProject'   => 'http://xmlns.com/foaf/0.1/currentProject',
+      'topicInterest'    => 'http://xmlns.com/foaf/0.1/topic_interest',
+      'knows'            => 'http://xmlns.com/foaf/0.1/knows',
+      'expertise'        => 'http://purl.org/ontology/cco/core#expertise',
+      'slack'            => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',//
+      'birthday'         => 'http://xmlns.com/foaf/0.1/birthday',
+      'postalCode'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#postalCode',
+      'city'             => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city',
+      'resourceNeeded'   => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded',
+      'resourceProposed' => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed',
     ];
 
     static $buildingsSimple = [

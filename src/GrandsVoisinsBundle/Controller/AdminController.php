@@ -3,19 +3,17 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use GrandsVoisinsBundle\Form\ProfileType;
 use GrandsVoisinsBundle\Form\UserType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GrandsVoisinsBundle\Form\AdminSettings;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdminController extends Controller
 {
-
 
     public function homeAction()
     {
@@ -24,130 +22,97 @@ class AdminController extends Controller
 
     public function profileAction(Request $request)
     {
-        $user       = $this->GetUser();
-        $userSfLink = $this->getUser()->getSfLink();
-        $sfClient   = $this->container->get('semantic_forms.client');
+        /** @var $user \GrandsVoisinsBundle\Entity\User */
+        $user           = $this->getUser();
+        $userSfLink     = $user->getSfLink();
+        $sfClient       = $this->container->get('semantic_forms.client');
+        $oldPictureName = $user->getPictureName();
 
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:Organisation'
+        $organisation = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:Organisation')
+          ->find($this->getUser()->getFkOrganisation());
+
+        // Build main form.
+        $options = [
+          'login'    => $user->getEmail(),
+          'password' => $user->getSfUser(),
+          'graphURI' => $organisation->getGraphURI(),
+          'client'   => $sfClient,
+          'spec'     => SemanticFormsClient::PERSON,
+          'aliases'  => array_flip(
+            GrandsVoisinsConfig::$fieldsAliasesProfile
+          ),
+          'values'   => $userSfLink,
+        ];
+
+        /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */
+        $form = $this->createForm(
+          ProfileType::class,
+          $user,
+          // Options.
+          $options
         );
 
-        $organisation = $organisationEntity->find(
-          $this->getUser()->getFkOrganisation()
-        );
-        if (!$userSfLink) {
-            $form = $sfClient->create(SemanticFormsClient::PERSON);
-        } else {
-            $form = $sfClient->edit(
-              $userSfLink,
-              SemanticFormsClient::PERSON
-            );
-        }
+        $form->handleRequest($request);
 
-        $picture = $this->createFormBuilder($user)
-          ->add('pictureName', FileType::class, array('data_class' => null))
-          ->add(
-            'oldPicture',
-            HiddenType::class,
-            array('mapped' => false, 'data' => $user->getPictureName())
-          )
-          ->getForm();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        $picture->handleRequest($request);
-
-        if ($picture->isSubmitted() && $picture->isValid()) {
-            if ($picture->get('oldPicture')->getData()) {
-                $oldDir      = $this->get('GrandsVoisinsBundle.fileUploader')
-                  ->getTargetDir(
-                    $picture->get('oldPicture')->getData()
+            // Rebuild links between related reference fields.
+            // TODO Rewrite for all kind of refereced fields and without using $_POST data.
+            /*if ($organisation->getSfOrganisation()) {
+                $sfClient
+                  ->verifMember(
+                    $_POST,
+                    $_POST["graphURI"],
+                    $organisation->getSfOrganisation(),
+                    $_POST["uri"]
                   );
-                $oldFileName = $picture->get('oldPicture')->getData();
-                // Check if file exists to avoid all errors.
-                if (is_file($oldDir.'/'.$oldFileName)) {
-                    $this->get('GrandsVoisinsBundle.fileUploader')
-                      ->remove($oldFileName);
+            }*/
+
+            // Manage picture.
+            $newPicture = $user->getPictureName();
+            if ($newPicture) {
+                // Remove old picture.
+                $fileUploader = $this->get('GrandsVoisinsBundle.fileUploader');
+                if ($oldPictureName) {
+                    $oldDir = $fileUploader->getTargetDir();
+                    // Check if file exists to avoid all errors.
+                    if (is_file($oldDir.'/'.$oldPictureName)) {
+                        $fileUploader->remove($oldPictureName);
+                    }
                 }
+                $user->setPictureName(
+                  $fileUploader->upload($newPicture)
+                );
+            } else {
+                $user->setPictureName($oldPictureName);
             }
-            $user->setPictureName(
-              $this->get('GrandsVoisinsBundle.fileUploader')->upload(
-                $user->getPictureName()
-              )
-            );
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('profile');
-        }
+            // User never had a sf link, so save it.
+            if (!$userSfLink) {
+                // Get the main user entity.
+                $userRepository = $this
+                  ->getDoctrine()
+                  ->getManager()
+                  ->getRepository('GrandsVoisinsBundle:User');
 
-        if (!$form) {
-            $this->addFlash(
-              'danger',
-              'Une erreur s\'est produite lors de l\'affichage du formulaire'
-            );
-        } else {
-            $form = $this
-              ->get('GrandsVoisinsBundle.formattingForm')
-              ->format($form);
-        }
-
-        return $this->render(
-          'GrandsVoisinsBundle:Admin:profile.html.twig',
-          array(
-            "form"       => $form,
-            "graphURI"   => $organisation->getGraphURI(),
-            "picture"    => $picture->createView(),
-            "property"   => GrandsVoisinsConfig::$adminFields,
-            "entityUriExists" => !!$userSfLink,
-          )
-        );
-    }
-
-    public function profileSaveAction()
-    {
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:Organisation'
-        );
-
-        $organisation = $organisationEntity->find(
-          $this->getUser()->getFkOrganisation()
-        );
-        $sfClient     = $this
-          ->container
-          ->get('semantic_forms.client');
-        if ($organisation->getSfOrganisation()) {
-            $sfClient
-              ->verifMember(
-                $_POST,
-                $_POST["graphURI"],
-                $organisation->getSfOrganisation(),
-                $_POST["uri"]
-              );
-        }
-        $info = $sfClient
-          ->send(
-            $_POST,
-            $this->getUser()->getEmail(),
-            $this->getUser()->getSfUser()
-          );
-
-        if ($info == 200) {
-            // Get the main user entity.
-            $userRepository = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('GrandsVoisinsBundle:User');
-
-            // Update sfLink.
-            $userRepository
-              ->createQueryBuilder('q')
-              ->update()
-              ->set('q.sfLink', ':link')
-              ->where('q.id=:id')
-              ->setParameter('link', $_POST["uri"])
-              ->setParameter('id', $this->getUser()->getId())
-              ->getQuery()
-              ->execute();
+                // Update sfLink.
+                $userRepository
+                  ->createQueryBuilder('q')
+                  ->update()
+                  ->set('q.sfLink', ':link')
+                  ->where('q.id=:id')
+                  ->setParameter('link', $form->uri)
+                  ->setParameter('id', $this->getUser()->getId())
+                  ->getQuery()
+                  ->execute();
+            }
 
             $this->addFlash(
               'success',
@@ -155,14 +120,17 @@ class AdminController extends Controller
             );
 
             return $this->redirectToRoute('profile');
-        } else {
-            $this->addFlash(
-              'success',
-              'Une erreur s\'est produite. Merci de contacter l\'administrateur du site <a href="mailto:romain.weeger@wexample.com">romain.weeger@wexample.com</a>.'
-            );
         }
 
-        return $this->redirectToRoute('profile');
+        // Fill form
+        return $this->render(
+          'GrandsVoisinsBundle:Admin:profile.html.twig',
+          array(
+            'form'      => $form->createView(),
+              // 'picture'   => $picture->createView(),
+            'entityUri' => $userSfLink,
+          )
+        );
     }
 
     /**

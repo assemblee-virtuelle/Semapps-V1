@@ -64,8 +64,14 @@
     <label for="{{ field.label }}"
            data-uri-property="{{ property }}">{{ field.label }}</label>
     {% for i in 0..field.value|length-1 %}
-    <select class="form-control select2-dbPedia" name="{{ field.htmlName[i] }}">
-    </select>
+        <div class="select2-tags select2-dbPedia">
+            <div class="tags"></div>
+            <select class="tags-selector">
+            </select>
+            <textarea class="tags-value" type="text"
+                      name="{{ field.htmlName[i] }}">
+            </textarea>
+        </div>
     {% endfor %}
 {% endmacro %}
 
@@ -73,21 +79,10 @@
     <label for="{{ field.label }}"
            data-uri-property="{{ property }}">{{ field.label }}</label>
     {% for i in 0..field.value|length-1 %}
-    <select data-query-class="{{ queryClass }}"  class="form-control select2-lookup" name="{{ field.htmlName[i] }}">
-    </select>
+        <select data-query-class="{{ queryClass }}"
+                class="form-control select2-lookup"
+                name="{{ field.htmlName[i] }}">
+        </select>
     {% endfor %}
 {% endmacro %}
 
-{% macro allMissingFields(organisation, property) %}
-    {% import _self as formField %}
-    <hr>
-    {% for key, field in organisation.fields %}
-        {#{% if key not in property %}#}
-        <div class="row">
-            <div class="form-group col-xs-12">
-                {{ formField.input(field,key,field.widgetType|lower|split(' ')[0]) }}
-            </div>
-        </div>
-        {#{% endif %}#}
-    {% endfor %}
-{% endmacro %}

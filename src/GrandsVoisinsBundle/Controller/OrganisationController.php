@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsClient;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrganisationController extends Controller
@@ -240,10 +240,10 @@ class OrganisationController extends Controller
         $sfLink = $organisation->getSfOrganisation();
 
         if (is_null($sfLink)) {
-            $form = $sfClient->create(SemanticFormsClient::ORGANISATION);
+            $form = $sfClient->createData(SemanticFormsClient::ORGANISATION);
             $edit = false;
         } else {
-            $form = $sfClient->edit(
+            $form = $sfClient->formData(
               $organisation->getSfOrganisation(),
               SemanticFormsClient::ORGANISATION
             );
@@ -265,11 +265,11 @@ class OrganisationController extends Controller
         );
 
         /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
-        $organisation_picture = $organisationEntity->findOneById(
+        $organization = $organisationEntity->findOneById(
           $this->GetUser()->getFkOrganisation()
         );
 
-        $picture = $this->createFormBuilder($organisation_picture)
+        $picture = $this->createFormBuilder($organization)
           ->add(
             'OrganisationPicture',
             FileType::class,
@@ -280,7 +280,7 @@ class OrganisationController extends Controller
             HiddenType::class,
             array(
               'mapped' => false,
-              'data'   => $organisation_picture->getOrganisationPicture(),
+              'data'   => $organization->getOrganisationPicture(),
             )
           )
           ->getForm();
@@ -300,13 +300,13 @@ class OrganisationController extends Controller
                       ->remove($oldFileName);
                 }
             }
-            $organisation_picture->setOrganisationPicture(
+            $organization->setOrganisationPicture(
               $this->get('GrandsVoisinsBundle.fileUploader')->upload(
-                $organisation_picture->getOrganisationPicture()
+                $organization->getOrganisationPicture()
               )
             );
             $em = $this->getDoctrine()->getManager();
-            $em->persist($organisation_picture);
+            $em->persist($organization);
             $em->flush();
 
             return $this->redirectToRoute('detail_orga');

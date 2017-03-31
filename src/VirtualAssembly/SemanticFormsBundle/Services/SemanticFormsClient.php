@@ -1,6 +1,6 @@
 <?php
 
-namespace VirtualAssembly\SemanticFormsBundle;
+namespace VirtualAssembly\SemanticFormsBundle\Services;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
@@ -184,7 +184,7 @@ class SemanticFormsClient
         return $response->getStatusCode();
     }
 
-    public function create($specType)
+    public function createData($specType)
     {
         return $this->getJSON(
           '/create-data',
@@ -196,7 +196,7 @@ class SemanticFormsClient
         );
     }
 
-    public function edit($uri, $specType)
+    public function formData($uri, $specType)
     {
         return $this->getJSON(
           '/form-data',
