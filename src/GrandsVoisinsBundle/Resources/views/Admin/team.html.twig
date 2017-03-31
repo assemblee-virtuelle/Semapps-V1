@@ -26,21 +26,27 @@
                     <td class="padded-value" style="width:30%">
                         {{ usersRolesLabels[user.roles[0]] }}
                     </td>
+                {% elseif user.hasRole('ROLE_SUPER_ADMIN') and not app.user.hasRole('ROLE_SUPER_ADMIN') %}
+                    <td class="padded-value" style="width:30%">
+                        {{ usersRolesLabels['ROLE_SUPER_ADMIN'] }}
+                    </td>
                 {% else %}
                     <td style="width:30%">
                         <select class="form-control" name="accessLevel">
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <option value="ROLE_SUPER_ADMIN" {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="true"{% endif %}>Super Administrateur</option>
+                            {% endif %}
                             <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
                             <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
                         </select>
                     </td>
-                {% endif %}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <td class="padded-value">
-                        <a class="team-user-delete" href="#" rel="{{ user.id }}">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </a>
-                    </td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="padded-value">
+                            <a class="team-user-delete" href="#" rel="{{ user.id }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    {% endif %}
                 {% endif %}
             </tr>
         {% endfor %}
