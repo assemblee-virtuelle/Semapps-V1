@@ -99,17 +99,18 @@ class VirtualAssemblyFieldUri {
     this.$selector.val(null).trigger("change");
   }
 
-  // TODO faire le webservice / faire la requete sparql / retourner le label.
   getUriLabel(uri, complete) {
-    $.ajax({
-      url: this.urlLabel,
-      data: {
-        uri: uri
-      },
-      complete: (r) => {
-        this.setValue(uri, r.responseJSON.label);
-      }
-    });
+    if (uri) {
+      $.ajax({
+        url: this.urlLabel,
+        data: {
+          uri: uri
+        },
+        complete: (r) => {
+          this.setValue(uri, r.responseJSON.label);
+        }
+      });
+    }
   }
 }
 
