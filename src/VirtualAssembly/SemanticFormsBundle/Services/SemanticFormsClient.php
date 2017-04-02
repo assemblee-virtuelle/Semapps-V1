@@ -172,7 +172,6 @@ class SemanticFormsClient
 
     public function send($data, $login, $password)
     {
-//        $data = $this->format($data);
         $this->auth($login, $password);
         $response = $this->post(
           '/save',
@@ -212,35 +211,6 @@ class SemanticFormsClient
     public function getSpec($specType)
     {
         return $this->baseUrlFoaf.$specType;
-    }
-
-    private function format($data)
-    {
-        foreach ($data as $key => $value) {
-            unset($data[$key]);
-            if (is_array($value)) {
-                foreach ($value as $newValue) {
-
-                    $temp = explode('+', $key);
-                    $temp[0] .= '+';
-                    $temp[1] .= '+';
-                    if (strpos($temp[2], '<') !== false) {
-                        $temp[2] = '<'.$newValue.'>+';
-                    } else {
-                        $temp[2] = '"'.$newValue.'"+';
-                    }
-                    $data[str_replace(
-                      "_",
-                      '.',
-                      urldecode(implode($temp))
-                    )] = $newValue;
-                }
-            } else {
-                $data[str_replace('topic.interest','topic_interest',str_replace("_", '.', urldecode($key)))] = $value;
-            }
-        }
-
-        return $data;
     }
 
     public function sparqlData($sparqlRequest)
