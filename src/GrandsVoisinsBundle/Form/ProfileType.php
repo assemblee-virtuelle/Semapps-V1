@@ -9,11 +9,26 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
+use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 
 class ProfileType extends SemanticFormType
 {
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefaults(
+          [
+            'lookupUrlLabel'        => '',
+            'lookupUrlPerson'       => '',
+            'lookupUrlOrganization' => '',
+          ]
+        );
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -61,6 +76,16 @@ class ProfileType extends SemanticFormType
             DbPediaType::class,
             [
               'required' => false,
+            ]
+          )
+          ->add(
+            $builder,
+            'knows',
+            UriType::class,
+            [
+              'required'  => false,
+              'lookupUrl' => $options['lookupUrlPerson'],
+              'labelUrl'  => $options['lookupUrlLabel'],
             ]
           )
           ->add(

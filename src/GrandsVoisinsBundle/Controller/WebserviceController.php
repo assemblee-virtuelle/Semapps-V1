@@ -3,22 +3,21 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
-use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use GuzzleHttp\Exception\RequestException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class WebserviceController extends Controller
 {
     var $entitiesParameters = [
-      'http://xmlns.com/foaf/0.1/Organization' => [
+      SemanticFormsBundle::URI_FOAF_ORGANIZATION => [
         'name'   => 'Organisation',
         'plural' => 'Organisations',
         'icon'   => 'tower',
       ],
-      'http://xmlns.com/foaf/0.1/Person'       => [
+      SemanticFormsBundle::URI_FOAF_PERSON       => [
         'name'   => 'Personne',
         'plural' => 'Personnes',
         'icon'   => 'user',
@@ -93,14 +92,13 @@ class WebserviceController extends Controller
         return $buildings;
     }
 
-    public function searchSparqlSelect(
-      $selectType,
-      $term,
+    public function sparqlSelectType(
       $fieldsRequired,
       $fieldsOptional = [],
-      $select = ''
+      $select,
+      $selectType,
+      $where = ''
     ) {
-        $sfClient      = $this->container->get('semantic_forms.client');
         $requestSelect = '?uri ';
         $requestFields = '';
 
@@ -115,22 +113,39 @@ class WebserviceController extends Controller
             $requestFields .= 'OPTIONAL { ?uri '.$type.' ?'.$alias.' } ';
         }
 
-        $request = $this->container->get(
-            'semantic_forms.client'
-          )->prefixesCompiled.
-          "\n\n ".
-          'SELECT '.$requestSelect.$select.' '.
-          'WHERE { '.
-          '  GRAPH ?GR { '.
-          '  ?uri rdf:type <'.$selectType.'> .'.
-          // If not term specified, do not filter term.
-          ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : '').
-          // Requested fields.
-          $requestFields.
-          // Group all duplicated items.
-          '}} GROUP BY '.$requestSelect;
+        return $this->container->get(
+          'semantic_forms.client'
+        )->prefixesCompiled."\n\n ".
+        'SELECT '.$requestSelect.$select.' '.
+        'WHERE { '.
+        '  GRAPH ?GR { '.
+        '  ?uri rdf:type <'.$selectType.'> .'.
+        $where
+        .$requestFields.
+        // Group all duplicated items.
+        '}} GROUP BY '.$requestSelect;
+    }
 
-        $results = $sfClient->sparql($request);
+    public function searchSparqlSelect(
+      $selectType,
+      $term,
+      $fieldsRequired,
+      $fieldsOptional = [],
+      $select = ''
+    ) {
+
+        $request =
+          $this->sparqlSelectType(
+            $fieldsRequired,
+            $fieldsOptional,
+            $select,
+            $selectType,
+            // If not term specified, do not filter term.
+            ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : '')
+          );
+
+        $sfClient = $this->container->get('semantic_forms.client');
+        $results  = $sfClient->sparql($request);
 
         // Key values pairs only.
         // Avoid "Empty result" string.
@@ -156,7 +171,7 @@ class WebserviceController extends Controller
 
         $organizations = $this->searchSparqlSelect(
         // Type.
-          'http://xmlns.com/foaf/0.1/Organization',
+          SemanticFormsBundle::URI_FOAF_ORGANIZATION,
           // Search term.
           $term,
           // Required fields.
@@ -174,7 +189,7 @@ class WebserviceController extends Controller
 
         $persons = $this->searchSparqlSelect(
         // Type.
-          'http://xmlns.com/foaf/0.1/Person',
+          SemanticFormsBundle::URI_FOAF_PERSON,
           // Search term.
           $term,
           // Required fields.
@@ -216,9 +231,13 @@ class WebserviceController extends Controller
     public function searchAction(Request $request)
     {
         // Search
-        $results = $this->searchSparqlRequest($request->query->get('t').'*');
-
-        return new JsonResponse((object)['results' => $results]);
+        return new JsonResponse(
+          (object)[
+            'results' => $this->searchSparqlRequest(
+              $request->get('t').'*'
+            ),
+          ]
+        );
     }
 
     public function lookupAction(Request $request)
@@ -233,8 +252,36 @@ class WebserviceController extends Controller
 
     public function fieldUriSearchAction(Request $request)
     {
-        $queryString = $request->get('QueryString');
-        echo $queryString;
+        $output = [];
+        // Get results.
+        $results = $this->searchSparqlRequest($request->get('QueryString').'*');
+        // Transform data to match to uri field (uri => title).
+        foreach ($results as $item) {
+            $output[$item['uri']] = $item['title'];
+        }
+
+        return new JsonResponse((object)$output);
+    }
+
+    public function fieldUriLabelAction(Request $request)
+    {
+        //
+        $request = $this->sparqlSelectType(
+          [
+            'givenName'  => 'foaf:givenName',
+            'familyName' => 'foaf:familyName',
+          ],
+          [],
+          ' (fn:concat(?givenName, " ", ?familyName) as ?title) ',
+          SemanticFormsBundle::URI_FOAF_PERSON,
+          'FILTER (?uri = <' . $request->get('uri') . '>)'
+        );
+
+        $sfClient = $this->container->get('semantic_forms.client');
+        // Count buildings.
+        $response = $sfClient->sparql($request);
+
+        return new JsonResponse((object)['label' => $response['results']['bindings'][0]['title']['value']]);
     }
 
     /**
@@ -288,7 +335,7 @@ class WebserviceController extends Controller
 
         switch ($properties['type']) {
             // Orga.
-            case 'http://xmlns.com/foaf/0.1/Organization':
+            case  SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                 // Organization should be saved internally.
                 $organization = $this->getDoctrine()->getRepository(
                   'GrandsVoisinsBundle:Organisation'
@@ -305,7 +352,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Person.
-            case 'http://xmlns.com/foaf/0.1/Person':
+            case  SemanticFormsBundle::URI_FOAF_PERSON:
                 // Remove mailto: from email.
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(

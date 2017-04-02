@@ -136,7 +136,7 @@ class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = $value;
                   }
               }
-
+//print_r($saveData); exit;
               $client->send(
                 $saveData,
                 $login,
@@ -206,6 +206,8 @@ class SemanticFormType extends AbstractType
                     $outputSingleValue = $values->format('Y-m-d H:i:s');
                     break;
 
+                // Uri
+                case 'VirtualAssembly\SemanticFormsBundle\Form\UriType':
                 // DbPedia
                 case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
                     $output = [];
@@ -252,6 +254,9 @@ class SemanticFormType extends AbstractType
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                 return new \DateTime(current($values));
                 break;
+
+            // Uri
+            case 'VirtualAssembly\SemanticFormsBundle\Form\UriType':
             // DbPedia
             case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
                 // Keep only links.

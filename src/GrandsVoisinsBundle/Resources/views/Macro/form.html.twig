@@ -60,14 +60,4 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro lookup(field, property, queryClass) %}
-    <label for="{{ field.label }}"
-           data-uri-property="{{ property }}">{{ field.label }}</label>
-    {% for i in 0..field.value|length-1 %}
-        <select data-query-class="{{ queryClass }}"
-                class="form-control select2-lookup"
-                name="{{ field.htmlName[i] }}">
-        </select>
-    {% endfor %}
-{% endmacro %}
 

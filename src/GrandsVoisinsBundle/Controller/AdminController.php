@@ -36,15 +36,24 @@ class AdminController extends Controller
 
         // Build main form.
         $options = [
-          'login'    => $user->getEmail(),
-          'password' => $user->getSfUser(),
-          'graphURI' => $organisation->getGraphURI(),
-          'client'   => $sfClient,
-          'spec'     => SemanticFormsClient::PERSON,
-          'aliases'  => array_flip(
+          'login'                 => $user->getEmail(),
+          'password'              => $user->getSfUser(),
+          'graphURI'              => $organisation->getGraphURI(),
+          'client'                => $sfClient,
+          'spec'                  => SemanticFormsClient::PERSON,
+          'aliases'               => array_flip(
             GrandsVoisinsConfig::$fieldsAliasesProfile
           ),
-          'values'   => $userSfLink,
+          'lookupUrlLabel'        => $this->generateUrl(
+            'webserviceFieldUriLabel'
+          ),
+          'lookupUrlPerson'       => $this->generateUrl(
+            'webserviceFieldUriSearch'
+          ),
+          'lookupUrlOrganization' => $this->generateUrl(
+            'webserviceFieldUriSearch'
+          ),
+          'values'                => $userSfLink,
         ];
 
         /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */
@@ -141,17 +150,25 @@ class AdminController extends Controller
     public function teamAction(Request $request)
     {
         // Find all users.
-        $userManager = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:User'
-        );
-        $organisationManager = $this->getDoctrine()->getManager()->getRepository(
+        $userManager         = $this->getDoctrine()
+          ->getManager()
+          ->getRepository(
+            'GrandsVoisinsBundle:User'
+          );
+        $organisationManager = $this->getDoctrine()
+          ->getManager()
+          ->getRepository(
             'GrandsVoisinsBundle:Organisation'
-        );
-        $users       = $userManager->findBy(
+          );
+        $users               = $userManager->findBy(
           array('fkOrganisation' => $this->getUser()->getFkOrganisation())
         );
-        $idResponsible = $organisationManager->find($this->getUser()->getFkOrganisation())->getFkResponsable();
-        $form = $this->get('form.factory')->create(UserType::class);
+        $idResponsible       = $organisationManager->find(
+          $this->getUser()->getFkOrganisation()
+        )->getFkResponsable();
+        $form                = $this->get('form.factory')->create(
+          UserType::class
+        );
 
         $form->handleRequest($request);
 
@@ -220,9 +237,9 @@ class AdminController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Admin:team.html.twig',
           array(
-            'users'              => $users,
-            'idResponsable'      => $idResponsible,
-            'usersRolesLabels'   => [
+            'users'            => $users,
+            'idResponsable'    => $idResponsible,
+            'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
               'ROLE_MEMBER'      => 'Member',

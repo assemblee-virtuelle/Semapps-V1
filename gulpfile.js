@@ -22,7 +22,9 @@ var filesJs = {
     'web/admin/js/src/class/lgvAdminPageProfile.js',
     'web/admin/js/src/class/lgvAdminPageOrga.js',
     // Fields.
+    'src/VirtualAssembly/SemanticFormsBundle/Resources/js/field.uri.js',
     'src/VirtualAssembly/SemanticFormsBundle/Resources/js/field.dbPedia.js',
+    'src/VirtualAssembly/SemanticFormsBundle/Resources/js/semanticForms.js',
     // Launcher
     'web/admin/js/src/main.js'
   ],
@@ -41,6 +43,8 @@ var filesJs = {
 };
 
 var filesScss = {
+  // Semantic Forms.
+  //'src/VirtualAssembly/SemanticFormsBundle/Resources/css/semanticForms': true,
   // Admin
   'web/admin/css/menu': true,
   'web/admin/css/style': true,

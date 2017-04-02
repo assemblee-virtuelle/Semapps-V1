@@ -81,6 +81,14 @@ webserviceLookup:
     path:     /webservice/lookup
     defaults: { _controller: GrandsVoisinsBundle:Webservice:lookup }
 
+webserviceFieldUriSearch:
+    path:     /webservice/search/field-uri
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:fieldUriSearch }
+
+webserviceFieldUriLabel:
+    path:     /webservice/label/field-uri
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:fieldUriLabel }
+
 webserviceDetail:
     path:     /webservice/detail
     defaults: { _controller: GrandsVoisinsBundle:Webservice:detail }

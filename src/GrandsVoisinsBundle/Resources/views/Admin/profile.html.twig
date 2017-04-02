@@ -93,11 +93,11 @@
                     </div>
                 </div>
 
-                {#<div class="row">#}
-                    {#<div class="col-xs-6">#}
-                        {#{{ formField.lookup(form.fields[property.knows],property.knows, 'http://xmlns.com/foaf/0.1/Person') }}#}
-                    {#</div>#}
-                {#</div>#}
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.knows) }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-xs-12">

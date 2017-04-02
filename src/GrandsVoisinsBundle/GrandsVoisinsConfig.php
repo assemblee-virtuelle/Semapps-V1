@@ -136,7 +136,7 @@ class GrandsVoisinsConfig
       'mbox'             => 'http://xmlns.com/foaf/0.1/mbox',//
       'phone'            => 'http://xmlns.com/foaf/0.1/phone',//
       'currentProject'   => 'http://xmlns.com/foaf/0.1/currentProject',
-      'topicInterest'    => 'http://xmlns.com/foaf/0.1/topic_interest',
+      'topicInterest'    => 'http://xmlns.com/foaf/0.1/topic_interest',//
       'knows'            => 'http://xmlns.com/foaf/0.1/knows',
       'expertise'        => 'http://purl.org/ontology/cco/core#expertise', //
       'slack'            => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',//
