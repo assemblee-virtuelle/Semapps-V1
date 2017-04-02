@@ -88,6 +88,14 @@ class VirtualAssemblyFieldDbPedia {
   }
 
   getDbPediaLabel(uri, complete, lang = 'fr', propertyUri = 'http://www.w3.org/2000/01/rdf-schema#label') {
+    let callbackLanguage = (values, acceptedLang) => {
+      for (let data of values) {
+        // Found in asked language.
+        if (data.lang === acceptedLang) {
+          return data.value;
+        }
+      }
+    };
     $.ajax({
       headers: {
         // Ensure to get JSON response.
@@ -97,11 +105,11 @@ class VirtualAssemblyFieldDbPedia {
       url: uri,
       complete: (r) => {
         "use strict";
-        $.each(r.responseJSON[uri][propertyUri], (key, data) => {
-          if (data.lang === lang) {
-            complete(data.value, uri);
-          }
-        })
+        // Get all values.
+        let values = r.responseJSON[uri][propertyUri];
+        // Return asked language || english || first found.
+        let value = callbackLanguage(values, lang) || callbackLanguage(values, 'en') || values[0].value;
+        complete(value, uri);
       }
     });
   }
