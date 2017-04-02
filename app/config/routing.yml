@@ -2,6 +2,10 @@ grands_voisins:
     resource: "@GrandsVoisinsBundle/Resources/config/routing.yml"
     prefix:   /
 
+grands_voisins_loader:
+    resource: .
+    type: component
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
@@ -19,3 +23,5 @@ fos_user_change_password:
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+

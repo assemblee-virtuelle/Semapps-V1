@@ -240,12 +240,12 @@ class OrganisationController extends Controller
         $sfLink = $organisation->getSfOrganisation();
 
         if (is_null($sfLink)) {
-            $form = $sfClient->createData(SemanticFormsClient::ORGANISATION);
+            $form = $sfClient->createData(SemanticFormsClient::SPEC_ORGANIZATION);
             $edit = false;
         } else {
             $form = $sfClient->formData(
               $organisation->getSfOrganisation(),
-              SemanticFormsClient::ORGANISATION
+              SemanticFormsClient::SPEC_ORGANIZATION
             );
             $edit = true;
         }

@@ -1,0 +1,47 @@
+{% extends "GrandsVoisinsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un projet{% endblock %}
+
+{% set menuSelected = 'projectList' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.label) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.projectStart) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.maker) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.building) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.room) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.homepage) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.mbox) }}
+        </div>
+    </div>
+{% endblock %}

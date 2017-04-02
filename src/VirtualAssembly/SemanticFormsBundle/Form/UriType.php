@@ -25,6 +25,7 @@ class UriType extends AbstractType
         $view->vars = array_replace(
           $view->vars,
           array(
+            'rdfType' => $options['rdfType'],
             'labelUrl' => $options['labelUrl'],
             'lookupUrl' => $options['lookupUrl'],
           )
@@ -35,6 +36,7 @@ class UriType extends AbstractType
     {
         $resolver->setDefaults(
           array(
+            'rdfType' => false,
             'labelUrl' => '',
             'lookupUrl' => 'http://lookup.dbpedia.org/api/search.asmx/PrefixSearch',
           )

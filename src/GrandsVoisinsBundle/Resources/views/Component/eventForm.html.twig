@@ -1,0 +1,54 @@
+{% extends "GrandsVoisinsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un événement{% endblock %}
+
+{% set menuSelected = 'eventList' %}
+
+{% block formContent %}
+    {{ parent() }}
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.label) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.mbox) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.eventBegin) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.eventEnd) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.maker) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.building) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.room) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.topicInterest) }}
+        </div>
+    </div>
+{% endblock %}

@@ -7,5 +7,10 @@ services:
         arguments: ['%picture_directory%']
 
     GrandsVoisinsBundle.formattingForm:
-            class: GrandsVoisinsBundle\Services\FormattingForm
-            arguments: ~
+        class: GrandsVoisinsBundle\Services\FormattingForm
+        arguments: ~
+
+    GrandsVoisinsBundle.componentLoader:
+        class: GrandsVoisinsBundle\Routing\ComponentLoader
+        tags:
+            - { name: routing.loader }

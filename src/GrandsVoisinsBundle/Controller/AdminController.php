@@ -40,10 +40,7 @@ class AdminController extends Controller
           'password'              => $user->getSfUser(),
           'graphURI'              => $organisation->getGraphURI(),
           'client'                => $sfClient,
-          'spec'                  => SemanticFormsClient::PERSON,
-          'aliases'               => array_flip(
-            GrandsVoisinsConfig::$fieldsAliasesProfile
-          ),
+          'spec'                  => SemanticFormsClient::SPEC_PERSON,
           'lookupUrlLabel'        => $this->generateUrl(
             'webserviceFieldUriLabel'
           ),

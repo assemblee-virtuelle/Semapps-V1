@@ -12,22 +12,23 @@ class SemanticFormsClient
     var $baseUrlFoaf = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
     var $cookieName = 'cookie.txt';
     var $prefixes = [
-      'xsd'  => '<http://www.w3.org/2001/XMLSchema#>',
-      'fn'   => '<http://www.w3.org/2005/xpath-functions#>',
-      'text' => '<http://jena.apache.org/text#>',
-      'rdf'  => '<http://www.w3.org/1999/02/22-rdf-syntax-ns#>',
-      'foaf' => '<http://xmlns.com/foaf/0.1/>',
-      'purl' => '<http://purl.org/dc/elements/1.1/>',
+      'xsd'   => '<http://www.w3.org/2001/XMLSchema#>',
+      'fn'    => '<http://www.w3.org/2005/xpath-functions#>',
+      'text'  => '<http://jena.apache.org/text#>',
+      'rdf'   => '<http://www.w3.org/1999/02/22-rdf-syntax-ns#>',
+      'rdfs'  => '<http://www.w3.org/2000/01/rdf-schema#>',
+      'foaf'  => '<http://xmlns.com/foaf/0.1/>',
+      'purl'  => '<http://purl.org/dc/elements/1.1/>',
+      'event' => '<http://purl.org/NET/c4dm/event.owl#>',
     ];
     var $prefixesCompiled = '';
     var $fieldsAliases = [];
 
-    CONST PERSON = 'form-Person';
-    CONST ORGANISATION = 'form-Organization';
-    CONST PROJET = 'form-Project';
-    // preparing
-     CONST EVENT = 'form-Event';
-     CONST PROPOSITION = 'form-Proposition';
+    CONST SPEC_PERSON = 'form-Person';
+    CONST SPEC_ORGANIZATION = 'form-Organization';
+    CONST SPEC_PROJECT = 'form-Project';
+    CONST SPEC_EVENT = 'form-Event';
+    CONST SPEC_PROPOSITION = 'form-Proposition';
 
     public function __construct(
       $domain,

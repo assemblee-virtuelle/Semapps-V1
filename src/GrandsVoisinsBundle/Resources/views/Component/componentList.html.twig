@@ -1,0 +1,28 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}GrandsVoisinsBundle:form:home{% endblock %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path(componentName ~ 'Add') }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Ajouter</a>
+        </li>
+    </ul>
+    <br>
+
+    <table class="table table-bordered">
+        {% for item in listContent %}
+            <tr>
+                <td style="width:100%">{{ item.title }}</td>
+                <td>
+                    <a href="{{ path(componentName ~ 'Edit',{uri:item.uri}) }}"
+                       class="btn"><span
+                                class="glyphicon glyphicon-edit"></span>&nbsp;Editer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

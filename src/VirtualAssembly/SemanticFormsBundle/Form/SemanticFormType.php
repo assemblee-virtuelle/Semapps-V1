@@ -19,6 +19,7 @@ class SemanticFormType extends AbstractType
     var $formSpecification = [];
     var $formValues = [];
     var $fieldsAdded = [];
+    var $fieldsAliases = [];
     var $uri;
 
     public function configureOptions(OptionsResolver $resolver)
@@ -31,7 +32,6 @@ class SemanticFormType extends AbstractType
             'graphURI' => '',
             'values'   => '',
             'spec'     => '',
-            'aliases'  => '',
           )
         );
     }
@@ -66,10 +66,7 @@ class SemanticFormType extends AbstractType
         // Create from specification.
         $formSpecification = [];
         foreach ($formSpecificationRaw['fields'] as $field) {
-            $localHtmlName = $this->getLocalHtmlName(
-              $field['property'],
-              $options
-            );
+            $localHtmlName = $this->getLocalHtmlName($field['property']);
             // First value of this type of field.
             if (!isset($formSpecification[$localHtmlName])) {
                 // Save into field spec.
@@ -94,6 +91,7 @@ class SemanticFormType extends AbstractType
         }
 
         $this->formSpecification = $formSpecification;
+//        print_r($this->formSpecification); exit;
 
         // Manage form submission.
         $builder->addEventListener(
@@ -136,7 +134,7 @@ class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = $value;
                   }
               }
-//print_r($saveData); exit;
+
               $client->send(
                 $saveData,
                 $login,
@@ -202,13 +200,14 @@ class SemanticFormType extends AbstractType
 
                 // Date
                 case 'Symfony\Component\Form\Extension\Core\Type\DateType':
+                case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
                     /** @var $value \DateTime */
                     $outputSingleValue = $values->format('Y-m-d H:i:s');
                     break;
 
                 // Uri
                 case 'VirtualAssembly\SemanticFormsBundle\Form\UriType':
-                // DbPedia
+                    // DbPedia
                 case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
                     $output = [];
                     $values = json_decode($values, JSON_OBJECT_AS_ARRAY);
@@ -241,6 +240,7 @@ class SemanticFormType extends AbstractType
         // We have only one value for this field.
         // So we take first htmlName and use it as key.
         $htmlName = $this->getDefaultHtmlName($spec['localHtmlName']);
+
         return [$htmlName => $outputSingleValue];
     }
 
@@ -252,12 +252,13 @@ class SemanticFormType extends AbstractType
         switch ($type) {
             // Date
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
+            case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
                 return new \DateTime(current($values));
                 break;
 
             // Uri
             case 'VirtualAssembly\SemanticFormsBundle\Form\UriType':
-            // DbPedia
+                // DbPedia
             case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
                 // Keep only links.
                 return is_array($values) ? json_encode(
@@ -272,11 +273,10 @@ class SemanticFormType extends AbstractType
     }
 
 
-    function getLocalHtmlName($htmlName, $options)
+    function getLocalHtmlName($htmlName)
     {
-        $aliases = $options['aliases'];
-        if (isset($aliases[$htmlName])) {
-            return $aliases[$htmlName];
+        if (isset($this->fieldsAliases[$htmlName])) {
+            return $this->fieldsAliases[$htmlName];
         } else {
             return $htmlName;
         }
@@ -284,6 +284,8 @@ class SemanticFormType extends AbstractType
 
     function getDefaultHtmlName($localHtmlName)
     {
-        return current(array_keys($this->formSpecification[$localHtmlName]['value']));
+        return current(
+          array_keys($this->formSpecification[$localHtmlName]['value'])
+        );
     }
 }

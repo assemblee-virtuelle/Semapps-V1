@@ -65,6 +65,26 @@ changeAccess:
     path:    /mon-compte/access/change/{userId}/{roles}
     defaults: { _controller: GrandsVoisinsBundle:Admin:changeAccess }
 
+orgaDelete:
+    path:     /mon-compte/orga/delete/{orgaId}
+    defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
+
+fos_user_profile_show:
+    path:     /mon-compte/profile
+    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
+
+#componentList:
+#    path:     /mon-compte/{type}/
+#    defaults: { _controller: GrandsVoisinsBundle:Component:list }
+#
+#componentAdd:
+#    path:     /mon-compte/{type}/ajouter
+#    defaults: { _controller: GrandsVoisinsBundle:Component:add }
+#
+#componentEdit:
+#    path:     /mon-compte/{type}/modifier
+#    defaults: { _controller: GrandsVoisinsBundle:Component:add }
+
 webserviceParameters:
     path:     /webservice/parameters
     defaults: { _controller: GrandsVoisinsBundle:Webservice:parameters }
@@ -109,30 +129,6 @@ save_orga:
     path:     /orga/save
     defaults: { _controller: GrandsVoisinsBundle:Organisation:saveOrganisation }
 
-orgaDelete:
-    path:     /mon-compte/orga/delete/{orgaId}
-    defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
-
-show_component:
-    path:     /component/show/
-    defaults: { _controller: GrandsVoisinsBundle:Component:show }
-
-show_all_component:
-    path:     /component/showAll
-    defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
-
-show_all_spec_component:
-    path:     /component/showAll/{type}
-    defaults: { _controller: GrandsVoisinsBundle:Component:showAll }
-
-save_component:
-    path:     /component/save
-    defaults: { _controller: GrandsVoisinsBundle:Component:save }
-
-new_component:
-    path:     /component/new/{type}
-    defaults: { _controller: GrandsVoisinsBundle:Component:new }
-
 test:
     path:     /test
     defaults: { _controller: GrandsVoisinsBundle:Default:index }
@@ -141,6 +137,3 @@ tab:
     path:     /orga/tab
     defaults: { _controller: GrandsVoisinsBundle:Admin:allOrganization }
 
-fos_user_profile_show:
-    path:     /mon-compte/profile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }

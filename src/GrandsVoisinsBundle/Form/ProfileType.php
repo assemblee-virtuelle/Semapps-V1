@@ -9,26 +9,32 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
-use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class ProfileType extends SemanticFormType
+class ProfileType extends AbstractForm
 {
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver->setDefaults(
-          [
-            'lookupUrlLabel'        => '',
-            'lookupUrlPerson'       => '',
-            'lookupUrlOrganization' => '',
-          ]
-        );
-    }
+    var $fieldsAliases = [
+      'http://xmlns.com/foaf/0.1/familyName'                                         => 'familyName',
+      'http://xmlns.com/foaf/0.1/givenName'                                          => 'givenName',
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                              => 'type',
+      'http://xmlns.com/foaf/0.1/img'                                                => 'image',
+      'http://www.w3.org/ns/org#memberOf'                                            => 'memberOf',
+      'http://xmlns.com/foaf/0.1/homepage'                                           => 'homepage',
+      'http://xmlns.com/foaf/0.1/mbox'                                               => 'mbox',
+      'http://xmlns.com/foaf/0.1/phone'                                              => 'phone',
+      'http://xmlns.com/foaf/0.1/currentProject'                                     => 'currentProject',
+      'http://xmlns.com/foaf/0.1/topic_interest'                                     => 'topicInterest',
+      'http://xmlns.com/foaf/0.1/knows'                                              => 'knows',
+      'http://purl.org/ontology/cco/core#expertise'                                  => 'expertise',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack'      => 'slack',
+      'http://xmlns.com/foaf/0.1/birthday'                                           => 'birthday',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#postalCode' => 'postalCode',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city'       => 'city',
+//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
+//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
+    ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -86,6 +92,7 @@ class ProfileType extends SemanticFormType
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
+              'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
           )
           ->add(
