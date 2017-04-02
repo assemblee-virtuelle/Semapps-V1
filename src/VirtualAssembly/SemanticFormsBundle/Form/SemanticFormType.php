@@ -70,13 +70,32 @@ class SemanticFormType extends AbstractType
               $field['property'],
               $options
             );
-            // Save into field spec.
-            $field['localHtmlName'] = $localHtmlName;
-            // Register with name as key.
-            $formSpecification[$localHtmlName] = $field;
+            // First value of this type of field.
+            if (!isset($formSpecification[$localHtmlName])) {
+                // Save into field spec.
+                $field['localHtmlName'] = $localHtmlName;
+                // Register with name as key.
+                $formSpecification[$localHtmlName] = $field;
+            }
+            // Manage multiple fields.
+            $fieldSaved = $formSpecification[$localHtmlName];
+            // Turn field value to array,
+            // and use htmlName as key for eah value.
+            if (!is_array($fieldSaved['value'])) {
+                $fieldSaved['value'] = [$fieldSaved['htmlName'] => $fieldSaved['value']];
+            }
+            // Push new value.
+            $fieldSaved['value'][$field['htmlName']] = $field['value'];
+            // Html name is base on the value of field (not only the type)
+            // So we remove it in case on multiple values.
+            unset($fieldSaved['htmlName']);
+            // Save field.
+            $formSpecification[$localHtmlName] = $fieldSaved;
         }
 
         $this->formSpecification = $formSpecification;
+
+//        print_r($formSpecification); exit;
 
         // Manage form submission.
         $builder->addEventListener(
@@ -108,15 +127,20 @@ class SemanticFormType extends AbstractType
               }
 
               foreach ($this->fieldsAdded as $localHtmlName) {
-                  $fieldSpec = $this->formSpecification[$localHtmlName];
-                  // Retrieve original html name from given name.
-                  $htmlName            = $this->getHtmlName($localHtmlName);
-                  $saveData[$htmlName] = $this->fieldEncode(
+                  $fieldSpec    = $this->formSpecification[$localHtmlName];
+                  $fieldEncoded = $this->fieldEncode(
                     $fieldSpec['localType'],
-                    $form->get($localHtmlName)->getData()
+                    $form->get($localHtmlName)->getData(),
+                    $fieldSpec
                   );
+                  foreach ($fieldEncoded as $htmlName => $value) {
+                      // Retrieve original html name from given name.
+                      $saveData[$htmlName] = $value;
+                  }
               }
-
+//
+//              print_r($saveData);
+//              exit;
               $client->send(
                 $saveData,
                 $login,
@@ -162,29 +186,87 @@ class SemanticFormType extends AbstractType
         return $this;
     }
 
-    public function fieldEncode($type, $value)
+    function buildHtmlName($subject, $predicate, $value)
     {
-        if ($value) {
+        return urlencode(
+        // Concatenate : <S> <P> <"O">.
+          '<'.implode('> <', [$subject, $predicate, ''.$value.'']).'>.'
+        );
+    }
+
+    /**
+     * From front form to semantic forms.
+     */
+    public function fieldEncode($type, $values, $spec)
+    {
+        $outputSingleValue = $values;
+
+        if ($values) {
             switch ($type) {
+
+                // Date
                 case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                     /** @var $value \DateTime */
-                    return $value->format('Y-m-d H:i:s');
+                    $outputSingleValue = $values->format('Y-m-d H:i:s');
+                    break;
+
+                // DbPedia
+                case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
+                    $output = [];
+                    $values = json_decode($values, JSON_OBJECT_AS_ARRAY);
+                    if (is_array($values)) {
+                        // Empty all previous values
+                        foreach ($spec['value'] as $value) {
+                            $htmlName = $this->buildHtmlName(
+                              $spec['subject'],
+                              $spec['type'],
+                              $value
+                            );
+                            $output[$htmlName] = '';
+                        }
+                        // Add new values.
+                        foreach (array_keys($values) as $value) {
+                            $htmlName = $this->buildHtmlName(
+                                $spec['subject'],
+                                $spec['type'],
+                                $value
+                              );
+                            $output[$htmlName] = $value;
+                        }
+                    }
+                    return $output;
                     break;
             }
         }
 
-        return $value;
+        // We have only one value for this field.
+        // So we take first htmlName and use it as kay.
+        $htmlName = current(array_keys($spec['value']));
+
+        return [$htmlName => $outputSingleValue];
     }
 
-    public function fieldDecode($type, $value)
+    /**
+     * From semantic forms to front.
+     */
+    public function fieldDecode($type, $values)
     {
         switch ($type) {
+            // Date
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
-                return new \DateTime($value);
+                return new \DateTime(current($values));
+                break;
+            // DbPedia
+            case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
+                // Keep only links.
+                return is_array($values) ? json_encode(
+                  array_values($values),
+                  JSON_OBJECT_AS_ARRAY
+                ) : [];
                 break;
         }
 
-        return $value;
+        return current($values);
     }
 
 

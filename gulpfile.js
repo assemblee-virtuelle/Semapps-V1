@@ -21,6 +21,8 @@ var filesJs = {
     'web/admin/js/src/class/lgvAdminPageTeam.js',
     'web/admin/js/src/class/lgvAdminPageProfile.js',
     'web/admin/js/src/class/lgvAdminPageOrga.js',
+    // Fields.
+    'web/admin/js/src/class/field.dbPedia.js',
     // Launcher
     'web/admin/js/src/main.js'
   ],

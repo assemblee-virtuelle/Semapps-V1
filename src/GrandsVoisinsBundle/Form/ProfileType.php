@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 
 class ProfileType extends SemanticFormType
@@ -46,6 +47,22 @@ class ProfileType extends SemanticFormType
               'required' => false,
             ]
           )
+//          ->add(
+//            $builder,
+//            'expertise',
+//            DbPediaType::class,
+//            [
+//              'required' => false,
+//            ]
+//          )
+//          ->add(
+//            $builder,
+//            'topicInterest',
+//            DbPediaType::class,
+//            [
+//              'required' => false,
+//            ]
+//          )
           ->add(
             $builder,
             'slack',
@@ -54,15 +71,15 @@ class ProfileType extends SemanticFormType
               'required' => false,
             ]
           )
-          ->add(
-            $builder,
-            'birthday',
-            DateType::class,
-            [
-              'required' => false,
-              'widget'   => 'single_text',
-            ]
-          )
+//          ->add(
+//            $builder,
+//            'birthday',
+//            DateType::class,
+//            [
+//              'required' => false,
+//              'widget'   => 'single_text',
+//            ]
+//          )
           ->add(
             $builder,
             'postalCode',
@@ -91,4 +108,31 @@ class ProfileType extends SemanticFormType
 
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }
+
+//    public function fieldEncode($type, $value)
+//    {
+//        if ($value) {
+//            switch ($type) {
+//                case 'VirtualAssembly\SemanticFormsBundle\Form\DbPediaType':
+//                    $value = json_decode($value, JSON_OBJECT_AS_ARRAY);
+//                    if (is_array($value)) {
+//                        return array_keys($value);
+//                    }
+//
+//                    return [];
+//                    break;
+//            }
+//        }
+//
+//        return parent::fieldEncode($type, $value);
+//    }
+//
+//    public function fieldDecode($type, $value)
+//    {
+//        switch ($type) {
+
+//        }
+//
+//        return parent::fieldDecode($type, $value);
+//    }
 }

@@ -129,8 +129,8 @@ class GrandsVoisinsConfig
 
       "familyName"       => 'http://xmlns.com/foaf/0.1/familyName', //
       "givenName"        => 'http://xmlns.com/foaf/0.1/givenName', //
-      "type"             => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      "image"            => 'http://xmlns.com/foaf/0.1/img',
+      "type"             => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type', //
+      "image"            => 'http://xmlns.com/foaf/0.1/img', //
       "memberOf"         => 'http://www.w3.org/ns/org#memberOf',
       'homepage'         => 'http://xmlns.com/foaf/0.1/homepage',//
       'mbox'             => 'http://xmlns.com/foaf/0.1/mbox',//
@@ -138,7 +138,7 @@ class GrandsVoisinsConfig
       'currentProject'   => 'http://xmlns.com/foaf/0.1/currentProject',
       'topicInterest'    => 'http://xmlns.com/foaf/0.1/topic_interest',
       'knows'            => 'http://xmlns.com/foaf/0.1/knows',
-      'expertise'        => 'http://purl.org/ontology/cco/core#expertise',
+      'expertise'        => 'http://purl.org/ontology/cco/core#expertise', //
       'slack'            => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack',//
       'birthday'         => 'http://xmlns.com/foaf/0.1/birthday',
       'postalCode'       => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#postalCode',

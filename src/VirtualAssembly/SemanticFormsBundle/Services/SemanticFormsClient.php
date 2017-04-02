@@ -172,7 +172,7 @@ class SemanticFormsClient
 
     public function send($data, $login, $password)
     {
-        $data = $this->format($data);
+//        $data = $this->format($data);
         $this->auth($login, $password);
         $response = $this->post(
           '/save',

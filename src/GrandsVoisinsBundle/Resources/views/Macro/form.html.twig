@@ -60,21 +60,6 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro dbPedia(field, property) %}
-    <label for="{{ field.label }}"
-           data-uri-property="{{ property }}">{{ field.label }}</label>
-    {% for i in 0..field.value|length-1 %}
-        <div class="select2-tags select2-dbPedia">
-            <div class="tags"></div>
-            <select class="tags-selector">
-            </select>
-            <textarea class="tags-value" type="text"
-                      name="{{ field.htmlName[i] }}">
-            </textarea>
-        </div>
-    {% endfor %}
-{% endmacro %}
-
 {% macro lookup(field, property, queryClass) %}
     <label for="{{ field.label }}"
            data-uri-property="{{ property }}">{{ field.label }}</label>

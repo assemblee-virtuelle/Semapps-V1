@@ -315,14 +315,15 @@ input.form-control {
   .tags {
     display: none;
     border: 1px solid #CCC;
-    padding: 10px 5px;
     border-radius: 5px;
     margin-bottom: 5px;
     margin-right: 5px;
     .tag {
       background: #FFCC00;
       padding: 5px 11px;
-      margin-right: 5px;
+      display: block;
+      float: left;
+      margin: 3px;
       a.remove-tag {
         color: #FFF;
         padding: 2px 0 0 4px;
@@ -331,7 +332,7 @@ input.form-control {
     }
   }
   .tags-value {
-    display: none;
+    //display: none;
   }
 }
 
