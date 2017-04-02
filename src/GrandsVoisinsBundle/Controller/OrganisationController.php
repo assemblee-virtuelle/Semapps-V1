@@ -5,11 +5,10 @@ namespace GrandsVoisinsBundle\Controller;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Entity\Organisation;
 use GrandsVoisinsBundle\Entity\User;
-use GrandsVoisinsBundle\Form\OrganisationType;
+use GrandsVoisinsBundle\Form\OrganisationMemberType;
+use GrandsVoisinsBundle\Form\OrganizationType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use SimpleExcel\SimpleExcel;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
@@ -29,7 +28,7 @@ class OrganisationController extends Controller
         //form pour l'organisation
         $organisation = new Organisation();
         $form         = $this->get('form.factory')->create(
-          OrganisationType::class,
+          OrganisationMemberType::class,
           $organisation
         );
 
@@ -162,7 +161,7 @@ class OrganisationController extends Controller
         }
 
         return $this->render(
-          'GrandsVoisinsBundle:Organisation:home.html.twig',
+          'GrandsVoisinsBundle:Organization:home.html.twig',
           array(
             "tabOrga"             => GrandsVoisinsConfig::$buildings,
             "organisations"       => $organisations,
@@ -220,111 +219,98 @@ class OrganisationController extends Controller
         return $this->redirectToRoute('all_orga');
     }
 
-    public function newOrganisationAction(Request $request, $orgaId = null)
+    public function organisationAction(Request $request, $orgaId = null)
     {
+        /** @var $user \GrandsVoisinsBundle\Entity\User */
+        $user     = $this->getUser();
         $sfClient = $this->container->get('semantic_forms.client');
 
-        /* @var $organisation \GrandsVoisinsBundle\Repository\OrganisationRepository */
-        // questionner la base pour savoir si l'orga est deja créer
+        /* @var $organisationEntity \GrandsVoisinsBundle\Repository\OrganisationRepository */
+        // Ask database to know if organization has been already created.
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
         );
         $orgaId             = ($orgaId != null && $this->getUser()->getRoles(
             'SUPER_ADMIN'
           )) ? $orgaId : $this->GetUser()->getFkOrganisation();
-        /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
-        $organisation = $organisationEntity->findOneById(
+        /* @var $organization \GrandsVoisinsBundle\Entity\Organisation */
+        $organization = $organisationEntity->findOneById(
           $orgaId
         );
 
-        $sfLink = $organisation->getSfOrganisation();
+        $oldPictureName = $organization->getOrganisationPicture();
 
-        if (is_null($sfLink)) {
-            $form = $sfClient->createData(SemanticFormsClient::SPEC_ORGANIZATION);
-            $edit = false;
-        } else {
-            $form = $sfClient->formData(
-              $organisation->getSfOrganisation(),
-              SemanticFormsClient::SPEC_ORGANIZATION
-            );
-            $edit = true;
-        }
-        if (!$form) {
-            $this->addFlash(
-              'danger',
-              'Une erreur s\'est produite lors de l\'affichage du formulaire'
-            );
+        $sfLink = $organization->getSfOrganisation();
 
-            return $this->redirectToRoute('home');
-        }
+        // Build main form.
+        $options = [
+          'login'                 => $user->getEmail(),
+          'password'              => $user->getSfUser(),
+          'graphURI'              => $organization->getGraphURI(),
+          'client'                => $sfClient,
+          'spec'                  => SemanticFormsClient::SPEC_ORGANIZATION,
+          'lookupUrlLabel'        => $this->generateUrl(
+            'webserviceFieldUriLabel'
+          ),
+          'lookupUrlPerson'       => $this->generateUrl(
+            'webserviceFieldUriSearch'
+          ),
+          'lookupUrlOrganization' => $this->generateUrl(
+            'webserviceFieldUriSearch'
+          ),
+          'values'                => $sfLink,
+        ];
 
-
-        // Picture for organization
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'GrandsVoisinsBundle:Organisation'
+        /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */
+        $form = $this->createForm(
+          OrganizationType::class,
+          $organization,
+          // Options.
+          $options
         );
 
-        /* @var $organisation \GrandsVoisinsBundle\Entity\Organisation */
-        $organization = $organisationEntity->findOneById(
-          $this->GetUser()->getFkOrganisation()
-        );
+        $form->handleRequest($request);
 
-        $picture = $this->createFormBuilder($organization)
-          ->add(
-            'OrganisationPicture',
-            FileType::class,
-            array('data_class' => null)
-          )
-          ->add(
-            'oldPicture',
-            HiddenType::class,
-            array(
-              'mapped' => false,
-              'data'   => $organization->getOrganisationPicture(),
-            )
-          )
-          ->getForm();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        $picture->handleRequest($request);
-
-        if ($picture->isSubmitted() && $picture->isValid()) {
-            if ($picture->get('oldPicture')->getData()) {
-                $oldDir      = $this->get('GrandsVoisinsBundle.fileUploader')
-                  ->getTargetDir(
-                    $picture->get('oldPicture')->getData()
-                  );
-                $oldFileName = $picture->get('oldPicture')->getData();
-                // Check if file exists to avoid all errors.
-                if (is_file($oldDir.'/'.$oldFileName)) {
-                    $this->get('GrandsVoisinsBundle.fileUploader')
-                      ->remove($oldFileName);
+            // Manage picture.
+            $newPicture = $organization->getOrganisationPicture();
+            if ($newPicture) {
+                // Remove old picture.
+                $fileUploader = $this->get('GrandsVoisinsBundle.fileUploader');
+                if ($oldPictureName) {
+                    $oldDir = $fileUploader->getTargetDir();
+                    // Check if file exists to avoid all errors.
+                    if (is_file($oldDir.'/'.$oldPictureName)) {
+                        $fileUploader->remove($oldPictureName);
+                    }
                 }
+                $organization->setOrganisationPicture(
+                  $fileUploader->upload($newPicture)
+                );
+            } else {
+                $organization->setOrganisationPicture($oldPictureName);
             }
-            $organization->setOrganisationPicture(
-              $this->get('GrandsVoisinsBundle.fileUploader')->upload(
-                $organization->getOrganisationPicture()
-              )
-            );
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($organization);
             $em->flush();
 
+            $this->addFlash(
+              'success',
+              'Les données de l\'organisation ont bien été mises à jour.'
+            );
+
             return $this->redirectToRoute('detail_orga');
         }
-        $form = $this->get('GrandsVoisinsBundle.formattingForm')->format($form);
 
+        // Fill form
         return $this->render(
-          'GrandsVoisinsBundle:Organisation:organisation.html.twig',
+          'GrandsVoisinsBundle:Organization:organization.html.twig',
           array(
-            'organisation'        => $form,
-            'edit'                => $edit,
-            'id'                  => $orgaId,
-            'graphURI'            => $organisation->getGraphURI(),
-            'picture'             => $picture->createView(),
-            'OrganisationPicture' => $organisation->getOrganisationPicture(),
-            'building'            => GrandsVoisinsConfig::$buildingsSimple,
-            'property'            => GrandsVoisinsConfig::$organisationFields,
-            "entityUriExists"     => !!$sfLink,
+            'form'         => $form->createView(),
+            'organization' => $organization,
+            'entityUri'    => $sfLink,
           )
         );
     }

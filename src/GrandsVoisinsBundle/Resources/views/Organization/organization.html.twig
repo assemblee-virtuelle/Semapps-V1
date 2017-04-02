@@ -1,10 +1,15 @@
 {% extends "::admin.html.twig" %}
 
-{% block title %}GrandsVoisinsBundle:Admin:show{% endblock %}
+{% block title %}GrandsVoisinsBundle:Organization:home{% endblock %}
 
-{% block pageContentTitle %}Mon profil{% endblock %}
+{% block pageContentTitle %}Mon organisation{% endblock %}
 
-{% set menuSelected = 'profile' %}
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% set menuSelected = 'detail_orga' %}
 
 {% import 'GrandsVoisinsBundle:Macro:form.html.twig' as formField %}
 
@@ -23,51 +28,73 @@
             </ul>
             <br>
         {% endif %}
-
         <div class="row">
             {{ form_start(form) }}
             <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
                 {% if form is not null %}
                     <a href="#" id="profilePicture" class="thumbnail">
-                        <img src="{{ asset(app.user.getPictureName() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
+                        <img src="{{ asset(organization.getOrganisationPicture() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~organization.getOrganisationPicture()) | imagine_filter('organisation') }}"/>
                     <span id="profileEditPictureField">
-                        {{ form_widget(form.pictureName) }}
+                        {{ form_widget(form.organisationPicture) }}
                     </span>
                     </a>
                 {% endif %}
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-10">
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_row(form.name) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.administrativeName) }}
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.givenName) }}
+                        {{ form_row(form.arrivalDate) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.familyName) }}
+                        {{ form_row(form.status) }}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_row(form.building) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.room) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.birthday) }}
+                        {{ form_row(form.subject) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.description) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.postalCode) }}
+                        {{ form_row(form.proposedContribution) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.city) }}
+                        {{ form_row(form.realisedContribution) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.homepage) }}
+                        {{ form_row(form.conventionType) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.mbox) }}
+                        {{ form_row(form.employeesCount) }}
                     </div>
                 </div>
 
@@ -76,25 +103,43 @@
                         {{ form_row(form.phone) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.slack) }}
+                        {{ form_row(form.mbox) }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-xs-12">
-                        {{ form_row(form.topicInterest) }}
+                    <div class="col-xs-6">
+                        {{ form_row(form.homepage) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.facebook) }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-xs-12">
-                        {{ form_row(form.expertise) }}
+                    <div class="col-xs-6">
+                        {{ form_row(form.twitter) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.linkedin) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.knows) }}
+                        {{ form_row(form.topicInterest) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.headOf) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.hasMember) }}
                     </div>
                 </div>
 
@@ -103,30 +148,8 @@
                         {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
                     </div>
                 </div>
-                {#{{ form_widget(form) }}#}
             </div>
             {{ form_end(form) }}
-            <div class="col col-sm-4">
-                {% embed "alertBobby.html.twig" %}
-                    {% block title %}Qui es-tu ?{% endblock %}
-                    {% block content %}
-                        <p>Voici la question à laquelle je te propose maintenant
-                            de répondre … </p>
-
-                        <p>Tu es libre de remplir les champs que tu veux et
-                            rassure toi, ces données ne sont pas publiques,
-                            elles ne sont partagées qu’entre voisins sur le site
-                            ... </p>
-
-                        <p>Petite info : Plus tu renseigneras ton profil, plus
-                            tu auras de chances de te faire des amis ! </p>
-
-                        <p>Et n'oublie pas : To be Bobby or not Bobby, that is
-                            the question ... </p>
-                    {% endblock %}
-                {% endembed %}
-            </div>
         </div>
     </div>
 {% endblock %}
-

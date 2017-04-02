@@ -21,6 +21,17 @@ class LgvAdmin {
     this.$modalConfirmBody = this.$modalConfirm.find('.modal-body:first');
     this.$modalConfirmValidate = this.$modalConfirm.find('.btn-primary:first');
 
+    // Change image field.
+    $('form').each((index, form) => {
+      let $form = $(form);
+      $form.find('div.formEditAvatar input[type="file"]').change(() => {
+        // Display a nice spinner.
+        this.pageLoadingStart();
+        // Send form will reload the page.
+        $form.submit();
+      });
+    });
+
     new LgvAdminPageTeam(this);
     new LgvAdminPageProfile(this);
     new LgvAdminPageOrga(this);

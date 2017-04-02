@@ -32,11 +32,14 @@ class VirtualAssemblyFieldDbPedia extends VirtualAssemblyFieldUri {
       url: uri,
       complete: (r) => {
         "use strict";
-        // Get all values.
-        let values = r.responseJSON[uri][propertyUri];
-        // Return asked language || english || first found.
-        let value = callbackLanguage(values, lang) || callbackLanguage(values, 'en') || values[0].value;
-        complete(value, uri);
+        // Avoid errors.
+        if (r.responseJSON) {
+          // Get all values.
+          let values = r.responseJSON[uri][propertyUri];
+          // Return asked language || english || first found.
+          let value = callbackLanguage(values, lang) || callbackLanguage(values, 'en') || values[0].value;
+          complete(value, uri);
+        }
       }
     });
   }

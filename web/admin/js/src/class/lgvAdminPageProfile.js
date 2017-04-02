@@ -12,14 +12,5 @@ class LgvAdminPageProfile extends LgvAdminPage {
     if (this.getParameterByName('edit')) {
       $toggle.toggle();
     }
-
-    // Change image field.
-    let $form = $('form[name=profile]');
-    $form.find('input[type="file"]').change(()=> {
-      // Display a nice spinner.
-      lgvAdmin.pageLoadingStart();
-      // Send form will reload the page.
-      $form.submit();
-    });
   }
 }
