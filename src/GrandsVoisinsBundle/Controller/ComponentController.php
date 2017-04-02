@@ -40,58 +40,6 @@ class ComponentController extends Controller
             }
         }
 
-//        echo $request;
-//        exit;
-
-//        $result = array();
-//        switch ($type){
-//            case 'Project':
-
-//            case 'Event':
-//                $event = '
-//                prefix event: <http://purl.org/NET/c4dm/event.owl#>
-//                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a event:Event . ?URI rdfs:label ?NAME} } ';
-//                $temp = $sfClient->sparql($event);
-//                $result["Event"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-//                $title = 'Affichage de tous les Projets';
-//                break;
-//            case 'Proposition':
-//                $proposition = '
-//                prefix fipa: <http://www.fipa.org/schemas#>
-//                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
-//                $temp = $sfClient->sparql($proposition);
-//                $result["Proposition"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-//                $title = 'Affichage de tous les Projets';
-//                break;
-//            default:
-//                $project = '
-//                prefix foaf: <http://xmlns.com/foaf/0.1/>
-//                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a foaf:Project . ?URI rdfs:label ?NAME} } ';
-//                $temp = $sfClient->sparql($project);
-//                $result["Project"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-//                $event = '
-//                prefix event: <http://purl.org/NET/c4dm/event.owl#>
-//                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a event:Event . ?URI rdfs:label ?NAME} } ';
-//                $temp = $sfClient->sparql($event);
-//                $result["Event"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-//                $proposition = '
-//                prefix fipa: <http://www.fipa.org/schemas#>
-//                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-//                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-//                SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI().'> { ?URI a fipa:Proposition . ?URI rdfs:label ?NAME} } ';
-//                $temp = $sfClient->sparql($proposition);
-//                $result["Proposition"] = (is_array($temp)) ? $temp["results"]["bindings"] : null;
-//                $title = 'Affichage de tous les Projets, Evenements, Propositions';
-//        }
-
         return $this->render(
           'GrandsVoisinsBundle:Component:'.$this->componentName.'List.html.twig',
           array(
@@ -162,18 +110,4 @@ class ComponentController extends Controller
           )
         );
     }
-
-//
-//    private function getFormSpec($type){
-//        switch ($type){
-//            case 'Project':
-//                return SemanticFormsClient::PROJET;
-//            case 'Event':
-//                return SemanticFormsClient::EVENT;
-//            case 'Proposition':
-//                return SemanticFormsClient::PROPOSITION;
-//            default:
-//                return null;
-//        }
-//    }
 }
