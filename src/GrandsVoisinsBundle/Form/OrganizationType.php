@@ -24,7 +24,6 @@ class OrganizationType extends AbstractForm
       'http://xmlns.com/foaf/0.1/name'                                                         => 'name',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName'   => 'administrativeName',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'          => 'description',
-      'http://purl.org/dc/elements/1.1/subject'                                                => 'subject',
       'http://xmlns.com/foaf/0.1/topic_interest'                                               => 'topicInterest',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType'       => 'conventionType',
       'http://www.w3.org/ns/org#headOf'                                                        => 'headOf',
@@ -74,14 +73,6 @@ class OrganizationType extends AbstractForm
             [
               'required' => false,
               'widget'   => 'single_text',
-            ]
-          )
-          ->add(
-            $builder,
-            'subject',
-            TextType::class,
-            [
-              'required' => false,
             ]
           )
           ->add(

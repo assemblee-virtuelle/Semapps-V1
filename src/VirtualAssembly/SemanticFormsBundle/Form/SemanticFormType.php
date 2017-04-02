@@ -256,6 +256,10 @@ class SemanticFormType extends AbstractType
                 return new \DateTime(current($values));
                 break;
 
+            // Number
+            case 'Symfony\Component\Form\Extension\Core\Type\NumberType':
+                return (float) current($values);
+
             // Uri
             case 'VirtualAssembly\SemanticFormsBundle\Form\UriType':
                 // DbPedia
