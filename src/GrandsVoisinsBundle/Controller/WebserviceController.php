@@ -231,6 +231,12 @@ class WebserviceController extends Controller
         return new JsonResponse($results);
     }
 
+    public function fieldUriSearchAction(Request $request)
+    {
+        $queryString = $request->get('QueryString');
+        echo $queryString;
+    }
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
@@ -252,13 +258,11 @@ class WebserviceController extends Controller
         $output       = [];
         $fieldsFilter = $this->container->getParameter('fields_access');
         $user         = $this->GetUser();
-        $access       = $this
+        $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('GrandsVoisinsBundle:User')
           ->getAccessLevelString($user);
-
-//        print_r($properties);exit;
 
         foreach ($fieldsFilter as $role => $fields) {
             // User has role.
