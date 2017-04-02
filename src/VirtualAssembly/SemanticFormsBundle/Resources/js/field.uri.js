@@ -55,7 +55,6 @@ class VirtualAssemblyFieldUri {
   lookupProcessResults(data) {
     let items = [];
     this.selectValues = data;
-    log(data);
     // Transform data to select2 expected format.
     $.each(this.selectValues, (uri, title) => {
       items.push({
@@ -63,7 +62,6 @@ class VirtualAssemblyFieldUri {
         text: title
       })
     });
-    log(items);
     return {
       results: items
     };
