@@ -330,3 +330,6 @@ input.form-control {
       color: #FFF;
       padding: 2px 0 0 4px;
       vertical-align: top; }
+
+.select2-tags .tags-value {
+  display: none; }

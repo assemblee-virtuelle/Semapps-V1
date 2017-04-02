@@ -21,7 +21,6 @@ class VirtualAssemblyFieldDbPedia {
         processResults: (data) => {
           let items = [];
           this.selectValues = {};
-          log(data);
           for (let result of data.results) {
             items.push({
               id: result.uri,
@@ -50,7 +49,10 @@ class VirtualAssemblyFieldDbPedia {
     // Load it.
     if (Array.isArray(startupValue)) {
       $.each(startupValue, (key, uri) => {
-        this.getDbPediaLabel(uri, getLabelCallback);
+        // Avoid all kind of empty fields.
+        if (uri) {
+          this.getDbPediaLabel(uri, getLabelCallback);
+        }
       });
     }
   }

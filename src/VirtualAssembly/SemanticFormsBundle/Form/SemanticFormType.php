@@ -95,8 +95,6 @@ class SemanticFormType extends AbstractType
 
         $this->formSpecification = $formSpecification;
 
-//        print_r($formSpecification); exit;
-
         // Manage form submission.
         $builder->addEventListener(
           FormEvents::SUBMIT,
@@ -121,9 +119,9 @@ class SemanticFormType extends AbstractType
 
               if (!$editMode) {
                   // Required type.
-                  $saveData[$this->getHtmlName(
+                  $saveData[$this->getDefaultHtmlName(
                     'type'
-                  )] = $this->formSpecification['type']['value'];
+                  )] = current($this->formSpecification['type']['value']);
               }
 
               foreach ($this->fieldsAdded as $localHtmlName) {
@@ -138,9 +136,7 @@ class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = $value;
                   }
               }
-//
-//              print_r($saveData);
-//              exit;
+
               $client->send(
                 $saveData,
                 $login,
@@ -217,32 +213,32 @@ class SemanticFormType extends AbstractType
                     if (is_array($values)) {
                         // Empty all previous values
                         foreach ($spec['value'] as $value) {
-                            $htmlName = $this->buildHtmlName(
+                            $htmlName          = $this->buildHtmlName(
                               $spec['subject'],
-                              $spec['type'],
+                              $spec['property'],
                               $value
                             );
                             $output[$htmlName] = '';
                         }
                         // Add new values.
                         foreach (array_keys($values) as $value) {
-                            $htmlName = $this->buildHtmlName(
-                                $spec['subject'],
-                                $spec['type'],
-                                $value
-                              );
+                            $htmlName          = $this->buildHtmlName(
+                              $spec['subject'],
+                              $spec['property'],
+                              $value
+                            );
                             $output[$htmlName] = $value;
                         }
                     }
+
                     return $output;
                     break;
             }
         }
 
         // We have only one value for this field.
-        // So we take first htmlName and use it as kay.
-        $htmlName = current(array_keys($spec['value']));
-
+        // So we take first htmlName and use it as key.
+        $htmlName = $this->getDefaultHtmlName($spec['localHtmlName']);
         return [$htmlName => $outputSingleValue];
     }
 
@@ -266,7 +262,8 @@ class SemanticFormType extends AbstractType
                 break;
         }
 
-        return current($values);
+        // We take the last version of the value.
+        return end($values);
     }
 
 
@@ -280,8 +277,8 @@ class SemanticFormType extends AbstractType
         }
     }
 
-    function getHtmlName($localHtmlName)
+    function getDefaultHtmlName($localHtmlName)
     {
-        return $this->formSpecification[$localHtmlName]['htmlName'];
+        return current(array_keys($this->formSpecification[$localHtmlName]['value']));
     }
 }
