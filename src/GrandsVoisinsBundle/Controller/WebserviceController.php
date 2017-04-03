@@ -3,6 +3,7 @@
 namespace GrandsVoisinsBundle\Controller;
 
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
+use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -263,25 +264,62 @@ class WebserviceController extends Controller
         return new JsonResponse((object)$output);
     }
 
-    public function fieldUriLabelAction(Request $request)
+    public function sparqlGetLabel($url, $uriType)
     {
-        //
+        $requiredFields = [];
+        $select         = '';
+
+        switch ($uriType) {
+            case SemanticFormsBundle::URI_FOAF_PERSON :
+                $requiredFields = [
+                  'givenName'  => 'foaf:givenName',
+                  'familyName' => 'foaf:familyName',
+                ];
+                // Build a label.
+                $select = ' (fn:concat(?givenName, " ", ?familyName) as ?label) ';
+                break;
+            case SemanticFormsBundle::URI_FOAF_ORGANIZATION :
+                $requiredFields = [
+                  'label' => 'foaf:name',
+                ];
+                break;
+            case SemanticFormsBundle::URI_FOAF_PROJECT :
+                $requiredFields = [
+                  'label' => 'rdfs:label',
+                ];
+
+                break;
+        }
+
         $request = $this->sparqlSelectType(
-          [
-            'givenName'  => 'foaf:givenName',
-            'familyName' => 'foaf:familyName',
-          ],
+          $requiredFields,
           [],
-          ' (fn:concat(?givenName, " ", ?familyName) as ?title) ',
-          SemanticFormsBundle::URI_FOAF_PERSON,
-          'FILTER (?uri = <' . $request->get('uri') . '>)'
+          $select,
+          $uriType,
+          'FILTER (?uri = <'.$url.'>)'
         );
 
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
         $response = $sfClient->sparql($request);
+        if (isset($response['results']['bindings'][0]['label']['value'])) {
+            return $response['results']['bindings'][0]['label']['value'];
+        }
 
-        return new JsonResponse((object)['label' => $response['results']['bindings'][0]['title']['value']]);
+        return false;
+    }
+
+    public function fieldUriLabelAction(Request $request)
+    {
+        // TODO Various types.
+        $label = $this->sparqlGetLabel(
+          $request->get('uri'),
+          SemanticFormsBundle::URI_FOAF_PERSON
+        );
+
+        return new JsonResponse(
+          (object)['label' => $label]
+        );
     }
 
     /**
@@ -330,10 +368,11 @@ class WebserviceController extends Controller
 
     public function requestPair($uri)
     {
-
+        $output     = [];
         $properties = $this->uriPropertiesFiltered($uri);
+        $sfClient   = $this->container->get('semantic_forms.client');
 
-        switch ($properties['type']) {
+        switch (current($properties['type'])) {
             // Orga.
             case  SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                 // Organization should be saved internally.
@@ -347,7 +386,7 @@ class WebserviceController extends Controller
                 $output['id'] = $organization->getId();
                 if (isset($properties['hasResponsible'])) {
                     $output['responsible'] = $this->uriPropertiesFiltered(
-                      $properties['hasResponsible']
+                      current($properties['hasResponsible'])
                     );
                 }
                 break;
@@ -358,7 +397,7 @@ class WebserviceController extends Controller
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
                       '',
-                      $properties['mbox']
+                      current($properties['mbox'])
                     );
                 }
                 if (isset($properties['phone'])) {
@@ -366,8 +405,59 @@ class WebserviceController extends Controller
                     $properties['phone'] = preg_replace(
                       '/^tel:/',
                       '',
-                      $properties['phone']
+                      current($properties['phone'])
                     );
+                }
+                if (isset($properties['memberOf'])) {
+                    $output['organisation'] = [
+                      'uri'  => current($properties['memberOf']),
+                      'name' => $this->sparqlGetLabel(
+                        current($properties['memberOf']),
+                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                      ),
+                    ];
+                }
+                if (isset($properties['currentProject'])) {
+                    foreach ($properties['currentProject'] as $uri) {
+                        $output['projects'][] = [
+                          'uri'  => $uri,
+                          'name' => $this->sparqlGetLabel(
+                            $uri,
+                            SemanticFormsBundle::URI_FOAF_PROJECT
+                          ),
+                        ];
+                    }
+                }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                          'uri'  => $uri,
+                          'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
+                if (isset($properties['expertize'])) {
+                    foreach ($properties['expertize'] as $uri) {
+                        $output['expertize'][] = [
+                          'uri'  => $uri,
+                          'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
+                if (isset($properties['knows'])) {
+                    foreach ($properties['knows'] as $uri) {
+                        $person = $this->uriPropertiesFiltered($uri);
+                        $image  = $this->getLocalImageFromUri($uri);
+                        //dump($person);
+                        $output['knows'][] = [
+                          'uri'   => $uri,
+                          'name'  => $this->sparqlGetLabel(
+                            $uri,
+                            SemanticFormsBundle::URI_FOAF_PERSON
+                          ),
+                          'image' => !$image && isset($person['image'][0]) ? $person['image'][0] : $image,
+                        ];
+                    }
                 }
                 break;
         }
@@ -376,5 +466,27 @@ class WebserviceController extends Controller
 
         return $output;
 
+    }
+
+    public function getLocalImageFromUri($uri)
+    {
+        $user = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:User')
+          ->findOneBy(
+            [
+              'sfLink' => $uri,
+            ]
+          );
+
+        if ($user) {
+            $pictureName = $user->getPictureName();
+            if ($pictureName) {
+                return '/upload/pictures/'.$user->getPictureName();
+            }
+        }
+
+        return '/common/images/no_avatar.jpg';
     }
 }

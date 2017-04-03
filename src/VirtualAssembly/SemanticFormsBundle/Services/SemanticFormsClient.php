@@ -397,16 +397,62 @@ class SemanticFormsClient
               'SELECT ?P ?O WHERE { GRAPH ?G { ?S ?P ?O .  <'.$uri.'> ?P ?O }} GROUP BY ?P ?O'
             );
 
-        $output           = [
+        $output = [
           'uri' => $uri,
         ];
+
         $prefixesReverted = array_flip($this->fieldsAliases);
         foreach ($response['results']['bindings'] as $item) {
-            $key          = $item['P']['value'];
-            $key          = isset($prefixesReverted[$key]) ? $prefixesReverted[$key] : $key;
-            $output[$key] = $item['O']['value'];
+            $key = $item['P']['value'];
+            $key = isset($prefixesReverted[$key]) ? $prefixesReverted[$key] : $key;
+            if (!isset($output[$key])) {
+                $output[$key] = [];
+            }
+            $output[$key][] = $item['O']['value'];
         }
 
         return $output;
+    }
+
+    public function dbPediaLabel($uri, $lang = 'en')
+    {
+        $options            = ['verify' => false];
+        $options['headers'] = [
+            // Sign request.
+          'User-Agent'      => 'GrandsVoisinsBundle',
+            // Ensure to get JSON response.
+          'Accept'          => 'application/json',
+          'Accept-Language' => 'fr',
+        ];
+
+        $data = json_decode($this->get($uri, $options));
+
+        if ($data) {
+            $key  = 'http://www.w3.org/2000/01/rdf-schema#label';
+            $data = $data->$uri->$key;
+            // Expected lang.
+            $result = $this->dbPediaLabelSearch($data, $lang);
+            // English.
+            if ($result === false && $lang !== 'en') {
+                $result = $this->dbPediaLabelSearch($data, $lang);
+            }
+            // First value.
+            if ($result === false && !empty($data)) {
+                $result = current($data)['value'];
+            }
+
+            return $result;
+        }
+    }
+
+    public function dbPediaLabelSearch($data, $lang)
+    {
+        foreach ($data as $item) {
+            if ($item->lang === $lang) {
+                return $item->value;
+            }
+        }
+
+        return false;
     }
 }
