@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SemanticFormType extends AbstractType
+abstract class SemanticFormType extends AbstractType
 {
     const FIELD_ALIAS_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
 

@@ -57,30 +57,43 @@
         <template is="dom-if" if="[[memberOf.length]]">
           <h3>Fait partie de</h3>
           <template is="dom-repeat" items="{{memberOf}}">
-            <a href="#" rel="{{item}}" on-click="handleClickDetail">
-              <span class="glyphicon glyphicon-king"></span>{{item}}</a>
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="strip">
+              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
           </template>
         </template>
         <template is="dom-if" if="[[topicInterest.length]]">
           <h3>S'intéresse à</h3>
-          <template is="dom-repeat" items="{{topicInterest}}">
-            <a href="#" href$="{{ item }}" target="_blank">
-              <span class="glyphicon glyphicon-king"></span>{{item}}</a>
-          </template>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{topicInterest}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <template is="dom-if" if="[[expertize.length]]">
           <h3>Expertise en</h3>
-          <template is="dom-repeat" items="{{expertize}}">
-            <a href="#" href$="{{ item }}" target="_blank">
-              <span class="glyphicon glyphicon-king"></span>{{item}}</a>
-          </template>
+          <div class="tags-cloud tags-cloud-2">
+            <template is="dom-repeat" items="{{expertize}}">
+              <a href="{{ item.uri }}" target="_blank">
+                <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <template is="dom-if" if="[[knows.length]]">
           <h3>Connaît</h3>
-          <template is="dom-repeat" items="{{knows}}">
-            <a href="#" href$="{{ item }}" target="_blank">
-              <span class="glyphicon glyphicon-king"></span>{{item}}</a>
-          </template>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{knows}}">
+              <a href="#" rel="{{item.uri}}"
+                 on-click="handleClickDetail">
+                <span class="thumb"
+                      style$="background-image: url([[item.image]])"></span>
+                <span class="name">{{item.name}}</span>
+              </a>
+            </template>
+          </div>
         </template>
       </div>
     </div>
