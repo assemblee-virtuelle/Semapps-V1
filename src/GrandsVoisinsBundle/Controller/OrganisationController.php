@@ -303,7 +303,24 @@ class OrganisationController extends Controller
 
             return $this->redirectToRoute('detail_orga');
         }
+        if (!$sfLink) {
+            // Get the main Organization entity.
+            $organizationRepository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('GrandsVoisinsBundle:Organisation');
 
+            // Update sfOrganisation.
+            $organizationRepository
+                ->createQueryBuilder('q')
+                ->update()
+                ->set('q.sfOrganisation', ':link')
+                ->where('q.id=:id')
+                ->setParameter('link', $form->uri)
+                ->setParameter('id', $organization->getId())
+                ->getQuery()
+                ->execute();
+        }
         // Fill form
         return $this->render(
           'GrandsVoisinsBundle:Organization:organization.html.twig',
