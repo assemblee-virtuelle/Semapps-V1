@@ -296,31 +296,31 @@ class OrganisationController extends Controller
             $em->persist($organization);
             $em->flush();
 
+            if (!$sfLink) {
+                // Get the main Organization entity.
+                $organizationRepository = $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GrandsVoisinsBundle:Organisation');
+
+                // Update sfOrganisation.
+                $organizationRepository
+                    ->createQueryBuilder('q')
+                    ->update()
+                    ->set('q.sfOrganisation', ':link')
+                    ->where('q.id=:id')
+                    ->setParameter('link', $form->uri)
+                    ->setParameter('id', $organization->getId())
+                    ->getQuery()
+                    ->execute();
+            }
+
             $this->addFlash(
               'success',
               'Les données de l\'organisation ont bien été mises à jour.'
             );
 
             return $this->redirectToRoute('detail_orga');
-        }
-        dump($form->uri);
-        if (!$sfLink) {
-            // Get the main Organization entity.
-            $organizationRepository = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('GrandsVoisinsBundle:Organisation');
-
-            // Update sfOrganisation.
-            $organizationRepository
-                ->createQueryBuilder('q')
-                ->update()
-                ->set('q.sfOrganisation', ':link')
-                ->where('q.id=:id')
-                ->setParameter('link', $form->uri)
-                ->setParameter('id', $organization->getId())
-                ->getQuery()
-                ->execute();
         }
         // Fill form
         return $this->render(
