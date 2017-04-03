@@ -62,7 +62,6 @@ abstract class SemanticFormType extends AbstractType
         }
 
         $this->uri = $uri;
-
         // Create from specification.
         $formSpecification = [];
         foreach ($formSpecificationRaw['fields'] as $field) {
@@ -131,10 +130,10 @@ abstract class SemanticFormType extends AbstractType
                   );
                   foreach ($fieldEncoded as $htmlName => $value) {
                       // Retrieve original html name from given name.
-                      $saveData[$htmlName] = $value;
+                      $saveData[$htmlName] = (!$value ) ? "" : $value;
                   }
               }
-
+              //dump($saveData);exit;
               $client->send(
                 $saveData,
                 $login,

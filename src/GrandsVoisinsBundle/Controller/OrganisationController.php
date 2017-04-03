@@ -230,13 +230,31 @@ class OrganisationController extends Controller
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
         );
-        $orgaId             = ($orgaId != null && $this->getUser()->getRoles(
-            'SUPER_ADMIN'
-          )) ? $orgaId : $this->GetUser()->getFkOrganisation();
+        if($orgaId != null && $user->hasRole(
+            'ROLE_SUPER_ADMIN'
+        ) && $user->getFkOrganisation() != $orgaId){
+            $organization = $organisationEntity->find(
+                $orgaId
+            );
+            $userRepository = $this->getDoctrine()->getManager()->getRepository(
+                'GrandsVoisinsBundle:User'
+            );
+
+            $responsable = $userRepository->find($organization->getFkResponsable());
+            $sfUser = $responsable->getEmail();
+            $sfPassword = $responsable->getSfUser();
+        }
+        else{
+            $organization = $organisationEntity->findOneById(
+                $user->getFkOrganisation()
+            );
+            $sfUser = $user->getEmail();
+            $sfPassword = $user->getSfUser();
+        }
+
+
         /* @var $organization \GrandsVoisinsBundle\Entity\Organisation */
-        $organization = $organisationEntity->findOneById(
-          $orgaId
-        );
+
 
         $oldPictureName = $organization->getOrganisationPicture();
 
@@ -244,8 +262,8 @@ class OrganisationController extends Controller
 
         // Build main form.
         $options = [
-          'login'                 => $user->getEmail(),
-          'password'              => $user->getSfUser(),
+          'login'                 => $sfUser,
+          'password'              => $sfPassword,
           'graphURI'              => $organization->getGraphURI(),
           'client'                => $sfClient,
           'spec'                  => SemanticFormsClient::SPEC_ORGANIZATION,
@@ -296,6 +314,25 @@ class OrganisationController extends Controller
             $em->persist($organization);
             $em->flush();
 
+            if (!$sfLink) {
+                // Get the main Organization entity.
+                $organizationRepository = $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GrandsVoisinsBundle:Organisation');
+
+                // Update sfOrganisation.
+                $organizationRepository
+                    ->createQueryBuilder('q')
+                    ->update()
+                    ->set('q.sfOrganisation', ':link')
+                    ->where('q.id=:id')
+                    ->setParameter('link', $form->uri)
+                    ->setParameter('id', $organization->getId())
+                    ->getQuery()
+                    ->execute();
+            }
+
             $this->addFlash(
               'success',
               'Les données de l\'organisation ont bien été mises à jour.'
@@ -303,7 +340,6 @@ class OrganisationController extends Controller
 
             return $this->redirectToRoute('detail_orga');
         }
-
         // Fill form
         return $this->render(
           'GrandsVoisinsBundle:Organization:organization.html.twig',
