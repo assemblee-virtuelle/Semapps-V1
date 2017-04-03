@@ -303,7 +303,7 @@ class OrganisationController extends Controller
 
             return $this->redirectToRoute('detail_orga');
         }
-        dump(!$sfLink);
+        dump($form->uri);
         if (!$sfLink) {
             // Get the main Organization entity.
             $organizationRepository = $this
