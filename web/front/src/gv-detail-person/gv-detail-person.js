@@ -13,7 +13,6 @@ Polymer({
     GVCarto.ready(() => {
       gvc.initElementGlobals(this);
     });
-    log(this.data);
     // Raw values.
     $.extend(this, this.data.properties);
     this.memberOf = this.data.memberOf;

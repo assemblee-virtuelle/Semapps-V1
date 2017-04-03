@@ -412,7 +412,7 @@ class WebserviceController extends Controller
                     $output['organisation'] = [
                       'uri'  => current($properties['memberOf']),
                       'name' => $this->sparqlGetLabel(
-                        $properties['memberOf'],
+                        current($properties['memberOf']),
                         SemanticFormsBundle::URI_FOAF_ORGANIZATION
                       ),
                     ];
