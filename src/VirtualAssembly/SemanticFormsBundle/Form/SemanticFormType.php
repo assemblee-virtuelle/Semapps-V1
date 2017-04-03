@@ -134,7 +134,7 @@ class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = $value;
                   }
               }
-              dump($saveData);
+              //dump($saveData);
               $client->send(
                 $saveData,
                 $login,
