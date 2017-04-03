@@ -386,7 +386,7 @@ class WebserviceController extends Controller
                 $output['id'] = $organization->getId();
                 if (isset($properties['hasResponsible'])) {
                     $output['responsible'] = $this->uriPropertiesFiltered(
-                      $properties['hasResponsible']
+                      current($properties['hasResponsible'])
                     );
                 }
                 break;
