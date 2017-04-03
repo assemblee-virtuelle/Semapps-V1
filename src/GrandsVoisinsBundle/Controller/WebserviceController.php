@@ -177,6 +177,7 @@ class WebserviceController extends Controller
           $term,
           // Required fields.
           [
+            'image'    => 'foaf:img',
             'type'  => 'rdf:type',
             'title' => 'foaf:name',
           ],
