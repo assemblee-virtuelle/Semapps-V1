@@ -363,7 +363,7 @@ class WebserviceController extends Controller
                 }
             }
         }
-
+        print_r($output);
         return $output;
     }
 
