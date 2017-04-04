@@ -455,7 +455,7 @@ class WebserviceController extends Controller
                             $uri,
                             SemanticFormsBundle::URI_FOAF_PERSON
                           ),
-                          'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : '',
+                          'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'],
                         ];
                     }
                 }
