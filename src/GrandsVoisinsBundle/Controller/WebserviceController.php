@@ -448,15 +448,14 @@ class WebserviceController extends Controller
                 if (isset($properties['knows'])) {
                     foreach ($properties['knows'] as $uri) {
                         $person = $this->uriPropertiesFiltered($uri);
-                        $image  = $this->getLocalImageFromUri($uri);
-                        //dump($person);
+                        dump($person);
                         $output['knows'][] = [
                           'uri'   => $uri,
                           'name'  => $this->sparqlGetLabel(
                             $uri,
                             SemanticFormsBundle::URI_FOAF_PERSON
                           ),
-                          'image' => !$image && isset($person['image'][0]) ? $person['image'][0] : $image,
+                          'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'][0],
                         ];
                     }
                 }
@@ -467,27 +466,5 @@ class WebserviceController extends Controller
 
         return $output;
 
-    }
-
-    public function getLocalImageFromUri($uri)
-    {
-        $user = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('GrandsVoisinsBundle:User')
-          ->findOneBy(
-            [
-              'sfLink' => $uri,
-            ]
-          );
-
-        if ($user) {
-            $pictureName = $user->getPictureName();
-            if ($pictureName) {
-                return '/upload/pictures/'.$user->getPictureName();
-            }
-        }
-
-        return '/common/images/no_avatar.jpg';
     }
 }
