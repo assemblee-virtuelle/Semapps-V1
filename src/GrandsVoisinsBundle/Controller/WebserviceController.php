@@ -363,7 +363,7 @@ class WebserviceController extends Controller
                 }
             }
         }
-        print_r($output);
+        //print_r($output);
         return $output;
     }
 
@@ -448,14 +448,14 @@ class WebserviceController extends Controller
                 if (isset($properties['knows'])) {
                     foreach ($properties['knows'] as $uri) {
                         $person = $this->uriPropertiesFiltered($uri);
-                        dump($person);
+                        //dump($person);
                         $output['knows'][] = [
                           'uri'   => $uri,
                           'name'  => $this->sparqlGetLabel(
                             $uri,
                             SemanticFormsBundle::URI_FOAF_PERSON
                           ),
-                          'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'][0],
+                          'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : '',
                         ];
                     }
                 }
