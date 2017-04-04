@@ -123,7 +123,7 @@ class ProfileType extends AbstractForm
           ->add(
             $builder,
             'city',
-            TextType::class,
+            DbPediaType::class,
             [
               'required' => false,
             ]
