@@ -7,6 +7,11 @@ use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\TransferStats;
 
+/**
+ * Class SemanticFormsClient
+ * @package VirtualAssembly\SemanticFormsBundle\Services
+ * classe qui sert d'interface avec semantic-forms
+ */
 class SemanticFormsClient
 {
     var $baseUrlFoaf = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
@@ -29,7 +34,18 @@ class SemanticFormsClient
     CONST SPEC_PROJECT = 'form-Project';
     CONST SPEC_EVENT = 'form-Event';
     CONST SPEC_PROPOSITION = 'form-Proposition';
+    CONST VALUE_TYPE_URI = 1;
+    CONST VALUE_TYPE_TEXT = 2;
 
+    /**
+     * SemanticFormsClient constructor.
+     * @param $domain
+     * @param $login
+     * @param $password
+     * @param $timeout
+     * @param array $prefixes
+     * @param array $fieldsAliases
+     */
     public function __construct(
       $domain,
       $login,
@@ -51,6 +67,10 @@ class SemanticFormsClient
         }
     }
 
+    /**
+     * @param string $cookie
+     * @return Client
+     */
     public function buildClient($cookie = "")
     {
         return new Client(
@@ -63,12 +83,19 @@ class SemanticFormsClient
         );
     }
 
+    /**
+     * @param $path
+     * @param array $options
+     * @return \Exception|RequestException|mixed|\Psr\Http\Message\ResponseInterface
+     * réalise un post sur semantic-forms
+     */
     public function post($path, $options = [])
     {
         $cookie = new FileCookieJar($this->cookieName, true);
         $client = $this->buildClient($cookie);
 
         try {
+            dump($path,$options);
             $response = $client->request(
               'POST',
               $path,
@@ -81,6 +108,12 @@ class SemanticFormsClient
         }
     }
 
+    /**
+     * @param $path
+     * @param array $options
+     * @return \Exception|RequestException|\Psr\Http\Message\StreamInterface
+     * réalise un get sur semantic-forms
+     */
     public function get($path, $options = [])
     {
         $client = $this->buildClient();
@@ -111,28 +144,29 @@ class SemanticFormsClient
         }
     }
 
-    public function getJSON($path, $options = [])
-    {
-        return json_decode($this->get($path, $options), JSON_OBJECT_AS_ARRAY);
-    }
-
+    /**
+     * @param null $login
+     * @param null $password
+     * @return \Exception|RequestException|int
+     * permet de s'authentifier sur semantic-forms
+     */
     public function auth($login = null, $password = null)
     {
         $login    = $login ? $login : $this->login;
         $password = $password ? $password : $this->password;
         $options  = array(
-          'query' => array(
-            'userid'   => $login,
-            'password' => $password,
-          ),
+            'query' => array(
+                'userid'   => $login,
+                'password' => $password,
+            ),
         );
         $cookie   = new FileCookieJar($this->cookieName, true);
         $client   = $this->buildClient($cookie);
         try {
             $response = $client->request(
-              'GET',
-              '/authenticate',
-              $options
+                'GET',
+                '/authenticate',
+                $options
             );
 
             return $response->getStatusCode();
@@ -142,20 +176,65 @@ class SemanticFormsClient
     }
 
     /**
-     * Retrieve simple json data.
-     *
-     * @param $url
-     *
-     * @return \Psr\Http\Message\StreamInterface
+     * @param $sparqlRequest
+     * @return \Exception|RequestException|\Psr\Http\Message\StreamInterface|string
+     * permet d'appeler le service sparql-data de semantic-forms
+     * @see post
      */
-    public function httpLoadJson($url)
+    public function sparqlData($sparqlRequest)
     {
-        $client = new Client();
-        $result = $client->request('GET', $url);
+        $options['headers'] = [
+            // Sign request.
+            'User-Agent' => 'GrandsVoisinsBundle',
+            // Ensure to get JSON response.
+            'Accept'     => 'application/json',
+        ];
 
-        return $result->getBody();
+        try {
+            $result = $this->post(
+                '/sparql-data',
+                [
+                    'form_params' => [
+                        'query' => $sparqlRequest,
+                    ],
+                ]
+            );
+
+            return $result->getStatusCode() === 200 ? $result->getBody() : '{}';
+        } catch (RequestException $e) {
+            return $e;
+        }
     }
 
+    /**
+     * @param $data
+     * @param $login
+     * @param $password
+     * @return int
+     * fonction qui permet d'envoyer un formulaire a semantic forms
+     * @see auth
+     * @see post
+     */
+    public function send($data, $login, $password)
+    {
+        $this->auth($login, $password);
+        $response = $this->post(
+            '/save',
+            [
+                'form_params' => $data,
+            ]
+        );
+
+        return $response->getStatusCode();
+    }
+
+    /**
+     * @param $term
+     * @param bool $class
+     * @return mixed
+     * permet d'appeler le service lookup de semantic-forms
+     * @see get
+     */
     public function lookup($term, $class = false)
     {
         return json_decode(
@@ -171,19 +250,13 @@ class SemanticFormsClient
         );
     }
 
-    public function send($data, $login, $password)
-    {
-        $this->auth($login, $password);
-        $response = $this->post(
-          '/save',
-          [
-            'form_params' => $data,
-          ]
-        );
-
-        return $response->getStatusCode();
-    }
-
+    /**
+     * @param $specType
+     * @return array
+     * permet d'appeler le service create-data de semantic-forms
+     * @see getJSON
+     * @see get
+     */
     public function createData($specType)
     {
         return $this->getJSON(
@@ -196,6 +269,14 @@ class SemanticFormsClient
         );
     }
 
+    /**
+     * @param $uri
+     * @param $specType
+     * @return mixed
+     * permet d'appeler le service form-data de semantic-forms
+     * @see getJSON
+     * @see get
+     */
     public function formData($uri, $specType)
     {
         return $this->getJSON(
@@ -209,46 +290,78 @@ class SemanticFormsClient
         );
     }
 
-    public function getSpec($specType)
-    {
-        return $this->baseUrlFoaf.$specType;
-    }
-
-    public function sparqlData($sparqlRequest)
-    {
-        $options['headers'] = [
-            // Sign request.
-          'User-Agent' => 'GrandsVoisinsBundle',
-            // Ensure to get JSON response.
-          'Accept'     => 'application/json',
-        ];
-
-        try {
-            $result = $this->post(
-              '/sparql-data',
-              [
-                'form_params' => [
-                  'query' => $sparqlRequest,
-                ],
-              ]
-            );
-
-            return $result->getStatusCode() === 200 ? $result->getBody() : '{}';
-        } catch (RequestException $e) {
-            return $e;
-        }
-    }
-
+    /**
+     * @param $request
+     * @return mixed
+     */
     public function sparql($request)
     {
         return $this->getJSON(
-          '/sparql',
-          [
-            'query' => [
-              'query' => $request,
-            ],
-          ]
+            '/sparql',
+            [
+                'query' => [
+                    'query' => $request,
+                ],
+            ]
         );
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function update($query)
+    {
+
+        $this->post(
+            '/update',
+            [
+                'form_params' => [
+                    'query' => $query,
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @param $path
+     * @param array $options
+     * @return mixed
+     */
+    public function getJSON($path, $options = [])
+    {
+        return json_decode($this->get($path, $options), JSON_OBJECT_AS_ARRAY);
+    }
+
+    /**
+     * @param $graph
+     * @param $sujet
+     * @param $predicat
+     * @param $valeur
+     * @param int $typeValeur
+     * @return mixed
+     */
+    public function insert($graph,$sujet,$predicat,$valeur,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
+        $query = "INSERT DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";
+
+        return $this->update($query);
+    }
+
+    /**
+     * @param $graph
+     * @param $sujet
+     * @param $predicat
+     * @param null $valeur
+     * @param int $typeValeur
+     * @return mixed
+     */
+    public function delete($graph,$sujet,$predicat,$valeur= null,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
+        if(!$valeur)
+            $query="DELETE { GRAPH <".$graph."> { <".$sujet."> ?p ?o . }} WHERE { GRAPH <".$graph."> { <".$sujet."> ?p ?o . <".$sujet."> <".$predicat."> ?o .}}";
+        else
+            $query="DELETE DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";
+
+        return $this->update($query);
     }
 
     /**
@@ -296,6 +409,12 @@ class SemanticFormsClient
         )] = $value;
     }
 
+    /**
+     * @param $post
+     * @param $graphURI
+     * @param $orga
+     * @param null $personne
+     */
     public function verifMember(&$post, $graphURI, $orga, $personne = null)
     {
 
@@ -378,16 +497,10 @@ class SemanticFormsClient
         }
     }
 
-    private function getValue($tab)
-    {
-        $temp = array();
-        foreach ($tab as $value) {
-            array_push($temp, $value['val']['value']);
-        }
-
-        return $temp;
-    }
-
+    /**
+     * @param $uri
+     * @return array
+     */
     public function uriProperties($uri)
     {
         // All properties about organization.
@@ -414,6 +527,11 @@ class SemanticFormsClient
         return $output;
     }
 
+    /**
+     * @param $uri
+     * @param string $lang
+     * @return bool
+     */
     public function dbPediaLabel($uri, $lang = 'en')
     {
         $options            = ['verify' => false];
@@ -445,6 +563,11 @@ class SemanticFormsClient
         }
     }
 
+    /**
+     * @param $data
+     * @param $lang
+     * @return bool
+     */
     public function dbPediaLabelSearch($data, $lang)
     {
         foreach ($data as $item) {
@@ -455,4 +578,55 @@ class SemanticFormsClient
 
         return false;
     }
+
+    /**
+     * @param $specType
+     * @return string
+     */
+    public function getSpec($specType)
+    {
+        return $this->baseUrlFoaf.$specType;
+    }
+
+    /**
+     * @param $tab
+     * @return array
+     */
+    private function getValue($tab)
+    {
+        $temp = array();
+        foreach ($tab as $value) {
+            array_push($temp, $value['val']['value']);
+        }
+
+        return $temp;
+    }
+
+    /**
+     * @param $type
+     * @param int $valeur
+     * @return string
+     */
+    private function formatValue($type = SemanticFormsClient::VALUE_TYPE_TEXT,$valeur ){
+        if($type == SemanticFormsClient::VALUE_TYPE_URI)
+            return '<'.$valeur.'>';
+        else
+            return '"'.$valeur.'"';
+    }
+
+//    /**
+//     * Retrieve simple json data.
+//     *
+//     * @param $url
+//     *
+//     * @return \Psr\Http\Message\StreamInterface
+//     */
+//    public function httpLoadJson($url)
+//    {
+//        $client = new Client();
+//        $result = $client->request('GET', $url);
+//
+//        return $result->getBody();
+//    }
+
 }

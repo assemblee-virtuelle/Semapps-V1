@@ -25,40 +25,42 @@ class AdminController extends Controller
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user           = $this->getUser();
         $userSfLink     = $user->getSfLink();
+        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
         $oldPictureName = $user->getPictureName();
+        $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
 
         $organisation = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('GrandsVoisinsBundle:Organisation')
-          ->find($this->getUser()->getFkOrganisation());
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('GrandsVoisinsBundle:Organisation')
+            ->find($this->getUser()->getFkOrganisation());
 
         // Build main form.
         $options = [
-          'login'                 => $user->getEmail(),
-          'password'              => $user->getSfUser(),
-          'graphURI'              => $organisation->getGraphURI(),
-          'client'                => $sfClient,
-          'spec'                  => SemanticFormsClient::SPEC_PERSON,
-          'lookupUrlLabel'        => $this->generateUrl(
-            'webserviceFieldUriLabel'
-          ),
-          'lookupUrlPerson'       => $this->generateUrl(
-            'webserviceFieldUriSearch'
-          ),
-          'lookupUrlOrganization' => $this->generateUrl(
-            'webserviceFieldUriSearch'
-          ),
-          'values'                => $userSfLink,
+            'login'                 => $user->getEmail(),
+            'password'              => $user->getSfUser(),
+            'graphURI'              => $organisation->getGraphURI(),
+            'client'                => $sfClient,
+            'spec'                  => SemanticFormsClient::SPEC_PERSON,
+            'lookupUrlLabel'        => $this->generateUrl(
+                'webserviceFieldUriLabel'
+            ),
+            'lookupUrlPerson'       => $this->generateUrl(
+                'webserviceFieldUriSearch'
+            ),
+            'lookupUrlOrganization' => $this->generateUrl(
+                'webserviceFieldUriSearch'
+            ),
+            'values'                => $userSfLink,
         ];
 
         /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */
         $form = $this->createForm(
-          ProfileType::class,
-          $user,
-          // Options.
-          $options
+            ProfileType::class,
+            $user,
+            // Options.
+            $options
         );
 
         $form->handleRequest($request);
@@ -78,20 +80,32 @@ class AdminController extends Controller
             }*/
 
             // Manage picture.
-            $newPicture = $user->getPictureName();
+            $newPicture = $form->get('pictureName')->getData();
             if ($newPicture) {
                 // Remove old picture.
                 $fileUploader = $this->get('GrandsVoisinsBundle.fileUploader');
                 if ($oldPictureName) {
-                    $oldDir = $fileUploader->getTargetDir();
+                    $dir = $fileUploader->getTargetDir();
                     // Check if file exists to avoid all errors.
-                    if (is_file($oldDir.'/'.$oldPictureName)) {
+                    if (is_file($dir.'/'.$oldPictureName)) {
                         $fileUploader->remove($oldPictureName);
                     }
                 }
                 $user->setPictureName(
-                  $fileUploader->upload($newPicture)
+                    $fileUploader->upload($newPicture)
                 );
+                $sfClient->delete(
+                    $organisation->getGraphURI(),
+                    $userSfLink,
+                    $predicatImage);
+
+                $sfClient->insert(
+                    $organisation->getGraphURI(),
+                    $userSfLink,
+                    $predicatImage,
+                    $fileUploader->generateUrlForFile($user->getPictureName()),
+                    SemanticFormsClient::VALUE_TYPE_URI);
+
             } else {
                 $user->setPictureName($oldPictureName);
             }
@@ -104,25 +118,25 @@ class AdminController extends Controller
             if (!$userSfLink) {
                 // Get the main user entity.
                 $userRepository = $this
-                  ->getDoctrine()
-                  ->getManager()
-                  ->getRepository('GrandsVoisinsBundle:User');
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('GrandsVoisinsBundle:User');
 
                 // Update sfLink.
                 $userRepository
-                  ->createQueryBuilder('q')
-                  ->update()
-                  ->set('q.sfLink', ':link')
-                  ->where('q.id=:id')
-                  ->setParameter('link', $form->uri)
-                  ->setParameter('id', $this->getUser()->getId())
-                  ->getQuery()
-                  ->execute();
+                    ->createQueryBuilder('q')
+                    ->update()
+                    ->set('q.sfLink', ':link')
+                    ->where('q.id=:id')
+                    ->setParameter('link', $form->uri)
+                    ->setParameter('id', $this->getUser()->getId())
+                    ->getQuery()
+                    ->execute();
             }
 
             $this->addFlash(
-              'success',
-              'Votre profil a bien été mis à jour.'
+                'success',
+                'Votre profil a bien été mis à jour.'
             );
 
             return $this->redirectToRoute('profile');
@@ -130,12 +144,11 @@ class AdminController extends Controller
 
         // Fill form
         return $this->render(
-          'GrandsVoisinsBundle:Admin:profile.html.twig',
-          array(
-            'form'      => $form->createView(),
-              // 'picture'   => $picture->createView(),
-            'entityUri' => $userSfLink,
-          )
+            'GrandsVoisinsBundle:Admin:profile.html.twig',
+            array(
+                'form'      => $form->createView(),
+                'entityUri' => $userSfLink,
+            )
         );
     }
 
@@ -148,23 +161,23 @@ class AdminController extends Controller
     {
         // Find all users.
         $userManager         = $this->getDoctrine()
-          ->getManager()
-          ->getRepository(
-            'GrandsVoisinsBundle:User'
-          );
+            ->getManager()
+            ->getRepository(
+                'GrandsVoisinsBundle:User'
+            );
         $organisationManager = $this->getDoctrine()
-          ->getManager()
-          ->getRepository(
-            'GrandsVoisinsBundle:Organisation'
-          );
+            ->getManager()
+            ->getRepository(
+                'GrandsVoisinsBundle:Organisation'
+            );
         $users               = $userManager->findBy(
-          array('fkOrganisation' => $this->getUser()->getFkOrganisation())
+            array('fkOrganisation' => $this->getUser()->getFkOrganisation())
         );
         $idResponsible       = $organisationManager->find(
-          $this->getUser()->getFkOrganisation()
+            $this->getUser()->getFkOrganisation()
         )->getFkResponsable();
         $form                = $this->get('form.factory')->create(
-          UserType::class
+            UserType::class
         );
 
         $form->handleRequest($request);
@@ -175,11 +188,11 @@ class AdminController extends Controller
 
             // Generate password.
             $tokenGenerator = $this->container->get(
-              'fos_user.util.token_generator'
+                'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
             $data->setPassword(
-              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $data->setSfUser($randomPassword);
@@ -203,28 +216,28 @@ class AdminController extends Controller
                 return $this->redirectToRoute('team');
             }
             $url = $this->generateUrl(
-              'fos_user_registration_confirm',
-              array('token' => $conf_token),
-              UrlGeneratorInterface::ABSOLUTE_URL
+                'fos_user_registration_confirm',
+                array('token' => $conf_token),
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
             //send email to the new user
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-              ->sendConfirmMessage(
-                $data,
-                GrandsVoisinsConfig::TEAM,
-                $url,
-                $randomPassword
-              );
+                ->sendConfirmMessage(
+                    $data,
+                    GrandsVoisinsConfig::TEAM,
+                    $url,
+                    $randomPassword
+                );
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
             $this->addFlash(
-              'success',
-              'Un compte à bien été créé pour <b>'.
-              $data->getUsername().
-              '</b>. Un email a été envoyé à <b>'.
-              $data->getEmail().
-              '</b> pour lui communiquer ses informations de connexion.'
+                'success',
+                'Un compte à bien été créé pour <b>'.
+                $data->getUsername().
+                '</b>. Un email a été envoyé à <b>'.
+                $data->getEmail().
+                '</b> pour lui communiquer ses informations de connexion.'
             );
 
             // Go back to team page.
@@ -232,17 +245,17 @@ class AdminController extends Controller
         }
 
         return $this->render(
-          'GrandsVoisinsBundle:Admin:team.html.twig',
-          array(
-            'users'            => $users,
-            'idResponsable'    => $idResponsible,
-            'usersRolesLabels' => [
-              'ROLE_SUPER_ADMIN' => 'Super admin',
-              'ROLE_ADMIN'       => 'Administration',
-              'ROLE_MEMBER'      => 'Member',
-            ],
-            'formAddUser'      => $form->createView(),
-          )
+            'GrandsVoisinsBundle:Admin:team.html.twig',
+            array(
+                'users'            => $users,
+                'idResponsable'    => $idResponsible,
+                'usersRolesLabels' => [
+                    'ROLE_SUPER_ADMIN' => 'Super admin',
+                    'ROLE_ADMIN'       => 'Administration',
+                    'ROLE_MEMBER'      => 'Member',
+                ],
+                'formAddUser'      => $form->createView(),
+            )
         );
     }
 
@@ -255,18 +268,18 @@ class AdminController extends Controller
         if (!$user) {
             // Display error message.
             $this->addFlash(
-              'danger',
-              'Utilisateur introuvable.'
+                'danger',
+                'Utilisateur introuvable.'
             );
         } else {
             // Delete.
             $userManager->deleteUser($user);
             // Display success message.
             $this->addFlash(
-              'success',
-              'Le compte de <b>'.
-              $user->getUsername().
-              '</b> a bien été supprimé.'
+                'success',
+                'Le compte de <b>'.
+                $user->getUsername().
+                '</b> a bien été supprimé.'
             );
         }
 
@@ -281,13 +294,13 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         $isOldPasswordMatch = (password_verify(
-          $form->get('password')->getData(),
-          $this->getUser()->getPassword()
+            $form->get('password')->getData(),
+            $this->getUser()->getPassword()
         ));
         $isNewPasswordMatch = ($form->get('passwordNew')->getdata(
-          ) == $form->get('passwordNewConfirm')->getdata());
+            ) == $form->get('passwordNewConfirm')->getdata());
         $isChangedUsername  = ($form->get('username')->getdata(
-          ) != $this->getUser()->getUsername());
+            ) != $this->getUser()->getUsername());
         $isOK               = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -297,22 +310,22 @@ class AdminController extends Controller
                     $isOK = true;
                 }
                 if ($form->get('passwordNew')->getdata() && $form->get(
-                    'passwordNewConfirm'
-                  )->getdata()
+                        'passwordNewConfirm'
+                    )->getdata()
                 ) {
                     if ($isNewPasswordMatch) {
                         $user->setPassword(
-                          password_hash(
-                            $form->get('passwordNew')->getdata(),
-                            PASSWORD_BCRYPT,
-                            ['cost' => 13]
-                          )
+                            password_hash(
+                                $form->get('passwordNew')->getdata(),
+                                PASSWORD_BCRYPT,
+                                ['cost' => 13]
+                            )
                         );
                         $isOK = true;
                     } else {
                         $this->addFlash(
-                          'info',
-                          "les mots de passe saisi ne correspondent pas"
+                            'info',
+                            "les mots de passe saisi ne correspondent pas"
                         );
                     }
                 }
@@ -321,33 +334,33 @@ class AdminController extends Controller
                     if ($isOK) {
                         $em->flush();
                         $this->addFlash(
-                          "success",
-                          "les informations ont été correctement enregistés"
+                            "success",
+                            "les informations ont été correctement enregistés"
                         );
                     }
 
                 } catch (UniqueConstraintViolationException $e) {
                     $this->addFlash(
-                      'danger',
-                      "le nom d'utilisateur saisi existe déjà"
+                        'danger',
+                        "le nom d'utilisateur saisi existe déjà"
                     );
 
                     return $this->redirectToRoute('settings');
                 }
             } else {
                 $this->addFlash(
-                  'info',
-                  "le mot de passe courant saisi est incorrect"
+                    'info',
+                    "le mot de passe courant saisi est incorrect"
                 );
             }
         }
 
         return $this->render(
-          'GrandsVoisinsBundle:Admin:settings.html.twig',
-          array(
-            'form' => $form->createView(),
-            'user' => $user,
-          )
+            'GrandsVoisinsBundle:Admin:settings.html.twig',
+            array(
+                'form' => $form->createView(),
+                'user' => $user,
+            )
         );
     }
 
@@ -356,7 +369,7 @@ class AdminController extends Controller
 
         $em          = $this->getDoctrine()->getManager();
         $userManager = $em->getRepository('GrandsVoisinsBundle:User')->find(
-          $userId
+            $userId
         );
 
         $userManager->setRoles(array($roles));
@@ -374,8 +387,8 @@ class AdminController extends Controller
         $result   = $sfClient->sparql($query);
         if (!is_array($result)) {
             $this->addFlash(
-              'danger',
-              'Une erreur s\'est produite lors de l\'affichage du formulaire'
+                'danger',
+                'Une erreur s\'est produite lors de l\'affichage du formulaire'
             );
 
             return $this->redirectToRoute('home');
@@ -406,8 +419,8 @@ class AdminController extends Controller
         }
 
         return $this->render(
-          'GrandsVoisinsBundle:Admin:tab.html.twig',
-          ["data" => $data2, "key" => GrandsVoisinsConfig::$organisationFields]
+            'GrandsVoisinsBundle:Admin:tab.html.twig',
+            ["data" => $data2, "key" => GrandsVoisinsConfig::$organisationFields]
 
         );
     }
