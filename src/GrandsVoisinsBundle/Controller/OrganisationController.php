@@ -224,6 +224,7 @@ class OrganisationController extends Controller
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user     = $this->getUser();
         $sfClient = $this->container->get('semantic_forms.client');
+        $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
 
         /* @var $organisationEntity \GrandsVoisinsBundle\Repository\OrganisationRepository */
         // Ask database to know if organization has been already created.
@@ -292,7 +293,7 @@ class OrganisationController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             // Manage picture.
-            $newPicture = $organization->getOrganisationPicture();
+            $newPicture = $form->get('organisationPicture')->getData();
             if ($newPicture) {
                 // Remove old picture.
                 $fileUploader = $this->get('GrandsVoisinsBundle.fileUploader');
@@ -306,6 +307,18 @@ class OrganisationController extends Controller
                 $organization->setOrganisationPicture(
                   $fileUploader->upload($newPicture)
                 );
+
+                $sfClient->delete(
+                    $organization->getGraphURI(),
+                    $sfLink,
+                    $predicatImage);
+
+                $sfClient->insert(
+                    $organization->getGraphURI(),
+                    $sfLink,
+                    $predicatImage,
+                    $fileUploader->generateUrlForFile($organization->getOrganisationPicture()),
+                    SemanticFormsClient::VALUE_TYPE_URI);
             } else {
                 $organization->setOrganisationPicture($oldPictureName);
             }

@@ -95,7 +95,6 @@ class SemanticFormsClient
         $client = $this->buildClient($cookie);
 
         try {
-            dump($path,$options);
             $response = $client->request(
               'POST',
               $path,
