@@ -109,7 +109,7 @@ class ProfileType extends AbstractForm
             DateType::class,
             [
               'required' => false,
-              'widget'   => 'single_text',
+              'widget'   => 'choice',
             ]
           )
           ->add(
