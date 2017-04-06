@@ -21,8 +21,8 @@ class PropositionType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'    => 'building',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room'        => 'room',
         'http://xmlns.com/foaf/0.1/topic_interest'                                      => 'topicInterest',
-//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'ressouceNeeded',
-//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'ressouceProposed',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
     ];
 
@@ -65,6 +65,22 @@ class PropositionType extends AbstractForm
               'required' => false,
             ]
           )
+            ->add(
+                $builder,
+                'resourceNeeded',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'resourceProposed',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
           ->add(
             $builder,
             'topicInterest',

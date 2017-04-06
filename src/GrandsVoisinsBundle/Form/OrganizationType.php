@@ -45,8 +45,8 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution' => 'realisedContribution',
 //      'http://xmlns.com/foaf/0.1/depiction'                                                    => 'depiction',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#isReferencedBy'     => 'isReferencedBy',
-//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'        => 'ressouceNeeded',
-//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed'      => 'ressouceProposed',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals' => 'volunteeringProposals',
     ];
 
@@ -198,6 +198,22 @@ class OrganizationType extends AbstractForm
               'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
           )
+            ->add(
+                $builder,
+                'resourceNeeded',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'resourceProposed',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
           ->add(
             $builder,
             'hasMember',
