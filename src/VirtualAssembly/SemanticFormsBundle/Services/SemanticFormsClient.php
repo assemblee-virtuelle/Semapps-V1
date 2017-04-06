@@ -25,6 +25,7 @@ class SemanticFormsClient
       'foaf'  => '<http://xmlns.com/foaf/0.1/>',
       'purl'  => '<http://purl.org/dc/elements/1.1/>',
       'event' => '<http://purl.org/NET/c4dm/event.owl#>',
+      'fipa'  => '<http://www.fipa.org/schemas#>',
     ];
     var $prefixesCompiled = '';
     var $fieldsAliases = [];

@@ -209,6 +209,7 @@
                                     {{ admin.menuItem('Les organisations', 'all_orga', 'globe', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Projets', 'projectList', 'screenshot', menuSelected, 'ADMIN') }}
                                     {{ admin.menuItem('Evénements', 'eventList', 'calendar', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Proposition', 'propositionList', 'info-sign', menuSelected, 'ADMIN') }}
                                     {{ admin.menuItem('Paramètres','settings','cog', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out', menuSelected) }}

@@ -19,6 +19,7 @@ class ComponentLoader extends Loader
         $components = [
           'projet'    => 'Project',
           'evenement' => 'Event',
+          'proposition' => 'Proposition',
         ];
 
         $routes = new RouteCollection();

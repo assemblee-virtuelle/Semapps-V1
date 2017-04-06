@@ -14,6 +14,7 @@ class ComponentController extends Controller
 
     public function listAction()
     {
+        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
 
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
