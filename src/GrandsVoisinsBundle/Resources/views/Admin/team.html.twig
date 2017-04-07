@@ -10,6 +10,25 @@
     {{ parent() }}
     <h2>Membres</h2>
     <table id="teamManager" class="table table-bordered">
+        <tr>
+            <th class="padded-value" style="width:25%">
+                Nom Prénom
+            </th>
+
+            <th class="padded-value" style="width:25%">
+                Login
+            </th>
+            <th class="padded-value" style="width:25%">
+                Email
+            </th>
+            <th class="padded-value" style="width:10%">
+                Date dernière connexion
+            </th>
+            <th class="padded-value" style="width:20%">
+                Rôle
+            </th>
+            <th></th>
+        </tr>
         {% for user in users %}
             <tr rel="{{ user.id }}">
                 <td class="padded-value" style="width:25%">
@@ -22,20 +41,23 @@
                 <td class="padded-value" style="width:25%">
                     {{ user.email }}
                 </td>
+                <td class="padded-value" style="width:10%">
+                    {{ user.lastLogin|date("d/m/Y") }}
+                </td>
                 {% if user.id == idResponsable %}
-                    <td class="padded-value" style="width:30%">
+                    <td class="padded-value" style="width:20%">
                         Responsable
                     </td>
                 {% elseif app.user.username == user.username %}
-                    <td class="padded-value" style="width:30%">
+                    <td class="padded-value" style="width:20%">
                         {{ usersRolesLabels[user.roles[0]] }}
                     </td>
                 {% elseif user.hasRole('ROLE_SUPER_ADMIN') and not app.user.hasRole('ROLE_SUPER_ADMIN') %}
-                    <td class="padded-value" style="width:30%">
+                    <td class="padded-value" style="width:20%">
                         {{ usersRolesLabels['ROLE_SUPER_ADMIN'] }}
                     </td>
                 {% else %}
-                    <td style="width:30%">
+                    <td style="width:20%">
                         <select class="form-control" name="accessLevel">
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <option value="ROLE_SUPER_ADMIN" {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="true"{% endif %}>Super Administrateur</option>
