@@ -85,18 +85,6 @@ class User extends BaseUser
     }
 
     /**
-     * Get sfLoginSF
-     *
-     * @return string
-     */
-    public function getGraphURI()
-    {
-        return urlencode('mailto:'.$this->getEmail());
-    }
-
-
-
-    /**
      * Set fkOrganisation
      *
      * @param integer $fkOrganisation
