@@ -6,17 +6,16 @@
 
 {% block stylesheets %}
     {{ parent() }}
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<link type="text/css" rel="stylesheet"
+      href="{{ asset('bower_components/datatables/media/css/jquery.dataTables.min.css') }}">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js">
-    </script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js">
-    </script>
-    <script ype="text/javascript" language="javascript">
+    <script src="{{ asset('bower_components/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/datatables/media/js/dataTables.bootstrap.min.js') }}"></script>
+
+    <script type="text/javascript" language="javascript">
         var vmConfigs = {{ data|json_encode()|raw }};
 
         $(document).ready(function() {
