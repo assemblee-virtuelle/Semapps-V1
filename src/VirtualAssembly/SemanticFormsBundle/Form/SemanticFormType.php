@@ -252,7 +252,12 @@ abstract class SemanticFormType extends AbstractType
             // Date
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
             case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
-                return new \DateTime(current($values));
+                try{
+                    return new \DateTime(current($values));
+                }
+                catch (\Exception $e){
+                    return new \DateTime();
+                }
                 break;
 
             // Number
