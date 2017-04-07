@@ -120,13 +120,14 @@ abstract class SemanticFormType extends AbstractType
                     'type'
                   )] = current($this->formSpecification['type']['value']);
               }
-
+                $subject = $this->formSpecification['type']['subject'];
               foreach ($this->fieldsAdded as $localHtmlName) {
                   $fieldSpec    = $this->formSpecification[$localHtmlName];
                   $fieldEncoded = $this->fieldEncode(
                     $fieldSpec['localType'],
                     $form->get($localHtmlName)->getData(),
-                    $fieldSpec
+                    $fieldSpec,
+                      $subject
                   );
                   foreach ($fieldEncoded as $htmlName => $value) {
                       // Retrieve original html name from given name.
@@ -190,7 +191,7 @@ abstract class SemanticFormType extends AbstractType
     /**
      * From front form to semantic forms.
      */
-    public function fieldEncode($type, $values, $spec)
+    public function fieldEncode($type, $values, $spec,$subject)
     {
         $outputSingleValue = $values;
 
@@ -214,7 +215,7 @@ abstract class SemanticFormType extends AbstractType
                         // Empty all previous values
                         foreach ($spec['value'] as $value) {
                             $htmlName          = $this->buildHtmlName(
-                              $spec['subject'],
+                              $subject,
                               $spec['property'],
                               $value
                             );
@@ -223,7 +224,7 @@ abstract class SemanticFormType extends AbstractType
                         // Add new values.
                         foreach (array_keys($values) as $value) {
                             $htmlName          = $this->buildHtmlName(
-                              $spec['subject'],
+                              $subject,
                               $spec['property'],
                               $value
                             );
