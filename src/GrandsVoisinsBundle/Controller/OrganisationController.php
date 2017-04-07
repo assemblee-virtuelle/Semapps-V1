@@ -350,8 +350,10 @@ class OrganisationController extends Controller
               'success',
               'Les données de l\'organisation ont bien été mises à jour.'
             );
-
-            return $this->redirectToRoute('detail_orga');
+            if(!$orgaId)
+                return $this->redirectToRoute('detail_orga');
+            else
+                return $this->redirectToRoute('detail_orga_edit',['orgaId' => $orgaId]);
         }
         // Fill form
         return $this->render(
