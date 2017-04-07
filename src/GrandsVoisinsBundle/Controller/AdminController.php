@@ -159,6 +159,8 @@ class AdminController extends Controller
      */
     public function teamAction(Request $request)
     {
+        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
+        $sfClient       = $this->container->get('semantic_forms.client');
         // Find all users.
         $userManager         = $this->getDoctrine()
             ->getManager()
@@ -173,13 +175,31 @@ class AdminController extends Controller
         $users               = $userManager->findBy(
             array('fkOrganisation' => $this->getUser()->getFkOrganisation())
         );
-        $idResponsible       = $organisationManager->find(
+        $organisation       = $organisationManager->find(
             $this->getUser()->getFkOrganisation()
-        )->getFkResponsable();
+        );
         $form                = $this->get('form.factory')->create(
             UserType::class
         );
+        $idResponsible = $organisation->getFkResponsable();
 
+        // using the field username_canonical to have the name and forname of each user
+        foreach ($users as $user){
+            //TODO make function to find something about someone
+            //nom
+            $query = $sfClient->prefixesCompiled . "\n SELECT ?o WHERE { GRAPH <".$organisation->getGraphURI()."> { <".$user->getSfLink()."> foaf:familyName ?o. }} ";
+            $result = $sfClient->sparql($query);
+            if (array_key_exists(0,$result["results"]["bindings"]))
+                $user->setUsernameCanonical($result["results"]["bindings"][0]['o']["value"]);
+            else
+                $user->setUsernameCanonical("");
+            //prenom
+            $query = $sfClient->prefixesCompiled . "\n SELECT ?o WHERE { GRAPH <".$organisation->getGraphURI()."> { <".$user->getSfLink()."> foaf:givenName ?o. }} ";
+            $result = $sfClient->sparql($query);
+            if (array_key_exists(0,$result["results"]["bindings"]))
+                $user->setUsernameCanonical($user->getUsernameCanonical().' '.$result["results"]["bindings"][0]['o']["value"]);
+
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

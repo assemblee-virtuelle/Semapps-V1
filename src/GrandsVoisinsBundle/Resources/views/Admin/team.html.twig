@@ -12,10 +12,14 @@
     <table id="teamManager" class="table table-bordered">
         {% for user in users %}
             <tr rel="{{ user.id }}">
-                <td class="padded-value" style="width:40%">
+                <td class="padded-value" style="width:25%">
+                    {{ user.usernameCanonical }}
+                </td>
+
+                <td class="padded-value" style="width:25%">
                     {{ user.username }}
                 </td>
-                <td class="padded-value" style="width:30%">
+                <td class="padded-value" style="width:25%">
                     {{ user.email }}
                 </td>
                 {% if user.id == idResponsable %}
@@ -34,7 +38,7 @@
                     <td style="width:30%">
                         <select class="form-control" name="accessLevel">
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <option value="ROLE_SUPER_ADMIN" {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="true"{% endif %}>Super Administrateur</option>
+                                <option value="ROLE_SUPER_ADMIN" {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="true"{% endif %}>Super Administrateur</option>
                             {% endif %}
                             <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
                             <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
@@ -49,6 +53,7 @@
                     {% endif %}
                 {% endif %}
             </tr>
+
         {% endfor %}
     </table>
     {% if is_granted('ROLE_ADMIN')%}
