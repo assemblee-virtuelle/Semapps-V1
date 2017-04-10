@@ -82,7 +82,11 @@
                         {{ form_row(form.realisedContribution) }}
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.contributionType) }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-6">
                         {{ form_row(form.conventionType) }}
@@ -148,7 +152,14 @@
                         {{ form_row(form.resourceNeeded) }}
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_row(form.leavingDate) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.newLocation) }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">
                         {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}

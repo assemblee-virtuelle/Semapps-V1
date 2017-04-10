@@ -40,14 +40,16 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin'             => 'linkedin',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'             => 'facebook',
       'http://xmlns.com/foaf/0.1/img'                                                          => 'img',
-      'http://xmlns.com/foaf/0.1/status'                                                       => 'status',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution' => 'proposedContribution',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution' => 'realisedContribution',
-//      'http://xmlns.com/foaf/0.1/depiction'                                                    => 'depiction',
+//      'http://xmlns.com/foaf/0.1/depiction'                                                  => 'depiction',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#isReferencedBy'     => 'isReferencedBy',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'       => 'resourceNeeded',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed'     => 'resourceProposed',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals' => 'volunteeringProposals',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType'     => 'contributionType',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate'          => 'leavingDate',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation'          => 'newLocation',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -224,6 +226,31 @@ class OrganizationType extends AbstractForm
               'labelUrl'  => $options['lookupUrlLabel'],
               'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
+          )
+          ->add(
+              $builder,
+              'leavingDate',
+              DateType::class,
+              [
+                  'required' => false,
+                  'widget'   => 'single_text',
+              ]
+            )
+          ->add(
+              $builder,
+              'newLocation',
+              TextType::class,
+              [
+                  'required' => false,
+              ]
+          )
+          ->add(
+              $builder,
+              'contributionType',
+              TextType::class,
+              [
+                  'required' => false,
+              ]
           );
 
         $builder->add(
