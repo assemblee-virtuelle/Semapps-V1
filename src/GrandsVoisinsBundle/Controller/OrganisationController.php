@@ -278,6 +278,7 @@ class OrganisationController extends Controller
             'webserviceFieldUriSearch'
           ),
           'values'                => $sfLink,
+          'role'                  => $user->getRoles(),
         ];
 
         /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */

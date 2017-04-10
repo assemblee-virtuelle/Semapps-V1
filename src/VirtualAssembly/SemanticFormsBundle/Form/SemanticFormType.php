@@ -32,6 +32,7 @@ abstract class SemanticFormType extends AbstractType
             'graphURI' => '',
             'values'   => '',
             'spec'     => '',
+            'role'     => '',
           )
         );
     }

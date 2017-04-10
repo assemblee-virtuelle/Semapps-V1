@@ -32,10 +32,10 @@ class OrganizationType extends AbstractForm
       'http://xmlns.com/foaf/0.1/homepage'                                                     => 'homepage',
       'http://xmlns.com/foaf/0.1/phone'                                                        => 'phone',
       'http://xmlns.com/foaf/0.1/mbox'                                                         => 'mbox',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate'          => 'arrivalDate',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'             => 'building',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room'                 => 'room',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status'               => 'status',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate'          => 'arrivalDate', //aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'             => 'building', //aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room'                 => 'room', //aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status'               => 'status', //aurore
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter'              => 'twitter',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin'             => 'linkedin',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'             => 'facebook',
@@ -48,8 +48,8 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed'     => 'resourceProposed',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals' => 'volunteeringProposals',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType'     => 'contributionType',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate'          => 'leavingDate',
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation'          => 'newLocation',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate'          => 'leavingDate',//aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation'          => 'newLocation',//aurore
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -60,23 +60,6 @@ class OrganizationType extends AbstractForm
         $this
           ->add($builder, 'name', TextType::class)
           ->add($builder, 'administrativeName', TextType::class)
-          ->add(
-            $builder,
-            'status',
-            TextType::class,
-            [
-              'required' => false,
-            ]
-          )
-          ->add(
-            $builder,
-            'arrivalDate',
-            DateType::class,
-            [
-              'required' => false,
-              'widget'   => 'single_text',
-            ]
-          )
           ->add(
             $builder,
             'description',
@@ -105,22 +88,6 @@ class OrganizationType extends AbstractForm
             $builder,
             'topicInterest',
             DbPediaType::class,
-            [
-              'required' => false,
-            ]
-          )
-          ->add(
-            $builder,
-            'building',
-            ChoiceType::class,
-            [
-              'choices' => array_flip(GrandsVoisinsConfig::$buildingsSimple),
-            ]
-          )
-          ->add(
-            $builder,
-            'room',
-            TextType::class,
             [
               'required' => false,
             ]
@@ -227,31 +194,71 @@ class OrganizationType extends AbstractForm
               'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
           )
-          ->add(
-              $builder,
-              'leavingDate',
-              DateType::class,
-              [
-                  'required' => false,
-                  'widget'   => 'single_text',
-              ]
-            )
-          ->add(
-              $builder,
-              'newLocation',
-              TextType::class,
-              [
-                  'required' => false,
-              ]
-          )
-          ->add(
-              $builder,
-              'contributionType',
-              TextType::class,
-              [
-                  'required' => false,
-              ]
-          );
+            ->add(
+                $builder,
+                'contributionType',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            );
+        dump(array_flip($options['role']));
+        //filter for field only available for aurore
+        if(array_key_exists('ROLE_SUPER_ADMIN',array_flip($options['role']))){
+        //if(contains('ROLE_SUPER_ADMIN',$opt1ions['role'])){
+            $this
+                ->add(
+                    $builder,
+                    'leavingDate',
+                    DateType::class,
+                    [
+                        'required' => false,
+                        'widget'   => 'single_text',
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'newLocation',
+                    TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'arrivalDate',
+                    DateType::class,
+                    [
+                        'required' => false,
+                        'widget'   => 'single_text',
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'building',
+                    ChoiceType::class,
+                    [
+                        'choices' => array_flip(GrandsVoisinsConfig::$buildingsSimple),
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'room',
+                    TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'status',
+                    TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+            ;
+        }
 
         $builder->add(
           'organisationPicture',
