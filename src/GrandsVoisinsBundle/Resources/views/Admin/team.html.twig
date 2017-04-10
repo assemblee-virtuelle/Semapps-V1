@@ -59,11 +59,11 @@
                 {% else %}
                     <td style="width:20%">
                         <select class="form-control" name="accessLevel">
+                            <option value="ROLE_ADMIN" {% if user.hasRole('ROLE_ADMIN') %}selected="true"{% endif %}>Administrateur</option>
+                            <option value="ROLE_MEMBER" {% if user.hasRole('ROLE_MEMBER') %}selected="true"{% endif %}>Membre</option>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <option value="ROLE_SUPER_ADMIN" {% if "ROLE_SUPER_ADMIN" in user.roles %}selected="true"{% endif %}>Super Administrateur</option>
+                                <option value="ROLE_SUPER_ADMIN" {% if user.hasRole('ROLE_SUPER_ADMIN') %}selected="true"{% endif %}>Super Administrateur</option>
                             {% endif %}
-                            <option value="ROLE_ADMIN" {% if "ROLE_ADMIN" in user.roles %}selected="true"{% endif %}>Administrateur</option>
-                            <option value="ROLE_MEMBER" {% if "ROLE_MEMBER" in user.roles %}selected="true"{% endif %}>Membre</option>
                         </select>
                     </td>
                     {% if is_granted('ROLE_ADMIN') %}
