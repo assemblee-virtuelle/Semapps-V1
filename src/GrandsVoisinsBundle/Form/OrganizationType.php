@@ -202,7 +202,7 @@ class OrganizationType extends AbstractForm
                     'required' => false,
                 ]
             );
-        dump(array_flip($options['role']));
+        //dump(array_flip($options['role']));
         //filter for field only available for aurore
         if(array_key_exists('ROLE_SUPER_ADMIN',array_flip($options['role']))){
         //if(contains('ROLE_SUPER_ADMIN',$opt1ions['role'])){
