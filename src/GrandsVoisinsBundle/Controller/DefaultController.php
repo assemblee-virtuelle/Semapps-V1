@@ -20,7 +20,7 @@ class DefaultController extends AbstractController
                             GRAPH ?G
                             {
                                 ?S rdf:type foaf:Organization .
-                                ?S <http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName> ?O.
+                                ?S <http://xmlns.com/foaf/0.1/name> ?O.
                             }
                         }
                     }';
@@ -34,7 +34,7 @@ class DefaultController extends AbstractController
                             GRAPH ?G
                             {
                                 ?S rdf:type foaf:Organization .
-                                ?S <http://virtual-assembly.org/pair_v2#hasResponsible> ?O.
+                                ?S <http://www.w3.org/ns/org#Head> ?O.
                             }
                         }
                     }';
@@ -62,33 +62,38 @@ class DefaultController extends AbstractController
         $responsableRes = $sfClient->sparql($responsable)["results"]["bindings"];
         $batimentRes = $sfClient->sparql($batiment)["results"]["bindings"];
         $tab =array();
-        $noThisOrga= ["urn:gv/contacts/row/112-org"];
-
+        $noThisOrga= ["urn:gv/contacts/row/24-org"];
+        dump("RESULTAT REQUETE");
+        dump("nomRes");
+        dump($nomRes);
+        dump("responsableRes");
+        dump($responsableRes);
+        dump("batimentResE");
+        dump($batimentRes);
+        dump("TRANSFORMATION");
         foreach ($responsableRes as $nom){
             if(!in_array($nom["G"]["value"],$noThisOrga))
                 $tab[$nom["G"]["value"] ] = array($nom["O"]["value"]);
         }
-
+        dump("apres avoir placer les responsables");
+        dump($tab);
+        $i=0;
         foreach ($nomRes as $nom){
             if(!in_array($nom["G"]["value"],$noThisOrga))
-                array_push($tab[$nom["G"]["value"]],$nom["O"]["value"]);
+                array_push($tab[$nom["G"]["value"]],(!$nom["O"]["value"])? "nom".$i."_NULL" : $nom["O"]["value"]);
+            ++$i;
         }
-
+        dump("apres avoir placer les nom des orga");
+        dump($tab);
         foreach ($batimentRes as $batiment){
             if(!in_array($batiment["G"]["value"],$noThisOrga))
-                array_push($tab[$batiment["G"]["value"]],$batiment["O"]["value"]);
+                array_push($tab[$batiment["G"]["value"]],(!$batiment["O"]["value"])? "batiment_NULL" : $batiment["O"]["value"]);
         }
-        $tabwith2 = array();
-        $tabwith3 = array();
-        foreach ($tab as $key => $value){
-            if(count($value) >= 3 || $key == 'urn:gv/contacts/row/247-org')
-                $tabwith3[$key] = $value;
-            else
-                $tabwith2[$key] = $value;
-        }
+        dump("apres avoir placer les nom des batiments");
+        dump($tab);
         $email = array();
         $email2 = array();
-        foreach ($tabwith3 as $key => $value){
+        foreach ($tab as $key => $value){
             $personne='prefix foaf: <http://xmlns.com/foaf/0.1/>
                     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -110,34 +115,36 @@ class DefaultController extends AbstractController
             $personneRes = trim(explode(',',$personneRes)[0]);
 
             if(in_array($personneRes,$email)){
-                $tabwith3[$key][0] = $personneRes;
-                $email2[$key] = $tabwith3[$key];
-                unset($tabwith3[$key]);
+                $tab[$key][0] = $personneRes;
+                $email2[$key] = $tab[$key];
+                unset($tab[$key]);
 
             }
             else {
                 array_push($email,$personneRes);
-                $tabwith3[$key][0] = $personneRes;
+                $tab[$key][0] = $personneRes;
             }
 
 
         }
         dump($email2);
-        dump($tabwith3);
+        dump($tab);
+
         $orga = array();
         $em = $this->getDoctrine()->getManager();
         $orgaRepository = $em->getRepository('GrandsVoisinsBundle:Organisation');
         $i =0;
-        foreach ($tabwith3 as $key=>$tab){
+
+        foreach ($tab as $key=>$val){
             set_time_limit ( 30 );
 
-            if(!in_array($tab[1],$orga)){
+            if(!in_array($val[1],$orga)){
                 $organisation = new Organisation();
                 $user = new User();
                 //for the organisation
-                $organisation->setBatiment(key_exists(2,$tab)? str_replace(' ','',lcfirst(ucwords($tab[2]))) : 'robin');
-                $organisation->setName($tab[1]);
-                array_push($orga,$tab[1]);
+                $organisation->setBatiment(key_exists(2,$val)? str_replace(' ','',lcfirst(ucwords($val[2]))) : 'robin');
+                $organisation->setName($val[1]);
+                array_push($orga,$val[1]);
                 $organisation->setSfOrganisation($key);
                 // tells Doctrine you want to (eventually) save the Product (no queries yet)
 
@@ -149,16 +156,16 @@ class DefaultController extends AbstractController
                 try {
                     $em->flush($organisation);
                 } catch (UniqueConstraintViolationException $e) {
-                    dump($key,$tab);
+                    dump($key,$val);
                     dump("le nom de l'orgnanisation que vous avez saisi est déjà présent");
                     exit;
                     //return $this->redirectToRoute('all_orga');
                 }
                 //TODO find a way to call teamAction in admin
                 //for the user
-                $user->setUsername(stristr($tab[0],'@',true).$i);
+                $user->setUsername(stristr($val[0],'@',true).$i);
                 $i++;
-                $user->setEmail($tab[0]);
+                $user->setEmail($val[0]);
 
                 // Generate password.
                 $tokenGenerator = $this->container->get(
@@ -223,9 +230,10 @@ class DefaultController extends AbstractController
                     exit;
                     //return $this->redirectToRoute('all_orga');
                 }
-            }else dump($tab);
+            }else dump($val);
         }
         dump("ok");
+
         exit;
     }
 

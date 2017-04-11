@@ -109,8 +109,8 @@ detail_orga_edit:
     path:     /orga/detail/{orgaId}
     defaults: { _controller: GrandsVoisinsBundle:Organisation:organisation }
 
-test:
-    path:     /test
+import:
+    path:     /import
     defaults: { _controller: GrandsVoisinsBundle:Default:index }
 
 tab:
