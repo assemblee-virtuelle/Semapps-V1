@@ -50,6 +50,9 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType'     => 'contributionType',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate'          => 'leavingDate',//aurore
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation'          => 'newLocation',//aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#haveBenefitOf'        => 'haveBenefitOf',//aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#insuranceStatus'      => 'insuranceStatus',//aurore
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalNumber'        => 'arrivalNumber',//aurore
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -253,6 +256,30 @@ class OrganizationType extends AbstractForm
                     $builder,
                     'status',
                     TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'arrivalNumber',
+                    TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'insuranceStatus',
+                    TextType::class,
+                    [
+                        'required' => false,
+                    ]
+                )
+                ->add(
+                    $builder,
+                    'haveBenefitOf',
+                    TextareaType::class,
                     [
                         'required' => false,
                     ]

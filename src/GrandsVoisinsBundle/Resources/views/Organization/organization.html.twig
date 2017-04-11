@@ -50,7 +50,7 @@
                     </div>
                 </div>
 
-                {% if form.building is defined  %}
+                {% if form.arrivalDate is defined  %}
                 <div class="row">
                     <div class="col-xs-6">
                         {{ form_row(form.arrivalDate) }}
@@ -59,6 +59,17 @@
                         {{ form_row(form.status) }}
                     </div>
                 </div>
+                {% endif %}
+
+                {% if form.arrivalDate is defined  %}
+                    <div class="row">
+                        <div class="col-xs-6">
+                            {{ form_row(form.arrivalNumber) }}
+                        </div>
+                        <div class="col-xs-6">
+                            {{ form_row(form.insuranceStatus) }}
+                        </div>
+                    </div>
                 {% endif %}
 
                 {% if form.building is defined  %}
@@ -155,6 +166,15 @@
                         {{ form_row(form.resourceNeeded) }}
                     </div>
                 </div>
+
+                {% if form.haveBenefitOf is defined  %}
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.haveBenefitOf) }}
+                    </div>
+                </div>
+                {% endif %}
+
                 {% if form.leavingDate is defined  %}
                 <div class="row">
                     <div class="col-xs-6">
