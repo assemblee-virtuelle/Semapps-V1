@@ -26,7 +26,7 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'          => 'description',
       'http://xmlns.com/foaf/0.1/topic_interest'                                               => 'topicInterest',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType'       => 'conventionType',
-      'http://www.w3.org/ns/org#headOf'                                                        => 'headOf',
+      'http://www.w3.org/ns/org#Head'                                                          => 'head',
       'http://www.w3.org/ns/org#hasMember'                                                     => 'hasMember',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'       => 'employeesCount',
       'http://xmlns.com/foaf/0.1/homepage'                                                     => 'homepage',
@@ -161,7 +161,7 @@ class OrganizationType extends AbstractForm
           )
           ->add(
             $builder,
-            'headOf',
+            'head',
             UriType::class,
             [
               'required'  => false,
