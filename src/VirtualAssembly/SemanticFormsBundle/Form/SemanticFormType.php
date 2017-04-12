@@ -121,7 +121,7 @@ abstract class SemanticFormType extends AbstractType
                     'type'
                   )] = current($this->formSpecification['type']['value']);
               }
-                $subject = $this->formSpecification['type']['subject'];
+                $subject = $this->uri;
               foreach ($this->fieldsAdded as $localHtmlName) {
                   $fieldSpec    = $this->formSpecification[$localHtmlName];
                   $fieldEncoded = $this->fieldEncode(
