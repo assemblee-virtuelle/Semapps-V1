@@ -102,9 +102,14 @@ function buildFiles(files, action, sourceExt, destExt) {
   });
 }
 
-gulp.task('buildAppFiles', () => {
+var tasksCounter = 0;
+var allTasks = [];
 
-  buildFiles(filesJs, (destFile, fileData, sourceExt, destExt) => {
+buildFiles(filesJs, (destFile, fileData, sourceExt, destExt) => {
+  "use strict";
+  let key = 'buildFileJs' + tasksCounter++;
+  allTasks.push(key);
+  gulp.task(key, () => {
     // Create task.
     gulp.src(fileData.sourceFiles, {base: "./"})
       // Create ap file.
@@ -121,9 +126,14 @@ gulp.task('buildAppFiles', () => {
       .pipe(sourcemaps.write('.'))
       // Write.
       .pipe(gulp.dest(fileData.destFilePath));
-  }, 'js', 'min.js');
+  });
+}, 'js', 'min.js');
 
-  buildFiles(filesScss, (destFile, fileData, sourceExt, destExt) => {
+buildFiles(filesScss, (destFile, fileData, sourceExt, destExt) => {
+  "use strict";
+  let key = 'buildFileCss' + tasksCounter++;
+  allTasks.push(key);
+  gulp.task(key, () => {
     gulp.src(fileData.sourceFiles, {base: "./"})
       // Set dest name.
       .pipe(concat(fileData.destFileName + '.' + destExt))
@@ -131,8 +141,8 @@ gulp.task('buildAppFiles', () => {
         includePaths: [fileData.destFilePath]
       }).on('error', sass.logError))
       .pipe(gulp.dest(fileData.destFilePath));
-  }, 'scss', 'css');
-});
+  });
+}, 'scss', 'css');
 
 function getFiles(registery, ext, sourceFiles) {
   "use strict";
@@ -166,7 +176,7 @@ gulp.task('watch', () => {
     }
   });
 
-  gulp.watch(sourceFiles, ['buildAppFiles']);
+  gulp.watch(sourceFiles, [allTasks]);
 });
 
-gulp.task('default', ['buildAppFiles', 'watch']);
+gulp.task('default', allTasks.concat('watch'));
