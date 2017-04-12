@@ -15,7 +15,8 @@
     "select2": "^4.0.3",
     "google-analytics": "GoogleWebComponents/google-analytics#^1.2.3",
     "datatables.net": "^2.1.1",
-    "Plugins": "https://github.com/DataTables/Plugins.git#^1.10.13"
+    "Plugins": "https://github.com/DataTables/Plugins.git#^1.10.13",
+    "datatables": "DataTables#^1.10.13"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
