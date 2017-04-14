@@ -27,5 +27,8 @@ Polymer({
     if (gvc.buildings[this.building]) {
       this.info += ' | ' + gvc.buildings[this.building].title;
     }
-  }
+  },
+    haveTitle(value){
+        return value != null;
+    }
 });

@@ -134,7 +134,6 @@ class WebserviceController extends Controller
       $fieldsOptional = [],
       $select = ''
     ) {
-
         $request =
           $this->sparqlSelectType(
             $fieldsRequired,
@@ -177,14 +176,13 @@ class WebserviceController extends Controller
           $term,
           // Required fields.
           [
-            'image'    => 'foaf:img',
             'type'  => 'rdf:type',
             'title' => 'foaf:name',
           ],
           // Optional fields..
           [
             'image'    => 'foaf:img',
-            'subject'  => 'purl:subject',
+            //'subject'  => 'purl:subject',
             'building' => 'gvoi:building',
           ]
         );
@@ -198,13 +196,11 @@ class WebserviceController extends Controller
           [
             'type'       => 'rdf:type',
             'givenName'  => 'foaf:givenName',
-            'familyName' => 'foaf:familyName',
           ],
           [
+            'familyName' => 'foaf:familyName',
             'image' => 'foaf:img',
-          ],
-          // Group names into title.
-          ' (fn:concat(?givenName, " ", ?familyName) as ?title) '
+          ]
         );
 
         $results = [];

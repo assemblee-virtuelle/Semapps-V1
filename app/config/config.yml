@@ -52,6 +52,7 @@ parameters:
         volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
         contributionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType"
         leavingDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate"
+        newLocation: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation"
         haveBenefitOf: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#haveBenefitOf"
         insuranceStatus: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#insuranceStatus"
         arrivalNumber: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalNumber"
@@ -75,38 +76,50 @@ parameters:
            - facebook
            - twitter
            - linkedin
+           - topicInterest
            # orga
-           - hasResponsible
            - building
            - subject
            - description
+           - head
+           - volunteeringProposals
            # person
            - displayLabel
            - givenName
            - familyName
-           - topicInterest
            - expertize
+           - headOf
         member:
            # all
            - mbox
            - phone
+           - resourceNeeded
+           - resourceProposed
            # orga
            - room
+           - contributionType
+           - hasMember
+           - proposedContribution
+           - realisedContribution
+           - arrivalDate
            # person
            - birthday
            - knows
            - slack
            - memberOf
            - currentProject
+           - postalCode
+           - city
         super_admin:
            # orga
-           - arrivalDate
            - gvStatus
            - administrativeName
            - conventionType
            - empoyeesCount
-           - proposedContribution
-           - realisedContribution
+           - leavingDate
+           - haveBenefitOf
+           - insuranceStatus
+           - newLocation
 
 framework:
     #esi:             ~
