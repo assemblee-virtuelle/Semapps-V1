@@ -13,40 +13,57 @@ parameters:
     semantic_forms.prefixes:
         gvoi: "<http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#>"
     semantic_forms.fields_aliases:
+        displayLabel: "urn:displayLabel"
+        familyName: "http://xmlns.com/foaf/0.1/familyName"
+        givenName: "http://xmlns.com/foaf/0.1/givenName"
         type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+        image: "http://xmlns.com/foaf/0.1/img"
+        headOf: "http://www.w3.org/ns/org#headOf"
+        memberOf: 'http://www.w3.org/ns/org#memberOf'
+        homepage: 'http://xmlns.com/foaf/0.1/homepage'
         mbox: "http://xmlns.com/foaf/0.1/mbox"
         phone: "http://xmlns.com/foaf/0.1/phone"
-        gvStatus: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status"
-        realisedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution"
-        foafStatus: "http://xmlns.com/foaf/0.1/status"
+        currentProject: 'http://xmlns.com/foaf/0.1/currentProject'
+        topicInterest: 'http://xmlns.com/foaf/0.1/topic_interest'
+        knows: 'http://xmlns.com/foaf/0.1/knows'
+        expertize: 'http://purl.org/ontology/cco/core#expertise'
+        slack: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack'
+        birthday: 'http://xmlns.com/foaf/0.1/birthday'
+        postalCode: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#postalCode'
+        city: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city'
+        resourceNeeded: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'
+        resourceProposed: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed'
         foafName: "http://xmlns.com/foaf/0.1/name"
-        givenName: "http://xmlns.com/foaf/0.1/givenName"
-        familyName: "http://xmlns.com/foaf/0.1/familyName"
-        conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
-        hasResponsible: "http://www.w3.org/ns/org#headOf"
-        displayLabel: "urn:displayLabel"
         administrativeName: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName"
-        building: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building"
-        proposedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution"
-        subject: "http://purl.org/dc/elements/1.1/subject"
-        arrivalDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate"
-        room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
-        image: "http://xmlns.com/foaf/0.1/img"
-        homepage : 'http://xmlns.com/foaf/0.1/homepage'
-        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
-        volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
         description: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'
-        facebook: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'
+        conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
+        head: 'http://www.w3.org/ns/org#Head'
+        hasMember: 'http://www.w3.org/ns/org#hasMember'
+        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
+        arrivalDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate"
+        building: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building"
+        room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
+        gvStatus: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status"
         twitter: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#twitter'
         linkedin: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#linkedin'
-        expertize: 'http://purl.org/ontology/cco/core#expertise'
-        knows: 'http://xmlns.com/foaf/0.1/knows'
-        memberOf: 'http://www.w3.org/ns/org#memberOf'
-        slack: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack'
-        topicInterest: 'http://xmlns.com/foaf/0.1/topic_interest'
-        birthday: 'http://xmlns.com/foaf/0.1/birthday'
-        currentProject: 'http://xmlns.com/foaf/0.1/currentProject'
-    # Mixed fields from user / organization.
+        facebook: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#facebook'
+        proposedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution"
+        realisedContribution: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution"
+        volunteeringProposals: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#volunteeringProposals'
+        contributionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType"
+        leavingDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate"
+        haveBenefitOf: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#haveBenefitOf"
+        insuranceStatus: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#insuranceStatus"
+        arrivalNumber: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalNumber"
+        label: "http://www.w3.org/2000/01/rdf-schema#label"
+        maker: "http://xmlns.com/foaf/0.1/maker"
+        projectStart: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#projectStart"
+        eventBegin: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventBegin"
+        eventEnd: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventEnd"
+        #######
+        foafStatus: "http://xmlns.com/foaf/0.1/status"
+        subject: "http://purl.org/dc/elements/1.1/subject"
+            # Mixed fields from user / organization.
     fields_access:
         anonymous:
            # All

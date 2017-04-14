@@ -20,6 +20,7 @@ class ProfileType extends AbstractForm
         'http://xmlns.com/foaf/0.1/givenName'                                                => 'givenName',
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                                    => 'type',
         'http://xmlns.com/foaf/0.1/img'                                                      => 'image',
+        'http://xmlns.com/foaf/0.1/headOf'                                                   => 'headOf',
         'http://www.w3.org/ns/org#memberOf'                                                  => 'memberOf',
         'http://xmlns.com/foaf/0.1/homepage'                                                 => 'homepage',
         'http://xmlns.com/foaf/0.1/mbox'                                                     => 'mbox',
