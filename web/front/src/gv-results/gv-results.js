@@ -41,16 +41,16 @@ Polymer({
     this.domLoadingSpinner = gvc.domId('searchLoadingSpinner');
     // Wait global settings.
     GVCarto.ready(() => {
-      let tabs = [
-        this.tabFirst
-      ];
+      let tabs = [];
+      let typeSel ='';
       $.each(gvc.entities, (type, data) => {
         data.counter = 0;
+        typeSel = (typeSel == '')? type : typeSel;
         tabs.push(data);
       });
       this.tabs = tabs;
       // Activate first tab by default.
-      this.selectType('all');
+      this.selectType(typeSel);
     });
   },
 
