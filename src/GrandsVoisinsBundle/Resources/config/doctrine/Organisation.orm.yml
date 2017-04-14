@@ -13,10 +13,6 @@ GrandsVoisinsBundle\Entity\Organisation:
             type: string
             length: 255
             unique: true
-        batiment:
-            type: string
-            length: 255
-            nullable: true
         sfOrganisation:
             type: text
             nullable: true

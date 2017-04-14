@@ -22,9 +22,6 @@
                 <td class="padded-value" style="width:60%">
                     {{ organisation.name }}
                 </td>
-                <td class="padded-value" style="width:40%">
-                    {{ organisation.batiment }}
-                </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">
                         <a href="{{ path('detail_orga_edit', {'orgaId': organisation.id}) }}" >
@@ -58,18 +55,6 @@
                     <br>
                     <div class="alert alert-danger" role="alert">
                         {{ form_errors(formAddOrganisation.name) }}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col col-sm-3">
-            <div class="form-group {% if formAddOrganisation.batiment.vars.errors|length %}has-error has-feedback{% endif %}">
-                {{ form_widget(formAddOrganisation.batiment, { 'attr': {'class': 'form-control'} }) }}
-                {% if formAddOrganisation.batiment.vars.errors|length %}
-                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-                    <br>
-                    <div class="alert alert-danger" role="alert">
-                        {{ form_errors(formAddOrganisation.batiment) }}
                     </div>
                 {% endif %}
             </div>

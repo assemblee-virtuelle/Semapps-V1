@@ -24,14 +24,6 @@ class OrganisationMemberType extends AbstractType
           TextType::class
         )
           ->add(
-            'batiment',
-            ChoiceType::class,
-            array(
-              'choices' =>
-                array_flip(GrandsVoisinsConfig::$buildingsSimple),
-            )
-          )
-          ->add(
             'username',
             TextType::class,
             array(

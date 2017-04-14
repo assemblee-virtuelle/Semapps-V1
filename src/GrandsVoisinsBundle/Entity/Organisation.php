@@ -20,11 +20,6 @@ class Organisation
     /**
      * @var string
      */
-    private $batiment;
-
-    /**
-     * @var string
-     */
     private $sfOrganisation;
 
     private $graphURI;

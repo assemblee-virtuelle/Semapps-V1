@@ -142,7 +142,6 @@ class DefaultController extends AbstractController
                 $organisation = new Organisation();
                 $user = new User();
                 //for the organisation
-                $organisation->setBatiment(key_exists(2,$val)? str_replace(' ','',lcfirst(ucwords($val[2]))) : 'robin');
                 $organisation->setName($val[1]);
                 array_push($orga,$val[1]);
                 $organisation->setSfOrganisation($key);

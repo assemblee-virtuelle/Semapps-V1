@@ -28,11 +28,6 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
             'name of the organization'
           )
           ->addArgument(
-            'buildings',
-            InputArgument::REQUIRED,
-            'the buildings of this organization'
-          )
-          ->addArgument(
             'username',
             InputArgument::REQUIRED,
             'username of the responsible of the organization'
@@ -68,32 +63,6 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
               }
             );
             $questions['organization'] = $question;
-        }
-        if (!$input->getArgument('buildings')) {
-            $question = new Question(
-              'Please choose a name for the the buildings:'
-            );
-            $question->setValidator(
-              function ($buildings) {
-                  if (empty($buildings)) {
-                      throw new \Exception('organization can not be empty');
-                  } else if (!array_key_exists(
-                    $buildings,
-                    GrandsVoisinsConfig::$buildingsSimple
-                  )
-                  ) {
-                      throw new \Exception(
-                        'the buildings need to be in the list:'.implode(
-                          ',',
-                          array_keys(GrandsVoisinsConfig::$buildingsSimple)
-                        )
-                      );
-                  }
-
-                  return $buildings;
-              }
-            );
-            $questions['buildings'] = $question;
         }
 
         if (!$input->getArgument('username')) {
@@ -147,7 +116,6 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $organization = new Organisation();
 
         $organizationName = $input->getArgument('organization');
-        $buildings        = $input->getArgument('buildings');
         $username         = $input->getArgument('username');
         $email            = $input->getArgument('email');
 
@@ -156,14 +124,12 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 
         $output->writeln(
           sprintf(
-            "creating the organization %s with argumment: \n\t-name:%s \n\t-buildings:%s",
-            $organizationName,
-            $organizationName,
-            $buildings
+            "creating the organization %s with argumment: \n\t-name:%s",
+            $organizationName
           )
         );
         $organization->setName($organizationName);
-        $organization->setBatiment($buildings);
+
         $em->persist($organization);
         $em->flush($organization);
         $organization->setGraphURI(GrandsVoisinsConfig::PREFIX.$organization->getId().'-org');
