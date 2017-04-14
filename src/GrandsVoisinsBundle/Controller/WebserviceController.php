@@ -381,9 +381,9 @@ class WebserviceController extends Controller
                   ]
                 );
                 $output['id'] = $organization->getId();
-                if (isset($properties['hasResponsible'])) {
+                if (isset($properties['head'])) {
                     $output['responsible'] = $this->uriPropertiesFiltered(
-                      current($properties['hasResponsible'])
+                      current($properties['head'])
                     );
                 }
                 break;
@@ -454,6 +454,11 @@ class WebserviceController extends Controller
                           'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'],
                         ];
                     }
+                }
+                if (isset($properties['headOf'])) {
+                    $output['responsible'] = $this->uriPropertiesFiltered(
+                        current($properties['headOf'])
+                    );
                 }
                 break;
         }

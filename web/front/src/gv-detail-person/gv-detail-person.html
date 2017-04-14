@@ -61,6 +61,12 @@
         </div>
       </div>
       <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[data.responsible]]">
+          <h3>Résponsable</h3>
+          <a href="#" rel="[[data.responsible.uri]]" on-tap="handleClickDetail">
+            <span class="glyphicon glyphicon-king"></span>
+            [[data.responsible.foafName]] </a>
+        </template>
         <template is="dom-if" if="[[memberOf.length]]">
           <h3>Fait partie de</h3>
           <template is="dom-repeat" items="{{memberOf}}">
