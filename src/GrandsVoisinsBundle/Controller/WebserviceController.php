@@ -201,7 +201,7 @@ class WebserviceController extends Controller
             'familyName' => 'foaf:familyName',
             'image' => 'foaf:img',
           ],
-            ' (fn:concat(?givenName, " ", ?familyName) as ?title) '
+            '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
         );
 
         $results = [];
@@ -211,6 +211,7 @@ class WebserviceController extends Controller
                 $results[] = array_shift($organizations);
             }
             if (!empty($persons)) {
+
                 $results[] = array_shift($persons);
             }
         }
