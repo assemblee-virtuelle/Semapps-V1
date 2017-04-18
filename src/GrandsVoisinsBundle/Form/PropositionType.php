@@ -23,7 +23,8 @@ class PropositionType extends AbstractForm
         'http://xmlns.com/foaf/0.1/topic_interest'                                      => 'topicInterest',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
+        'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
+        //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)

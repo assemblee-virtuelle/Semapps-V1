@@ -33,6 +33,7 @@ parameters:
         city: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city'
         resourceNeeded: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'
         resourceProposed: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed'
+        thesaurus: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'
         foafName: "http://xmlns.com/foaf/0.1/name"
         administrativeName: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName"
         description: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'
