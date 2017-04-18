@@ -200,7 +200,8 @@ class WebserviceController extends Controller
           [
             'familyName' => 'foaf:familyName',
             'image' => 'foaf:img',
-          ]
+          ],
+            ' (fn:concat(?givenName, " ", ?familyName) as ?title) '
         );
 
         $results = [];
