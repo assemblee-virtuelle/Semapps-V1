@@ -265,7 +265,7 @@ class WebserviceController extends Controller
 
     public function sparqlGetLabel($url, $uriType)
     {
-        $requiredFields = [];
+        $optionalFields = [];
         $select         = '';
 
         switch ($uriType) {
