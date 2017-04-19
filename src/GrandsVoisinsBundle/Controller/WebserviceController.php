@@ -113,14 +113,14 @@ class WebserviceController extends Controller
             $requestSelect .= ' ?'.$alias;
             $requestFields .= 'OPTIONAL { ?uri '.$type.' ?'.$alias.' } ';
         }
-
+        $selectType = (!$selectType) ? '' : '  ?uri rdf:type <'.$selectType.'> .';
         return $this->container->get(
           'semantic_forms.client'
         )->prefixesCompiled."\n\n ".
         'SELECT '.$requestSelect.$select.' '.
         'WHERE { '.
         '  GRAPH ?GR { '.
-        '  ?uri rdf:type <'.$selectType.'> .'.
+        $selectType.
         $where
         .$requestFields.
         // Group all duplicated items.
@@ -274,6 +274,7 @@ class WebserviceController extends Controller
                   'givenName'  => 'foaf:givenName',
                   'familyName' => 'foaf:familyName',
                 ];
+                $optionalFields =[];
                 // Build a label.
                 $select = ' ( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label) ';
                 break;
@@ -281,18 +282,33 @@ class WebserviceController extends Controller
                 $requiredFields = [
                   'label' => 'foaf:name',
                 ];
+                $optionalFields =[];
                 break;
             case SemanticFormsBundle::URI_FOAF_PROJECT :
                 $requiredFields = [
                   'label' => 'rdfs:label',
                 ];
-
+                $optionalFields =[];
+                break;
+            default:
+                $requiredFields =[];
+                $optionalFields =[
+                    'givenName'  => 'foaf:givenName',
+                    'familyName' => 'foaf:familyName',
+                    'name' => 'foaf:name',
+                    'label' => 'rdfs:label',
+                ];
+                $select = ' ( COALESCE(?givenName, "") As ?result_1)
+                  ( COALESCE(?familyName, "") As ?result_2)
+                  ( COALESCE(?name, "") As ?result_3)
+                  ( COALESCE(?label, "") As ?result_4)
+                  (fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
                 break;
         }
 
         $request = $this->sparqlSelectType(
           $requiredFields,
-          [],
+          $optionalFields,
           $select,
           $uriType,
           'FILTER (?uri = <'.$url.'>)'

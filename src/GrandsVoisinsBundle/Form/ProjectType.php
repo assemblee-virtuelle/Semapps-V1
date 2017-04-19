@@ -77,7 +77,7 @@ class ProjectType extends AbstractForm
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+                    'rdfType'   => SemanticFormsBundle::Multiple,
                     'required'  => false,
                 ]
             )
