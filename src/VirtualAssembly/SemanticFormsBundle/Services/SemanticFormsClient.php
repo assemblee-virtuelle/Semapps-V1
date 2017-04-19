@@ -355,8 +355,10 @@ class SemanticFormsClient
      * @param int $typeValeur
      * @return mixed
      */
-    public function delete($graph,$sujet,$predicat,$valeur= null,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
-        if(!$valeur)
+    public function delete($graph,$sujet =null,$predicat,$valeur= null,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
+        if(!$sujet)
+            $query="DELETE { GRAPH <".$graph."> { ?s <".$predicat."> ?o . }} WHERE { GRAPH <".$graph."> { ?s <".$predicat."> ?o . ?s <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." .}}";
+        elseif(!$valeur)
             $query="DELETE { GRAPH <".$graph."> { <".$sujet."> ?p ?o . }} WHERE { GRAPH <".$graph."> { <".$sujet."> ?p ?o . <".$sujet."> <".$predicat."> ?o .}}";
         else
             $query="DELETE DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";

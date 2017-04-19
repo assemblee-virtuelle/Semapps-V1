@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 abstract class SemanticFormType extends AbstractType
 {
@@ -107,7 +109,7 @@ abstract class SemanticFormType extends AbstractType
               $form = $event->getForm();
               // Add uri for external usage.
               $form->uri = $uri;
-
+              $type = current($this->formSpecification['type']['value']);
               // Add required fields.
               $saveData = [
                 'uri'      => $this->uri,
@@ -119,7 +121,7 @@ abstract class SemanticFormType extends AbstractType
                   // Required type.
                   $saveData[$this->getDefaultHtmlName(
                     'type'
-                  )] = current($this->formSpecification['type']['value']);
+                  )] = $type;
               }
                 $subject = $this->uri;
               foreach ($this->fieldsAdded as $localHtmlName) {
@@ -141,6 +143,16 @@ abstract class SemanticFormType extends AbstractType
                 $login,
                 $password
               );
+
+              if (array_key_exists($type,SemanticFormsBundle::REVERSE)){
+                  $values = array();
+                  foreach (SemanticFormsBundle::REVERSE[$type] as $key=>$elem){
+                      $localHtmlName = $this->fieldsAliases[$key];
+                      $values[$elem] = json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY);
+                  }
+                  $this->update($graphURI,$this->uri,$type,$values,$client);
+              }
+
           }
         );
     }
@@ -297,5 +309,23 @@ abstract class SemanticFormType extends AbstractType
         return current(
           array_keys($this->formSpecification[$localHtmlName]['value'])
         );
+    }
+
+    private function update($graph,$subject,$type,$values,$sfClient){
+
+        //récupérer tous les liens en fonction du type
+        $tab = SemanticFormsBundle::REVERSE[$type];
+        //supprimer tous les précédent liens
+        foreach ($tab as $key=>$elem){
+//            dump('delete('.$graph.',null,'.$elem.','.$subject.','.SemanticFormsClient::VALUE_TYPE_URI.')');
+            $sfClient->delete($graph,null,$elem,$subject,SemanticFormsClient::VALUE_TYPE_URI);
+        }
+        //loop sur les nouveaux liens
+
+        foreach ($values as $predicat=>$elems){
+            foreach ($elems as $link=>$elem)
+//            dump('insert('.$graph.','.$link.','.$predicat.','.$subject.','.SemanticFormsClient::VALUE_TYPE_URI.')');
+            $sfClient->insert($graph,$link,$predicat,$subject,SemanticFormsClient::VALUE_TYPE_URI);
+        }
     }
 }
