@@ -114,17 +114,7 @@ class WebserviceController extends Controller
             $requestFields .= 'OPTIONAL { ?uri '.$type.' ?'.$alias.' } ';
         }
         $selectType = (!$selectType) ? '' : '  ?uri rdf:type <'.$selectType.'> .';
-        var_dump($this->container->get(
-                'semantic_forms.client'
-            )->prefixesCompiled."\n\n ".
-            'SELECT '.$requestSelect.$select.' '.
-            'WHERE { '.
-            '  GRAPH ?GR { '.
-            $selectType.
-            $where
-            .$requestFields.
-            // Group all duplicated items.
-            '}} GROUP BY '.$requestSelect);
+
         return $this->container->get(
           'semantic_forms.client'
         )->prefixesCompiled."\n\n ".
@@ -136,6 +126,7 @@ class WebserviceController extends Controller
         .$requestFields.
         // Group all duplicated items.
         '}} GROUP BY '.$requestSelect;
+
     }
 
     public function searchSparqlSelect(
