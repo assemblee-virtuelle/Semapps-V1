@@ -63,6 +63,34 @@
       <div class="col col-sm-4 side-blocks">
         <template is="dom-if" if="[[data.responsible]]">
           <h3>Résponsable</h3>
+          <div class="thumbs">
+          <a href="#" rel="[[data.responsible.uri]]"
+             on-click="handleClickDetail">
+                <span class="thumb"
+                      style$="background-image: url([[data.responsible.image]])"></span>
+            <span class="name">[[data.responsible.foafName]]</span>
+          </a>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.memberOf.length]]">
+          <h3>Est membre de</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.memberOf}}">
+          <a href="#" rel="[[item.uri]]"
+             on-click="handleClickDetail">
+                <span class="thumb"
+                      style$="background-image: url([[item.image]])"></span>
+            <span class="name">[[item.name]]</span>
+          </a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!--
+        <template is="dom-if" if="[[data.responsible]]">
+          <h3>Résponsable</h3>
           <a href="#" rel="[[data.responsible.uri]]" on-tap="handleClickDetail">
             <span class="glyphicon glyphicon-king"></span>
             [[data.responsible.foafName]] </a>
@@ -75,6 +103,7 @@
               <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
           </template>
         </template>
+        -->
         <template is="dom-if" if="[[topicInterest.length]]">
           <h3>S'intéresse à</h3>
           <div class="tags-cloud">

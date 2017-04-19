@@ -505,6 +505,7 @@ class SemanticFormsClient
      */
     public function uriProperties($uri)
     {
+
         // All properties about organization.
         $response =
           $this

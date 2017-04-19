@@ -275,7 +275,7 @@ class WebserviceController extends Controller
                   'familyName' => 'foaf:familyName',
                 ];
                 // Build a label.
-                $select = ' (fn:concat(?givenName, " ", ?familyName) as ?label) ';
+                $select = ' ( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label) ';
                 break;
             case SemanticFormsBundle::URI_FOAF_ORGANIZATION :
                 $requiredFields = [
@@ -361,7 +361,6 @@ class WebserviceController extends Controller
                 }
             }
         }
-        //print_r($output);
         return $output;
     }
 
@@ -388,6 +387,20 @@ class WebserviceController extends Controller
                       current($properties['head'])
                     );
                 }
+                if (isset($properties['hasMember'])) {
+                    foreach ($properties['hasMember'] as $uri) {
+                        $person = $this->uriPropertiesFiltered($uri);
+                        //dump($person);
+                        $output['hasMember'][] = [
+                            'uri'   => $uri,
+                            'name'  => $this->sparqlGetLabel(
+                                $uri,
+                                SemanticFormsBundle::URI_FOAF_PERSON
+                            ),
+                            'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'],
+                        ];
+                    }
+                }
                 break;
             // Person.
             case  SemanticFormsBundle::URI_FOAF_PERSON:
@@ -408,13 +421,18 @@ class WebserviceController extends Controller
                     );
                 }
                 if (isset($properties['memberOf'])) {
-                    $output['organisation'] = [
-                      'uri'  => current($properties['memberOf']),
-                      'name' => $this->sparqlGetLabel(
-                        current($properties['memberOf']),
-                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
-                      ),
-                    ];
+                    foreach ($properties['memberOf'] as $uri) {
+                        $person = $this->uriPropertiesFiltered($uri);
+                        //dump($person);
+                        $output['memberOf'][] = [
+                            'uri'   => $uri,
+                            'name'  => $this->sparqlGetLabel(
+                                $uri,
+                                SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                            ),
+                            'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'],
+                        ];
+                    }
                 }
                 if (isset($properties['currentProject'])) {
                     foreach ($properties['currentProject'] as $uri) {
