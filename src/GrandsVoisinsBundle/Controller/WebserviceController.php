@@ -499,7 +499,7 @@ class WebserviceController extends Controller
                 if (isset($properties['made'])) {
                     foreach ($properties['made'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
-                        dump($component);
+                        //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PROJECT:
                                 $projet[] = [
@@ -585,7 +585,7 @@ class WebserviceController extends Controller
                 if (isset($properties['fundedBy'])) {
                     foreach ($properties['fundedBy'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
-                        dump($component);
+                        //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $temp = $this->uriPropertiesFiltered($uri);
@@ -635,7 +635,7 @@ class WebserviceController extends Controller
                 if (isset($properties['maker'])) {
                     foreach ($properties['maker'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
-                        dump($component);
+                        //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $temp = $this->uriPropertiesFiltered($uri);
@@ -685,7 +685,7 @@ class WebserviceController extends Controller
                 if (isset($properties['fundedBy'])) {
                     foreach ($properties['fundedBy'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
-                        dump($component);
+                        //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $temp = $this->uriPropertiesFiltered($uri);
@@ -717,7 +717,7 @@ class WebserviceController extends Controller
         }
 
         $output['properties'] = $properties;
-        dump($output);
+        //dump($output);
         return $output;
 
     }
