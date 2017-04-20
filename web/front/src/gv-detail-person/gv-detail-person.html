@@ -136,6 +136,37 @@
               </a>
             </template>
           </div>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.projet.length]]">
+          <h3>Projets</h3>
+          <template is="dom-repeat" items="{{data.projet}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="strip">
+              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.event.length]]">
+          <h3>Event</h3>
+          <template is="dom-repeat" items="{{data.event}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="strip">
+              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.proposition.length]]">
+          <h3>Proposition</h3>
+          <template is="dom-repeat" items="{{data.proposition}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="strip">
+              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
         </template>
       </div>
     </div>

@@ -287,6 +287,8 @@ class WebserviceController extends Controller
                 $optionalFields =[];
                 break;
             case SemanticFormsBundle::URI_FOAF_PROJECT :
+            case SemanticFormsBundle::URI_FIPA_PROPOSITION :
+            case SemanticFormsBundle::URI_PURL_EVENT :
                 $requiredFields = [
                   'label' => 'rdfs:label',
                 ];
@@ -493,16 +495,229 @@ class WebserviceController extends Controller
                         ];
                     }
                 }
+                $projet = $event = $proposition = array();
+                if (isset($properties['made'])) {
+                    foreach ($properties['made'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PROJECT:
+                                $projet[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_PROJECT
+                                    ),
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_PURL_EVENT:
+                                $event[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_PURL_EVENT
+                                    ),
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                                $proposition[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FIPA_PROPOSITION
+                                    ),
+                                ];
+                                break;
+                        }
+                    }
+                    $output['projet'] = $projet;
+                    $output['event'] = $event;
+                    $output['proposition'] = $proposition;
+                }
+
                 if (isset($properties['headOf'])) {
                     $output['responsible'] = $this->uriPropertiesFiltered(
                         current($properties['headOf'])
                     );
                 }
                 break;
+            case SemanticFormsBundle::URI_FOAF_PROJECT:
+                if (isset($properties['mbox'])) {
+                    $properties['mbox'] = preg_replace(
+                        '/^mailto:/',
+                        '',
+                        current($properties['mbox'])
+                    );
+                }
+                $person = $orga  = array();
+                if (isset($properties['maker'])) {
+                    foreach ($properties['maker'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $person[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_PERSON
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $orga[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                        }
+                    }
+                    $output['person_maker'] = $person;
+                    $output['orga_maker'] = $orga;
+                }
+                $person = $orga =array();
+                if (isset($properties['fundedBy'])) {
+                    foreach ($properties['fundedBy'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $person[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_PERSON
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $orga[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                        }
+                    }
+                    $output['person_fundedBy'] = $person;
+                    $output['orga_fundedBy'] = $orga;
+                }
+                break;
+            case SemanticFormsBundle::URI_PURL_EVENT:
+                if (isset($properties['mbox'])) {
+                    $properties['mbox'] = preg_replace(
+                        '/^mailto:/',
+                        '',
+                        current($properties['mbox'])
+                    );
+                }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                            'uri'  => $uri,
+                            'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
+                $person = $orga  = array();
+                if (isset($properties['maker'])) {
+                    foreach ($properties['maker'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $person[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_PERSON
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $orga[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                        }
+                    }
+                    $output['person_maker'] = $person;
+                    $output['orga_maker'] = $orga;
+                }
+                break;
+            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                if (isset($properties['mbox'])) {
+                    $properties['mbox'] = preg_replace(
+                        '/^mailto:/',
+                        '',
+                        current($properties['mbox'])
+                    );
+                }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                            'uri'  => $uri,
+                            'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
+                $person = $orga =array();
+                if (isset($properties['fundedBy'])) {
+                    foreach ($properties['fundedBy'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $temp = $this->uriPropertiesFiltered($uri);
+                                $person[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_PERSON
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $orga[] = [
+                                    'uri'   => $uri,
+                                    'name'  => $this->sparqlGetLabel(
+                                        $uri,
+                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                    ),
+                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+                                ];
+                                break;
+                        }
+                    }
+                    $output['person_fundedBy'] = $person;
+                    $output['orga_fundedBy'] = $orga;
+                }
+                break;
         }
 
         $output['properties'] = $properties;
-
+        dump($output);
         return $output;
 
     }

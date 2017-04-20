@@ -59,9 +59,11 @@ parameters:
         arrivalNumber: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalNumber"
         label: "http://www.w3.org/2000/01/rdf-schema#label"
         maker: "http://xmlns.com/foaf/0.1/maker"
+        made: "http://xmlns.com/foaf/0.1/made"
         projectStart: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#projectStart"
         eventBegin: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventBegin"
         eventEnd: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventEnd"
+        fundedBy: "http://xmlns.com/foaf/0.1/fundedBy"
         #######
         foafStatus: "http://xmlns.com/foaf/0.1/status"
         subject: "http://purl.org/dc/elements/1.1/subject"
@@ -90,6 +92,12 @@ parameters:
            - familyName
            - expertize
            - headOf
+           - made
+           #projet
+           - label
+           - projectStart
+           - maker
+           - fundedBy
         member:
            # all
            - mbox

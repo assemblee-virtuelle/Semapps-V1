@@ -38,6 +38,9 @@ var filesJs = {
   'web/front/src/gv-detail/gv-detail': true,
   'web/front/src/gv-detail-organization/gv-detail-organization': true,
   'web/front/src/gv-detail-person/gv-detail-person': true,
+  'web/front/src/gv-detail-projet/gv-detail-projet': true,
+  'web/front/src/gv-detail-event/gv-detail-event': true,
+  'web/front/src/gv-detail-proposition/gv-detail-proposition': true,
   'web/front/src/gv-map/gv-map': true,
   'web/front/src/gv-map-pin/gv-map-pin': true
 };
@@ -60,6 +63,9 @@ var filesScss = {
   'web/front/src/gv-detail/gv-detail-inner': true,
   'web/front/src/gv-detail-organization/gv-detail-organization': true,
   'web/front/src/gv-detail-person/gv-detail-person': true,
+  'web/front/src/gv-detail-projet/gv-detail-projet': true,
+  'web/front/src/gv-detail-event/gv-detail-event': true,
+  'web/front/src/gv-detail-proposition/gv-detail-proposition': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-map/gv-map': true,
   'web/front/src/gv-map-pin/gv-map-pin': true,
