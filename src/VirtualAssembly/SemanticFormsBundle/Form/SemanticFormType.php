@@ -148,7 +148,11 @@ abstract class SemanticFormType extends AbstractType
                   $values = array();
                   foreach (SemanticFormsBundle::REVERSE[$type] as $key=>$elem){
                       $localHtmlName = $this->fieldsAliases[$key];
-                      $values[$elem] = json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY);
+                      if (array_key_exists($elem,$values))
+                        $values[$elem] = array_merge($values[$elem],json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY));
+                      else
+                        $values[$elem] = json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY);
+
                   }
                   $this->update($graphURI,$this->uri,$type,$values,$client);
               }
