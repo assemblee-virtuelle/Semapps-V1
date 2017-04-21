@@ -259,7 +259,7 @@ class WebserviceController extends Controller
             // Optional fields..
             []
         );
-        dump($proposition,$project,$event);
+        //dump($proposition,$project,$event);
         $results = [];
 
         while ($organizations || $persons) {
