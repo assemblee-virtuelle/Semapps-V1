@@ -357,17 +357,19 @@ class WebserviceController extends Controller
                 $optionalFields =[];
                 break;
             default:
-                $requiredFields =[];
+                $requiredFields =[
+                    'type' => 'rdf:type'
+                ];
                 $optionalFields =[
                     'givenName'  => 'foaf:givenName',
                     'familyName' => 'foaf:familyName',
                     'name' => 'foaf:name',
-                    'label' => 'rdfs:label',
+                    'label_test' => 'rdfs:label',
                 ];
                 $select = ' ( COALESCE(?givenName, "") As ?result_1)
                   ( COALESCE(?familyName, "") As ?result_2)
                   ( COALESCE(?name, "") As ?result_3)
-                  ( COALESCE(?label, "") As ?result_4)
+                  ( COALESCE(?label_test, "") As ?result_4)
                   (fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
                 break;
         }
@@ -392,10 +394,9 @@ class WebserviceController extends Controller
 
     public function fieldUriLabelAction(Request $request)
     {
-        // TODO Various types.
         $label = $this->sparqlGetLabel(
           $request->get('uri'),
-          SemanticFormsBundle::URI_FOAF_PERSON
+          SemanticFormsBundle::Multiple
         );
 
         return new JsonResponse(
