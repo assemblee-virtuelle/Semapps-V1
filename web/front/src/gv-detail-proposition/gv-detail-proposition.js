@@ -9,8 +9,8 @@ Polymer({
     // Raw values.
     $.extend(this, this.data.properties);
       this.topicInterest = this.data.topicInterest;
-      // dump(this.data.properties.building);
-      // dump(gvc.buildings);
+      this.resourceNeeded = this.data.resourceNeeded;
+      this.resourceProposed = this.data.resourceProposed;
       this.buildingTitle = gvc.buildings[this.data.properties.building].title;
   }
 });

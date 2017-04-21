@@ -727,6 +727,22 @@ class WebserviceController extends Controller
                 }
                 break;
         }
+        if (isset($properties['resourceNeeded'])) {
+            foreach ($properties['resourceNeeded'] as $uri) {
+                $output['resourceNeeded'][] = [
+                    'uri'  => $uri,
+                    'name' => $sfClient->dbPediaLabel($uri),
+                ];
+            }
+        }
+        if (isset($properties['resourceProposed'])) {
+            foreach ($properties['resourceProposed'] as $uri) {
+                $output['resourceProposed'][] = [
+                    'uri'  => $uri,
+                    'name' => $sfClient->dbPediaLabel($uri),
+                ];
+            }
+        }
 
         $output['properties'] = $properties;
         //dump($output);

@@ -16,6 +16,8 @@ Polymer({
     // Raw values.
     $.extend(this, this.data.properties);
     this.topicInterest = this.data.topicInterest;
+    this.resourceNeeded = this.data.resourceNeeded;
+    this.resourceProposed = this.data.resourceProposed;
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
     if (this.eventBegin) {
       let eventBegin = new Date(this.eventBegin);

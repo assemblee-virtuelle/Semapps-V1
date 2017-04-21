@@ -10,6 +10,8 @@ Polymer({
     $.extend(this, this.data.properties);
     this.memberOf = this.data.memberOf;
     this.topicInterest = this.data.topicInterest;
+    this.resourceNeeded = this.data.resourceNeeded;
+    this.resourceProposed = this.data.resourceProposed;
     this.expertize = this.data.expertize;
     this.knows = this.data.knows;
     if (this.birthday) {

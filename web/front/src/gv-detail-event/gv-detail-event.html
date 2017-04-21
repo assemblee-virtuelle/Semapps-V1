@@ -117,6 +117,26 @@
             <div class="clearfix"></div>
           </div>
         </template>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Ressources que vous avez besoin</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[resourceProposed.length]]">
+          <h3>Ressources que vous mettez a disposition</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{resourceProposed}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
       </div>
     </div>
   </template>
