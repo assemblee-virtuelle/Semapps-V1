@@ -28,7 +28,13 @@ h2 {
 h3 {
   color: #555;
   font-size: 16px;
-  text-align: right; }
+  text-align: right;
+  border-bottom: 1px dashed #CCC;
+  padding-bottom: 10px;
+  margin-bottom: 15px; }
+  h3 span.glyphicon {
+    opacity: .3;
+    float: left; }
 
 .detailInfo {
   width: 100%; }
@@ -56,6 +62,12 @@ h3 {
   padding: 6px 11px;
   text-decoration: none; }
 
+.side-blocks a.list-item {
+  color: #666; }
+  .side-blocks a.list-item span {
+    margin-right: 10px;
+    color: #FFCC00; }
+
 .tags-cloud a {
   background: #CCC;
   padding: 4px 14px;
@@ -80,36 +92,6 @@ h3 {
   background: #FFF;
   border-color: #FC0;
   color: #FC0; }
-
-.thumbs a {
-  width: 100px;
-  float: left;
-  display: block;
-  height: 100px;
-  margin: 0 5px 5px 0;
-  position: relative; }
-  .thumbs a span.thumb {
-    background-size: cover;
-    border-radius: 200px;
-    border: 2px solid #F0F0F0;
-    display: block;
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 0;
-    right: 0; }
-  .thumbs a span.name {
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -6px;
-    background: #FFCC00;
-    color: #555;
-    text-align: center;
-    padding: 5px 8px;
-    font-size: 12px;
-    transform: rotate(-4deg); }
 
 .detail-description-inner {
   border: 2px dashed #FFCC00;

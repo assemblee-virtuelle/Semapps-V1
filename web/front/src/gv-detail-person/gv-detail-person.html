@@ -1,5 +1,6 @@
 <dom-module id="gv-detail-person">
   <link rel="import" type="css" href="gv-detail-person.css">
+  <link rel="import" href="../gv-avatar/gv-avatar.html">
   <template>
     <div id="gv-detail-person">
       <div class="col col-sm-8">
@@ -78,11 +79,7 @@
         <template is="dom-if" if="[[data.responsible]]">
           <h3>Résponsable</h3>
           <div class="thumbs">
-          <a href="#" rel="[[data.responsible.uri]]"
-             on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[data.responsible.image]])"></span>
-            <span class="name">[[data.responsible.foafName]]</span>
+            <gv-avatar image="[[data.responsible.image]]" uri="[[data.responsible.uri]]" label="[[data.responsible.foafName]]"></gv-avatar>
           </a>
           </div>
           <div class="clearfix"></div>
@@ -92,12 +89,7 @@
           <h3>Est membre de</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.memberOf}}">
-          <a href="#" rel="[[item.uri]]"
-             on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-            <span class="name">[[item.name]]</span>
-          </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]" label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
@@ -126,12 +118,7 @@
           <h3>Connaît</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{knows}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]" label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>

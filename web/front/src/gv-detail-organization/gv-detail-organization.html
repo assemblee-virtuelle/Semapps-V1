@@ -160,42 +160,38 @@
           </template>
         </div>
       </div>
-      <div class="col col-sm-4 side-blocks">
+      <section class="col col-sm-4 side-blocks">
         <template is="dom-if" if="[[data.responsible]]">
-          <h3>Résponsable</h3>
+          <h3><span class="glyphicon glyphicon-king"></span>&nbsp;Résponsable
+          </h3>
           <div class="thumbs">
-          <a href="#" rel="[[data.responsible.uri]]"
-             on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[data.responsible.image]])"></span>
-            <span class="name">[[data.responsible.givenName]] [[data.responsible.familyName]]</span>
-          </a>
+            <gv-avatar image="[[data.responsible.image]]"
+                       uri="[[data.responsible.uri]]"
+                       label="[[data.responsible.givenName]] [[data.responsible.familyName]]"></gv-avatar>
           </div>
         </template>
         <div class="clearfix"></div>
         <template is="dom-if" if="[[data.hasMember.length]]">
-          <h3>Membres de l'organisation</h3>
+          <h3><span class="glyphicon glyphicon-user"></span>&nbsp;Membres de
+            l'organisation</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.hasMember}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
 
         <template is="dom-if" if="[[data.projet.length]]">
-          <h3>Projets</h3>
-          <template is="dom-repeat" items="{{data.projet}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="strip">
-              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+            <h3><span class="glyphicon glyphicon-screenshot"></span>&nbsp;Projets
+            </h3>
+            <template is="dom-repeat" items="{{data.projet}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
         </template>
 
         <template is="dom-if" if="[[data.event.length]]">
@@ -218,7 +214,7 @@
           <div class="clearfix"></div>
         </template>
 
-      </div>
+    </div>
     </div>
   </template>
   <script src="gv-detail-organization.min.js"></script>
