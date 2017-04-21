@@ -26,6 +26,7 @@ class SemanticFormsClient
       'purl'  => '<http://purl.org/dc/elements/1.1/>',
       'event' => '<http://purl.org/NET/c4dm/event.owl#>',
       'fipa'  => '<http://www.fipa.org/schemas#>',
+      'skos'  => '<http://www.w3.org/2004/02/skos/core#>',
     ];
     var $prefixesCompiled = '';
     var $fieldsAliases = [];
@@ -411,93 +412,6 @@ class SemanticFormsClient
         )] = $value;
     }
 
-    /**
-     * @param $post
-     * @param $graphURI
-     * @param $orga
-     * @param null $personne
-     */
-    public function verifMember(&$post, $graphURI, $orga, $personne = null)
-    {
-
-        $personneMembre = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    SELECT ?val
-                    WHERE
-                    {
-                        {
-                            GRAPH <'.$graphURI.'>
-                            {
-                                        ?val <http://www.w3.org/ns/org#memberOf> <'.$orga.'> .
-                            }
-                        }
-                    }';
-        $allPersonne    = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    SELECT ?val
-                    WHERE
-                    {
-                        {
-                            GRAPH <'.$graphURI.'>
-                            {
-                                        ?val ?P foaf:Person.
-                            }
-                        }
-                    }';
-        $listMember     = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
-                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-                    SELECT ?val
-                    WHERE
-                    {
-                        {
-                            GRAPH <'.$graphURI.'>
-                            {
-                                        ?O <http://www.w3.org/ns/org#hasMember> ?val.
-                            }
-                        }
-                    }';
-
-        $personneMembre = $this->sparql($personneMembre);
-        $allPersonne    = $this->sparql($allPersonne)["results"]["bindings"];
-        $listMember     = $this->sparql($listMember);
-
-        if (!empty($allPersonne)) {
-            $allPersonne    = $this->getValue($allPersonne);
-            $personneMembre = (is_array($personneMembre)) ? $this->getValue(
-              $personneMembre["results"]["bindings"]
-            ) : array();
-            $listMember     = (is_array($listMember)) ? $this->getValue(
-              $listMember["results"]["bindings"]
-            ) : array();
-            if ($personne && !in_array($personne, $allPersonne)) {
-                array_push($allPersonne, $personne);
-            }
-            $result = array_diff($allPersonne, $personneMembre);
-
-            foreach ($result as $key => $value) {
-                $this->tripletSet(
-                  $post,
-                  $value,
-                  "",
-                  $orga,
-                  'http://www.w3.org/ns/org#memberOf'
-                );
-            }
-            $result = array_diff($allPersonne, $listMember);
-            foreach ($result as $key => $value) {
-                $this->tripletSet(
-                  $post,
-                  $orga,
-                  $key,
-                  $value,
-                  'http://www.w3.org/ns/org#hasMember'
-                );
-            }
-        }
-    }
 
     /**
      * @param $uri
@@ -630,6 +544,94 @@ class SemanticFormsClient
 //        $result = $client->request('GET', $url);
 //
 //        return $result->getBody();
+//    }
+
+//    /**
+//     * @param $post
+//     * @param $graphURI
+//     * @param $orga
+//     * @param null $personne
+//     */
+//    public function verifMember(&$post, $graphURI, $orga, $personne = null)
+//    {
+//
+//        $personneMembre = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+//                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+//                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+//                    SELECT ?val
+//                    WHERE
+//                    {
+//                        {
+//                            GRAPH <'.$graphURI.'>
+//                            {
+//                                        ?val <http://www.w3.org/ns/org#memberOf> <'.$orga.'> .
+//                            }
+//                        }
+//                    }';
+//        $allPersonne    = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+//                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+//                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+//                    SELECT ?val
+//                    WHERE
+//                    {
+//                        {
+//                            GRAPH <'.$graphURI.'>
+//                            {
+//                                        ?val ?P foaf:Person.
+//                            }
+//                        }
+//                    }';
+//        $listMember     = 'prefix foaf: <http://xmlns.com/foaf/0.1/>
+//                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+//                    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+//                    SELECT ?val
+//                    WHERE
+//                    {
+//                        {
+//                            GRAPH <'.$graphURI.'>
+//                            {
+//                                        ?O <http://www.w3.org/ns/org#hasMember> ?val.
+//                            }
+//                        }
+//                    }';
+//
+//        $personneMembre = $this->sparql($personneMembre);
+//        $allPersonne    = $this->sparql($allPersonne)["results"]["bindings"];
+//        $listMember     = $this->sparql($listMember);
+//
+//        if (!empty($allPersonne)) {
+//            $allPersonne    = $this->getValue($allPersonne);
+//            $personneMembre = (is_array($personneMembre)) ? $this->getValue(
+//              $personneMembre["results"]["bindings"]
+//            ) : array();
+//            $listMember     = (is_array($listMember)) ? $this->getValue(
+//              $listMember["results"]["bindings"]
+//            ) : array();
+//            if ($personne && !in_array($personne, $allPersonne)) {
+//                array_push($allPersonne, $personne);
+//            }
+//            $result = array_diff($allPersonne, $personneMembre);
+//
+//            foreach ($result as $key => $value) {
+//                $this->tripletSet(
+//                  $post,
+//                  $value,
+//                  "",
+//                  $orga,
+//                  'http://www.w3.org/ns/org#memberOf'
+//                );
+//            }
+//            $result = array_diff($allPersonne, $listMember);
+//            foreach ($result as $key => $value) {
+//                $this->tripletSet(
+//                  $post,
+//                  $orga,
+//                  $key,
+//                  $value,
+//                  'http://www.w3.org/ns/org#hasMember'
+//                );
+//            }
+//        }
 //    }
 
 }

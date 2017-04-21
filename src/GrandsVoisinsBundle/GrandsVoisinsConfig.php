@@ -18,22 +18,6 @@ class GrandsVoisinsConfig
     const ORGANISATION = 1;
     const TEAM = 2;
 
-    static $thesaurus =[
-        'artisanat' => 'Artisanat, fabriquer, réparer, zéro déchet',
-        'agriculture' => 'Agriculture et alimentation',
-        'culture' => 'Culture & arts',
-        'eau' => 'Eau, nature et biodiversité',
-        'citoyennete' => 'Citoyenneté, genre, droits',
-        'solidarite' => 'Solidarité et migrations',
-        'climat' => 'Climat et énergie',
-        'economie' => 'Économie soutenable',
-        'education' => 'Éducation et formation',
-        'transport' => 'Transports / mobilités',
-        'habitat' => 'Habitat, architecture  et urbanisme',
-        'sante' => 'Santé, thérapies',
-        'media' => 'Médias et numérique',
-        'philosophie' => 'Philosophies, religions et spiritualités',
-    ];
 
     // TODO Rename $fieldsAliasesOrganization
     // TODO Voir si il ne faut pas intervertir clefs / valeurs.
