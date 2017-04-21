@@ -23,6 +23,21 @@ class WebserviceController extends Controller
         'plural' => 'Personnes',
         'icon'   => 'user',
       ],
+      SemanticFormsBundle::URI_FOAF_PROJECT       => [
+          'name'   => 'Projet',
+          'plural' => 'Projets',
+          'icon'   => 'screenshot',
+      ],
+      SemanticFormsBundle::URI_PURL_EVENT       => [
+          'name'   => 'Event',
+          'plural' => 'Events',
+          'icon'   => 'calendar',
+      ],
+      SemanticFormsBundle::URI_FIPA_PROPOSITION       => [
+          'name'   => 'Proposition',
+          'plural' => 'Propositions',
+          'icon'   => 'info-sign',
+      ],
     ];
 
     public function __construct()
@@ -205,7 +220,46 @@ class WebserviceController extends Controller
           ],
             '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
         );
-
+        $project = $this->searchSparqlSelect(
+        // Type.
+            SemanticFormsBundle::URI_FOAF_PROJECT,
+            // Search term.
+            $term,
+            // Required fields.
+            [
+                'type'  => 'rdf:type',
+                'title' => 'rdfs:label',
+            ],
+            // Optional fields..
+            []
+        );
+        $event = $this->searchSparqlSelect(
+        // Type.
+            SemanticFormsBundle::URI_PURL_EVENT,
+            // Search term.
+            $term,
+            // Required fields.
+            [
+                'type'  => 'rdf:type',
+                'title' => 'rdfs:label',
+            ],
+            // Optional fields..
+            []
+        );
+        $proposition = $this->searchSparqlSelect(
+        // Type.
+            SemanticFormsBundle::URI_FIPA_PROPOSITION,
+            // Search term.
+            $term,
+            // Required fields.
+            [
+                'type'  => 'rdf:type',
+                'title' => 'rdfs:label',
+            ],
+            // Optional fields..
+            []
+        );
+        dump($proposition,$project,$event);
         $results = [];
 
         while ($organizations || $persons) {
@@ -213,8 +267,16 @@ class WebserviceController extends Controller
                 $results[] = array_shift($organizations);
             }
             if (!empty($persons)) {
-
                 $results[] = array_shift($persons);
+            }
+            if (!empty($project)) {
+                $results[] = array_shift($project);
+            }
+            if (!empty($event)) {
+                $results[] = array_shift($event);
+            }
+            if (!empty($proposition)) {
+                $results[] = array_shift($proposition);
             }
         }
 
@@ -421,6 +483,27 @@ class WebserviceController extends Controller
                         ];
                     }
                 }
+                $projet = $event = $proposition = array();
+                if (isset($properties['made'])) {
+                    foreach ($properties['made'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        //dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PROJECT:
+                                $projet[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PROJECT);
+                                break;
+                            case SemanticFormsBundle::URI_PURL_EVENT:
+                                $event[] = $this->getData($uri,SemanticFormsBundle::URI_PURL_EVENT);
+                                break;
+                            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                                $proposition[] = $this->getData($uri,SemanticFormsBundle::URI_FIPA_PROPOSITION);
+                                break;
+                        }
+                    }
+                    $output['projet'] = $projet;
+                    $output['event'] = $event;
+                    $output['proposition'] = $proposition;
+                }
                 break;
             // Person.
             case  SemanticFormsBundle::URI_FOAF_PERSON:
@@ -502,31 +585,13 @@ class WebserviceController extends Controller
                         //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PROJECT:
-                                $projet[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_PROJECT
-                                    ),
-                                ];
+                                $projet[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PROJECT);
                                 break;
                             case SemanticFormsBundle::URI_PURL_EVENT:
-                                $event[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_PURL_EVENT
-                                    ),
-                                ];
+                                $event[] = $this->getData($uri,SemanticFormsBundle::URI_PURL_EVENT);
                                 break;
                             case SemanticFormsBundle::URI_FIPA_PROPOSITION:
-                                $proposition[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FIPA_PROPOSITION
-                                    ),
-                                ];
+                                $proposition[] = $this->getData($uri,SemanticFormsBundle::URI_FIPA_PROPOSITION);
                                 break;
                         }
                     }
@@ -555,26 +620,10 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $person[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_PERSON
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $orga[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
                                 break;
                         }
                     }
@@ -588,26 +637,10 @@ class WebserviceController extends Controller
                         //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $person[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_PERSON
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $orga[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
                                 break;
                         }
                     }
@@ -638,26 +671,10 @@ class WebserviceController extends Controller
                         //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $person[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_PERSON
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $orga[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
                                 break;
                         }
                     }
@@ -688,25 +705,10 @@ class WebserviceController extends Controller
                         //dump($component);
                         switch (current($component['type'])){
                             case SemanticFormsBundle::URI_FOAF_PERSON:
-                                $temp = $this->uriPropertiesFiltered($uri);
-                                $person[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_PERSON
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-                                $orga[] = [
-                                    'uri'   => $uri,
-                                    'name'  => $this->sparqlGetLabel(
-                                        $uri,
-                                        SemanticFormsBundle::URI_FOAF_ORGANIZATION
-                                    ),
-                                    'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
-                                ];
+                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
                                 break;
                         }
                     }
@@ -720,5 +722,35 @@ class WebserviceController extends Controller
         //dump($output);
         return $output;
 
+    }
+
+    private function getData($uri,$type){
+
+        switch ($type) {
+            case SemanticFormsBundle::URI_FOAF_PERSON:
+            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+            $temp= $this->uriPropertiesFiltered($uri);
+            return [
+                'uri'   => $uri,
+                'name'  => $this->sparqlGetLabel(
+                    $uri,
+                    $type
+                ),
+                'image' => (!isset($temp['image']))? '/common/images/no_avatar.jpg' : $temp['image'],
+            ];
+                break;
+            case SemanticFormsBundle::URI_FOAF_PROJECT:
+            case SemanticFormsBundle::URI_PURL_EVENT:
+            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+            return [
+                'uri'   => $uri,
+                'name'  => $this->sparqlGetLabel(
+                    $uri,
+                    $type
+                ),
+            ];
+
+        }
+        return [];
     }
 }
