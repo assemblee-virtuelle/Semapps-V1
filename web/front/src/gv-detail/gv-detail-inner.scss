@@ -36,6 +36,13 @@ h3 {
   color: #555;
   font-size: 16px;
   text-align: right;
+  border-bottom: 1px dashed #CCC;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  span.glyphicon {
+    opacity: .3;
+    float: left;
+  }
 }
 
 .detailInfo {
@@ -71,6 +78,14 @@ h3 {
     padding: 6px 11px;
     text-decoration: none;
   }
+
+  a.list-item {
+    span {
+      margin-right: 10px;
+      color: #FFCC00;
+    }
+    color: #666;
+  }
 }
 
 .tags-cloud {
@@ -95,47 +110,12 @@ h3 {
 .tags-cloud-2 {
   a {
     background-color: #FFCC00;
-    border-color:#FFCC00;
+    border-color: #FFCC00;
   }
   a:hover {
     background: #FFF;
     border-color: #FC0;
-    color:#FC0;
-  }
-}
-
-.thumbs {
-  a {
-    width: 100px;
-    float: left;
-    display: block;
-    height: 100px;
-    margin: 0 5px 5px 0;
-    position: relative;
-    span.thumb {
-      background-size: cover;
-      border-radius: 200px;
-      border: 2px solid #F0F0F0;
-      display: block;
-      position: absolute;
-      bottom: 0;
-      top: 0;
-      left: 0;
-      right: 0;
-    }
-    span.name {
-      display: block;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -6px;
-      background: #FFCC00;
-      color: #555;
-      text-align: center;
-      padding: 5px 8px;
-      font-size: 12px;
-      transform: rotate(-4deg);
-    }
+    color: #FC0;
   }
 }
 
@@ -152,4 +132,7 @@ h3 {
     background-size: cover;
     padding-bottom: 100%;
   }
+}
+
+.block-projects {
 }

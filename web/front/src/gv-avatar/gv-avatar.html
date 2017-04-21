@@ -1,0 +1,14 @@
+<dom-module id="gv-avatar">
+  <link rel="import" type="css" href="gv-avatar.css">
+  <template>
+    <a class="avatar"
+       href="#"
+       rel="[[uri]]"
+       title="[[name]]"
+       on-click="handleClickAvatar">
+                <span class="thumb"
+                      style$="background-image: url([[image]])"></span>
+    </a>
+  </template>
+  <script src="gv-avatar.min.js"></script>
+</dom-module>

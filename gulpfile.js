@@ -29,6 +29,7 @@ var filesJs = {
     'web/admin/js/src/main.js'
   ],
   // Front
+  'web/front/src/gv-avatar/gv-avatar': true,
   'web/front/src/gv-carto/gv-carto': true,
   'web/front/src/gv-header/gv-header': true,
   'web/front/src/gv-results/gv-results': true,
@@ -53,6 +54,7 @@ var filesScss = {
   'web/admin/css/style': true,
   // Front
   'web/front/css/style': true,
+  'web/front/src/gv-avatar/gv-avatar': true,
   'web/front/src/gv-carto/gv-carto': true,
   'web/front/src/gv-spinner/gv-spinner': true,
   'web/front/src/gv-results/gv-results': true,
