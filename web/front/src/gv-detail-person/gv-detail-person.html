@@ -20,8 +20,15 @@
                               icon="twitter"></gv-social-link>
             </div>
           </div>
+
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
+              <template is="dom-if" if="[[shortDescription]]">
+                <tr class="field">
+                  <td class="fieldLabel">description courte</td>
+                  <td>[[shortDescription]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[birthday]]">
                 <tr class="field">
                   <td class="fieldLabel">Né(e) le </td>
@@ -59,6 +66,13 @@
             </table>
           </div>
         </div>
+        <template is="dom-if" if="[[description]]">
+          <div class="detail-description col col-sm-12">
+            <div class="detail-description-inner">
+              [[description]]
+            </div>
+          </div>
+        </template>
       </div>
       <div class="col col-sm-4 side-blocks">
         <template is="dom-if" if="[[data.responsible]]">
@@ -88,22 +102,6 @@
           </div>
           <div class="clearfix"></div>
         </template>
-        <!--
-        <template is="dom-if" if="[[data.responsible]]">
-          <h3>Résponsable</h3>
-          <a href="#" rel="[[data.responsible.uri]]" on-tap="handleClickDetail">
-            <span class="glyphicon glyphicon-king"></span>
-            [[data.responsible.foafName]] </a>
-        </template>
-        <template is="dom-if" if="[[memberOf.length]]">
-          <h3>Fait partie de</h3>
-          <template is="dom-repeat" items="{{memberOf}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="strip">
-              <span class="glyphicon glyphicon-king"></span>{{item.name}}</a>
-          </template>
-        </template>
-        -->
         <template is="dom-if" if="[[topicInterest.length]]">
           <h3>S'intéresse à</h3>
           <div class="tags-cloud">

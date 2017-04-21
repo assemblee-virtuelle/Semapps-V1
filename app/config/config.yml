@@ -37,6 +37,7 @@ parameters:
         foafName: "http://xmlns.com/foaf/0.1/name"
         administrativeName: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName"
         description: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'
+        shortDescription: "http://xmlns.com/foaf/0.1/status"
         conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
         head: 'http://www.w3.org/ns/org#Head'
         hasMember: 'http://www.w3.org/ns/org#hasMember'
@@ -65,7 +66,6 @@ parameters:
         eventEnd: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventEnd"
         fundedBy: "http://xmlns.com/foaf/0.1/fundedBy"
         #######
-        foafStatus: "http://xmlns.com/foaf/0.1/status"
         subject: "http://purl.org/dc/elements/1.1/subject"
             # Mixed fields from user / organization.
     fields_access:
@@ -80,6 +80,7 @@ parameters:
            - twitter
            - linkedin
            - topicInterest
+           - shortDescription
            # orga
            - building
            - subject

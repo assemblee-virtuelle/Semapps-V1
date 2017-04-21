@@ -22,6 +22,12 @@
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
+              <template is="dom-if" if="[[shortDescription]]">
+                <tr class="field">
+                  <td class="fieldLabel">description courte</td>
+                  <td>[[shortDescription]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[isMember]]">
                 <template is="dom-if" if="[[mbox]]">
                   <tr class="field">

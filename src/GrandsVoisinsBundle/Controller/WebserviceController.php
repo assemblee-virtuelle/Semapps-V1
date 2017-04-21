@@ -199,6 +199,7 @@ class WebserviceController extends Controller
           // Optional fields..
           [
             'image'    => 'foaf:img',
+            'desc'     => 'foaf:status',
             //'subject'  => 'purl:subject',
             'building' => 'gvoi:building',
           ]
@@ -217,6 +218,7 @@ class WebserviceController extends Controller
           [
             'familyName' => 'foaf:familyName',
             'image' => 'foaf:img',
+            'desc'     => 'foaf:status',
           ],
             '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
         );
@@ -229,6 +231,7 @@ class WebserviceController extends Controller
             [
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
+                'desc'  => 'foaf:status',
             ],
             // Optional fields..
             []
@@ -242,6 +245,7 @@ class WebserviceController extends Controller
             [
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
+                'desc'  => 'foaf:status',
             ],
             // Optional fields..
             []
@@ -255,11 +259,12 @@ class WebserviceController extends Controller
             [
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
+                'desc'  => 'foaf:status',
             ],
             // Optional fields..
             []
         );
-        //dump($proposition,$project,$event);
+        dump($persons);
         $results = [];
 
         while ($organizations || $persons) {
@@ -338,7 +343,9 @@ class WebserviceController extends Controller
                   'givenName'  => 'foaf:givenName',
                   'familyName' => 'foaf:familyName',
                 ];
-                $optionalFields =[];
+                $optionalFields =[
+                    'desc'  => 'foaf:status',
+                ];
                 // Build a label.
                 $select = ' ( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label) ';
                 break;
@@ -354,7 +361,9 @@ class WebserviceController extends Controller
                 $requiredFields = [
                   'label' => 'rdfs:label',
                 ];
-                $optionalFields =[];
+                $optionalFields =[
+                    'desc'  => 'foaf:status',
+                ];
                 break;
             default:
                 $requiredFields =[
@@ -365,6 +374,7 @@ class WebserviceController extends Controller
                     'familyName' => 'foaf:familyName',
                     'name' => 'foaf:name',
                     'label_test' => 'rdfs:label',
+                    'desc'  => 'foaf:status',
                 ];
                 $select = ' ( COALESCE(?givenName, "") As ?result_1)
                   ( COALESCE(?familyName, "") As ?result_2)
@@ -430,7 +440,6 @@ class WebserviceController extends Controller
           ->getManager()
           ->getRepository('GrandsVoisinsBundle:User')
           ->getAccessLevelString($user);
-
         foreach ($fieldsFilter as $role => $fields) {
             // User has role.
             if ($role === 'anonymous' ||

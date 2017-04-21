@@ -20,6 +20,7 @@ class PropositionType extends AbstractForm
         'http://xmlns.com/foaf/0.1/mbox'                                                => 'mbox',
         'http://www.w3.org/2000/01/rdf-schema#label'                                    => 'label',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description' => 'description',
+        'http://xmlns.com/foaf/0.1/status'                                              => 'shortDescription',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'    => 'building',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room'        => 'room',
         'http://xmlns.com/foaf/0.1/topic_interest'                                      => 'topicInterest',
@@ -43,6 +44,14 @@ class PropositionType extends AbstractForm
             [
               'required' => false,
             ]
+          )
+          ->add(
+              $builder,
+              'shortDescription',
+              TextType::class,
+              [
+                  'required' => false,
+              ]
           )
           ->add(
             $builder,

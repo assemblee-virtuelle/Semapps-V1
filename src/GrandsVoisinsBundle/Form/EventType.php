@@ -20,6 +20,7 @@ class EventType extends AbstractForm
     var $fieldsAliases = [
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
         'http://www.w3.org/2000/01/rdf-schema#label'                                    => 'label',
+        'http://xmlns.com/foaf/0.1/status'                                              => 'shortDescription',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description' => 'description',
         'http://xmlns.com/foaf/0.1/maker'                                               => 'maker',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventBegin'  => 'eventBegin',
@@ -46,6 +47,14 @@ class EventType extends AbstractForm
                 $builder,
                 'description',
                 TextareaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'shortDescription',
+                TextType::class,
                 [
                     'required' => false,
                 ]

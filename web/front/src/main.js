@@ -43,7 +43,7 @@
         fieldsAliases: {
           'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status': 'gvStatus',
           'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution': 'realisedContribution',
-          'http://xmlns.com/foaf/0.1/status': 'foafStatus',
+          'http://xmlns.com/foaf/0.1/status': 'shortDescription',
           'http://xmlns.com/foaf/0.1/name': 'foafName',
           'http://vocab.sindice.net/csv/rowPosition': 'rowPosition',
           'urn:gv/contactsPrint': 'contactsPrint',

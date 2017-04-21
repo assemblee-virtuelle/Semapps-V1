@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,6 +38,8 @@ class ProfileType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city'             => 'city',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
+        'http://xmlns.com/foaf/0.1/status'                                                   => 'shortDescription',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'          => 'description',
 //        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
@@ -69,6 +72,22 @@ class ProfileType extends AbstractForm
                 $builder,
                 'phone',
                 TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'shortDescription',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'description',
+                TextareaType::class,
                 [
                     'required' => false,
                 ]

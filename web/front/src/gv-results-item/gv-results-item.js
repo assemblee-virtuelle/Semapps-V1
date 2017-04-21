@@ -19,8 +19,10 @@ Polymer({
     "use strict";
     $.extend(this, this.data);
     this.image = gvc.imageOrFallback(this.image, this.type);
-
     this.info = gvc.searchTypes[this.type].label;
+    if (this.desc) {
+        this.info += ' | ' + this.desc;
+    }
     if (this.subject) {
       this.info += ' | ' + this.subject;
     }

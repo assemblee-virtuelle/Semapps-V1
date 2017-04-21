@@ -21,6 +21,7 @@ class ProjectType extends AbstractForm
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                                => 'type',
       'http://www.w3.org/2000/01/rdf-schema#label'                                     => 'label',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'  => 'description',
+        'http://xmlns.com/foaf/0.1/status'                                             => 'shortDescription',
       'http://xmlns.com/foaf/0.1/maker'                                                => 'maker',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#projectStart' => 'projectStart',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room'         => 'room',
@@ -50,6 +51,22 @@ class ProjectType extends AbstractForm
             [
               'required' => false,
             ]
+          )
+          ->add(
+              $builder,
+              'shortDescription',
+              TextType::class,
+              [
+                  'required' => false,
+              ]
+          )
+          ->add(
+              $builder,
+              'shortDescription',
+              TextType::class,
+              [
+                  'required' => false,
+              ]
           )
           ->add(
             $builder,
