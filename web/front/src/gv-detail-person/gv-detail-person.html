@@ -30,6 +30,18 @@
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[postalCode]]">
+                <tr class="field">
+                  <td class="fieldLabel">Code postal</td>
+                  <td>[[postalCode]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[city]]">
+                <tr class="field">
+                  <td class="fieldLabel">ville</td>
+                  <td>[[city]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[birthday]]">
                 <tr class="field">
                   <td class="fieldLabel">Né(e) le </td>

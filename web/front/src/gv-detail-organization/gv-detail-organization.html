@@ -28,6 +28,12 @@
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[contributionType]]">
+                <tr class="field">
+                  <td class="fieldLabel">type de contribution </td>
+                  <td>[[contributionType]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[isSuperAdmin]]">
                 <template is="dom-if" if="[[administrativeName]]">
                   <tr class="field">
@@ -41,6 +47,12 @@
                     <td>[[arrivalDate]]</td>
                   </tr>
                 </template>
+                <template is="dom-if" if="[[arrivalNumber]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Numéro d'arrivée</td>
+                    <td>[[arrivalNumber]]</td>
+                  </tr>
+                </template>
                 <template is="dom-if" if="[[gvStatus]]">
                   <tr class="field">
                     <td class="fieldLabel">Status</td>
@@ -50,7 +62,7 @@
                 <template is="dom-if" if="[[empoyeesCount]]">
                   <tr class="field">
                     <td class="fieldLabel">Employés</td>
-                    <td>[[empoyeesCount]]</td>
+                    <td>[[employeesCount]]</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="[[conventionType]]">
@@ -118,12 +130,6 @@
                     <td>[[gvStatus]]</td>
                   </tr>
                 </template>
-                <template is="dom-if" if="[[arrivalDate]]">
-                  <tr class="field">
-                    <td class="fieldLabel">Date d'arrivée</td>
-                    <td>[[arrivalDate]]</td>
-                  </tr>
-                </template>
                 <template is="dom-if" if="[[proposedContribution]]">
                   <tr class="field">
                     <td class="fieldLabel">Propose</td>
@@ -142,12 +148,24 @@
                     <td>[[volunteeringProposals]]</td>
                   </tr>
                 </template>
-              </template>
-              <template is="dom-if" if="[[themes]]">
-                <tr class="field">
-                  <td class="fieldLabel">Thématiques</td>
-                  <td>[[foafStatus]]</td>
-                </tr>
+                <template is="dom-if" if="[[leavingDate]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Date de départ</td>
+                    <td>[[leavingDate]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[newLocation]]">
+                  <tr class="field">
+                    <td class="fieldLabel">nouvelle localisation</td>
+                    <td>[[newLocation]]</td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="[[haveBenefitOf]]">
+                  <tr class="field">
+                    <td class="fieldLabel">A bénéficiée de</td>
+                    <td>[[haveBenefitOf]]</td>
+                  </tr>
+                </template>
               </template>
             </table>
           </div>
@@ -182,7 +200,16 @@
           </div>
           <div class="clearfix"></div>
         </template>
-
+        <template is="dom-if" if="[[topicInterest.length]]">
+          <h3>S'intéresse à</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{topicInterest}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <template is="dom-if" if="[[data.projet.length]]">
             <h3><span class="glyphicon glyphicon-screenshot"></span>&nbsp;Projets
             </h3>
@@ -233,7 +260,7 @@
             <div class="clearfix"></div>
           </div>
         </template>
-    </div>
+      </section>
     </div>
   </template>
   <script src="gv-detail-organization.min.js"></script>

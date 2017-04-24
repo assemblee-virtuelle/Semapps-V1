@@ -28,7 +28,7 @@ class ProfileType extends AbstractForm
         'http://xmlns.com/foaf/0.1/homepage'                                                 => 'homepage',
         'http://xmlns.com/foaf/0.1/mbox'                                                     => 'mbox',
         'http://xmlns.com/foaf/0.1/phone'                                                    => 'phone',
-        'http://xmlns.com/foaf/0.1/currentProject'                                           => 'currentProject',
+        //'http://xmlns.com/foaf/0.1/currentProject'                                           => 'currentProject',
         'http://xmlns.com/foaf/0.1/topic_interest'                                           => 'topicInterest',
         'http://xmlns.com/foaf/0.1/knows'                                                    => 'knows',
         'http://purl.org/ontology/cco/core#expertise'                                        => 'expertise',

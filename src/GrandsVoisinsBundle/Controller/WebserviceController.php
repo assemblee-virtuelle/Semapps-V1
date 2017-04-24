@@ -493,6 +493,14 @@ class WebserviceController extends Controller
                         ];
                     }
                 }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                            'uri'  => $uri,
+                            'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
                 $projet = $event = $proposition = array();
                 if (isset($properties['made'])) {
                     foreach ($properties['made'] as $uri) {

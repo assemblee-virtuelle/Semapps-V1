@@ -41,7 +41,7 @@ parameters:
         conventionType: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType"
         head: 'http://www.w3.org/ns/org#Head'
         hasMember: 'http://www.w3.org/ns/org#hasMember'
-        empoyeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
+        employeesCount: 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#employeesCount'
         arrivalDate: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate"
         building: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building"
         room: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room"
@@ -125,7 +125,7 @@ parameters:
            - gvStatus
            - administrativeName
            - conventionType
-           - empoyeesCount
+           - employeesCount
            - leavingDate
            - haveBenefitOf
            - insuranceStatus
