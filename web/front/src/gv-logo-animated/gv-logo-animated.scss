@@ -18,7 +18,6 @@
 }
 
 #gv-logo-animated-inner {
-  background: #FFCC00;
   position: fixed;
   top: 0;
   left: 0;
@@ -33,5 +32,18 @@
   }
   animation: logoHide 1s cubic-bezier(.8, 0, .3, .9) forwards;
   animation-delay: 2s;
+}
+
+#gv-logo-animated-inner-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+#gv-logo-animated-inner-svg {
+  z-index: 1;
 }
 

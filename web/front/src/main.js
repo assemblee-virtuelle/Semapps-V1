@@ -76,15 +76,15 @@
           plural: 'Projets'
         },
         "http://purl.org/NET/c4dm/event.owl#Event": {
-            label: 'Evénement',
-            type: 'event',
-            plural: 'Evénements'
+          label: 'Evénement',
+          type: 'event',
+          plural: 'Evénements'
         },
         "http://www.fipa.org/schemas#Proposition": {
-            label: 'Proposition',
-            type: 'proposition',
-            plural: 'Propositions'
-        },
+          label: 'Proposition',
+          type: 'proposition',
+          plural: 'Propositions'
+        }
       };
 
       // Play intro only once.

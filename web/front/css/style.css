@@ -38,3 +38,15 @@ footer {
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     margin: 0 30px;
     height: 10px; }
+
+@keyframes barWidth {
+  to {
+    x: 0;
+    width: 100%; }
+  to {
+    x: 100%;
+    width: 0; } }
+
+.logoIntroBar {
+  background: pink;
+  animation: barWidth 1s cubic-bezier(0.8, 0, 0.3, 0.9) forwards; }

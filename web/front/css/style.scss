@@ -63,3 +63,19 @@ footer {
   }
 }
 
+@keyframes barWidth {
+  to {
+    x:0;
+    width: 100%;
+  }
+  to {
+    x:100%;
+    width: 0;
+  }
+}
+
+.logoIntroBar {
+  background: pink;
+  animation: barWidth 1s cubic-bezier(.8, 0, .3, .9) forwards;
+}
+
