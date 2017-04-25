@@ -400,13 +400,15 @@ class WebserviceController extends Controller
                     'familyName' => 'foaf:familyName',
                     'name' => 'foaf:name',
                     'label_test' => 'rdfs:label',
+                    'skos' => 'skos:prefLabel',
                     'desc'  => 'foaf:status',
                 ];
                 $select = ' ( COALESCE(?givenName, "") As ?result_1)
                   ( COALESCE(?familyName, "") As ?result_2)
                   ( COALESCE(?name, "") As ?result_3)
                   ( COALESCE(?label_test, "") As ?result_4)
-                  (fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
+                  ( COALESCE(?skos, "") As ?result_5)
+                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
                 break;
         }
 

@@ -137,7 +137,7 @@ abstract class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = (!$value ) ? "" : $value;
                   }
               }
-              //dump($saveData);exit;
+              dump($saveData);//exit;
               $client->send(
                 $saveData,
                 $login,
@@ -211,7 +211,7 @@ abstract class SemanticFormType extends AbstractType
     public function fieldEncode($type, $values, $spec,$subject)
     {
         $outputSingleValue = $values;
-
+        //dump($spec);
         if ($values) {
             switch ($type) {
 
@@ -237,14 +237,18 @@ abstract class SemanticFormType extends AbstractType
                               $value
                             );
                             $output[$htmlName] = '';
+
                         }
+                        dump($values);
+                        $i=0;
                         // Add new values.
                         foreach (array_keys($values) as $value) {
                             $htmlName          = $this->buildHtmlName(
                               $subject,
                               $spec['property'],
-                              $value
+                              $i
                             );
+                            $i++;
                             $output[$htmlName] = $value;
                         }
                     }
