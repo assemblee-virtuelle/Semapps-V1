@@ -40,7 +40,7 @@ class ProfileType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
         'http://xmlns.com/foaf/0.1/status'                                                   => 'shortDescription',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'          => 'description',
-//        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -162,15 +162,17 @@ class ProfileType extends AbstractForm
                     'required' => false,
                 ]
             )
-//            ->add(
-//                $builder,
-//                'thesaurus',
-//                ChoiceType::class,
-//                [
-//                    'choices' => array_flip(GrandsVoisinsConfig::$thesaurus),
-//                    'required' => false,
-//                ]
-//            )
+            ->add(
+                $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                ]
+            )
             ->add(
                 $builder,
                 'city',

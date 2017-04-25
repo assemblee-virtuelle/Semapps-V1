@@ -38,6 +38,11 @@ class WebserviceController extends Controller
           'plural' => 'Propositions',
           'icon'   => 'info-sign',
       ],
+      SemanticFormsBundle::URI_SKOS_THESAURUS       => [
+          'name'   => 'Thematique',
+          'plural' => 'Thematiques',
+          'icon'   => 'info-sign',
+      ],
     ];
 
     public function __construct()
@@ -160,7 +165,7 @@ class WebserviceController extends Controller
             // If not term specified, do not filter term.
             ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : '')
           );
-
+        /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
         $results  = $sfClient->sparql($request);
 
@@ -264,7 +269,20 @@ class WebserviceController extends Controller
             // Optional fields..
             []
         );
-        //dump($persons);
+        $thematiques = $this->searchSparqlSelect(
+        // Type.
+            SemanticFormsBundle::URI_SKOS_THESAURUS,
+            // Search term.
+            $term,
+            // Required fields.
+            [
+                'type'  => 'rdf:type',
+                'title' => 'skos:prefLabel',
+            ],
+            // Optional fields..
+            []
+        );
+
         $results = [];
 
         while ($organizations || $persons) {
@@ -282,6 +300,9 @@ class WebserviceController extends Controller
             }
             if (!empty($proposition)) {
                 $results[] = array_shift($proposition);
+            }
+            if (!empty($thematiques)) {
+                $results[] = array_shift($thematiques);
             }
         }
 
@@ -340,8 +361,8 @@ class WebserviceController extends Controller
         switch ($uriType) {
             case SemanticFormsBundle::URI_FOAF_PERSON :
                 $requiredFields = [
-                  'givenName'  => 'foaf:givenName',
-                  'familyName' => 'foaf:familyName',
+                    'givenName'  => 'foaf:givenName',
+                    'familyName' => 'foaf:familyName',
                 ];
                 $optionalFields =[
                     'desc'  => 'foaf:status',
@@ -351,7 +372,7 @@ class WebserviceController extends Controller
                 break;
             case SemanticFormsBundle::URI_FOAF_ORGANIZATION :
                 $requiredFields = [
-                  'label' => 'foaf:name',
+                    'label' => 'foaf:name',
                 ];
                 $optionalFields =[];
                 break;
@@ -359,10 +380,15 @@ class WebserviceController extends Controller
             case SemanticFormsBundle::URI_FIPA_PROPOSITION :
             case SemanticFormsBundle::URI_PURL_EVENT :
                 $requiredFields = [
-                  'label' => 'rdfs:label',
+                    'label' => 'rdfs:label',
                 ];
                 $optionalFields =[
                     'desc'  => 'foaf:status',
+                ];
+                break;
+            case SemanticFormsBundle::URI_SKOS_THESAURUS:
+                $requiredFields = [
+                    'label' => 'skos:prefLabel',
                 ];
                 break;
             default:
@@ -385,11 +411,11 @@ class WebserviceController extends Controller
         }
 
         $request = $this->sparqlSelectType(
-          $requiredFields,
-          $optionalFields,
-          $select,
-          $uriType,
-          'FILTER (?uri = <'.$url.'>)'
+            $requiredFields,
+            $optionalFields,
+            $select,
+            $uriType,
+            'FILTER (?uri = <'.$url.'>)'
         );
 
         $sfClient = $this->container->get('semantic_forms.client');
