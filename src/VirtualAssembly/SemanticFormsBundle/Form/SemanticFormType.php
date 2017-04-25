@@ -137,7 +137,7 @@ abstract class SemanticFormType extends AbstractType
                       $saveData[$htmlName] = (!$value ) ? "" : $value;
                   }
               }
-              dump($saveData);//exit;
+              //dump($saveData);//exit;
               $client->send(
                 $saveData,
                 $login,
@@ -239,7 +239,7 @@ abstract class SemanticFormType extends AbstractType
                             $output[$htmlName] = '';
 
                         }
-                        dump($values);
+                        //dump($values);
                         $i=0;
                         // Add new values.
                         foreach (array_keys($values) as $value) {
