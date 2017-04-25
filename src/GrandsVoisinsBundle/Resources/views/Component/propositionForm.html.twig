@@ -9,20 +9,26 @@
 
     <div class="row">
         <div class="col-sm-6">
-            {{ form_row(form.label) }}
+            {{ form_row(form.label, { 'label': 'Titre de la proposition'}) }}
         </div>
         <div class="col-sm-6">
             {{ form_row(form.mbox) }}
         </div>
     </div>
+
     <div class="row">
-        <div class="col-sm-12">
-            {{ form_row(form.fundedBy) }}
+        <div class="col-sm-6">
+            {{ form_row(form.building, { 'label': 'Bâtiment concerné' }) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.room) }}
         </div>
     </div>
+
+
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+            {{ form_row(form.shortDescription, { 'label': 'Description courte (Et si ...)' }) }}
         </div>
     </div>
     <div class="row">
@@ -32,29 +38,26 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
-            {{ form_row(form.building) }}
-        </div>
-        <div class="col-sm-6">
-            {{ form_row(form.room) }}
+        <div class="col-sm-12">
+            {{ form_row(form.fundedBy, { 'label': 'Auteur(s) de la proposition (personnes ou organisations)'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
-            {{ form_row(form.topicInterest) }}
+            {{ form_row(form.topicInterest, { 'label': 'Description courte (Et si ...)' }) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceProposed) }}
+            {{ form_row(form.resourceProposed, { 'label': 'Ressources que la proposition met à disposition'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceNeeded) }}
+            {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont la proposition a besoin'}) }}
         </div>
     </div>
 {% endblock %}

@@ -43,7 +43,7 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.name) }}
+                        {{ form_row(form.name, { 'label': 'Nom'}) }}
                     </div>
                     <div class="col-xs-6">
                         {{ form_row(form.administrativeName) }}
@@ -144,19 +144,19 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.topicInterest) }}
+                        {{ form_row(form.head, { 'label': 'Responsable(s) de l\'organisation'}) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.head) }}
+                        {{ form_row(form.hasMember, { 'label': 'Membres de l\'organisation'}) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.hasMember) }}
+                        {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
                     </div>
                 </div>
 
@@ -168,14 +168,14 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.resourceNeeded) }}
+                        {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
                     </div>
                 </div>
 
                 {% if form.haveBenefitOf is defined  %}
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.haveBenefitOf) }}
+                        {#{{ form_row(form.haveBenefitOf) }}#}
                     </div>
                 </div>
                 {% endif %}

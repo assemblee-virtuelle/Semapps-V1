@@ -33,11 +33,11 @@ class WebserviceController extends Controller
           'plural' => 'Events',
           'icon'   => 'calendar',
       ],
-      SemanticFormsBundle::URI_FIPA_PROPOSITION       => [
-          'name'   => 'Proposition',
-          'plural' => 'Propositions',
-          'icon'   => 'info-sign',
-      ],
+//      SemanticFormsBundle::URI_FIPA_PROPOSITION       => [
+//          'name'   => 'Proposition',
+//          'plural' => 'Propositions',
+//          'icon'   => 'info-sign',
+//      ],
       SemanticFormsBundle::URI_SKOS_THESAURUS       => [
           'name'   => 'Thematique',
           'plural' => 'Thematiques',
@@ -255,20 +255,20 @@ class WebserviceController extends Controller
             // Optional fields..
             []
         );
-        $proposition = $this->searchSparqlSelect(
-        // Type.
-            SemanticFormsBundle::URI_FIPA_PROPOSITION,
-            // Search term.
-            $term,
-            // Required fields.
-            [
-                'type'  => 'rdf:type',
-                'title' => 'rdfs:label',
-                'desc'  => 'foaf:status',
-            ],
-            // Optional fields..
-            []
-        );
+//        $proposition = $this->searchSparqlSelect(
+//        // Type.
+//            SemanticFormsBundle::URI_FIPA_PROPOSITION,
+//            // Search term.
+//            $term,
+//            // Required fields.
+//            [
+//                'type'  => 'rdf:type',
+//                'title' => 'rdfs:label',
+//                'desc'  => 'foaf:status',
+//            ],
+//            // Optional fields..
+//            []
+//        );
         $thematiques = $this->searchSparqlSelect(
         // Type.
             SemanticFormsBundle::URI_SKOS_THESAURUS,
@@ -298,9 +298,9 @@ class WebserviceController extends Controller
             if (!empty($event)) {
                 $results[] = array_shift($event);
             }
-            if (!empty($proposition)) {
-                $results[] = array_shift($proposition);
-            }
+//            if (!empty($proposition)) {
+//                $results[] = array_shift($proposition);
+//            }
             if (!empty($thematiques)) {
                 $results[] = array_shift($thematiques);
             }
@@ -726,40 +726,40 @@ class WebserviceController extends Controller
                     $output['orga_maker'] = $orga;
                 }
                 break;
-            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
-                if (isset($properties['mbox'])) {
-                    $properties['mbox'] = preg_replace(
-                        '/^mailto:/',
-                        '',
-                        current($properties['mbox'])
-                    );
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                            'uri'  => $uri,
-                            'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                $person = $orga =array();
-                if (isset($properties['fundedBy'])) {
-                    foreach ($properties['fundedBy'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])){
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
-                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
-                                break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
-                                break;
-                        }
-                    }
-                    $output['person_fundedBy'] = $person;
-                    $output['orga_fundedBy'] = $orga;
-                }
-                break;
+//            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+//                if (isset($properties['mbox'])) {
+//                    $properties['mbox'] = preg_replace(
+//                        '/^mailto:/',
+//                        '',
+//                        current($properties['mbox'])
+//                    );
+//                }
+//                if (isset($properties['topicInterest'])) {
+//                    foreach ($properties['topicInterest'] as $uri) {
+//                        $output['topicInterest'][] = [
+//                            'uri'  => $uri,
+//                            'name' => $sfClient->dbPediaLabel($uri),
+//                        ];
+//                    }
+//                }
+//                $person = $orga =array();
+//                if (isset($properties['fundedBy'])) {
+//                    foreach ($properties['fundedBy'] as $uri) {
+//                        $component = $this->uriPropertiesFiltered($uri);
+//                        //dump($component);
+//                        switch (current($component['type'])){
+//                            case SemanticFormsBundle::URI_FOAF_PERSON:
+//                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
+//                                break;
+//                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+//                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
+//                                break;
+//                        }
+//                    }
+//                    $output['person_fundedBy'] = $person;
+//                    $output['orga_fundedBy'] = $orga;
+//                }
+//                break;
         }
         if (isset($properties['resourceNeeded'])) {
             foreach ($properties['resourceNeeded'] as $uri) {

@@ -40,10 +40,10 @@
 
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.givenName) }}
+                        {{ form_row(form.givenName, { 'label': 'Prénom'}) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.familyName) }}
+                        {{ form_row(form.familyName, { 'label': 'Nom'}) }}
                     </div>
                 </div>
                 <div class="row">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.birthday) }}
+                        {{ form_row(form.birthday, { 'label': 'Date de naissance'}) }}
                     </div>
                 </div>
 
@@ -90,18 +90,26 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-xs-12">
-                        {{ form_row(form.topicInterest) }}
+                    <div class="col-xs-12">
+                        {{ form_row(form.knows, { 'label': 'Vos ami(e)s aux Grands Voisins'}) }}
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-xs-12">
-                        {{  form_row(form.thesaurus) }}
+                        {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group col-xs-12">
-                        {{ form_row(form.expertise) }}
+                        {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xs-12">
+                        {{ form_row(form.expertise, { 'label': 'Compétences'}) }}
                     </div>
                 </div>
 
@@ -113,13 +121,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.resourceNeeded) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.knows) }}
+                        {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
                     </div>
                 </div>
 

@@ -19,15 +19,19 @@ Polymer({
     "use strict";
     $.extend(this, this.data);
     this.image = gvc.imageOrFallback(this.image, this.type);
-    this.info = gvc.searchTypes[this.type].label;
+    this.info = '';
+    let c = '';
     if (this.desc) {
-        this.info += ' | ' + this.desc;
+        this.info += c + this.desc;
+        c=' | ';
     }
     if (this.subject) {
-      this.info += ' | ' + this.subject;
+      this.info += c + this.subject;
+        c=' | ';
     }
     if (gvc.buildings[this.building]) {
-      this.info += ' | ' + gvc.buildings[this.building].title;
+      this.info += c + gvc.buildings[this.building].title;
+        c=' | ';
     }
   },
     haveTitle(value){

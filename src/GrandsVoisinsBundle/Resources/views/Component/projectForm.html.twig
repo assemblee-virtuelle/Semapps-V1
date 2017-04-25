@@ -8,30 +8,10 @@
     {{ parent() }}
     <div class="row">
         <div class="col-sm-6">
-            {{ form_row(form.label) }}
+            {{ form_row(form.label, { 'label': 'Nom du projet'}) }}
         </div>
         <div class="col-sm-6">
             {{ form_row(form.projectStart) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            {{ form_row(form.description) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            {{ form_row(form.fundedBy) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            {{ form_row(form.maker) }}
         </div>
     </div>
 
@@ -49,19 +29,40 @@
             {{ form_row(form.homepage) }}
         </div>
         <div class="col-sm-6">
-            {{ form_row(form.mbox) }}
+            {{ form_row(form.mbox, { 'label': 'E-mail de contact'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceProposed) }}
+            {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.fundedBy, { 'label': 'Responsable(s) du projet (personnes ou organisations)'}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ form_row(form.maker, { 'label': 'Contributeurs'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceNeeded) }}
+            {{ form_row(form.resourceProposed, { 'label': 'Ressources que le projet met à disposition'}) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont le projet a besoin'}) }}
         </div>
     </div>
 {% endblock %}
