@@ -19,8 +19,12 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
+                require_previous_session: false
             logout:       true
             anonymous:    true
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 86400 # 1 week in seconds
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
