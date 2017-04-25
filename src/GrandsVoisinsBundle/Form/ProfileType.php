@@ -133,8 +133,9 @@ class ProfileType extends AbstractForm
                 DateType::class,
                 [
                     'required' => false,
-                    'widget'   => 'single_text',
+                    'widget'   => 'choice',
                     'format' => 'dd/MM/yyyy',
+                    'years' => range(date('Y') -150, date('Y')),
                 ]
             )
             ->add(

@@ -226,7 +226,8 @@ class OrganizationType extends AbstractForm
                     DateType::class,
                     [
                         'required' => false,
-                        'widget'   => 'single_text',
+                        'widget'   => 'choice',
+                        'format' => 'dd/MM/yyyy',
                     ]
                 )
                 ->add(
@@ -243,7 +244,9 @@ class OrganizationType extends AbstractForm
                     DateType::class,
                     [
                         'required' => false,
-                        'widget'   => 'single_text',
+                        'widget'   => 'choice',
+                        'format' => 'dd/MM/yyyy',
+                        'years' => range(date('Y') -10, date('Y')+5),
                     ]
                 )
                 ->add(
