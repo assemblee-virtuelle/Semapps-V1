@@ -675,8 +675,8 @@ class WebserviceController extends Controller
                     $output['orga_maker'] = $orga;
                 }
                 $person = $orga =array();
-                if (isset($properties['fundedBy'])) {
-                    foreach ($properties['fundedBy'] as $uri) {
+                if (isset($properties['head'])) {
+                    foreach ($properties['head'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])){
@@ -688,8 +688,8 @@ class WebserviceController extends Controller
                                 break;
                         }
                     }
-                    $output['person_fundedBy'] = $person;
-                    $output['orga_fundedBy'] = $orga;
+                    $output['person_head'] = $person;
+                    $output['orga_head'] = $orga;
                 }
                 break;
             case SemanticFormsBundle::URI_PURL_EVENT:
@@ -726,41 +726,41 @@ class WebserviceController extends Controller
                     $output['orga_maker'] = $orga;
                 }
                 break;
-//            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
-//                if (isset($properties['mbox'])) {
-//                    $properties['mbox'] = preg_replace(
-//                        '/^mailto:/',
-//                        '',
-//                        current($properties['mbox'])
-//                    );
-//                }
-//                if (isset($properties['topicInterest'])) {
-//                    foreach ($properties['topicInterest'] as $uri) {
-//                        $output['topicInterest'][] = [
-//                            'uri'  => $uri,
-//                            'name' => $sfClient->dbPediaLabel($uri),
-//                        ];
-//                    }
-//                }
-//                $person = $orga =array();
-//                if (isset($properties['fundedBy'])) {
-//                    foreach ($properties['fundedBy'] as $uri) {
-//                        $component = $this->uriPropertiesFiltered($uri);
-//                        //dump($component);
-//                        switch (current($component['type'])){
-//                            case SemanticFormsBundle::URI_FOAF_PERSON:
-//                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
-//                                break;
-//                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
-//                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
-//                                break;
-//                        }
-//                    }
-//                    $output['person_fundedBy'] = $person;
-//                    $output['orga_fundedBy'] = $orga;
-//                }
-//                break;
-        }
+            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                if (isset($properties['mbox'])) {
+                    $properties['mbox'] = preg_replace(
+                        '/^mailto:/',
+                        '',
+                        current($properties['mbox'])
+                    );
+                }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                            'uri'  => $uri,
+                            'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
+                $person = $orga =array();
+                if (isset($properties['maker'])) {
+                    foreach ($properties['maker'] as $uri) {
+                        $component = $this->uriPropertiesFiltered($uri);
+                        //dump($component);
+                        switch (current($component['type'])){
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $person[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $orga[] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_ORGANIZATION);
+                                break;
+                        }
+                    }
+                    $output['person_maker'] = $person;
+                    $output['orga_maker'] = $orga;
+                }
+                break;
+    }
         if (isset($properties['resourceNeeded'])) {
             foreach ($properties['resourceNeeded'] as $uri) {
                 $output['resourceNeeded'][] = [

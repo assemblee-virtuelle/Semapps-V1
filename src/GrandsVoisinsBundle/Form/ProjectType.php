@@ -29,7 +29,7 @@ class ProjectType extends AbstractForm
       'http://xmlns.com/foaf/0.1/mbox'                                                 => 'mbox',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'     => 'building',
 //      'http://xmlns.com/foaf/0.1/depiction'                                            => 'depiction',
-      'http://xmlns.com/foaf/0.1/fundedBy'                                             => 'fundedBy',
+      'http://www.w3.org/ns/org#Head'                                                  => 'head',
 //      'http://www.w3.org/ns/org#OrganizationalCollaboration' => 'OrganizationalCollaboration',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
@@ -89,7 +89,7 @@ class ProjectType extends AbstractForm
           )
             ->add(
                 $builder,
-                'fundedBy',
+                'head',
                 UriType::class,
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],

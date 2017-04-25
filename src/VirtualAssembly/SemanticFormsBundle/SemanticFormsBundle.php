@@ -19,11 +19,11 @@ class SemanticFormsBundle extends Bundle
             'http://www.w3.org/ns/org#hasMember' => 'http://www.w3.org/ns/org#memberOf',
         ],
         SemanticFormsBundle::URI_FOAF_PROJECT => [
-            'http://xmlns.com/foaf/0.1/fundedBy' => 'http://xmlns.com/foaf/0.1/made',
+            'http://www.w3.org/ns/org#Head' => 'http://xmlns.com/foaf/0.1/made',
             'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',
         ],
         SemanticFormsBundle::URI_FIPA_PROPOSITION => [
-            'http://xmlns.com/foaf/0.1/fundedBy' => 'http://xmlns.com/foaf/0.1/made',
+            'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',
         ],
         SemanticFormsBundle::URI_PURL_EVENT => [
             'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',

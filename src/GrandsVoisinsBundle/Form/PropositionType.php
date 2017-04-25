@@ -16,7 +16,7 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 class PropositionType extends AbstractForm
 {
     var $fieldsAliases = [
-        'http://xmlns.com/foaf/0.1/fundedBy'                                            => 'fundedBy',
+        'http://xmlns.com/foaf/0.1/maker'                                            => 'maker',
         'http://xmlns.com/foaf/0.1/mbox'                                                => 'mbox',
         'http://www.w3.org/2000/01/rdf-schema#label'                                    => 'label',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description' => 'description',
@@ -79,12 +79,12 @@ class PropositionType extends AbstractForm
           )
             ->add(
                 $builder,
-                'fundedBy',
+                'maker',
                 UriType::class,
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::Multiple,
+                    'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
                     'required'  => false,
                 ]
             )
