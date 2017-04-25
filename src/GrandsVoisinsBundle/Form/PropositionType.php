@@ -58,7 +58,7 @@ class PropositionType extends AbstractForm
             'building',
             ChoiceType::class,
             [
-              'choices' => array_flip(GrandsVoisinsConfig::$buildingsSimple),
+              'choices' => array_flip(GrandsVoisinsConfig::$buildingsExtended),
             ]
           )
           ->add(
