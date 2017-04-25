@@ -508,22 +508,15 @@ class WebserviceController extends Controller
                 );
                 $output['id'] = $organization->getId();
                 if (isset($properties['head'])) {
-                    $output['responsible'] = $this->uriPropertiesFiltered(
-                      current($properties['head'])
-                    );
+                    foreach ($properties['head'] as $uri) {
+                        //dump($person);
+                        $output['responsible'][] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
+                    }
                 }
                 if (isset($properties['hasMember'])) {
                     foreach ($properties['hasMember'] as $uri) {
-                        $person = $this->uriPropertiesFiltered($uri);
                         //dump($person);
-                        $output['hasMember'][] = [
-                            'uri'   => $uri,
-                            'name'  => $this->sparqlGetLabel(
-                                $uri,
-                                SemanticFormsBundle::URI_FOAF_PERSON
-                            ),
-                            'image' => (!isset($person['image']))? '/common/images/no_avatar.jpg' : $person['image'],
-                        ];
+                        $output['hasMember'][] = $this->getData($uri,SemanticFormsBundle::URI_FOAF_PERSON);
                     }
                 }
                 if (isset($properties['topicInterest'])) {

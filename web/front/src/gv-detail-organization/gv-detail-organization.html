@@ -179,16 +179,19 @@
         </div>
       </div>
       <section class="col col-sm-4 side-blocks">
-        <template is="dom-if" if="[[data.responsible]]">
+
+        <template is="dom-if" if="[[data.responsible.length]]">
           <h3><span class="glyphicon glyphicon-king"></span>Ses responsables
           </h3>
           <div class="thumbs">
-            <gv-avatar image="[[data.responsible.image]]"
-                       uri="[[data.responsible.uri]]"
-                       label="[[data.responsible.givenName]] [[data.responsible.familyName]]"></gv-avatar>
+            <template is="dom-repeat" items="{{data.responsible}}">
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
+            </template>
           </div>
+          <div class="clearfix"></div>
         </template>
-        <div class="clearfix"></div>
+
         <template is="dom-if" if="[[data.hasMember.length]]">
           <h3><span class="glyphicon glyphicon-user"></span>Ses membres
           </h3>
