@@ -236,10 +236,12 @@ class WebserviceController extends Controller
             [
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
-                'desc'  => 'foaf:status',
+
             ],
             // Optional fields..
-            []
+            [
+                'desc'  => 'foaf:status',
+            ]
         );
         $event = $this->searchSparqlSelect(
         // Type.
@@ -250,10 +252,12 @@ class WebserviceController extends Controller
             [
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
-                'desc'  => 'foaf:status',
+
             ],
             // Optional fields..
-            []
+            [
+                'desc'  => 'foaf:status',
+            ]
         );
 //        $proposition = $this->searchSparqlSelect(
 //        // Type.
@@ -264,10 +268,12 @@ class WebserviceController extends Controller
 //            [
 //                'type'  => 'rdf:type',
 //                'title' => 'rdfs:label',
-//                'desc'  => 'foaf:status',
+//
 //            ],
 //            // Optional fields..
-//            []
+//            [
+//                'desc'  => 'foaf:status',
+//            ]
 //        );
         $thematiques = $this->searchSparqlSelect(
         // Type.
