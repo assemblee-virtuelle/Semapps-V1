@@ -34,7 +34,7 @@ class ProjectType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
 //      'http://xmlns.com/foaf/0.1/isPrimaryTopicOf'                                         => 'isPrimaryTopicOf',
-        //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -87,6 +87,7 @@ class ProjectType extends AbstractForm
               'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
           )
+
             ->add(
                 $builder,
                 'head',
@@ -96,6 +97,17 @@ class ProjectType extends AbstractForm
                     'labelUrl'  => $options['lookupUrlLabel'],
                     'rdfType'   => SemanticFormsBundle::Multiple,
                     'required'  => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
                 ]
             )
           ->add(

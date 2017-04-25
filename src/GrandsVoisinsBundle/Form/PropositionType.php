@@ -27,7 +27,7 @@ class PropositionType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
         'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
-        //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -86,6 +86,17 @@ class PropositionType extends AbstractForm
                     'labelUrl'  => $options['lookupUrlLabel'],
                     'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
                     'required'  => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(

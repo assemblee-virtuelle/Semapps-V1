@@ -105,6 +105,7 @@ parameters:
            - phone
            - resourceNeeded
            - resourceProposed
+           - thesaurus
            # orga
            - room
            - contributionType

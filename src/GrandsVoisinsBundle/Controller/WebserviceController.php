@@ -495,7 +495,6 @@ class WebserviceController extends Controller
         $output     = [];
         $properties = $this->uriPropertiesFiltered($uri);
         $sfClient   = $this->container->get('semantic_forms.client');
-
         switch (current($properties['type'])) {
             // Orga.
             case  SemanticFormsBundle::URI_FOAF_ORGANIZATION:
@@ -768,7 +767,7 @@ class WebserviceController extends Controller
                     $output['orga_maker'] = $orga;
                 }
                 break;
-    }
+        }
         if (isset($properties['resourceNeeded'])) {
             foreach ($properties['resourceNeeded'] as $uri) {
                 $output['resourceNeeded'][] = [
@@ -777,12 +776,17 @@ class WebserviceController extends Controller
                 ];
             }
         }
-        if (isset($properties['resourceProposed'])) {
-            foreach ($properties['resourceProposed'] as $uri) {
-                $output['resourceProposed'][] = [
+        if (isset($properties['resourceNeeded'])) {
+            foreach ($properties['resourceNeeded'] as $uri) {
+                $output['resourceNeeded'][] = [
                     'uri'  => $uri,
                     'name' => $sfClient->dbPediaLabel($uri),
                 ];
+            }
+        }
+        if (isset($properties['thesaurus'])) {
+            foreach ($properties['thesaurus'] as $uri) {
+                $output['thesaurus'][] = $this->getData($uri,SemanticFormsBundle::URI_SKOS_THESAURUS);
             }
         }
 
@@ -810,6 +814,7 @@ class WebserviceController extends Controller
             case SemanticFormsBundle::URI_FOAF_PROJECT:
             case SemanticFormsBundle::URI_PURL_EVENT:
             case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+            case SemanticFormsBundle::URI_SKOS_THESAURUS:
             return [
                 'uri'   => $uri,
                 'name'  => $this->sparqlGetLabel(
