@@ -65,6 +65,8 @@ header {
           header .search .nav li a span {
             margin-left: 0;
             margin-right: 8px; }
+    header .search .search-fields {
+      width: 100%; }
     header .search #searchText {
       border-color: #FFCC00;
       border-radius: 0; }

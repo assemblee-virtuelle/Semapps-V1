@@ -15,14 +15,18 @@ Polymer({
     "use strict";
     this.domSearchTextInput = gvc.domId('searchText');
 
-    let callbackSearchEvent = this.searchEvent.bind(this);
+    this.thesaurus = gvc.thesaurus;
 
-    // Click on submit button.
-    gvc.listen('searchForm', 'submit', (e) => {
+    let callbackSearchEvent = this.searchEvent.bind(this);
+    let callbackSearchSubmit = (e) => {
       this.domSearchTextInput.blur();
       gvc.scrollToContent();
       callbackSearchEvent(e);
-    });
+    };
+
+    // Click on submit button.
+    gvc.listen('searchForm', 'submit', callbackSearchSubmit);
+    gvc.listen('searchThemeFilter', 'change', callbackSearchSubmit);
 
     let timeout;
     // Type in search field.

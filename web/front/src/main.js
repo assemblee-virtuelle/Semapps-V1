@@ -171,8 +171,17 @@
     }
 
     goSearch() {
-      var term = this.domSearchTextInput.value;
-      this.goToPath('/rechercher/' + (this.buildingSelected || 'partout') + '/' + term);
+      let term = this.domSearchTextInput.value;
+      let building = this.buildingSelected || 'partout';
+      let path = '/rechercher/' + building + '/' + term;
+      if (document.location.pathname === path) {
+        // Reload search manually.
+        this.results.search(term, building);
+      }
+      else {
+        // Changing path will execute search action.
+        this.goToPath(path);
+      }
     }
 
     scrollToContent(complete) {

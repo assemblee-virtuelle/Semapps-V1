@@ -39,13 +39,14 @@ Polymer({
     gvc.results = this;
     this.domSearchResults = gvc.domId('searchResults');
     this.domLoadingSpinner = gvc.domId('searchLoadingSpinner');
+    this.$searchThemeFilter = $('#searchThemeFilter');
     // Wait global settings.
     GVCarto.ready(() => {
       let tabs = [];
-      let typeSel ='';
+      let typeSel = '';
       $.each(gvc.entities, (type, data) => {
         data.counter = 0;
-        typeSel = (typeSel == '')? type : typeSel;
+        typeSel = (typeSel == '') ? type : typeSel;
         tabs.push(data);
       });
       this.tabs = tabs;
@@ -78,29 +79,34 @@ Polymer({
   },
 
   _routeChanged: function (data) {
-    //// We are on the search mode.
+    // We are on the search mode.
     if (data.prefix === '/rechercher') {
       // Route change may be fired before init.
       window.GVCarto.ready(() => {
         let split = data.path.split('/');
-        gvc.buildingSelected =
-          gvc.searchLastBuilding = (gvc.buildings[split[1]] ? split[1] : gvc.buildingSelectedAll);
-        // Term has not changed (maybe building changed).
-        if (gvc.searchLastTerm === split[2]) {
-          this.searchRender();
-        }
-        else {
-          this.search(split[2], split[1]);
-        }
+        this.search(split[2], split[1]);
       });
     }
   },
 
-  search(term) {
+  search(term, building) {
     "use strict";
+    let filterUri = this.$searchThemeFilter.val();
+    gvc.buildingSelected =
+      gvc.searchLastBuilding = (gvc.buildings[building] ? building : gvc.buildingSelectedAll);
+    // Term and has not changed.
+    if (gvc.searchLastTerm === term &&
+        // Filter has not changed.
+      gvc.searchLastFilter === filterUri) {
+      // (maybe building changed).
+      this.searchRender();
+      return;
+    }
     // Cleanup term to avoid search errors.
     gvc.searchLastTerm =
       term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+    // Save filter.
+    gvc.searchLastFilter = filterUri;
     this.searchError =
       this.noResult = false;
     // Empty page.
@@ -116,7 +122,9 @@ Polymer({
     // only one we expect to be executed.
     // It prevent to parse multiple responses.
     this.searchQueryLastComplete = complete;
-    gvc.ajax('webservice/search?t=' + encodeURIComponent(term), (data) => {
+    gvc.ajax('webservice/search?' +
+      't=' + encodeURIComponent(term) +
+      '&f=' + encodeURIComponent(gvc.searchLastFilter), (data) => {
       "use strict";
       // Check that we are on the last callback expected.
       complete === this.searchQueryLastComplete
@@ -178,7 +186,7 @@ Polymer({
       resultsTitle += (gvc.buildingSelected === gvc.buildingSelectedAll) ? 'tous les bâtiments' : 'le bâtiment ' + gvc.buildings[gvc.buildingSelected].title;
       // Display title.
       this.resultsTitle = resultsTitle;
-      
+
       // Display no results section or not.
       this.noResult = results.length === 0;
 

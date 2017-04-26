@@ -15,17 +15,29 @@
               </div>
             </div>
             <div class="col col-xs-10 col-sm-8 col-search-text">
-              <div class="input-group">
+              <div class="input-group search-fields">
                 <input id="searchText" class="form-control" type="text"
                        placeholder="Vous recherchez sur le lieu...">
-               <span class="input-group-btn">
-                <input class="btn btn-default btn-info" type="submit"
+                <span class="input-group-addon"
+                      style="width:0; padding-left:0; padding-right:0; border:none;"></span>
+                <select id="searchThemeFilter" class="form-control">
+                  <option value="">- Thématique -</option>
+                  <template is="dom-repeat" items="{{thesaurus}}">
+                    <option value="{{ item.uri }}">{{ item.label }}</option>
+                  </template>
+                </select>
+
+                <span class="input-group-addon"
+                      style="width:0; padding-left:0; padding-right:0; border:none;"></span>
+
+                <input class="form-control btn btn-default btn-info"
+                       type="submit"
                        value="Hop !">
-              </span>
               </div>
             </div>
             <div class="col-xs-2 col-sm-2">
-              <a id="my-account-link" href="/mon-compte" target="_parent" on-tap="handleAccountClick">
+              <a id="my-account-link" href="/mon-compte" target="_parent"
+                 on-tap="handleAccountClick">
                 <span class="glyphicon glyphicon-user"></span>
               </a>
             </div>
