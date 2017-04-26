@@ -124,6 +124,12 @@ class GrandsVoisinsConfig
         'x'     => '58%',
         'y'     => '86%',
       ],
+        "partout"            => [
+            'title' => "Partout",
+        ],
+        "exterieur"            => [
+            'title' => "Exterieur",
+        ],
     ];
 
     static $buildingsSimple = [
@@ -142,6 +148,25 @@ class GrandsVoisinsConfig
       "pasteur"           => "Pasteur",
       "jalaguier"         => "Jalaguier",
       "rapine"            => "Rapine",
+    ];
+    static $buildingsExtended = [
+        "maisonDesMedecins" => "Maison des médecins",
+        "lepage"            => "Lepage",
+        "pinard"            => "Pinard",
+        "lelong"            => "Lelong",
+        "pierrePetit"       => "Pierre Petit",
+        "laMediatheque"     => "La Médiathèque",
+        "ced"               => "CED",
+        "oratoire"          => "Oratoire",
+        "colombani"         => "Colombani",
+        "laLingerie"        => "La Lingerie",
+        "laChaufferie"      => "La Chaufferie",
+        "robin"             => "Robin",
+        "pasteur"           => "Pasteur",
+        "jalaguier"         => "Jalaguier",
+        "rapine"            => "Rapine",
+        "partout"           => "Partout",
+        "exterieur"         => "Extérieur",
     ];
 
     // E-mail configuration

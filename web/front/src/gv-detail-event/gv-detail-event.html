@@ -107,6 +107,18 @@
           </div>
           <div class="clearfix"></div>
         </template>
+
+        <template is="dom-if" if="[[data.thesaurus.length]]">
+          <h3>Ses domaine(s) d'activité(s)</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.thesaurus}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
         <template is="dom-if" if="[[topicInterest.length]]">
           <h3>S'intéresse à</h3>
           <div class="tags-cloud">

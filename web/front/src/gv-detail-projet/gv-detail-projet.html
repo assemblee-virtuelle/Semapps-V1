@@ -24,20 +24,20 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[shortDescription]]">
                 <tr class="field">
-                  <td class="fieldLabel">description courte</td>
+                  <td class="fieldLabel">Description courte</td>
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[projectStart]]">
                 <tr class="field">
-                  <td class="fieldLabel">date de début du projet </td>
+                  <td class="fieldLabel">Date de début du projet</td>
                   <td><a href="[[projectStart]]" target="_blank">[[projectStart]]</a>
                   </td>
                 </tr>
               </template>
               <template is="dom-if" if="[[homepage]]">
                 <tr class="field">
-                  <td class="fieldLabel">Site</td>
+                  <td class="fieldLabel">Site web</td>
                   <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
                   </td>
                 </tr>
@@ -72,10 +72,10 @@
         </div>
       </div>
       <div class="col col-sm-4 side-blocks">
-        <template is="dom-if" if="[[data.orga_fundedBy.length]]">
-          <h3>organisation fondateur</h3>
+        <template is="dom-if" if="[[data.orga_head.length]]">
+          <h3>Organisation fondateur</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_fundedBy}}">
+            <template is="dom-repeat" items="{{data.orga_head}}">
               <a href="#" rel="{{item.uri}}"
                  on-click="handleClickDetail">
                 <span class="thumb"
@@ -86,10 +86,10 @@
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_fundedBy.length]]">
+        <template is="dom-if" if="[[data.person_head.length]]">
           <h3>Membres fondateur</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_fundedBy}}">
+            <template is="dom-repeat" items="{{data.person_head}}">
               <a href="#" rel="{{item.uri}}"
                  on-click="handleClickDetail">
                 <span class="thumb"
@@ -128,6 +128,18 @@
           </div>
           <div class="clearfix"></div>
         </template>
+
+        <template is="dom-if" if="[[data.thesaurus.length]]">
+          <h3>Ses domaine(s) d'activité(s)</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.thesaurus}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
         <template is="dom-if" if="[[resourceNeeded.length]]">
           <h3>Ressources que vous avez besoin</h3>
           <div class="tags-cloud">

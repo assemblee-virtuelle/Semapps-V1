@@ -24,13 +24,13 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[shortDescription]]">
                 <tr class="field">
-                  <td class="fieldLabel">description courte</td>
+                  <td class="fieldLabel">Description courte</td>
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[contributionType]]">
                 <tr class="field">
-                  <td class="fieldLabel">type de contribution </td>
+                  <td class="fieldLabel">Type de contribution </td>
                   <td>[[contributionType]]</td>
                 </tr>
               </template>
@@ -55,13 +55,13 @@
                 </template>
                 <template is="dom-if" if="[[gvStatus]]">
                   <tr class="field">
-                    <td class="fieldLabel">Status</td>
+                    <td class="fieldLabel">Statut</td>
                     <td>[[gvStatus]]</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="[[empoyeesCount]]">
                   <tr class="field">
-                    <td class="fieldLabel">Employés</td>
+                    <td class="fieldLabel">Nombre d'employés</td>
                     <td>[[employeesCount]]</td>
                   </tr>
                 </template>
@@ -78,7 +78,7 @@
               </tr>
               <template is="dom-if" if="[[homepage]]">
                 <tr class="field">
-                  <td class="fieldLabel">Site</td>
+                  <td class="fieldLabel">Site web</td>
                   <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
                   </td>
                 </tr>
@@ -124,21 +124,21 @@
                 </template>
               </template>
               <template is="dom-if" if="[[isSuperAdmin]]">
-                <template is="dom-if" if="[[gvStatus]]">
-                  <tr class="field">
-                    <td class="fieldLabel">Etat</td>
-                    <td>[[gvStatus]]</td>
-                  </tr>
-                </template>
+                <!--<template is="dom-if" if="[[gvStatus]]">-->
+                  <!--<tr class="field">-->
+                    <!--<td class="fieldLabel">Etat</td>-->
+                    <!--<td>[[gvStatus]]</td>-->
+                  <!--</tr>-->
+                <!--</template>-->
                 <template is="dom-if" if="[[proposedContribution]]">
                   <tr class="field">
-                    <td class="fieldLabel">Propose</td>
+                    <td class="fieldLabel">Contribution(s) proposée(s) (GV)</td>
                     <td>[[proposedContribution]]</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="[[realisedContribution]]">
                   <tr class="field">
-                    <td class="fieldLabel">Effectue</td>
+                    <td class="fieldLabel">Contribution(s) réalisée(s) (GV)</td>
                     <td>[[realisedContribution]]</td>
                   </tr>
                 </template>
@@ -150,22 +150,22 @@
                 </template>
                 <template is="dom-if" if="[[leavingDate]]">
                   <tr class="field">
-                    <td class="fieldLabel">Date de départ</td>
+                    <td class="fieldLabel">Date de départ prévue</td>
                     <td>[[leavingDate]]</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="[[newLocation]]">
                   <tr class="field">
-                    <td class="fieldLabel">nouvelle localisation</td>
+                    <td class="fieldLabel">Nouvelle localisation envisagée</td>
                     <td>[[newLocation]]</td>
                   </tr>
                 </template>
-                <template is="dom-if" if="[[haveBenefitOf]]">
-                  <tr class="field">
-                    <td class="fieldLabel">A bénéficiée de</td>
-                    <td>[[haveBenefitOf]]</td>
-                  </tr>
-                </template>
+                <!--<template is="dom-if" if="[[haveBenefitOf]]">-->
+                  <!--<tr class="field">-->
+                    <!--<td class="fieldLabel">A bénéficiée de</td>-->
+                    <!--<td>[[haveBenefitOf]]</td>-->
+                  <!--</tr>-->
+                <!--</template>-->
               </template>
             </table>
           </div>
@@ -179,19 +179,22 @@
         </div>
       </div>
       <section class="col col-sm-4 side-blocks">
-        <template is="dom-if" if="[[data.responsible]]">
-          <h3><span class="glyphicon glyphicon-king"></span>&nbsp;Résponsable
+
+        <template is="dom-if" if="[[data.responsible.length]]">
+          <h3><span class="glyphicon glyphicon-king"></span>Ses responsables
           </h3>
           <div class="thumbs">
-            <gv-avatar image="[[data.responsible.image]]"
-                       uri="[[data.responsible.uri]]"
-                       label="[[data.responsible.givenName]] [[data.responsible.familyName]]"></gv-avatar>
+            <template is="dom-repeat" items="{{data.responsible}}">
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
+            </template>
           </div>
+          <div class="clearfix"></div>
         </template>
-        <div class="clearfix"></div>
+
         <template is="dom-if" if="[[data.hasMember.length]]">
-          <h3><span class="glyphicon glyphicon-user"></span>&nbsp;Membres de
-            l'organisation</h3>
+          <h3><span class="glyphicon glyphicon-user"></span>Ses membres
+          </h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.hasMember}}">
               <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -200,8 +203,20 @@
           </div>
           <div class="clearfix"></div>
         </template>
+
+        <template is="dom-if" if="[[data.thesaurus.length]]">
+          <h3>Ses domaine(s) d'activité(s)</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.thesaurus}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
         <template is="dom-if" if="[[topicInterest.length]]">
-          <h3>S'intéresse à</h3>
+          <h3>Ses centres d'intérêts</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{topicInterest}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -211,7 +226,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[data.projet.length]]">
-            <h3><span class="glyphicon glyphicon-screenshot"></span>&nbsp;Projets
+            <h3><span class="glyphicon glyphicon-screenshot"></span>Ses projets
             </h3>
             <template is="dom-repeat" items="{{data.projet}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -222,7 +237,7 @@
         </template>
 
         <template is="dom-if" if="[[data.event.length]]">
-          <h3>Event</h3>
+          <h3>Les événements qu'elle organise</h3>
           <template is="dom-repeat" items="{{data.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="strip">
@@ -232,7 +247,7 @@
         </template>
 
         <template is="dom-if" if="[[data.proposition.length]]">
-          <h3>Proposition</h3>
+          <h3>Ses propositions</h3>
           <template is="dom-repeat" items="{{data.proposition}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="strip">
@@ -240,20 +255,20 @@
           </template>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Ressources que vous avez besoin</h3>
+        <template is="dom-if" if="[[resourceProposed.length]]">
+          <h3>Les ressources qu'elle met à disposition</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
+            <template is="dom-repeat" items="{{resourceProposed}}">
               <a href="{{ item.uri }}" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[resourceProposed.length]]">
-          <h3>Ressources que vous mettez a disposition</h3>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Les ressources dont elle a besoin</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceProposed}}">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
               <a href="{{ item.uri }}" target="_blank">
                 {{item.name}}</a>
             </template>

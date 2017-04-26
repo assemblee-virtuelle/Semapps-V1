@@ -51,10 +51,10 @@ class OrganizationType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#contributionType'     => 'contributionType',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#leavingDate'          => 'leavingDate',//aurore
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#newLocation'          => 'newLocation',//aurore
-      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#haveBenefitOf'        => 'haveBenefitOf',//aurore
+//      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#haveBenefitOf'        => 'haveBenefitOf',//aurore
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#insuranceStatus'      => 'insuranceStatus',//aurore
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalNumber'        => 'arrivalNumber',//aurore
-      //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -182,6 +182,17 @@ class OrganizationType extends AbstractForm
           )
             ->add(
                 $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                ]
+            )
+            ->add(
+                $builder,
                 'resourceNeeded',
                 DbPediaType::class,
                 [
@@ -226,7 +237,8 @@ class OrganizationType extends AbstractForm
                     DateType::class,
                     [
                         'required' => false,
-                        'widget'   => 'single_text',
+                        'widget'   => 'choice',
+                        'format' => 'dd/MM/yyyy',
                     ]
                 )
                 ->add(
@@ -243,7 +255,9 @@ class OrganizationType extends AbstractForm
                     DateType::class,
                     [
                         'required' => false,
-                        'widget'   => 'single_text',
+                        'widget'   => 'choice',
+                        'format' => 'dd/MM/yyyy',
+                        'years' => range(date('Y') -10, date('Y')+5),
                     ]
                 )
                 ->add(
@@ -286,14 +300,14 @@ class OrganizationType extends AbstractForm
                         'required' => false,
                     ]
                 )
-                ->add(
-                    $builder,
-                    'haveBenefitOf',
-                    TextareaType::class,
-                    [
-                        'required' => false,
-                    ]
-                )
+//                ->add(
+//                    $builder,
+//                    'haveBenefitOf',
+//                    TextareaType::class,
+//                    [
+//                        'required' => false,
+//                    ]
+//                )
             ;
         }
 

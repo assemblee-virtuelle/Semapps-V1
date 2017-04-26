@@ -9,10 +9,19 @@
 
     <div class="row">
         <div class="col-sm-6">
-            {{ form_row(form.label) }}
+            {{ form_row(form.label, { 'label': 'Nom de l\'événement'}) }}
         </div>
         <div class="col-sm-6">
-            {{ form_row(form.mbox) }}
+            {{ form_row(form.mbox, { 'label': 'E-mail de contact'}) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_row(form.building) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.room) }}
         </div>
     </div>
 
@@ -37,34 +46,31 @@
 
     <div class="row">
         <div class="col-sm-12">
-            {{ form_row(form.maker) }}
+            {{ form_row(form.maker, { 'label': 'Organisateur(s) de l\'événement (personnes ou organisations)'}) }}
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-6">
-            {{ form_row(form.building) }}
-        </div>
-        <div class="col-sm-6">
-            {{ form_row(form.room) }}
+        <div class="col-xs-12">
+            {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
-            {{ form_row(form.topicInterest) }}
+            {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceProposed) }}
+            {{ form_row(form.resourceProposed, { 'label': 'Ressources que l\'événement met à disposition'}) }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-12">
-            {{ form_row(form.resourceNeeded) }}
+            {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont l\'événement a besoin'}) }}
         </div>
     </div>
 {% endblock %}

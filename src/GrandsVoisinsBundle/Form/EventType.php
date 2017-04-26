@@ -33,7 +33,7 @@ class EventType extends AbstractForm
 //      'http://www.w3.org/ns/org#OrganizationalCollaboration' => 'OrganizationalCollaboration',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
-        //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -64,7 +64,7 @@ class EventType extends AbstractForm
                 'building',
                 ChoiceType::class,
                 [
-                    'choices' => array_flip(GrandsVoisinsConfig::$buildingsSimple),
+                    'choices' => array_flip(GrandsVoisinsConfig::$buildingsExtended),
                 ]
             )
             ->add(
@@ -75,7 +75,18 @@ class EventType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+                    'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(

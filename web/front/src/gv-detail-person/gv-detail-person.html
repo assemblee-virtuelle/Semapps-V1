@@ -26,7 +26,7 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[shortDescription]]">
                 <tr class="field">
-                  <td class="fieldLabel">description courte</td>
+                  <td class="fieldLabel">Description courte</td>
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
@@ -38,7 +38,7 @@
               </template>
               <template is="dom-if" if="[[city]]">
                 <tr class="field">
-                  <td class="fieldLabel">ville</td>
+                  <td class="fieldLabel">Ville</td>
                   <td>[[city]]</td>
                 </tr>
               </template>
@@ -51,7 +51,7 @@
               </template>
               <template is="dom-if" if="[[homepage]]">
                 <tr class="field">
-                  <td class="fieldLabel">Site</td>
+                  <td class="fieldLabel">Site web</td>
                   <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
                   </td>
                 </tr>
@@ -88,8 +88,19 @@
         </template>
       </div>
       <div class="col col-sm-4 side-blocks">
+
+        <template is="dom-if" if="[[knows.length]]">
+          <h3>Ses ami(e)s aux Grands Voisins</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{knows}}">
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]" label="[[item.name]]"></gv-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+
         <template is="dom-if" if="[[data.responsible]]">
-          <h3>Résponsable</h3>
+          <h3>Exerce des responsabilités chez</h3>
           <div class="thumbs">
             <gv-avatar image="[[data.responsible.image]]" uri="[[data.responsible.uri]]" label="[[data.responsible.foafName]]"></gv-avatar>
           </a>
@@ -106,8 +117,28 @@
           </div>
           <div class="clearfix"></div>
         </template>
+        <template is="dom-if" if="[[data.thesaurus.length]]">
+          <h3>Ses domaine(s) d'activité(s)</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.thesaurus}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Les ressources dont il a besoin</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <template is="dom-if" if="[[topicInterest.length]]">
-          <h3>S'intéresse à</h3>
+          <h3>Ses centres d'intérêts</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{topicInterest}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -117,7 +148,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[expertize.length]]">
-          <h3>Expertise en</h3>
+          <h3>Ses compétences</h3>
           <div class="tags-cloud tags-cloud-2">
             <template is="dom-repeat" items="{{expertize}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -126,18 +157,9 @@
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[knows.length]]">
-          <h3>Connaît</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{knows}}">
-              <gv-avatar image="[[item.image]]" uri="[[item.uri]]" label="[[item.name]]"></gv-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
 
         <template is="dom-if" if="[[data.projet.length]]">
-          <h3>Projets</h3>
+          <h3>Les projets dans lesquels il/elle est impliqué(e)</h3>
           <template is="dom-repeat" items="{{data.projet}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="strip">
@@ -147,7 +169,7 @@
         </template>
 
         <template is="dom-if" if="[[data.event.length]]">
-          <h3>Event</h3>
+          <h3>Les événements dans lesquels il/elle est impliqué(e)</h3>
           <template is="dom-repeat" items="{{data.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="strip">
@@ -157,7 +179,7 @@
         </template>
 
         <template is="dom-if" if="[[data.proposition.length]]">
-          <h3>Proposition</h3>
+          <h3>Ses propositions</h3>
           <template is="dom-repeat" items="{{data.proposition}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="strip">
@@ -165,20 +187,20 @@
           </template>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Ressources que vous avez besoin</h3>
+        <template is="dom-if" if="[[resourceProposed.length]]">
+          <h3>Les ressources qu'il met à disposition</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
+            <template is="dom-repeat" items="{{resourceProposed}}">
               <a href="{{ item.uri }}" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[resourceProposed.length]]">
-          <h3>Ressources que vous mettez a disposition</h3>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Les ressources dont il a besoin</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceProposed}}">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
               <a href="{{ item.uri }}" target="_blank">
                 {{item.name}}</a>
             </template>

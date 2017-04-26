@@ -29,12 +29,12 @@ class ProjectType extends AbstractForm
       'http://xmlns.com/foaf/0.1/mbox'                                                 => 'mbox',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'     => 'building',
 //      'http://xmlns.com/foaf/0.1/depiction'                                            => 'depiction',
-      'http://xmlns.com/foaf/0.1/fundedBy'                                             => 'fundedBy',
+      'http://www.w3.org/ns/org#Head'                                                  => 'head',
 //      'http://www.w3.org/ns/org#OrganizationalCollaboration' => 'OrganizationalCollaboration',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
 //      'http://xmlns.com/foaf/0.1/isPrimaryTopicOf'                                         => 'isPrimaryTopicOf',
-        //'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -73,7 +73,7 @@ class ProjectType extends AbstractForm
             'building',
             ChoiceType::class,
             [
-              'choices' => array_flip(GrandsVoisinsConfig::$buildingsSimple),
+              'choices' => array_flip(GrandsVoisinsConfig::$buildingsExtended),
             ]
           )
           ->add(
@@ -84,18 +84,30 @@ class ProjectType extends AbstractForm
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
-              'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+              'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
             ]
           )
+
             ->add(
                 $builder,
-                'fundedBy',
+                'head',
                 UriType::class,
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
                     'rdfType'   => SemanticFormsBundle::Multiple,
                     'required'  => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'thesaurus',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'lookupUrl' => $options['lookupUrlPerson'],
+                    'labelUrl'  => $options['lookupUrlLabel'],
+                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
                 ]
             )
           ->add(
