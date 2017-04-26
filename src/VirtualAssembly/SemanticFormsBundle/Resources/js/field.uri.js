@@ -7,6 +7,7 @@ class VirtualAssemblyFieldUri {
     this.$tags = this.$.find('.tags');
     this.urlLookup = this.$.attr('data-sf-lookup');
     this.urlLabel = this.$.attr('data-sf-label');
+    this.rdfType = this.$.attr('data-sf-rdfType');
     this.$selector.select2({
       width: '100%',
       placeholder: "Ajoutez un terme ici",
@@ -43,6 +44,7 @@ class VirtualAssemblyFieldUri {
 
   lookupParams(params) {
     return {
+      rdfType: this.rdfType,
       QueryString: params.term,
       MaxHits: 15
     };

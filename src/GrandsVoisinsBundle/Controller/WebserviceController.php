@@ -188,10 +188,18 @@ class WebserviceController extends Controller
     }
 
 
-    public function searchSparqlRequest($term)
+    public function searchSparqlRequest($term,$type =SemanticFormsBundle::Multiple)
     {
+        $arrayType = explode('|',$type);
+        $typeOrganization = in_array(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$arrayType);
+        $typePerson= in_array(SemanticFormsBundle::URI_FOAF_PERSON,$arrayType);
+        $typeProject= in_array(SemanticFormsBundle::URI_FOAF_PROJECT,$arrayType);
+        $typeEvent= in_array(SemanticFormsBundle::URI_PURL_EVENT,$arrayType);
+//            $typeProposition= in_array(SemanticFormsBundle::URI_FIPA_PROPOSITION,$arrayType);
+        $typeThesaurus= in_array(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
 
-        $organizations = $this->searchSparqlSelect(
+        $organizations =
+            ($type == SemanticFormsBundle::Multiple || $typeOrganization )? $this->searchSparqlSelect(
         // Type.
           SemanticFormsBundle::URI_FOAF_ORGANIZATION,
           // Search term.
@@ -208,9 +216,9 @@ class WebserviceController extends Controller
             //'subject'  => 'purl:subject',
             'building' => 'gvoi:building',
           ]
-        );
-
-        $persons = $this->searchSparqlSelect(
+        ): [];
+        $persons = ($type == SemanticFormsBundle::Multiple || $typePerson )?
+            $this->searchSparqlSelect(
         // Type.
           SemanticFormsBundle::URI_FOAF_PERSON,
           // Search term.
@@ -226,8 +234,10 @@ class WebserviceController extends Controller
             'desc'     => 'foaf:status',
           ],
             '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
-        );
-        $project = $this->searchSparqlSelect(
+        ):[];
+        $project =
+            ($type == SemanticFormsBundle::Multiple ||$typeProject )?
+            $this->searchSparqlSelect(
         // Type.
             SemanticFormsBundle::URI_FOAF_PROJECT,
             // Search term.
@@ -242,8 +252,10 @@ class WebserviceController extends Controller
             [
                 'desc'  => 'foaf:status',
             ]
-        );
-        $event = $this->searchSparqlSelect(
+        ):[];
+        $event =
+            ($type == SemanticFormsBundle::Multiple || $typeEvent )?
+            $this->searchSparqlSelect(
         // Type.
             SemanticFormsBundle::URI_PURL_EVENT,
             // Search term.
@@ -258,8 +270,10 @@ class WebserviceController extends Controller
             [
                 'desc'  => 'foaf:status',
             ]
-        );
-//        $proposition = $this->searchSparqlSelect(
+        ):[];
+//        $proposition =
+//            ($type == SemanticFormsBundle::Multiple || $typeProposition )?
+//            $this->searchSparqlSelect(
 //        // Type.
 //            SemanticFormsBundle::URI_FIPA_PROPOSITION,
 //            // Search term.
@@ -274,8 +288,10 @@ class WebserviceController extends Controller
 //            [
 //                'desc'  => 'foaf:status',
 //            ]
-//        );
-        $thematiques = $this->searchSparqlSelect(
+//        ):[];
+        $thematiques =
+            ($type == SemanticFormsBundle::Multiple || $typeThesaurus )?
+            $this->searchSparqlSelect(
         // Type.
             SemanticFormsBundle::URI_SKOS_THESAURUS,
             // Search term.
@@ -287,11 +303,10 @@ class WebserviceController extends Controller
             ],
             // Optional fields..
             []
-        );
-
+        ):[];
         $results = [];
 
-        while ($organizations || $persons) {
+        while ($organizations || $persons || $project || $event || $thematiques) {
             if (!empty($organizations)) {
                 $results[] = array_shift($organizations);
             }
@@ -350,7 +365,7 @@ class WebserviceController extends Controller
     {
         $output = [];
         // Get results.
-        $results = $this->searchSparqlRequest($request->get('QueryString').'*');
+        $results = $this->searchSparqlRequest($request->get('QueryString').'*',$request->get('rdfType'));
         // Transform data to match to uri field (uri => title).
         foreach ($results as $item) {
             $output[$item['uri']] = $item['title'];

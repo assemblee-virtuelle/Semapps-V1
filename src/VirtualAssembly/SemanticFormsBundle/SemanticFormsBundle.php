@@ -12,6 +12,10 @@ class SemanticFormsBundle extends Bundle
     const URI_PURL_EVENT = 'http://purl.org/NET/c4dm/event.owl#Event';
     const URI_FIPA_PROPOSITION = 'http://www.fipa.org/schemas#Proposition';
     const URI_SKOS_THESAURUS = 'http://www.w3.org/2004/02/skos/core#Concept';
+    const URI_MIXTE_PERSON_ORGANIZATION = [
+        'http://xmlns.com/foaf/0.1/Person',
+        'http://xmlns.com/foaf/0.1/Organization'
+    ];
     const Multiple = '';
 
     const REVERSE = [
