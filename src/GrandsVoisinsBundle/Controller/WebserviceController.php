@@ -4,6 +4,7 @@ namespace GrandsVoisinsBundle\Controller;
 
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -59,43 +60,53 @@ class WebserviceController extends Controller
 
     public function parametersAction()
     {
-        $user = $this->GetUser();
 
-        // Get results.
-        $results = $this->searchSparqlRequest(
-          '*',
-          SemanticFormsBundle::URI_SKOS_THESAURUS
-        );
+        $cache = new FilesystemAdapter();
+        $parameters = $cache->getItem('gv.webservice.parameters');
 
-        $thesaurus = [];
-        foreach ($results as $item) {
-            $thesaurus[] = [
-              'uri'   => $item['uri'],
-              'label' => $item['title'],
-            ];
+        if (!$parameters->isHit()) {
+            $user = $this->GetUser();
+
+            // Get results.
+            $results = $this->searchSparqlRequest(
+              '*',
+              SemanticFormsBundle::URI_SKOS_THESAURUS
+            );
+
+            $thesaurus = [];
+            foreach ($results as $item) {
+                $thesaurus[] = [
+                  'uri'   => $item['uri'],
+                  'label' => $item['title'],
+                ];
+            }
+
+            $access = $this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:User')
+              ->getAccessLevelString($user);
+
+            // If no internet, we use a cached version of services
+            // placed int face_service folder.
+            if ($this->container->hasParameter('no_internet')) {
+                $output = ['no_internet' => 1];
+            } else {
+                $output = [
+                  'access'       => $access,
+                  'fieldsAccess' => $this->container->getParameter('fields_access'),
+                  'buildings'    => $this->getBuildings(),
+                  'entities'     => $this->entitiesTabs,
+                  'thesaurus'    => $thesaurus,
+                ];
+            }
+
+            $parameters->set($output);
+
+            $cache->save($parameters);
         }
 
-        $access = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('GrandsVoisinsBundle:User')
-          ->getAccessLevelString($user);
-
-        // If no internet, we use a cached version of services
-        // placed int face_service folder.
-        if ($this->container->hasParameter('no_internet')) {
-            $output = ['no_internet' => 1];
-        } else {
-            $output = [
-              'access'       => $access,
-              'fieldsAccess' => $this->container->getParameter('fields_access'),
-              'buildings'    => $this->getBuildings(),
-              'entities'     => $this->entitiesTabs,
-              'thesaurus'    => $thesaurus,
-            ];
-        }
-
-        return new JsonResponse($output);
+        return new JsonResponse($parameters->get());
     }
 
     public function getBuildings()
