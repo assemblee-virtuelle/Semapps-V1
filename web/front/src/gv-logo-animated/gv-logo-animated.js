@@ -8,6 +8,12 @@ Polymer({
     this.animatePaths('#TEXT path', 'displayPath 1s cubic-bezier(.36,.34,.29,1) forwards', 0.08);
     this.animatePaths('#SHADOW path', this.animatePathShadowItem.bind(this), 0.05);
     $(this.createStrippedBackground.bind(this));
+
+    // Two seconds max.
+    setTimeout(() => {
+      "use strict";
+      $('#gv-logo-animated-inner').css('display', 'none');
+    }, 3000);
   },
 
   createStrippedBackground () {
@@ -26,7 +32,7 @@ Polymer({
       $bar.attr('stroke', '#FFCC00');
       $bar.attr('stroke-width', '10');
       $bar.attr('class', 'logoIntroBar');
-      $bar.attr('style' , 'animation-delay:' + (wait + (barCount * delay)) + 's');
+      $bar.attr('style', 'animation-delay:' + (wait + (barCount * delay)) + 's');
 
       // Position
       $bar.attr('y', ((barCount - 1) * barHeight) + '%');
