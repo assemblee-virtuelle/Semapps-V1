@@ -16,16 +16,16 @@ Polymer({
     // Raw values.
     $.extend(this, this.data.properties);
     this.topicInterest = this.data.topicInterest;
-    this.resourceNeeded = this.data.resourceNeeded;
-    this.resourceProposed = this.data.resourceProposed;
-    this.buildingTitle = gvc.buildings[this.data.properties.building].title;
-    if (this.eventBegin) {
-      let eventBegin = new Date(this.eventBegin);
-      this.eventBegin = eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min';
-    }
-    if (this.eventEnd) {
-      let eventEnd = new Date(this.eventEnd);
-      this.eventEnd = eventEnd.getDate() + '/' + (eventEnd.getMonth() + 1) + '/' + eventEnd.getFullYear() + ' ' + eventEnd.getHours() + ' H ' + eventEnd.getMinutes() + ' min';
-    }
-  }
+this.resourceNeeded = this.data.resourceNeeded;
+this.resourceProposed = this.data.resourceProposed;
+this.buildingTitle = gvc.buildings[this.data.properties.building].title;
+if (this.eventBegin) {
+    let eventBegin = new Date(this.eventBegin);
+    this.eventBegin = eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min';
+}
+if (this.eventEnd) {
+    let eventEnd = new Date(this.eventEnd);
+    this.eventEnd = eventEnd.getDate() + '/' + (eventEnd.getMonth() + 1) + '/' + eventEnd.getFullYear() + ' ' + eventEnd.getHours() + ' H ' + eventEnd.getMinutes() + ' min';
+}
+}
 });
