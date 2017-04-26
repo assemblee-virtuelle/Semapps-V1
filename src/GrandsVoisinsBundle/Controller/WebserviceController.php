@@ -137,7 +137,8 @@ class WebserviceController extends Controller
       $fieldsOptional = [],
       $select,
       $selectType,
-      $where = ''
+      $where = '',
+      $thesaurusFilter = null
     ) {
         $requestSelect = '?uri ';
         $requestFields = '';
@@ -146,7 +147,9 @@ class WebserviceController extends Controller
             $requestSelect .= ' ?'.$alias;
             $requestFields .= ' ?uri '.$type.' ?'.$alias.' . ';
         }
-
+        //dump($thesaurusFilter);
+        $thesaurusFilter = ($thesaurusFilter)? ' ?uri gvoi:thesaurus <'.$thesaurusFilter.'> . ' : '';
+        //dump($thesaurusFilter);
         // Add optional fields.
         foreach ($fieldsOptional as $alias => $type) {
             $requestSelect .= ' ?'.$alias;
@@ -162,7 +165,7 @@ class WebserviceController extends Controller
         '  GRAPH ?GR { '.
         $selectType.
         $where
-        .$requestFields.
+        .$requestFields.$thesaurusFilter.
         // Group all duplicated items.
         '}} GROUP BY '.$requestSelect;
 
@@ -173,6 +176,7 @@ class WebserviceController extends Controller
       $term,
       $fieldsRequired,
       $fieldsOptional = [],
+      $filter = null,
       $select = '',
       $requestSuffix = ''
     ) {
@@ -183,7 +187,8 @@ class WebserviceController extends Controller
             $select,
             $selectType,
             // If not term specified, do not filter term.
-            ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : '')
+            ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : ''),
+            $filter
           );
         /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
@@ -212,71 +217,54 @@ class WebserviceController extends Controller
     }
 
 
-    public function searchSparqlRequest(
-      $term,
-      $type = SemanticFormsBundle::Multiple
-    ) {
-        $arrayType        = explode('|', $type);
-        $typeOrganization = in_array(
-          SemanticFormsBundle::URI_FOAF_ORGANIZATION,
-          $arrayType
-        );
-        $typePerson       = in_array(
-          SemanticFormsBundle::URI_FOAF_PERSON,
-          $arrayType
-        );
-        $typeProject      = in_array(
-          SemanticFormsBundle::URI_FOAF_PROJECT,
-          $arrayType
-        );
-        $typeEvent        = in_array(
-          SemanticFormsBundle::URI_PURL_EVENT,
-          $arrayType
-        );
-        $typeProposition  = in_array(
-          SemanticFormsBundle::URI_FIPA_PROPOSITION,
-          $arrayType
-        );
-        $typeThesaurus    = in_array(
-          SemanticFormsBundle::URI_SKOS_THESAURUS,
-          $arrayType
-        );
+    public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
+    {
+        $arrayType = explode('|',$type);
+        $arrayType = array_flip($arrayType);
+        $typeOrganization = array_key_exists(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$arrayType);
+        $typePerson= array_key_exists(SemanticFormsBundle::URI_FOAF_PERSON,$arrayType);
+        $typeProject= array_key_exists(SemanticFormsBundle::URI_FOAF_PROJECT,$arrayType);
+        $typeEvent= array_key_exists(SemanticFormsBundle::URI_PURL_EVENT,$arrayType);
+        $typeProposition= array_key_exists(SemanticFormsBundle::URI_FIPA_PROPOSITION,$arrayType);
+        $typeThesaurus= array_key_exists(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
 
         $organizations =
-          ($type == SemanticFormsBundle::Multiple || $typeOrganization) ? $this->searchSparqlSelect(
-          // Type.
-            SemanticFormsBundle::URI_FOAF_ORGANIZATION,
-            // Search term.
-            $term,
-            // Required fields.
-            [
-              'type'  => 'rdf:type',
-              'title' => 'foaf:name',
-            ],
-            // Optional fields..
-            [
-              'image'    => 'foaf:img',
-              'desc'     => 'foaf:status',
-                //'subject'  => 'purl:subject',
-              'building' => 'gvoi:building',
-            ]
-          ) : [];
-        $persons       = ($type == SemanticFormsBundle::Multiple || $typePerson) ?
-          $this->searchSparqlSelect(
-          // Type.
-            SemanticFormsBundle::URI_FOAF_PERSON,
-            // Search term.
-            $term,
-            // Required fields.
-            [
-              'type'      => 'rdf:type',
-              'givenName' => 'foaf:givenName',
-            ],
-            [
-              'familyName' => 'foaf:familyName',
-              'image'      => 'foaf:img',
-              'desc'       => 'foaf:status',
-            ],
+            ($type == SemanticFormsBundle::Multiple || $typeOrganization )? $this->searchSparqlSelect(
+        // Type.
+          SemanticFormsBundle::URI_FOAF_ORGANIZATION,
+          // Search term.
+          $term,
+          // Required fields.
+          [
+            'type'  => 'rdf:type',
+            'title' => 'foaf:name',
+          ],
+          // Optional fields..
+          [
+            'image'    => 'foaf:img',
+            'desc'     => 'foaf:status',
+            //'subject'  => 'purl:subject',
+            'building' => 'gvoi:building',
+          ],
+          $filter
+        ): [];
+        $persons = ($type == SemanticFormsBundle::Multiple || $typePerson )?
+            $this->searchSparqlSelect(
+        // Type.
+          SemanticFormsBundle::URI_FOAF_PERSON,
+          // Search term.
+          $term,
+          // Required fields.
+          [
+            'type'       => 'rdf:type',
+            'givenName'  => 'foaf:givenName',
+          ],
+          [
+            'familyName' => 'foaf:familyName',
+            'image' => 'foaf:img',
+            'desc'     => 'foaf:status',
+          ],
+            $filter,
             '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
           ) : [];
         $project       =
@@ -291,14 +279,15 @@ class WebserviceController extends Controller
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
 
-              ],
-              // Optional fields..
-              [
-                'desc' => 'foaf:status',
-              ]
-            ) : [];
-        $event         =
-          ($type == SemanticFormsBundle::Multiple || $typeEvent) ?
+            ],
+            // Optional fields..
+            [
+                'desc'  => 'foaf:status',
+            ],
+            $filter
+        ):[];
+        $event =
+            ($type == SemanticFormsBundle::Multiple || $typeEvent )?
             $this->searchSparqlSelect(
             // Type.
               SemanticFormsBundle::URI_PURL_EVENT,
@@ -309,14 +298,15 @@ class WebserviceController extends Controller
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
 
-              ],
-              // Optional fields..
-              [
-                'desc' => 'foaf:status',
-              ]
-            ) : [];
-        $proposition   =
-          ($type == SemanticFormsBundle::Multiple || $typeProposition) ?
+            ],
+            // Optional fields..
+            [
+                'desc'  => 'foaf:status',
+            ],
+             $filter
+        ):[];
+        $proposition =
+            ($type == SemanticFormsBundle::Multiple || $typeProposition )?
             $this->searchSparqlSelect(
             // Type.
               SemanticFormsBundle::URI_FIPA_PROPOSITION,
@@ -327,14 +317,15 @@ class WebserviceController extends Controller
                 'type'  => 'rdf:type',
                 'title' => 'rdfs:label',
 
-              ],
-              // Optional fields..
-              [
-                'desc' => 'foaf:status',
-              ]
-            ) : [];
-        $thematiques   =
-          ($type == SemanticFormsBundle::Multiple || $typeThesaurus) ?
+            ],
+            // Optional fields..
+            [
+                'desc'  => 'foaf:status',
+            ],
+            $filter
+        ):[];
+        $thematiques =
+            ($type == SemanticFormsBundle::Multiple || $typeThesaurus )?
             $this->searchSparqlSelect(
             // Type.
               SemanticFormsBundle::URI_SKOS_THESAURUS,
@@ -344,12 +335,14 @@ class WebserviceController extends Controller
               [
                 'type'  => 'rdf:type',
                 'title' => 'skos:prefLabel',
-              ],
-              // Optional fields..
-              [],'',
-              ' ORDER BY ASC(?title)'
-            ) : [];
-        $results       = [];
+            ],
+            // Optional fields..
+            [],
+            $filter,
+            '',
+            ' ORDER BY ASC(?title)'
+        ):[];
+        $results = [];
 
         while ($organizations || $persons || $project
           || $event || $proposition || $thematiques) {
@@ -392,7 +385,9 @@ class WebserviceController extends Controller
         return new JsonResponse(
           (object)[
             'results' => $this->searchSparqlRequest(
-              $request->get('t').'*'
+              $request->get('t').'*',
+              ''
+              ,$request->get('f')
             ),
           ]
         );
@@ -412,10 +407,7 @@ class WebserviceController extends Controller
     {
         $output = [];
         // Get results.
-        $results = $this->searchSparqlRequest(
-          $request->get('QueryString').'*',
-          $request->get('rdfType')
-        );
+        $results = $this->searchSparqlRequest($request->get('QueryString').'*',$request->get('rdfType'));
         // Transform data to match to uri field (uri => title).
         foreach ($results as $item) {
             $output[$item['uri']] = $item['title'];
