@@ -877,9 +877,9 @@ class WebserviceController extends Controller
                 }
                 break;
         }
-        if (isset($properties['resourceNeeded'])) {
-            foreach ($properties['resourceNeeded'] as $uri) {
-                $output['resourceNeeded'][] = [
+        if (isset($properties['resourceProposed'])) {
+            foreach ($properties['resourceProposed'] as $uri) {
+                $output['resourceProposed'][] = [
                   'uri'  => $uri,
                   'name' => $sfClient->dbPediaLabel($uri),
                 ];
