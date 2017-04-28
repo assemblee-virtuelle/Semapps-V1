@@ -11,5 +11,9 @@ Polymer({
     gvc.goToPath('detail', {
       uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
     });
+  },
+    showName(e){
+      log(e.target);
   }
-});
+  });
+

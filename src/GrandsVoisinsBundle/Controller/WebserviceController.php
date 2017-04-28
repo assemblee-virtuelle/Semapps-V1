@@ -298,6 +298,7 @@ class WebserviceController extends Controller
             // Optional fields..
             [
                 'desc'  => 'foaf:status',
+                'building' => 'gvoi:building',
             ],
             $filter,
                 '',
@@ -319,6 +320,7 @@ class WebserviceController extends Controller
             // Optional fields..
             [
                 'desc'  => 'foaf:status',
+                'building' => 'gvoi:building',
             ],
              $filter,
                 '',
@@ -340,6 +342,7 @@ class WebserviceController extends Controller
             // Optional fields..
             [
                 'desc'  => 'foaf:status',
+                'building' => 'gvoi:building',
             ],
             $filter,'',
                 ' ORDER BY ASC(?title)'
