@@ -24,7 +24,7 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[shortDescription]]">
                 <tr class="field">
-                  <td class="fieldLabel">description courte</td>
+                  <td class="fieldLabel">Description courte</td>
                   <td>[[shortDescription]]</td>
                 </tr>
               </template>
@@ -59,7 +59,7 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <template is="dom-if" if="[[data.orga_maker.length]]">
-          <h3>organisation fondateur</h3>
+          <h3>Auteur(s) de la proposition (organisations)</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.orga_maker}}">
               <a href="#" rel="{{item.uri}}"
@@ -72,8 +72,9 @@
           </div>
           <div class="clearfix"></div>
         </template>
+
         <template is="dom-if" if="[[data.person_maker.length]]">
-          <h3>Membres fondateur</h3>
+          <h3>Auteur(s) de la proposition (personnes)</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.person_maker}}">
               <a href="#" rel="{{item.uri}}"
@@ -88,7 +89,7 @@
         </template>
 
         <template is="dom-if" if="[[data.thesaurus.length]]">
-          <h3>Ses domaine(s) d'activité(s)</h3>
+          <h3>Domaine(s) d'activité(s)</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{data.thesaurus}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -98,18 +99,8 @@
           </div>
         </template>
 
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Ressources que vous avez besoin</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
         <template is="dom-if" if="[[resourceProposed.length]]">
-          <h3>Ressources que vous mettez a disposition</h3>
+          <h3>Les ressources mises à disposition</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{resourceProposed}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -118,10 +109,10 @@
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[topicInterest.length]]">
-          <h3>S'intéresse à</h3>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Les ressources nécéssaires</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{topicInterest}}">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
               <a href="{{ item.uri }}" target="_blank">
                 {{item.name}}</a>
             </template>
