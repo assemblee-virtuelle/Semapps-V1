@@ -204,7 +204,7 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
         $results  = $sfClient->sparql($request . $requestSuffix);
-
+        dump($request . $requestSuffix);
         // Key values pairs only.
         // Avoid "Empty result" string.
         $results = is_array($results) ? $sfClient->sparqlResultsValues(
@@ -257,7 +257,10 @@ class WebserviceController extends Controller
             //'subject'  => 'purl:subject',
             'building' => 'gvoi:building',
           ],
-          $filter
+          $filter,
+                '',
+                ' ORDER BY ASC(?title)'
+
         ): [];
         $persons = ($type == SemanticFormsBundle::Multiple || $typePerson )?
             $this->searchSparqlSelect(
@@ -276,7 +279,8 @@ class WebserviceController extends Controller
             'desc'     => 'foaf:status',
           ],
             $filter,
-            '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) '
+                '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) ',
+            'ORDER BY ASC(?title)'
           ) : [];
         $project       =
           ($type == SemanticFormsBundle::Multiple || $typeProject) ?
@@ -295,7 +299,9 @@ class WebserviceController extends Controller
             [
                 'desc'  => 'foaf:status',
             ],
-            $filter
+            $filter,
+                '',
+                ' ORDER BY ASC(?title)'
         ):[];
         $event =
             ($type == SemanticFormsBundle::Multiple || $typeEvent )?
@@ -314,7 +320,9 @@ class WebserviceController extends Controller
             [
                 'desc'  => 'foaf:status',
             ],
-             $filter
+             $filter,
+                '',
+                ' ORDER BY ASC(?title)'
         ):[];
         $proposition =
             ($type == SemanticFormsBundle::Multiple || $typeProposition )?
@@ -333,7 +341,8 @@ class WebserviceController extends Controller
             [
                 'desc'  => 'foaf:status',
             ],
-            $filter
+            $filter,'',
+                ' ORDER BY ASC(?title)'
         ):[];
         $thematiques =
             ($type == SemanticFormsBundle::Multiple || $typeThesaurus )?
@@ -485,7 +494,7 @@ class WebserviceController extends Controller
                   (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
                 break;
         }
-
+        //$select .= ' ORDER BY ASC(?label)';
         $request = $this->sparqlSelectType(
           $requiredFields,
           $optionalFields,
