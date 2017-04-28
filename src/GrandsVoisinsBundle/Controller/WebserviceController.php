@@ -280,7 +280,7 @@ class WebserviceController extends Controller
           ],
             $filter,
                 '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) ',
-            'ORDER BY ASC(?title)'
+            ' ORDER BY ASC(?title)'
           ) : [];
         $project       =
           ($type == SemanticFormsBundle::Multiple || $typeProject) ?
