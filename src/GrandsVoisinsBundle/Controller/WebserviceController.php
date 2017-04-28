@@ -594,6 +594,15 @@ class WebserviceController extends Controller
                         );
                     }
                 }
+                if (isset($properties['OrganizationalCollaboration'])) {
+                    foreach ($properties['OrganizationalCollaboration'] as $uri) {
+                        //dump($person);
+                        $output['OrganizationalCollaboration'][] = $this->getData(
+                            $uri,
+                            SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                        );
+                    }
+                }
                 if (isset($properties['topicInterest'])) {
                     foreach ($properties['topicInterest'] as $uri) {
                         $output['topicInterest'][] = [
@@ -730,6 +739,7 @@ class WebserviceController extends Controller
                     );
                 }
                 break;
+            // Project.
             case SemanticFormsBundle::URI_FOAF_PROJECT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
@@ -784,6 +794,7 @@ class WebserviceController extends Controller
                     $output['orga_head']   = $orga;
                 }
                 break;
+            // Event.
             case SemanticFormsBundle::URI_PURL_EVENT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
@@ -824,6 +835,7 @@ class WebserviceController extends Controller
                     $output['orga_maker']   = $orga;
                 }
                 break;
+            // Proposition.
             case SemanticFormsBundle::URI_FIPA_PROPOSITION:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(

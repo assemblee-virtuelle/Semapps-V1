@@ -30,7 +30,6 @@ class ProjectType extends AbstractForm
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'     => 'building',
 //      'http://xmlns.com/foaf/0.1/depiction'                                            => 'depiction',
       'http://www.w3.org/ns/org#Head'                                                  => 'head',
-//      'http://www.w3.org/ns/org#OrganizationalCollaboration' => 'OrganizationalCollaboration',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
 //      'http://xmlns.com/foaf/0.1/isPrimaryTopicOf'                                         => 'isPrimaryTopicOf',

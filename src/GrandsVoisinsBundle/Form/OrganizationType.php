@@ -43,6 +43,7 @@ class OrganizationType extends AbstractForm
       'http://xmlns.com/foaf/0.1/img'                                                          => 'img',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution' => 'proposedContribution',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution' => 'realisedContribution',
+      'http://www.w3.org/ns/org#OrganizationalCollaboration'                                   => 'OrganizationalCollaboration',
 //      'http://xmlns.com/foaf/0.1/depiction'                                                  => 'depiction',
 //      'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#isReferencedBy'     => 'isReferencedBy',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'       => 'resourceNeeded',
@@ -179,6 +180,17 @@ class OrganizationType extends AbstractForm
               'labelUrl'  => $options['lookupUrlLabel'],
               'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
             ]
+          )
+          ->add(
+              $builder,
+              'OrganizationalCollaboration',
+              UriType::class,
+              [
+                  'required'  => false,
+                  'lookupUrl' => $options['lookupUrlPerson'],
+                  'labelUrl'  => $options['lookupUrlLabel'],
+                  'rdfType'   => SemanticFormsBundle::URI_FOAF_ORGANIZATION,
+              ]
           )
             ->add(
                 $builder,

@@ -64,6 +64,7 @@ parameters:
         projectStart: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#projectStart"
         eventBegin: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventBegin"
         eventEnd: "http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#eventEnd"
+        OrganizationalCollaboration: "http://www.w3.org/ns/org#OrganizationalCollaboration"
         fundedBy: "http://xmlns.com/foaf/0.1/fundedBy"
         #######
         subject: "http://purl.org/dc/elements/1.1/subject"
@@ -87,6 +88,7 @@ parameters:
            - description
            - head
            - volunteeringProposals
+           - OrganizationalCollaboration
            # person
            - displayLabel
            - givenName
