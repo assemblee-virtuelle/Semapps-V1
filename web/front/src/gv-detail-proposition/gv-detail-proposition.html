@@ -62,12 +62,8 @@
           <h3>Auteur(s) de la proposition (organisations)</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.orga_maker}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
@@ -77,12 +73,8 @@
           <h3>Auteur(s) de la proposition (personnes)</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.person_maker}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>

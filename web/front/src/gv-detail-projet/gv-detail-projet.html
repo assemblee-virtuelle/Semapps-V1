@@ -76,12 +76,8 @@
           <h3>Organisation(s) resposable(s)</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.orga_head}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
@@ -90,12 +86,8 @@
           <h3>Personnes responsables</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.person_head}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
@@ -104,12 +96,8 @@
           <h3>Organisations partenaires</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.orga_maker}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
@@ -118,12 +106,8 @@
           <h3>Contributeurs</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.person_maker}}">
-              <a href="#" rel="{{item.uri}}"
-                 on-click="handleClickDetail">
-                <span class="thumb"
-                      style$="background-image: url([[item.image]])"></span>
-                <span class="name">{{item.name}}</span>
-              </a>
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
