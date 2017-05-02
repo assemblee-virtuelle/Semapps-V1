@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class WebserviceController extends Controller
 {
@@ -503,7 +504,7 @@ class WebserviceController extends Controller
           $optionalFields,
           $select,
           $uriType,
-          'FILTER (?uri = <'.$url.'>)'
+          ' FILTER (?uri = <'.$url.'>)'
         );
 
         $sfClient = $this->container->get('semantic_forms.client');
@@ -539,6 +540,77 @@ class WebserviceController extends Controller
           (object)[
             'detail' => $this->requestPair($request->get('uri')),
           ]
+        );
+    }
+
+    public function ressourceAction(Request $request){
+        $uri                = $request->get('uri');
+        $sfClient           = $this->container->get('semantic_forms.client');
+        $ressourcesNeeded   = ' ?uri gvoi:ressouceNeeded <'.$uri.'>.';
+        $ressourcesProposed = ' ?uri gvoi:ressouceProposed <'.$uri.'>.';
+        $requests           = [];
+        $select             =' ( COALESCE(?givenName, "") As ?result_1)
+                  ( COALESCE(?familyName, "") As ?result_2)
+                  ( COALESCE(?name, "") As ?result_3)
+                  ( COALESCE(?label_test, "") As ?result_4)
+                  ( COALESCE(?skos, "") As ?result_5)
+                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
+        $fieldsRequired     =[
+            'type' => 'rdf:type',
+        ];
+        $fieldsOptional     = [
+            'givenName'  => 'foaf:givenName',
+            'familyName' => 'foaf:familyName',
+            'name'       => 'foaf:name',
+            'label_test' => 'rdfs:label',
+            'skos'       => 'skos:prefLabel',
+            'desc'       => 'foaf:status',
+            'image'      => 'foaf:img',
+            'building'   => 'gvoi:building',
+        ];
+
+        $requests['ressourcesNeeded'] = $this->sparqlSelectType(
+            $fieldsRequired,
+            $fieldsOptional,
+            $select,
+            '',
+            $ressourcesNeeded
+        );
+        $requests['ressourcesProposed'] = $this->sparqlSelectType(
+            $fieldsRequired,
+            $fieldsOptional,
+            $select,
+            '',
+            $ressourcesProposed
+        );
+
+        $filtered['type'] = 'NS';
+        foreach ($requests as $key => $request){
+            $results[$key]  = $sfClient->sparql($request);
+            //dump($request . $requestSuffix);
+            // Key values pairs only.
+            // Avoid "Empty result" string.
+            $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
+                $results[$key]
+            ) : [];
+
+            // Filter only allowed types.
+            $filtered[$key] = [];
+            foreach ($results[$key] as $result) {
+                // Type is sometime missing.
+                if (isset($result['type']) && in_array(
+                        $result['type'],
+                        $this->entitiesFilters
+                    )
+                ) {
+                    $filtered[$key][] = $result;
+                }
+            }
+        }
+        return new JsonResponse(
+            (object)[
+                'results' => $filtered,
+            ]
         );
     }
 
