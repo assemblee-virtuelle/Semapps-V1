@@ -20,5 +20,12 @@ Polymer({
     // Computed values.
     this.title = this.data.properties.foafName;
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
-  }
+  },
+
+    onClickThematic(e){
+        e.preventDefault();
+        let searchThemeFilter = document.getElementById('searchThemeFilter');
+        searchThemeFilter.value = e.target.rel;
+        gvc.goSearch();
+    }
 });

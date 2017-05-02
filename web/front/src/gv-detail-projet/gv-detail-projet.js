@@ -22,5 +22,13 @@ Polymer({
       let projectStart = new Date(this.projectStart);
       this.projectStart = projectStart.getDate() + '/' + (projectStart.getMonth() + 1) + '/' + projectStart.getFullYear() + ' ' + projectStart.getHours() + ' H ' + projectStart.getMinutes() + ' min';
     }
-  }
+  },
+
+    onClickThematic(e){
+        e.preventDefault();
+        let searchThemeFilter = document.getElementById('searchThemeFilter');
+        searchThemeFilter.value = e.target.rel;
+        gvc.goSearch();
+    }
+
 });

@@ -23,5 +23,19 @@ Polymer({
       let birthday = new Date(this.birthday);
       this.birthday = birthday.getDate() + '/' + (birthday.getMonth() + 1) + '/' + birthday.getFullYear();
     }
-  }
+  },
+
+    onClickThematic(e){
+        console.log(e);
+        e.preventDefault();
+        let searchThemeFilter = document.getElementById('searchThemeFilter');
+        console.log(searchThemeFilter);
+        console.log(searchThemeFilter.value);
+        console.log(e.target.rel);
+        searchThemeFilter.value = e.target.rel;
+        //searchThemeFilter._activeChanged();
+        gvc.goSearch();
+
+    }
+
 });

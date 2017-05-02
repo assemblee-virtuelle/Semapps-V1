@@ -19,5 +19,13 @@ Polymer({
       this.resourceNeeded = this.data.resourceNeeded;
       this.resourceProposed = this.data.resourceProposed;
       this.buildingTitle = gvc.buildings[this.data.properties.building].title;
-  }
+  },
+
+    onClickThematic(e){
+        e.preventDefault();
+        let searchThemeFilter = document.getElementById('searchThemeFilter');
+        searchThemeFilter.value = e.target.rel;
+        gvc.goSearch();
+    }
+
 });
