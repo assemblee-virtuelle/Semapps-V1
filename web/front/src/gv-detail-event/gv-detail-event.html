@@ -104,7 +104,7 @@
           <h3>Ses domaine(s) d'activité(s)</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{data.thesaurus}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>

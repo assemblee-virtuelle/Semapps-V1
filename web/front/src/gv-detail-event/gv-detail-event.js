@@ -27,5 +27,13 @@ if (this.eventEnd) {
     let eventEnd = new Date(this.eventEnd);
     this.eventEnd = eventEnd.getDate() + '/' + (eventEnd.getMonth() + 1) + '/' + eventEnd.getFullYear() + ' ' + eventEnd.getHours() + ' H ' + eventEnd.getMinutes() + ' min';
 }
-}
+},
+
+    onClickThematic(e){
+        e.preventDefault();
+        let searchThemeFilter = document.getElementById('searchThemeFilter');
+        searchThemeFilter.value = e.target.rel;
+        gvc.goSearch();
+    }
+
 });
