@@ -55,6 +55,13 @@ header {
       color: #FFF;
     }
   }
+  #my-account-disconnect {
+    span {
+      margin-top: 0;
+      font-size: 18px;
+      color: #FFF;
+    }
+  }
   // Responsive.
   @media (max-width: 768px) {
     .logo-circle {
@@ -86,7 +93,11 @@ header {
 
   #my-account-link {
     margin: 7px 0 0 0;
-    display: block;
+    display: inline-block;
+  }
+  #my-account-disconnect {
+    margin: 7px 0 0 0;
+    display: inline-block;
   }
 }
 

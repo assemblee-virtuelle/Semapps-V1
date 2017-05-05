@@ -46,6 +46,13 @@
                  on-tap="handleAccountClick">
                 <span class="glyphicon glyphicon-user"></span>
               </a>
+              <span style="padding: 5px"></span>
+              <template is="dom-if" if="{{haveName}}">
+                <a id="my-account-disconnect" href="/logout" target="_parent"
+                   on-tap="handleAccountClick">
+                  <span class="glyphicon glyphicon-log-out"></span>
+                </a>
+              </template>
             </div>
             <template is="dom-if" if="{{haveName}}">
             <div class="col hidden-xs col-sm-2 col-md-2 col-lg-2">

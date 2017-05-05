@@ -81,6 +81,10 @@ header {
     margin-top: 0;
     font-size: 18px;
     color: #FFF; }
+  header #my-account-disconnect span {
+    margin-top: 0;
+    font-size: 18px;
+    color: #FFF; }
   @media (max-width: 768px) {
     header .logo-circle {
       position: initial;
@@ -104,7 +108,10 @@ header {
     text-transform: uppercase; }
   header #my-account-link {
     margin: 7px 0 0 0;
-    display: block; }
+    display: inline-block; }
+  header #my-account-disconnect {
+    margin: 7px 0 0 0;
+    display: inline-block; }
 
 @media (max-width: 768px) {
   header {

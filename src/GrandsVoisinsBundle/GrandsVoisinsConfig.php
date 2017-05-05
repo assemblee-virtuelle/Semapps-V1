@@ -128,7 +128,7 @@ class GrandsVoisinsConfig
             'title' => "Partout",
         ],
         "exterieur"            => [
-            'title' => "Exterieur",
+            'title' => "Exterieurs",
         ],
     ];
 
