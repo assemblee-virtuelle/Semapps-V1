@@ -40,7 +40,7 @@ Polymer({
     // Create pins.
     let pins = [];
     $.each(gvc.buildings, (building) => {
-      pins.push(building);
+        pins.push(building);
     });
     this.pins = pins;
 
@@ -143,7 +143,8 @@ Polymer({
 
   pinShow(building, text) {
     "use strict";
-    this.pinsRegistry[building].show(text);
+    if(this.pinsRegistry[building] != null)
+      this.pinsRegistry[building].show(text);
   },
 
   pinShowOne(building, text) {
@@ -154,13 +155,14 @@ Polymer({
 
   pinHide(building) {
     "use strict";
-    this.pinsRegistry[building].hide();
+    if(this.pinsRegistry[building] != null)
+     this.pinsRegistry[building].hide();
   },
 
   pinHideAll() {
     "use strict";
     $.each(gvc.buildings, (building) => {
-      gvc.map.pinHide(building);
+        gvc.map.pinHide(building);
     });
   }
 });

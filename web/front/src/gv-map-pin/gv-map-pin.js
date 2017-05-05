@@ -29,13 +29,18 @@ Polymer({
 
   attached() {
     "use strict";
-    gvc.map.pinsRegistry[this.building] = this;
-    this.x = gvc.buildings[this.building].x;
-    this.y = gvc.buildings[this.building].y;
-    this.domWrapper = this.querySelector('.gv-map-pin-wrapper');
-    this.$wrapper = this.$$('.gv-map-pin-wrapper');
-    if (this.building === gvc.buildingSelected) {
-      this.select();
+
+    if (typeof( gvc.buildings[this.building].x ) != "undefined" || gvc.buildings[this.building].x != null) {
+      gvc.map.pinsRegistry[this.building] = this;
+      this.x = gvc.buildings[this.building].x;
+      this.y = gvc.buildings[this.building].y;
+      this.domWrapper = this.querySelector('.gv-map-pin-wrapper');
+      this.$wrapper = this.$$('.gv-map-pin-wrapper');
+      if (this.building === gvc.buildingSelected) {
+        this.select();
+      }
+    }else{
+      gvc.map.pinsRegistry[this.building] = null;
     }
   },
 
