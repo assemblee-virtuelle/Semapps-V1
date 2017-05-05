@@ -1,12 +1,6 @@
 Polymer({
   is: 'gv-detail-person',
   properties: {},
-    handleClickDetail(e) {
-        e.preventDefault();
-        gvc.goToPath('detail', {
-            uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
-        });
-    },
   attached() {
     GVCarto.ready(() => {
       gvc.initElementGlobals(this);
@@ -26,16 +20,19 @@ Polymer({
   },
 
     onClickThematic(e){
-        console.log(e);
         e.preventDefault();
         let searchThemeFilter = document.getElementById('searchThemeFilter');
-        console.log(searchThemeFilter);
-        console.log(searchThemeFilter.value);
-        console.log(e.target.rel);
         searchThemeFilter.value = e.target.rel;
         //searchThemeFilter._activeChanged();
         gvc.goSearch();
 
-    }
-
+    },
+    handleClickRessource(e) {
+        e.preventDefault();
+        log('test');
+        gvc.goToPath('ressource', {
+            uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel')),
+            person: window.encodeURIComponent(this.uri)
+        });
+    },
 });

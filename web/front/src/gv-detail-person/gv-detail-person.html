@@ -2,7 +2,7 @@
   <link rel="import" type="css" href="gv-detail-person.css">
   <link rel="import" href="../gv-avatar/gv-avatar.html">
   <template>
-    <div id="gv-detail-person">
+    <div id="gv-detail-person" >
       <div class="col col-sm-8">
         <h2>[[data.properties.givenName]] [[data.properties.familyName]]</h2>
         <div class="detail-header row">
@@ -127,16 +127,6 @@
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Les ressources dont il a besoin</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
         <template is="dom-if" if="[[topicInterest.length]]">
           <h3>Ses centres d'intérêts</h3>
           <div class="tags-cloud">
@@ -191,7 +181,7 @@
           <h3>Les ressources qu'il met à disposition</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{resourceProposed}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
@@ -201,7 +191,7 @@
           <h3>Les ressources dont il a besoin</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>

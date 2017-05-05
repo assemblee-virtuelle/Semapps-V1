@@ -265,7 +265,7 @@
           <h3>Les ressources qu'elle met à disposition</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{resourceProposed}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
@@ -275,7 +275,7 @@
           <h3>Les ressources dont elle a besoin</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>

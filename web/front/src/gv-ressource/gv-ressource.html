@@ -1,0 +1,38 @@
+<dom-module id="gv-ressource">
+  <link rel="import" type="css" href="gv-ressource.css">
+  <link rel="import" href="../gv-results-item/gv-results-item.html">
+  <template>
+    <div id="ressource" class="page-ressource" style="display: none">
+      <ul id="ressourceTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack" on-click="handleBack" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
+        </li>
+      </ul>
+      <div class="col col-sm-8">
+        <h2>Détail à propos de la ressource : {{ title }} </h2>
+    </div>
+    <div class="row">
+      <div id="searchResults"  class="col col-sm-6">
+        <h4>ressourceNeeded</h4>
+        <template is="dom-repeat" items="{{ressourcesNeeded}}">
+          <gv-results-item data="[[item]]"></gv-results-item>
+        </template>
+      </div>
+      <div id="searchResults"  class="col col-sm-6">
+        <h4>ressourcesProposed</h4>
+        <template is="dom-repeat" items="{{ressourcesProposed}}">
+          <gv-results-item data="[[item]]"></gv-results-item>
+        </template>
+      </div>
+    </div>
+
+    <template is="dom-if" if="[[loading]]">
+      <div id="ressourceSpinner" class="pageLoadingSpinner">
+        <gv-spinner></gv-spinner>
+      </div>
+    </template>
+
+  </template>
+  <script src="gv-ressource.min.js"></script>
+</dom-module>

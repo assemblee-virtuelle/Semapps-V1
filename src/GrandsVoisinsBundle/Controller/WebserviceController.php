@@ -548,6 +548,7 @@ class WebserviceController extends Controller
     public function ressourceAction(Request $request){
         $uri                = $request->get('uri');
         $sfClient           = $this->container->get('semantic_forms.client');
+        $nameRessource      = $sfClient->dbPediaLabel($uri);
         $ressourcesNeeded   = ' ?uri gvoi:ressouceNeeded <'.$uri.'>.';
         $ressourcesProposed = ' ?uri gvoi:ressouceProposed <'.$uri.'>.';
         $requests           = [];
@@ -556,7 +557,7 @@ class WebserviceController extends Controller
                   ( COALESCE(?name, "") As ?result_3)
                   ( COALESCE(?label_test, "") As ?result_4)
                   ( COALESCE(?skos, "") As ?result_5)
-                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
+                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?title) ';
         $fieldsRequired     =[
             'type' => 'rdf:type',
         ];
@@ -586,7 +587,8 @@ class WebserviceController extends Controller
             $ressourcesProposed
         );
 
-        $filtered['type'] = 'NS';
+        $filtered['name'] = $nameRessource;
+        $filtered['uri'] = $uri;
         foreach ($requests as $key => $request){
             $results[$key]  = $sfClient->sparql($request);
 
@@ -609,7 +611,7 @@ class WebserviceController extends Controller
         }
         return new JsonResponse(
             (object)[
-                'results' => $filtered,
+                'ressource' => $filtered,
             ]
         );
     }

@@ -46,23 +46,25 @@ Polymer({
 
   detailLoad (encodedUri) {
     "use strict";
-    // Show spinner.
-    this.loading = true;
-    // Hide content.
-    this.$.detail.style.display = 'none';
-    // Request server.
-    gvc.ajax('webservice/detail?uri=' + encodedUri, (data) => {
-      "use strict";
-      // Check that we are on the last callback expected.
-      this.detailLoadComplete(data)
-    });
+    if( gvc.myRoute === "detail") {
+      // Show spinner.
+      this.loading = true;
+      // Hide content.
+      this.$.detail.style.display = 'none';
+      // Request server.
+      gvc.ajax('webservice/detail?uri=' + encodedUri, (data) => {
+          "use strict";
+          // Check that we are on the last callback expected.
+          this.detailLoadComplete(data)
+      });
+    }
   },
 
   detailLoadComplete (data) {
     "use strict";
     // Show detail content.
-    this.$.detail.style.display = '';
     data = data.responseJSON.detail || {};
+    this.$.detail.style.display = '';
     data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
     if (data.properties.building) {
       // Display building on the map.

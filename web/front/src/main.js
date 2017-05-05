@@ -34,6 +34,7 @@
     constructor(mainComponent) {
       window.gvc = this;
       this.baseUrl = '/';
+      this.myRoute = 'detail';
       this.mainComponent = mainComponent;
       this.firstSearch = true;
       this.$window = $(window);
@@ -212,6 +213,7 @@
     }
 
     goToPath(path, params) {
+      this.myRoute = path;
       // Set first params.
       gvc.mainComponent.set('queryParams', params);
       // Changing route fires an event.

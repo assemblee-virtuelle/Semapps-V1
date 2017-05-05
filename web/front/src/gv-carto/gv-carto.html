@@ -4,7 +4,7 @@
   <link rel="import" href="../gv-logo-animated/gv-logo-animated.html">
   <link rel="import" href="../gv-map/gv-map.html">
   <link rel="import" href="../gv-results/gv-results.html">
-  <link rel="import" href="../gv-about/gv-about.html">
+  <link rel="import" href="../gv-ressource/gv-ressource.html">
   <link rel="import" href="../gv-detail/gv-detail.html">
   <link rel="import" href="../gv-logo-av/gv-logo-av.html">
   <link rel="import" href="../gv-logo-aurore/gv-logo-aurore.html">
@@ -30,17 +30,17 @@
           <gv-results name="rechercher"
                       route="{{searchTail}}"></gv-results>
           <gv-detail name="detail"
-                     route="{{searchTail}}"
+                     route="{{routeData}}"
                      query-params="{{queryParams}}"></gv-detail>
-          <gv-about name="a-propos"
-                    route="{{searchTail}}"></gv-about>
+          <gv-ressource name="ressource"
+                    route="{{routeData}}"
+                    query-params="{{queryParams}}"></gv-ressource>
         </iron-pages>
       </div>
 
       <!-- Overlay -->
       <gv-logo-animated></gv-logo-animated>
       <footer>
-        <div class="container">
           <!-- core team -->
           Sébastien <b>Lemoine</b> /
           Tristan <b>Mattei</b> /
