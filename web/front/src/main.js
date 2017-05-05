@@ -225,7 +225,9 @@
       }
       return path;
     }
-
+    haveName(){
+      return this.name !== '';
+    }
     isSuperAdmin() {
       return this.access === 'super_admin';
     }
@@ -251,7 +253,8 @@
         isAnonymous: this.isAnonymous(),
         isMember: this.isMember(),
         isAdmin: this.isAdmin(),
-        isSuperAdmin: this.isSuperAdmin()
+        isSuperAdmin: this.isSuperAdmin(),
+        haveName: this.haveName()
       });
     }
 

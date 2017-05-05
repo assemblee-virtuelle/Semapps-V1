@@ -65,7 +65,7 @@ class WebserviceController extends Controller
         $cache = new FilesystemAdapter();
         $parameters = $cache->getItem('gv.webservice.parameters');
 
-        if (!$parameters->isHit()) {
+        //if (!$parameters->isHit()) {
             $user = $this->GetUser();
 
             // Get results.
@@ -88,6 +88,7 @@ class WebserviceController extends Controller
               ->getRepository('GrandsVoisinsBundle:User')
               ->getAccessLevelString($user);
 
+            $name = ($user != null)? $user->getUsername() : '';
             // If no internet, we use a cached version of services
             // placed int face_service folder.
             if ($this->container->hasParameter('no_internet')) {
@@ -95,6 +96,7 @@ class WebserviceController extends Controller
             } else {
                 $output = [
                   'access'       => $access,
+                  'name'         => $name,
                   'fieldsAccess' => $this->container->getParameter('fields_access'),
                   'buildings'    => $this->getBuildings(),
                   'entities'     => $this->entitiesTabs,
@@ -105,7 +107,7 @@ class WebserviceController extends Controller
             $parameters->set($output);
 
             $cache->save($parameters);
-        }
+        //}
 
         return new JsonResponse($parameters->get());
     }
@@ -587,9 +589,7 @@ class WebserviceController extends Controller
         $filtered['type'] = 'NS';
         foreach ($requests as $key => $request){
             $results[$key]  = $sfClient->sparql($request);
-            //dump($request . $requestSuffix);
-            // Key values pairs only.
-            // Avoid "Empty result" string.
+
             $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
                 $results[$key]
             ) : [];

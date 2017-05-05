@@ -95,7 +95,7 @@ webserviceDetail:
 
 webserviceRessource:
     path:     /webservice/ressource
-    defaults: { _controller: GrandsVoisinsBundle:Webservice:ressourceBDPedia }
+    defaults: { _controller: GrandsVoisinsBundle:Webservice:ressource }
 
 all_orga:
     path:     /orga/all

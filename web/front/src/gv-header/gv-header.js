@@ -14,7 +14,8 @@ Polymer({
   start() {
     "use strict";
     this.domSearchTextInput = gvc.domId('searchText');
-
+    this.haveName= gvc.haveName();
+    this.name = gvc.name;
     this.thesaurus = gvc.thesaurus;
 
     let callbackSearchEvent = this.searchEvent.bind(this);
