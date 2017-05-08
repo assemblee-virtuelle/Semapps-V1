@@ -964,7 +964,9 @@ class WebserviceController extends Controller
                 );
             }
         }
-
+        if (isset($properties['description'])) {
+            $properties['description'] = nl2br(current($properties['description']),false);
+        }
         $output['properties'] = $properties;
 
         //dump($output);
