@@ -124,12 +124,15 @@ class GrandsVoisinsConfig
         'x'     => '58%',
         'y'     => '86%',
       ],
-        "partout"            => [
-            'title' => "Partout",
-        ],
-        "exterieur"            => [
-            'title' => "Exterieurs",
-        ],
+      "partout"            => [
+          'title' => "Partout",
+      ],
+      "exterieur"            => [
+          'title' => "Exterieurs",
+      ],
+      "ailleurs"            => [
+          'title' => "Ailleurs",
+      ],
     ];
 
     static $buildingsSimple = [
@@ -149,6 +152,7 @@ class GrandsVoisinsConfig
       "jalaguier"         => "Jalaguier",
       "rapine"            => "Rapine",
     ];
+
     static $buildingsExtended = [
         "maisonDesMedecins" => "Maison des médecins",
         "lepage"            => "Lepage",
@@ -166,7 +170,8 @@ class GrandsVoisinsConfig
         "jalaguier"         => "Jalaguier",
         "rapine"            => "Rapine",
         "partout"           => "Partout",
-        "exterieur"         => "Extérieur",
+        "exterieur"         => "Extérieurs",
+        "ailleurs"         => "Ailleurs",
     ];
 
     // E-mail configuration
