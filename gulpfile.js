@@ -72,8 +72,7 @@ var filesScss = {
   'web/front/src/gv-detail-proposition/gv-detail-proposition': true,
   'web/front/src/gv-logo-animated/gv-logo-animated': true,
   'web/front/src/gv-map/gv-map': true,
-  'web/front/src/gv-map-pin/gv-map-pin': true,
-  'web/front/src/gv-about/gv-about': true
+  'web/front/src/gv-map-pin/gv-map-pin': true
 };
 
 function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
