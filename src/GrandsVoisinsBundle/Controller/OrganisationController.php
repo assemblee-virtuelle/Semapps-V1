@@ -140,10 +140,8 @@ class OrganisationController extends Controller
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
                 $user,
-                GrandsVoisinsConfig::ORGANISATION,
                 $url,
-                $randomPassword,
-                $organisation
+                $randomPassword
               );
 
             // TODO Grant permission to edit same organisation as current user.

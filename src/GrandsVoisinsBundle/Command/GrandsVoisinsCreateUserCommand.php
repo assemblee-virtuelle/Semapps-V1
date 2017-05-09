@@ -167,10 +167,8 @@ class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
         $output->writeln($url);
         $mailer->sendConfirmMessage(
             $user,
-            GrandsVoisinsConfig::ORGANISATION,
             $url,
-            $randomPassword,
-            $organization
+            $randomPassword
         );
         $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');

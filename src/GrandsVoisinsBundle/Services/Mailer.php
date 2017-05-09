@@ -26,10 +26,10 @@ class Mailer
         $this->templating = $templating;
     }
 
-    protected function sendMessage($to, $subject, $body)
+    protected function sendMessage($to, $subject, $body ,$from =null)
     {
         $mail = \Swift_Message::newInstance()
-            ->setFrom($this->from)
+            ->setFrom(($from != null)?$from : $this->from)
             ->setTo($to)
             ->setSubject($subject)
             ->setBody($body)
@@ -38,12 +38,12 @@ class Mailer
         $this->mailer->send($mail);
     }
 
-    public function sendConfirmMessage(User $user, $name, $url, $randomPassword, Organisation $organisation = null)
+    public function sendConfirmMessage(User $user, $url, $randomPassword,$from =null)
     {
-        $subject = "Bonjour " . $user->getUsername();
+        $subject = "Sortie de la carto des Grands Voisins : Un outil pour nous connaître, partager et coopérer ! (On a besoin de toi !) "; //$user->getUsername()
         $to = $user->getEmail();
-        $body = GrandsVoisinsConfig::bodyMail($name, $user, $url, $randomPassword, $organisation);
-        $this->sendMessage($to, $subject, $body);
+        $body = GrandsVoisinsConfig::bodyMail( $user, $url, $randomPassword);
+        $this->sendMessage($to, $subject, $body,$from);
     }
 }
 

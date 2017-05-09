@@ -19,11 +19,18 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             ->setDescription(
                 'Send the confirmation email for the user selected'
             )
+
             ->addArgument(
                 'id',
                 InputArgument::REQUIRED,
                 'Id of the user'
+            )
+            ->addArgument(
+            'email',
+            InputArgument::REQUIRED,
+            'email from'
             );
+
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -53,6 +60,18 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             );
             $questions['id'] = $question;
         }
+        if (!$input->getArgument('email')) {
+            $question = new Question('Please choose a email:');
+            $question->setValidator(
+              function ($email) {
+                  if (empty($email)) {
+                      throw new \Exception('organization can not be empty');
+                  }
+                  return $email;
+              }
+            );
+            $questions['email'] = $question;
+        }
 
         foreach ($questions as $name => $question) {
             $answer = $this->getHelper('question')->ask(
@@ -67,6 +86,7 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id     = $input->getArgument('id');
+        $email  = $input->getArgument('email');
         $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         $mailer = $this->getContainer()->get(
             'GrandsVoisinsBundle.EventListener.SendMail'
@@ -88,10 +108,9 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $mailer->sendConfirmMessage(
             $user,
-            GrandsVoisinsConfig::ORGANISATION,
             $url,
             $user->getSfUser(),
-            $organization
+            $email
         );
         $output->writeln("Email send ! ");
         $output->writeln('Everything is ok !');

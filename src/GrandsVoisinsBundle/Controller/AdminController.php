@@ -244,7 +244,6 @@ class AdminController extends Controller
             $this->get('GrandsVoisinsBundle.EventListener.SendMail')
                 ->sendConfirmMessage(
                     $data,
-                    GrandsVoisinsConfig::TEAM,
                     $url,
                     $randomPassword
                 );
