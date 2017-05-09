@@ -166,7 +166,7 @@
           <template is="dom-if" if="[[description]]">
             <div class="detail-description col col-sm-12">
               <div class="detail-description-inner">
-                [[description]]
+                <template is="juicy-html" content$="{{description}}"></template>
               </div>
             </div>
           </template>

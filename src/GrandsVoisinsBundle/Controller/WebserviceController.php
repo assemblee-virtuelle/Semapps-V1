@@ -215,19 +215,7 @@ class WebserviceController extends Controller
         ) : [];
 
         // Filter only allowed types.
-        $filtered = [];
-        foreach ($results as $result) {
-            // Type is sometime missing.
-            if (isset($result['type']) && in_array(
-                $result['type'],
-                $this->entitiesFilters
-              )
-            ) {
-                $filtered[] = $result;
-            }
-        }
-
-        return $filtered;
+        return $this->filter($results);
     }
 
 
@@ -596,18 +584,7 @@ class WebserviceController extends Controller
                 $results[$key]
             ) : [];
 
-            // Filter only allowed types.
-            $filtered[$key] = [];
-            foreach ($results[$key] as $result) {
-                // Type is sometime missing.
-                if (isset($result['type']) && in_array(
-                        $result['type'],
-                        $this->entitiesFilters
-                    )
-                ) {
-                    $filtered[$key][] = $result;
-                }
-            }
+            $filtered[$key] = $this->filter($results[$key]);
         }
         return new JsonResponse(
             (object)[
@@ -987,7 +964,9 @@ class WebserviceController extends Controller
                 );
             }
         }
-
+        if (isset($properties['description'])) {
+            $properties['description'] = nl2br(current($properties['description']),false);
+        }
         $output['properties'] = $properties;
 
         //dump($output);
@@ -1027,5 +1006,26 @@ class WebserviceController extends Controller
         }
 
         return [];
+    }
+
+    /**
+     * Filter only allowed types.
+     * @param array $array
+     * @return array
+     */
+    public function filter(Array $array){
+        $filtered = [];
+        foreach ($array as $result) {
+            // Type is sometime missing.
+            if (isset($result['type']) && in_array(
+                $result['type'],
+                $this->entitiesFilters
+              )
+            ) {
+                $filtered[] = $result;
+            }
+        }
+
+        return $filtered;
     }
 }
