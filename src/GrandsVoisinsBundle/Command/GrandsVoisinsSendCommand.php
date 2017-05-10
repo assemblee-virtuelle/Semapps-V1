@@ -27,7 +27,7 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             )
             ->addArgument(
             'email',
-            InputArgument::REQUIRED,
+            InputArgument::OPTIONAL,
             'email from'
             );
 
@@ -60,18 +60,7 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             );
             $questions['id'] = $question;
         }
-        if (!$input->getArgument('email')) {
-            $question = new Question('Please choose a email:');
-            $question->setValidator(
-              function ($email) {
-                  if (empty($email)) {
-                      throw new \Exception('organization can not be empty');
-                  }
-                  return $email;
-              }
-            );
-            $questions['email'] = $question;
-        }
+
 
         foreach ($questions as $name => $question) {
             $answer = $this->getHelper('question')->ask(
@@ -86,25 +75,23 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id     = $input->getArgument('id');
-        $email  = $input->getArgument('email');
+        $email  = (!$input->getArgument('email')) ? null : $input->getArgument('email');
         $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         $mailer = $this->getContainer()->get(
             'GrandsVoisinsBundle.EventListener.SendMail'
         );
 
         $userRepository         = $em->getRepository('GrandsVoisinsBundle:User');
-        $organisationRepository = $em->getRepository('GrandsVoisinsBundle:Organisation');
 
         $user = $userRepository->find($id);
 
-        $organization = $organisationRepository->find($user->getFkOrganisation());
 
         $url = $this->getContainer()->get('router')->generate(
             'fos_user_registration_confirm',
             array('token' => $user->getConfirmationToken()),
             UrlGeneratorInterface::ABSOLUTE_URL
         );
-
+        $output->writeln($email);
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $mailer->sendConfirmMessage(
             $user,
