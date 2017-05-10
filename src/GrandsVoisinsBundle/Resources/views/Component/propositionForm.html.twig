@@ -38,7 +38,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Elles doivent à avoir renseigné leur profil au préalable ;-) ">
             {{ form_row(form.maker, { 'label': 'Auteur(s) de la proposition (personnes ou organisations)'}) }}
         </div>
     </div>
@@ -48,19 +48,19 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
             {{ form_row(form.topicInterest, { 'label': 'Description courte (Et si ...)' }) }}
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
             {{ form_row(form.resourceProposed, { 'label': 'Ressources que la proposition met à disposition'}) }}
         </div>
     </div>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
             {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont la proposition a besoin'}) }}
         </div>
     </div>

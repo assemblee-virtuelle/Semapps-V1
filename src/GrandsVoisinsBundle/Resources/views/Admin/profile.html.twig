@@ -28,7 +28,7 @@
             {{ form_start(form) }}
             <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
                 {% if form is not null %}
-                    <a href="#" id="profilePicture" class="thumbnail">
+                    <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image ">
                         <img src="{{ asset(app.user.getPictureName() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
                     <span id="profileEditPictureField">
                         {{ form_widget(form.pictureName) }}
@@ -102,25 +102,25 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-xs-12">
+                    <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                         {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-xs-12">
+                    <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                         {{ form_row(form.expertise, { 'label': 'Compétences'}) }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                         {{ form_row(form.resourceProposed) }}
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                         {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
                     </div>
                 </div>

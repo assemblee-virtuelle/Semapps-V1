@@ -9,7 +9,7 @@
             <h1>Les Grands Voisins</h1>
             <div class="col hidden-xs col-sm-2 col-md-2 col-lg-offset-1 col-lg-2 col-search-logo ">
               <div class="logo-circle">
-                <a title="Accueil" href="/" target="_parent" >
+                <a title="Accueil" href="/rechercher/partout" target="_parent" >
                   <gv-logo-mini></gv-logo-mini>
                 </a>
               </div>
@@ -45,12 +45,14 @@
               <a id="my-account-link" href="/mon-compte" target="_parent"
                  on-tap="handleAccountClick">
                 <span class="glyphicon glyphicon-user"></span>
+                <paper-tooltip for="test" position="bottom" ><span style="font-size: 16px">Admin</span></paper-tooltip>
               </a>
               <span style="padding: 5px"></span>
               <template is="dom-if" if="{{haveName}}">
                 <a id="my-account-disconnect" href="/logout" target="_parent"
                    on-tap="handleAccountClick">
                   <span class="glyphicon glyphicon-log-out"></span>
+                  <paper-tooltip for="test" position="bottom" ><span style="font-size: 16px">Se déconnecter</span></paper-tooltip>
                 </a>
               </template>
             </div>

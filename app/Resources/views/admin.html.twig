@@ -15,10 +15,10 @@
     <script src="{{ asset('admin/js/dist/script.min.js') }}"></script>
 {% endblock %}
 
-{% macro menuItem(title, route, icon, menuSelected, role, pathOptions = {}) %}
+{% macro menuItem(title, route, icon,tooltip = 'hello !', menuSelected, role, pathOptions = {}) %}
     {% if (role == '' or is_granted('ROLE_' ~ role)) %}
         <li class="{% if (menuSelected|default(false)==route) %}active{% endif %}">
-            <a href="{{ path(route, pathOptions) }}">
+            <a href="{{ path(route, pathOptions) }}" data-toggle="tooltip" data-placement="top" title="{{ tooltip }}" >
                 <span class="glyphicon glyphicon-{{ icon }}"></span>
                 {{ title }}
             </a>
@@ -203,16 +203,16 @@
                                             <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
                                         </h4>
                                     </li>
-                                    {{ admin.menuItem('Mon profil', 'profile', 'user', menuSelected) }}
-                                    {{ admin.menuItem('Mon organisation', 'detail_orga', 'tower', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Equipe', 'team', 'record', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Les organisations', 'all_orga', 'globe', menuSelected, 'SUPER_ADMIN') }}
-                                    {{ admin.menuItem('Projets', 'projectList', 'screenshot', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Evénements', 'eventList', 'calendar', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Proposition', 'propositionList', 'info-sign', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Paramètres','settings','cog', menuSelected) }}
+                                    {{ admin.menuItem('Mon profil', 'profile', 'user','Editez votre profil perso', menuSelected) }}
+                                    {{ admin.menuItem('Mon organisation', 'detail_orga', 'tower','Editez votre organisation', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Les organisations', 'all_orga', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
+                                    {{ admin.menuItem('Projets', 'projectList', 'screenshot','Référencez vos projets ', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Evénements', 'eventList', 'calendar','Référencez vos événements', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Proposition', 'propositionList', 'info-sign','Faites des propositions', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                        {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out', menuSelected) }}
+                                        {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}
                                     {% endif %}
                                 </ul>
                             </div><!--/.nav-collapse -->
