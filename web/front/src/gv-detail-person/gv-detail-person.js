@@ -18,7 +18,12 @@ Polymer({
       this.birthday = birthday.getDate() + '/' + (birthday.getMonth() + 1) + '/' + birthday.getFullYear();
     }
   },
-
+    handleClickDetail(e) {
+        e.preventDefault();
+        gvc.goToPath('detail', {
+            uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
+        });
+    },
     onClickThematic(e){
         e.preventDefault();
         let searchThemeFilter = document.getElementById('searchThemeFilter');
