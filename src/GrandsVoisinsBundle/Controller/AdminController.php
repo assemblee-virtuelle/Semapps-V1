@@ -17,7 +17,7 @@ class AdminController extends Controller
 
     public function homeAction()
     {
-        return $this->redirectToRoute('profile');
+        return $this->redirectToRoute('fos_user_profile_show');
     }
 
     public function profileAction(Request $request)
@@ -139,7 +139,7 @@ class AdminController extends Controller
                 'Votre profil a bien été mis à jour.'
             );
 
-            return $this->redirectToRoute('profile');
+            return $this->redirectToRoute('fos_user_profile_show');
         }
 
         // Fill form

@@ -21,7 +21,7 @@ searchBuildingTerm:
 detail:
     path:     /detail
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
-
+# tested
 admin:
     path: /mon-compte
     defaults:
@@ -36,14 +36,14 @@ settings:
 orgaExport:
     path:     /orga-export/csv
     defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaExport }
-
+# tested
 home:
     path:     /mon-compte/
     defaults: { _controller: GrandsVoisinsBundle:Admin:home }
-
-profile:
-    path:     /mon-compte/profile
-    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
+# to be removed
+#profile:
+#    path:     /mon-compte/profile
+#    defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
 
 team:
     path:     /mon-compte/invite
@@ -60,7 +60,7 @@ changeAccess:
 orgaDelete:
     path:     /mon-compte/orga/delete/{orgaId}
     defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
-
+# tested
 fos_user_profile_show:
     path:     /mon-compte/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
@@ -100,7 +100,7 @@ webserviceRessource:
 all_orga:
     path:     /orga/all
     defaults: { _controller: GrandsVoisinsBundle:Organisation:all }
-
+# tested
 detail_orga:
     path:     /orga/detail
     defaults: { _controller: GrandsVoisinsBundle:Organisation:organisation }

@@ -47,7 +47,7 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
             [
                 'form_params' => $data
             ]);
-        $url = $this->router->generate('profile');
+        $url = $this->router->generate('fos_user_profile_show');
         $event->setResponse(new RedirectResponse($url));
     }
 }

@@ -1,7 +1,7 @@
 grands_voisins:
     resource: "@GrandsVoisinsBundle/Resources/config/routing.yml"
     prefix:   /
-
+# tested
 grands_voisins_loader:
     resource: .
     type: component
