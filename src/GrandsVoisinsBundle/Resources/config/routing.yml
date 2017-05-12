@@ -17,10 +17,10 @@ searchBuilding:
 searchBuildingTerm:
     path:     /rechercher/{building}/{term}
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
-
-detail:
-    path:     /detail
-    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+# to be removed ?
+#detail:
+#    path:     /detail
+#    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 # tested
 admin:
     path: /mon-compte
@@ -64,7 +64,7 @@ orgaDelete:
 fos_user_profile_show:
     path:     /mon-compte/profile
     defaults: { _controller: GrandsVoisinsBundle:Admin:profile }
-
+# tested
 webserviceParameters:
     path:     /webservice/parameters
     defaults: { _controller: GrandsVoisinsBundle:Webservice:parameters }
