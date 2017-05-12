@@ -2,37 +2,21 @@
 
 namespace GrandsVoisinsBundle\Tests\Controller;
 
+/* retirer test après : http://dev.wexample.com:9000/update?update=DELETE%20{%20GRAPH%20%3Curn:gv/contacts/new/row/215-org%3E%20{%20?s%20?p%20?o%20.%20}}%20WHERE%20{%20GRAPH%20%3Curn:gv/contacts/new/row/215-org%3E%20{%20?s%20?p%20?o%20.%20}} */
 
-class OrganisationControllerTest extends toolsFormTest
+class ProfileControllerTest extends toolsFormTest
 {
-    protected $nameForm = 'organization';
+    protected $nameForm = 'profile';
     protected $formButtonName = 'Enregistrer';
-    protected $route = '/orga/detail';
+    protected $route = '/mon-compte/profile';
     protected $tabValue = [
-      'name' => [
-        'name',
-        'name_update'
+      'givenName' => [
+        'givenName',
+        'givenName_update'
       ],
-      'administrativeName' => [
-        'administrativeName',
-        'administrativeName_update'
-      ],
-      'description' => [
-        'description',
-        'description_update'
-      ],
-      'shortDescription' => [
-        'shortDescription',
-        'shortDescription_update'
-      ],
-      'conventionType' => [
-        'conventionType',
-        'conventionType_update'
-      ],
-      'employeesCount' => [
-        10,
-        20,
-        0
+      'familyName' => [
+        'familyName',
+        'familyName_update'
       ],
       'homepage' => [
         'http://homepage.com',
@@ -46,25 +30,17 @@ class OrganisationControllerTest extends toolsFormTest
         '0123456789',
         '9876543210'
       ],
-      'twitter' => [
-        'http://twitter',
-        'http://twitter_update'
+      'slack' => [
+        'slack',
+        'slack_update'
       ],
-      'linkedin' => [
-        'http://linkedin.com',
-        'http://linkedin_update.com'
-      ],
-      'facebook' => [
-        'http://facebook.com',
-        'http://facebook_update.com'
-      ],
-      'contributionType' => [
-        'http://contributionType.com',
-        'http://contributionType_update.com'
+      'postalCode' => [
+        '12345',
+        '54321'
       ],
     ];
 
-    public function testOrganizationCreateAction(){
+    public function testProfileCreateAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
@@ -80,7 +56,7 @@ class OrganisationControllerTest extends toolsFormTest
 
     }
 
-    public function testOrganizationUpdateAction(){
+    public function testProfileUpdateAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
@@ -92,11 +68,11 @@ class OrganisationControllerTest extends toolsFormTest
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->formTest($this->nameForm,$this->tabValue,toolsFormTest::TEST_UPDATE);
-        $this->testOrganizationCreateAction();
+        $this->testProfileCreateAction();
         $this->testLogout();
     }
 
-    public function testOrganizationDeleteAction(){
+    public function testProfileDeleteAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
@@ -108,7 +84,7 @@ class OrganisationControllerTest extends toolsFormTest
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->formTest($this->nameForm,$this->tabValue);
-        $this->testOrganizationCreateAction();
+        $this->testProfileCreateAction();
         $this->testLogout();
     }
 }

@@ -9,18 +9,18 @@
 namespace GrandsVoisinsBundle\Tests\Controller;
 
 
-class PropositionControllerTest extends toolsFormTest
+class ProjetControllerTest extends toolsFormTest
 {
-    protected $nameForm = 'proposition';
+    protected $nameForm = 'project';
     protected $formButtonName = 'Enregistrer';
     protected $createButton = 'Ajouter';
     protected $editButton = 'Editer';
-    protected $route = '/mon-compte/proposition';
+    protected $route = '/mon-compte/projet';
     protected $tabValue = [
       'label' => [
         'label',
         'label_update',
-        'label' // obligatoire
+          'label' // obligatoire
       ],
       'description' => [
         'description',
@@ -34,94 +34,94 @@ class PropositionControllerTest extends toolsFormTest
         'room',
         'room_update'
       ],
+      'homepage' => [
+        'http://homepage.com',
+        'http://homepage_update.com'
+      ],
       'mbox' => [
         'mbox@mbox.com',
         'mbox_update@mbox.com'
       ],
     ];
 
-    public function goBack()
-    {
-        $this->setForm($this->nameForm, $this->tabValue, toolsFormTest::TEST_CREATE);
+    public function goBack(){
+        $this->setForm($this->nameForm,$this->tabValue,toolsFormTest::TEST_CREATE);
         $this->client->submit($this->form);
-        self::assertEquals(true, $this->client->getResponse()->isRedirect());
+        self::assertEquals(true,$this->client->getResponse()->isRedirect());
         $this->crawler = $this->client->followRedirect();
     }
 
-    public function testPropositionCreateAction()
-    {
+    public function testProjetCreateAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         $this->crawler = $this->client->followRedirect();
         //$this->debugContent();
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->createButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->createButton.'")')->count());
         $this->crawler = $this->client->click($this->crawler->selectLink($this->createButton)->link());
         //$this->debugContent();
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->setForm($this->nameForm, $this->tabValue, toolsFormTest::TEST_CREATE);
+        $this->setForm($this->nameForm,$this->tabValue,toolsFormTest::TEST_CREATE);
         $this->client->submit($this->form);
-        self::assertEquals(true, $this->client->getResponse()->isRedirect());
+        self::assertEquals(true,$this->client->getResponse()->isRedirect());
         $this->crawler = $this->client->followRedirect();
 
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->editButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
         //$link = $this->crawler->filter('td')->eq(0)->children()->link();
         $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->formTest($this->nameForm, $this->tabValue, toolsFormTest::TEST_CREATE);
+        $this->formTest($this->nameForm,$this->tabValue,toolsFormTest::TEST_CREATE);
         $this->testLogout();
 
     }
 
-    public function testPropositionUpdateAction()
-    {
+    public function testProjetUpdateAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         $this->crawler = $this->client->followRedirect();
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->editButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->setForm($this->nameForm, $this->tabValue, toolsFormTest::TEST_UPDATE);
+        $this->setForm($this->nameForm,$this->tabValue,toolsFormTest::TEST_UPDATE);
         $this->client->submit($this->form);
-        self::assertEquals(true, $this->client->getResponse()->isRedirect());
+        self::assertEquals(true,$this->client->getResponse()->isRedirect());
         $this->crawler = $this->client->followRedirect();
 
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->editButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
         //$link = $this->crawler->filter('td')->eq(0)->children()->link();
         $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->formTest($this->nameForm, $this->tabValue, toolsFormTest::TEST_UPDATE);
+        $this->formTest($this->nameForm,$this->tabValue,toolsFormTest::TEST_UPDATE);
         $this->goBack();
         $this->testLogout();
 
     }
 
-    public function testPropositionDeleteAction()
-    {
+    public function testProjetDeleteAction(){
         $this->testLogin();
         $this->crawler = $this->client->request('GET', $this->route);
         $this->crawler = $this->client->followRedirect();
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->editButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->setForm($this->nameForm, $this->tabValue);
+        $this->setForm($this->nameForm,$this->tabValue);
         $this->client->submit($this->form);
-        self::assertEquals(true, $this->client->getResponse()->isRedirect());
+        self::assertEquals(true,$this->client->getResponse()->isRedirect());
         $this->crawler = $this->client->followRedirect();
 
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->editButton . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
         //$link = $this->crawler->filter('td')->eq(0)->children()->link();
         $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
-        self::assertGreaterThan(0, $this->crawler->filter('html:contains("' . $this->formButtonName . '")')->count());
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
-        $this->formTest($this->nameForm, $this->tabValue);
+        $this->formTest($this->nameForm,$this->tabValue);
         $this->goBack();
         $this->testLogout();
     }
