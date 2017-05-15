@@ -82,6 +82,7 @@ parameters:
            - linkedin
            - topicInterest
            - shortDescription
+           - thesaurus
            # orga
            - building
            - subject
@@ -107,7 +108,6 @@ parameters:
            - phone
            - resourceNeeded
            - resourceProposed
-           - thesaurus
            # orga
            - room
            - contributionType
