@@ -1,4 +1,4 @@
-<dom-module id="gv-detail-person">
+*<dom-module id="gv-detail-person">
   <link rel="import" type="css" href="gv-detail-person.css">
   <link rel="import" href="../gv-avatar/gv-avatar.html">
   <template>
@@ -39,7 +39,7 @@
               <template is="dom-if" if="[[city]]">
                 <tr class="field">
                   <td class="fieldLabel">Ville</td>
-                  <td>[[city]]</td>
+                  <td>[[data.city.name]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[birthday]]">
