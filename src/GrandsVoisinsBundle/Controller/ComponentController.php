@@ -111,4 +111,20 @@ class ComponentController extends Controller
           )
         );
     }
+    public function removeAction(){
+
+        $route = [
+          'project' => 'projet',
+          'event' => 'evenement',
+          'proposition' => 'proposition',
+          ];
+        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
+        $sfClient = $this->container->get('semantic_forms.client');
+        $uri = $_GET['uri'];
+        $componentName = $_GET['componentName'];
+        $query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O }} WHERE {GRAPH ?gr { <".$uri."> ?P ?O}}";
+        $sfClient->update($query);
+
+        return $this->redirect('/mon-compte/'.$route[$componentName]);
+    }
 }

@@ -60,6 +60,11 @@ changeAccess:
 orgaDelete:
     path:     /mon-compte/orga/delete/{orgaId}
     defaults: { _controller: GrandsVoisinsBundle:Organisation:orgaDelete }
+
+componentDelete:
+    path:     /mon-compte/component/delete
+    defaults: { _controller: GrandsVoisinsBundle:Component:remove }
+
 # tested
 fos_user_profile_show:
     path:     /mon-compte/profile

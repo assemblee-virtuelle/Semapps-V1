@@ -21,6 +21,7 @@ var filesJs = {
     'web/admin/js/src/class/lgvAdminPageTeam.js',
     'web/admin/js/src/class/lgvAdminPageProfile.js',
     'web/admin/js/src/class/lgvAdminPageOrga.js',
+    'web/admin/js/src/class/lgvAdminPageComponent.js',
     // Fields.
     'src/VirtualAssembly/SemanticFormsBundle/Resources/js/field.uri.js',
     'src/VirtualAssembly/SemanticFormsBundle/Resources/js/field.dbPedia.js',
