@@ -122,7 +122,7 @@ class ComponentController extends Controller
         $sfClient = $this->container->get('semantic_forms.client');
         $uri = $_GET['uri'];
         $componentName = $_GET['componentName'];
-        $query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O }} WHERE {GRAPH ?gr { <".$uri."> ?P ?O}}";
+        $query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}  WHERE {GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}";
         $sfClient->update($query);
 
         return $this->redirect('/mon-compte/'.$route[$componentName]);
