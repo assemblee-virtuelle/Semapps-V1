@@ -17,10 +17,14 @@ searchBuilding:
 searchBuildingTerm:
     path:     /rechercher/{building}/{term}
     defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
-# to be removed ?
-#detail:
-#    path:     /detail
-#    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
+detail:
+    path:     /detail
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
+
+ressource:
+    path:     /ressource
+    defaults: { _controller: GrandsVoisinsBundle:WebSite:index }
 # tested
 admin:
     path: /mon-compte
