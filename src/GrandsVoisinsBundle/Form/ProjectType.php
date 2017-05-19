@@ -4,7 +4,7 @@ namespace GrandsVoisinsBundle\Form;
 
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -112,7 +112,7 @@ class ProjectType extends AbstractForm
           ->add(
             $builder,
             'projectStart',
-            DateTimeType::class,
+            DateType::class,
             [
               'required' => false,
             ]

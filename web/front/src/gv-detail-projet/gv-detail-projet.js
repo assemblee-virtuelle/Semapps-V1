@@ -20,7 +20,7 @@ Polymer({
     this.resourceProposed = this.data.resourceProposed;
     if (this.projectStart) {
       let projectStart = new Date(this.projectStart);
-      this.projectStart = projectStart.getDate() + '/' + (projectStart.getMonth() + 1) + '/' + projectStart.getFullYear() + ' ' + projectStart.getHours() + ' H ' + projectStart.getMinutes() + ' min';
+      this.projectStart = projectStart.getDate() + '/' + (projectStart.getMonth() + 1) + '/' + projectStart.getFullYear();
     }
   },
 
