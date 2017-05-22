@@ -42,12 +42,6 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(
-          "you can only choose a building on this list:".implode(
-            ',',
-            array_keys(GrandsVoisinsConfig::$buildingsSimple)
-          )
-        );
         $questions = array();
         if (!$input->getArgument('organization')) {
             $question = new Question(

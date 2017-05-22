@@ -161,7 +161,6 @@ class OrganisationController extends Controller
         return $this->render(
           'GrandsVoisinsBundle:Organization:home.html.twig',
           array(
-            "tabOrga"             => GrandsVoisinsConfig::$buildings,
             "organisations"       => $organisations,
             "formAddOrganisation" => $form->createView(),
           )

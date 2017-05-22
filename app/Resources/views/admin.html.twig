@@ -199,6 +199,7 @@
                                         <h4>
                                             {{ app.user.username }}
                                             <br>
+                                            <small>{% if "ROLE_SUPER_ADMIN" in app.user.roles %}Super administrateur{% endif %}</small>
                                             <small>{% if "ROLE_ADMIN" in app.user.roles %}Administrateur{% endif %}</small>
                                             <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
                                         </h4>
