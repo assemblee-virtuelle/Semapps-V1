@@ -69,7 +69,10 @@ Polymer({
     if (data.properties.building) {
       // Display building on the map.
       gvc.map.pinShowOne(data.properties.building, 'ICI');
+    }else if (data.building){
+      gvc.map.pinShowOne(data.building, 'ICI');
     }
+
     // Create inner depending of type.
     let inner = document.createElement('gv-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
     this.child = inner;

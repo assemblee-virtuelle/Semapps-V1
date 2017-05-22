@@ -64,16 +64,7 @@ Polymer({
 
   selectType(tab)  {
     "use strict";
-    // Deselect tab if current.
-    if (this.typeSelected && this.tabsRegistry[tab]) {
-      this.tabsRegistry[this.typeSelected].$$('li').classList.remove('active');
-    }
-    // Save.
-    this.typeSelected = tab;
-    // It may not be already created.
-    if (this.tabsRegistry[tab]) {
-      this.tabsRegistry[tab].$$('li').classList.add('active');
-    }
+      this.selection(tab);
     // Render results.
     this.searchRender();
   },
@@ -144,7 +135,7 @@ Polymer({
     let totalCounter = 0;
     let typesCounter = {};
     let buildingsCounter = {};
-
+    let resultTemps = {};
     // Allow empty response.
     response = response || this.renderSearchResultResponse || {};
     // Save last data for potential reload.
@@ -170,14 +161,25 @@ Polymer({
             typesCounter[result.type] = typesCounter[result.type] || 0;
             typesCounter[result.type]++;
             totalCounter++;
-            // This tab is enabled.
-            if (this.typeSelected === 'all' || result.type === this.typeSelected) {
-              results.push(result);
-            }
+
+              if (typeof resultTemps[result.type] === 'undefined')
+                  resultTemps[result.type] = [];
+              resultTemps[result.type].push(result);
+
           }
+
         }
       }
-
+        if(typeof resultTemps[this.typeSelected] === 'undefined' ){
+            // Deselect tab if current.
+            let key = Object.keys(resultTemps)[0];
+            this.selection(key);
+            dump(resultTemps);
+            results =(typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[Object.keys(resultTemps)[0]] : [];
+        }
+        else{
+            results = resultTemps[this.typeSelected];
+        }
       // Create title.
       let resultsTitle = '';
       // Results number.
@@ -207,5 +209,18 @@ Polymer({
     setTimeout(() => {
       this.set('results', results);
     }, 100);
-  }
+  },
+
+    selection(val){
+        if (this.typeSelected && this.tabsRegistry[val]) {
+            this.tabsRegistry[this.typeSelected].$$('li').classList.remove('active');
+        }
+        // Save.
+        this.typeSelected = val;
+        log(this.typeSelected);
+        // It may not be already created.
+        if (this.tabsRegistry[val]) {
+            this.tabsRegistry[val].$$('li').classList.add('active');
+        }
+    }
 });

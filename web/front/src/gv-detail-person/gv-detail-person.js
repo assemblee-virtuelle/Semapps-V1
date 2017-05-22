@@ -13,6 +13,8 @@ Polymer({
     this.resourceProposed = this.data.resourceProposed;
     this.expertize = this.data.expertize;
     this.knows = this.data.knows;
+    //log(this.data.building);
+    this.buildingTitle = gvc.buildings[this.data.building].title;
     if (this.birthday) {
       let birthday = new Date(this.birthday);
       this.birthday = birthday.getDate() + '/' + (birthday.getMonth() + 1) + '/' + birthday.getFullYear();

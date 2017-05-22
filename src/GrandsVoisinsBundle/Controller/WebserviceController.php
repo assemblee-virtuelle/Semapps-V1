@@ -221,6 +221,7 @@ class WebserviceController extends Controller
 
     public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
     {
+        $sfClient    = $this->container->get('semantic_forms.client');
         $arrayType = explode('|',$type);
         $arrayType = array_flip($arrayType);
         $typeOrganization = array_key_exists(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$arrayType);
@@ -253,26 +254,33 @@ class WebserviceController extends Controller
                 ' ORDER BY ASC(?title)'
 
         ): [];
-        $persons = ($type == SemanticFormsBundle::Multiple || $typePerson )?
-            $this->searchSparqlSelect(
-        // Type.
-          SemanticFormsBundle::URI_FOAF_PERSON,
-          // Search term.
-          $term,
-          // Required fields.
-          [
-            'type'       => 'rdf:type',
-            'givenName'  => 'foaf:givenName',
-          ],
-          [
-            'familyName' => 'foaf:familyName',
-            'image' => 'foaf:img',
-            'desc'     => 'foaf:status',
-          ],
-            $filter,
-                '( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title) ',
-            ' ORDER BY ASC(?title)'
-          ) : [];
+        $persons = [];
+        if($type == SemanticFormsBundle::Multiple || $typePerson ){
+            $query = 'SELECT ?uri ( COALESCE(?b, "") As ?building) ?type ?givenName ?familyName ?image ?desc ( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)  
+                      WHERE {   
+                      GRAPH ?GR {   
+                      ?uri rdf:type <http://xmlns.com/foaf/0.1/Person> .    
+                      ?uri text:query "'.$term.'" .  
+                      ?uri rdf:type ?type .  
+                      ?uri foaf:givenName ?givenName . 
+                      OPTIONAL { ?uri foaf:familyName ?familyName } 
+                      OPTIONAL { ?uri foaf:img ?image } 
+                      OPTIONAL { ?uri foaf:status ?desc }
+                      OPTIONAL { ?org rdf:type foaf:Organization . }
+                      OPTIONAL { ?org gvoi:building ?b }
+                      }} GROUP BY ?uri  ?type ?givenName ?familyName ?image ?desc ?b ORDER BY ASC(?title)';
+            $results = $sfClient->sparql($sfClient->prefixesCompiled . $query);
+            foreach ( $results["results"]["bindings"] as $personTemp){
+                $person['title'] = isset($personTemp['title']['value'])?$personTemp['title']['value'] : '' ;
+                $person['type'] = isset($personTemp['type']['value'])?$personTemp['type']['value'] : '' ;
+                $person['image'] = isset($personTemp['image']['value'])?$personTemp['image']['value'] : '' ;
+                $person['desc'] = isset($personTemp['desc']['value'])?$personTemp['desc']['value'] : '' ;
+                $person['building'] = isset($personTemp['building']['value'])?$personTemp['building']['value'] : '' ;
+                $person['uri'] = isset($personTemp['uri']['value'])?$personTemp['uri']['value'] : '' ;
+                $persons[] =$person;
+            }
+            
+        }
         $project       =
           ($type == SemanticFormsBundle::Multiple || $typeProject) ?
             $this->searchSparqlSelect(
@@ -638,7 +646,8 @@ class WebserviceController extends Controller
                     'sfOrganisation' => $uri,
                   ]
                 );
-                $output['id'] = $organization->getId();
+                if(!is_null($organization))
+                    $output['id'] = $organization->getId();
                 if (isset($properties['head'])) {
                     foreach ($properties['head'] as $uri) {
                         //dump($person);
@@ -707,6 +716,10 @@ class WebserviceController extends Controller
                 break;
             // Person.
             case  SemanticFormsBundle::URI_FOAF_PERSON:
+
+                $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type foaf:Person . ?org rdf:type foaf:Organization . ?org gvoi:building ?b .} }";
+                $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
+                $output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
                 // Remove mailto: from email.
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(

@@ -9,7 +9,8 @@ Polymer({
       type: Number,
       value: 0,
       observer: '_counterChanged'
-    }
+    },
+      show: String
   },
 
   attached() {
@@ -24,6 +25,11 @@ Polymer({
     "use strict";
     if (this.$counter) {
       this.$counter.toggle(this.counter);
+      if (this.counter !== 0){
+          this.show = '' ;
+      }
+      else
+          this.show = 'none'
     }
   },
 
