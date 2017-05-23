@@ -276,7 +276,7 @@ class WebserviceController extends Controller
                 $person['type'] = isset($personTemp['type']['value'])?$personTemp['type']['value'] : '' ;
                 $person['image'] = isset($personTemp['image']['value'])?$personTemp['image']['value'] : '' ;
                 $person['desc'] = isset($personTemp['desc']['value'])?$personTemp['desc']['value'] : '' ;
-                $person['building'] = isset($personTemp['building']['value'])?$personTemp['building']['value'] : '' ;
+                $person['building'] = isset($personTemp['b']['value'])?$personTemp['b']['value'] : '' ;
                 $person['uri'] = isset($personTemp['uri']['value'])?$personTemp['uri']['value'] : '' ;
                 $persons[] =$person;
             }
