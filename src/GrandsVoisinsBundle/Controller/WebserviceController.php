@@ -207,7 +207,7 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
         $results  = $sfClient->sparql($request . $requestSuffix);
-        //dump($request . $requestSuffix);
+        dump($request . $requestSuffix);
         // Key values pairs only.
         // Avoid "Empty result" string.
         $results = is_array($results) ? $sfClient->sparqlResultsValues(
@@ -255,20 +255,21 @@ class WebserviceController extends Controller
 
         ): [];
         $persons = [];
+        $temp = ($term == '*')? '': '?uri text:query "'.$term.'*" .';
         if($type == SemanticFormsBundle::Multiple || $typePerson ){
-            $query = 'SELECT ?uri ( COALESCE(?b, "") As ?building) ?type ?givenName ?familyName ?image ?desc ( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)  
-                      WHERE {   
-                      GRAPH ?GR {   
-                      ?uri rdf:type <http://xmlns.com/foaf/0.1/Person> .    
-                      ?uri text:query "'.$term.'" .  
-                      ?uri rdf:type ?type .  
-                      ?uri foaf:givenName ?givenName . 
-                      OPTIONAL { ?uri foaf:familyName ?familyName } 
-                      OPTIONAL { ?uri foaf:img ?image } 
-                      OPTIONAL { ?uri foaf:status ?desc }
-                      OPTIONAL { ?org rdf:type foaf:Organization . }
-                      OPTIONAL { ?org gvoi:building ?b }
-                      }} GROUP BY ?uri  ?type ?givenName ?familyName ?image ?desc ?b ORDER BY ASC(?title)';
+            $query = 'SELECT ?uri  ?type ?givenName ?familyName ?image ?desc( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)  ?b 
+            WHERE {   GRAPH ?GR {   
+            ?uri rdf:type <http://xmlns.com/foaf/0.1/Person> . 
+            ?uri rdf:type ?type . 
+            '.$temp.'  
+            ?uri foaf:givenName ?givenName . 
+            OPTIONAL { ?uri foaf:familyName ?familyName }
+            OPTIONAL { ?uri foaf:img ?image } 
+            OPTIONAL { ?uri foaf:status ?desc }
+            OPTIONAL { ?org rdf:type foaf:Organization . }
+            OPTIONAL { ?org gvoi:building ?b } }}
+            GROUP BY ?uri  ?type ?givenName ?familyName ?image ?desc ?b 
+            ORDER BY ASC(?title )';
             $results = $sfClient->sparql($sfClient->prefixesCompiled . $query);
             foreach ( $results["results"]["bindings"] as $personTemp){
                 $person['title'] = isset($personTemp['title']['value'])?$personTemp['title']['value'] : '' ;
