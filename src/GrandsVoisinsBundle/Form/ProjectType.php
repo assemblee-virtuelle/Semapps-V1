@@ -28,6 +28,7 @@ class ProjectType extends AbstractForm
       'http://xmlns.com/foaf/0.1/homepage'                                             => 'homepage',
       'http://xmlns.com/foaf/0.1/mbox'                                                 => 'mbox',
       'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building'     => 'building',
+      'http://xmlns.com/foaf/0.1/topic_interest'                                       => 'topicInterest',
 //      'http://xmlns.com/foaf/0.1/depiction'                                            => 'depiction',
       'http://www.w3.org/ns/org#Head'                                                  => 'head',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
@@ -149,6 +150,14 @@ class ProjectType extends AbstractForm
                     'required' => false,
                 ]
             )
+          ->add(
+            $builder,
+            'topicInterest',
+            DbPediaType::class,
+            [
+              'required' => false,
+            ]
+          )
           ->add(
             $builder,
             'mbox',

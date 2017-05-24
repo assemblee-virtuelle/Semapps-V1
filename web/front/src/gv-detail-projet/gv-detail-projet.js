@@ -18,6 +18,7 @@ Polymer({
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
     this.resourceNeeded = this.data.resourceNeeded;
     this.resourceProposed = this.data.resourceProposed;
+    this.topicInterest = this.data.topicInterest;
     if (this.projectStart) {
       let projectStart = new Date(this.projectStart);
       this.projectStart = projectStart.getDate() + '/' + (projectStart.getMonth() + 1) + '/' + projectStart.getFullYear();

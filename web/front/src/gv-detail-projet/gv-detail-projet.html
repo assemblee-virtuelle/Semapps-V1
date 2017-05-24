@@ -123,7 +123,16 @@
             <div class="clearfix"></div>
           </div>
         </template>
-
+        <template is="dom-if" if="[[topicInterest.length]]">
+          <h3>Ses centres d'intérêts</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{topicInterest}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <template is="dom-if" if="[[resourceProposed.length]]">
           <h3>Les ressources que le projet met à disposition</h3>
           <div class="tags-cloud">

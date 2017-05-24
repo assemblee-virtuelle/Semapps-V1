@@ -61,6 +61,12 @@
     </div>
 
     <div class="row">
+        <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+            {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
             {{ form_row(form.resourceProposed, { 'label': 'Ressources que le projet met à disposition'}) }}
         </div>

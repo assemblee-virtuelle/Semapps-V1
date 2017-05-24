@@ -878,6 +878,14 @@ class WebserviceController extends Controller
                     $output['person_head'] = $person;
                     $output['orga_head']   = $orga;
                 }
+                if (isset($properties['topicInterest'])) {
+                    foreach ($properties['topicInterest'] as $uri) {
+                        $output['topicInterest'][] = [
+                          'uri'  => $uri,
+                          'name' => $sfClient->dbPediaLabel($uri),
+                        ];
+                    }
+                }
                 break;
             // Event.
             case SemanticFormsBundle::URI_PURL_EVENT:
