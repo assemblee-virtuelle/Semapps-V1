@@ -6,11 +6,11 @@
         <h2>[[data.properties.label]]</h2>
         <div class="detail-header row">
           <div class="detail-image col col-sm-4">
-            <template is="dom-if" if="[[data.properties.image]]">
+            <template is="dom-if" if="[[image]]">
               <div class="image thumbnail"
-                   style$="background-image:url('[[data.properties.image]]');"></div>
+                   style$="background-image:url('[[image]]');"></div>
             </template>
-            <template is="dom-if" if="[[!image]]">
+            <template is="dom-if" if="[[!haveImage]]">
               <gv-logo-mini text-color="#FFCC00"></gv-logo-mini>
             </template>
             <div class="social-links">

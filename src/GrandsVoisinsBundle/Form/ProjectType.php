@@ -35,6 +35,7 @@ class ProjectType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
 //      'http://xmlns.com/foaf/0.1/isPrimaryTopicOf'                                         => 'isPrimaryTopicOf',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+      'http://xmlns.com/foaf/0.1/img'                                                  => 'image',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -154,6 +155,14 @@ class ProjectType extends AbstractForm
             $builder,
             'topicInterest',
             DbPediaType::class,
+            [
+              'required' => false,
+            ]
+          )
+          ->add(
+            $builder,
+            'image',
+            UrlType::class,
             [
               'required' => false,
             ]

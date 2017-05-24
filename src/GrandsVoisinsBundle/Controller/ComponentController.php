@@ -102,12 +102,13 @@ class ComponentController extends Controller
               strtolower($request->get('component')).'List'
             );
         }
-
+        $image = $form->get('image')->getData();
         // Fill form
         return $this->render(
           'GrandsVoisinsBundle:Component:'.$this->componentName.'Form.html.twig',
           array(
             'form' => $form->createView(),
+            'image' => $image
           )
         );
     }

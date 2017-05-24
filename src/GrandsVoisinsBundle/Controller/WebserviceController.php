@@ -297,6 +297,7 @@ class WebserviceController extends Controller
             ],
             // Optional fields..
             [
+                'image'    => 'foaf:img',
                 'desc'  => 'foaf:status',
                 'building' => 'gvoi:building',
             ],
@@ -319,6 +320,7 @@ class WebserviceController extends Controller
             ],
             // Optional fields..
             [
+              'image'    => 'foaf:img',
                 'desc'  => 'foaf:status',
                 'building' => 'gvoi:building',
             ],
@@ -341,6 +343,7 @@ class WebserviceController extends Controller
             ],
             // Optional fields..
             [
+                'image'    => 'foaf:img',
                 'desc'  => 'foaf:status',
                 'building' => 'gvoi:building',
             ],

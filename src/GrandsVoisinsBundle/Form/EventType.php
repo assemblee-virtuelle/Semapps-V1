@@ -34,6 +34,7 @@ class EventType extends AbstractForm
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
         'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
+        'http://xmlns.com/foaf/0.1/img'                                                  => 'image',
     ];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -137,6 +138,14 @@ class EventType extends AbstractForm
                     'required' => false,
                 ]
             )
+          ->add(
+            $builder,
+            'image',
+            UrlType::class,
+            [
+              'required' => false,
+            ]
+          )
             ->add(
                 $builder,
                 'topicInterest',

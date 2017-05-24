@@ -19,6 +19,7 @@ Polymer({
       this.resourceNeeded = this.data.resourceNeeded;
       this.resourceProposed = this.data.resourceProposed;
       this.buildingTitle = gvc.buildings[this.data.properties.building].title;
+      this.image = this.data.properties.image;
   },
 
     onClickThematic(e){

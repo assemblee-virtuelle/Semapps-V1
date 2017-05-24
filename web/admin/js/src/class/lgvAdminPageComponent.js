@@ -14,6 +14,16 @@ class LgvAdminPageComponent extends LgvAdminPage {
         window.location.replace('/mon-compte/component/delete?uri=' + uri+'&componentName='+nameComponent);
       });
     });
-
+    $('.component-new-picture').change((e) => {
+      e.preventDefault();
+      log($(e.currentTarget).val());
+      $("img[id='componentPicture']").attr('src',$(e.currentTarget).val());
+    });
+      $("a[id='componentPicture']").mouseover((e) => {
+          $('#componentImage').attr('class', 'form-group col-xs-12 has-success');
+      })
+      .mouseout((e) => {
+          $('#componentImage').attr('class', 'form-group col-xs-12');
+      })
   }
 }
