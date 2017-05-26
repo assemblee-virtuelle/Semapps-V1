@@ -1,0 +1,6 @@
+services:
+#    av_sparql.example:
+#        class: AV\SparqlBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    sparqlbundle.client:
+      class: AV\SparqlBundle\Services\SparqlClient

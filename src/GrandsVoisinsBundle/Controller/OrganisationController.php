@@ -221,6 +221,8 @@ class OrganisationController extends Controller
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user     = $this->getUser();
         $sfClient = $this->container->get('semantic_forms.client');
+        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        $sparqlClient   = $this->container->get('sparqlbundle.client');
         $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
 
         /* @var $organisationEntity \GrandsVoisinsBundle\Repository\OrganisationRepository */
@@ -306,17 +308,39 @@ class OrganisationController extends Controller
                   $fileUploader->upload($newPicture)
                 );
 
-                $sfClient->delete(
-                    $organization->getGraphURI(),
-                    $sfLink,
-                    $predicatImage);
+                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addDelete(
+                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                  'foaf:img',
+                  '?o',
+                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sparql->addWhere(
+                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                  'foaf:img',
+                  '?o',
+                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sfClient->update($sparql->getQuery());
 
-                $sfClient->insert(
-                    $organization->getGraphURI(),
-                    $sfLink,
-                    $predicatImage,
-                    $fileUploader->generateUrlForFile($organization->getOrganisationPicture()),
-                    SemanticFormsClient::VALUE_TYPE_URI);
+//                $sfClient->delete(
+//                    $organization->getGraphURI(),
+//                    $sfLink,
+//                    $predicatImage);
+                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addInsert(
+                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                  'foaf:img',
+                  $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
+                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sfClient->update($sparql->getQuery());
+
+//                $sfClient->insert(
+//                    $organization->getGraphURI(),
+//                    $sfLink,
+//                    $predicatImage,
+//                    $fileUploader->generateUrlForFile($organization->getOrganisationPicture()),
+//                    SemanticFormsClient::VALUE_TYPE_URI);
             } else {
                 $organization->setOrganisationPicture($oldPictureName);
             }

@@ -16,6 +16,8 @@ class ComponentController extends Controller
     {
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
+        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        $sparqlClient   = $this->container->get('sparqlbundle.client');
 
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
@@ -25,11 +27,13 @@ class ComponentController extends Controller
           $this->getUser()->getFkOrganisation()
         );
 
-        $results = $sfClient->sparql(
-          $sfClient->prefixesCompiled.
-          'SELECT ?URI ?NAME WHERE { GRAPH <'.$organisation->getGraphURI(
-          ).'> { ?URI a '.$this->sparqlPrefix.' . ?URI rdfs:label ?NAME} } '
-        );
+        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
+        $graphURI = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+        $sparql->addPrefixes($sparql->prefixes);
+        $sparql->addSelect('?URI ?NAME');
+        $sparql->addWhere('?URI','rdf:type',$this->sparqlPrefix,$graphURI);
+        $sparql->addWhere('?URI','rdfs:label','?NAME',$graphURI);
+        $results = $sfClient->sparql($sparql->getQuery());
 
         $listContent = [];
         if (isset($results["results"]["bindings"])) {
@@ -121,10 +125,18 @@ class ComponentController extends Controller
           ];
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
-        $uri = $_GET['uri'];
+        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        $sparqlClient   = $this->container->get('sparqlbundle.client');
         $componentName = $_GET['componentName'];
-        $query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}  WHERE {GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}";
-        $sfClient->update($query);
+        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+        $uri = $sparql->formatValue($_GET['uri'],$sparql::VALUE_TYPE_URL);
+        $sparql->addDelete($uri,'?P','?O','?gr');
+        $sparql->addDelete('?s','?PP',$uri,'?gr');
+        $sparql->addWhere($uri,'?P','?O','?gr');
+        $sparql->addWhere('?s','?PP',$uri,'?gr');
+        //$query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}  WHERE {GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}";
+        //dump($sparql->getQuery());
+        $sfClient->update($sparql->getQuery());
 
         return $this->redirect('/mon-compte/'.$route[$componentName]);
     }

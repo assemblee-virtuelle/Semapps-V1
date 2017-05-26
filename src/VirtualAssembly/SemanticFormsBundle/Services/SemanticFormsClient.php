@@ -363,7 +363,6 @@ class SemanticFormsClient
             $query="DELETE { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ?o . }} WHERE { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ?o .}}";
         else
             $query="DELETE DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";
-
         return $this->update($query);
     }
 

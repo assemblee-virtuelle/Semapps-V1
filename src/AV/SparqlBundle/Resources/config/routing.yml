@@ -1,0 +1,3 @@
+av_sparql_homepage:
+    path:     /
+    defaults: { _controller: AVSparqlBundle:Default:index }
