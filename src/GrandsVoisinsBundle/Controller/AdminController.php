@@ -214,7 +214,7 @@ class AdminController extends Controller
             $result = $sfClient->sparql($sparql->getQuery());
             $nom = $prenom = "";
             if (array_key_exists(0,$result["results"]["bindings"])){
-                dump($result["results"]["bindings"]);
+                //dump($result["results"]["bindings"]);
                 $nom = (isset($result["results"]["bindings"][0]['name']["value"]))? $result["results"]["bindings"][0]['name']["value"] : "";
                 $prenom = (isset($result["results"]["bindings"][0]['forname']["value"]))? $result["results"]["bindings"][0]['forname']["value"] : "";
             }
