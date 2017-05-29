@@ -98,7 +98,7 @@ class WebserviceController extends Controller
                   'access'       => $access,
                   'name'         => $name,
                   'fieldsAccess' => $this->container->getParameter('fields_access'),
-                  'buildings'    => $this->getBuildings(),
+                  'buildings'    => GrandsVoisinsConfig::$buildings,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
                 ];
@@ -110,40 +110,6 @@ class WebserviceController extends Controller
         //}
 
         return new JsonResponse($parameters->get());
-    }
-
-    public function getBuildings()
-    {
-        $sfClient = $this->container->get('semantic_forms.client');
-        // Count buildings.
-        $response = $sfClient->sparql(
-        // Use common and custom prefixes.
-          $sfClient->prefixesCompiled."\n\n ".
-          // Query.
-          'SELECT ?building ( STR(xsd:integer(COUNT(?building))) AS ?count ) '.
-          'WHERE { '.
-          '  GRAPH ?GR { '.
-          // Retrieve building.
-          '    ?uri gvoi:building ?building . '.
-          // Only organizations.
-          '    ?uri rdf:type <http://xmlns.com/foaf/0.1/Organization> . '.
-          '  } '.
-          '} '.
-          'GROUP BY ?building '.
-          'ORDER BY fn:lower-case(?building) '
-        );
-
-        $buildings = GrandsVoisinsConfig::$buildings;
-        if (is_array($response)) {
-            $response = $sfClient->sparqlResultsValues($response);
-            foreach ($response as $item) {
-                if (isset($buildings[$item['building']])) {
-                    $buildings[$item['building']]['organizationCount'] = (int)$item['count'];
-                }
-            }
-        }
-
-        return $buildings;
     }
 
     public function sparqlSelectType(
@@ -207,7 +173,7 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
         $results  = $sfClient->sparql($request . $requestSuffix);
-        //dump($request . $requestSuffix);
+        dump($request . $requestSuffix);
         // Key values pairs only.
         // Avoid "Empty result" string.
         $results = is_array($results) ? $sfClient->sparqlResultsValues(
@@ -511,6 +477,7 @@ class WebserviceController extends Controller
 
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
+        dump($request);
         $response = $sfClient->sparql($request);
         if (isset($response['results']['bindings'][0]['label']['value'])) {
             return $response['results']['bindings'][0]['label']['value'];
@@ -590,6 +557,7 @@ class WebserviceController extends Controller
         $filtered['name'] = $nameRessource;
         $filtered['uri'] = $uri;
         foreach ($requests as $key => $request){
+            dump($request);
             $results[$key]  = $sfClient->sparql($request);
 
             $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
@@ -722,6 +690,7 @@ class WebserviceController extends Controller
             case  SemanticFormsBundle::URI_FOAF_PERSON:
 
                 $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type foaf:Person . ?org rdf:type foaf:Organization . ?org gvoi:building ?b .} }";
+                dump($query);
                 $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
                 $output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
                 // Remove mailto: from email.
