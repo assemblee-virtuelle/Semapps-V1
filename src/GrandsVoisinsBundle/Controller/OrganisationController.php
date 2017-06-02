@@ -180,7 +180,7 @@ class OrganisationController extends Controller
         foreach ($organisations as $organisation) {
             // Sparql request.
             $properties = $sfClient->uriProperties(
-              $organisation->getGraphURI()
+              $organisation->getSfOrganisation()
             );
             // We have key / pair values.
             $lines[] = $properties;
@@ -195,14 +195,13 @@ class OrganisationController extends Controller
         foreach ($lines as $incompleteLine) {
             $line = [];
             foreach ($columns as $key) {
-                $line[$key] = isset($incompleteLine[$key]) ? $incompleteLine[$key] : '';
+                $line[$key] = isset($incompleteLine[$key]) ? is_array($incompleteLine[$key])? implode(',',$incompleteLine[$key]) : $incompleteLine[$key] : '';
             }
             $output[] = $line;
         }
 
         // Append first lint.
         array_unshift($output, $columns);
-
         $excel = new SimpleExcel('csv');
         /** @var \SimpleExcel\Writer\CSVWriter $writer */
         $writer = $excel->writer;
