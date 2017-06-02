@@ -173,7 +173,7 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
         $sfClient = $this->container->get('semantic_forms.client');
         $results  = $sfClient->sparql($request . $requestSuffix);
-        dump($request . $requestSuffix);
+        //dump($request . $requestSuffix);
         // Key values pairs only.
         // Avoid "Empty result" string.
         $results = is_array($results) ? $sfClient->sparqlResultsValues(
