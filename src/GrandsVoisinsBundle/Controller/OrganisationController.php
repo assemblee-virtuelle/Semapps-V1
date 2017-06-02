@@ -331,7 +331,7 @@ class OrganisationController extends Controller
                 $sparql->addInsert(
                   $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
                   'foaf:img',
-                  $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
+                  $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_URL),
                   $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
