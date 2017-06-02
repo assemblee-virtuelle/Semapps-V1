@@ -96,10 +96,6 @@ class AdminController extends Controller
                   '?o',
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
-//                $sfClient->delete(
-//                    $organisation->getGraphURI(),
-//                    $userSfLink,
-//                    $predicatImage);
 
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $sparql->addPrefixes($sparql->prefixes);
@@ -109,12 +105,6 @@ class AdminController extends Controller
                   $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
-//                $sfClient->insert(
-//                    $organisation->getGraphURI(),
-//                    $userSfLink,
-//                    $predicatImage,
-//                    $fileUploader->generateUrlForFile($user->getPictureName()),
-//                    SemanticFormsClient::VALUE_TYPE_URI);
 
             } else {
                 $user->setPictureName($oldPictureName);
@@ -142,6 +132,22 @@ class AdminController extends Controller
                     ->setParameter('id', $this->getUser()->getId())
                     ->getQuery()
                     ->execute();
+                //hasMember
+                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+                $uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
+                $uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
+                $graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
+                //dump($sparql->getQuery());
+                $sfClient->update($sparql->getQuery());
+                //memberOf
+                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
+                //dump($sparql->getQuery());
+                $sfClient->update($sparql->getQuery());
+
             }
 
             $this->addFlash(

@@ -134,8 +134,7 @@ class ComponentController extends Controller
         $sparql->addDelete('?s','?PP',$uri,'?gr');
         $sparql->addWhere($uri,'?P','?O','?gr');
         $sparql->addWhere('?s','?PP',$uri,'?gr');
-        //$query = "DELETE { GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}  WHERE {GRAPH ?gr { <".$uri."> ?P ?O . ?S ?PP <".$uri."> .}}";
-        //dump($sparql->getQuery());
+
         $sfClient->update($sparql->getQuery());
 
         return $this->redirect('/mon-compte/'.$route[$componentName]);

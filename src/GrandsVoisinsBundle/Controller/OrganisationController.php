@@ -322,10 +322,6 @@ class OrganisationController extends Controller
                   $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
-//                $sfClient->delete(
-//                    $organization->getGraphURI(),
-//                    $sfLink,
-//                    $predicatImage);
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $sparql->addPrefixes($sparql->prefixes);
                 $sparql->addInsert(
@@ -335,12 +331,6 @@ class OrganisationController extends Controller
                   $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
-//                $sfClient->insert(
-//                    $organization->getGraphURI(),
-//                    $sfLink,
-//                    $predicatImage,
-//                    $fileUploader->generateUrlForFile($organization->getOrganisationPicture()),
-//                    SemanticFormsClient::VALUE_TYPE_URI);
             } else {
                 $organization->setOrganisationPicture($oldPictureName);
             }
