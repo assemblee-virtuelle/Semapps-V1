@@ -477,7 +477,7 @@ class WebserviceController extends Controller
 
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
-        dump($request);
+        //dump($request);
         $response = $sfClient->sparql($request);
         if (isset($response['results']['bindings'][0]['label']['value'])) {
             return $response['results']['bindings'][0]['label']['value'];
@@ -557,7 +557,7 @@ class WebserviceController extends Controller
         $filtered['name'] = $nameRessource;
         $filtered['uri'] = $uri;
         foreach ($requests as $key => $request){
-            dump($request);
+            //dump($request);
             $results[$key]  = $sfClient->sparql($request);
 
             $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
@@ -690,7 +690,7 @@ class WebserviceController extends Controller
             case  SemanticFormsBundle::URI_FOAF_PERSON:
 
                 $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type foaf:Person . ?org rdf:type foaf:Organization . ?org gvoi:building ?b .} }";
-                dump($query);
+                //dump($query);
                 $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
                 $output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
                 // Remove mailto: from email.
