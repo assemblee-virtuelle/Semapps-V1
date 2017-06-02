@@ -221,13 +221,14 @@ class WebserviceController extends Controller
 
         ): [];
         $persons = [];
+        $thesaurusFilter = ($filter)? ' ?uri gvoi:thesaurus <'.$filter.'> . ' : '';
         $temp = ($term == '*')? '': '?uri text:query "'.$term.'*" .';
         if($type == SemanticFormsBundle::Multiple || $typePerson ){
             $query = 'SELECT ?uri  ?type ?givenName ?familyName ?image ?desc( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)  ?b 
             WHERE {   GRAPH ?GR {   
             ?uri rdf:type <http://xmlns.com/foaf/0.1/Person> . 
             ?uri rdf:type ?type . 
-            '.$temp.'  
+            '.$temp.$thesaurusFilter.'
             ?uri foaf:givenName ?givenName . 
             OPTIONAL { ?uri foaf:familyName ?familyName }
             OPTIONAL { ?uri foaf:img ?image } 
