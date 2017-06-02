@@ -24,6 +24,8 @@ class sparql
       'event' => 'http://purl.org/NET/c4dm/event.owl#',
       'fipa'  => 'http://www.fipa.org/schemas#',
       'skos'  => 'http://www.w3.org/2004/02/skos/core#',
+      'gvoi'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#',
+      'org'   => 'http://www.w3.org/ns/org#'
     ];
     private $prefix;
 
