@@ -28,6 +28,7 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register/confirm, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: ROLE_NO_ACCESS }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -37,3 +38,4 @@ security:
         - { path: ^/orga/, role: ROLE_SUPER_ADMIN }
         - { path: ^/component/, role: ROLE_MEMBER }
         - { path: ^/component/new, role: ROLE_EDITOR }
+        - { path: ^/user, role: ROLE_SUPER_ADMIN }

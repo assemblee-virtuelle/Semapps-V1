@@ -4,9 +4,11 @@ namespace GrandsVoisinsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use GrandsVoisinsBundle\Form\ProfileType;
+use GrandsVoisinsBundle\Form\RegisterType;
 use GrandsVoisinsBundle\Form\UserType;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GrandsVoisinsBundle\Form\AdminSettings;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
@@ -18,6 +20,128 @@ class AdminController extends Controller
     public function homeAction()
     {
         return $this->redirectToRoute('fos_user_profile_show');
+    }
+
+    public function registerAction(Request $request)
+    {
+        //get all organization
+        $organisations = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:Organisation')
+          ->findAll();
+
+        $tabOrga= [];
+        //build a tab with id and name of each organization for the choice type
+        foreach ($organisations as $organisation){
+            $tabOrga[$organisation->getId()] = $organisation->getName();
+        }
+        //get the form
+        $form = $this->createForm(
+          RegisterType::class,
+          null,
+          // Options.
+          []
+        );
+        //add the ChoiceType field with all orga
+        $form->add(
+          'organisation',
+          ChoiceType::class,array(
+            'mapped'  => false,
+            'choices' => array_flip($tabOrga)
+            )
+        );
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $tokenGenerator = $this->container->get(
+              'fos_user.util.token_generator'
+            );
+            $data->setPassword(
+              password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
+            );
+
+            $data->setSfUser($form->get('password')->getData());
+
+            // Generate the token for the confirmation email
+            $conf_token = $tokenGenerator->generateToken();
+            $data->setConfirmationToken($conf_token);
+
+            //Set the roles
+            $data->addRole('ROLE_MEMBER');
+
+            $data->setFkOrganisation($form->get('organisation')->getData());
+            // Save it.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($data);
+            try {
+                $em->flush();
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "l'utilisateur saisi existe déjà");
+
+                return $this->redirectToRoute('register');
+            }
+            $this->addFlash('success','Votre demande de compte a bien été enregistrée');
+            return $this->redirectToRoute('fos_user_security_login');
+        }
+        // Fill form
+        return $this->render(
+          'GrandsVoisinsBundle:Admin:register.html.twig',
+          array(
+            'form'      => $form->createView(),
+          )
+        );
+    }
+
+    public function listUserAction()
+    {
+
+        $userRepository = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:User');
+
+        $userEnabled = $userRepository->findBy(array('enabled' => 1));
+        $userDisabled = $userRepository->findBy(array('enabled' => 0));
+
+        return $this->render(
+          'GrandsVoisinsBundle:Admin:listUser.html.twig',
+          array(
+            'userEnabled'      => $userEnabled,
+            'userDisabled'     => $userDisabled,
+            'usersRolesLabels' => [
+              'ROLE_SUPER_ADMIN' => 'Super admin',
+              'ROLE_ADMIN'       => 'Administration',
+              'ROLE_MEMBER'      => 'Member',
+            ],
+          )
+        );
+
+
+    }
+
+    public function sendUserAction($userId){
+        $user = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:User')
+          ->findOneBy(['id' =>$userId]);
+        $url = $this->generateUrl(
+          'fos_user_registration_confirm',
+          array('token' => $user->getConfirmationToken()),
+          UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        //send email to the new user
+
+        $this->get('GrandsVoisinsBundle.EventListener.SendMail')
+          ->sendConfirmMessage(
+            $user,
+            $url,
+            $user->getSfUser()
+          );
+        $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
+        return $this->redirectToRoute('user');
     }
 
     public function profileAction(Request $request)

@@ -36,6 +36,7 @@ class LgvAdmin {
     new LgvAdminPageProfile(this);
     new LgvAdminPageOrga(this);
     new LgvAdminPageComponent(this);
+    new LgvAdminPageUser(this);
   }
 
   modalConfirm(message, callback) {
