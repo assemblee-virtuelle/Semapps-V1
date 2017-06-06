@@ -104,7 +104,22 @@ class AdminController extends Controller
 
         $userEnabled = $userRepository->findBy(array('enabled' => 1));
         $userDisabled = $userRepository->findBy(array('enabled' => 0));
-
+        foreach ($userDisabled as $user){
+            $user->setFkOrganisation($this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:Organisation')
+              ->findOneBy(array('id' => $user->getFkOrganisation()))
+              ->getName());
+        }
+        foreach ($userEnabled as $user){
+            $user->setFkOrganisation($this
+              ->getDoctrine()
+              ->getManager()
+              ->getRepository('GrandsVoisinsBundle:Organisation')
+              ->findOneBy(array('id' => $user->getFkOrganisation()))
+              ->getName());
+        }
         return $this->render(
           'GrandsVoisinsBundle:Admin:listUser.html.twig',
           array(

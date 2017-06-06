@@ -21,7 +21,7 @@ Liste des user
                     Email
                 </th>
                 <th class="padded-value" style="width:20%">
-                    Rôle
+                    Organisation
                 </th>
                 <th></th>
             </tr>
@@ -34,7 +34,7 @@ Liste des user
                         {{ user.email }}
                     </td>
                     <td class="padded-value" style="width:20%">
-                        {{ usersRolesLabels[user.roles[0]] }}
+                        {{ user.fkOrganisation }}
                     </td>
                     <td class="padded-value">
                         <a class="user-send-email" href="#" rel="{{ user.id }}">
@@ -65,7 +65,7 @@ Liste des user
                     Date dernière connexion
                 </th>
                 <th class="padded-value" style="width:20%">
-                    Rôle
+                    Organisation
                 </th>
                 <th></th>
             </tr>
@@ -83,7 +83,7 @@ Liste des user
                         {% endif %}
                     </td>
                     <td class="padded-value" style="width:20%">
-                        {{ usersRolesLabels[user.roles[0]] }}
+                        {{ user.fkOrganisation }}
                     </td>
 
                 </tr>
