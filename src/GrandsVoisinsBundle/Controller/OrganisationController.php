@@ -137,7 +137,7 @@ class OrganisationController extends Controller
               UrlGeneratorInterface::ABSOLUTE_URL
             );
             // send email to the new organization
-            $this->get('GrandsVoisinsBundle.EventListener.SendMail')
+            $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
               ->sendConfirmMessage(
                 $user,
                 $url,
@@ -146,6 +146,7 @@ class OrganisationController extends Controller
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
+            if($result){
             $this->addFlash(
               'success',
               'Un compte à bien été créé pour <b>'.
@@ -154,7 +155,16 @@ class OrganisationController extends Controller
               $user->getEmail().
               '</b> pour lui communiquer ses informations de connexion.'
             );
-
+            }else{
+                $this->addFlash(
+                  'danger',
+                  'Un compte à bien été créé pour <b>'.
+                  $user->getUsername().
+                  "</b>. mais l'email n'est pas parti à l'adresse <b>".
+                  $user->getEmail().
+                  '</b>'
+                );
+            }
             return $this->redirectToRoute('all_orga');
         }
 

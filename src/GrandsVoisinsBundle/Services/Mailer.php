@@ -31,11 +31,13 @@ class Mailer
         $mail = \Swift_Message::newInstance()
             ->setFrom(($from != null)?$from : $this->from)
             ->setTo($to)
+            //->setBcc("sebastien.lemoine@cri-paris.org")
             ->setSubject($subject)
             ->setBody($body)
+
             ->setContentType('text/html');
 
-        $this->mailer->send($mail);
+        return $this->mailer->send($mail);
     }
 
     public function sendConfirmMessage(User $user, $url, $randomPassword,$from =null)
@@ -43,7 +45,7 @@ class Mailer
         $subject = "Sortie de la carto des Grands Voisins : Un outil pour nous connaître, partager et coopérer ! (On a besoin de toi !) "; //$user->getUsername()
         $to = $user->getEmail();
         $body = GrandsVoisinsConfig::bodyMail( $user, $url, $randomPassword);
-        $this->sendMessage($to, $subject, $body,$from);
+        return $this->sendMessage($to, $subject, $body,$from);
     }
 }
 

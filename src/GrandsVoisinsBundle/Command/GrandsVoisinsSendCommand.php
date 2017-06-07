@@ -93,14 +93,19 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
         );
         $output->writeln($email);
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
-        $mailer->sendConfirmMessage(
+        $result = $mailer->sendConfirmMessage(
             $user,
             $url,
             $user->getSfUser(),
             $email
         );
-        $output->writeln("Email send ! ");
-        $output->writeln('Everything is ok !');
+        if($result){
+            $output->writeln("Email send ! ");
+            $output->writeln('Everything is ok !');
+        }else{
+            $output->writeln("Email not send !!! ");
+            $output->writeln('Everything is not ok !!!!');
+        }
     }
 
 }

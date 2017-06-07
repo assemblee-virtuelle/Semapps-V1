@@ -149,13 +149,15 @@ class AdminController extends Controller
         );
         //send email to the new user
 
-        $this->get('GrandsVoisinsBundle.EventListener.SendMail')
+        $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
           ->sendConfirmMessage(
             $user,
             $url,
             $user->getSfUser()
           );
-        $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
+        if($result){
+            $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
+        }
         return $this->redirectToRoute('user');
     }
 
@@ -419,7 +421,7 @@ class AdminController extends Controller
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
             //send email to the new user
-            $this->get('GrandsVoisinsBundle.EventListener.SendMail')
+            $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
                 ->sendConfirmMessage(
                     $data,
                     $url,
@@ -428,14 +430,25 @@ class AdminController extends Controller
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
-            $this->addFlash(
-                'success',
-                'Un compte à bien été créé pour <b>'.
-                $data->getUsername().
-                '</b>. Un email a été envoyé à <b>'.
-                $data->getEmail().
-                '</b> pour lui communiquer ses informations de connexion.'
-            );
+            if($result){
+                $this->addFlash(
+                  'success',
+                  'Un compte à bien été créé pour <b>'.
+                  $data->getUsername().
+                  '</b>. Un email a été envoyé à <b>'.
+                  $data->getEmail().
+                  '</b> pour lui communiquer ses informations de connexion.'
+                );
+            }else{
+                $this->addFlash(
+                  'danger',
+                  'Un compte à bien été créé pour <b>'.
+                  $data->getUsername().
+                  "</b>. mais l'email n'est pas parti à l'adresse <b>".
+                  $data->getEmail().
+                  '</b>'
+                );
+            }
 
             // Go back to team page.
             return $this->redirectToRoute('team');
