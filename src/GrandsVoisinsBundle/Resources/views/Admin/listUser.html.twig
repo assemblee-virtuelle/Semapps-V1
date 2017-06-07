@@ -8,7 +8,7 @@ Liste des user
 
 {% block pageContent %}
 <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-12">
         <table id="userDisabledManager" class="table table-bordered">
             <th colspan="5">
                 <h3>Liste des utilisateurs n'ayant validé leur compte</h3>
@@ -46,8 +46,9 @@ Liste des user
             {% endfor %}
         </table>
     </div>
-    <div class="col-sm-1"></div>
-    <div class="col-sm-5">
+</div>
+    <div class="row">
+    <div class="col-sm-12">
         <table id="userEnabledManager" class="table table-bordered">
             <tr >
                 <th colspan="5">
@@ -92,5 +93,6 @@ Liste des user
     </div>
 
 </div>
+
 {% endblock %}
 

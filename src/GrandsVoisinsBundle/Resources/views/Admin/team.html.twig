@@ -42,7 +42,9 @@
                     {{ user.email }}
                 </td>
                 <td class="padded-value" style="width:10%">
-                    {{ user.lastLogin|date("d/m/Y") }}
+                    {% if user.lastLogin is not null %}
+                        {{ user.lastLogin|date("d/m/Y") }}
+                    {% endif %}
                 </td>
                 {% if user.id == idResponsable %}
                     <td class="padded-value" style="width:20%">
