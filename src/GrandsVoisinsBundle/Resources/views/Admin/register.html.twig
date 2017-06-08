@@ -32,5 +32,37 @@
                     <a href="{{ url('fos_user_security_login') }}">
                         connexion
                     </a>
->
 {% endblock fos_user_content %}
+
+{% block bobby %}
+    <div class="col col-sm-6 col-sm-offset-1">
+        <div class="block-banner-overflow-transparent">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Salut à toi Ô Voisin&nbsp;!{% endblock %}
+                {% block content %}
+                    <p>Je m’appelle Bobby, et je te souhaite la bienvenue
+                        sur
+                        l’application de cartographie des Grands Voisins
+                        !</p>
+
+                    <p>Pour te créer un compte, rien de plus simple,
+                        il te suffit de remplir les champs situé sur la gauche :-)
+                    </p>
+
+                    <p>Attention, il s’agit d’une cartographie dédiée aux Grands Voisins,
+                        seuls les résidents et les membres organisations présentes
+                        sur le site peuvent s’y créer un compte ;-)
+                    </p>
+                    <p>Si tu es référent, tu as du recevoir un mail t’invitant à compléter
+                        ton profil ainsi que celui de ton organisation ;-)</p>
+
+                    <p>Si tu es résident et que tu n’as pas reçu
+                        d’identifiant,
+                        écris un mail à <a
+                                href="mailto:c.gondouin@aurore.asso.fr">c.gondouin@aurore.asso.fr</a>
+                    </p>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock bobby %}

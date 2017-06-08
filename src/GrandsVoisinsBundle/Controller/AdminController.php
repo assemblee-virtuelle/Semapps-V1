@@ -29,7 +29,7 @@ class AdminController extends Controller
           ->getDoctrine()
           ->getManager()
           ->getRepository('GrandsVoisinsBundle:Organisation')
-          ->findAll();
+          ->findBy([],['name' =>'ASC']);
 
         $tabOrga= [];
         //build a tab with id and name of each organization for the choice type
@@ -82,7 +82,8 @@ class AdminController extends Controller
 
                 return $this->redirectToRoute('register');
             }
-            $this->addFlash('success','Votre demande de compte a bien été enregistrée');
+            $this->addFlash('success','Merci à toi cher Voisin, nous avons bien pris en compte ton inscription,
+             nous allons la valider dans les prochaines heures, après quoi tu recevras un mail de confirmation :-) A très bientôt sur la carto ! ');
             return $this->redirectToRoute('fos_user_security_login');
         }
         // Fill form

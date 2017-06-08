@@ -181,30 +181,34 @@ class GrandsVoisinsConfig
       $url,
       $randomPassword
     ) {
-        $body = "Salut Ô Voisin(e)s !<br><br>
-                        Vous en avez peut-être entendu parler, depuis plusieurs mois, les associations Aurore et Assemblée Virtuelle travaillent au développement d’un outil de cartographie de la dynamique des Grands Voisins.<br><br>
-                        Cet outil est désormais disponible en version publique ! http://reseau.lesgrandsvoisins.org/ Faites y un tour pour voir comment elle marche, et amusez vous à naviguer de bâtiments en organisations en thématiques, … (Recherchez Assemblée Virtuelle par exemple)<br><br>
-                        Nous avons pour l’instant intégré les 250 organisations présentes sur le site ainsi que leurs référents, dont vous faites partie puisque vous recevez ce mail.<br><br>
-                        Aujourd’hui, nous vous proposons de vous associer à ce projet : <br>
-                        - En complétant la fiche de votre organisation ou de votre centre<br>
-                        - En invitant les membres de votre équipe / résidents de votre centre à renseigner leur profil sur la carto<br>
-                        - En renseignant des projets que vous développez, des événements que vous organisez, des propositions que vous portez (dans le menu admin de gauche ...) 
-                        <br><br>
-                        Pour accéder à votre profil, merci de vous rendre sur ".$url."<br><br>
+
+        $body = "Salut à toi ".$user->getUsername()." ! <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme des Grands Voisins http://reseau.lesgrandsvoisins.org/ <br><br>
+                        
+                        Pour valider/accéder à votre profil, merci de vous rendre sur ".$url."<br><br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
                         Identifiant : ".$user->getUsername()."<br>
                         Mot de passe : ".$randomPassword."
                         <br><br>
-                        Projetons nous dans un mois, nous avons tous joué le jeu en prenant 15 minutes pour décrire notre organisation, pour inviter collaborateurs et résidents à prendre part à la carto. 2000 personnes et 500 projets sont désormais référencés, nous avons accès à leur description, à leur numéro de téléphone (accès restreint aux membres), à leurs centres d’intérêts, leurs compétences, nous savons qui fait quoi, qui s’intéresse à quoi. Un besoin ? Une recherche sur la carto, un coup de fil, un café à la lingerie, et biim… une collaboration !<br><br>
-                        
-                        Elle est pas belle la vie aux Grands Voisins ?<br><br>
+                        Quelques remarques à ce sujet :<br>
+                        - Tu ne peux te connecter qu’aux personnes disposant d’un profil sur la carto, si tu ne les trouves pas, invite les ;-)<br>
+                        - Les centres d’intérêts, les compétences, les offres et besoins de ressources sont gérés avec Wikipedia, pour l’instant on ne peut les saisir qu’en anglais, ce qui devrait évoluer dans les prochains mois. Utilise un traducteur si jamais ! <br>
+                        - Si vous souhaitez devenir admin de votre orga, demandez aux personnes identifiées comme responsables ou admin de votre orga sur la carto ;-) Il leur suffira de changer votre rôle dans “Equipe”<br><br>
+                       
+                        Si tu es référent / administrateur de ton organisation, n’hésite pas à :<br>
+                        - Compléter la fiche de ta structure (Menu de gauche “Mon organisation”)<br>
+                        - Inviter les membres de ton équipe / ton centre via l’onglet équipe dans l’interface d’administration.<br>
+                        - En renseignant des projets que vous développez, des événements que vous organisez, des propositions que vous portez (dans le menu admin de gauche ...) <br><br>
                         
                         Des questions ? Nous y répondons en live sur le channel carto du slack des Grands Voisins, par mail : contact@assemblee-virtuelle.org ou par tel : 06 28 34 54 99<br><br>
                         Merci à vous,<br><br>
                         
                         William, Charlotte, Guillaume, Romain, Jean-Marc, Sébastien, Tristan, Frédéric et toute l’équipe ! (sans oublier Bobby !) <br><br>
                         
-                        NB. Cette application 100% open-source a été développée par l’équipe de l’Assemblée Virtuelle, le projet a reçu 2000 euros de la part des Grands Voisins, les données sont hébergées par Aurore, elles ne sont pas revendues, ni utilisées en dehors de ce projet. L’application se base sur l’utilisation du web sémantique, et va évoluer dans les prochains mois (intégration de nouvelles fonctionnalités, capacité de réplication et de décentralisation de l’application. Objectif : créer un réseau social P2P de la transition).";
+                        Cette application 100% open-source a été développée par l’équipe de l’Assemblée Virtuelle (que vous pouvez soutenir !), le projet a reçu 2000 euros de la part des Grands Voisins, les données sont hébergées par Aurore, elles ne sont pas revendues, ni utilisées en dehors de ce projet. L’application se base sur l’utilisation du web sémantique, et va évoluer dans les prochains mois (intégration de nouvelles fonctionnalités, capacité de réplication et de décentralisation de l’application. Objectif : créer un réseau social P2P de la transition). ";
+
+
+
         return $body;
     }
 
