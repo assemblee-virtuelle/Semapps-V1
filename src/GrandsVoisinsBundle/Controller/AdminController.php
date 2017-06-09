@@ -184,7 +184,7 @@ class AdminController extends Controller
         //send email to the new user
         $mailer = $this->get('GrandsVoisinsBundle.EventListener.SendMail');
         $result = $mailer->sendConfirmMessage(
-            $mailer::TYPE_USER,
+          ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
             $user,
             $organisation,
             $url
