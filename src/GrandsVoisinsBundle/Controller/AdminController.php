@@ -98,34 +98,44 @@ class AdminController extends Controller
     public function listUserAction()
     {
 
-        $userRepository = $this
+        $users = $this
           ->getDoctrine()
           ->getManager()
-          ->getRepository('GrandsVoisinsBundle:User');
+          ->getRepository('GrandsVoisinsBundle:User')
+          ->findAll();
 
-        $userEnabled = $userRepository->findBy(array('enabled' => 1));
-        $userDisabled = $userRepository->findBy(array('enabled' => 0));
-        foreach ($userDisabled as $user){
-            $user->setFkOrganisation($this
+        //$userEnabled = $userRepository->findBy(array('enabled' => 1));
+        //$userDisabled = $userRepository->findBy(array('enabled' => 0));
+
+        $tabUserEnabled = $tabUserDisabled = [];
+        foreach ($users as $user){
+            $organization = $this
               ->getDoctrine()
               ->getManager()
               ->getRepository('GrandsVoisinsBundle:Organisation')
-              ->findOneBy(array('id' => $user->getFkOrganisation()))
-              ->getName());
+              ->findOneBy(array('id' => $user->getFkOrganisation()));
+
+            if($user->isEnabled()){
+
+                $tabUserEnabled[$user->getId()]["username"] = $user->getUsername();
+                $tabUserEnabled[$user->getId()]["email"] = $user->getEmail();
+                $tabUserEnabled[$user->getId()]["lastLogin"] = $user->getLastLogin();
+                $tabUserEnabled[$user->getId()]["organization"] = $organization->getName();
+            }
+            else{
+                $tabUserDisabled[$user->getId()]["username"] = $user->getUsername();
+                $tabUserDisabled[$user->getId()]["email"] = $user->getEmail();
+                $tabUserDisabled[$user->getId()]["organization"] = $organization->getName();
+                $tabUserDisabled[$user->getId()]["isResponsible"] = $organization->getFkResponsable() == $user->getId();
+            }
+
         }
-        foreach ($userEnabled as $user){
-            $user->setFkOrganisation($this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('GrandsVoisinsBundle:Organisation')
-              ->findOneBy(array('id' => $user->getFkOrganisation()))
-              ->getName());
-        }
+
         return $this->render(
           'GrandsVoisinsBundle:Admin:listUser.html.twig',
           array(
-            'userEnabled'      => $userEnabled,
-            'userDisabled'     => $userDisabled,
+            'userEnabled'      => $tabUserEnabled,
+            'userDisabled'     => $tabUserDisabled,
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
