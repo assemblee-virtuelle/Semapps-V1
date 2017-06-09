@@ -73,6 +73,11 @@
                             <a class="team-user-delete" href="#" rel="{{ user.id }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
+                        {% if not user.enabled  %}
+                            <a class="user-send-email" href="#" rel="{{user.id  }}" nameRoute={{ nameRoute }}>
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+                            {% endif  %}
                         </td>
                     {% endif %}
                 {% endif %}

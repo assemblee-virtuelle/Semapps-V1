@@ -134,6 +134,6 @@ user:
     path:     /user
     defaults: { _controller: GrandsVoisinsBundle:Admin:listUser }
 sendUser:
-    path:     /user/send/{userId}
+    path:     /user/send/{userId}/{nameRoute}
     defaults: { _controller: GrandsVoisinsBundle:Admin:sendUser }
 

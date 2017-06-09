@@ -153,6 +153,7 @@ class AdminController extends Controller
           array(
             'userEnabled'      => $tabUserEnabled,
             'userDisabled'     => $tabUserDisabled,
+            'nameRoute'        => 'user',
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',
@@ -164,7 +165,7 @@ class AdminController extends Controller
 
     }
 
-    public function sendUserAction($userId){
+    public function sendUserAction($userId,$nameRoute = 'team'){
         $user = $this
           ->getDoctrine()
           ->getManager()
@@ -192,7 +193,7 @@ class AdminController extends Controller
         if($result){
             $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
         }
-        return $this->redirectToRoute('user');
+        return $this->redirectToRoute($nameRoute);
     }
 
     public function profileAction(Request $request)
@@ -501,6 +502,7 @@ class AdminController extends Controller
                     'ROLE_MEMBER'      => 'Member',
                 ],
                 'formAddUser'      => $form->createView(),
+                'nameRoute'        => 'team'
             )
         );
     }
