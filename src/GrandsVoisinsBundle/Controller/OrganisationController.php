@@ -56,7 +56,6 @@ class OrganisationController extends Controller
             );
             $em->flush();
 
-            //TODO find a way to call teamAction in admin
             //for the user
             $user = new User();
 
@@ -137,11 +136,12 @@ class OrganisationController extends Controller
               UrlGeneratorInterface::ABSOLUTE_URL
             );
             // send email to the new organization
-            $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-              ->sendConfirmMessage(
+            $mailer = $this->get('GrandsVoisinsBundle.EventListener.SendMail');
+            $result = $mailer->sendConfirmMessage(
+                $mailer::TYPE_RESPONSIBLE,
                 $user,
-                $url,
-                $randomPassword
+                $organisation,
+                $url
               );
 
             // TODO Grant permission to edit same organisation as current user.

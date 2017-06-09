@@ -111,7 +111,6 @@ class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
         );
 
         $user         = new User();
-        $organization = new Organisation();
 
         $orgaId           = $input->getArgument('orgaId');
         $username         = $input->getArgument('username');
@@ -127,9 +126,12 @@ class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
                 $username,
                 $email,
                 implode(",", $role),
-                $organization->getId()
+                $orgaId
             )
         ); // <-- finish
+
+        /** @var \GrandsVoisinsBundle\Entity\Organisation $organization */
+        $organization = $em->getRepository('GrandsVoisinsBundle:Organisation')->find($orgaId);
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles($role);
@@ -166,9 +168,10 @@ class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $output->writeln($url);
         $result = $mailer->sendConfirmMessage(
+            $mailer::TYPE_USER,
             $user,
-            $url,
-            $randomPassword
+            $organization,
+            $url
         );
         if($result){
             $output->writeln("Email send ! ");

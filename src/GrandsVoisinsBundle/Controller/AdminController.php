@@ -24,12 +24,16 @@ class AdminController extends Controller
 
     public function registerAction(Request $request)
     {
-        //get all organization
-        $organisations = $this
+        $userRepository = $this
           ->getDoctrine()
           ->getManager()
-          ->getRepository('GrandsVoisinsBundle:Organisation')
-          ->findBy([],['name' =>'ASC']);
+          ->getRepository('GrandsVoisinsBundle:User');
+        //get all organization
+        $organisationRepository =  $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:Organisation');
+        $organisations = $organisationRepository->findBy([],['name' =>'ASC']);
 
         $tabOrga= [];
         //build a tab with id and name of each organization for the choice type
@@ -84,6 +88,19 @@ class AdminController extends Controller
             }
             $this->addFlash('success','Merci à toi cher Voisin, nous avons bien pris en compte ton inscription,
              nous allons la valider dans les prochaines heures, après quoi tu recevras un mail de confirmation :-) A très bientôt sur la carto ! ');
+
+            //notification
+            $usersSuperAdmin = $userRepository->createQueryBuilder('q')->select('q.email')->where("q.roles LIKE '%ROLE_SUPER_ADMIN%'")->getQuery()->getResult();
+            $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
+            $listOfEmail= [];
+            $organisation = $organisationRepository->find($form->get('organisation')->getData());
+            array_push($listOfEmail,$responsible->getEmail());
+            foreach ($usersSuperAdmin as $superuser){
+                array_push($listOfEmail,$superuser["email"]);
+            }
+            $mailer = $this->get('GrandsVoisinsBundle.EventListener.SendMail');
+            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$data,$organisation,array_unique($listOfEmail));
+
             return $this->redirectToRoute('fos_user_security_login');
         }
         // Fill form
@@ -152,19 +169,25 @@ class AdminController extends Controller
           ->getDoctrine()
           ->getManager()
           ->getRepository('GrandsVoisinsBundle:User')
-          ->findOneBy(['id' =>$userId]);
+          ->find($userId);
+        $organisation = $this
+          ->getDoctrine()
+          ->getManager()
+          ->getRepository('GrandsVoisinsBundle:Organisation')
+          ->find($user->getFkOrganisation());
         $url = $this->generateUrl(
           'fos_user_registration_confirm',
           array('token' => $user->getConfirmationToken()),
           UrlGeneratorInterface::ABSOLUTE_URL
         );
         //send email to the new user
-
-        $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-          ->sendConfirmMessage(
+        $mailer = $this->get('GrandsVoisinsBundle.EventListener.SendMail');
+        $result = $mailer->sendConfirmMessage(
+            $mailer::TYPE_USER,
             $user,
-            $url,
-            $user->getSfUser()
+            $organisation,
+            $url
+            //$user->getSfUser()
           );
         if($result){
             $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
@@ -432,11 +455,13 @@ class AdminController extends Controller
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
             //send email to the new user
-            $result = $this->get('GrandsVoisinsBundle.EventListener.SendMail')
-                ->sendConfirmMessage(
+            $mailer =  $this->get('GrandsVoisinsBundle.EventListener.SendMail');
+            $result =$mailer->sendConfirmMessage(
+                  $mailer::TYPE_USER,
                     $data,
-                    $url,
-                    $randomPassword
+                    $organisation,
+                    $url
+                    //$randomPassword
                 );
 
             // TODO Grant permission to edit same organisation as current user.

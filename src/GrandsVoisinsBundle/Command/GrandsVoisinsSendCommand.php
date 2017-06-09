@@ -82,9 +82,12 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
         );
 
         $userRepository         = $em->getRepository('GrandsVoisinsBundle:User');
+        $organisationRepository         = $em->getRepository('GrandsVoisinsBundle:Organisation');
 
+        /** @var \GrandsVoisinsBundle\Entity\User $user */
         $user = $userRepository->find($id);
-
+        /** @var \GrandsVoisinsBundle\Entity\Organisation $organisation */
+        $organisation = $organisationRepository->find($user->getFkOrganisation());
 
         $url = $this->getContainer()->get('router')->generate(
             'fos_user_registration_confirm',
@@ -94,9 +97,10 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
         $output->writeln($email);
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $result = $mailer->sendConfirmMessage(
+          ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
             $user,
+          $organisation,
             $url,
-            $user->getSfUser(),
             $email
         );
         if($result){

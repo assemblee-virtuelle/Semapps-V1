@@ -194,9 +194,10 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
         $output->writeln($url);
         $result = $mailer->sendConfirmMessage(
+          $mailer::TYPE_RESPONSIBLE,
           $user,
-          $url,
-          $randomPassword
+          $organization,
+          $url
         );
         if($result){
             $output->writeln("Email send ! ");
