@@ -38,4 +38,6 @@ security:
         - { path: ^/orga/, role: ROLE_SUPER_ADMIN }
         - { path: ^/component/, role: ROLE_MEMBER }
         - { path: ^/component/new, role: ROLE_EDITOR }
+        - { path: ^/user/send/, role: ROLE_ADMIN }
         - { path: ^/user, role: ROLE_SUPER_ADMIN }
+
