@@ -22,6 +22,12 @@ Polymer({
     this.image = gvc.imageOrFallback(this.image, this.type);
     this.info = '';
     let c = '';
+    log(this.data);
+    if (this.start) {
+        let eventBegin = new Date(this.start);
+        this.info += c + "le " + eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' à ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min';
+        c=' | ';
+    }
     if (this.desc) {
         this.info += c + this.desc;
         c=' | ';

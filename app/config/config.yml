@@ -102,6 +102,9 @@ parameters:
            - projectStart
            - maker
            - fundedBy
+           #event
+           - eventBegin
+           - eventEnd
         member:
            # all
            - mbox

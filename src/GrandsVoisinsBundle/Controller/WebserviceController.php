@@ -290,10 +290,12 @@ class WebserviceController extends Controller
               'image'    => 'foaf:img',
                 'desc'  => 'foaf:status',
                 'building' => 'gvoi:building',
+                'start' => 'gvoi:eventBegin',
+                'end' => 'gvoi:eventEnd',
             ],
              $filter,
                 '',
-                ' ORDER BY ASC(?title)'
+                ' ORDER BY DESC(?start)'
         ):[];
         $proposition =
             ($type == SemanticFormsBundle::Multiple || $typeProposition )?
