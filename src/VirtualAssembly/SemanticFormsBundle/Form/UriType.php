@@ -38,8 +38,8 @@ class UriType extends AbstractType
           array(
             'rdfType' => false,
             'labelUrl' => '',
-            //'lookupUrl' => 'http://lookup.dbpedia.org/api/search.asmx/PrefixSearch',
-            'lookupUrl' => 'http://lookup.dbpedia.org/api/search.asmx/KeywordSearch',
+            'lookupUrl' => 'http://lookup.dbpedia.org/api/search.asmx/PrefixSearch',
+            //'lookupUrl' => 'http://lookup.dbpedia.org/api/search.asmx/KeywordSearch',
           )
         );
     }
