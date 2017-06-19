@@ -59,7 +59,7 @@ header {
     header .search .nav {
       margin: 0 15px; }
       header .search .nav li {
-        margin-top: 10px; }
+        /*margin-top: 10px;*/ }
         header .search .nav li a {
           padding-left: 15px; }
           header .search .nav li a span {
@@ -77,14 +77,7 @@ header {
       text-shadow: none; }
     header .search input[type=submit]:hover {
       background: #fff192; }
-  header #my-account-link span {
-    margin-top: 0;
-    font-size: 18px;
-    color: #FFF; }
-  header #my-account-disconnect span {
-    margin-top: 0;
-    font-size: 18px;
-    color: #FFF; }
+
   @media (max-width: 768px) {
     header .logo-circle {
       position: initial;
@@ -120,3 +113,48 @@ header {
       border: 0; }
     header h1 {
       display: block; } }
+body {
+  background:#f0f0f0;
+}
+.nav>li>a{
+  padding: 10px;
+  margin-top: 0;
+}
+.nav>li>a:hover, .nav>li>a:focus, .nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+  background:#fff;
+}
+.dropdown {
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:4px;
+  width:200px;
+}
+.dropdown-menu>li>a {
+  color:#428bca;
+}
+.dropdown ul.dropdown-menu {
+  border-radius:4px;
+  box-shadow:none;
+  margin-top:20px;
+  width:200px;
+}
+.dropdown ul.dropdown-menu:before {
+  content: "";
+  border-bottom: 10px solid #fff;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  z-index: 10;
+}
+.dropdown ul.dropdown-menu:after {
+  content: "";
+  border-bottom: 12px solid #ccc;
+  border-right: 12px solid transparent;
+  border-left: 12px solid transparent;
+  position: absolute;
+  top: -12px;
+  right: 14px;
+  z-index: 9;
+}
