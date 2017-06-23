@@ -209,9 +209,9 @@
                                     {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
                                     {{ admin.menuItem('Les organisations', 'all_orga', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Les utilisateurs', 'user', 'user','gérer les utilisateurs', menuSelected, 'SUPER_ADMIN') }}
-                                    {{ admin.menuItem('Projets', 'projectList', 'screenshot','Référencez vos projets ', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Evénements', 'eventList', 'calendar','Référencez vos événements', menuSelected, 'ADMIN') }}
-                                    {{ admin.menuItem('Proposition', 'propositionList', 'info-sign','Faites des propositions', menuSelected, 'ADMIN') }}
+                                    {{ admin.menuItem('Projets', 'projectList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER') }}
+                                    {{ admin.menuItem('Evénements', 'eventList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER') }}
+                                    {{ admin.menuItem('Proposition', 'propositionList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}
