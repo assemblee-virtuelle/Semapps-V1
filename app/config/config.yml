@@ -83,6 +83,7 @@ parameters:
            - topicInterest
            - shortDescription
            - thesaurus
+           - memberOf
            # orga
            - building
            - subject
@@ -90,6 +91,7 @@ parameters:
            - head
            - volunteeringProposals
            - OrganizationalCollaboration
+           - hasMember
            # person
            - displayLabel
            - givenName
@@ -114,7 +116,6 @@ parameters:
            # orga
            - room
            - contributionType
-           - hasMember
            - proposedContribution
            - realisedContribution
            - arrivalDate
@@ -122,7 +123,6 @@ parameters:
            - birthday
            - knows
            - slack
-           - memberOf
            - currentProject
            - postalCode
            - city
