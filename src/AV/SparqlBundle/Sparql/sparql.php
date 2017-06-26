@@ -13,6 +13,7 @@ class sparql
     CONST ORDER_ASC = 0;
     CONST ORDER_DESC = 1;
     CONST ORDER = 2;
+
     public $prefixes = [
       'xsd'   => 'http://www.w3.org/2001/XMLSchema#',
       'fn'    => 'http://www.w3.org/2005/xpath-functions#',
@@ -27,6 +28,7 @@ class sparql
       'gvoi'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#',
       'org'   => 'http://www.w3.org/ns/org#'
     ];
+
     private $prefix;
 
     private $where = [];
@@ -81,16 +83,20 @@ class sparql
     public function getPrefix(){
         return $this->prefix;
     }
+    public function addUnion(array $head,array $union){
+        $this->union[]['head'] = $head;
+        $this->union[sizeof($this->union)-1]['union'] = $union;
 
+    }
     public function addWhere($subject,$predicate,$object,$graph =null){
-        $this->formatTriple($this->where,$subject.' '.$predicate.' '.$object.'.',$graph);
+        $this->formatTriple($this->where,$this->createTriple($subject,$predicate,$object),$graph);
     }
 
     public function addOptional($subject,$predicate,$object,$graph =null){
         if(!$graph)
-            $this->where[] = "OPTIONAL { ".$subject.' '.$predicate.' '.$object.'. }';
+            $this->where[] = "OPTIONAL { ".$this->createTriple($subject,$predicate,$object).' }';
         else
-            $this->where[$graph][] = "OPTIONAL { ".$subject.' '.$predicate.' '.$object.'. }';
+            $this->where[$graph][] = "OPTIONAL { ".$this->createTriple($subject,$predicate,$object).' }';
     }
 
     public function formatValue($val,$type = sparql::VALUE_TYPE_TEXT){
@@ -117,10 +123,8 @@ class sparql
     }
 
     public function formatWhere(){
-        //if (empty($this->group) )
-        //    return '';
         $whereString = '';
-        if(sizeof($this->where) > 0){
+        if(sizeof($this->where) > 0 || sizeof($this->union) > 0){
         $whereString ='WHERE {';
         $whereString .= $this->formatTab($this->where);
         $whereString .= $this->formatUnion();
@@ -132,12 +136,37 @@ class sparql
     public function formatUnion()
     {
         $unionString = '';
-        if($this->union){
-            $unionString = 'UNION {';
-            foreach ($this->union as $string){
-                $unionString .= $string.".\n";
+
+        foreach ($this->union as $unions){
+            $unionString.='{ ';
+            //head
+            foreach ($unions['head'] as $graph =>$head){
+                if(is_array($unions['head'][$graph])){
+                    $unionString .= ' GRAPH '.$graph. ' {';
+                    foreach ($head as $string){
+                        $unionString .=$string;
+                    }
+                    $unionString.= " }\n";
+                }
+                else{
+                    $unionString.=$head;
+                }
             }
-            $unionString .= '}';
+            $unionString.='} UNION {';
+            //union
+            foreach ($unions['union'] as $graph =>$union){
+                if(is_array($union)){
+                    $unionString .= ' GRAPH '.$graph. ' {';
+                    foreach ($union as $string){
+                        $unionString .=$string;
+                    }
+                    $unionString.= " }\n";
+                }
+                else{
+                    $unionString.=$union;
+                }
+            }
+            $unionString.="}\n";
         }
         return $unionString;
     }
@@ -181,5 +210,9 @@ class sparql
         else
             $tab[$graph][] = $triple;
 
+    }
+
+    public function createTriple($subject,$predicat,$object){
+        return $subject.' '.$predicat.' '.$object.'.';
     }
 }

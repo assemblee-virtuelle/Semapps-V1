@@ -12,7 +12,7 @@ class sparqlConstruct extends sparql
 
 
     public function addConstruct($subject,$predicate,$object){
-        $this->formatTriple($this->construct,$subject.' '.$predicate.' '.$object.'.',null);
+        $this->formatTriple($this->construct,$this->createTriple($subject,$predicate,$object),null);
 
     }
     public function getQuery()
