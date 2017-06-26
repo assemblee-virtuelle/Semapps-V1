@@ -192,15 +192,7 @@ class WebserviceController extends Controller
             $orgaSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $orgaSparql->addOptional('?uri','gvoi:building','?building','?GR');
             $results = $sfClient->sparql($orgaSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $orgaTemp){
-                $orga['title'] = isset($orgaTemp['title']['value'])?$orgaTemp['title']['value'] : '' ;
-                $orga['type'] = isset($orgaTemp['type']['value'])?$orgaTemp['type']['value'] : '' ;
-                $orga['image'] = isset($orgaTemp['image']['value'])?$orgaTemp['image']['value'] : '' ;
-                $orga['desc'] = isset($orgaTemp['desc']['value'])?$orgaTemp['desc']['value'] : '' ;
-                $orga['building'] = isset($orgaTemp['building']['value'])?$orgaTemp['building']['value'] : '' ;
-                $orga['uri'] = isset($orgaTemp['uri']['value'])?$orgaTemp['uri']['value'] : '' ;
-                $organizations[] = $orga;
-            }
+            $organizations = $sfClient->sparqlResultsValues($results);
         }
         $persons = [];
         if($type == SemanticFormsBundle::Multiple || $typePerson ){
@@ -220,15 +212,8 @@ class WebserviceController extends Controller
             $personSparql->groupBy('?givenName ?familyName');
 
             $results = $sfClient->sparql($personSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $personTemp){
-                $person['title'] = isset($personTemp['title']['value'])?$personTemp['title']['value'] : '' ;
-                $person['type'] = isset($personTemp['type']['value'])?$personTemp['type']['value'] : '' ;
-                $person['image'] = isset($personTemp['image']['value'])?$personTemp['image']['value'] : '' ;
-                $person['desc'] = isset($personTemp['desc']['value'])?$personTemp['desc']['value'] : '' ;
-                $person['building'] = isset($personTemp['building']['value'])?$personTemp['building']['value'] : '' ;
-                $person['uri'] = isset($personTemp['uri']['value'])?$personTemp['uri']['value'] : '' ;
-                $persons[] =$person;
-            }
+            $persons = $sfClient->sparqlResultsValues($results);
+
         }
         $projects = [];
         if($type == SemanticFormsBundle::Multiple || $typeProject ){
@@ -240,15 +225,8 @@ class WebserviceController extends Controller
             $projectSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $projectSparql->addOptional('?uri','gvoi:building','?building','?GR');
             $results = $sfClient->sparql($projectSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $projectTemp){
-                $project['title'] = isset($projectTemp['title']['value'])?$projectTemp['title']['value'] : '' ;
-                $project['type'] = isset($projectTemp['type']['value'])?$projectTemp['type']['value'] : '' ;
-                $project['image'] = isset($projectTemp['image']['value'])?$projectTemp['image']['value'] : '' ;
-                $project['desc'] = isset($projectTemp['desc']['value'])?$projectTemp['desc']['value'] : '' ;
-                $project['building'] = isset($projectTemp['building']['value'])?$projectTemp['building']['value'] : '' ;
-                $project['uri'] = isset($projectTemp['uri']['value'])?$projectTemp['uri']['value'] : '' ;
-                $projects[] = $project;
-            }
+            $projects = $sfClient->sparqlResultsValues($results);
+
         }
         $events = [];
         if($type == SemanticFormsBundle::Multiple || $typeEvent ){
@@ -267,17 +245,7 @@ class WebserviceController extends Controller
             $eventSparql->groupBy('?start');
             $eventSparql->groupBy('?end');
             $results = $sfClient->sparql($eventSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $eventTemp){
-                $event['title'] = isset($eventTemp['title']['value'])?$eventTemp['title']['value'] : '' ;
-                $event['type'] = isset($eventTemp['type']['value'])?$eventTemp['type']['value'] : '' ;
-                $event['image'] = isset($eventTemp['image']['value'])?$eventTemp['image']['value'] : '' ;
-                $event['desc'] = isset($eventTemp['desc']['value'])?$eventTemp['desc']['value'] : '' ;
-                $event['building'] = isset($eventTemp['building']['value'])?$eventTemp['building']['value'] : '' ;
-                $event['start'] = isset($eventTemp['start']['value'])?$eventTemp['start']['value'] : '' ;
-                $event['end'] = isset($eventTemp['end']['value'])?$eventTemp['end']['value'] : '' ;
-                $event['uri'] = isset($eventTemp['uri']['value'])?$eventTemp['uri']['value'] : '' ;
-                $events[] = $event;
-            }
+            $events = $sfClient->sparqlResultsValues($results);
 
         }
         $propositions = [];
@@ -290,15 +258,7 @@ class WebserviceController extends Controller
             $propositionSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $propositionSparql->addOptional('?uri','gvoi:building','?building','?GR');
             $results = $sfClient->sparql($propositionSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $propositionTemp){
-                $proposition['title'] = isset($propositionTemp['title']['value'])?$propositionTemp['title']['value'] : '' ;
-                $proposition['type'] = isset($propositionTemp['type']['value'])?$propositionTemp['type']['value'] : '' ;
-                $proposition['image'] = isset($propositionTemp['image']['value'])?$propositionTemp['image']['value'] : '' ;
-                $proposition['desc'] = isset($propositionTemp['desc']['value'])?$propositionTemp['desc']['value'] : '' ;
-                $proposition['building'] = isset($propositionTemp['building']['value'])?$propositionTemp['building']['value'] : '' ;
-                $proposition['uri'] = isset($propositionTemp['uri']['value'])?$propositionTemp['uri']['value'] : '' ;
-                $propositions[] = $proposition;
-            }
+            $propositions = $sfClient->sparqlResultsValues($results);
         }
 
         $thematiques = [];
@@ -308,12 +268,7 @@ class WebserviceController extends Controller
             $thematiqueSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR');
             $thematiqueSparql->addWhere('?uri','skos:prefLabel','?title','?GR');
             $results = $sfClient->sparql($thematiqueSparql->getQuery());
-            foreach ( $results["results"]["bindings"] as $thematiqueTemp){
-                $thematique['title'] = isset($thematiqueTemp['title']['value'])?$thematiqueTemp['title']['value'] : '' ;
-                $thematique['type'] = isset($thematiqueTemp['type']['value'])?$thematiqueTemp['type']['value'] : '' ;
-                $thematique['uri'] = isset($thematiqueTemp['uri']['value'])?$thematiqueTemp['uri']['value'] : '' ;
-                $thematiques[] = $thematique;
-            }
+            $thematiques = $sfClient->sparqlResultsValues($results);
         }
 
         $results = [];
