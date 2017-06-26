@@ -2,6 +2,7 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+use AV\SparqlBundle\Services\SparqlClient;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -151,38 +152,6 @@ class WebserviceController extends Controller
 
     }
 
-    public function searchSparqlSelect(
-      $selectType,
-      $term,
-      $fieldsRequired,
-      $fieldsOptional = [],
-      $filter = null,
-      $select = '',
-      $requestSuffix = ''
-    ) {
-        $request =
-          $this->sparqlSelectType(
-            $fieldsRequired,
-            $fieldsOptional,
-            $select,
-            $selectType,
-            // If not term specified, do not filter term.
-            ($term && $term !== '*' ? '    ?uri text:query "'.$term.'" . ' : ''),
-            $filter
-          );
-        /** @var \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient $sfClient */
-        $sfClient = $this->container->get('semantic_forms.client');
-        $results  = $sfClient->sparql($request . $requestSuffix);
-        //dump($request . $requestSuffix);
-        // Key values pairs only.
-        // Avoid "Empty result" string.
-        $results = is_array($results) ? $sfClient->sparqlResultsValues(
-          $results
-        ) : [];
-
-        // Filter only allowed types.
-        return $this->filter($results);
-    }
 
 
     public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
@@ -197,150 +166,160 @@ class WebserviceController extends Controller
         $typeProposition= array_key_exists(SemanticFormsBundle::URI_FIPA_PROPOSITION,$arrayType);
         $typeThesaurus= array_key_exists(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
 
-        $organizations =
-            ($type == SemanticFormsBundle::Multiple || $typeOrganization )? $this->searchSparqlSelect(
-        // Type.
-          SemanticFormsBundle::URI_FOAF_ORGANIZATION,
-          // Search term.
-          $term,
-          // Required fields.
-          [
-            'type'  => 'rdf:type',
-            'title' => 'foaf:name',
-          ],
-          // Optional fields..
-          [
-            'image'    => 'foaf:img',
-            'desc'     => 'foaf:status',
-            //'subject'  => 'purl:subject',
-            'building' => 'gvoi:building',
-          ],
-          $filter,
-                '',
-                ' ORDER BY ASC(?title)'
+        $sparqlClient = new SparqlClient();
+        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+        /* requete génériques */
+        $sparql->addPrefixes($sparql->prefixes);
+        $sparql->addSelect('?uri');
+        $sparql->addSelect('?type');
+        $sparql->addSelect('?image');
+        $sparql->addSelect('?desc');
+        $sparql->addSelect('?building');
 
-        ): [];
+        ($filter)? $sparql->addWhere('?uri','gvoi:thesaurus',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
+        ($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
+        $sparql->addWhere('?uri','rdf:type', '?type','?GR');
+        $sparql->groupBy('?uri ?type ?title ?image ?desc ?building');
+        $sparql->orderBy($sparql::ORDER_ASC,'?title');
+        $organizations =[];
+        if($type == SemanticFormsBundle::Multiple || $typeOrganization ){
+            $orgaSparql = clone $sparql;
+            $orgaSparql->addSelect('?title');
+            $orgaSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR');
+            $orgaSparql->addWhere('?uri','foaf:name','?title','?GR');
+            $orgaSparql->addOptional('?uri','foaf:img','?image','?GR');
+            $orgaSparql->addOptional('?uri','foaf:status','?desc','?GR');
+            $orgaSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $results = $sfClient->sparql($orgaSparql->getQuery());
+            foreach ( $results["results"]["bindings"] as $orgaTemp){
+                $orga['title'] = isset($orgaTemp['title']['value'])?$orgaTemp['title']['value'] : '' ;
+                $orga['type'] = isset($orgaTemp['type']['value'])?$orgaTemp['type']['value'] : '' ;
+                $orga['image'] = isset($orgaTemp['image']['value'])?$orgaTemp['image']['value'] : '' ;
+                $orga['desc'] = isset($orgaTemp['desc']['value'])?$orgaTemp['desc']['value'] : '' ;
+                $orga['building'] = isset($orgaTemp['building']['value'])?$orgaTemp['building']['value'] : '' ;
+                $orga['uri'] = isset($orgaTemp['uri']['value'])?$orgaTemp['uri']['value'] : '' ;
+                $organizations[] = $orga;
+            }
+        }
         $persons = [];
-        $thesaurusFilter = ($filter)? ' ?uri gvoi:thesaurus <'.$filter.'> . ' : '';
-        $temp = ($term == '*')? '': '?uri text:query "'.$term.'*" .';
         if($type == SemanticFormsBundle::Multiple || $typePerson ){
-            $query = 'SELECT ?uri  ?type ?givenName ?familyName ?image ?desc( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)  ?b 
-            WHERE {   GRAPH ?GR {   
-            ?uri rdf:type <http://xmlns.com/foaf/0.1/Person> . 
-            ?uri rdf:type ?type . 
-            '.$temp.$thesaurusFilter.'
-            ?uri foaf:givenName ?givenName . 
-            OPTIONAL { ?uri foaf:familyName ?familyName }
-            OPTIONAL { ?uri foaf:img ?image } 
-            OPTIONAL { ?uri foaf:status ?desc }
-            OPTIONAL { ?org rdf:type foaf:Organization . }
-            OPTIONAL { ?org gvoi:building ?b } }}
-            GROUP BY ?uri  ?type ?givenName ?familyName ?image ?desc ?b 
-            ORDER BY ASC(?title )';
-            $results = $sfClient->sparql($sfClient->prefixesCompiled . $query);
+
+            $personSparql = clone $sparql;
+            $personSparql->addSelect('?familyName');
+            $personSparql->addSelect('?givenName');
+            $personSparql->addSelect('( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)');
+            $personSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_PERSON,$sparql::VALUE_TYPE_URL),'?GR');
+            $personSparql->addWhere('?uri','foaf:givenName','?givenName','?GR');
+            $personSparql->addOptional('?uri','foaf:img','?image','?GR');
+            $personSparql->addOptional('?uri','foaf:status','?desc','?GR');
+            $personSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $personSparql->addOptional('?uri','foaf:familyName','?familyName','?GR');
+            $personSparql->addOptional('?org','rdf:type','foaf:Organization','?GR');
+            $personSparql->addOptional('?org','gvoi:building','?building','?GR');
+            $personSparql->groupBy('?givenName ?familyName');
+
+            $results = $sfClient->sparql($personSparql->getQuery());
             foreach ( $results["results"]["bindings"] as $personTemp){
                 $person['title'] = isset($personTemp['title']['value'])?$personTemp['title']['value'] : '' ;
                 $person['type'] = isset($personTemp['type']['value'])?$personTemp['type']['value'] : '' ;
                 $person['image'] = isset($personTemp['image']['value'])?$personTemp['image']['value'] : '' ;
                 $person['desc'] = isset($personTemp['desc']['value'])?$personTemp['desc']['value'] : '' ;
-                $person['building'] = isset($personTemp['b']['value'])?$personTemp['b']['value'] : '' ;
+                $person['building'] = isset($personTemp['building']['value'])?$personTemp['building']['value'] : '' ;
                 $person['uri'] = isset($personTemp['uri']['value'])?$personTemp['uri']['value'] : '' ;
                 $persons[] =$person;
             }
-            
         }
-        $project       =
-          ($type == SemanticFormsBundle::Multiple || $typeProject) ?
-            $this->searchSparqlSelect(
-            // Type.
-              SemanticFormsBundle::URI_FOAF_PROJECT,
-              // Search term.
-              $term,
-              // Required fields.
-              [
-                'type'  => 'rdf:type',
-                'title' => 'rdfs:label',
+        $projects = [];
+        if($type == SemanticFormsBundle::Multiple || $typeProject ){
+            $projectSparql = clone $sparql;
+            $projectSparql->addSelect('?title');
+            $projectSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_PROJECT,$sparql::VALUE_TYPE_URL),'?GR');
+            $projectSparql->addWhere('?uri','rdfs:label','?title','?GR');
+            $projectSparql->addOptional('?uri','foaf:img','?image','?GR');
+            $projectSparql->addOptional('?uri','foaf:status','?desc','?GR');
+            $projectSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $results = $sfClient->sparql($projectSparql->getQuery());
+            foreach ( $results["results"]["bindings"] as $projectTemp){
+                $project['title'] = isset($projectTemp['title']['value'])?$projectTemp['title']['value'] : '' ;
+                $project['type'] = isset($projectTemp['type']['value'])?$projectTemp['type']['value'] : '' ;
+                $project['image'] = isset($projectTemp['image']['value'])?$projectTemp['image']['value'] : '' ;
+                $project['desc'] = isset($projectTemp['desc']['value'])?$projectTemp['desc']['value'] : '' ;
+                $project['building'] = isset($projectTemp['building']['value'])?$projectTemp['building']['value'] : '' ;
+                $project['uri'] = isset($projectTemp['uri']['value'])?$projectTemp['uri']['value'] : '' ;
+                $projects[] = $project;
+            }
+        }
+        $events = [];
+        if($type == SemanticFormsBundle::Multiple || $typeEvent ){
+            $eventSparql = clone $sparql;
+            $eventSparql->addSelect('?title');
+            $eventSparql->addSelect('?start');
+            $eventSparql->addSelect('?end');
+            $eventSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_PURL_EVENT,$sparql::VALUE_TYPE_URL),'?GR');
+            $eventSparql->addWhere('?uri','rdfs:label','?title','?GR');
+            $eventSparql->addOptional('?uri','foaf:img','?image','?GR');
+            $eventSparql->addOptional('?uri','foaf:status','?desc','?GR');
+            $eventSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $eventSparql->addOptional('?uri','gvoi:eventBegin','?start','?GR');
+            $eventSparql->addOptional('?uri','gvoi:eventEnd','?end','?GR');
+            $eventSparql->orderBy($sparql::ORDER_DESC,'?start');
+            $eventSparql->groupBy('?start');
+            $eventSparql->groupBy('?end');
+            $results = $sfClient->sparql($eventSparql->getQuery());
+            foreach ( $results["results"]["bindings"] as $eventTemp){
+                $event['title'] = isset($eventTemp['title']['value'])?$eventTemp['title']['value'] : '' ;
+                $event['type'] = isset($eventTemp['type']['value'])?$eventTemp['type']['value'] : '' ;
+                $event['image'] = isset($eventTemp['image']['value'])?$eventTemp['image']['value'] : '' ;
+                $event['desc'] = isset($eventTemp['desc']['value'])?$eventTemp['desc']['value'] : '' ;
+                $event['building'] = isset($eventTemp['building']['value'])?$eventTemp['building']['value'] : '' ;
+                $event['start'] = isset($eventTemp['start']['value'])?$eventTemp['start']['value'] : '' ;
+                $event['end'] = isset($eventTemp['end']['value'])?$eventTemp['end']['value'] : '' ;
+                $event['uri'] = isset($eventTemp['uri']['value'])?$eventTemp['uri']['value'] : '' ;
+                $events[] = $event;
+            }
 
-            ],
-            // Optional fields..
-            [
-                'image'    => 'foaf:img',
-                'desc'  => 'foaf:status',
-                'building' => 'gvoi:building',
-            ],
-            $filter,
-                '',
-                ' ORDER BY ASC(?title)'
-        ):[];
-        $event =
-            ($type == SemanticFormsBundle::Multiple || $typeEvent )?
-            $this->searchSparqlSelect(
-            // Type.
-              SemanticFormsBundle::URI_PURL_EVENT,
-              // Search term.
-              $term,
-              // Required fields.
-              [
-                'type'  => 'rdf:type',
-                'title' => 'rdfs:label',
+        }
+        $propositions = [];
+        if($type == SemanticFormsBundle::Multiple || $typeProposition ){
+            $propositionSparql = clone $sparql;
+            $propositionSparql->addSelect('?title');
+            $propositionSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FIPA_PROPOSITION,$sparql::VALUE_TYPE_URL),'?GR');
+            $propositionSparql->addWhere('?uri','rdfs:label','?title','?GR');
+            $propositionSparql->addOptional('?uri','foaf:img','?image','?GR');
+            $propositionSparql->addOptional('?uri','foaf:status','?desc','?GR');
+            $propositionSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $results = $sfClient->sparql($propositionSparql->getQuery());
+            foreach ( $results["results"]["bindings"] as $propositionTemp){
+                $proposition['title'] = isset($propositionTemp['title']['value'])?$propositionTemp['title']['value'] : '' ;
+                $proposition['type'] = isset($propositionTemp['type']['value'])?$propositionTemp['type']['value'] : '' ;
+                $proposition['image'] = isset($propositionTemp['image']['value'])?$propositionTemp['image']['value'] : '' ;
+                $proposition['desc'] = isset($propositionTemp['desc']['value'])?$propositionTemp['desc']['value'] : '' ;
+                $proposition['building'] = isset($propositionTemp['building']['value'])?$propositionTemp['building']['value'] : '' ;
+                $proposition['uri'] = isset($propositionTemp['uri']['value'])?$propositionTemp['uri']['value'] : '' ;
+                $propositions[] = $proposition;
+            }
+        }
 
-            ],
-            // Optional fields..
-            [
-              'image'    => 'foaf:img',
-                'desc'  => 'foaf:status',
-                'building' => 'gvoi:building',
-                'start' => 'gvoi:eventBegin',
-                'end' => 'gvoi:eventEnd',
-            ],
-             $filter,
-                '',
-                ' ORDER BY DESC(?start)'
-        ):[];
-        $proposition =
-            ($type == SemanticFormsBundle::Multiple || $typeProposition )?
-            $this->searchSparqlSelect(
-            // Type.
-              SemanticFormsBundle::URI_FIPA_PROPOSITION,
-              // Search term.
-              $term,
-              // Required fields.
-              [
-                'type'  => 'rdf:type',
-                'title' => 'rdfs:label',
+        $thematiques = [];
+        if($type == SemanticFormsBundle::Multiple || $typeEvent ){
+            $thematiqueSparql = clone $sparql;
+            $thematiqueSparql->addSelect('?title');
+            $thematiqueSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR');
+            $thematiqueSparql->addWhere('?uri','skos:prefLabel','?title','?GR');
+            $results = $sfClient->sparql($thematiqueSparql->getQuery());
+            foreach ( $results["results"]["bindings"] as $thematiqueTemp){
+                $thematique['title'] = isset($thematiqueTemp['title']['value'])?$thematiqueTemp['title']['value'] : '' ;
+                $thematique['type'] = isset($thematiqueTemp['type']['value'])?$thematiqueTemp['type']['value'] : '' ;
+                $thematique['uri'] = isset($thematiqueTemp['uri']['value'])?$thematiqueTemp['uri']['value'] : '' ;
+                $thematiques[] = $thematique;
+            }
+        }
 
-            ],
-            // Optional fields..
-            [
-                'image'    => 'foaf:img',
-                'desc'  => 'foaf:status',
-                'building' => 'gvoi:building',
-            ],
-            $filter,'',
-                ' ORDER BY ASC(?title)'
-        ):[];
-        $thematiques =
-            ($type == SemanticFormsBundle::Multiple || $typeThesaurus )?
-            $this->searchSparqlSelect(
-            // Type.
-              SemanticFormsBundle::URI_SKOS_THESAURUS,
-              // Search term.
-              $term,
-              // Required fields.
-              [
-                'type'  => 'rdf:type',
-                'title' => 'skos:prefLabel',
-            ],
-            // Optional fields..
-            [],
-            $filter,
-            '',
-            ' ORDER BY ASC(?title)'
-        ):[];
         $results = [];
 
-        while ($organizations || $persons || $project
-          || $event || $proposition || $thematiques) {
+        while ($organizations || $persons || $projects
+          || $events || $propositions || $thematiques) {
 
             if (!empty($organizations)) {
                 $results[] = array_shift($organizations);
@@ -348,14 +327,14 @@ class WebserviceController extends Controller
             if (!empty($persons)) {
                 $results[] = array_shift($persons);
             }
-            if (!empty($project)) {
-                $results[] = array_shift($project);
+            if (!empty($projects)) {
+                $results[] = array_shift($projects);
             }
-            if (!empty($event)) {
-                $results[] = array_shift($event);
+            if (!empty($events)) {
+                $results[] = array_shift($events);
             }
-            if (!empty($proposition)) {
-                $results[] = array_shift($proposition);
+            if (!empty($propositions)) {
+                $results[] = array_shift($propositions);
             }
             if (!empty($thematiques)) {
                 $results[] = array_shift($thematiques);
