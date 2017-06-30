@@ -21,3 +21,11 @@ parameters:
     semantic_forms.login: 'aa'
     semantic_forms.password: 'aa'
     semantic_forms.timeout: 10
+
+   # is here to have a message on all page in admin : typically, if we need to shutdown the Semantic Forms server --> all user can be prevent
+   # example :
+   # special_alert:
+   #   semantic_forms: "the semantic forms erver will be shutdown from 12am to 2pm"
+   #   On the web, in the admin part, this message appear : <b>semantic_forms :</b> the semantic forms erver will be shutdown from 12am to 2pm
+   # can be empty for no special alert
+    special_alert:

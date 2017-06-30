@@ -229,6 +229,11 @@
                             </h1>
                         </div>
 
+                        {% for name,message in special_alert  %}
+                            <div class="alert alert-info fade in">
+                               <b>{{ name }} :</b>  {{ message }}
+                            </div>
+                        {% endfor %}
                         {% for type, flashes in app.session.flashbag.all %}
                             {% for flash in flashes %}
                                 <div class="alert alert-{{ type }} fade in">

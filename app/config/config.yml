@@ -168,6 +168,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        special_alert: "%special_alert%"
     form_themes:
         - 'form/fields.html.twig'
 
