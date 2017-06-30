@@ -18,6 +18,16 @@
   text-align: center;
   transform: rotate(-4deg); }
 
+.col-blocks .content {
+  background: #ffffff;
+  color: #000000;
+  margin-top: 22px;
+  padding: 10px 15px;
+  border: 1px solid #DDD;
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+  font-family: petitevoisine, sans-serif;
+  text-align: center; }
+
 .col-blocks img.image {
   width: 90%;
   border: 1px solid #DDD;
