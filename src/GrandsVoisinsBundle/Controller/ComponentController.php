@@ -57,6 +57,8 @@ class ComponentController extends Controller
 
     public function addAction(Request $request)
     {
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user         = $this->getUser();
         $sfClient     = $this->container->get('semantic_forms.client');
@@ -78,7 +80,7 @@ class ComponentController extends Controller
           null,
           [
             'login'                 => $user->getEmail(),
-            'password'              => $user->getSfUser(),
+            'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
             'spec'                  => constant(

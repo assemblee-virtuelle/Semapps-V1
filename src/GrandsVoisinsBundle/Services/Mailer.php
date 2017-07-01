@@ -18,14 +18,16 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
+    private $encryption;
     private $from = "noreply@lesgrandsvoisins.org";
     CONST TYPE_USER = 1;
     CONST TYPE_RESPONSIBLE= 2;
     CONST TYPE_NOTIFICATION= 3;
-    public function __construct($mailer, EngineInterface $templating)
+    public function __construct($mailer, EngineInterface $templating,Encryption $encryption)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
+        $this->encryption = $encryption;
     }
 
     protected function sendMessage($to, $subject, $body ,$from =null)
@@ -72,7 +74,7 @@ class Mailer
                                     (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
                                     Voici tes identifiants :):
                                     Login : ".$user->getUsername()."<br>
-                                    Mot de passe : ".$user->getSfUser()."<br>
+                                    Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
                                     Membre de l'organisation : ".$organisation->getName()."<br><br>
                                      
                                     En tant que référent de structure, nous t’invitons à :<br><br>
@@ -96,7 +98,7 @@ class Mailer
                         Pour valider/accéder à votre profil, merci de vous rendre sur ".$url."<br><br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
                         Identifiant : ".$user->getUsername()."<br>
-                        Mot de passe : ".$user->getSfUser()."<br>
+                        Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
                         Membre de l'organisation : ".$organisation->getName()."<br><br>
                         
                         Quelques remarques à ce sujet :<br>

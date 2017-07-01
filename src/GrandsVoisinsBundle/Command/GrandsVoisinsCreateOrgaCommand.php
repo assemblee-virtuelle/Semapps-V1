@@ -105,7 +105,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $mailer = $this->getContainer()->get(
           'GrandsVoisinsBundle.EventListener.SendMail'
         );
-
+        $encryption = $this->getContainer()->get('GrandsVoisinsBundle.encryption');
         $user         = new User();
         $organization = new Organisation();
 
@@ -153,7 +153,7 @@ class GrandsVoisinsCreateOrgaCommand extends ContainerAwareCommand
         $user->setPassword(
           password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
         );
-        $user->setSfUser($randomPassword);
+        $user->setSfUser($encryption->encrypt($randomPassword));
 
         // Generate the token for the confirmation email
         $conf_token = $token->generateToken();

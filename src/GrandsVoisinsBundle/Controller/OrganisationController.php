@@ -19,7 +19,8 @@ class OrganisationController extends Controller
 
     public function allAction(Request $request)
     {
-
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
           'GrandsVoisinsBundle:Organisation'
         );
@@ -71,7 +72,7 @@ class OrganisationController extends Controller
               password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
-            $user->setSfUser($randomPassword);
+            $user->setSfUser($encryption->encrypt($randomPassword));
 
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
@@ -230,6 +231,8 @@ class OrganisationController extends Controller
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user     = $this->getUser();
         $sfClient = $this->container->get('semantic_forms.client');
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
@@ -251,14 +254,14 @@ class OrganisationController extends Controller
 
             $responsable = $userRepository->find($organization->getFkResponsable());
             $sfUser = $responsable->getEmail();
-            $sfPassword = $responsable->getSfUser();
+            $sfPassword = $encryption->decrypt($responsable->getSfUser());
         }
         else{
             $organization = $organisationEntity->findOneById(
                 $user->getFkOrganisation()
             );
             $sfUser = $user->getEmail();
-            $sfPassword = $user->getSfUser();
+            $sfPassword = $encryption->decrypt($user->getSfUser());
         }
 
 
@@ -389,6 +392,8 @@ class OrganisationController extends Controller
 
     public function saveOrganisationAction()
     {
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         $edit = $_POST["edit"];
         $id   = $_POST["id"];
         unset($_POST["edit"]);
@@ -403,7 +408,7 @@ class OrganisationController extends Controller
           ->send(
             $_POST,
             $this->getUser()->getEmail(),
-            $this->getUser()->getSfUser()
+            $encryption->decrypt($this->getUser()->getSfUser())
           );
 
         //TODO: a modifier pour prendre l'utilisateur courant !

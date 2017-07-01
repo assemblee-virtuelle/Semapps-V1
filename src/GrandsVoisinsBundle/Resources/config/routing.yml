@@ -137,3 +137,6 @@ sendUser:
     path:     /user/send/{userId}/{nameRoute}
     defaults: { _controller: GrandsVoisinsBundle:Admin:sendUser }
 
+update:
+    path:     /update
+    defaults: { _controller: GrandsVoisinsBundle:Default:updatePassword }

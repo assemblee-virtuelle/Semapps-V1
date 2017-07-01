@@ -5,6 +5,7 @@ namespace GrandsVoisinsBundle\EventListener;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
+use GrandsVoisinsBundle\Services\Encryption;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -21,13 +22,15 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
     private $router;
     private $em;
     private $sfClient;
+    private $encryption;
 
-    public function __construct(UrlGeneratorInterface $router, TokenStorageInterface $security, EntityManager $em, SemanticFormsClient $sfClient)
+    public function __construct(UrlGeneratorInterface $router, TokenStorageInterface $security, EntityManager $em, SemanticFormsClient $sfClient, Encryption $encryption)
     {
         $this->router = $router;
         $this->security =$security;
         $this->em = $em;
         $this->sfClient = $sfClient;
+        $this->encryption = $encryption;
     }
 
     /**baseLinkRegisterAction
@@ -42,7 +45,8 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
 
     public function onRegistrationConfirm(GetResponseUserEvent  $event)
     {
-        $data = array( "userid" => $event->getUser()->getEmail(), "password" =>$event->getUser()->getSfUser(),"confirmPassword" =>$event->getUser()->getSfUser());
+        $password = $this->encryption->decrypt($event->getUser()->getSfUser());
+        $data = array( "userid" => $event->getUser()->getEmail(), "password" =>$password,"confirmPassword" =>$password);
         $this->sfClient->post('/register',
             [
                 'form_params' => $data

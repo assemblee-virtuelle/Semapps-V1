@@ -6,6 +6,10 @@ services:
         class: GrandsVoisinsBundle\Services\FileUploader
         arguments: ['%picture_directory%','%gv.domain%',]
 
+    GrandsVoisinsBundle.encryption:
+        class: GrandsVoisinsBundle\Services\Encryption
+        arguments: ['%secret%']
+
     GrandsVoisinsBundle.formattingForm:
         class: GrandsVoisinsBundle\Services\FormattingForm
         arguments: ~

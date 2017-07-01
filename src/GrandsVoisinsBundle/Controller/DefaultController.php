@@ -165,7 +165,8 @@ class DefaultController extends AbstractController
                 $user->setUsername(stristr($val[0],'@',true).$i);
                 $i++;
                 $user->setEmail($val[0]);
-
+                /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+                $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
                 // Generate password.
                 $tokenGenerator = $this->container->get(
                     'fos_user.util.token_generator'
@@ -175,7 +176,7 @@ class DefaultController extends AbstractController
                     password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
                 );
 
-                $user->setSfUser($randomPassword);
+                $user->setSfUser($encryption->encrypt($randomPassword));
                 $user->setSfLink(stristr($key,'-',true));
                 // Generate the token for the confirmation email
                 $conf_token = $tokenGenerator->generateToken();
@@ -233,6 +234,43 @@ class DefaultController extends AbstractController
         }
         dump("ok");
 
+        exit;
+    }
+
+    public function updatePasswordAction(){
+        dump("*** UPDATE PASSWORD ***");
+        $em = $this->getDoctrine()->getManager();
+        $userRepository = $em->getRepository('GrandsVoisinsBundle:User');
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
+        $allUser = $userRepository->findAll();
+
+        foreach ($allUser as $user){
+            $oldPassword = $user->getSfUser();
+            $newPassword = $encryption->encrypt($oldPassword);
+            $newPasswordDecrypted = $encryption->decrypt($newPassword);
+            if($oldPassword == $newPasswordDecrypted){
+                $user->setSfUser($newPassword);
+                $em->persist($user);
+                $em->flush();
+                $userTest = $userRepository->find($user->getId());
+                if($encryption->decrypt($userTest->getSfUser()) != $oldPassword){
+                    dump('id:'.$userTest->getId());
+                    dump('oldpassword:'.$oldPassword);
+                    dump('password decrypted:'.$encryption->decrypt($userTest->getSfUser()));
+                    exit;
+                }
+            }
+            else{
+                dump('NOK');
+                dump('old:'.$oldPassword);
+                dump('crypt:'.$newPassword);
+                dump('new:'.$newPasswordDecrypted);
+                exit;
+            }
+            dump('OK pour id:'.$user->getId());
+        }
+        dump("tout est ok !");
         exit;
     }
 

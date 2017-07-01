@@ -24,6 +24,8 @@ class AdminController extends Controller
 
     public function registerAction(Request $request)
     {
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         $userRepository = $this
           ->getDoctrine()
           ->getManager()
@@ -66,7 +68,7 @@ class AdminController extends Controller
               password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
             );
 
-            $data->setSfUser($form->get('password')->getData());
+            $data->setSfUser($encryption->encrypt($form->get('password')->getData()));
 
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
@@ -201,6 +203,8 @@ class AdminController extends Controller
         /** @var $user \GrandsVoisinsBundle\Entity\User */
         $user           = $this->getUser();
         $userSfLink     = $user->getSfLink();
+        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
         /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
@@ -216,7 +220,7 @@ class AdminController extends Controller
         // Build main form.
         $options = [
             'login'                 => $user->getEmail(),
-            'password'              => $user->getSfUser(),
+            'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
             'spec'                  => SemanticFormsClient::SPEC_PERSON,
@@ -420,7 +424,8 @@ class AdminController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // Get posted data of type user
             $data = $form->getData();
-
+            /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
+            $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
             // Generate password.
             $tokenGenerator = $this->container->get(
                 'fos_user.util.token_generator'
@@ -430,7 +435,7 @@ class AdminController extends Controller
                 password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
-            $data->setSfUser($randomPassword);
+            $data->setSfUser($encryption->encrypt($randomPassword));
 
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
