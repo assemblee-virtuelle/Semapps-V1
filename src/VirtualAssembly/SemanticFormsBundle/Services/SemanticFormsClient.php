@@ -155,7 +155,6 @@ class SemanticFormsClient
     {
         $login    = $login ? $login : $this->login;
         $password = $password ? $password : $this->password;
-        dump($login." ".$password);exit;
         $options  = array(
             'query' => array(
                 'userid'   => $login,
