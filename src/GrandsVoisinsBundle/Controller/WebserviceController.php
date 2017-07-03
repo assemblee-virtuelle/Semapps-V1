@@ -71,7 +71,7 @@ class WebserviceController extends Controller
 
             // Get results.
             $results = $this->searchSparqlRequest(
-              '*',
+              '',
               SemanticFormsBundle::URI_SKOS_THESAURUS
             );
 
@@ -176,9 +176,8 @@ class WebserviceController extends Controller
         $sparql->addSelect('?image');
         $sparql->addSelect('?desc');
         $sparql->addSelect('?building');
-
         ($filter)? $sparql->addWhere('?uri','gvoi:thesaurus',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
-        ($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
+        //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
         $sparql->addWhere('?uri','rdf:type', '?type','?GR');
         $sparql->groupBy('?uri ?type ?title ?image ?desc ?building');
         $sparql->orderBy($sparql::ORDER_ASC,'?title');
@@ -191,6 +190,8 @@ class WebserviceController extends Controller
             $orgaSparql->addOptional('?uri','foaf:img','?image','?GR');
             $orgaSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $orgaSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $orgaSparql->addFilter('contains( ?title +" "+ ?desc , "'.$term.'")');
+            //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
             $organizations = $sfClient->sparqlResultsValues($results);
         }
@@ -209,8 +210,9 @@ class WebserviceController extends Controller
             $personSparql->addOptional('?uri','foaf:familyName','?familyName','?GR');
             $personSparql->addOptional('?org','rdf:type','foaf:Organization','?GR');
             $personSparql->addOptional('?org','gvoi:building','?building','?GR');
+            $personSparql->addFilter('contains( ?givenName+ " " + ?familyName +" "+ ?desc , "'.$term.'")');
             $personSparql->groupBy('?givenName ?familyName');
-
+            //dump($personSparql->getQuery());
             $results = $sfClient->sparql($personSparql->getQuery());
             $persons = $sfClient->sparqlResultsValues($results);
 
@@ -224,6 +226,7 @@ class WebserviceController extends Controller
             $projectSparql->addOptional('?uri','foaf:img','?image','?GR');
             $projectSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $projectSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $projectSparql->addFilter('contains( ?title +" "+ ?desc , "'.$term.'")');
             $results = $sfClient->sparql($projectSparql->getQuery());
             $projects = $sfClient->sparqlResultsValues($results);
 
@@ -241,6 +244,7 @@ class WebserviceController extends Controller
             $eventSparql->addOptional('?uri','gvoi:building','?building','?GR');
             $eventSparql->addOptional('?uri','gvoi:eventBegin','?start','?GR');
             $eventSparql->addOptional('?uri','gvoi:eventEnd','?end','?GR');
+            $eventSparql->addFilter('contains( ?title +" "+ ?desc , "'.$term.'")');
             $eventSparql->orderBy($sparql::ORDER_DESC,'?start');
             $eventSparql->groupBy('?start');
             $eventSparql->groupBy('?end');
@@ -257,6 +261,7 @@ class WebserviceController extends Controller
             $propositionSparql->addOptional('?uri','foaf:img','?image','?GR');
             $propositionSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $propositionSparql->addOptional('?uri','gvoi:building','?building','?GR');
+            $propositionSparql->addFilter('contains( ?title +" "+ ?desc , "'.$term.'")');
             $results = $sfClient->sparql($propositionSparql->getQuery());
             $propositions = $sfClient->sparqlResultsValues($results);
         }
@@ -267,6 +272,7 @@ class WebserviceController extends Controller
             $thematiqueSparql->addSelect('?title');
             $thematiqueSparql->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR');
             $thematiqueSparql->addWhere('?uri','skos:prefLabel','?title','?GR');
+            $thematiqueSparql->addFilter('contains( ?title , "'.$term.'")');
             $results = $sfClient->sparql($thematiqueSparql->getQuery());
             $thematiques = $sfClient->sparqlResultsValues($results);
         }
@@ -314,7 +320,7 @@ class WebserviceController extends Controller
         return new JsonResponse(
           (object)[
             'results' => $this->searchSparqlRequest(
-              $request->get('t').'*',
+              $request->get('t'),
               ''
               ,$request->get('f')
             ),
@@ -336,7 +342,7 @@ class WebserviceController extends Controller
     {
         $output = [];
         // Get results.
-        $results = $this->searchSparqlRequest($request->get('QueryString').'*',$request->get('rdfType'));
+        $results = $this->searchSparqlRequest($request->get('QueryString'),$request->get('rdfType'));
         // Transform data to match to uri field (uri => title).
         foreach ($results as $item) {
             $output[$item['uri']] = $item['title'];
