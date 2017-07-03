@@ -174,7 +174,6 @@ Polymer({
             // Deselect tab if current.
             let key = Object.keys(resultTemps)[0];
             this.selection(key);
-            dump(resultTemps);
             results =(typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[Object.keys(resultTemps)[0]] : [];
         }
         else{
