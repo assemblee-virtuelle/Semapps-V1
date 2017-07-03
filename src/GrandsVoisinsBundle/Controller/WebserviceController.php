@@ -190,7 +190,7 @@ class WebserviceController extends Controller
             $orgaSparql->addOptional('?uri','foaf:img','?image','?GR');
             $orgaSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $orgaSparql->addOptional('?uri','gvoi:building','?building','?GR');
-            if($term)$orgaSparql->addFilter('contains( ?title +" "+ ?desc , "'.$term.'")');
+            if($term)$orgaSparql->addFilter('contains( lcase(?title) +" "+ lcase(?desc) , lcase("'.$term.'"))');
             //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
             $organizations = $sfClient->sparqlResultsValues($results);
