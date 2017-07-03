@@ -37,6 +37,8 @@ class sparql
 
     private $group =[];
 
+    private $filter =[];
+
     private $order ='';
 
     private $limit;
@@ -91,7 +93,9 @@ class sparql
     public function addWhere($subject,$predicate,$object,$graph =null){
         $this->formatTriple($this->where,$this->createTriple($subject,$predicate,$object),$graph);
     }
-
+    public function addFilter($filter){
+        $this->filter[] =$filter;
+    }
     public function addOptional($subject,$predicate,$object,$graph =null){
         if(!$graph)
             $this->where[] = "OPTIONAL { ".$this->createTriple($subject,$predicate,$object).' }';
@@ -128,6 +132,7 @@ class sparql
         $whereString ='WHERE {';
         $whereString .= $this->formatTab($this->where);
         $whereString .= $this->formatUnion();
+        $whereString .= $this->formatFilter();
         $whereString .= '}';
         }
         return $whereString;
@@ -170,7 +175,13 @@ class sparql
         }
         return $unionString;
     }
-
+    public function formatFilter(){
+        $filterString = "";
+        foreach ($this->filter as $filter){
+            $filterString .= "FILTER ( ".$filter." ).\n";
+        }
+        return $filterString;
+    }
     public function formatLimit(){
         if ($this->limit)
             return 'LIMIT '.$this->limit;
