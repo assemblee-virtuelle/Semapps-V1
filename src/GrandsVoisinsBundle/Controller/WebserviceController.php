@@ -190,7 +190,7 @@ class WebserviceController extends Controller
             $orgaSparql->addOptional('?uri','foaf:img','?image','?GR');
             $orgaSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $orgaSparql->addOptional('?uri','gvoi:building','?building','?GR');
-            if($term)$orgaSparql->addFilter('contains( lcase(?title) +" "+ lcase(?desc) , lcase("'.$term.'"))');
+            if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
             $organizations = $sfClient->sparqlResultsValues($results);
@@ -210,7 +210,7 @@ class WebserviceController extends Controller
             $personSparql->addOptional('?uri','foaf:familyName','?familyName','?GR');
             $personSparql->addOptional('?org','rdf:type','foaf:Organization','?GR');
             $personSparql->addOptional('?org','gvoi:building','?building','?GR');
-            if($term)$personSparql->addFilter('contains( lcase(?givenName)+ " " + lcase(?familyName) +" "+ lcase(?desc) , lcase("'.$term.'"))');
+            if($term)$personSparql->addFilter('contains( lcase(?givenName)+ " " + lcase(?familyName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?familyName)  , lcase("'.$term.'")) || contains( lcase(?givenName)  , lcase("'.$term.'")) ');
             $personSparql->groupBy('?givenName ?familyName');
             //dump($personSparql->getQuery());
             $results = $sfClient->sparql($personSparql->getQuery());
@@ -226,7 +226,7 @@ class WebserviceController extends Controller
             $projectSparql->addOptional('?uri','foaf:img','?image','?GR');
             $projectSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $projectSparql->addOptional('?uri','gvoi:building','?building','?GR');
-            if($term)$projectSparql->addFilter('contains( lcase(?title) +" "+ lcase(?desc) , lcase("'.$term.'"))');
+            if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($projectSparql->getQuery());
             $projects = $sfClient->sparqlResultsValues($results);
 
@@ -244,7 +244,7 @@ class WebserviceController extends Controller
             $eventSparql->addOptional('?uri','gvoi:building','?building','?GR');
             $eventSparql->addOptional('?uri','gvoi:eventBegin','?start','?GR');
             $eventSparql->addOptional('?uri','gvoi:eventEnd','?end','?GR');
-            if($term)$eventSparql->addFilter('contains( lcase(?title) +" "+ lcase(?desc) , lcase("'.$term.'"))');
+            if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $eventSparql->orderBy($sparql::ORDER_DESC,'?start');
             $eventSparql->groupBy('?start');
             $eventSparql->groupBy('?end');
@@ -261,7 +261,7 @@ class WebserviceController extends Controller
             $propositionSparql->addOptional('?uri','foaf:img','?image','?GR');
             $propositionSparql->addOptional('?uri','foaf:status','?desc','?GR');
             $propositionSparql->addOptional('?uri','gvoi:building','?building','?GR');
-            if($term)$propositionSparql->addFilter('contains( lcase(?title) +" "+ lcase(?desc) , lcase("'.$term.'"))');
+            if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($propositionSparql->getQuery());
             $propositions = $sfClient->sparqlResultsValues($results);
         }
