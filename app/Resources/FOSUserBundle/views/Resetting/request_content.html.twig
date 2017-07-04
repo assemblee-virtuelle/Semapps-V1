@@ -3,7 +3,7 @@
 <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
     <div>
         <label for="username">{{ 'resetting.request.username'|trans }}</label>
-        <input class="form-control" type="text" id="username" name="username" required="required" />
+        <input class="form-control" type="text" id="username" name="username" required="required" {% if(app.request.query.get("email")) %}value="{{app.request.query.get("email")}}"{% endif %} />
     </div>
     <div>
         <br/>
