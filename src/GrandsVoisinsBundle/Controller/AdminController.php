@@ -84,9 +84,9 @@ class AdminController extends Controller
             try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "l'utilisateur saisi existe déjà");
+                $this->addFlash('danger', "l'utilisateur saisi existe déjà, vous pouvez essayer de réinitialiser votre mot de passe en renseignant votre e-mail ou votre login");
 
-                return $this->redirectToRoute('register');
+                return $this->redirectToRoute('fos_user_resetting_request');
             }
             $this->addFlash('success','Merci à toi cher Voisin, nous avons bien pris en compte ton inscription,
              nous allons la valider dans les prochaines heures, après quoi tu recevras un mail de confirmation :-) A très bientôt sur la carto ! ');
