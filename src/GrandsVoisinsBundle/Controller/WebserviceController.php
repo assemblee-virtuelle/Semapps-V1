@@ -393,6 +393,7 @@ class WebserviceController extends Controller
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes);
         $sparql->addSelect('?type');
+        $sparql->addSelect('?uri');
         $sparql->addSelect('( COALESCE(?givenName, "") As ?result_1)');
         $sparql->addSelect('( COALESCE(?familyName, "") As ?result_2)');
         $sparql->addSelect('( COALESCE(?name, "") As ?result_3)');
