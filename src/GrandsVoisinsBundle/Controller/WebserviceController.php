@@ -113,45 +113,6 @@ class WebserviceController extends Controller
         return new JsonResponse($parameters->get());
     }
 
-    public function sparqlSelectType(
-      $fieldsRequired,
-      $fieldsOptional = [],
-      $select,
-      $selectType,
-      $where = '',
-      $thesaurusFilter = null
-    ) {
-        $requestSelect = '?uri ';
-        $requestFields = '';
-
-        foreach ($fieldsRequired as $alias => $type) {
-            $requestSelect .= ' ?'.$alias;
-            $requestFields .= ' ?uri '.$type.' ?'.$alias.' . ';
-        }
-        //dump($thesaurusFilter);
-        $thesaurusFilter = ($thesaurusFilter)? ' ?uri gvoi:thesaurus <'.$thesaurusFilter.'> . ' : '';
-        //dump($thesaurusFilter);
-        // Add optional fields.
-        foreach ($fieldsOptional as $alias => $type) {
-            $requestSelect .= ' ?'.$alias;
-            $requestFields .= 'OPTIONAL { ?uri '.$type.' ?'.$alias.' } ';
-        }
-        $selectType = (!$selectType) ? '' : '  ?uri rdf:type <'.$selectType.'> .';
-
-        return $this->container->get(
-          'semantic_forms.client'
-        )->prefixesCompiled."\n\n ".
-        'SELECT '.$requestSelect.$select.' '.
-        'WHERE { '.
-        '  GRAPH ?GR { '.
-        $selectType.
-        $where
-        .$requestFields.$thesaurusFilter.
-        // Group all duplicated items.
-        '}} GROUP BY '.$requestSelect;
-
-    }
-
 
 
     public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
@@ -353,75 +314,43 @@ class WebserviceController extends Controller
 
     public function sparqlGetLabel($url, $uriType)
     {
-        $optionalFields = [];
-        $select         = '';
+        $sparqlClient = new SparqlClient();
+        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+        $sparql->addPrefixes($sparql->prefixes);
+        $sparql->addSelect('?uri');
+        $sparql->addFilter('?uri = <'.$url.'>');
 
         switch ($uriType) {
             case SemanticFormsBundle::URI_FOAF_PERSON :
-                $requiredFields = [
-                  'givenName'  => 'foaf:givenName',
-                  'familyName' => 'foaf:familyName',
-                ];
-                $optionalFields = [
-                  'desc' => 'foaf:status',
-                ];
-                // Build a label.
-                $select = ' ( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label) ';
+                $sparql->addSelect('( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label)');
+                $sparql->addWhere('?uri','foaf:givenName','?givenName','?gr');
+                $sparql->addOptional('?uri','foaf:familyName','?familyName','?gr');
+
                 break;
             case SemanticFormsBundle::URI_FOAF_ORGANIZATION :
-                $requiredFields = [
-                  'label' => 'foaf:name',
-                ];
-                $optionalFields = [];
+                $sparql->addSelect('?label');
+                $sparql->addWhere('?uri','foaf:name','?label','?gr');
+
                 break;
             case SemanticFormsBundle::URI_FOAF_PROJECT :
             case SemanticFormsBundle::URI_FIPA_PROPOSITION :
             case SemanticFormsBundle::URI_PURL_EVENT :
-                $requiredFields = [
-                  'label' => 'rdfs:label',
-                ];
-                $optionalFields = [
-                  'desc' => 'foaf:status',
-                ];
+                $sparql->addSelect('?label');
+                $sparql->addWhere('?uri','rdfs:label','?label','?gr');
+
                 break;
             case SemanticFormsBundle::URI_SKOS_THESAURUS:
-                $requiredFields = [
-                  'label' => 'skos:prefLabel',
-                ];
-                break;
-            default:
-                $requiredFields = [
-                  'type' => 'rdf:type',
-                ];
-                $optionalFields = [
-                  'givenName'  => 'foaf:givenName',
-                  'familyName' => 'foaf:familyName',
-                  'name'       => 'foaf:name',
-                  'label_test' => 'rdfs:label',
-                  'skos'       => 'skos:prefLabel',
-                  'desc'       => 'foaf:status',
-                ];
-                $select         = ' ( COALESCE(?givenName, "") As ?result_1)
-                  ( COALESCE(?familyName, "") As ?result_2)
-                  ( COALESCE(?name, "") As ?result_3)
-                  ( COALESCE(?label_test, "") As ?result_4)
-                  ( COALESCE(?skos, "") As ?result_5)
-                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label) ';
+                $sparql->addSelect('?label');
+                $sparql->addWhere('?uri','skos:prefLabel','?label','?gr');
+
                 break;
         }
-        //$select .= ' ORDER BY ASC(?label)';
-        $request = $this->sparqlSelectType(
-          $requiredFields,
-          $optionalFields,
-          $select,
-          $uriType,
-          ' FILTER (?uri = <'.$url.'>)'
-        );
+
 
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
-        //dump($request);
-        $response = $sfClient->sparql($request);
+        $response = $sfClient->sparql($sparql->getQuery());
         if (isset($response['results']['bindings'][0]['label']['value'])) {
             return $response['results']['bindings'][0]['label']['value'];
         }
@@ -459,54 +388,43 @@ class WebserviceController extends Controller
         $uri                = $request->get('uri');
         $sfClient           = $this->container->get('semantic_forms.client');
         $nameRessource      = $sfClient->dbPediaLabel($uri);
-        $ressourcesNeeded   = ' ?uri gvoi:ressouceNeeded <'.$uri.'>.';
-        $ressourcesProposed = ' ?uri gvoi:ressouceProposed <'.$uri.'>.';
-        $requests           = [];
-        $select             =' ( COALESCE(?givenName, "") As ?result_1)
-                  ( COALESCE(?familyName, "") As ?result_2)
-                  ( COALESCE(?name, "") As ?result_3)
-                  ( COALESCE(?label_test, "") As ?result_4)
-                  ( COALESCE(?skos, "") As ?result_5)
-                  (fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?title) ';
-        $fieldsRequired     =[
-            'type' => 'rdf:type',
-        ];
-        $fieldsOptional     = [
-            'givenName'  => 'foaf:givenName',
-            'familyName' => 'foaf:familyName',
-            'name'       => 'foaf:name',
-            'label_test' => 'rdfs:label',
-            'skos'       => 'skos:prefLabel',
-            'desc'       => 'foaf:status',
-            'image'      => 'foaf:img',
-            'building'   => 'gvoi:building',
-        ];
+        $sparqlClient = new SparqlClient();
+        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+        $sparql->addPrefixes($sparql->prefixes);
+        $sparql->addSelect('?type');
+        $sparql->addSelect('( COALESCE(?givenName, "") As ?result_1)');
+        $sparql->addSelect('( COALESCE(?familyName, "") As ?result_2)');
+        $sparql->addSelect('( COALESCE(?name, "") As ?result_3)');
+        $sparql->addSelect('( COALESCE(?label_test, "") As ?result_4)');
+        $sparql->addSelect('( COALESCE(?skos, "") As ?result_5)');
+        $sparql->addSelect('(fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?title)');
+        $sparql->addWhere('?uri','rdf:type','?type','?gr');
+        $sparql->addOptional('?uri','foaf:givenName','?givenName','?gr');
+        $sparql->addOptional('?uri','foaf:familyName','?familyName','?gr');
+        $sparql->addOptional('?uri','foaf:name','?name','?gr');
+        $sparql->addOptional('?uri','rdfs:label','?label_test','?gr');
+        $sparql->addOptional('?uri','skos:prefLabel','?skos','?gr');
+        $sparql->addOptional('?uri','foaf:status','?desc','?gr');
+        $sparql->addOptional('?uri','foaf:img','?image','?gr');
+        $sparql->addOptional('?uri','gvoi:building','?building','?gr');
+        $ressourcesNeeded = clone $sparql;
+        $ressourcesNeeded->addWhere('?uri','gvoi:ressouceNeeded',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
 
-        $requests['ressourcesNeeded'] = $this->sparqlSelectType(
-            $fieldsRequired,
-            $fieldsOptional,
-            $select,
-            '',
-            $ressourcesNeeded
-        );
-        $requests['ressourcesProposed'] = $this->sparqlSelectType(
-            $fieldsRequired,
-            $fieldsOptional,
-            $select,
-            '',
-            $ressourcesProposed
-        );
+        $requests['ressourcesNeeded'] = $ressourcesNeeded->getQuery();
+        $ressourcesProposed = clone $sparql;
+        $ressourcesProposed->addWhere('?uri','gvoi:ressouceProposed',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $requests['ressourcesProposed'] =$ressourcesProposed->getQuery();
+
 
         $filtered['name'] = $nameRessource;
         $filtered['uri'] = $uri;
         foreach ($requests as $key => $request){
             //dump($request);
             $results[$key]  = $sfClient->sparql($request);
-
             $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
                 $results[$key]
             ) : [];
-
             $filtered[$key] = $this->filter($results[$key]);
         }
         return new JsonResponse(
