@@ -508,12 +508,36 @@ class WebserviceController extends Controller
                         );
                     }
                 }
+                $person = $orga = array();
                 if (isset($properties['hasMember'])) {
                     foreach ($properties['hasMember'] as $uri) {
                         //dump($person);
-                        $output['hasMember'][] = $this->getData(
+                        $component = $this->uriPropertiesFiltered($uri);
+
+                        switch (current($component['type'])) {
+                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                                $person[] = $this->getData(
+                                  $uri,
+                                  current($component['type'])
+                                );
+                                break;
+                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                                $orga[] = $this->getData(
+                                  $uri,
+                                  current($component['type'])
+                                );
+                                break;
+                        }
+                    }
+                    $output['person_hasMember'] = $person;
+                    $output['orga_hasMember']   = $orga;
+                }
+                if (isset($properties['memberOf'])) {
+                    foreach ($properties['memberOf'] as $uri) {
+                        //dump($person);
+                        $output['memberOf'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_FOAF_PERSON
+                          SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION
                         );
                     }
                 }
@@ -543,19 +567,19 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PROJECT
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_PURL_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_PURL_EVENT
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FIPA_PROPOSITION:
                                 $proposition[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FIPA_PROPOSITION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -647,19 +671,19 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PROJECT
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_PURL_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_PURL_EVENT
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FIPA_PROPOSITION:
                                 $proposition[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FIPA_PROPOSITION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -692,13 +716,13 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PERSON
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -715,13 +739,13 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PERSON
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -764,13 +788,13 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PERSON
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -805,13 +829,13 @@ class WebserviceController extends Controller
                             case SemanticFormsBundle::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_PERSON
+                                  current($component['type'])
                                 );
                                 break;
                             case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
-                                  SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                                  current($component['type'])
                                 );
                                 break;
                         }
@@ -855,7 +879,7 @@ class WebserviceController extends Controller
 
     }
 
-    private function getData($uri, $type)
+    private function getData($uri, $type =null)
     {
 
         switch ($type) {
@@ -883,10 +907,19 @@ class WebserviceController extends Controller
                     $type
                   ),
                 ];
-
+                break;
+            default:
+                $temp = $this->uriPropertiesFiltered($uri);
+                return [
+                  'uri'   => $uri,
+                  'name'  => $this->sparqlGetLabel(
+                    $uri,
+                    $type
+                  ),
+                  'image' => (!isset($temp['image'])) ? '/common/images/no_avatar.jpg' : $temp['image'],
+                ];
+                break;
         }
-
-        return [];
     }
 
     /**

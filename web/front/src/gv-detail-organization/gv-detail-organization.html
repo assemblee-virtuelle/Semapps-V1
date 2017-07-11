@@ -174,11 +174,11 @@
       </div>
       <section class="col col-sm-4 side-blocks">
 
-        <template is="dom-if" if="[[data.responsible.length]]">
+        <template is="dom-if" if="[[responsible.length]]">
           <h3><span class="glyphicon glyphicon-king"></span>Ses responsables
           </h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.responsible}}">
+            <template is="dom-repeat" items="{{responsible}}">
               <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></gv-avatar>
             </template>
@@ -186,23 +186,44 @@
           <div class="clearfix"></div>
         </template>
 
-        <template is="dom-if" if="[[data.hasMember.length]]">
+        <template is="dom-if" if="[[person_hasMember.length]]">
           <h3><span class="glyphicon glyphicon-user"></span>Ses membres
           </h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.hasMember}}">
+            <template is="dom-repeat" items="{{person_hasMember}}">
               <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></gv-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-
-        <template is="dom-if" if="[[data.OrganizationalCollaboration.length]]">
+        <template is="dom-if" if="[[orga_hasMember.length]]">
+          <h3><span class="glyphicon glyphicon-user"></span>Organisations membres
+          </h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{orga_hasMember}}">
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[memberOf.length]]">
+          <h3><span class="glyphicon glyphicon-user"></span>Organisations affiliées à
+          </h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{memberOf}}">
+              <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></gv-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[OrganizationalCollaboration.length]]">
           <h3><span class="glyphicon glyphicon-user"></span>Organisation(s) partenaire(s) sur le site
           </h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.OrganizationalCollaboration}}">
+            <template is="dom-repeat" items="{{OrganizationalCollaboration}}">
               <gv-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></gv-avatar>
             </template>
@@ -210,10 +231,10 @@
           <div class="clearfix"></div>
         </template>
 
-        <template is="dom-if" if="[[data.thesaurus.length]]">
+        <template is="dom-if" if="[[thesaurus.length]]">
           <h3>Ses domaine(s) d'activité(s)</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{data.thesaurus}}">
+            <template is="dom-repeat" items="{{thesaurus}}">
               <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
                 {{item.name}}</a>
             </template>
@@ -231,10 +252,10 @@
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[data.projet.length]]">
+        <template is="dom-if" if="[[projet.length]]">
             <h3><span class="glyphicon glyphicon-screenshot"></span>Ses projets
             </h3>
-            <template is="dom-repeat" items="{{data.projet}}">
+            <template is="dom-repeat" items="{{projet}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -242,9 +263,9 @@
             <div class="clearfix"></div>
         </template>
 
-        <template is="dom-if" if="[[data.event.length]]">
+        <template is="dom-if" if="[[event.length]]">
           <h3>Les événements qu'elle organise</h3>
-          <template is="dom-repeat" items="{{data.event}}">
+          <template is="dom-repeat" items="{{event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -252,9 +273,9 @@
           <div class="clearfix"></div>
         </template>
 
-        <template is="dom-if" if="[[data.proposition.length]]">
+        <template is="dom-if" if="[[proposition.length]]">
           <h3>Ses propositions</h3>
-          <template is="dom-repeat" items="{{data.proposition}}">
+          <template is="dom-repeat" items="{{proposition}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
