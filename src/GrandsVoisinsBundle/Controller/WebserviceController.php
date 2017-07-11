@@ -343,13 +343,30 @@ class WebserviceController extends Controller
             case SemanticFormsBundle::URI_SKOS_THESAURUS:
                 $sparql->addSelect('?label');
                 $sparql->addWhere('?uri','skos:prefLabel','?label','?gr');
-
+                break;
+            default:
+                $sparql->addSelect('( COALESCE(?givenName, "") As ?result_1)');
+                $sparql->addSelect('( COALESCE(?familyName, "") As ?result_2)');
+                $sparql->addSelect('( COALESCE(?name, "") As ?result_3)');
+                $sparql->addSelect('( COALESCE(?label_test, "") As ?result_4)');
+                $sparql->addSelect('( COALESCE(?skos, "") As ?result_5)');
+                $sparql->addSelect('(fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label)');
+                $sparql->addWhere('?uri','rdf:type','?type','?gr');
+                $sparql->addOptional('?uri','foaf:givenName','?givenName','?gr');
+                $sparql->addOptional('?uri','foaf:familyName','?familyName','?gr');
+                $sparql->addOptional('?uri','foaf:name','?name','?gr');
+                $sparql->addOptional('?uri','rdfs:label','?label_test','?gr');
+                $sparql->addOptional('?uri','skos:prefLabel','?skos','?gr');
+                $sparql->addOptional('?uri','foaf:status','?desc','?gr');
+                $sparql->addOptional('?uri','foaf:img','?image','?gr');
+                $sparql->addOptional('?uri','gvoi:building','?building','?gr');
                 break;
         }
 
 
         $sfClient = $this->container->get('semantic_forms.client');
         // Count buildings.
+        //dump($sparql->getQuery());
         $response = $sfClient->sparql($sparql->getQuery());
         if (isset($response['results']['bindings'][0]['label']['value'])) {
             return $response['results']['bindings'][0]['label']['value'];

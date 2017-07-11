@@ -227,7 +227,7 @@ class OrganizationType extends AbstractForm
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
-              'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+              'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
             ]
           )
             ->add(
