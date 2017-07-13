@@ -335,38 +335,6 @@ class SemanticFormsClient
     }
 
     /**
-     * @param $graph
-     * @param $sujet
-     * @param $predicat
-     * @param $valeur
-     * @param int $typeValeur
-     * @return mixed
-     */
-    public function insert($graph,$sujet,$predicat,$valeur,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
-        $query = "INSERT DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";
-
-        return $this->update($query);
-    }
-
-    /**
-     * @param $graph
-     * @param $sujet
-     * @param $predicat
-     * @param null $valeur
-     * @param int $typeValeur
-     * @return mixed
-     */
-    public function delete($graph,$sujet =null,$predicat,$valeur= null,$typeValeur= SemanticFormsClient::VALUE_TYPE_TEXT){
-        if(!$sujet)
-            $query="DELETE { GRAPH <".$graph."> { ?s <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }} WHERE { GRAPH <".$graph."> { ?s <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." .}}";
-        elseif(!$valeur)
-            $query="DELETE { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ?o . }} WHERE { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ?o .}}";
-        else
-            $query="DELETE DATA { GRAPH <".$graph."> { <".$sujet."> <".$predicat."> ".$this->formatValue($typeValeur,$valeur)." . }}";
-        return $this->update($query);
-    }
-
-    /**
      * Iterates over results from sparql request
      * to return only key => value pairs.
      *
@@ -523,7 +491,7 @@ class SemanticFormsClient
      * @param int $valeur
      * @return string
      */
-    private function formatValue($type = SemanticFormsClient::VALUE_TYPE_TEXT,$valeur ){
+    public function formatValue($type = SemanticFormsClient::VALUE_TYPE_TEXT,$valeur ){
         if($type == SemanticFormsClient::VALUE_TYPE_URI)
             return '<'.$valeur.'>';
         else

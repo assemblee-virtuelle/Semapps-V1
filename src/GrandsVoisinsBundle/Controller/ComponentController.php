@@ -29,10 +29,10 @@ class ComponentController extends Controller
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
         $graphURI = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-        $sparql->addPrefixes($sparql->prefixes);
-        $sparql->addSelect('?URI ?NAME');
-        $sparql->addWhere('?URI','rdf:type',$this->sparqlPrefix,$graphURI);
-        $sparql->addWhere('?URI','rdfs:label','?NAME',$graphURI);
+        $sparql->addPrefixes($sparql->prefixes)
+            ->addSelect('?URI ?NAME')
+            ->addWhere('?URI','rdf:type',$this->sparqlPrefix,$graphURI)
+            ->addWhere('?URI','rdfs:label','?NAME',$graphURI);
         $results = $sfClient->sparql($sparql->getQuery());
 
         $listContent = [];
@@ -132,10 +132,10 @@ class ComponentController extends Controller
         $componentName = $_GET['componentName'];
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
         $uri = $sparql->formatValue($_GET['uri'],$sparql::VALUE_TYPE_URL);
-        $sparql->addDelete($uri,'?P','?O','?gr');
-        $sparql->addDelete('?s','?PP',$uri,'?gr');
-        $sparql->addWhere($uri,'?P','?O','?gr');
-        $sparql->addWhere('?s','?PP',$uri,'?gr');
+        $sparql->addDelete($uri,'?P','?O','?gr')
+            ->addDelete('?s','?PP',$uri,'?gr')
+            ->addWhere($uri,'?P','?O','?gr')
+            ->addWhere('?s','?PP',$uri,'?gr');
 
         $sfClient->update($sparql->getQuery());
 

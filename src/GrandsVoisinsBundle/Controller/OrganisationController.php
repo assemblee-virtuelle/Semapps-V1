@@ -321,26 +321,26 @@ class OrganisationController extends Controller
                 );
 
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addDelete(
-                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  '?o',
-                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sparql->addWhere(
-                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  '?o',
-                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addDelete(
+                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      '?o',
+                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL))
+                    ->addWhere(
+                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      '?o',
+                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addInsert(
-                  $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_URL),
-                  $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addInsert(
+                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_URL),
+                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
             } else {

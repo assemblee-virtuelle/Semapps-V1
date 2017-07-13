@@ -25,12 +25,16 @@ class sparqlUpdate extends sparql
     public function addDelete($subject,$predicate,$object,$graph =null){
         if( $this->type == SparqlClient::SPARQL_DELETE_DATA || $this->type == SparqlClient::SPARQL_DELETE || $this->type == SparqlClient::SPARQL_DELETE_INSERT)
             $this->formatTriple($this->delete,$this->createTriple($subject,$predicate,$object),$graph);
+        return $this;
     }
 
     public function addInsert($subject,$predicate,$object,$graph =null){
         if( $this->type == SparqlClient::SPARQL_INSERT_DATA || $this->type == SparqlClient::SPARQL_INSERT || $this->type == SparqlClient::SPARQL_DELETE_INSERT)
             $this->formatTriple($this->insert,$this->createTriple($subject,$predicate,$object),$graph);
+        return $this;
     }
+
+
 
     public function getQuery()
     {

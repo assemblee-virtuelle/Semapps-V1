@@ -264,27 +264,27 @@ class AdminController extends Controller
                     $fileUploader->upload($newPicture)
                 );
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addDelete(
-                  $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  '?o',
-                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sparql->addWhere(
-                  $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  '?o',
-                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addDelete(
+                      $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      '?o',
+                      $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
+                    ->addWhere(
+                      $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      '?o',
+                      $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addInsert(
-                  $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                  'foaf:img',
-                  $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
-                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sfClient->update($sparql->getQuery());
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addInsert(
+                      $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+                      'foaf:img',
+                      $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
+                      $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                    $sfClient->update($sparql->getQuery());
 
             } else {
                 $user->setPictureName($oldPictureName);
@@ -317,14 +317,14 @@ class AdminController extends Controller
                 $uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
                 $uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
                 $graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
                 //dump($sparql->getQuery());
                 $sfClient->update($sparql->getQuery());
                 //memberOf
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $sparql->addPrefixes($sparql->prefixes);
-                $sparql->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
                 //dump($sparql->getQuery());
                 $sfClient->update($sparql->getQuery());
 
@@ -385,18 +385,17 @@ class AdminController extends Controller
         foreach ($users as $user){
             //TODO make function to find something about someone
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
-            $sparql->addPrefixes($sparql->prefixes);
-            $sparql->addSelect('?name');
-            $sparql->addSelect('?forname');
-            $sparql->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-              'foaf:familyName',
-              '?name',
-              $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-
-            $sparql->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-              'foaf:givenName',
-              '?forname',
-              $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+            $sparql->addPrefixes($sparql->prefixes)
+                ->addSelect('?name')
+                ->addSelect('?forname')
+                ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
+                  'foaf:familyName',
+                  '?name',
+                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
+                ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
+                  'foaf:givenName',
+                  '?forname',
+                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
             $result = $sfClient->sparql($sparql->getQuery());
             $nom = $prenom = "";
             if (array_key_exists(0,$result["results"]["bindings"])){
@@ -405,18 +404,6 @@ class AdminController extends Controller
                 $prenom = (isset($result["results"]["bindings"][0]['forname']["value"]))? $result["results"]["bindings"][0]['forname']["value"] : "";
             }
             $user->setUsernameCanonical($nom . ' ' . $prenom);
-//            //nom
-//            $query = $sfClient->prefixesCompiled . "\n SELECT ?o WHERE { GRAPH <".$organisation->getGraphURI()."> { <".$user->getSfLink()."> foaf:familyName ?o. }} ";
-//            $result = $sfClient->sparql($query);
-//            if (array_key_exists(0,$result["results"]["bindings"]))
-//                $user->setUsernameCanonical($result["results"]["bindings"][0]['o']["value"]);
-//            else
-//                $user->setUsernameCanonical("");
-//            //prenom
-//            $query = $sfClient->prefixesCompiled . "\n SELECT ?o WHERE { GRAPH <".$organisation->getGraphURI()."> { <".$user->getSfLink()."> foaf:givenName ?o. }} ";
-//            $result = $sfClient->sparql($query);
-//            if (array_key_exists(0,$result["results"]["bindings"]))
-//                $user->setUsernameCanonical($user->getUsernameCanonical().' '.$result["results"]["bindings"][0]['o']["value"]);
 
         }
         $form->handleRequest($request);
@@ -642,11 +629,11 @@ class AdminController extends Controller
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
 
-        $sparql->addPrefixes($sparql->prefixes);
-        $sparql->addSelect('?G ?P ?O');
-        $sparql->addWhere('?s','rdf:type','foaf:Organization','?G');
-        $sparql->addWhere('?s','?P','?O','?G');
-        $sparql->groupBy('?G ?P ?O');
+        $sparql->addPrefixes($sparql->prefixes)
+            ->addSelect('?G ?P ?O')
+            ->addWhere('?s','rdf:type','foaf:Organization','?G')
+            ->addWhere('?s','?P','?O','?G')
+            ->groupBy('?G ?P ?O');
 
         //$query    = 'SELECT ?G ?P ?O WHERE { GRAPH ?G {?S <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://xmlns.com/foaf/0.1/Organization> . ?S ?P ?O } } GROUP BY ?G ?P ?O ';
         $result   = $sfClient->sparql($sparql->getQuery());

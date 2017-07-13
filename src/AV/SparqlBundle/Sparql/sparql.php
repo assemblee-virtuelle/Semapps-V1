@@ -50,10 +50,12 @@ class sparql
     public function setLimit($limit)
     {
         $this->limit = $limit;
+        return $this;
     }
 
     public function groupBy($val){
         $this->group[] = $val;
+        return $this;
     }
 
     public function orderBy($type,$val){
@@ -69,17 +71,20 @@ class sparql
                 break;
 
         }
+        return $this;
     }
 
 
     public function addPrefixes(Array $prefix ){
         foreach ($prefix as $key => $value)
             $this->addPrefix($key,$value);
+        return $this;
     }
 
     public function addPrefix($key,$value){
         if(is_string($key) && is_string($value))
             $this->prefix[$key] = $value;
+        return $this;
     }
 
     public function getPrefix(){
@@ -88,19 +93,24 @@ class sparql
     public function addUnion(array $head,array $union){
         $this->union[]['head'] = $head;
         $this->union[sizeof($this->union)-1]['union'] = $union;
+        return $this;
 
     }
     public function addWhere($subject,$predicate,$object,$graph =null){
         $this->formatTriple($this->where,$this->createTriple($subject,$predicate,$object),$graph);
+        return $this;
     }
     public function addFilter($filter){
         $this->filter[] =$filter;
+        return $this;
     }
     public function addOptional($subject,$predicate,$object,$graph =null){
         if(!$graph)
             $this->where[] = "OPTIONAL { ".$this->createTriple($subject,$predicate,$object).' }';
         else
             $this->where[$graph][] = "OPTIONAL { ".$this->createTriple($subject,$predicate,$object).' }';
+
+        return $this;
     }
 
     public function formatValue($val,$type = sparql::VALUE_TYPE_TEXT){
@@ -108,15 +118,15 @@ class sparql
     }
 
     public function getQuery(){
-        $query['prefix'] = $this->formatPrefix();
-        $query['where'] = $this->formatWhere();
-        $query['limit'] = $this->formatLimit();
+        $query['prefix'] = $this->prefixToString();
+        $query['where'] = $this->whereToString();
+        $query['limit'] = $this->limitToString();
         $query['order'] = $this->order;
-        $query['group'] = $this->formatGroup();
+        $query['group'] = $this->groupToString();
         return $query;
     }
 
-    public function formatPrefix(){
+    public function prefixToString(){
         $prefixString ='';
         if(sizeof($this->prefix) > 0){
             foreach ($this->prefix as $key => $url){
@@ -126,19 +136,19 @@ class sparql
         return $prefixString;
     }
 
-    public function formatWhere(){
+    public function whereToString(){
         $whereString = '';
         if(sizeof($this->where) > 0 || sizeof($this->union) > 0){
         $whereString ='WHERE {';
         $whereString .= $this->formatTab($this->where);
-        $whereString .= $this->formatUnion();
-        $whereString .= $this->formatFilter();
+        $whereString .= $this->unionToString();
+        $whereString .= $this->filterToString();
         $whereString .= '}';
         }
         return $whereString;
     }
 
-    public function formatUnion()
+    public function unionToString()
     {
         $unionString = '';
 
@@ -175,21 +185,21 @@ class sparql
         }
         return $unionString;
     }
-    public function formatFilter(){
+    public function filterToString(){
         $filterString = "";
         foreach ($this->filter as $filter){
             $filterString .= "FILTER ( ".$filter." ).\n";
         }
         return $filterString;
     }
-    public function formatLimit(){
+    public function limitToString(){
         if ($this->limit)
             return 'LIMIT '.$this->limit;
         else
             return '';
     }
 
-    public function formatGroup(){
+    public function groupToString(){
         if (empty($this->group) )
             return '';
         $string = 'GROUP BY ';
@@ -220,7 +230,6 @@ class sparql
             $tab[] = $triple;
         else
             $tab[$graph][] = $triple;
-
     }
 
     public function createTriple($subject,$predicat,$object){

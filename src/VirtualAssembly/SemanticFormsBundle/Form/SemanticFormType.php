@@ -161,12 +161,7 @@ abstract class SemanticFormType extends AbstractType
         );
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param                      $localHtmlName
-     * @param                      $type
-     * @param array                $options
-     */
+
     public function add(
       FormBuilderInterface $builder,
       $localHtmlName,
@@ -325,15 +320,16 @@ abstract class SemanticFormType extends AbstractType
         $tab = SemanticFormsBundle::REVERSE[$type];
         //supprimer tous les précédent liens
         foreach ($tab as $key=>$elem){
-//            dump('delete('.$graph.',null,'.$elem.','.$subject.','.SemanticFormsClient::VALUE_TYPE_URI.')');
-            $sfClient->delete($graph,null,$elem,$subject,SemanticFormsClient::VALUE_TYPE_URI);
+            $query="DELETE { GRAPH <".$graph."> { ?s <".$elem."> ".$sfClient->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." . }} WHERE { GRAPH <".$graph."> { ?s <".$elem."> ".$sfClient->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." .}}";
+            $sfClient->update($query);
         }
         //loop sur les nouveaux liens
 
         foreach ($values as $predicat=>$elems){
-            foreach ($elems as $link=>$elem)
-//            dump('insert('.$graph.','.$link.','.$predicat.','.$subject.','.SemanticFormsClient::VALUE_TYPE_URI.')');
-            $sfClient->insert($graph,$link,$predicat,$subject,SemanticFormsClient::VALUE_TYPE_URI);
+            foreach ($elems as $link=>$elem){
+                $query="INSERT DATA { GRAPH <".$graph."> { <".$link."> <".$predicat."> ".$this->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." . }}";
+                $sfClient->update($query);
+            }
         }
     }
 }
