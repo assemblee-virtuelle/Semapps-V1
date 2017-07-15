@@ -16,7 +16,7 @@ class ComponentController extends Controller
     {
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
 
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
@@ -127,7 +127,7 @@ class ComponentController extends Controller
           ];
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         $componentName = $_GET['componentName'];
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);

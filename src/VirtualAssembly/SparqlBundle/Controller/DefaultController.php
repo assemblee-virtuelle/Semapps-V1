@@ -1,15 +1,11 @@
 <?php
 
-namespace AV\SparqlBundle\Controller;
+namespace VirtualAssembly\SparqlBundle\Controller;
 
-use AV\SparqlBundle\Services\SparqlClient;
-use AV\SparqlBundle\Sparql\sparqlSelect;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-
-
     public function indexAction()
     {
         $sparqlClient = new SparqlClient();
@@ -40,7 +36,7 @@ class DefaultController extends Controller
           $sparql->formatValue('urn:gv/contacts/new/row/215-org',$sparql::VALUE_TYPE_URL));
         */
 
-        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         /*
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($this->prefixes);
@@ -57,16 +53,16 @@ class DefaultController extends Controller
           $sparql->formatValue('user:aa',$sparql::VALUE_TYPE_URL));
         */
         /*
-        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
-        $sparql->addPrefixes($this->prefixes);
-        $sparql->addSelect('?G');
-        $sparql->addSelect('?P');
-        $sparql->addSelect('?O');
-        $sparql->addWhere('?s','rdf:type','foaf:Organization','?G');
-        $sparql->addWhere('?s','?P','?O','?G');
-        $sparql->groupBy('?G');
-        $sparql->groupBy('?P');
-        $sparql->groupBy('?O');
+                $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addSelect('?G');
+                $sparql->addSelect('?P');
+                $sparql->addSelect('?O');
+                $sparql->addWhere('?s','rdf:type','foaf:Organization','?G');
+                $sparql->addWhere('?s','?P','?O','?G');
+                $sparql->groupBy('?G');
+                $sparql->groupBy('?P');
+                $sparql->groupBy('?O');
         */
 
         //component controller
@@ -89,8 +85,17 @@ class DefaultController extends Controller
         $sparql->addWhere('?URI','rdf:type','foaf:Project','?G');
         $sparql->addWhere('?URI','rdfs:label','?NAME','?G');
        */
-
-        $query = $sparql->getQuery();
+        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+        $sparql->addSelect('?s')
+          ->addWhere('?s','?p','?o','?g');
+        $head['?test'][] = $sparql->createTriple('?s','?p','?o');
+        $head[] = $sparql->createTriple('?s','?p','?o');
+        $head[] = $sparql->createTriple('?s','?p','?o');
+        $head[] = $sparql->createTriple('?s','?p','?o');
+        $union[] = $sparql->createTriple('?s','?p','?o');
+        $union[] = $sparql->createTriple('?s','?p','?o');
+        $union[] = $sparql->createTriple('?s','?p','?o');
+        $query = $sparql->addUnion($head,$union)->getQuery();
         return $this->render('AVSparqlBundle:Default:index.html.twig',['query' =>$query]);
 
     }

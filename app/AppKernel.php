@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle(),
             new \Liip\ImagineBundle\LiipImagineBundle(),
-            new AV\SparqlBundle\AVSparqlBundle(),
+            new VirtualAssembly\SparqlBundle\SparqlBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

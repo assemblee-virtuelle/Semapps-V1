@@ -2,7 +2,7 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
-use AV\SparqlBundle\Services\SparqlClient;
+use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -127,7 +127,7 @@ class WebserviceController extends Controller
         $typeThesaurus= array_key_exists(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
 
         $sparqlClient = new SparqlClient();
-        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         /* requete génériques */
         $sparql->addPrefixes($sparql->prefixes)
@@ -314,7 +314,7 @@ class WebserviceController extends Controller
     public function sparqlGetLabel($url, $uriType)
     {
         $sparqlClient = new SparqlClient();
-        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
             ->addSelect('?uri')
@@ -405,7 +405,7 @@ class WebserviceController extends Controller
         $sfClient           = $this->container->get('semantic_forms.client');
         $nameRessource      = $sfClient->dbPediaLabel($uri);
         $sparqlClient = new SparqlClient();
-        /** @var \AV\SparqlBundle\Sparql\sparqlSelect $sparql */
+        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
             ->addSelect('?type')

@@ -1,5 +1,5 @@
 <?php
-namespace  AV\SparqlBundle\Sparql;
+namespace  VirtualAssembly\SparqlBundle\Sparql;
 /**
  * Created by PhpStorm.
  * User: LaFaucheuse

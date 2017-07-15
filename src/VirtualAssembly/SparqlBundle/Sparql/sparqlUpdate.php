@@ -1,6 +1,6 @@
 <?php
-namespace  AV\SparqlBundle\Sparql;
-use AV\SparqlBundle\Services\SparqlClient;
+namespace  VirtualAssembly\SparqlBundle\Sparql;
+use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 
 /**
  * Created by PhpStorm.

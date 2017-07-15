@@ -1,10 +1,10 @@
 <?php
 
-namespace AV\SparqlBundle\Services;
+namespace VirtualAssembly\SparqlBundle\Services;
 
-use AV\SparqlBundle\Sparql\sparqlSelect;
-use AV\SparqlBundle\Sparql\sparqlConstruct;
-use AV\SparqlBundle\Sparql\sparqlUpdate;
+use VirtualAssembly\SparqlBundle\Sparql\sparqlSelect;
+use VirtualAssembly\SparqlBundle\Sparql\sparqlConstruct;
+use VirtualAssembly\SparqlBundle\Sparql\sparqlUpdate;
 /**
  * Created by PhpStorm.
  * User: LaFaucheuse

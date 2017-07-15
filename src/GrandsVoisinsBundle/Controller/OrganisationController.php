@@ -233,7 +233,7 @@ class OrganisationController extends Controller
         $sfClient = $this->container->get('semantic_forms.client');
         /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
 

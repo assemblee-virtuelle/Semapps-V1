@@ -207,7 +207,7 @@ class AdminController extends Controller
         $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         $oldPictureName = $user->getPictureName();
         //$predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
@@ -357,7 +357,7 @@ class AdminController extends Controller
     {
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         // Find all users.
         $userManager         = $this->getDoctrine()
@@ -624,7 +624,7 @@ class AdminController extends Controller
     {
         $sfClient = $this->container->get('semantic_forms.client');
 
-        /** @var \AV\SparqlBundle\Services\SparqlClient $sparqlClient */
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);

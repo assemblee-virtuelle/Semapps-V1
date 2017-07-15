@@ -1,6 +1,6 @@
 <?php
 
-namespace AV\SparqlBundle\Tests\Controller;
+namespace VirtualAssembly\SparqlBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

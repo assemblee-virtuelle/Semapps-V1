@@ -1,0 +1,3 @@
+sparql_homepage:
+    path:     /
+    defaults: { _controller: SparqlBundle:Default:index }
