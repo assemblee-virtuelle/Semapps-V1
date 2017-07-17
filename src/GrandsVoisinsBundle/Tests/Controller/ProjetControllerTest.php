@@ -58,7 +58,7 @@ class ProjetControllerTest extends toolsFormTest
         //$this->debugContent();
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->createButton.'")')->count());
         $this->crawler = $this->client->click($this->crawler->selectLink($this->createButton)->link());
-        //$this->debugContent();
+        $this->debugContent();
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->setForm($this->nameForm,$this->tabValue,toolsFormTest::TEST_CREATE);

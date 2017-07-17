@@ -70,7 +70,7 @@
                     </td>
                     {% if is_granted('ROLE_ADMIN') %}
                         <td class="padded-value">
-                            <a class="team-user-delete" href="#" rel="{{ user.id }}">
+                            <a id="delete-{{ user.username }}"  name="delete-{{ user.username }}" class="team-user-delete" href="#" rel="{{ user.id }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         {% if not user.enabled  %}
