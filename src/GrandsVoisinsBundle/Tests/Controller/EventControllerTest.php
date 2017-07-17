@@ -64,8 +64,8 @@ class EventControllerTest extends toolsFormTest
 
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
-        //$link = $this->crawler->filter('td')->eq(0)->children()->link();
-        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
+        //$link = $this->crawler->filter('td')->first()->children()->link();
+        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->first()->link());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->formTest($this->nameForm,$this->tabValue,toolsFormTest::TEST_CREATE);
@@ -78,7 +78,7 @@ class EventControllerTest extends toolsFormTest
         $this->crawler = $this->client->request('GET', $this->route);
         $this->crawler = $this->client->followRedirect();
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
-        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
+        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->first()->link());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->setForm($this->nameForm,$this->tabValue,toolsFormTest::TEST_UPDATE);
@@ -88,8 +88,8 @@ class EventControllerTest extends toolsFormTest
 
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
-        //$link = $this->crawler->filter('td')->eq(0)->children()->link();
-        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
+        //$link = $this->crawler->filter('td')->first()->children()->link();
+        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->first()->link());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->formTest($this->nameForm,$this->tabValue,toolsFormTest::TEST_UPDATE);
@@ -103,7 +103,7 @@ class EventControllerTest extends toolsFormTest
         $this->crawler = $this->client->request('GET', $this->route);
         $this->crawler = $this->client->followRedirect();
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
-        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
+        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->first()->link());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->setForm($this->nameForm,$this->tabValue);
@@ -113,8 +113,8 @@ class EventControllerTest extends toolsFormTest
 
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->editButton.'")')->count());
         //$this->info( $this->crawler->filter('td')->children());
-        //$link = $this->crawler->filter('td')->eq(0)->children()->link();
-        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->eq(0)->link());
+        //$link = $this->crawler->filter('td')->first()->children()->link();
+        $this->crawler = $this->client->click($this->crawler->filter('a:contains("Editer")')->first()->link());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$this->formButtonName.'")')->count());
         $this->getForm($this->formButtonName);
         $this->formTest($this->nameForm,$this->tabValue);

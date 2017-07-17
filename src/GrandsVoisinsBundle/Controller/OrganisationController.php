@@ -390,65 +390,6 @@ class OrganisationController extends Controller
         );
     }
 
-    public function saveOrganisationAction()
-    {
-        /** @var \GrandsVoisinsBundle\Services\Encryption $encryption */
-        $encryption = $this->container->get('GrandsVoisinsBundle.encryption');
-        $edit = $_POST["edit"];
-        $id   = $_POST["id"];
-        unset($_POST["edit"]);
-        unset($_POST["id"]);
-
-        $sfClient = $this
-          ->container
-          ->get('semantic_forms.client');
-        $sfClient
-          ->verifMember($_POST, $_POST["graphURI"], $_POST["uri"]);
-        $info = $sfClient
-          ->send(
-            $_POST,
-            $this->getUser()->getEmail(),
-            $encryption->decrypt($this->getUser()->getSfUser())
-          );
-
-        //TODO: a modifier pour prendre l'utilisateur courant !
-        if ($info == 200) {
-            if (!$edit) {
-                $organisationEntity = $this->getDoctrine()
-                  ->getManager()
-                  ->getRepository('GrandsVoisinsBundle:Organisation');
-                $query              = $organisationEntity->createQueryBuilder(
-                  'q'
-                )
-                  ->update()
-                  ->set('q.sfOrganisation', ':link')
-                  ->where('q.id=:id')
-                  ->setParameter('link', $_POST["uri"])
-                  ->setParameter('id', $this->getUser()->getfkOrganisation())
-                  ->getQuery();
-                $query->getResult();
-            }
-
-            $this->addFlash(
-              'success',
-              'Les modifications ont bien été prises en compte.'
-            );
-
-            return $this->redirectToRoute(
-              'detail_orga_edit',
-              ['orgaId' => $id]
-            );
-
-        } else {
-            $this->addFlash(
-              'success',
-              'Une erreur s\'est produite lors de la sauvegarde du formulaire'
-            );
-
-            return $this->redirectToRoute('organisation');
-        }
-    }
-
     public function orgaDeleteAction($orgaId)
     {
         $organisationRepository = $this->getDoctrine()

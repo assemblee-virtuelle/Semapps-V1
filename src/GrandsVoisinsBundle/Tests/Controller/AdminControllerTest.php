@@ -65,7 +65,7 @@ class AdminControllerTest extends toolsFormTest
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("Un compte à bien été créé pour")')->count());
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("newUser")')->count());
         self::assertGreaterThan(0,$this->crawler->filter('.team-user-delete')->count());
-        //$this->crawler = $this->client->click($this->crawler->filter('a:contains("delete-'.$field['username'].'")')->eq(0)->link());
+        //$this->crawler = $this->client->click($this->crawler->filter('a:contains("delete-'.$field['username'].'")')->first()->link());
         self::assertEquals(1,$this->crawler->filter('#delete-'.$field['username'][0])->count());
         $userId = $this->crawler->filter('#delete-'.$field['username'][0])->attr('rel');
 
