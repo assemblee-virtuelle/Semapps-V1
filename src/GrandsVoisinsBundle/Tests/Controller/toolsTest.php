@@ -54,7 +54,12 @@ class toolsTest extends WebTestCase
         $this->crawler = $this->client->request('GET', '/');
     }
 
-
+    public function getUri(){
+        $this->crawler = $this->client->request('GET', "/mon-compte/profile");
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("Voir")')->count());
+        $uri = explode("uri=",$this->crawler->filter('a:contains("Voir")')->attr('href'))[1];
+        return $uri;
+    }
 
     public function log($message, $color = false)
     {

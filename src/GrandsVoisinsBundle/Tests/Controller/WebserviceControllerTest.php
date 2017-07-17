@@ -66,6 +66,57 @@ class WebserviceControllerTest extends toolsTest
         $this->testLogout();
     }
 
+    public function testWebserviceSearch(){
+        $this->testLogin();
+        $this->crawler = $this->client->request('GET', '/webservice/search',['t' =>"givenName"]);
+        self::assertTrue(
+          $this->client->getResponse()->headers->contains(
+            'Content-Type',
+            'application/json'
+          )
+        );
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(),true);
+        self::assertArrayHasKey('results', $jsonResponse);
+        self::assertNotEmpty($jsonResponse);
+        $firstElem = $jsonResponse["results"][0];
+        self::assertNotEmpty('results', $firstElem);
+        self::assertArrayHasKey('familyName', $firstElem);
+        self::assertArrayHasKey('givenName', $firstElem);
+        self::assertArrayHasKey('title', $firstElem);
+        self::assertArrayHasKey('type', $firstElem);
+        self::assertArrayHasKey('uri', $firstElem);
+        self::assertEquals("givenName",$firstElem["givenName"]);
+
+    }
+
+    public function testWebserviceFieldUriSearch(){
+        $this->testLogin();
+        $this->crawler = $this->client->request('GET', '/webservice/search/field-uri',['QueryString' =>"givenName",'rdfType' =>$this->entities[1]]);
+        self::assertTrue(
+          $this->client->getResponse()->headers->contains(
+            'Content-Type',
+            'application/json'
+          )
+        );
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(),true);
+        self::assertNotEmpty($jsonResponse);
+        self::assertContains("givenName",reset($jsonResponse));
+    }
+
+    public function testWebserviceFieldUriLabel(){
+        $this->testLogin();
+        $uri = $this->getUri();
+        $this->crawler = $this->client->request('GET', '/webservice/label/field-uri',['uri' =>$uri]);
+        self::assertTrue(
+          $this->client->getResponse()->headers->contains(
+            'Content-Type',
+            'application/json'
+          )
+        );
+        $jsonResponse = json_decode($this->client->getResponse()->getContent(),true);
+        self::assertNotEmpty($jsonResponse);
+        self::assertContains("givenName",reset($jsonResponse));
+    }
 
 
 }

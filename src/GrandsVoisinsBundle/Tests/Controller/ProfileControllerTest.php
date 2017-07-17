@@ -87,4 +87,12 @@ class ProfileControllerTest extends toolsFormTest
         $this->testProfileCreateAction();
         $this->testLogout();
     }
+
+    public function testProfileReadAction(){
+        $this->testLogin();
+        $this->crawler = $this->client->request('GET', $this->route);
+        self::assertGreaterThan(0,$this->crawler->filter('html:contains("Voir")')->count());
+        $this->crawler = $this->client->click($this->crawler->filter('html:contains("Voir")')->first()->link());
+        $this->debugContent();
+    }
 }

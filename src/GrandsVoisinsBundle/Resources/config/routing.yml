@@ -112,27 +112,19 @@ componentDelete:
 webserviceParameters:
     path:     /webservice/parameters
     defaults: { _controller: GrandsVoisinsBundle:Webservice:parameters }
-
-webserviceSearchRequest:
-    path:     /webservice/searchRequest
-    defaults: { _controller: GrandsVoisinsBundle:Webservice:searchRequest }
-
+# tested
 webserviceSearch:
     path:     /webservice/search
     defaults: { _controller: GrandsVoisinsBundle:Webservice:search }
-
-webserviceLookup:
-    path:     /webservice/lookup
-    defaults: { _controller: GrandsVoisinsBundle:Webservice:lookup }
-
+# tested
 webserviceFieldUriSearch:
     path:     /webservice/search/field-uri
     defaults: { _controller: GrandsVoisinsBundle:Webservice:fieldUriSearch }
-
+# tested
 webserviceFieldUriLabel:
     path:     /webservice/label/field-uri
     defaults: { _controller: GrandsVoisinsBundle:Webservice:fieldUriLabel }
-
+# tested
 webserviceDetail:
     path:     /webservice/detail
     defaults: { _controller: GrandsVoisinsBundle:Webservice:detail }

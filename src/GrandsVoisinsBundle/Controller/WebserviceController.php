@@ -265,15 +265,6 @@ class WebserviceController extends Controller
         return $results;
     }
 
-    public function searchRequestAction(Request $request)
-    {
-        // Get term.
-        $term = $request->query->get('t');
-
-        // Show request for debug.
-        return new Response($this->searchSparqlRequest($term));
-    }
-
     public function searchAction(Request $request)
     {
         // Search
@@ -286,16 +277,6 @@ class WebserviceController extends Controller
             ),
           ]
         );
-    }
-
-    public function lookupAction(Request $request)
-    {
-        $queryString = $request->get('QueryString');
-        $queryClass  = $request->get('QueryClass');
-        $sfClient    = $this->container->get('semantic_forms.client');
-        $results     = $sfClient->lookup($queryString, $queryClass);
-
-        return new JsonResponse($results);
     }
 
     public function fieldUriSearchAction(Request $request)
