@@ -327,7 +327,7 @@ abstract class SemanticFormType extends AbstractType
 
         foreach ($values as $predicat=>$elems){
             foreach ($elems as $link=>$elem){
-                $query="INSERT DATA { GRAPH <".$graph."> { <".$link."> <".$predicat."> ".$this->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." . }}";
+                $query="INSERT DATA { GRAPH <".$graph."> { <".$link."> <".$predicat."> ".$sfClient->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." . }}";
                 $sfClient->update($query);
             }
         }
