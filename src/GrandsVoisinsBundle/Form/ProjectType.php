@@ -96,7 +96,7 @@ class ProjectType extends AbstractForm
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION,
+                    'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
                     'required'  => false,
                 ]
             )
