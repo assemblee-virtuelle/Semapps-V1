@@ -112,8 +112,6 @@ class WebserviceController extends Controller
         return new JsonResponse($parameters->get());
     }
 
-
-
     public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
     {
         $sfClient    = $this->container->get('semantic_forms.client');
@@ -125,7 +123,7 @@ class WebserviceController extends Controller
         $typeEvent= array_key_exists(SemanticFormsBundle::URI_PURL_EVENT,$arrayType);
         $typeProposition= array_key_exists(SemanticFormsBundle::URI_FIPA_PROPOSITION,$arrayType);
         $typeThesaurus= array_key_exists(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
-
+        $userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
@@ -192,7 +190,7 @@ class WebserviceController extends Controller
 
         }
         $events = [];
-        if($type == SemanticFormsBundle::Multiple || $typeEvent ){
+        if(($type == SemanticFormsBundle::Multiple || $typeEvent) && $userLogged){
             $eventSparql = clone $sparql;
             $eventSparql->addSelect('?title')
                 ->addSelect('?start')
@@ -213,7 +211,7 @@ class WebserviceController extends Controller
 
         }
         $propositions = [];
-        if($type == SemanticFormsBundle::Multiple || $typeProposition ){
+        if(($type == SemanticFormsBundle::Multiple || $typeProposition)&& $userLogged ){
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FIPA_PROPOSITION,$sparql::VALUE_TYPE_URL),'?GR')
