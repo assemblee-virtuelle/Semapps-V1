@@ -14,6 +14,38 @@ use GrandsVoisinsBundle\Entity\User;
 
 class GrandsVoisinsConfig
 {
+    const URI_FOAF_PERSON = 'http://xmlns.com/foaf/0.1/Person';
+    const URI_FOAF_ORGANIZATION = 'http://xmlns.com/foaf/0.1/Organization';
+    const URI_FOAF_PROJECT = 'http://xmlns.com/foaf/0.1/Project';
+    const URI_PURL_EVENT = 'http://purl.org/NET/c4dm/event.owl#Event';
+    const URI_FIPA_PROPOSITION = 'http://www.fipa.org/schemas#Proposition';
+    const URI_SKOS_THESAURUS = 'http://www.w3.org/2004/02/skos/core#Concept';
+    const URI_MIXTE_PERSON_ORGANIZATION = [
+      'http://xmlns.com/foaf/0.1/Person',
+      'http://xmlns.com/foaf/0.1/Organization'
+    ];
+    const Multiple = '';
+
+    const REVERSE = [
+      GrandsVoisinsConfig::URI_FOAF_ORGANIZATION =>[// person => orga
+        'http://www.w3.org/ns/org#hasMember' => 'http://www.w3.org/ns/org#memberOf',
+      ],
+      GrandsVoisinsConfig::URI_FOAF_PROJECT => [
+        'http://www.w3.org/ns/org#Head' => 'http://xmlns.com/foaf/0.1/made',
+        'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',
+      ],
+      GrandsVoisinsConfig::URI_FIPA_PROPOSITION => [
+        'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',
+      ],
+      GrandsVoisinsConfig::URI_PURL_EVENT => [
+        'http://xmlns.com/foaf/0.1/maker' => 'http://xmlns.com/foaf/0.1/made',
+      ],
+    ];
+    CONST SPEC_PERSON = 'form-Person';
+    CONST SPEC_ORGANIZATION = 'form-Organization';
+    CONST SPEC_PROJECT = 'form-Project';
+    CONST SPEC_EVENT = 'form-Event';
+    CONST SPEC_PROPOSITION = 'form-Proposition';
     const PREFIX = 'urn:gv/contacts/new/row/';
     const FIRST = 0;
     const ORGANISATION = 1;

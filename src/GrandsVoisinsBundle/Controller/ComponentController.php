@@ -2,6 +2,8 @@
 
 namespace GrandsVoisinsBundle\Controller;
 
+
+use GrandsVoisinsBundle\GrandsVoisinsConfig;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -83,8 +85,9 @@ class ComponentController extends Controller
             'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
+            'reverse'               => GrandsVoisinsConfig::REVERSE,
             'spec'                  => constant(
-              'VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient::'.$specName
+              'GrandsVoisinsBundle\GrandsVoisinsConfig::'.$specName
             ),
             'values'                => $request->get('uri'),
             'lookupUrlLabel'        => $this->generateUrl(

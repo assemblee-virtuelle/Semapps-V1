@@ -9,11 +9,11 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 class WebserviceControllerTest extends toolsTest
 {
     var $entities = [
-      SemanticFormsBundle::URI_FOAF_ORGANIZATION,
-      SemanticFormsBundle::URI_FOAF_PERSON,
-      SemanticFormsBundle::URI_FOAF_PROJECT,
-      SemanticFormsBundle::URI_PURL_EVENT,
-      SemanticFormsBundle::URI_FIPA_PROPOSITION,
+      GrandsVoisinsConfig::URI_FOAF_ORGANIZATION,
+      GrandsVoisinsConfig::URI_FOAF_PERSON,
+      GrandsVoisinsConfig::URI_FOAF_PROJECT,
+      GrandsVoisinsConfig::URI_PURL_EVENT,
+      GrandsVoisinsConfig::URI_FIPA_PROPOSITION,
     ];
     public function testWebserviceParameters(){
         //not logged

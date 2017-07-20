@@ -76,7 +76,7 @@ class EventType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',GrandsVoisinsConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -87,7 +87,7 @@ class EventType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                    'rdfType'   => GrandsVoisinsConfig::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(

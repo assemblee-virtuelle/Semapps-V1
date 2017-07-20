@@ -10,33 +10,32 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class WebserviceController extends Controller
 {
     var $entitiesTabs = [
-      SemanticFormsBundle::URI_FOAF_ORGANIZATION => [
+      GrandsVoisinsConfig::URI_FOAF_ORGANIZATION => [
         'name'   => 'Organisation',
         'plural' => 'Organisations',
         'icon'   => 'tower',
       ],
-      SemanticFormsBundle::URI_FOAF_PERSON       => [
+      GrandsVoisinsConfig::URI_FOAF_PERSON       => [
         'name'   => 'Personne',
         'plural' => 'Personnes',
         'icon'   => 'user',
       ],
-      SemanticFormsBundle::URI_FOAF_PROJECT      => [
+      GrandsVoisinsConfig::URI_FOAF_PROJECT      => [
         'name'   => 'Projet',
         'plural' => 'Projets',
         'icon'   => 'screenshot',
       ],
-      SemanticFormsBundle::URI_PURL_EVENT        => [
+      GrandsVoisinsConfig::URI_PURL_EVENT        => [
         'name'   => 'Event',
         'plural' => 'Events',
         'icon'   => 'calendar',
       ],
-      SemanticFormsBundle::URI_FIPA_PROPOSITION  => [
+      GrandsVoisinsConfig::URI_FIPA_PROPOSITION  => [
         'name'   => 'Proposition',
         'plural' => 'Propositions',
         'icon'   => 'info-sign',
@@ -44,12 +43,12 @@ class WebserviceController extends Controller
     ];
 
     var $entitiesFilters = [
-      SemanticFormsBundle::URI_FOAF_ORGANIZATION,
-      SemanticFormsBundle::URI_FOAF_PERSON,
-      SemanticFormsBundle::URI_FOAF_PROJECT,
-      SemanticFormsBundle::URI_PURL_EVENT,
-      SemanticFormsBundle::URI_FIPA_PROPOSITION,
-      SemanticFormsBundle::URI_SKOS_THESAURUS,
+      GrandsVoisinsConfig::URI_FOAF_ORGANIZATION,
+      GrandsVoisinsConfig::URI_FOAF_PERSON,
+      GrandsVoisinsConfig::URI_FOAF_PROJECT,
+      GrandsVoisinsConfig::URI_PURL_EVENT,
+      GrandsVoisinsConfig::URI_FIPA_PROPOSITION,
+      GrandsVoisinsConfig::URI_SKOS_THESAURUS,
     ];
 
     public function __construct()
@@ -71,7 +70,7 @@ class WebserviceController extends Controller
             // Get results.
             $results = $this->searchSparqlRequest(
               '',
-              SemanticFormsBundle::URI_SKOS_THESAURUS
+              GrandsVoisinsConfig::URI_SKOS_THESAURUS
             );
 
             $thesaurus = [];
@@ -112,17 +111,17 @@ class WebserviceController extends Controller
         return new JsonResponse($parameters->get());
     }
 
-    public function searchSparqlRequest($term, $type = SemanticFormsBundle::Multiple,$filter=null)
+    public function searchSparqlRequest($term, $type = GrandsVoisinsConfig::Multiple,$filter=null)
     {
         $sfClient    = $this->container->get('semantic_forms.client');
         $arrayType = explode('|',$type);
         $arrayType = array_flip($arrayType);
-        $typeOrganization = array_key_exists(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$arrayType);
-        $typePerson= array_key_exists(SemanticFormsBundle::URI_FOAF_PERSON,$arrayType);
-        $typeProject= array_key_exists(SemanticFormsBundle::URI_FOAF_PROJECT,$arrayType);
-        $typeEvent= array_key_exists(SemanticFormsBundle::URI_PURL_EVENT,$arrayType);
-        $typeProposition= array_key_exists(SemanticFormsBundle::URI_FIPA_PROPOSITION,$arrayType);
-        $typeThesaurus= array_key_exists(SemanticFormsBundle::URI_SKOS_THESAURUS,$arrayType);
+        $typeOrganization = array_key_exists(GrandsVoisinsConfig::URI_FOAF_ORGANIZATION,$arrayType);
+        $typePerson= array_key_exists(GrandsVoisinsConfig::URI_FOAF_PERSON,$arrayType);
+        $typeProject= array_key_exists(GrandsVoisinsConfig::URI_FOAF_PROJECT,$arrayType);
+        $typeEvent= array_key_exists(GrandsVoisinsConfig::URI_PURL_EVENT,$arrayType);
+        $typeProposition= array_key_exists(GrandsVoisinsConfig::URI_FIPA_PROPOSITION,$arrayType);
+        $typeThesaurus= array_key_exists(GrandsVoisinsConfig::URI_SKOS_THESAURUS,$arrayType);
         $userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -140,10 +139,10 @@ class WebserviceController extends Controller
             ->groupBy('?uri ?type ?title ?image ?desc ?building')
             ->orderBy($sparql::ORDER_ASC,'?title');
         $organizations =[];
-        if($type == SemanticFormsBundle::Multiple || $typeOrganization ){
+        if($type == GrandsVoisinsConfig::Multiple || $typeOrganization ){
             $orgaSparql = clone $sparql;
             $orgaSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_FOAF_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','foaf:name','?title','?GR')
                 ->addOptional('?uri','foaf:img','?image','?GR')
                 ->addOptional('?uri','foaf:status','?desc','?GR')
@@ -154,13 +153,13 @@ class WebserviceController extends Controller
             $organizations = $sfClient->sparqlResultsValues($results);
         }
         $persons = [];
-        if($type == SemanticFormsBundle::Multiple || $typePerson ){
+        if($type == GrandsVoisinsConfig::Multiple || $typePerson ){
 
             $personSparql = clone $sparql;
             $personSparql->addSelect('?familyName')
                 ->addSelect('?givenName')
                 ->addSelect('( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_FOAF_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','foaf:givenName','?givenName','?GR')
                 ->addOptional('?uri','foaf:img','?image','?GR')
                 ->addOptional('?uri','foaf:status','?desc','?GR')
@@ -176,10 +175,10 @@ class WebserviceController extends Controller
 
         }
         $projects = [];
-        if($type == SemanticFormsBundle::Multiple || $typeProject ){
+        if($type == GrandsVoisinsConfig::Multiple || $typeProject ){
             $projectSparql = clone $sparql;
             $projectSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FOAF_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_FOAF_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','rdfs:label','?title','?GR')
                 ->addOptional('?uri','foaf:img','?image','?GR')
                 ->addOptional('?uri','foaf:status','?desc','?GR')
@@ -190,12 +189,12 @@ class WebserviceController extends Controller
 
         }
         $events = [];
-        if(($type == SemanticFormsBundle::Multiple || $typeEvent) && $userLogged){
+        if(($type == GrandsVoisinsConfig::Multiple || $typeEvent) && $userLogged){
             $eventSparql = clone $sparql;
             $eventSparql->addSelect('?title')
                 ->addSelect('?start')
                 ->addSelect('?end')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_PURL_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_PURL_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','rdfs:label','?title','?GR')
                 ->addOptional('?uri','foaf:img','?image','?GR')
                 ->addOptional('?uri','foaf:status','?desc','?GR')
@@ -211,10 +210,10 @@ class WebserviceController extends Controller
 
         }
         $propositions = [];
-        if(($type == SemanticFormsBundle::Multiple || $typeProposition)&& $userLogged ){
+        if(($type == GrandsVoisinsConfig::Multiple || $typeProposition)&& $userLogged ){
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_FIPA_PROPOSITION,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_FIPA_PROPOSITION,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','rdfs:label','?title','?GR')
                 ->addOptional('?uri','foaf:img','?image','?GR')
                 ->addOptional('?uri','foaf:status','?desc','?GR');
@@ -225,10 +224,10 @@ class WebserviceController extends Controller
         }
 
         $thematiques = [];
-        if($type == SemanticFormsBundle::Multiple || $typeThesaurus ){
+        if($type == GrandsVoisinsConfig::Multiple || $typeThesaurus ){
             $thematiqueSparql = clone $sparql;
             $thematiqueSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(SemanticFormsBundle::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(GrandsVoisinsConfig::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','skos:prefLabel','?title','?GR');
             if($term)$thematiqueSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
             $results = $sfClient->sparql($thematiqueSparql->getQuery());
@@ -300,25 +299,25 @@ class WebserviceController extends Controller
             ->addFilter('?uri = <'.$url.'>');
 
         switch ($uriType) {
-            case SemanticFormsBundle::URI_FOAF_PERSON :
+            case GrandsVoisinsConfig::URI_FOAF_PERSON :
                 $sparql->addSelect('( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label)')
                     ->addWhere('?uri','foaf:givenName','?givenName','?gr')
                     ->addOptional('?uri','foaf:familyName','?familyName','?gr');
 
                 break;
-            case SemanticFormsBundle::URI_FOAF_ORGANIZATION :
+            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','foaf:name','?label','?gr');
 
                 break;
-            case SemanticFormsBundle::URI_FOAF_PROJECT :
-            case SemanticFormsBundle::URI_FIPA_PROPOSITION :
-            case SemanticFormsBundle::URI_PURL_EVENT :
+            case GrandsVoisinsConfig::URI_FOAF_PROJECT :
+            case GrandsVoisinsConfig::URI_FIPA_PROPOSITION :
+            case GrandsVoisinsConfig::URI_PURL_EVENT :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','rdfs:label','?label','?gr');
 
                 break;
-            case SemanticFormsBundle::URI_SKOS_THESAURUS:
+            case GrandsVoisinsConfig::URI_SKOS_THESAURUS:
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','skos:prefLabel','?label','?gr');
                 break;
@@ -357,7 +356,7 @@ class WebserviceController extends Controller
     {
         $label = $this->sparqlGetLabel(
           $request->get('uri'),
-          SemanticFormsBundle::Multiple
+          GrandsVoisinsConfig::Multiple
         );
 
         return new JsonResponse(
@@ -465,7 +464,7 @@ class WebserviceController extends Controller
         $sfClient   = $this->container->get('semantic_forms.client');
         switch (current($properties['type'])) {
             // Orga.
-            case  SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+            case  GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                 // Organization should be saved internally.
                 $organization = $this->getDoctrine()->getRepository(
                   'GrandsVoisinsBundle:Organisation'
@@ -481,7 +480,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['responsible'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_FOAF_PERSON
+                          GrandsVoisinsConfig::URI_FOAF_PERSON
                         );
                     }
                 }
@@ -492,13 +491,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
 
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                            case GrandsVoisinsConfig::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -514,7 +513,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['memberOf'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION
+                          GrandsVoisinsConfig::URI_MIXTE_PERSON_ORGANIZATION
                         );
                     }
                 }
@@ -523,7 +522,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['OrganizationalCollaboration'][] = $this->getData(
                             $uri,
-                            SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                            GrandsVoisinsConfig::URI_FOAF_ORGANIZATION
                         );
                     }
                 }
@@ -541,19 +540,19 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PROJECT:
+                            case GrandsVoisinsConfig::URI_FOAF_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_PURL_EVENT:
+                            case GrandsVoisinsConfig::URI_PURL_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                            case GrandsVoisinsConfig::URI_FIPA_PROPOSITION:
                                 $proposition[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -567,7 +566,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Person.
-            case  SemanticFormsBundle::URI_FOAF_PERSON:
+            case  GrandsVoisinsConfig::URI_FOAF_PERSON:
 
                 $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type foaf:Person . ?org rdf:type foaf:Organization . ?org gvoi:building ?b .} }";
                 //dump($query);
@@ -594,7 +593,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['memberOf'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_FOAF_ORGANIZATION
+                          GrandsVoisinsConfig::URI_FOAF_ORGANIZATION
                         );
                     }
                 }
@@ -602,7 +601,7 @@ class WebserviceController extends Controller
                     foreach ($properties['currentProject'] as $uri) {
                         $output['projects'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_FOAF_PROJECT
+                          GrandsVoisinsConfig::URI_FOAF_PROJECT
                         );
                     }
                 }
@@ -635,7 +634,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['knows'][] = $this->getData(
                           $uri,
-                          SemanticFormsBundle::URI_FOAF_PERSON
+                          GrandsVoisinsConfig::URI_FOAF_PERSON
                         );
                     }
                 }
@@ -645,19 +644,19 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PROJECT:
+                            case GrandsVoisinsConfig::URI_FOAF_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_PURL_EVENT:
+                            case GrandsVoisinsConfig::URI_PURL_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+                            case GrandsVoisinsConfig::URI_FIPA_PROPOSITION:
                                 $proposition[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -677,7 +676,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Project.
-            case SemanticFormsBundle::URI_FOAF_PROJECT:
+            case GrandsVoisinsConfig::URI_FOAF_PROJECT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -690,13 +689,13 @@ class WebserviceController extends Controller
                     foreach ($properties['maker'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                            case GrandsVoisinsConfig::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -713,13 +712,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                            case GrandsVoisinsConfig::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -740,7 +739,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Event.
-            case SemanticFormsBundle::URI_PURL_EVENT:
+            case GrandsVoisinsConfig::URI_PURL_EVENT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -762,13 +761,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                            case GrandsVoisinsConfig::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -781,7 +780,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Proposition.
-            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
+            case GrandsVoisinsConfig::URI_FIPA_PROPOSITION:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -803,13 +802,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case SemanticFormsBundle::URI_FOAF_PERSON:
+                            case GrandsVoisinsConfig::URI_FOAF_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+                            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -842,7 +841,7 @@ class WebserviceController extends Controller
             foreach ($properties['thesaurus'] as $uri) {
                 $output['thesaurus'][] = $this->getData(
                   $uri,
-                  SemanticFormsBundle::URI_SKOS_THESAURUS
+                  GrandsVoisinsConfig::URI_SKOS_THESAURUS
                 );
             }
         }
@@ -860,8 +859,8 @@ class WebserviceController extends Controller
     {
 
         switch ($type) {
-            case SemanticFormsBundle::URI_FOAF_PERSON:
-            case SemanticFormsBundle::URI_FOAF_ORGANIZATION:
+            case GrandsVoisinsConfig::URI_FOAF_PERSON:
+            case GrandsVoisinsConfig::URI_FOAF_ORGANIZATION:
                 $temp = $this->uriPropertiesFiltered($uri);
 
                 return [
@@ -873,10 +872,10 @@ class WebserviceController extends Controller
                   'image' => (!isset($temp['image'])) ? '/common/images/no_avatar.jpg' : $temp['image'],
                 ];
                 break;
-            case SemanticFormsBundle::URI_FOAF_PROJECT:
-            case SemanticFormsBundle::URI_PURL_EVENT:
-            case SemanticFormsBundle::URI_FIPA_PROPOSITION:
-            case SemanticFormsBundle::URI_SKOS_THESAURUS:
+            case GrandsVoisinsConfig::URI_FOAF_PROJECT:
+            case GrandsVoisinsConfig::URI_PURL_EVENT:
+            case GrandsVoisinsConfig::URI_FIPA_PROPOSITION:
+            case GrandsVoisinsConfig::URI_SKOS_THESAURUS:
                 return [
                   'uri'  => $uri,
                   'name' => $this->sparqlGetLabel(

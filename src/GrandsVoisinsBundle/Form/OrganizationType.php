@@ -178,7 +178,7 @@ class OrganizationType extends AbstractForm
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
-              'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+              'rdfType'   => GrandsVoisinsConfig::URI_FOAF_PERSON,
             ]
           )
           ->add(
@@ -189,7 +189,7 @@ class OrganizationType extends AbstractForm
                   'required'  => false,
                   'lookupUrl' => $options['lookupUrlPerson'],
                   'labelUrl'  => $options['lookupUrlLabel'],
-                  'rdfType'   => SemanticFormsBundle::URI_FOAF_ORGANIZATION,
+                  'rdfType'   => GrandsVoisinsConfig::URI_FOAF_ORGANIZATION,
               ]
           )
             ->add(
@@ -200,7 +200,7 @@ class OrganizationType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                    'rdfType'   => GrandsVoisinsConfig::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(
@@ -227,7 +227,7 @@ class OrganizationType extends AbstractForm
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
-              'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
+              'rdfType'   => implode('|',GrandsVoisinsConfig::URI_MIXTE_PERSON_ORGANIZATION),
             ]
           )
             ->add(

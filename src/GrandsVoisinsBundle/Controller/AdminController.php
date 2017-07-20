@@ -223,7 +223,8 @@ class AdminController extends Controller
             'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
-            'spec'                  => SemanticFormsClient::SPEC_PERSON,
+            'reverse'               => GrandsVoisinsConfig::REVERSE,
+            'spec'                  => GrandsVoisinsConfig::SPEC_PERSON,
             'lookupUrlLabel'        => $this->generateUrl(
                 'webserviceFieldUriLabel'
             ),

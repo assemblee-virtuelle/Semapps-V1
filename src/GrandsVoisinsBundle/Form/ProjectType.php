@@ -85,7 +85,7 @@ class ProjectType extends AbstractForm
               'required'  => false,
               'lookupUrl' => $options['lookupUrlPerson'],
               'labelUrl'  => $options['lookupUrlLabel'],
-              'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
+              'rdfType'   => implode('|',GrandsVoisinsConfig::URI_MIXTE_PERSON_ORGANIZATION),
             ]
           )
 
@@ -96,7 +96,7 @@ class ProjectType extends AbstractForm
                 [
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => implode('|',SemanticFormsBundle::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',GrandsVoisinsConfig::URI_MIXTE_PERSON_ORGANIZATION),
                     'required'  => false,
                 ]
             )
@@ -108,7 +108,7 @@ class ProjectType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                    'rdfType'   => GrandsVoisinsConfig::URI_SKOS_THESAURUS,
                 ]
             )
           ->add(

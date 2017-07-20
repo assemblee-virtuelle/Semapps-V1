@@ -116,7 +116,7 @@ class ProfileType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_FOAF_PERSON,
+                    'rdfType'   => GrandsVoisinsConfig::URI_FOAF_PERSON,
                 ]
             )
             ->add(
@@ -171,7 +171,7 @@ class ProfileType extends AbstractForm
                     'required'  => false,
                     'lookupUrl' => $options['lookupUrlPerson'],
                     'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => SemanticFormsBundle::URI_SKOS_THESAURUS,
+                    'rdfType'   => GrandsVoisinsConfig::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(

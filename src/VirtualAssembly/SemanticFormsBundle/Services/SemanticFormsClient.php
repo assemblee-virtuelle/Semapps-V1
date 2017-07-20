@@ -14,7 +14,7 @@ use GuzzleHttp\TransferStats;
  */
 class SemanticFormsClient
 {
-    var $baseUrlForm = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
+    //var $baseUrlForm = 'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv-forms.ttl#';
     var $cookieName = 'cookie.txt';
     var $prefixes = [
       'xsd'   => '<http://www.w3.org/2001/XMLSchema#>',
@@ -31,11 +31,7 @@ class SemanticFormsClient
     var $prefixesCompiled = '';
     var $fieldsAliases = [];
 
-    CONST SPEC_PERSON = 'form-Person';
-    CONST SPEC_ORGANIZATION = 'form-Organization';
-    CONST SPEC_PROJECT = 'form-Project';
-    CONST SPEC_EVENT = 'form-Event';
-    CONST SPEC_PROPOSITION = 'form-Proposition';
+
     CONST VALUE_TYPE_URI = 1;
     CONST VALUE_TYPE_TEXT = 2;
 
@@ -47,6 +43,7 @@ class SemanticFormsClient
      * @param $timeout
      * @param array $prefixes
      * @param array $fieldsAliases
+     * @param $baseUrlForm
      */
     public function __construct(
       $domain,
@@ -54,7 +51,8 @@ class SemanticFormsClient
       $password,
       $timeout,
       $prefixes = [],
-      $fieldsAliases = []
+      $fieldsAliases = [],
+      $baseUrlForm
     ) {
 
         $this->domain        = $domain;
@@ -63,7 +61,7 @@ class SemanticFormsClient
         $this->timeout       = $timeout;
         $this->fieldsAliases = $fieldsAliases;
         $this->prefixes      = array_merge($this->prefixes, $prefixes);
-
+        $this->baseUrlForm = $baseUrlForm;
         foreach ($this->prefixes as $key => $uri) {
             $this->prefixesCompiled .= "\nPREFIX ".$key.': '.$uri.' ';
         }

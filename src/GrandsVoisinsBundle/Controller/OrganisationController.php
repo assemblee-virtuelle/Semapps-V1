@@ -278,7 +278,8 @@ class OrganisationController extends Controller
           'password'              => $sfPassword,
           'graphURI'              => $organization->getGraphURI(),
           'client'                => $sfClient,
-          'spec'                  => SemanticFormsClient::SPEC_ORGANIZATION,
+          'spec'                  => GrandsVoisinsConfig::SPEC_ORGANIZATION,
+          'reverse'               => GrandsVoisinsConfig::REVERSE,
           'lookupUrlLabel'        => $this->generateUrl(
             'webserviceFieldUriLabel'
           ),

@@ -35,6 +35,7 @@ abstract class SemanticFormType extends AbstractType
             'values'   => '',
             'spec'     => '',
             'role'     => '',
+            'reverse'     => '',
           )
         );
     }
@@ -47,6 +48,7 @@ abstract class SemanticFormType extends AbstractType
         $login    = $options['login'];
         $password = $options['password'];
         $graphURI = $options['graphURI'];
+        $reverse = $options['reverse'];
         $editMode = !!$options['values'];
 
         // We have an uri (edit mode).
@@ -104,7 +106,8 @@ abstract class SemanticFormType extends AbstractType
             $uri,
             $login,
             $password,
-            $graphURI
+            $graphURI,
+            $reverse
           ) {
               $form = $event->getForm();
               // Add uri for external usage.
@@ -144,9 +147,9 @@ abstract class SemanticFormType extends AbstractType
                 $password
               );
 
-              if (array_key_exists($type,SemanticFormsBundle::REVERSE)){
+              if (array_key_exists($type,$reverse)){
                   $values = array();
-                  foreach (SemanticFormsBundle::REVERSE[$type] as $key=>$elem){
+                  foreach ($reverse[$type] as $key=>$elem){
                       $localHtmlName = $this->fieldsAliases[$key];
                       if (array_key_exists($elem,$values))
                         $values[$elem] = array_merge($values[$elem],json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY));
@@ -154,7 +157,7 @@ abstract class SemanticFormType extends AbstractType
                         $values[$elem] = json_decode($form->get($localHtmlName)->getData(),JSON_OBJECT_AS_ARRAY);
 
                   }
-                  $this->update($graphURI,$this->uri,$type,$values,$client);
+                  $this->update($graphURI,$this->uri,$type,$values,$client,$reverse);
               }
 
           }
@@ -314,10 +317,10 @@ abstract class SemanticFormType extends AbstractType
         );
     }
 
-    private function update($graph,$subject,$type,$values,$sfClient){
+    private function update($graph,$subject,$type,$values,$sfClient,$reverse){
 
         //récupérer tous les liens en fonction du type
-        $tab = SemanticFormsBundle::REVERSE[$type];
+        $tab = $reverse[$type];
         //supprimer tous les précédent liens
         foreach ($tab as $key=>$elem){
             $query="DELETE { GRAPH <".$graph."> { ?s <".$elem."> ".$sfClient->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." . }} WHERE { GRAPH <".$graph."> { ?s <".$elem."> ".$sfClient->formatValue(SemanticFormsClient::VALUE_TYPE_URI,$subject)." .}}";
