@@ -9,7 +9,7 @@
   src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf"); }
 
 .btn-primary-lgv {
-  background: #FFCC00;
+  background: 0.8 #1e90ff;
   border-radius: 0; }
 
 .table tbody tr td.padded-value {
@@ -21,7 +21,7 @@
 
 .logo-circle {
   position: absolute;
-  background: #FFCC00;
+  background: 0.8 #1e90ff;
   border-radius: 1000px;
   z-index: 100;
   width: 110px;
@@ -45,11 +45,11 @@
   font-family: Quicksand; }
 
 a {
-  color: #BB6600; }
+  color: #4682b4; }
 
 a:hover {
   text-decoration: none;
-  color: #884a00;
+  color: #38678f;
   animation: aHover 3s forwards; }
 
 @keyframes aHover {
@@ -61,7 +61,7 @@ a:hover {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
 
 header {
-  background: #FFCC00;
+  background: #1e90ff;
   min-height: 60px; }
   header .gv-logo-mini-inner {
     width: 100px;
@@ -88,7 +88,7 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: normal;
-  color: #BB6600;
+  color: #4682b4;
   border-bottom: 2px dashed #EEE; }
 
 label {
@@ -102,7 +102,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
   color: #FFF;
-  background: #BB6600; }
+  background: #4682b4; }
 
 input.form-control {
   border-radius: 0; }
@@ -204,10 +204,10 @@ input.form-control {
 
 .page-header {
   font-family: petitevoisine, sans-serif;
-  border-bottom: 4px dashed #FFCC00;
+  border-bottom: 4px dashed #1e90ff;
   color: #555; }
   .page-header .glyphicon {
-    color: #FFCC00; }
+    color: #1e90ff; }
 
 .page-content {
   min-height: 60vh; }
@@ -218,7 +218,7 @@ input.form-control {
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
-  background: #FFCC00;
+  background: #1e90ff;
   color: #FFF; }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
@@ -230,10 +230,10 @@ input.form-control {
   .nav-tabs li.active a .glyphicon,
   .nav-tabs li a .glyphicon {
     margin-right: 8px;
-    color: #FFCC00; }
+    color: #1e90ff; }
 
 .list {
-  color: #FFCC00; }
+  color: #1e90ff; }
   .list li span {
     color: #555; }
 
@@ -322,7 +322,7 @@ input.form-control {
   margin-bottom: 5px;
   margin-right: 5px; }
   .select2-tags .tags .tag {
-    background: #FFCC00;
+    background: #1e90ff;
     padding: 5px 11px;
     display: block;
     float: left;

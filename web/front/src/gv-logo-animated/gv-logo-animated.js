@@ -28,8 +28,8 @@ Polymer({
       let $bar = $(document.createElementNS("http://www.w3.org/2000/svg", 'rect'));
       $bar.attr('width', 100 + '%');
       $bar.attr('height', barHeight + '%');
-      $bar.attr('fill', '#FFCC00');
-      $bar.attr('stroke', '#FFCC00');
+      $bar.attr('fill', '#1e90ff');
+      $bar.attr('stroke', '#1e90ff');
       $bar.attr('stroke-width', '10');
       $bar.attr('class', 'logoIntroBar');
       $bar.attr('style', 'animation-delay:' + (wait + (barCount * delay)) + 's');

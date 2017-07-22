@@ -6,7 +6,7 @@ header {
     100% { top: 0; }
   }
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
-  background-color: #FFCC00;
+  background-color: #1e90ff;
   padding: 1.5px 20px;
   top: 0;
   left: 0;
@@ -35,7 +35,7 @@ header {
       width:100%;
     }
     #searchText {
-      border-color: #FFCC00;
+      border-color: #1e90ff;
       border-radius: 0;
     }
     input[type=submit] {

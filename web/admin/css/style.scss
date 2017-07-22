@@ -10,7 +10,7 @@
 }
 
 a {
-  color: $lgvSecondYellow;
+  color: $lgvSecondBlue;
 }
 
 a:hover {
@@ -20,12 +20,12 @@ a:hover {
     100% { text-shadow: 5px 5px 3px rgba(0, 0, 0, .1); }
   }
   text-decoration: none;
-  color: darken($lgvSecondYellow, 10);
+  color: darken($lgvSecondBlue, 10);
   animation: aHover 3s forwards;
 }
 
 header {
-  background: $lgvMainYellow;
+  background: $lgvMainBlue;
   .gv-logo-mini-inner {
     width: 100px;
     margin: -12px 0;
@@ -52,7 +52,7 @@ h2, label, input[type=submit] {
   font-family: petitevoisine, sans-serif;
 }
 
-$lgvDashedUnderline: 4px dashed $lgvMainYellow;
+$lgvDashedUnderline: 4px dashed $lgvMainBlue;
 
 h1 {
   font-size: 24px;
@@ -61,7 +61,7 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: normal;
-  color: $lgvSecondYellow;
+  color: $lgvSecondBlue;
   border-bottom: 2px dashed #EEE;
 }
 
@@ -78,7 +78,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
   color: #FFF;
-  background: $lgvSecondYellow;
+  background: $lgvSecondBlue;
 }
 
 input.form-control {
@@ -174,7 +174,7 @@ input.form-control {
   border-bottom: $lgvDashedUnderline;
   color: #555;
   .glyphicon {
-    color: $lgvMainYellow;
+    color: $lgvMainBlue;
   }
 }
 
@@ -192,7 +192,7 @@ input.form-control {
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
-  background: #FFCC00;
+  background: #1e90ff;
   color: #FFF;
 }
 
@@ -205,12 +205,12 @@ input.form-control {
   cursor: pointer !important;
   .glyphicon {
     margin-right: 8px;
-    color: #FFCC00;
+    color: #1e90ff;
   }
 }
 
 .list {
-  color: $lgvMainYellow;
+  color: $lgvMainBlue;
   li span {
     color: #555;
   }
@@ -321,7 +321,7 @@ input.form-control {
     margin-bottom: 5px;
     margin-right: 5px;
     .tag {
-      background: #FFCC00;
+      background: #1e90ff;
       padding: 5px 11px;
       display: block;
       float: left;

@@ -3,21 +3,21 @@
 
 @keyframes mapZoneFadeIn {
   from {
-    opacity: 0.05; }
+    opacity: 0.5; }
   to {
-    opacity: 0.2; } }
+    opacity: 0.8; } }
 
 @keyframes mapZoneFadeInStrong {
   from {
-    opacity: 0.2; }
+    opacity: 0.5; }
   to {
-    opacity: 0.5; } }
+    opacity: 0.8; } }
 
 @keyframes mapZoneFadeOut {
   from {
-    opacity: 0.2; }
+    opacity: 0.8; }
   to {
-    opacity: 0.05; } }
+    opacity: 0.5; } }
   #gv-map .mapContent {
     position: relative; }
     #gv-map .mapContent .mapZone {

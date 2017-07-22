@@ -39,7 +39,7 @@ li {
     li.active a .glyphicon {
       opacity: .7; }
   li.active .counter {
-    color: #FFCC00; }
+    color: #1e90ff; }
 
 @media (max-width: 768px) {
   li, a {
