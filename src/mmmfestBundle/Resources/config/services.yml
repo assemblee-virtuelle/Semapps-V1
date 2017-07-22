@@ -1,0 +1,20 @@
+services:
+    grands_voisins.config:
+        class: mmmfestBundle\mmmfestConfig
+
+    mmmfestBundle.fileUploader:
+        class: mmmfestBundle\Services\FileUploader
+        arguments: ['%picture_directory%','%gv.domain%',]
+
+    mmmfestBundle.encryption:
+        class: mmmfestBundle\Services\Encryption
+        arguments: ['%secret%']
+
+    mmmfestBundle.formattingForm:
+        class: mmmfestBundle\Services\FormattingForm
+        arguments: ~
+
+    mmmfestBundle.componentLoader:
+        class: mmmfestBundle\Routing\ComponentLoader
+        tags:
+            - { name: routing.loader }

@@ -7,12 +7,12 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    GrandsVoisinsBundle.EventListener.ConfirmRegistration:
-        class: GrandsVoisinsBundle\EventListener\ConfirmRegistrationListener
-        arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager","@semantic_forms.client",'@GrandsVoisinsBundle.encryption']
+    mmmfestBundle.EventListener.ConfirmRegistration:
+        class: mmmfestBundle\EventListener\ConfirmRegistrationListener
+        arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager","@semantic_forms.client",'@mmmfestBundle.encryption']
         tags:
             - { name: kernel.event_subscriber }
 
-    GrandsVoisinsBundle.EventListener.SendMail:
-        class: GrandsVoisinsBundle\Services\Mailer
-        arguments: ["@mailer", "@templating",'@GrandsVoisinsBundle.encryption']
+    mmmfestBundle.EventListener.SendMail:
+        class: mmmfestBundle\Services\Mailer
+        arguments: ["@mailer", "@templating",'@mmmfestBundle.encryption']

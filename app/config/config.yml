@@ -2,7 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@GrandsVoisinsBundle/Resources/config/services.yml" }
+    - { resource: "@mmmfestBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -194,7 +194,7 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-                GrandsVoisinsBundle:
+                mmmfestBundle:
                     type: yml #On your case it should be annotation
                     dir: Resources/config/doctrine
 
@@ -211,7 +211,7 @@ swiftmailer:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: GrandsVoisinsBundle\Entity\User
+    user_class: mmmfestBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
         address: noreply@lesgrandsvoisins.org
         sender_name: Les Grands Voisins

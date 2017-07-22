@@ -1,6 +1,6 @@
 <?php
 
-namespace GrandsVoisinsBundle\Tests\Controller;
+namespace mmmfestBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

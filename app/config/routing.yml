@@ -1,5 +1,5 @@
 grands_voisins:
-    resource: "@GrandsVoisinsBundle/Resources/config/routing.yml"
+    resource: "@mmmfestBundle/Resources/config/routing.yml"
     prefix:   /
 # tested
 grands_voisins_loader:

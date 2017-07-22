@@ -1,0 +1,80 @@
+{% extends "mmmfestBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter une proposition{% endblock %}
+
+{%  set menuSelected = 'propositionList' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+            <a href="#" id="componentPicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Pour mettre une image, veuillez coller le lien dans le champ image ci-dessous !">
+                <img id="componentPicture" src="{{ (image != "" ? image : asset('common/images/no_avatar.jpg') )}}"/>
+            </a>
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.label, { 'label': 'Titre de la proposition'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.mbox) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.building, { 'label': 'Bâtiment concerné' }) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.room) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xs-12" id="componentImage" data-toggle="tooltip" data-placement="bottom" title="Placer l'url de votre image ici">
+                    {{ form_row(form.image, { 'label': 'image', 'attr' : {'class' : 'component-new-picture'} }) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {{ form_row(form.shortDescription, { 'label': 'Description courte (Et si ...)' }) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Elles doivent à avoir renseigné leur profil au préalable ;-) ">
+                    {{ form_row(form.maker, { 'label': 'Auteur(s) de la proposition (personnes ou organisations)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                    {{ form_row(form.topicInterest, { 'label': 'Description courte (Et si ...)' }) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                    {{ form_row(form.resourceProposed, { 'label': 'Ressources que la proposition met à disposition'}) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                    {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont la proposition a besoin'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

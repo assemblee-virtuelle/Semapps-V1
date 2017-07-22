@@ -1,0 +1,19 @@
+mmmfestBundle\Entity\LinkUserOrga:
+    type: entity
+    table: null
+    repositoryClass: mmmfestBundle\Repository\LinkUserOrgaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        fkOrga:
+            type: integer
+        fkUser:
+            type: integer
+        roles:
+            type: array
+            column: Roles
+    lifecycleCallbacks: {  }

@@ -1,0 +1,23 @@
+mmmfestBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: mmmfestBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        sfLink:
+            type: text
+            nullable: true
+        sfUser:
+            type: text
+            nullable: true
+        fkOrganisation:
+            type: integer
+        pictureName:
+            type: text
+            nullable: true
+    lifecycleCallbacks: {  }
