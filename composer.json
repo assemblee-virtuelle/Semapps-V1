@@ -34,7 +34,9 @@
         "guzzlehttp/guzzle": "^6.2",
         "BorderCloud/SPARQL": "^1.2",
         "liip/imagine-bundle": "^1.7",
-        "faisalman/simple-excel-php": "^0.3.15"
+        "faisalman/simple-excel-php": "^0.3.15",
+        "VirtualAssembly/SparqlBundle" : "dev-master",
+        "VirtualAssembly/SemanticFormsBundle" : "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -56,6 +58,16 @@
             "@symfony-scripts"
         ]
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/assemblee-virtuelle/SemanticFormsBundle.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/assemblee-virtuelle/SparqlBundle.git"
+        }
+    ],
     "extra": {
         "symfony-app-dir": "app",
         "symfony-bin-dir": "bin",
