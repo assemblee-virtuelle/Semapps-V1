@@ -1,8 +1,8 @@
 $lgvMainYellow: #FFCC00;
 $lgvSecondYellow: #BB6600;
 
-$lgvMainBlue: #1e90ff;
-$lgvSecondBlue: #4682b4;
+$lgvMainBlue: #007cb7;
+$lgvSecondBlue: #003869;
 $lgvMainGreen: #00cd00;
 $lgvSecondGreen: #00a500;
 @font-face {
@@ -19,7 +19,7 @@ $lgvSecondGreen: #00a500;
 }
 
 .btn-primary-lgv {
-  background: 0.8$lgvMainBlue;
+  background: $lgvMainBlue;
   border-radius: 0;
 }
 
@@ -34,7 +34,7 @@ $lgvSecondGreen: #00a500;
 
 .logo-circle {
   position: absolute;
-  background: 0.8$lgvMainBlue;
+  background: $lgvMainBlue;
   border-radius: 1000px;
   z-index: 100;
   width: 110px;

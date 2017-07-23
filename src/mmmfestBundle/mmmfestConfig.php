@@ -82,33 +82,33 @@ class mmmfestConfig
     ];
 
     static $buildings = [
-      "maisonDesMedecins" => [
-        'title' => "Maison des médecins",
+      "grandChateau" => [
+        'title' => "Grand chateau",
         'x'     => '60%',
         'y'     => '21%',
       ],
-      "lepage"            => [
-        'title' => "Lepage",
+      "petitChateau"            => [
+        'title' => "Petit chateau",
         'x'     => '40%',
         'y'     => '29%',
       ],
-      "pinard"            => [
-        'title' => "Pinard",
+      "boisDesCochets"            => [
+        'title' => "Bois des cochets",
         'x'     => '22%',
         'y'     => '50%',
       ],
-      "lelong"            => [
-        'title' => "Lelong",
+      "pigeonnier"            => [
+        'title' => "Pigeonnier",
         'x'     => '39%',
         'y'     => '54%',
       ],
-      "pierrePetit"       => [
-        'title' => "Pierre Petit",
+      "orangerie"       => [
+        'title' => "Orangerie",
         'x'     => '50%',
         'y'     => '59%',
       ],
-      "laMediatheque"     => [
-        'title' => "La Médiathèque",
+      "camping"     => [
+        'title' => "Camping",
         'x'     => '0%',
         'y'     => '0%',
       ],
@@ -124,25 +124,25 @@ class mmmfestConfig
     ];
 
     static $buildingsSimple = [
-      "maisonDesMedecins" => "Maison des médecins",
-      "lepage"            => "Lepage",
-      "pinard"            => "Pinard",
-      "lelong"            => "Lelong",
-      "pierrePetit"       => "Pierre Petit",
-      "laMediatheque"     => "La Médiathèque",
+      "grandChateau"  => "Grand Chateau",
+      "petitChateau"  => "Petit chateau",
+      "boisDesCochets"=> "Bois des cochets",
+      "pigeonnier"    => "Pigeonnier",
+      "orangerie"     => "Orangerie",
+      "camping"       => "Camping",
 
     ];
 
     static $buildingsExtended = [
-        "maisonDesMedecins" => "Maison des médecins",
-        "lepage"            => "Lepage",
-        "pinard"            => "Pinard",
-        "lelong"            => "Lelong",
-        "pierrePetit"       => "Pierre Petit",
-        "laMediatheque"     => "La Médiathèque",
-        "partout"           => "Partout",
-        "exterieur"         => "Extérieurs",
-        "ailleurs"         => "Ailleurs",
+        "grandChateau"  => "Grand Chateau",
+        "petitChateau"  => "Petit chateau",
+        "boisDesCochets"=> "Bois des cochets",
+        "pigeonnier"    => "Pigeonnier",
+        "orangerie"     => "Orangerie",
+        "camping"       => "Camping",
+        "partout"       => "Partout",
+        "exterieur"     => "Extérieurs",
+        "ailleurs"      => "Ailleurs",
     ];
 
 

@@ -9,7 +9,7 @@
   src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf"); }
 
 .btn-primary-lgv {
-  background: 0.8 #1e90ff;
+  background: #007cb7;
   border-radius: 0; }
 
 .table tbody tr td.padded-value {
@@ -21,7 +21,7 @@
 
 .logo-circle {
   position: absolute;
-  background: 0.8 #1e90ff;
+  background: #007cb7;
   border-radius: 1000px;
   z-index: 100;
   width: 110px;
@@ -45,11 +45,11 @@
   font-family: Quicksand; }
 
 a {
-  color: #4682b4; }
+  color: #003869; }
 
 a:hover {
   text-decoration: none;
-  color: #38678f;
+  color: #001d36;
   animation: aHover 3s forwards; }
 
 @keyframes aHover {
@@ -61,7 +61,7 @@ a:hover {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
 
 header {
-  background: #1e90ff;
+  background: #007cb7;
   min-height: 60px; }
   header .gv-logo-mini-inner {
     width: 100px;
@@ -88,7 +88,7 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: normal;
-  color: #4682b4;
+  color: #003869;
   border-bottom: 2px dashed #EEE; }
 
 label {
@@ -102,7 +102,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
   color: #FFF;
-  background: #4682b4; }
+  background: #003869; }
 
 input.form-control {
   border-radius: 0; }
@@ -204,10 +204,10 @@ input.form-control {
 
 .page-header {
   font-family: petitevoisine, sans-serif;
-  border-bottom: 4px dashed #1e90ff;
+  border-bottom: 4px dashed #007cb7;
   color: #555; }
   .page-header .glyphicon {
-    color: #1e90ff; }
+    color: #007cb7; }
 
 .page-content {
   min-height: 60vh; }
@@ -233,7 +233,7 @@ input.form-control {
     color: #1e90ff; }
 
 .list {
-  color: #1e90ff; }
+  color: #007cb7; }
   .list li span {
     color: #555; }
 
