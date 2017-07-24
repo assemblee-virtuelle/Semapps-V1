@@ -1,4 +1,4 @@
-class LgvAdminPageComponent extends LgvAdminPage {
+class CartoAdminPageComponent extends CartoAdminPage {
   init() {
     super.init();
 

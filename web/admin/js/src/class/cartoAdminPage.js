@@ -1,4 +1,4 @@
-class LgvAdminPage {
+class CartoAdminPage {
   constructor(admin) {
     this.admin = admin;
 

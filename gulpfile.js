@@ -15,14 +15,14 @@ var filesJs = {
   'web/front/src/main': true,
   // Main admin script.
   'web/admin/js/dist/script': [
-    'web/admin/js/src/class/lgvAdmin.js',
-    'web/admin/js/src/class/lgvAdminPage.js',
+    'web/admin/js/src/class/cartoAdmin.js',
+    'web/admin/js/src/class/cartoAdminPage.js',
     // Page specific scripts.
-    'web/admin/js/src/class/lgvAdminPageTeam.js',
-    'web/admin/js/src/class/lgvAdminPageUser.js',
-    'web/admin/js/src/class/lgvAdminPageProfile.js',
-    'web/admin/js/src/class/lgvAdminPageOrga.js',
-    'web/admin/js/src/class/lgvAdminPageComponent.js',
+    'web/admin/js/src/class/cartoAdminPageTeam.js',
+    'web/admin/js/src/class/cartoAdminPageUser.js',
+    'web/admin/js/src/class/cartoAdminPageProfile.js',
+    'web/admin/js/src/class/cartoAdminPageOrga.js',
+    'web/admin/js/src/class/cartoAdminPageComponent.js',
     // Fields.
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.uri.js',
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.dbPedia.js',

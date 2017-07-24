@@ -1,4 +1,4 @@
-class LgvAdminPageOrga extends LgvAdminPage {
+class CartoAdminPageOrga extends CartoAdminPage {
   init() {
     super.init();
 

@@ -3,7 +3,7 @@ window.log = (m) => {
   console.log(m);
 };
 
-class LgvAdmin {
+class CartoAdmin {
   constructor() {
     // Wait document loaded.
     $(()=> {
@@ -32,11 +32,11 @@ class LgvAdmin {
       });
     });
 
-    new LgvAdminPageTeam(this);
-    new LgvAdminPageProfile(this);
-    new LgvAdminPageOrga(this);
-    new LgvAdminPageComponent(this);
-    new LgvAdminPageUser(this);
+    new CartoAdminPageTeam(this);
+    new CartoAdminPageProfile(this);
+    new CartoAdminPageOrga(this);
+    new CartoAdminPageComponent(this);
+    new CartoAdminPageUser(this);
   }
 
   modalConfirm(message, callback) {
