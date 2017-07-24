@@ -1,0 +1,72 @@
+<dom-module id="mm-carto">
+  <link rel="import" type="css" href="mm-carto.css">
+  <link rel="import" href="../mm-header/mm-header.html">
+  <link rel="import" href="../mm-logo-animated/mm-logo-animated.html">
+  <link rel="import" href="../mm-map/mm-map.html">
+  <link rel="import" href="../mm-results/mm-results.html">
+  <link rel="import" href="../mm-ressource/mm-ressource.html">
+  <link rel="import" href="../mm-detail/mm-detail.html">
+  <link rel="import" href="../mm-logo-av/mm-logo-av.html">
+  <link rel="import" href="../mm-logo-aurore/mm-logo-aurore.html">
+  <link rel="import" href="../mm-logo-wexample/mm-logo-wexample.html">
+  <link rel="import" href="../mm-logo-link/mm-logo-link.html">
+  <template>
+    <div id="mm-carto">
+      <mm-header></mm-header>
+      <mm-map></mm-map>
+      <div class="container">
+        <!-- app-location binds with the URL and produces a route for
+        app-route elements to consume. Since this demo needs to run without
+        server cooperation (e.g. with polyserve, in the elements catalog, etc) we'll
+        use the hash portion of the URL for our route paths. -->
+        <app-location route='{{route}}'
+                      query-params="{{queryParams}}"></app-location>
+
+        <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"
+                   tail="{{searchTail}}"></app-route>
+
+        <div id="pageContent"></div>
+        <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+          <mm-results name="rechercher"
+                      route="{{searchTail}}"></mm-results>
+          <mm-detail name="detail"
+                     route="{{routeData}}"
+                     query-params="{{queryParams}}"></mm-detail>
+          <mm-ressource name="ressource"
+                        route="{{routeData}}"
+                        query-params="{{queryParams}}"></mm-ressource>
+        </iron-pages>
+      </div>
+
+      <!-- Overlay -->
+      <mm-logo-animated></mm-logo-animated>
+      <footer>
+        <!-- core team -->
+        Sébastien <b>Lemoine</b> /
+        Tristan <b>Mattei</b> /
+        Jean Marc <b>Vanel</b> /
+        Romain <b>Weeger</b> /
+        Michel <b>Cadennes</b> /
+        Guillaume <b>Rouyer</b> /
+        Charlotte <b>Gondouin</b> /
+        Frédéric <b>Ghiglione</b> /
+        <div class="about-av">
+          <br>Réalisée par l'<a href="https://www.virtual-assembly.org"
+                                target="_blank">Assemblée Virtuelle</a> / <a href="http://wexample.com" target="_blank">Wexample</a>
+          <br><a href="https://www.virtual-assembly.org/faire-un-don/"
+                 target="_blank">Cliquez ici pour soutenir le projet</a>
+          <br>Pour toute question, contactez nous sur
+          <a href="mailto:contact@assemblee-virtuelle.org" target="_blank">contact@assemblee-virtuelle.org</a>
+          <br><a href="https://github.com/assemblee-virtuelle/grands-voisins-v2/wiki" target="_blank">Accédez au code sur GitHub</a>
+        </div>
+        <br>
+        <br>
+        2017
+    </div>
+    </footer>
+    </div>
+  </template>
+  <script src="../../../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+  <script src="../../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
+  <script src="mm-carto.min.js"></script>
+</dom-module>

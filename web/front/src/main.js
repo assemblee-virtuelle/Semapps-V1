@@ -32,6 +32,7 @@
   window.GVCarto = class {
 
     constructor(mainComponent) {
+      log(mainComponent);
       window.gvc = this;
       this.baseUrl = '/';
       this.myRoute = 'detail';
@@ -59,7 +60,7 @@
           'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room': 'room'
         }
       });
-      this.$gvMap = $(document.getElementById('gv-map'));
+      this.$gvMap = $(document.getElementById('mm-map'));
       this.searchTypes = {
         "http://xmlns.com/foaf/0.1/Person": {
           label: 'Personne',

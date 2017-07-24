@@ -1,0 +1,51 @@
+<dom-module id="mm-results">
+  <link rel="import" type="css" href="mm-results.css">
+  <link rel="import" href="../mm-results-item/mm-results-item.html">
+  <link rel="import" href="../mm-results-tab/mm-results-tab.html">
+  <link rel="import" href="../mm-spinner/mm-spinner.html">
+  <template>
+    <div class="row">
+      <div class="col col-sm-12">
+        <ul id="searchTabs" class="nav nav-tabs">
+          <template id="searchResultsList" is="dom-repeat" items="{{tabs}}">
+            <mm-results-tab data="[[item]]"></mm-results-tab>
+          </template>
+        </ul>
+      </div>
+      <div class="col col-sm-8">
+        <div class="clearfix"></div>
+        <h3 class="resultsTitle">[[resultsTitle]]</h3>
+        <div id="searchResults" class="col col-sm-12">
+          <template is="dom-repeat" items="{{results}}">
+            <mm-results-item data="[[item]]"></mm-results-item>
+          </template>
+        </div>
+        <template is="dom-if" if="[[searchError]]">
+          <div id="mm-results-error" class="alert alert-danger">Une erreur c'est
+            produite lors du chargement...
+          </div>
+        </template>
+        <template is="dom-if" if="[[noResult]]">
+          <div id="mm-results-empty" class="alert alert-info">
+            Ouch !
+          </div>
+        </template>
+        <div id="searchLoadingSpinner" class="pageLoadingSpinner">
+          <mm-spinner></mm-spinner>
+        </div>
+      </div>
+      <div class="col col-sm-4 col-blocks">
+        <div class="block">
+          La cartographie des Grands Voisins
+        </div>
+        <div class="content">
+          Cet outil répertorie les structures et/ou personnes participant au projet Les Grands Voisins.<br>Il permet à tous ces acteurs de mieux se connaître et d'intégrer plus facilement la dynamique du projet.<br>
+          Pour le grand public, la Cartographie est un annuaire en ligne permettant d’identifier ou de retrouver les Voisins. <br>La recherche peut se faire par bâtiment et par domaines, et à terme par projet et par événement.<br>
+          La Cartographie des Grands Voisins est développée par l’Assemblée virtuelle.
+        </div>
+      </div>
+    </div>
+
+  </template>
+  <script src="mm-results.min.js"></script>
+</dom-module>

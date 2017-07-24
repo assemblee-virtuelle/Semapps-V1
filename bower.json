@@ -1,5 +1,5 @@
 {
-  "name": "gv-carto",
+  "name": "mm-carto",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",

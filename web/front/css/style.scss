@@ -1,10 +1,10 @@
-body.skip-intro #gv-logo-animated-inner {
+body.skip-intro #mm-logo-animated-inner {
   animation-delay: 0s;
   display: none;
 }
 
 .pageLoadingSpinner {
-  .gv-spinner {
+  .mm-spinner {
     width: 50px;
     margin: 40px auto;
   }
@@ -24,9 +24,9 @@ footer {
 
   .wexample-logo,
   .aurore-logo,
-  .gv-logo-mini,
-  .gv-logo-mini div,
-  .gv-logo-mini svg,
+  .mm-logo-mini,
+  .mm-logo-mini div,
+  .mm-logo-mini svg,
   .av-logo-svg {
     width: 40px;
     display: inline;
@@ -50,7 +50,7 @@ footer {
     }
   }
 
-  .gv-logo-mini svg {
+  .mm-logo-mini svg {
     path {
       stroke: $logoColor;
     }

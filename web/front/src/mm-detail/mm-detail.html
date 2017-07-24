@@ -1,0 +1,34 @@
+<dom-module id="mm-detail">
+  <link rel="import" type="css" href="mm-detail.css">
+  <link rel="import"
+        href="../mm-detail-organization/mm-detail-organization.html">
+  <link rel="import" href="../mm-detail-person/mm-detail-person.html">
+  <link rel="import" href="../mm-detail-projet/mm-detail-projet.html">
+  <link rel="import" href="../mm-detail-event/mm-detail-event.html">
+  <link rel="import" href="../mm-detail-proposition/mm-detail-proposition.html">
+  <template>
+    <div id="detail" class="page-detail" style="display: none">
+      <ul id="detailTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack" on-click="handleBack" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
+        </li>
+        <template is="dom-if" if="[[isSuperAdmin]]">
+          <template is="dom-if" if="[[id]]">
+            <li role="presentation" class="active">
+              <a on-click="handleEdit" href="#">
+                <span class="glyphicon glyphicon-edit"></span>Editer</a>
+            </li>
+          </template>
+        </template>
+      </ul>
+      <div id="mm-detail-inner"></div>
+    </div>
+    <template is="dom-if" if="[[loading]]">
+      <div id="detailSpinner" class="pageLoadingSpinner">
+        <mm-spinner></mm-spinner>
+      </div>
+    </template>
+  </template>
+  <script src="/mm-detail.min.js"></script>
+</dom-module>

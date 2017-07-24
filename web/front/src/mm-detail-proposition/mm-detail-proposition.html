@@ -1,0 +1,118 @@
+<dom-module id="mm-detail-proposition">
+  <link rel="import" type="css" href="mm-detail-proposition.css">
+  <template>
+    <div id="mm-detail-proposition">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.label]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[image]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[image]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!image]]">
+              <mm-logo-mini text-color="#1e90ff"></mm-logo-mini>
+            </template>
+            <div class="social-links">
+              <mm-social-link url="[[facebook]]"
+                              icon="facebook-square"></mm-social-link>
+              <mm-social-link url="[[twitter]]"
+                              icon="twitter"></mm-social-link>
+            </div>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[shortDescription]]">
+                <tr class="field">
+                  <td class="fieldLabel">Description courte</td>
+                  <td>[[shortDescription]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[isMember]]">
+                <template is="dom-if" if="[[mbox]]">
+                  <tr class="field">
+                    <td class="fieldLabel">E-mail</td>
+                    <td>[[mbox]]</td>
+                  </tr>
+                </template>
+              </template>
+              <tr class="field">
+                <td class="fieldLabel">Bâtiment</td>
+                <td>[[buildingTitle]]</td>
+              </tr>
+              <template is="dom-if" if="[[room]]">
+                <tr class="field">
+                  <td class="fieldLabel">Pièce</td>
+                  <td>[[room]]</td>
+                </tr>
+              </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[data.orga_maker.length]]">
+          <h3>Auteur(s) de la proposition (organisations)</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.orga_maker}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.person_maker.length]]">
+          <h3>Auteur(s) de la proposition (personnes)</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.person_maker}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+
+        <template is="dom-if" if="[[data.thesaurus.length]]">
+          <h3>Domaine(s) d'activité(s)</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.thesaurus}}">
+              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
+        <template is="dom-if" if="[[resourceProposed.length]]">
+          <h3>Les ressources mises à disposition</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{resourceProposed}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[resourceNeeded.length]]">
+          <h3>Les ressources nécéssaires</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{resourceNeeded}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script src="mm-detail-proposition.min.js"></script>
+</dom-module>
