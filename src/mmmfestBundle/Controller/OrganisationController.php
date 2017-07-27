@@ -221,7 +221,7 @@ class OrganisationController extends Controller
           $output
         );
         $writer->setDelimiter(";");
-        $writer->saveFile('LesGrandsVoisins-'.date('Y_m_d'));
+        $writer->saveFile('mmmfest-'.date('Y_m_d'));
 
         return $this->redirectToRoute('all_orga');
     }

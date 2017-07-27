@@ -13,12 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
+class mmmfestCreateUserCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('GrandsVoisins:create:user')
+            ->setName('mmmfest:create:user')
             ->setDescription('Adding a user on one organization')
             ->addArgument(
                 'orgaId',
@@ -166,7 +166,7 @@ class GrandsVoisinsCreateUserCommand extends ContainerAwareCommand
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $output->writeln($url);
-        $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
+        $url = str_replace('localhost',$this->getContainer()->getParameter('carto.domain'),$url);
         $output->writeln($url);
         $result = $mailer->sendConfirmMessage(
             $mailer::TYPE_USER,

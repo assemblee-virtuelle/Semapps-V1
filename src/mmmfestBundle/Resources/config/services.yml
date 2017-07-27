@@ -4,7 +4,7 @@ services:
 
     mmmfestBundle.fileUploader:
         class: mmmfestBundle\Services\FileUploader
-        arguments: ['%picture_directory%','%gv.domain%',]
+        arguments: ['%picture_directory%','%carto.domain%',]
 
     mmmfestBundle.encryption:
         class: mmmfestBundle\Services\Encryption

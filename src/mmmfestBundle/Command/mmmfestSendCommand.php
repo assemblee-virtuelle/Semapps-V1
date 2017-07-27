@@ -10,12 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class GrandsVoisinsSendCommand extends ContainerAwareCommand
+class mmmfestSendCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('GrandsVoisins:send')
+            ->setName('mmmfest:send')
             ->setDescription(
                 'Send the confirmation email for the user selected'
             )
@@ -95,7 +95,7 @@ class GrandsVoisinsSendCommand extends ContainerAwareCommand
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         $output->writeln($email);
-        $url = str_replace('localhost',$this->getContainer()->getParameter('gv.domain'),$url);
+        $url = str_replace('localhost',$this->getContainer()->getParameter('carto.domain'),$url);
         $result = $mailer->sendConfirmMessage(
           ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
             $user,
