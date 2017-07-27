@@ -214,7 +214,7 @@ fos_user:
     user_class: mmmfestBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
         address: noreply@lesgrandsvoisins.org
-        sender_name: Les Grands Voisins
+        sender_name: mmmfest
     registration:
         confirmation:
             template: email/content_email.email.twig
