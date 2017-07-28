@@ -8,26 +8,6 @@
 
   var readyCallbacks = [];
 
-  // A custom client for Semantic Forms specific treatments.
-  class SFClient {
-    constructor(options) {
-      $.extend(true, this, {
-        formFields: {},
-        fieldsAliases: {
-          'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': 'rdfType',
-        }
-      }, options);
-    }
-
-    getValue(fields, key) {
-      key = this.fieldsAliases[key] || key;
-      if (fields[key]) {
-        let data = typeof fields[key] === 'array' ? fields[key] : fields[key][0];
-        return data.value;
-      }
-      return '';
-    }
-  }
 
   window.GVCarto = class {
 
@@ -41,25 +21,6 @@
       this.$window = $(window);
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
-      this.sfClient = new SFClient({
-        fieldsAliases: {
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#status': 'gvStatus',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#realisedContribution': 'realisedContribution',
-          'http://xmlns.com/foaf/0.1/status': 'shortDescription',
-          'http://xmlns.com/foaf/0.1/name': 'foafName',
-          'http://vocab.sindice.net/csv/rowPosition': 'rowPosition',
-          'urn:gv/contactsPrint': 'contactsPrint',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#conventionType': 'conventionType',
-          'http://virtual-assembly.org/pair_v2#hasResponsible': 'hasResponsible',
-          'urn:displayLabel': 'displayLabel',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#administrativeName': 'administrativeName',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#building': 'building',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#proposedContribution': 'proposedContribution',
-          'http://purl.org/dc/elements/1.1/subject': 'subject',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#arrivalDate': 'arrivalDate',
-          'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#room': 'room'
-        }
-      });
       this.$gvMap = $(document.getElementById('mm-map'));
       this.searchTypes = {
         "http://xmlns.com/foaf/0.1/Person": {

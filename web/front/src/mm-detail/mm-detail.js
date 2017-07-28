@@ -64,6 +64,7 @@ Polymer({
     "use strict";
     // Show detail content.
     data = data.responseJSON.detail || {};
+    log(data);
     this.$.detail.style.display = '';
     data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
     if (data.properties.building) {

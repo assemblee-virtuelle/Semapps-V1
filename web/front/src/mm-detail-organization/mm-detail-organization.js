@@ -28,7 +28,7 @@ Polymer({
     this.memberOf = this.data.memberOf;
     // Computed values.
     this.title = this.data.properties.foafName;
-    this.buildingTitle = gvc.buildings[this.data.properties.building].title;
+    this.buildingTitle = ''//gvc.buildings[this.data.properties.building].title;
   },
 
     onClickThematic(e){
