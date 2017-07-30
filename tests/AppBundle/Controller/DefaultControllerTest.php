@@ -71,7 +71,8 @@ class DefaultControllerTest extends WebTestCase
 
         $this->debugContent($crawler, $client);
 
-        $client->followRedirect();
+        // Disabling useless redirect.
+        //$client->followRedirect();
 
         /*$this->assertContains(
           'Welcome to Symfony',
