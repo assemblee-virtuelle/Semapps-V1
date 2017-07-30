@@ -1,0 +1,19 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+  eslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+      - javascript
+ratings:
+  paths:
+    - "*"
+exclude_paths:
+  - "tests/"
+  - "selenium/"
+  - "*/Tests/"
+  - "*/*/Tests/"
