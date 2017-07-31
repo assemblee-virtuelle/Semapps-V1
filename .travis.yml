@@ -38,4 +38,6 @@ script:
 
 # After a build, send email notification with the build results
 notifications:
-email: benoit.alessandroni@gmail.com
+email: 
+  - benoit.alessandroni@gmail.com
+  - lemoine.sebastien15@gmail.com
