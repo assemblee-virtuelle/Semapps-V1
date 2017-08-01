@@ -9,6 +9,8 @@ use mmmfestBundle\Form\UserType;
 use mmmfestBundle\mmmfestConfig;
 use mmmfestBundle\Form\AdminSettings;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
@@ -338,6 +340,61 @@ class AdminController extends Controller
 
             return $this->redirectToRoute('fos_user_profile_show');
         }
+				// import
+				$importForm = null;
+				if(!$userSfLink){
+						$importForm = $this->createFormBuilder();
+						$importForm->add('import',UrlType::class);
+						$importForm->add('save',SubmitType::class);
+						$importForm = $importForm->getForm();
+						$importForm->handleRequest($request);
+
+						if ($importForm->isSubmitted() && $importForm->isValid()) {
+								$uri = $importForm->get('import')->getData();
+								$userRepository = $this
+									->getDoctrine()
+									->getManager()
+									->getRepository('GrandsVoisinsBundle:User');
+								// Update sfLink.
+								$userRepository
+									->createQueryBuilder('q')
+									->update()
+									->set('q.sfLink', ':link')
+									->where('q.id=:id')
+									->setParameter('link', $uri)
+									->setParameter('id', $this->getUser()->getId())
+									->getQuery()
+									->execute();
+								//importer le profile
+								$sfClient->import($uri);
+								//déplacer dans le graph de l'orga
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
+								$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
+								$uripersonFormatted = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
+								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+
+								$sparql->addPrefixes($sparql->prefixes);
+								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addInsert("?s","?p","?o",$graphFormatted);
+								//dump($sparql->getQuery());
+								$sfClient->update($sparql->getQuery());
+								//hasMember
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+
+								$sparql->addPrefixes($sparql->prefixes)
+									->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
+								//dump($sparql->getQuery());
+								$sfClient->update($sparql->getQuery());
+								//memberOf
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+								$sparql->addPrefixes($sparql->prefixes)
+									->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
+								//dump($sparql->getQuery());
+								$sfClient->update($sparql->getQuery());
+								return $this->redirectToRoute('fos_user_profile_show');
+						}
+				}
 
         // Fill form
         return $this->render(
@@ -345,6 +402,7 @@ class AdminController extends Controller
             array(
                 'form'      => $form->createView(),
                 'entityUri' => $userSfLink,
+								'importForm'=> ($importForm != null)? $importForm->createView() : null
             )
         );
     }

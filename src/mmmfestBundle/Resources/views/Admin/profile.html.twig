@@ -6,8 +6,6 @@
 
 {% set menuSelected = 'fos_user_profile_show' %}
 
-{% import 'mmmfestBundle:Macro:form.html.twig' as formField %}
-
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block pageContent %}
@@ -25,114 +23,146 @@
         {% endif %}
 
         <div class="row">
-            {{ form_start(form) }}
-            <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
-                {% if form is not null %}
-                    <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                        <img src="{{ asset(app.user.getPictureName() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
-                    <span id="profileEditPictureField">
+            {% if importForm is not null %}
+                <ul id="myTab" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profile</a>
+                    </li>
+                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i> Importer son profile</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {% if importForm is not null %}
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="service-one">
+                    {% endif %}
+                    {{ form_start(form) }}
+                    <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
+                        {% if form is not null %}
+                            <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                                <img src="{{ asset(app.user.getPictureName() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~app.user.pictureName) | imagine_filter('profile') }}"/>
+                                <span id="profileEditPictureField">
                         {{ form_widget(form.pictureName) }}
                     </span>
-                    </a>
-                {% endif %}
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.givenName, { 'label': 'Prénom'}) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.familyName, { 'label': 'Nom'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.description) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.birthday, { 'label': 'Date de naissance'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.postalCode) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{  form_row(form.city) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.homepage) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.mbox) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.phone) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.slack,  { 'label': 'Contact Slack mmmfest'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.knows, { 'label': 'Vos ami(e)s aux mmmfest'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.expertise, { 'label': 'Compétences'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.resourceProposed) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
+                        {#{{ form_widget(form) }}#}
+                    </div>
+                    {{ form_end(form) }}
+                    {% if importForm is not null %}
+                </div>
+                <div class="tab-pane fade" id="service-two">
+                    {{ form_start(importForm) }}
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                {{ form_row(importForm.import, { 'label': 'import', attr:{class:'form-control'} }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(importForm.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(importForm) }}
+                </div>
             </div>
-            <div class="col-sm-6">
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.givenName, { 'label': 'Prénom'}) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.familyName, { 'label': 'Nom'}) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.description) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.birthday, { 'label': 'Date de naissance'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.postalCode) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{  form_row(form.city) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.homepage) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.mbox) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.phone) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.slack,  { 'label': 'Contact Slack mmmfest'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.knows, { 'label': 'Vos ami(e)s aux mmmfest'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.expertise, { 'label': 'Compétences'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.resourceProposed) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
-                    </div>
-                </div>
-                {#{{ form_widget(form) }}#}
-            </div>
-            {{ form_end(form) }}
+            {% endif%}
             <div class="col col-sm-4">
                 {% embed "alertBobby.html.twig" %}
                     {% block title %}Qui es-tu ?{% endblock %}
@@ -147,6 +177,10 @@
 
                         <p>Petite info : Plus tu renseigneras ton profil, plus
                             tu auras de chances de te faire des amis ! </p>
+
+                        <p>/!\ ATTENTION /!\ : Pour ceux qui décident d'importer leur profile,
+                            toutes les modifications ne toucherons pas la source de vos données !
+                            Toute modification restera locale, c'est-à-dire visible sur ce site</p>
 
                         <p>Et n'oublie pas : To be Bobby or not Bobby, that is
                             the question ... </p>
