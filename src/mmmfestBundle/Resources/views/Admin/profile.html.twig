@@ -49,16 +49,14 @@
                     <div class="col-sm-6">
 
                         <div class="row">
-                            <div class="col-xs-6">
-                                {{ form_row(form.givenName, { 'label': 'Prénom'}) }}
+                            <div class="col-xs-4">
+                                {{ form_row(form.firstName, { 'label': 'Prénom'}) }}
                             </div>
-                            <div class="col-xs-6">
-                                {{ form_row(form.familyName, { 'label': 'Nom'}) }}
+                            <div class="col-xs-4">
+                                {{ form_row(form.lastName, { 'label': 'Nom'}) }}
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+                            <div class="col-xs-4">
+                                {{ form_row(form.alias) }}
                             </div>
                         </div>
                         <div class="row">
@@ -68,80 +66,84 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.birthday, { 'label': 'Date de naissance'}) }}
+                                {{ form_row(form.aboutPage) }}
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-xs-6">
-                                {{ form_row(form.postalCode) }}
-                            </div>
-                            <div class="col-xs-6">
-                                {{  form_row(form.city) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-6">
-                                {{ form_row(form.homepage) }}
-                            </div>
-                            <div class="col-xs-6">
-                                {{ form_row(form.mbox) }}
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-xs-6">
                                 {{ form_row(form.phone) }}
                             </div>
                             <div class="col-xs-6">
-                                {{ form_row(form.slack,  { 'label': 'Contact Slack mmmfest'}) }}
+                                {{ form_row(form.email) }}
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.knows, { 'label': 'Vos ami(e)s aux mmmfest'}) }}
+                                {{ form_row(form.hasInterest) }}
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-xs-12">
-                                {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
+                                {{ form_row(form.knows) }}
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
+                            <div class="col-xs-12">
+                                {{ form_row(form.memberOf) }}
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="form-group col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.expertise, { 'label': 'Compétences'}) }}
+                            <div class="col-xs-12">
+                                {{ form_row(form.affiliatedTo) }}
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.resourceProposed) }}
+                            <div class="col-xs-12">
+                                {{ form_row(form.responsibleOf) }}
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
+                            <div class="col-xs-12">
+                                {{ form_row(form.involvedIn) }}
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.manages) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.offers) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.needs) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.organizes) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.participantOf) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.brainstorms) }}
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
                             </div>
                         </div>
-                        {#{{ form_widget(form) }}#}
-                    </div>
+                    {#{{ form_widget(form) }}#}
+                </div>
                     {{ form_end(form) }}
                     {% if importForm is not null %}
                 </div>

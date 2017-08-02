@@ -18,30 +18,30 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class ProfileType extends AbstractForm
 {
-    var $fieldsAliases = [
-        'http://xmlns.com/foaf/0.1/familyName'                                               => 'familyName',
-        'http://xmlns.com/foaf/0.1/givenName'                                                => 'givenName',
-        'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                                    => 'type',
-        'http://xmlns.com/foaf/0.1/img'                                                      => 'image',
-        'http://xmlns.com/foaf/0.1/headOf'                                                   => 'headOf',
-        'http://www.w3.org/ns/org#memberOf'                                                  => 'memberOf',
-        'http://xmlns.com/foaf/0.1/homepage'                                                 => 'homepage',
-        'http://xmlns.com/foaf/0.1/mbox'                                                     => 'mbox',
-        'http://xmlns.com/foaf/0.1/phone'                                                    => 'phone',
-        //'http://xmlns.com/foaf/0.1/currentProject'                                           => 'currentProject',
-        'http://xmlns.com/foaf/0.1/topic_interest'                                           => 'topicInterest',
-        'http://xmlns.com/foaf/0.1/knows'                                                    => 'knows',
-        'http://purl.org/ontology/cco/core#expertise'                                        => 'expertise',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#slack'            => 'slack',
-        'http://xmlns.com/foaf/0.1/birthday'                                                 => 'birthday',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#postalCode'       => 'postalCode',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#city'             => 'city',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceNeeded'   => 'resourceNeeded',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#ressouceProposed' => 'resourceProposed',
-        'http://xmlns.com/foaf/0.1/status'                                                   => 'shortDescription',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#description'          => 'description',
-        'http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#thesaurus'        => 'thesaurus',
-    ];
+		var $fieldsAliases = [
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#firstName' 			=> 'firstName', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#lastName' 			=> 'lastName', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alias' 					=> 'alias', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 	=> 'representedBy', # img
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 		=> 'description', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 			=> 'aboutPage', # url
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy' 		=> 'localizedBy', # txt ( url )
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 				=> 'email', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 					=> 'phone', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 		=> 'hasInterest', # dbpedia
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows' 					=> 'knows', # sf ( person )
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf' 			=> 'memberOf', # sf ( orga )
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf' 	=> 'responsibleOf', # sf ( orga )
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo' 	=> 'affiliatedTo', # sf (orga)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 		=> 'involvedIn', # sf (projet)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 				=> 'manages', # sf (projet)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 				=> 'offers', # dbpedia
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 					=> 'needs', # dbpedia
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 			=> 'organizes', # sf (event)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 	=> 'participantOf', # sf (event)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 		=> 'brainstorms', # sf (proposition)
+			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                           => 'type',
+		];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -50,138 +50,173 @@ class ProfileType extends AbstractForm
         parent::buildForm($builder, $options);
 
         $this
-            ->add($builder, 'givenName', TextType::class)
-            ->add($builder, 'familyName', TextType::class)
+					->add($builder, 'firstName', TextType::class)
+					->add($builder, 'lastName', TextType::class)
+					->add($builder, 'alias', TextType::class)
+					->add(
+						$builder,
+						'description',
+						TextareaType::class,
+						[
+							'required' => false,
+						]
+					)
             ->add(
                 $builder,
-                'homepage',
+                'aboutPage',
                 UrlType::class,
                 [
                     'required' => false,
                 ]
             )
-            ->add(
-                $builder,
-                'mbox',
-                EmailType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'phone',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'shortDescription',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'description',
-                TextareaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'expertise',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'topicInterest',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'knows',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'lookupUrl' => $options['lookupUrlPerson'],
-                    'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => mmmfestConfig::URI_FOAF_PERSON,
-                ]
-            )
-            ->add(
-                $builder,
-                'slack',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'birthday',
-                DateType::class,
-                [
-                    'required' => false,
-                    'widget'   => 'choice',
-                    'format' => 'dd/MM/yyyy',
-                    'years' => range(date('Y') -150, date('Y')),
-                ]
-            )
-            ->add(
-                $builder,
-                'postalCode',
-                TextType::class,
-                [
-                    'required' => false,
-                ]
-
-            )
-            ->add(
-                $builder,
-                'resourceNeeded',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'resourceProposed',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'thesaurus',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'lookupUrl' => $options['lookupUrlPerson'],
-                    'labelUrl'  => $options['lookupUrlLabel'],
-                    'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
-                ]
-            )
-            ->add(
-                $builder,
-                'city',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            );
+					/*->add(
+						$builder,
+						'localizedBy',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)*/
+					->add(
+						$builder,
+						'email',
+						EmailType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'phone',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'hasInterest',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'knows',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
+						]
+					)
+					->add(
+						$builder,
+						'memberOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
+						]
+					)
+					->add(
+						$builder,
+						'affiliatedTo',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
+						]
+					)
+					->add(
+						$builder,
+						'responsibleOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
+						]
+					)
+					->add(
+						$builder,
+						'involvedIn',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
+						]
+					)
+					->add(
+						$builder,
+						'manages',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
+						]
+					)
+					->add(
+						$builder,
+						'offers',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'needs',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'organizes',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
+						'participantOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
+						'brainstorms',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
+						]
+					)
+				;
 
         $builder->add(
             'pictureName',

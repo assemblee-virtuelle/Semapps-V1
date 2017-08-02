@@ -268,27 +268,30 @@ class AdminController extends Controller
                 );
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
                 $sparql->addPrefixes($sparql->prefixes)
+										->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addDelete(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'foaf:img',
+                      'default:representedBy',
                       '?o',
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
                     ->addWhere(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'foaf:img',
+                      'default:representedBy',
                       '?o',
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sfClient->update($sparql->getQuery());
-
+                $sfClient->update(str_replace("#","%23",$sparql->getQuery()));
+								//dump($sparql->getQuery());
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $sparql->addPrefixes($sparql->prefixes)
+										->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addInsert(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'foaf:img',
+                      'default:representedBy',
                       $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                    $sfClient->update($sparql->getQuery());
-
+                    $sfClient->update(str_replace("#","%23",$sparql->getQuery()));
+								//dump($sparql->getQuery());
+								//exit;
             } else {
                 $user->setPictureName($oldPictureName);
             }
@@ -315,22 +318,25 @@ class AdminController extends Controller
                     ->setParameter('id', $this->getUser()->getId())
                     ->getQuery()
                     ->execute();
+                /* can be removed ?
                 //hasMember
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
                 $uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
                 $graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
                 $sparql->addPrefixes($sparql->prefixes)
-                    ->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+                    ->addInsert($uriOrgaFormatted,'default:hasMember',$uripersonFormatted,$graphFormatted);
                 //dump($sparql->getQuery());
                 $sfClient->update($sparql->getQuery());
                 //memberOf
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $sparql->addPrefixes($sparql->prefixes)
-                    ->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+                    ->addInsert($uripersonFormatted,'default:memberOf',$uriOrgaFormatted,$graphFormatted);
                 //dump($sparql->getQuery());
                 $sfClient->update($sparql->getQuery());
-
+								*/
             }
 
             $this->addFlash(
@@ -373,26 +379,31 @@ class AdminController extends Controller
 								$uripersonFormatted = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
 								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
 
-								$sparql->addPrefixes($sparql->prefixes);
+								$sparql->addPrefixes($sparql->prefixes)
+												->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#');
 								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
 								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
 								$sparql->addInsert("?s","?p","?o",$graphFormatted);
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
+								/* can be removed ?
 								//hasMember
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 
 								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
 									->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
 								//memberOf
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
 									->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
 								return $this->redirectToRoute('fos_user_profile_show');
+								*/
 						}
 				}
 
@@ -445,14 +456,15 @@ class AdminController extends Controller
             //TODO make function to find something about someone
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
             $sparql->addPrefixes($sparql->prefixes)
+							->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                 ->addSelect('?name')
                 ->addSelect('?forname')
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'foaf:familyName',
+                  'default:lastName',
                   '?name',
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'foaf:givenName',
+                  'default:firstName',
                   '?forname',
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
             $result = $sfClient->sparql($sparql->getQuery());
@@ -689,6 +701,7 @@ class AdminController extends Controller
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
 
         $sparql->addPrefixes($sparql->prefixes)
+					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?G ?P ?O')
             ->addWhere('?s','rdf:type','foaf:Organization','?G')
             ->addWhere('?s','?P','?O','?G')
