@@ -43,165 +43,67 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.name, { 'label': 'Nom'}) }}
+                        {{ form_row(form.preferedLabel) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.administrativeName) }}
-                    </div>
-                </div>
-
-                {% if form.arrivalDate is defined  %}
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.arrivalDate) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.status) }}
-                    </div>
-                </div>
-                {% endif %}
-
-                {% if form.arrivalDate is defined  %}
-                    <div class="row">
-                        <div class="col-xs-6">
-                            {{ form_row(form.arrivalNumber) }}
-                        </div>
-                        <div class="col-xs-6">
-                            {{ form_row(form.insuranceStatus) }}
-                        </div>
-                    </div>
-                {% endif %}
-
-                {% if form.building is defined  %}
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.building) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.room) }}
-                    </div>
-                </div>
-                {% endif %}
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+                        {{ form_row(form.alternativeLabel) }}
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.description) }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.proposedContribution) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.realisedContribution) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.description) }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.contributionType) }}
+                    <div class="col-xs-12">{{ form_row(form.comment) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        {{ form_row(form.homePage) }}
+                    </div>
+                    <div class="col-xs-6">
+                        {{ form_row(form.aboutPage) }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.conventionType) }}
+                        {{ form_row(form.email) }}
                     </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.employeesCount) }}
-                    </div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-6">
                         {{ form_row(form.phone) }}
                     </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.mbox) }}
-                    </div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.homepage) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.facebook) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.hasMember) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.twitter) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.linkedin) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.hasResponsible) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.head, { 'label': 'Responsable(s) de l\'organisation'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.employs) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Vous devez les avoir invitées, et elles doivent à avoir renseigné leur profil au préalable ;-) ">
-                        {{ form_row(form.hasMember, { 'label': 'Membres de l\'organisation (personnes ou organisations)'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.partnerOf) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12"  data-toggle="tooltip" data-placement="bottom" title="Elles doivent à avoir renseigné le profil de l'organisation au préalable ;-) ">
-                        {{ form_row(form.OrganizationalCollaboration, { 'label': 'Organisation(s) partenaire(s) sur le site'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.involvedIn) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.manages) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.organizes) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.resourceProposed) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.participantOf) }}</div>
                 </div>
-
                 <div class="row">
-                    <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                        {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont vous avez besoin'}) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.offers) }}</div>
                 </div>
-
-                {% if form.haveBenefitOf is defined  %}
                 <div class="row">
-                    <div class="col-xs-12">
-                        {#{{ form_row(form.haveBenefitOf) }}#}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.needs) }}</div>
                 </div>
-                {% endif %}
-
-                {% if form.leavingDate is defined  %}
                 <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.leavingDate) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.newLocation) }}
-                    </div>
+                    <div class="col-xs-12">{{ form_row(form.brainstorms) }}</div>
                 </div>
-                {% endif %}
                 <div class="row">
                     <div class="col-xs-12">
                         {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
