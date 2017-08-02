@@ -15,40 +15,10 @@
         <div class="col-sm-10">
             <div class="row">
                 <div class="col-sm-6">
-                    {{ form_row(form.label, { 'label': 'Nom de l\'événement'}) }}
+                    {{ form_row(form.preferedLabel) }}
                 </div>
                 <div class="col-sm-6">
-                    {{ form_row(form.mbox, { 'label': 'E-mail de contact'}) }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ form_row(form.building) }}
-                </div>
-                <div class="col-sm-6">
-                    {{ form_row(form.room) }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ form_row(form.eventBegin) }}
-                </div>
-                <div class="col-sm-6">
-                    {{ form_row(form.eventEnd) }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-xs-12" id="componentImage" data-toggle="tooltip" data-placement="bottom" title="Placer l'url de votre image ici">
-                    {{ form_row(form.image, { 'label': 'image', 'attr' : {'class' : 'component-new-picture'} }) }}
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    {{ form_row(form.shortDescription, { 'label': 'Description courte' }) }}
+                    {{ form_row(form.alternativeLabel) }}
                 </div>
             </div>
             <div class="row">
@@ -56,34 +26,57 @@
                     {{ form_row(form.description) }}
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Elles doivent à avoir renseigné leur profil au préalable ;-) ">
-                    {{ form_row(form.maker, { 'label': 'Organisateur(s) de l\'événement (personnes ou organisations)'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.comment) }}
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-xs-12" >
-                    {{  form_row(form.thesaurus, { 'label': 'Domaine(s) d\'activité(s)'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.aboutPage) }}
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                    {{ form_row(form.topicInterest, { 'label': 'Centres d\'intérêts'}) }}
+                <div class="col-sm-6">
+                    {{ form_row(form.startDate) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.endDate) }}
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                    {{ form_row(form.resourceProposed, { 'label': 'Ressources que l\'événement met à disposition'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.localizedBy) }}
                 </div>
             </div>
-
             <div class="row">
-                <div class="col-xs-12" data-toggle="tooltip" data-placement="top" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                    {{ form_row(form.resourceNeeded, { 'label': 'Ressources dont l\'événement a besoin'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.localizedBy) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.representedBy) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.documentedBy) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasInterest) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.organizedBy) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasParticipant) }}
                 </div>
             </div>
         </div>

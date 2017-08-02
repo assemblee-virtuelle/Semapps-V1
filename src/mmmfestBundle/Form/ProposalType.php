@@ -4,8 +4,6 @@ namespace mmmfestBundle\Form;
 
 use mmmfestBundle\mmmfestConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -16,24 +14,22 @@ use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class EventType extends AbstractForm
+class ProposalType extends AbstractForm
 {
 		var $fieldsAliases = [
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel' 			=> 'preferedLabel', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' 	=> 'alternativeLabel', # txt
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier' 	=> 'subjectIdentifier', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 				=> 'description', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#startDate' 					=> 'startDate', # date
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#endDate' 						=> 'endDate', # date
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy' 				=> 'localizedBy', # sf ou building
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage'					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy' 		=> 'brainstormedBy', # sf (person,orga)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (person,orga)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # sf (person,orga)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 				=> 'hasInterest', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy' 				=> 'organizedBy', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant' 		=> 'hasParticipant', # sf (person,orga)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 					=> 'subjectOf', # ?
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
 		];
 
@@ -55,40 +51,15 @@ class EventType extends AbstractForm
 					)
 					->add(
 						$builder,
-						'startDate',
-						DateType::class,
+						'comment',
+						TextType::class,
 						[
 							'required' => false,
-							'widget'   => 'choice',
-							'format' => 'dd/MM/yyyy',
-							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
 					->add(
 						$builder,
-						'endDate',
-						DateType::class,
-						[
-							'required' => false,
-							'widget'   => 'choice',
-							'format' => 'dd/MM/yyyy',
-							'years' => range(date('Y') -150, date('Y')),
-						]
-					)
-					->add(
-						$builder,
-						'localizedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
-						]
-					)
-					->add(
-						$builder,
-						'representedBy',
+						'homePage',
 						UrlType::class,
 						[
 							'required' => false,
@@ -104,8 +75,30 @@ class EventType extends AbstractForm
 					)
 					->add(
 						$builder,
-						'comment',
-						TextType::class,
+						'brainstormedBy',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'concretizedBy',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'representedBy',
+						UrlType::class,
 						[
 							'required' => false,
 						]
@@ -119,36 +112,6 @@ class EventType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
-						]
-					)
-					->add(
-						$builder,
-						'hasInterest',
-						DbPediaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'organizedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
-						]
-					)
-					->add(
-						$builder,
-						'hasParticipant',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
 				;

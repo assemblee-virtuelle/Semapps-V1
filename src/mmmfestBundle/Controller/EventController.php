@@ -6,5 +6,5 @@ class EventController extends ComponentController
 {
     var $componentName = 'event';
     var $pluralName = 'events';
-    var $sparqlPrefix = 'event:Event';
+    var $sparqlPrefix = 'default:Event';
 }

@@ -17,12 +17,17 @@ class mmmfestConfig
 		const URI_PAIR_PROJECT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project';
 		const URI_PAIR_EVENT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event';
 		const URI_PAIR_PROPOSAL = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal';
+		const URI_MIXTE_PERSON_ORGANIZATION = [
+			self::URI_PAIR_PERSON,
+			self::URI_PAIR_ORGANIZATION,
+		];
+
 		//spec
 		CONST SPEC_PERSON = 'form-Person';
 		CONST SPEC_ORGANIZATION = 'form-Organization';
 		CONST SPEC_PROJECT = 'form-Project';
 		CONST SPEC_EVENT = 'form-Event';
-		CONST SPEC_PROPOSITION = 'form-Proposal';
+		CONST SPEC_PROPOSAL = 'form-Proposal';
 
 		const Multiple = '';
 		const PREFIX = 'urn:mm/contacts/row/';

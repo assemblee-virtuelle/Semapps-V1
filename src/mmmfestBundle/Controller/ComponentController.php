@@ -32,9 +32,10 @@ class ComponentController extends Controller
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
         $graphURI = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
         $sparql->addPrefixes($sparql->prefixes)
+					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?URI ?NAME')
             ->addWhere('?URI','rdf:type',$this->sparqlPrefix,$graphURI)
-            ->addWhere('?URI','rdfs:label','?NAME',$graphURI);
+            ->addWhere('?URI','default:preferedLabel','?NAME',$graphURI);
         $results = $sfClient->sparql($sparql->getQuery());
 
         $listContent = [];
@@ -111,7 +112,7 @@ class ComponentController extends Controller
               strtolower($request->get('component')).'List'
             );
         }
-        $image = $form->get('image')->getData();
+        $image = $form->get('representedBy')->getData();
         // Fill form
         return $this->render(
           'mmmfestBundle:Component:'.$this->componentName.'Form.html.twig',
@@ -126,7 +127,7 @@ class ComponentController extends Controller
         $route = [
           'project' => 'projet',
           'event' => 'evenement',
-          'proposition' => 'proposition',
+          'proposal' => 'proposal',
           ];
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
