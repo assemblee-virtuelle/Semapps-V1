@@ -15,10 +15,12 @@ Polymer({
     });
     // Raw values.
     $.extend(this, this.data.properties);
-      this.topicInterest = this.data.topicInterest;
-      this.resourceNeeded = this.data.resourceNeeded;
-      this.resourceProposed = this.data.resourceProposed;
-      this.buildingTitle = gvc.buildings[this.data.properties.building].title;
+      this.person_brainstormedBy = this.data.person_brainstormedBy;
+      this.orga_brainstormedBy = this.data.orga_brainstormedBy;
+      this.person_concretizedBy = this.data.person_concretizedBy;
+      this.orga_concretizedBy = this.data.orga_concretizedBy;
+      this.person_representedBy = this.data.person_representedBy;
+      this.orga_representedBy = this.data.orga_representedBy;
       this.image = this.data.properties.image;
   },
 
