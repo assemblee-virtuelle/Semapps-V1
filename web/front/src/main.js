@@ -23,27 +23,27 @@
       this.buildingSelected = this.buildingSelectedAll;
       this.$gvMap = $(document.getElementById('mm-map'));
       this.searchTypes = {
-        "http://xmlns.com/foaf/0.1/Person": {
+        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person": {
           label: 'Personne',
           type: 'person',
           plural: 'Personnes'
         },
-        "http://xmlns.com/foaf/0.1/Organization": {
+        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization": {
           label: 'Organisation',
           type: 'organization',
           plural: 'Organisations'
         },
-        "http://xmlns.com/foaf/0.1/Project": {
+        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project": {
           label: 'Projet',
           type: 'projet',
           plural: 'Projets'
         },
-        "http://purl.org/NET/c4dm/event.owl#Event": {
+        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event": {
           label: 'Evénement',
           type: 'event',
           plural: 'Evénements'
         },
-        "http://www.fipa.org/schemas#Proposition": {
+        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal": {
           label: 'Proposition',
           type: 'proposition',
           plural: 'Propositions'

@@ -235,7 +235,7 @@ class OrganisationController extends Controller
         $encryption = $this->container->get('mmmfestBundle.encryption');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
-        $predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
+        //$predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
 
         /* @var $organisationEntity \mmmfestBundle\Repository\OrganisationRepository */
         // Ask database to know if organization has been already created.
