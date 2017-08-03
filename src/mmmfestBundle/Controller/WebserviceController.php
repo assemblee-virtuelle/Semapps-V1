@@ -495,7 +495,7 @@ class WebserviceController extends Controller
                                 );
 
                     }
-                    $output['person_hasMember'] = $person;
+                    $output['hasMember'] = $person;
                     $output['orga_hasMember']   = []; // TODO: to be removed
                 }
 								if (isset($properties['employs'])) {

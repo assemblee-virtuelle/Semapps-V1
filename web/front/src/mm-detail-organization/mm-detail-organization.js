@@ -14,21 +14,18 @@ Polymer({
 
     // Raw values.
     $.extend(this, this.data.properties);
-    this.resourceNeeded = this.data.resourceNeeded;
-    this.resourceProposed = this.data.resourceProposed;
-    this.topicInterest = this.data.topicInterest;
-    this.person_hasMember = this.data.person_hasMember;
-    this.orga_hasMember = this.data.orga_hasMember;
-    this.OrganizationalCollaboration = this.data.OrganizationalCollaboration;
-    this.thesaurus = this.data.thesaurus;
-    this.projet = this.data.projet;
-    this.event = this.data.event;
-    this.proposition = this.data.proposition;
     this.responsible = this.data.responsible;
-    this.memberOf = this.data.memberOf;
-    // Computed values.
-    this.title = this.data.properties.foafName;
-    this.buildingTitle = ''//gvc.buildings[this.data.properties.building].title;
+    this.hasMember = this.data.hasMember;
+    this.employs = this.data.employs;
+    this.partnerOf = this.data.partnerOf;
+    this.involvedIn = this.data.involvedIn;
+    this.manages = this.data.manages;
+    this.organizes = this.data.organizes;
+    this.participantOf = this.data.participantOf;
+    this.offers = this.data.offers;
+    this.needs = this.data.needs;
+    this.brainstorms = this.data.brainstorms;
+
   },
 
     onClickThematic(e){
