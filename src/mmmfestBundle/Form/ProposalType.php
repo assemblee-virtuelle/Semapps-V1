@@ -25,8 +25,8 @@ class ProposalType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy' 		=> 'brainstormedBy', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # sf (person,orga)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (project)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 					=> 'subjectOf', # ?
@@ -84,7 +84,7 @@ class ProposalType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-					->add(
+					/*->add(
 						$builder,
 						'concretizedBy',
 						UriType::class,
@@ -94,7 +94,7 @@ class ProposalType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
-					)
+					)*/
 					->add(
 						$builder,
 						'representedBy',

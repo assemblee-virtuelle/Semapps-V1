@@ -25,6 +25,7 @@ Polymer({
     this.offers = this.data.offers;
     this.needs = this.data.needs;
     this.brainstorms = this.data.brainstorms;
+    this.affiliates = this.data.affiliates;
 
   },
 

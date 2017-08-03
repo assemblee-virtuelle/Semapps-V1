@@ -36,14 +36,14 @@ class OrganizationType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible' 		=> 'hasResponsible', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs' 						=> 'employs', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf' 					=> 'partnerOf', # sf (orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 				=> 'involvedIn', # sf (projet)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 						=> 'manages', # sf (projet)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 				=> 'involvedIn', # sf (projet)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 						=> 'manages', # sf (projet)
 				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#operates' 					=> 'operates', # building
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 					=> 'organizes', # sf (event)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 			=> 'participantOf', # sf (event)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 					=> 'organizes', # sf (event)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 			=> 'participantOf', # sf (event)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 						=> 'offers', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 							=> 'needs', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 				=> 'brainstorms', # sf (proposition)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 				=> 'brainstorms', # sf (proposition)
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                           		=> 'type',
 		];
 
@@ -54,7 +54,7 @@ class OrganizationType extends AbstractForm
 
 				$this
 					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class)
+					->add($builder, 'alternativeLabel', TextType::class,['required' => false,])
 					->add(
 						$builder,
 						'description',
@@ -148,7 +148,7 @@ class OrganizationType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
-					->add(
+					/*->add(
 						$builder,
 						'involvedIn',
 						UriType::class,
@@ -158,8 +158,8 @@ class OrganizationType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
 						]
-					)
-					->add(
+					)*/
+					/*->add(
 						$builder,
 						'manages',
 						UriType::class,
@@ -169,8 +169,8 @@ class OrganizationType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
 						]
-					)
-					->add(
+					)*/
+					/*->add(
 						$builder,
 						'organizes',
 						UriType::class,
@@ -180,8 +180,8 @@ class OrganizationType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
-					)
-					->add(
+					)*/
+					/*->add(
 						$builder,
 						'participantOf',
 						UriType::class,
@@ -191,7 +191,7 @@ class OrganizationType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
-					)
+					)*/
 					->add(
 						$builder,
 						'offers',
@@ -208,7 +208,7 @@ class OrganizationType extends AbstractForm
 							'required' => false,
 						]
 					)
-					->add(
+					/*->add(
 						$builder,
 						'brainstorms',
 						UriType::class,
@@ -218,7 +218,8 @@ class OrganizationType extends AbstractForm
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
 						]
-					);
+					)*/
+					;
 
 				$builder->add(
 					'organisationPicture',

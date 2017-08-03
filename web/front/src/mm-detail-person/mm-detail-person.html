@@ -109,6 +109,30 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of responsibleOf -->
+        <!-- memberOf -->
+        <template is="dom-if" if="[[data.memberOf.length]]">
+          <h3>memberOf</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.memberOf}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of memberOf -->
+        <!-- employedBy -->
+        <template is="dom-if" if="[[data.employedBy.length]]">
+          <h3>employedBy</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.employedBy}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of employedBy -->
         <!-- involvedIn -->
         <template is="dom-if" if="[[data.involvedIn.length]]">
           <h3>involvedIn</h3>
@@ -176,7 +200,7 @@
           </template>
           <div class="clearfix"></div>
         </template>
-        <!-- end of brainstorms -->
+        <!-- end of participantOf -->
       </div>
     </div>
   </template>

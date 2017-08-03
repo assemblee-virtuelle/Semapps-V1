@@ -27,7 +27,8 @@ parameters:
         memberOf: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf" 		
         responsibleOf: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf" 	   
         affiliatedTo: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo"
-        involvedIn: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn" 	 
+        affiliates: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliates"
+        involvedIn: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn"
         manages: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages" 		    
         offers: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers" 		    
         needs: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs" 				
@@ -41,6 +42,7 @@ parameters:
         hasMember: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember"
         hasResponsible: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible"
         employs: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs"
+        employedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employedBy"
         partnerOf: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf"
         concretizes: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes"
         managedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy"
@@ -71,6 +73,7 @@ parameters:
            - memberOf
            - responsibleOf
            - affiliatedTo
+           - affiliates
            - involvedIn
            - manages
            - offers
@@ -85,6 +88,7 @@ parameters:
            - hasMember
            - hasResponsible
            - employs
+           - employedBy
            - partnerOf
            - concretizes
            - managedBy

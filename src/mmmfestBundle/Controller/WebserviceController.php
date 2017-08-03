@@ -506,6 +506,14 @@ class WebserviceController extends Controller
 												);
 										}
 								}
+								if (isset($properties['affiliates'])) {
+										foreach ($properties['affiliates'] as $uri) {
+												$output['affiliates'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PERSON
+												);
+										}
+								}
 								if (isset($properties['partnerOf'])) {
 										foreach ($properties['partnerOf'] as $uri) {
 												$output['partnerOf'][] = $this->getData(
@@ -608,6 +616,22 @@ class WebserviceController extends Controller
 								if (isset($properties['responsibleOf'])) {
 										foreach ($properties['responsibleOf'] as $uri) {
 												$output['responsibleOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_ORGANIZATION
+												);
+										}
+								}
+								if (isset($properties['memberOf'])) {
+										foreach ($properties['memberOf'] as $uri) {
+												$output['memberOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_ORGANIZATION
+												);
+										}
+								}
+								if (isset($properties['employedBy'])) {
+										foreach ($properties['employedBy'] as $uri) {
+												$output['employedBy'][] = $this->getData(
 													$uri,
 													mmmfestConfig::URI_PAIR_ORGANIZATION
 												);

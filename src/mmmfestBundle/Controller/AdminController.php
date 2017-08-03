@@ -318,7 +318,6 @@ class AdminController extends Controller
                     ->setParameter('id', $this->getUser()->getId())
                     ->getQuery()
                     ->execute();
-                /* can be removed ?
                 //hasMember
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
@@ -336,7 +335,7 @@ class AdminController extends Controller
                     ->addInsert($uripersonFormatted,'default:memberOf',$uriOrgaFormatted,$graphFormatted);
                 //dump($sparql->getQuery());
                 $sfClient->update($sparql->getQuery());
-								*/
+
             }
 
             $this->addFlash(
@@ -386,7 +385,6 @@ class AdminController extends Controller
 								$sparql->addInsert("?s","?p","?o",$graphFormatted);
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
-								/* can be removed ?
 								//hasMember
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 
@@ -403,7 +401,6 @@ class AdminController extends Controller
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
 								return $this->redirectToRoute('fos_user_profile_show');
-								*/
 						}
 				}
 
