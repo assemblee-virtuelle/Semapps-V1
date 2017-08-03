@@ -15,10 +15,13 @@ Polymer({
         });
         // Raw values.
         $.extend(this, this.data.properties);
-        this.representedBy = this.data.representedBy;
+        this.person_representedBy = this.data.person_representedBy;
+        this.orga_representedBy = this.data.orga_representedBy;
         this.hasInterest = this.data.hasInterest;
-        this.organizedBy = this.data.organizedBy;
-        this.hasParticipant = this.data.properties.hasParticipant;
+        this.person_organizedBy = this.data.person_organizedBy;
+        this.orga_organizedBy = this.data.orga_organizedBy;
+        this.person_hasParticipant = this.data.properties.person_hasParticipant;
+        this.orga_hasParticipant = this.data.properties.orga_hasParticipant;
         //this.buildingTitle = gvc.buildings[this.data.properties.building].title;
         if (this.startDate) {
             let startDate = new Date(this.startDate);
