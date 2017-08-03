@@ -675,29 +675,7 @@ class WebserviceController extends Controller
 												);
 										}
 								}
-								$person = $orga = array();
-								if (isset($properties['concretizes'])) {
-										foreach ($properties['concretizes'] as $uri) {
-												$component = $this->uriPropertiesFiltered($uri);
-												//dump($component);
-												switch (current($component['type'])) {
-														case mmmfestConfig::URI_PAIR_PERSON:
-																$person[] = $this->getData(
-																	$uri,
-																	current($component['type'])
-																);
-																break;
-														case mmmfestConfig::URI_PAIR_ORGANIZATION:
-																$orga[] = $this->getData(
-																	$uri,
-																	current($component['type'])
-																);
-																break;
-												}
-										}
-										$output['person_concretizes'] = $person;
-										$output['orga_concretizes']   = $orga;
-								}
+
 								if (isset($properties['needs'])) {
 										foreach ($properties['needs'] as $uri) {
 												$output['needs'] = [
@@ -728,6 +706,52 @@ class WebserviceController extends Controller
 										}
 										$output['person_involves'] = $person;
 										$output['orga_involves']   = $orga;
+								}
+								$person = $orga = array();
+								if (isset($properties['managedBy'])) {
+										foreach ($properties['managedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_managedBy'] = $person;
+										$output['orga_managedBy']   = $orga;
+								}
+								$person = $orga = array();
+								if (isset($properties['representedBy'])) {
+										foreach ($properties['representedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_representedBy'] = $person;
+										$output['orga_representedBy']   = $orga;
 								}
                 break;
             // Event.

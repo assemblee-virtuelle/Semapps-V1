@@ -3,7 +3,7 @@
   <template>
     <div id="mm-detail-projet">
       <div class="col col-sm-8">
-        <h2>[[data.properties.label]]</h2>
+        <h2>[[data.properties.preferedLabel]]</h2>
         <div class="detail-header row">
           <div class="detail-image col col-sm-4">
             <template is="dom-if" if="[[image]]">
@@ -22,16 +22,16 @@
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
-              <template is="dom-if" if="[[shortDescription]]">
+              <template is="dom-if" if="[[alternativeLabel]]">
                 <tr class="field">
-                  <td class="fieldLabel">Description courte</td>
-                  <td>[[shortDescription]]</td>
+                  <td class="fieldLabel">alternativeLabel</td>
+                  <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[projectStart]]">
+              <template is="dom-if" if="[[comment]]">
                 <tr class="field">
-                  <td class="fieldLabel">Date de début du projet</td>
-                  <td>[[projectStart]]
+                  <td class="fieldLabel">comment</td>
+                  <td>[[comment]]
                   </td>
                 </tr>
               </template>
@@ -42,24 +42,12 @@
                   </td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[isMember]]">
-                <template is="dom-if" if="[[mbox]]">
+                <template is="dom-if" if="[[aboutPage]]">
                   <tr class="field">
-                    <td class="fieldLabel">E-mail</td>
-                    <td>[[mbox]]</td>
+                    <td class="fieldLabel">aboutPage</td>
+                    <td>[[aboutPage]]</td>
                   </tr>
                 </template>
-              </template>
-              <tr class="field">
-                <td class="fieldLabel">Bâtiment</td>
-                <td>[[buildingTitle]]</td>
-              </tr>
-              <template is="dom-if" if="[[room]]">
-                <tr class="field">
-                  <td class="fieldLabel">Pièce</td>
-                  <td>[[room]]</td>
-                </tr>
-              </template>
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -72,87 +60,95 @@
         </div>
       </div>
       <div class="col col-sm-4 side-blocks">
-        <template is="dom-if" if="[[data.orga_head.length]]">
-          <h3>Organisation(s) responsable(s)</h3>
+        <!-- concretizes -->
+        <template is="dom-if" if="[[data.concretizes.length]]">
+          <h3>concretizes</h3>
+          <template is="dom-repeat" items="{{data.concretizes}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of concretizes -->
+        <!-- managedBy -->
+        <template is="dom-if" if="[[data.person_managedBy.length]]">
+          <h3>person_managedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_head}}">
+            <template is="dom-repeat" items="{{data.person_managedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_head.length]]">
-          <h3>Personnes responsables</h3>
+        <template is="dom-if" if="[[data.orga_managedBy.length]]">
+          <h3>orga_managedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_head}}">
+            <template is="dom-repeat" items="{{data.orga_managedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.orga_maker.length]]">
-          <h3>Organisation(s) partenaire(s) sur le site</h3>
+        <!-- end of managedBy -->
+        <!-- representedBy -->
+        <template is="dom-if" if="[[data.person_representedBy.length]]">
+          <h3>person_representedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_maker}}">
+            <template is="dom-repeat" items="{{data.person_representedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_maker.length]]">
-          <h3>Contributeurs</h3>
+        <template is="dom-if" if="[[data.orga_representedBy.length]]">
+          <h3>orga_representedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_maker}}">
+            <template is="dom-repeat" items="{{data.orga_representedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-
-        <template is="dom-if" if="[[data.thesaurus.length]]">
-          <h3>Domaine(s) d'activité(s)</h3>
+        <!-- end of representedBy -->
+        <!-- involves -->
+        <template is="dom-if" if="[[data.person_involves.length]]">
+          <h3>person_involves</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.person_involves}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.orga_involves.length]]">
+          <h3>orga_involves</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.orga_involves}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of involves -->
+        <!-- needs -->
+        <template is="dom-if" if="[[needs.length]]">
+          <h3>needs</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{data.thesaurus}}">
-              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
-        <template is="dom-if" if="[[topicInterest.length]]">
-          <h3>Ses centres d'intérêts</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{topicInterest}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
-        <template is="dom-if" if="[[resourceProposed.length]]">
-          <h3>Les ressources que le projet met à disposition</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceProposed}}">
+            <template is="dom-repeat" items="{{needs}}">
               <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
           </div>
         </template>
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Les ressources dont il a besoin</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
+        <!-- end of needs -->
       </div>
     </div>
   </template>

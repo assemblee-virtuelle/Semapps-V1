@@ -16,14 +16,15 @@ Polymer({
     // Raw values.
     $.extend(this, this.data.properties);
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
-    this.resourceNeeded = this.data.resourceNeeded;
-    this.resourceProposed = this.data.resourceProposed;
-    this.topicInterest = this.data.topicInterest;
+    this.concretizes = this.data.concretizes;
+    this.needs = this.data.needs;
+    this.person_involves = this.data.person_involves;
+    this.orga_involves = this.data.orga_involves;
+    this.person_managedBy = this.data.person_managedBy;
+    this.orga_managedBy = this.data.orga_managedBy;
+    this.person_representedBy = this.data.person_representedBy;
+    this.orga_representedBy = this.data.orga_representedBy;
     this.image = this.data.properties.image;
-    if (this.projectStart) {
-      let projectStart = new Date(this.projectStart);
-      this.projectStart = projectStart.getDate() + '/' + (projectStart.getMonth() + 1) + '/' + projectStart.getFullYear();
-    }
   },
 
     onClickThematic(e){
