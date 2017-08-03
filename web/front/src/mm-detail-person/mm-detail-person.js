@@ -7,18 +7,18 @@ Polymer({
     });
     // Raw values.
     $.extend(this, this.data.properties);
-    this.memberOf = this.data.memberOf;
-    this.topicInterest = this.data.topicInterest;
-    this.resourceNeeded = this.data.resourceNeeded;
-    this.resourceProposed = this.data.resourceProposed;
-    this.expertize = this.data.expertize;
+    this.hasInterest = this.data.hasInterest;
     this.knows = this.data.knows;
+    this.affiliatedTo = this.data.affiliatedTo;
+    this.responsibleOf = this.data.responsibleOf;
+    this.involvedIn = this.data.involvedIn;
+    this.manages = this.data.manages;
+    this.offers = this.data.offers;
+    this.needs = this.data.needs;
+    this.participantOf = this.data.participantOf;
+    this.brainstorms = this.data.brainstorms;
     //log(this.data.building);
     this.buildingTitle = gvc.buildings[this.data.building].title;
-    if (this.birthday) {
-      let birthday = new Date(this.birthday);
-      this.birthday = birthday.getDate() + '/' + (birthday.getMonth() + 1) + '/' + birthday.getFullYear();
-    }
   },
     handleClickDetail(e) {
         e.preventDefault();
