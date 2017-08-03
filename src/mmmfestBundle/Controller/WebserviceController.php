@@ -15,27 +15,27 @@ use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 class WebserviceController extends Controller
 {
     var $entitiesTabs = [
-      mmmfestConfig::URI_FOAF_ORGANIZATION => [
+      mmmfestConfig::URI_PAIR_ORGANIZATION => [
         'name'   => 'Organisation',
         'plural' => 'Organisations',
         'icon'   => 'tower',
       ],
-      mmmfestConfig::URI_FOAF_PERSON       => [
+      mmmfestConfig::URI_PAIR_PERSON       => [
         'name'   => 'Personne',
         'plural' => 'Personnes',
         'icon'   => 'user',
       ],
-      mmmfestConfig::URI_FOAF_PROJECT      => [
+      mmmfestConfig::URI_PAIR_PROJECT      => [
         'name'   => 'Projet',
         'plural' => 'Projets',
         'icon'   => 'screenshot',
       ],
-      mmmfestConfig::URI_PURL_EVENT        => [
+      mmmfestConfig::URI_PAIR_EVENT        => [
         'name'   => 'Event',
         'plural' => 'Events',
         'icon'   => 'calendar',
       ],
-      mmmfestConfig::URI_FIPA_PROPOSITION  => [
+      mmmfestConfig::URI_PAIR_PROPOSAL  => [
         'name'   => 'Proposition',
         'plural' => 'Propositions',
         'icon'   => 'info-sign',
@@ -43,11 +43,11 @@ class WebserviceController extends Controller
     ];
 
     var $entitiesFilters = [
-      mmmfestConfig::URI_FOAF_ORGANIZATION,
-      mmmfestConfig::URI_FOAF_PERSON,
-      mmmfestConfig::URI_FOAF_PROJECT,
-      mmmfestConfig::URI_PURL_EVENT,
-      mmmfestConfig::URI_FIPA_PROPOSITION,
+      mmmfestConfig::URI_PAIR_ORGANIZATION,
+      mmmfestConfig::URI_PAIR_PERSON,
+      mmmfestConfig::URI_PAIR_PROJECT,
+      mmmfestConfig::URI_PAIR_EVENT,
+      mmmfestConfig::URI_PAIR_PROPOSAL,
       mmmfestConfig::URI_SKOS_THESAURUS,
     ];
 
@@ -116,11 +116,11 @@ class WebserviceController extends Controller
         $sfClient    = $this->container->get('semantic_forms.client');
         $arrayType = explode('|',$type);
         $arrayType = array_flip($arrayType);
-        $typeOrganization = array_key_exists(mmmfestConfig::URI_FOAF_ORGANIZATION,$arrayType);
-        $typePerson= array_key_exists(mmmfestConfig::URI_FOAF_PERSON,$arrayType);
-        $typeProject= array_key_exists(mmmfestConfig::URI_FOAF_PROJECT,$arrayType);
-        $typeEvent= array_key_exists(mmmfestConfig::URI_PURL_EVENT,$arrayType);
-        $typeProposition= array_key_exists(mmmfestConfig::URI_FIPA_PROPOSITION,$arrayType);
+        $typeOrganization = array_key_exists(mmmfestConfig::URI_PAIR_ORGANIZATION,$arrayType);
+        $typePerson= array_key_exists(mmmfestConfig::URI_PAIR_PERSON,$arrayType);
+        $typeProject= array_key_exists(mmmfestConfig::URI_PAIR_PROJECT,$arrayType);
+        $typeEvent= array_key_exists(mmmfestConfig::URI_PAIR_EVENT,$arrayType);
+        $typeProposition= array_key_exists(mmmfestConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(mmmfestConfig::URI_SKOS_THESAURUS,$arrayType);
         $userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
@@ -128,6 +128,7 @@ class WebserviceController extends Controller
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         /* requete génériques */
         $sparql->addPrefixes($sparql->prefixes)
+					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?uri')
             ->addSelect('?type')
             ->addSelect('?image')
@@ -142,11 +143,11 @@ class WebserviceController extends Controller
         if($type == mmmfestConfig::Multiple || $typeOrganization ){
             $orgaSparql = clone $sparql;
             $orgaSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_FOAF_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','foaf:name','?title','?GR')
-                ->addOptional('?uri','foaf:img','?image','?GR')
-                ->addOptional('?uri','foaf:status','?desc','?GR')
-                ->addOptional('?uri','gvoi:building','?building','?GR');
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:preferedLabel','?title','?GR')
+                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:comment','?desc','?GR');
+                //->addOptional('?uri','gvoi:building','?building','?GR');
             if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
@@ -156,19 +157,19 @@ class WebserviceController extends Controller
         if($type == mmmfestConfig::Multiple || $typePerson ){
 
             $personSparql = clone $sparql;
-            $personSparql->addSelect('?familyName')
-                ->addSelect('?givenName')
-                ->addSelect('( COALESCE(?familyName, "") As ?result) (fn:concat(?givenName, " " , ?result) as ?title)')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_FOAF_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','foaf:givenName','?givenName','?GR')
-                ->addOptional('?uri','foaf:img','?image','?GR')
-                ->addOptional('?uri','foaf:status','?desc','?GR')
-                ->addOptional('?uri','gvoi:building','?building','?GR')
-                ->addOptional('?uri','foaf:familyName','?familyName','?GR')
-                ->addOptional('?org','rdf:type','foaf:Organization','?GR')
-                ->addOptional('?org','gvoi:building','?building','?GR');
-            if($term)$personSparql->addFilter('contains( lcase(?givenName)+ " " + lcase(?familyName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?familyName)  , lcase("'.$term.'")) || contains( lcase(?givenName)  , lcase("'.$term.'")) ');
-            $personSparql->groupBy('?givenName ?familyName');
+            $personSparql->addSelect('?lastName')
+                ->addSelect('?firstName')
+                ->addSelect('( COALESCE(?lastName, "") As ?result) (fn:concat(?firstName, " " , ?result) as ?title)')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:firstName','?firstName','?GR')
+                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:description','?desc','?GR')
+                //->addOptional('?uri','default:building','?building','?GR')
+                ->addOptional('?uri','default:lastName','?lastName','?GR');
+                //->addOptional('?org','rdf:type','default:Organization','?GR')
+                //->addOptional('?org','gvoi:building','?building','?GR');
+            if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'")) ');
+            $personSparql->groupBy('?firstName ?lastName');
             //dump($personSparql->getQuery());
             $results = $sfClient->sparql($personSparql->getQuery());
             $persons = $sfClient->sparqlResultsValues($results);
@@ -178,11 +179,11 @@ class WebserviceController extends Controller
         if($type == mmmfestConfig::Multiple || $typeProject ){
             $projectSparql = clone $sparql;
             $projectSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_FOAF_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','rdfs:label','?title','?GR')
-                ->addOptional('?uri','foaf:img','?image','?GR')
-                ->addOptional('?uri','foaf:status','?desc','?GR')
-                ->addOptional('?uri','gvoi:building','?building','?GR');
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:preferedLabel','?title','?GR')
+                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:comment','?desc','?GR');
+                //->addOptional('?uri','default:building','?building','?GR');
             if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($projectSparql->getQuery());
             $projects = $sfClient->sparqlResultsValues($results);
@@ -194,13 +195,13 @@ class WebserviceController extends Controller
             $eventSparql->addSelect('?title')
                 ->addSelect('?start')
                 ->addSelect('?end')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PURL_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','rdfs:label','?title','?GR')
-                ->addOptional('?uri','foaf:img','?image','?GR')
-                ->addOptional('?uri','foaf:status','?desc','?GR')
-                ->addOptional('?uri','gvoi:building','?building','?GR')
-                ->addOptional('?uri','gvoi:eventBegin','?start','?GR')
-                ->addOptional('?uri','gvoi:eventEnd','?end','?GR');
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:preferedLabel','?title','?GR')
+                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:comment','?desc','?GR')
+                //->addOptional('?uri','default:building','?building','?GR')
+                ->addOptional('?uri','default:startDate','?start','?GR')
+                ->addOptional('?uri','default:endDate','?end','?GR');
             if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $eventSparql->orderBy($sparql::ORDER_DESC,'?start')
                 ->groupBy('?start')
@@ -213,11 +214,11 @@ class WebserviceController extends Controller
         if(($type == mmmfestConfig::Multiple || $typeProposition)&& $userLogged ){
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_FIPA_PROPOSITION,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','rdfs:label','?title','?GR')
-                ->addOptional('?uri','foaf:img','?image','?GR')
-                ->addOptional('?uri','foaf:status','?desc','?GR');
-            $propositionSparql->addOptional('?uri','gvoi:building','?building','?GR');
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:preferedLabel','?title','?GR')
+                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:comment','?desc','?GR');
+            //$propositionSparql->addOptional('?uri','default:building','?building','?GR');
             if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($propositionSparql->getQuery());
             $propositions = $sfClient->sparqlResultsValues($results);
@@ -295,26 +296,23 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
+					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?uri')
             ->addFilter('?uri = <'.$url.'>');
 
         switch ($uriType) {
-            case mmmfestConfig::URI_FOAF_PERSON :
-                $sparql->addSelect('( COALESCE(?familyName, "") As ?result)  (fn:concat(?givenName, " ", ?result) as ?label)')
-                    ->addWhere('?uri','foaf:givenName','?givenName','?gr')
-                    ->addOptional('?uri','foaf:familyName','?familyName','?gr');
+            case mmmfestConfig::URI_PAIR_PERSON :
+                $sparql->addSelect('( COALESCE(?lastName, "") As ?result)  (fn:concat(?firstName, " ", ?result) as ?label)')
+                    ->addWhere('?uri','default:firstName','?firstName','?gr')
+                    ->addOptional('?uri','default:lastName','?lastName','?gr');
 
                 break;
-            case mmmfestConfig::URI_FOAF_ORGANIZATION :
+            case mmmfestConfig::URI_PAIR_ORGANIZATION :
+            case mmmfestConfig::URI_PAIR_PROJECT :
+            case mmmfestConfig::URI_PAIR_PROPOSAL :
+            case mmmfestConfig::URI_PAIR_EVENT :
                 $sparql->addSelect('?label')
-                    ->addWhere('?uri','foaf:name','?label','?gr');
-
-                break;
-            case mmmfestConfig::URI_FOAF_PROJECT :
-            case mmmfestConfig::URI_FIPA_PROPOSITION :
-            case mmmfestConfig::URI_PURL_EVENT :
-                $sparql->addSelect('?label')
-                    ->addWhere('?uri','rdfs:label','?label','?gr');
+                    ->addWhere('?uri','default:preferedLabel','?label','?gr');
 
                 break;
             case mmmfestConfig::URI_SKOS_THESAURUS:
@@ -322,21 +320,19 @@ class WebserviceController extends Controller
                     ->addWhere('?uri','skos:prefLabel','?label','?gr');
                 break;
             default:
-                $sparql->addSelect('( COALESCE(?givenName, "") As ?result_1)')
-                    ->addSelect('( COALESCE(?familyName, "") As ?result_2)')
+                $sparql->addSelect('( COALESCE(?firstName, "") As ?result_1)')
+                    ->addSelect('( COALESCE(?lastName, "") As ?result_2)')
                     ->addSelect('( COALESCE(?name, "") As ?result_3)')
-                    ->addSelect('( COALESCE(?label_test, "") As ?result_4)')
-                    ->addSelect('( COALESCE(?skos, "") As ?result_5)')
-                    ->addSelect('(fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
+                    ->addSelect('( COALESCE(?skos, "") As ?result_4)')
+                    ->addSelect('(fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
                     ->addWhere('?uri','rdf:type','?type','?gr')
-                    ->addOptional('?uri','foaf:givenName','?givenName','?gr')
-                    ->addOptional('?uri','foaf:familyName','?familyName','?gr')
-                    ->addOptional('?uri','foaf:name','?name','?gr')
-                    ->addOptional('?uri','rdfs:label','?label_test','?gr')
+                    ->addOptional('?uri','default:firstName','?firstName','?gr')
+                    ->addOptional('?uri','default:lastName','?lastName','?gr')
+                    ->addOptional('?uri','default:preferedLabel','?name','?gr')
                     ->addOptional('?uri','skos:prefLabel','?skos','?gr')
-                    ->addOptional('?uri','foaf:status','?desc','?gr')
-                    ->addOptional('?uri','foaf:img','?image','?gr')
-                    ->addOptional('?uri','gvoi:building','?building','?gr');
+                    ->addOptional('?uri','default:comment','?desc','?gr')
+                    ->addOptional('?uri','default:representedBy','?image','?gr');
+                    //->addOptional('?uri','gvoi:building','?building','?gr');
                 break;
         }
 
@@ -386,28 +382,27 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
+					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?type')
             ->addSelect('?uri')
-            ->addSelect('( COALESCE(?givenName, "") As ?result_1)')
-            ->addSelect('( COALESCE(?familyName, "") As ?result_2)')
-            ->addSelect('( COALESCE(?name, "") As ?result_3)')
-            ->addSelect('( COALESCE(?label_test, "") As ?result_4)')
-            ->addSelect('( COALESCE(?skos, "") As ?result_5)')
-            ->addSelect('(fn:concat(?result_5,?result_4,?result_3,?result_2, " ", ?result_1) as ?title)')
-            ->addOptional('?uri','foaf:givenName','?givenName','?gr')
-            ->addOptional('?uri','foaf:familyName','?familyName','?gr')
-            ->addOptional('?uri','foaf:name','?name','?gr')
-            ->addOptional('?uri','rdfs:label','?label_test','?gr')
-            ->addOptional('?uri','skos:prefLabel','?skos','?gr')
-            ->addOptional('?uri','foaf:status','?desc','?gr')
-            ->addOptional('?uri','foaf:img','?image','?gr')
-            ->addOptional('?uri','gvoi:building','?building','?gr');
+					->addSelect('( COALESCE(?firstName, "") As ?result_1)')
+					->addSelect('( COALESCE(?lastName, "") As ?result_2)')
+					->addSelect('( COALESCE(?name, "") As ?result_3)')
+					->addSelect('( COALESCE(?skos, "") As ?result_4)')
+					->addSelect('(fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
+					->addWhere('?uri','rdf:type','?type','?gr')
+					->addOptional('?uri','default:firstName','?firstName','?gr')
+					->addOptional('?uri','default:lastName','?lastName','?gr')
+					->addOptional('?uri','default:preferedLabel','?name','?gr')
+					->addOptional('?uri','skos:prefLabel','?skos','?gr')
+					->addOptional('?uri','default:comment','?desc','?gr')
+					->addOptional('?uri','default:representedBy','?image','?gr');
         $ressourcesNeeded = clone $sparql;
-        $ressourcesNeeded->addWhere('?uri','gvoi:ressouceNeeded',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourcesNeeded->addWhere('?uri','default:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
 
         $requests['ressourcesNeeded'] = $ressourcesNeeded->getQuery();
         $ressourcesProposed = clone $sparql;
-        $ressourcesProposed->addWhere('?uri','gvoi:ressouceProposed',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourcesProposed->addWhere('?uri','default:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
         $requests['ressourcesProposed'] =$ressourcesProposed->getQuery();
 
 
@@ -464,7 +459,7 @@ class WebserviceController extends Controller
         $sfClient   = $this->container->get('semantic_forms.client');
         switch (current($properties['type'])) {
             // Orga.
-            case  mmmfestConfig::URI_FOAF_ORGANIZATION:
+            case  mmmfestConfig::URI_PAIR_ORGANIZATION:
                 // Organization should be saved internally.
                 $organization = $this->getDoctrine()->getRepository(
                   'mmmfestBundle:Organisation'
@@ -480,7 +475,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['responsible'][] = $this->getData(
                           $uri,
-                          mmmfestConfig::URI_FOAF_PERSON
+                          mmmfestConfig::URI_PAIR_PERSON
                         );
                     }
                 }
@@ -491,13 +486,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
 
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PERSON:
+                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -522,7 +517,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['OrganizationalCollaboration'][] = $this->getData(
                             $uri,
-                            mmmfestConfig::URI_FOAF_ORGANIZATION
+                            mmmfestConfig::URI_PAIR_ORGANIZATION
                         );
                     }
                 }
@@ -540,19 +535,19 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PROJECT:
+                            case mmmfestConfig::URI_PAIR_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_PURL_EVENT:
+                            case mmmfestConfig::URI_PAIR_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FIPA_PROPOSITION:
+                            case mmmfestConfig::URI_PAIR_PROPOSAL:
                                 $proposition[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -566,9 +561,9 @@ class WebserviceController extends Controller
                 }
                 break;
             // Person.
-            case  mmmfestConfig::URI_FOAF_PERSON:
+            case  mmmfestConfig::URI_PAIR_PERSON:
 
-                $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type foaf:Person . ?org rdf:type foaf:Organization . ?org gvoi:building ?b .} }";
+                $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type default:Person . ?org rdf:type default:Organization . ?org gvoi:building ?b .} }";
                 //dump($query);
                 $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
                 $output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
@@ -593,7 +588,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['memberOf'][] = $this->getData(
                           $uri,
-                          mmmfestConfig::URI_FOAF_ORGANIZATION
+                          mmmfestConfig::URI_PAIR_ORGANIZATION
                         );
                     }
                 }
@@ -601,7 +596,7 @@ class WebserviceController extends Controller
                     foreach ($properties['currentProject'] as $uri) {
                         $output['projects'][] = $this->getData(
                           $uri,
-                          mmmfestConfig::URI_FOAF_PROJECT
+                          mmmfestConfig::URI_PAIR_PROJECT
                         );
                     }
                 }
@@ -634,7 +629,7 @@ class WebserviceController extends Controller
                         //dump($person);
                         $output['knows'][] = $this->getData(
                           $uri,
-                          mmmfestConfig::URI_FOAF_PERSON
+                          mmmfestConfig::URI_PAIR_PERSON
                         );
                     }
                 }
@@ -644,19 +639,19 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PROJECT:
+                            case mmmfestConfig::URI_PAIR_PROJECT:
                                 $projet[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_PURL_EVENT:
+                            case mmmfestConfig::URI_PAIR_EVENT:
                                 $event[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FIPA_PROPOSITION:
+                            case mmmfestConfig::URI_PAIR_PROPOSAL:
                                 $proposition[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -676,7 +671,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Project.
-            case mmmfestConfig::URI_FOAF_PROJECT:
+            case mmmfestConfig::URI_PAIR_PROJECT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -689,13 +684,13 @@ class WebserviceController extends Controller
                     foreach ($properties['maker'] as $uri) {
                         $component = $this->uriPropertiesFiltered($uri);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PERSON:
+                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -712,13 +707,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PERSON:
+                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -739,7 +734,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Event.
-            case mmmfestConfig::URI_PURL_EVENT:
+            case mmmfestConfig::URI_PAIR_EVENT:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -761,13 +756,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PERSON:
+                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -780,7 +775,7 @@ class WebserviceController extends Controller
                 }
                 break;
             // Proposition.
-            case mmmfestConfig::URI_FIPA_PROPOSITION:
+            case mmmfestConfig::URI_PAIR_PROPOSAL:
                 if (isset($properties['mbox'])) {
                     $properties['mbox'] = preg_replace(
                       '/^mailto:/',
@@ -802,13 +797,13 @@ class WebserviceController extends Controller
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         switch (current($component['type'])) {
-                            case mmmfestConfig::URI_FOAF_PERSON:
+                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
                                 break;
-                            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                                 $orga[] = $this->getData(
                                   $uri,
                                   current($component['type'])
@@ -859,8 +854,8 @@ class WebserviceController extends Controller
     {
 
         switch ($type) {
-            case mmmfestConfig::URI_FOAF_PERSON:
-            case mmmfestConfig::URI_FOAF_ORGANIZATION:
+            case mmmfestConfig::URI_PAIR_PERSON:
+            case mmmfestConfig::URI_PAIR_ORGANIZATION:
                 $temp = $this->uriPropertiesFiltered($uri);
 
                 return [
@@ -872,9 +867,9 @@ class WebserviceController extends Controller
                   'image' => (!isset($temp['image'])) ? '/common/images/no_avatar.jpg' : $temp['image'],
                 ];
                 break;
-            case mmmfestConfig::URI_FOAF_PROJECT:
-            case mmmfestConfig::URI_PURL_EVENT:
-            case mmmfestConfig::URI_FIPA_PROPOSITION:
+            case mmmfestConfig::URI_PAIR_PROJECT:
+            case mmmfestConfig::URI_PAIR_EVENT:
+            case mmmfestConfig::URI_PAIR_PROPOSAL:
             case mmmfestConfig::URI_SKOS_THESAURUS:
                 return [
                   'uri'  => $uri,

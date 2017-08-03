@@ -21,7 +21,8 @@ class mmmfestConfig
 			self::URI_PAIR_PERSON,
 			self::URI_PAIR_ORGANIZATION,
 		];
-
+		//thesaurus
+		const URI_SKOS_THESAURUS = 'http://www.w3.org/2004/02/skos/core#Concept';
 		//spec
 		CONST SPEC_PERSON = 'form-Person';
 		CONST SPEC_ORGANIZATION = 'form-Organization';
