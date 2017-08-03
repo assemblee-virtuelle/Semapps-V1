@@ -3,70 +3,52 @@
   <template>
     <div id="mm-detail-event">
       <div class="col col-sm-8">
-        <h2>[[data.properties.label]]</h2>
+        <h2>[[data.properties.preferedLabel]]</h2>
         <div class="detail-header row">
           <div class="detail-image col col-sm-4">
-            <template is="dom-if" if="[[image]]">
+            <template is="dom-if" if="[[representedBy]]">
               <div class="image thumbnail"
-                   style$="background-image:url('[[image]]');"></div>
+                   style$="background-image:url('[[representedBy]]');"></div>
             </template>
-            <template is="dom-if" if="[[!image]]">
+            <template is="dom-if" if="[[!representedBy]]">
               <mm-logo-mini text-color="#1e90ff"></mm-logo-mini>
             </template>
-            <div class="social-links">
-              <mm-social-link url="[[facebook]]"
-                              icon="facebook-square"></mm-social-link>
-              <mm-social-link url="[[twitter]]"
-                              icon="twitter"></mm-social-link>
-            </div>
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
-              <template is="dom-if" if="[[shortDescription]]">
+              <template is="dom-if" if="[[alternativeLabel]]">
                 <tr class="field">
-                  <td class="fieldLabel">Description courte</td>
-                  <td>[[shortDescription]]</td>
+                  <td class="fieldLabel">surnom</td>
+                  <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[eventBegin]]">
+              <template is="dom-if" if="[[startDate]]">
                 <tr class="field">
                   <td class="fieldLabel">Date de début de l'event </td>
-                  <td>[[eventBegin]]
+                  <td>[[startDate]]
                   </td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[eventEnd]]">
+              <template is="dom-if" if="[[endDate]]">
                 <tr class="field">
                   <td class="fieldLabel">date de fin de l'event </td>
-                  <td>[[eventEnd]]
+                  <td>[[endDate]]
                   </td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[homepage]]">
+              <template is="dom-if" if="[[aboutPage]]">
                 <tr class="field">
                   <td class="fieldLabel">Site web</td>
-                  <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
+                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
                   </td>
                 </tr>
               </template>
-              <template is="dom-if" if="[[isMember]]">
-                <template is="dom-if" if="[[mbox]]">
+                <template is="dom-if" if="[[comment]]">
                   <tr class="field">
-                    <td class="fieldLabel">E-mail</td>
-                    <td>[[mbox]]</td>
+                    <td class="fieldLabel">commentaire</td>
+                    <td>[[comment]]</td>
                   </tr>
                 </template>
-              </template>
-              <tr class="field">
-                <td class="fieldLabel">Bâtiment</td>
-                <td>[[buildingTitle]]</td>
-              </tr>
-              <template is="dom-if" if="[[room]]">
-                <tr class="field">
-                  <td class="fieldLabel">Pièce</td>
-                  <td>[[room]]</td>
-                </tr>
-              </template>
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -79,63 +61,55 @@
         </div>
       </div>
       <div class="col col-sm-4 side-blocks">
-        <template is="dom-if" if="[[data.orga_maker.length]]">
-          <h3>Structure(s) organisatrice(s)</h3>
+        <!-- organizedBy -->
+        <template is="dom-if" if="[[data.orga_organizedBy.length]]">
+          <h3>orga_organizedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_maker}}">
+            <template is="dom-repeat" items="{{data.orga_organizedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_maker.length]]">
-          <h3>Contributeurs</h3>
+        <template is="dom-if" if="[[data.person_organizedBy.length]]">
+          <h3>person_organizedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_maker}}">
+            <template is="dom-repeat" items="{{data.person_organizedBy}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-
-        <template is="dom-if" if="[[data.thesaurus.length]]">
-          <h3>Ses domaine(s) d'activité(s)</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{data.thesaurus}}">
-              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
-                {{item.name}}</a>
+        <!-- end of organizedBy -->
+        <!-- hasParticipant -->
+        <template is="dom-if" if="[[data.orga_hasParticipant.length]]">
+          <h3>orga_hasParticipant</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.orga_hasParticipant}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
             </template>
-            <div class="clearfix"></div>
           </div>
+          <div class="clearfix"></div>
         </template>
-
-        <template is="dom-if" if="[[topicInterest.length]]">
-          <h3>Centres d'intérêts</h3>
+        <template is="dom-if" if="[[data.person_hasParticipant.length]]">
+          <h3>person_hasParticipant</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.person_hasParticipant}}">
+              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></mm-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of hasParticipant -->
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>hasInterest</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{topicInterest}}">
+            <template is="dom-repeat" items="{{hasInterest}}">
               <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
-        <template is="dom-if" if="[[resourceProposed.length]]">
-          <h3>Les ressources que l'événement met à disposition</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceProposed}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
-                {{item.name}}</a>
-            </template>
-            <div class="clearfix"></div>
-          </div>
-        </template>
-        <template is="dom-if" if="[[resourceNeeded.length]]">
-          <h3>Les ressources dont il a besoin</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{resourceNeeded}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>
