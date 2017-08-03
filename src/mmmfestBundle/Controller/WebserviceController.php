@@ -440,12 +440,14 @@ class WebserviceController extends Controller
             if ($role === 'anonymous' ||
               $this->isGranted('ROLE_'.strtoupper($role))
             ) {
-                foreach ($fields as $fieldName) {
-                    // Field should exist.
-                    if (isset($properties[$fieldName])) {
-                        $output[$fieldName] = $properties[$fieldName];
-                    }
-                }
+								if ($fields != null){
+										foreach ($fields as $fieldName) {
+												// Field should exist.
+												if (isset($properties[$fieldName])) {
+														$output[$fieldName] = $properties[$fieldName];
+												}
+										}
+								}
             }
         }
 
@@ -468,10 +470,13 @@ class WebserviceController extends Controller
                     'sfOrganisation' => $uri,
                   ]
                 );
+								if (isset($properties['description'])) {
+										$properties['description'] = nl2br(current($properties['description']),false);
+								}
                 if(!is_null($organization))
                     $output['id'] = $organization->getId();
-                if (isset($properties['head'])) {
-                    foreach ($properties['head'] as $uri) {
+                if (isset($properties['hasResponsible'])) {
+                    foreach ($properties['hasResponsible'] as $uri) {
                         //dump($person);
                         $output['responsible'][] = $this->getData(
                           $uri,
@@ -479,369 +484,387 @@ class WebserviceController extends Controller
                         );
                     }
                 }
-                $person = $orga = array();
+                $person = array();
                 if (isset($properties['hasMember'])) {
                     foreach ($properties['hasMember'] as $uri) {
                         //dump($person);
                         $component = $this->uriPropertiesFiltered($uri);
-
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PERSON:
                                 $person[] = $this->getData(
                                   $uri,
                                   current($component['type'])
                                 );
-                                break;
-                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
-                                $orga[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
+
                     }
                     $output['person_hasMember'] = $person;
-                    $output['orga_hasMember']   = $orga;
+                    $output['orga_hasMember']   = []; // TODO: to be removed
                 }
-                if (isset($properties['memberOf'])) {
-                    foreach ($properties['memberOf'] as $uri) {
-                        //dump($person);
-                        $output['memberOf'][] = $this->getData(
-                          $uri,
-                          mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION
-                        );
-                    }
-                }
-                if (isset($properties['OrganizationalCollaboration'])) {
-                    foreach ($properties['OrganizationalCollaboration'] as $uri) {
-                        //dump($person);
-                        $output['OrganizationalCollaboration'][] = $this->getData(
-                            $uri,
-                            mmmfestConfig::URI_PAIR_ORGANIZATION
-                        );
-                    }
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                $projet = $event = $proposition = array();
-                if (isset($properties['made'])) {
-                    foreach ($properties['made'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PROJECT:
-                                $projet[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_EVENT:
-                                $event[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_PROPOSAL:
-                                $proposition[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['projet']      = $projet;
-                    $output['event']       = $event;
-                    $output['proposition'] = $proposition;
-                }
+								if (isset($properties['employs'])) {
+										foreach ($properties['employs'] as $uri) {
+												$output['employs'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PERSON
+												);
+										}
+								}
+								if (isset($properties['partnerOf'])) {
+										foreach ($properties['partnerOf'] as $uri) {
+												$output['partnerOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_ORGANIZATION
+												);
+										}
+								}
+								if (isset($properties['involvedIn'])) {
+										foreach ($properties['involvedIn'] as $uri) {
+												$output['involvedIn'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROJECT
+												);
+										}
+								}
+								if (isset($properties['manages'])) {
+										foreach ($properties['manages'] as $uri) {
+												$output['manages'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROJECT
+												);
+										}
+								}
+								if (isset($properties['organizes'])) {
+										foreach ($properties['organizes'] as $uri) {
+												$output['organizes'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_EVENT
+												);
+										}
+								}
+								if (isset($properties['participantOf'])) {
+										foreach ($properties['participantOf'] as $uri) {
+												$output['participantOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_EVENT
+												);
+										}
+								}
+								if (isset($properties['offers'])) {
+										foreach ($properties['offers'] as $uri) {
+												$output['offers'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								if (isset($properties['needs'])) {
+										foreach ($properties['needs'] as $uri) {
+												$output['needs'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								if (isset($properties['brainstorms'])) {
+										foreach ($properties['brainstorms'] as $uri) {
+												$output['brainstorms'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROPOSAL
+												);
+										}
+								}
                 break;
             // Person.
-            case  mmmfestConfig::URI_PAIR_PERSON:
-
-                $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type default:Person . ?org rdf:type default:Organization . ?org gvoi:building ?b .} }";
+						case  mmmfestConfig::URI_PAIR_PERSON:
+								//TODO: to be modified
+                //$query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type default:Person . ?org rdf:type default:Organization . ?org gvoi:building ?b .} }";
                 //dump($query);
-                $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
-                $output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
-                // Remove mailto: from email.
-                if (isset($properties['mbox'])) {
-                    $properties['mbox'] = preg_replace(
-                      '/^mailto:/',
-                      '',
-                      current($properties['mbox'])
-                    );
-                }
-                if (isset($properties['phone'])) {
-                    // Remove tel: from phone
-                    $properties['phone'] = preg_replace(
-                      '/^tel:/',
-                      '',
-                      current($properties['phone'])
-                    );
-                }
-                if (isset($properties['memberOf'])) {
-                    foreach ($properties['memberOf'] as $uri) {
-                        //dump($person);
-                        $output['memberOf'][] = $this->getData(
-                          $uri,
-                          mmmfestConfig::URI_PAIR_ORGANIZATION
-                        );
-                    }
-                }
-                if (isset($properties['currentProject'])) {
-                    foreach ($properties['currentProject'] as $uri) {
-                        $output['projects'][] = $this->getData(
-                          $uri,
-                          mmmfestConfig::URI_PAIR_PROJECT
-                        );
-                    }
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                if (isset($properties['city'])) {
-                    foreach ($properties['city'] as $uri) {
-                        $output['city'] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                if (isset($properties['expertize'])) {
-                    foreach ($properties['expertize'] as $uri) {
-                        $output['expertize'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                if (isset($properties['knows'])) {
-                    foreach ($properties['knows'] as $uri) {
-                        //dump($person);
-                        $output['knows'][] = $this->getData(
-                          $uri,
-                          mmmfestConfig::URI_PAIR_PERSON
-                        );
-                    }
-                }
-                $projet = $event = $proposition = array();
-                if (isset($properties['made'])) {
-                    foreach ($properties['made'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PROJECT:
-                                $projet[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_EVENT:
-                                $event[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_PROPOSAL:
-                                $proposition[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['projet']      = $projet;
-                    $output['event']       = $event;
-                    $output['proposition'] = $proposition;
-                }
-
-                if (isset($properties['headOf'])) {
-                    $output['responsible'] = $this->uriPropertiesFiltered(
-                      current($properties['headOf'])
-                    );
-                }
+                //$buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
+								//$output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
+								if (isset($properties['description'])) {
+										$properties['description'] = nl2br(current($properties['description']),false);
+								}
+								if (isset($properties['hasInterest'])) {
+										foreach ($properties['hasInterest'] as $uri) {
+												$output['hasInterest'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								if (isset($properties['knows'])) {
+										foreach ($properties['knows'] as $uri) {
+												$output['knows'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PERSON
+												);
+										}
+								}
+								if (isset($properties['affiliatedTo'])) {
+										foreach ($properties['affiliatedTo'] as $uri) {
+												$output['affiliatedTo'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_ORGANIZATION
+												);
+										}
+								}
+								if (isset($properties['responsibleOf'])) {
+										foreach ($properties['responsibleOf'] as $uri) {
+												$output['responsibleOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_ORGANIZATION
+												);
+										}
+								}
+								if (isset($properties['involvedIn'])) {
+										foreach ($properties['involvedIn'] as $uri) {
+												$output['involvedIn'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROJECT
+												);
+										}
+								}
+								if (isset($properties['manages'])) {
+										foreach ($properties['manages'] as $uri) {
+												$output['manages'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROJECT
+												);
+										}
+								}
+								if (isset($properties['offers'])) {
+										foreach ($properties['offers'] as $uri) {
+												$output['offers'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								if (isset($properties['needs'])) {
+										foreach ($properties['needs'] as $uri) {
+												$output['needs'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								if (isset($properties['participantOf'])) {
+										foreach ($properties['participantOf'] as $uri) {
+												$output['participantOf'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_EVENT
+												);
+										}
+								}
+								if (isset($properties['brainstorms'])) {
+										foreach ($properties['brainstorms'] as $uri) {
+												$output['brainstorms'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROPOSAL
+												);
+										}
+								}
                 break;
             // Project.
             case mmmfestConfig::URI_PAIR_PROJECT:
-                if (isset($properties['mbox'])) {
-                    $properties['mbox'] = preg_replace(
-                      '/^mailto:/',
-                      '',
-                      current($properties['mbox'])
-                    );
-                }
-                $person = $orga = array();
-                if (isset($properties['maker'])) {
-                    foreach ($properties['maker'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PERSON:
-                                $person[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
-                                $orga[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['person_maker'] = $person;
-                    $output['orga_maker']   = $orga;
-                }
-                $person = $orga = array();
-                if (isset($properties['head'])) {
-                    foreach ($properties['head'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PERSON:
-                                $person[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
-                                $orga[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['person_head'] = $person;
-                    $output['orga_head']   = $orga;
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
+								if (isset($properties['description'])) {
+										$properties['description'] = nl2br(current($properties['description']),false);
+								}
+								if (isset($properties['concretizes'])) {
+										foreach ($properties['concretizes'] as $uri) {
+												$output['concretizes'][] = $this->getData(
+													$uri,
+													mmmfestConfig::URI_PAIR_PROPOSAL
+												);
+										}
+								}
+								$person = $orga = array();
+								if (isset($properties['concretizes'])) {
+										foreach ($properties['concretizes'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_concretizes'] = $person;
+										$output['orga_concretizes']   = $orga;
+								}
+								if (isset($properties['needs'])) {
+										foreach ($properties['needs'] as $uri) {
+												$output['needs'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								$person = $orga = array();
+								if (isset($properties['involves'])) {
+										foreach ($properties['involves'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_involves'] = $person;
+										$output['orga_involves']   = $orga;
+								}
                 break;
             // Event.
             case mmmfestConfig::URI_PAIR_EVENT:
-                if (isset($properties['mbox'])) {
-                    $properties['mbox'] = preg_replace(
-                      '/^mailto:/',
-                      '',
-                      current($properties['mbox'])
-                    );
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                $person = $orga = array();
-                if (isset($properties['maker'])) {
-                    foreach ($properties['maker'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PERSON:
-                                $person[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
-                                $orga[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['person_maker'] = $person;
-                    $output['orga_maker']   = $orga;
-                }
+								if (isset($properties['description'])) {
+										$properties['description'] = nl2br(current($properties['description']),false);
+								}
+								if (isset($properties['hasInterest'])) {
+										foreach ($properties['hasInterest'] as $uri) {
+												$output['hasInterest'] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
+								$person = $orga = array();
+								if (isset($properties['organizedBy'])) {
+										foreach ($properties['organizedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_organizedBy'] = $person;
+										$output['orga_organizedBy']   = $orga;
+								}
+								$person = $orga = array();
+								if (isset($properties['hasParticipant'])) {
+										foreach ($properties['hasParticipant'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_hasParticipant'] = $person;
+										$output['orga_hasParticipant']   = $orga;
+								}
                 break;
             // Proposition.
             case mmmfestConfig::URI_PAIR_PROPOSAL:
-                if (isset($properties['mbox'])) {
-                    $properties['mbox'] = preg_replace(
-                      '/^mailto:/',
-                      '',
-                      current($properties['mbox'])
-                    );
-                }
-                if (isset($properties['topicInterest'])) {
-                    foreach ($properties['topicInterest'] as $uri) {
-                        $output['topicInterest'][] = [
-                          'uri'  => $uri,
-                          'name' => $sfClient->dbPediaLabel($uri),
-                        ];
-                    }
-                }
-                $person = $orga = array();
-                if (isset($properties['maker'])) {
-                    foreach ($properties['maker'] as $uri) {
-                        $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
-                        switch (current($component['type'])) {
-                            case mmmfestConfig::URI_PAIR_PERSON:
-                                $person[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                            case mmmfestConfig::URI_PAIR_ORGANIZATION:
-                                $orga[] = $this->getData(
-                                  $uri,
-                                  current($component['type'])
-                                );
-                                break;
-                        }
-                    }
-                    $output['person_maker'] = $person;
-                    $output['orga_maker']   = $orga;
-                }
+								if (isset($properties['description'])) {
+										$properties['description'] = nl2br(current($properties['description']),false);
+								}
+								$person = $orga = array();
+								if (isset($properties['brainstormedBy'])) {
+										foreach ($properties['brainstormedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_brainstormedBy'] = $person;
+										$output['orga_brainstormedBy']   = $orga;
+								}
+								$person = $orga = array();
+								if (isset($properties['concretizedBy'])) {
+										foreach ($properties['concretizedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_concretizedBy'] = $person;
+										$output['orga_concretizedBy']   = $orga;
+								}
+								$person = $orga = array();
+								if (isset($properties['representedBy'])) {
+										foreach ($properties['representedBy'] as $uri) {
+												$component = $this->uriPropertiesFiltered($uri);
+												//dump($component);
+												switch (current($component['type'])) {
+														case mmmfestConfig::URI_PAIR_PERSON:
+																$person[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+														case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																$orga[] = $this->getData(
+																	$uri,
+																	current($component['type'])
+																);
+																break;
+												}
+										}
+										$output['person_representedBy'] = $person;
+										$output['orga_representedBy']   = $orga;
+								}
                 break;
-        }
-        if (isset($properties['resourceProposed'])) {
-            foreach ($properties['resourceProposed'] as $uri) {
-                $output['resourceProposed'][] = [
-                  'uri'  => $uri,
-                  'name' => $sfClient->dbPediaLabel($uri),
-                ];
-            }
-        }
-        if (isset($properties['resourceNeeded'])) {
-            foreach ($properties['resourceNeeded'] as $uri) {
-                $output['resourceNeeded'][] = [
-                  'uri'  => $uri,
-                  'name' => $sfClient->dbPediaLabel($uri),
-                ];
-            }
-        }
-        if (isset($properties['thesaurus'])) {
-            foreach ($properties['thesaurus'] as $uri) {
-                $output['thesaurus'][] = $this->getData(
-                  $uri,
-                  mmmfestConfig::URI_SKOS_THESAURUS
-                );
-            }
-        }
-        if (isset($properties['description'])) {
-            $properties['description'] = nl2br(current($properties['description']),false);
         }
         $output['properties'] = $properties;
 
