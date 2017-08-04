@@ -18,7 +18,7 @@ class mmmfestConfig
 		const URI_PAIR_EVENT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event';
 		const URI_PAIR_PROPOSAL = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal';
 		const URI_PAIR_DOCUMENT = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document';
-		const URI_PAIR_DOCUMENT_TYPE = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentTyp';
+		const URI_PAIR_DOCUMENT_TYPE = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType';
 		const URI_MIXTE_PERSON_ORGANIZATION = [
 			self::URI_PAIR_PERSON,
 			self::URI_PAIR_ORGANIZATION,
