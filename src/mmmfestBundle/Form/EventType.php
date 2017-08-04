@@ -30,7 +30,7 @@ class EventType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage'					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 				=> 'hasInterest', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy' 				=> 'organizedBy', # sf (person,orga)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant' 		=> 'hasParticipant', # sf (person,orga)
@@ -118,7 +118,15 @@ class EventType extends AbstractForm
 							'required'  => false,
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
+							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
+						]
+					)
+					->add(
+						$builder,
+						'hasSubject',
+						DbPediaType::class,
+						[
+							'required' => false,
 						]
 					)
 					->add(

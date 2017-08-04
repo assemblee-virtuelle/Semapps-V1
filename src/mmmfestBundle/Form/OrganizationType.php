@@ -30,8 +30,8 @@ class OrganizationType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 						=> 'email', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 							=> 'phone', # txt
 				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn' 					=> 'hostedIn', # adresse ?
-				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf ( Doc )
-				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf ( Doc )
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember' 					=> 'hasMember', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible' 		=> 'hasResponsible', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs' 						=> 'employs', # sf ( person )
@@ -148,50 +148,6 @@ class OrganizationType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
-					/*->add(
-						$builder,
-						'involvedIn',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'manages',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'organizes',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'participantOf',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
-						]
-					)*/
 					->add(
 						$builder,
 						'offers',
@@ -208,17 +164,25 @@ class OrganizationType extends AbstractForm
 							'required' => false,
 						]
 					)
-					/*->add(
+					->add(
 						$builder,
-						'brainstorms',
+						'hasSubject',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'documentedBy',
 						UriType::class,
 						[
 							'required'  => false,
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
+							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
 						]
-					)*/
+					)
 					;
 
 				$builder->add(

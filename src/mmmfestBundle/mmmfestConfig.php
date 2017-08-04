@@ -17,9 +17,20 @@ class mmmfestConfig
 		const URI_PAIR_PROJECT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project';
 		const URI_PAIR_EVENT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event';
 		const URI_PAIR_PROPOSAL = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal';
+		const URI_PAIR_DOCUMENT = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document';
+		const URI_PAIR_DOCUMENT_TYPE = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentTyp';
 		const URI_MIXTE_PERSON_ORGANIZATION = [
 			self::URI_PAIR_PERSON,
 			self::URI_PAIR_ORGANIZATION,
+		];
+		const URI_ALL_PAIR_EXCEPT_DOC_TYPE = [
+			self::URI_PAIR_PERSON,
+			self::URI_PAIR_ORGANIZATION,
+			self::URI_PAIR_PROJECT,
+			self::URI_PAIR_EVENT,
+			self::URI_PAIR_PROPOSAL,
+			self::URI_PAIR_DOCUMENT,
+
 		];
 		//thesaurus
 		const URI_SKOS_THESAURUS = 'http://www.w3.org/2004/02/skos/core#Concept';
@@ -29,6 +40,9 @@ class mmmfestConfig
 		CONST SPEC_PROJECT = 'form-Project';
 		CONST SPEC_EVENT = 'form-Event';
 		CONST SPEC_PROPOSAL = 'form-Proposal';
+		CONST SPEC_DOCUMENT = 'form-Document';
+		CONST SPEC_DOCUMENTTYPE = 'form-DocumentType';
+
 
 		const Multiple = '';
 		const PREFIX = 'urn:mm/contacts/row/';

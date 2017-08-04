@@ -212,6 +212,8 @@
                                     {{ admin.menuItem('Projets', 'projectList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Evénements', 'eventList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Proposition', 'proposalList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER') }}
+                                    {{ admin.menuItem('Document', 'documentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER') }}
+                                    {{ admin.menuItem('Type de document', 'documenttypeList', 'pushpin','référencer des types documents', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}

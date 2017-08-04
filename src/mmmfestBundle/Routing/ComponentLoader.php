@@ -20,6 +20,8 @@ class ComponentLoader extends Loader
           'projet'    => 'Project',
           'evenement' => 'Event',
           'proposal' => 'Proposal',
+          'document' => 'Document',
+          'documentType' => 'DocumentType',
         ];
 
         $routes = new RouteCollection();

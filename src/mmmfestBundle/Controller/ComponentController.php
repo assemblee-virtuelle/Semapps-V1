@@ -112,13 +112,13 @@ class ComponentController extends Controller
               strtolower($request->get('component')).'List'
             );
         }
-        $image = $form->get('representedBy')->getData();
+        //$image = $form->get('representedBy')->getData();
         // Fill form
         return $this->render(
           'mmmfestBundle:Component:'.$this->componentName.'Form.html.twig',
           array(
             'form' => $form->createView(),
-            'image' => $image
+            //'image' => $image
           )
         );
     }

@@ -40,6 +40,17 @@ class WebserviceController extends Controller
         'plural' => 'Propositions',
         'icon'   => 'info-sign',
       ],
+			mmmfestConfig::URI_PAIR_DOCUMENT  => [
+				'name'   => 'Document',
+				'plural' => 'Documents',
+				'icon'   => 'folder-open',
+			],
+			mmmfestConfig::URI_PAIR_DOCUMENT_TYPE  => [
+				'name'   => 'Type de document',
+				'plural' => 'Types de document',
+				'icon'   => 'pushpin',
+			],
+
     ];
 
     var $entitiesFilters = [
@@ -49,6 +60,9 @@ class WebserviceController extends Controller
       mmmfestConfig::URI_PAIR_EVENT,
       mmmfestConfig::URI_PAIR_PROPOSAL,
       mmmfestConfig::URI_SKOS_THESAURUS,
+      mmmfestConfig::URI_PAIR_DOCUMENT,
+      mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,
+
     ];
 
     public function __construct()
@@ -120,6 +134,8 @@ class WebserviceController extends Controller
         $typePerson= array_key_exists(mmmfestConfig::URI_PAIR_PERSON,$arrayType);
         $typeProject= array_key_exists(mmmfestConfig::URI_PAIR_PROJECT,$arrayType);
         $typeEvent= array_key_exists(mmmfestConfig::URI_PAIR_EVENT,$arrayType);
+        $typeDocument= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT,$arrayType);
+        $typeDocumentType= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
         $typeProposition= array_key_exists(mmmfestConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(mmmfestConfig::URI_SKOS_THESAURUS,$arrayType);
         $userLogged =  $this->getUser() != null;
@@ -223,6 +239,30 @@ class WebserviceController extends Controller
             $results = $sfClient->sparql($propositionSparql->getQuery());
             $propositions = $sfClient->sparqlResultsValues($results);
         }
+				$documents = [];
+				if(($type == mmmfestConfig::Multiple || $typeDocument)&& $userLogged ){
+						$documentSparql = clone $sparql;
+						$documentSparql->addSelect('?title')
+							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
+							->addWhere('?uri','default:preferedLabel','?title','?GR')
+							->addOptional('?uri','default:comment','?desc','?GR');
+						//$documentSparql->addOptional('?uri','default:building','?building','?GR');
+						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						$results = $sfClient->sparql($documentSparql->getQuery());
+						$documents= $sfClient->sparqlResultsValues($results);
+				}
+				$documentTypes = [];
+				if(($type == mmmfestConfig::Multiple || $typeDocumentType)&& $userLogged ){
+						$documentTypeSparql = clone $sparql;
+						$documentTypeSparql->addSelect('?title')
+							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
+							->addWhere('?uri','default:preferedLabel','?title','?GR')
+							->addOptional('?uri','default:comment','?desc','?GR');
+						//$documentTypeSparql->addOptional('?uri','default:building','?building','?GR');
+						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						$results = $sfClient->sparql($documentTypeSparql->getQuery());
+						$documentTypes = $sfClient->sparqlResultsValues($results);
+				}
 
         $thematiques = [];
         if($type == mmmfestConfig::Multiple || $typeThesaurus ){
@@ -238,26 +278,32 @@ class WebserviceController extends Controller
         $results = [];
 
         while ($organizations || $persons || $projects
-          || $events || $propositions || $thematiques) {
+          || $events || $propositions || $thematiques || $documents || $documentTypes) {
 
             if (!empty($organizations)) {
                 $results[] = array_shift($organizations);
             }
-            if (!empty($persons)) {
+            else if (!empty($persons)) {
                 $results[] = array_shift($persons);
             }
-            if (!empty($projects)) {
+						else if (!empty($projects)) {
                 $results[] = array_shift($projects);
             }
-            if (!empty($events)) {
+						else if (!empty($events)) {
                 $results[] = array_shift($events);
             }
-            if (!empty($propositions)) {
+						else if (!empty($propositions)) {
                 $results[] = array_shift($propositions);
             }
-            if (!empty($thematiques)) {
+						else if (!empty($thematiques)) {
                 $results[] = array_shift($thematiques);
             }
+						else if (!empty($documents)) {
+								$results[] = array_shift($documents);
+						}
+						else if  (!empty($documentTypes)) {
+								$results[] = array_shift($documentTypes);
+						}
         }
 
         return $results;
@@ -311,6 +357,8 @@ class WebserviceController extends Controller
             case mmmfestConfig::URI_PAIR_PROJECT :
             case mmmfestConfig::URI_PAIR_PROPOSAL :
             case mmmfestConfig::URI_PAIR_EVENT :
+						case mmmfestConfig::URI_PAIR_DOCUMENT :
+						case mmmfestConfig::URI_PAIR_DOCUMENT_TYPE :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','default:preferedLabel','?label','?gr');
 

@@ -29,9 +29,9 @@ class ProjectType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 		=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 						=> 'needs', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves' 				=> 'involves', # sf (person,orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 		=> 'documentedBy', # sf (doc)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 		=> 'documentedBy', # sf (doc)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#delivers'				=> 'delivers', # Place ?
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 			=> 'hasSubject', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 			=> 'hasSubject', # ?
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 			=> 'subjectOf', # ?
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                             => 'type',
 		];
@@ -123,6 +123,25 @@ class ProjectType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'documentedBy',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
+						]
+					)
+					->add(
+						$builder,
+						'hasSubject',
+						DbPediaType::class,
+						[
+							'required' => false,
 						]
 					)
 					;

@@ -14,21 +14,15 @@ use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class ProposalType extends AbstractForm
+class DocumenttypeType extends AbstractForm
 {
 		var $fieldsAliases = [
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel' 			=> 'preferedLabel', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' 	=> 'alternativeLabel', # txt
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier' 	=> 'subjectIdentifier', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 				=> 'description', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy' 		=> 'brainstormedBy', # sf (person,orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (project)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
 		];
 
@@ -68,44 +62,6 @@ class ProposalType extends AbstractForm
 						$builder,
 						'aboutPage',
 						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'brainstormedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
-						]
-					)
-					->add(
-						$builder,
-						'representedBy',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'documentedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
-						]
-					)
-					->add(
-						$builder,
-						'hasSubject',
-						DbPediaType::class,
 						[
 							'required' => false,
 						]
