@@ -118,7 +118,7 @@ class ComponentController extends Controller
           'mmmfestBundle:Component:'.$this->componentName.'Form.html.twig',
           array(
             'form' => $form->createView(),
-            //'image' => $image
+            'image' => ''
           )
         );
     }

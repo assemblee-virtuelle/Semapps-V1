@@ -18,12 +18,9 @@ Polymer({
     this.buildingTitle = gvc.buildings[this.data.properties.building].title;
     this.concretizes = this.data.concretizes;
     this.needs = this.data.needs;
-    this.person_involves = this.data.person_involves;
-    this.orga_involves = this.data.orga_involves;
-    this.person_managedBy = this.data.person_managedBy;
-    this.orga_managedBy = this.data.orga_managedBy;
-    this.person_representedBy = this.data.person_representedBy;
-    this.orga_representedBy = this.data.orga_representedBy;
+    this.involves = this.data.involves;
+    this.managedBy = this.data.managedBy;
+    this.representedBy = this.data.representedBy;
     this.image = this.data.properties.image;
   },
 

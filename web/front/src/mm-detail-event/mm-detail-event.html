@@ -62,20 +62,20 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <!-- organizedBy -->
-        <template is="dom-if" if="[[data.orga_organizedBy.length]]">
-          <h3>orga_organizedBy</h3>
+        <template is="dom-if" if="[[data.organizedBy.person.length]]">
+          <h3>organizedBy.person</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_organizedBy}}">
+            <template is="dom-repeat" items="{{data.organizedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_organizedBy.length]]">
-          <h3>person_organizedBy</h3>
+        <template is="dom-if" if="[[data.organizedBy.organization.length]]">
+          <h3>organizedBy.organization</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_organizedBy}}">
+            <template is="dom-repeat" items="{{data.organizedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -84,20 +84,20 @@
         </template>
         <!-- end of organizedBy -->
         <!-- hasParticipant -->
-        <template is="dom-if" if="[[data.orga_hasParticipant.length]]">
-          <h3>orga_hasParticipant</h3>
+        <template is="dom-if" if="[[data.hasParticipant.person.length]]">
+          <h3>hasParticipant.person</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_hasParticipant}}">
+            <template is="dom-repeat" items="{{data.hasParticipant.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.person_hasParticipant.length]]">
-          <h3>person_hasParticipant</h3>
+        <template is="dom-if" if="[[data.hasParticipant.organization.length]]">
+          <h3>hasParticipant.organization</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_hasParticipant}}">
+            <template is="dom-repeat" items="{{data.hasParticipant.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -115,6 +115,17 @@
             <div class="clearfix"></div>
           </div>
         </template>
+        <!-- documentedby -->
+        <template is="dom-if" if="[[data.documentedBy.document.length]]">
+          <h3>documentedBy.document</h3>
+          <template is="dom-repeat" items="{{data.documentedBy.document}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of documentedby -->
       </div>
     </div>
   </template>

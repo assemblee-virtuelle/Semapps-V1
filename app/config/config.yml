@@ -50,10 +50,15 @@ parameters:
         startDate: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#startDate"
         endDate: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#endDate"
         documentedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy"
+        documents: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents"
         organizedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy"
         hasParticipant: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant"
         brainstormedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy"
         concretizedBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy"
+        hasType: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType"
+        typeOf: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf"
+        references: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references"
+        referencesBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy"
         type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
     fields_access:
@@ -96,10 +101,15 @@ parameters:
            - startDate
            - endDate
            - documentedBy
+           - documents
            - organizedBy
            - hasParticipant
            - brainstormedBy
            - concretizedBy
+           - hasType
+           - typeOf
+           - references
+           - referencesBy
            - type
         member:
 

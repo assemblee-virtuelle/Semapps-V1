@@ -55,51 +55,87 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <!-- documents -->
-        <template is="dom-if" if="[[documents.length]]">
-          <h3>documents</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{documents}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
+        <template is="dom-if" if="[[data.documents.organization.length]]">
+          <h3>documents.organization</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.organization}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
             </template>
             <div class="clearfix"></div>
-          </div>
+
+        </template>
+        <template is="dom-if" if="[[data.documents.projet.length]]">
+          <h3>documents.projet</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.projet}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <template is="dom-if" if="[[data.documents.event.length]]">
+          <h3>documents.event</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.event}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.documents.proposition.length]]">
+          <h3>documents.proposition</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
         </template>
         <!-- end of documents -->
         <!-- references -->
-        <template is="dom-if" if="[[references.length]]">
-          <h3>references</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{references}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
+        <template is="dom-if" if="[[data.references.document.length]]">
+          <h3>references.document</h3>
+          
+            <template is="dom-repeat" items="{{data.references.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
             </template>
             <div class="clearfix"></div>
-          </div>
+
         </template>
         <!-- end of references -->
         <!-- referencesBy -->
-        <template is="dom-if" if="[[referencesBy.length]]">
-          <h3>referencesBy</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{referencesBy}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
+        <template is="dom-if" if="[[data.referencesBy.document.length]]">
+          <h3>referencesBy.document</h3>
+          
+            <template is="dom-repeat" items="{{data.referencesBy.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
             </template>
             <div class="clearfix"></div>
-          </div>
+
         </template>
         <!-- end of referencesBy -->
         <!-- hasType -->
-        <template is="dom-if" if="[[hasType.length]]">
-          <h3>hasType</h3>
-          <div class="tags-cloud">
-            <template is="dom-repeat" items="{{hasType}}">
-              <a href="{{ item.uri }}" target="_blank">
-                {{item.name}}</a>
+        <template is="dom-if" if="[[data.hasType.documenttype.length]]">
+          <h3>hasType.documenttype</h3>
+          
+            <template is="dom-repeat" items="{{data.hasType.documenttype}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
             </template>
             <div class="clearfix"></div>
-          </div>
+
         </template>
         <!-- end of hasType -->
       </div>

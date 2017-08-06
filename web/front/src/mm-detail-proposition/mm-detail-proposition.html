@@ -53,20 +53,20 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <!-- brainstormedBy -->
-        <template is="dom-if" if="[[data.person_brainstormedBy.length]]">
-          <h3>person_brainstormedBy</h3>
+        <template is="dom-if" if="[[data.brainstormedBy.person.length]]">
+          <h3>brainstormedBy.person</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_brainstormedBy}}">
+            <template is="dom-repeat" items="{{data.brainstormedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.orga_brainstormedBy.length]]">
-          <h3>orga_brainstormedBy</h3>
+        <template is="dom-if" if="[[data.brainstormedBy.organization.length]]">
+          <h3>brainstormedBy.organization</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_brainstormedBy}}">
+            <template is="dom-repeat" items="{{data.brainstormedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -75,20 +75,20 @@
         </template>
         <!-- end of brainstormedBy -->
         <!-- concretizedBy -->
-        <template is="dom-if" if="[[data.person_concretizedBy.length]]">
-          <h3>person_concretizedBy</h3>
+        <template is="dom-if" if="[[data.concretizedBy.person.length]]">
+          <h3>concretizedBy.person</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_concretizedBy}}">
+            <template is="dom-repeat" items="{{data.concretizedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.orga_concretizedBy.length]]">
-          <h3>orga_concretizedBy</h3>
+        <template is="dom-if" if="[[data.concretizedBy.organization.length]]">
+          <h3>concretizedBy.organization</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_concretizedBy}}">
+            <template is="dom-repeat" items="{{data.concretizedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -97,20 +97,20 @@
         </template>
         <!-- end of concretizedBy -->
         <!-- representedBy -->
-        <template is="dom-if" if="[[data.person_representedBy.length]]">
-          <h3>person_representedBy</h3>
+        <template is="dom-if" if="[[data.representedBy.person.length]]">
+          <h3>representedBy.person</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.person_representedBy}}">
+            <template is="dom-repeat" items="{{data.representedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.orga_representedBy.length]]">
-          <h3>orga_representedBy</h3>
+        <template is="dom-if" if="[[data.representedBy.organization.length]]">
+          <h3>representedBy.organization</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.orga_representedBy}}">
+            <template is="dom-repeat" items="{{data.representedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -118,6 +118,18 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of representedBy -->
+        <!-- documentedby -->
+        <template is="dom-if" if="[[data.documentedBy.document.length]]">
+          <h3>documentedBy.document</h3>
+          <template is="dom-repeat" items="{{data.documentedBy.document}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of documentedby -->
+
       </div>
     </div>
   </template>

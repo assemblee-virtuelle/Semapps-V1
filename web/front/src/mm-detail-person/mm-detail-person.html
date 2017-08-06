@@ -74,10 +74,10 @@
         </template>
         <!-- end of hasInterest -->
         <!-- knows -->
-        <template is="dom-if" if="[[data.knows.length]]">
+        <template is="dom-if" if="[[data.knows.person.length]]">
           <h3>knows</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.knows}}">
+            <template is="dom-repeat" items="{{data.knows.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -86,10 +86,10 @@
         </template>
         <!-- end of knows -->
         <!-- affiliatedTo -->
-        <template is="dom-if" if="[[data.affiliatedTo.length]]">
+        <template is="dom-if" if="[[data.affiliatedTo.organization.length]]">
           <h3>affiliatedTo</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.affiliatedTo}}">
+            <template is="dom-repeat" items="{{data.affiliatedTo.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -98,10 +98,10 @@
         </template>
         <!-- end of affiliatedTo -->
         <!-- responsibleOf -->
-        <template is="dom-if" if="[[data.responsibleOf.length]]">
+        <template is="dom-if" if="[[data.responsibleOf.organization.length]]">
           <h3>responsibleOf</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.responsibleOf}}">
+            <template is="dom-repeat" items="{{data.responsibleOf.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -110,10 +110,10 @@
         </template>
         <!-- end of responsibleOf -->
         <!-- memberOf -->
-        <template is="dom-if" if="[[data.memberOf.length]]">
+        <template is="dom-if" if="[[data.memberOf.organization.length]]">
           <h3>memberOf</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.memberOf}}">
+            <template is="dom-repeat" items="{{data.memberOf.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -122,10 +122,10 @@
         </template>
         <!-- end of memberOf -->
         <!-- employedBy -->
-        <template is="dom-if" if="[[data.employedBy.length]]">
+        <template is="dom-if" if="[[data.employedBy.organization.length]]">
           <h3>employedBy</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.employedBy}}">
+            <template is="dom-repeat" items="{{data.employedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -134,9 +134,9 @@
         </template>
         <!-- end of employedBy -->
         <!-- involvedIn -->
-        <template is="dom-if" if="[[data.involvedIn.length]]">
+        <template is="dom-if" if="[[data.involvedIn.projet.length]]">
           <h3>involvedIn</h3>
-          <template is="dom-repeat" items="{{data.involvedIn}}">
+          <template is="dom-repeat" items="{{data.involvedIn.projet}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -145,7 +145,7 @@
         </template>
         <!-- end of involvedIn -->
         <!-- manages -->
-        <template is="dom-if" if="[[data.manages.length]]">
+        <template is="dom-if" if="[[data.manages.projet.length]]">
           <h3>manages</h3>
           <template is="dom-repeat" items="{{data.manages}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -180,9 +180,9 @@
         </template>
         <!-- end of needs -->
         <!-- participantOf -->
-        <template is="dom-if" if="[[data.participantOf.length]]">
+        <template is="dom-if" if="[[data.participantOf.event.length]]">
           <h3>participantOf</h3>
-          <template is="dom-repeat" items="{{participantOf.manages}}">
+          <template is="dom-repeat" items="{{participantOf.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -193,7 +193,7 @@
         <!-- brainstorms -->
         <template is="dom-if" if="[[data.brainstorms.length]]">
           <h3>brainstorms</h3>
-          <template is="dom-repeat" items="{{brainstorms.manages}}">
+          <template is="dom-repeat" items="{{brainstorms.proposition}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>

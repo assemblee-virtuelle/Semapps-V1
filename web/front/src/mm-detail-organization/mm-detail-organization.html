@@ -68,10 +68,10 @@
       </div>
       <section class="col col-sm-4 side-blocks">
         <!-- responsible -->
-        <template is="dom-if" if="[[data.responsible.length]]">
-          <h3>responsible</h3>
+        <template is="dom-if" if="[[data.hasResponsible.person.length]]">
+          <h3>hasResponsible</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.responsible}}">
+            <template is="dom-repeat" items="{{data.hasResponsible.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -80,10 +80,10 @@
         </template>
         <!-- end of responsible -->
         <!-- hasMember -->
-        <template is="dom-if" if="[[data.hasMember.length]]">
+        <template is="dom-if" if="[[data.hasMember.person.length]]">
           <h3>hasMember</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.hasMember}}">
+            <template is="dom-repeat" items="{{data.hasMember.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -92,10 +92,10 @@
         </template>
         <!-- end of hasMember -->
         <!-- affiliates -->
-        <template is="dom-if" if="[[data.affiliates.length]]">
+        <template is="dom-if" if="[[data.affiliates.person.length]]">
           <h3>affiliates</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.affiliates}}">
+            <template is="dom-repeat" items="{{data.affiliates.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -104,10 +104,10 @@
         </template>
         <!-- end of affiliates -->
         <!-- employs -->
-        <template is="dom-if" if="[[data.employs.length]]">
+        <template is="dom-if" if="[[data.employs.person.length]]">
           <h3>employs</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.employs}}">
+            <template is="dom-repeat" items="{{data.employs.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -116,10 +116,10 @@
         </template>
         <!-- end of employs -->
         <!-- partnerOf -->
-        <template is="dom-if" if="[[data.partnerOf.length]]">
+        <template is="dom-if" if="[[data.partnerOf.organization.length]]">
           <h3>partnerOf</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.partnerOf}}">
+            <template is="dom-repeat" items="{{data.partnerOf.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
                          label="[[item.name]]"></mm-avatar>
             </template>
@@ -128,9 +128,9 @@
         </template>
         <!-- end of partnerOf -->
         <!-- involvedIn -->
-        <template is="dom-if" if="[[data.involvedIn.length]]">
+        <template is="dom-if" if="[[data.involvedIn.projet.length]]">
           <h3>involvedIn</h3>
-          <template is="dom-repeat" items="{{data.involvedIn}}">
+          <template is="dom-repeat" items="{{data.involvedIn.projet}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -139,9 +139,9 @@
         </template>
         <!-- end of involvedIn -->
         <!-- manages -->
-        <template is="dom-if" if="[[data.manages.length]]">
+        <template is="dom-if" if="[[data.manages.projet.length]]">
           <h3>manages</h3>
-          <template is="dom-repeat" items="{{data.manages}}">
+          <template is="dom-repeat" items="{{data.manages.projet}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -150,9 +150,9 @@
         </template>
         <!-- end of manages -->
         <!-- organizes -->
-        <template is="dom-if" if="[[data.organizes.length]]">
+        <template is="dom-if" if="[[data.organizes.event.length]]">
           <h3>organizes</h3>
-          <template is="dom-repeat" items="{{data.organizes}}">
+          <template is="dom-repeat" items="{{data.organizes.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -161,9 +161,9 @@
         </template>
         <!-- end of organizes -->
         <!-- participantOf -->
-        <template is="dom-if" if="[[data.participantOf.length]]">
+        <template is="dom-if" if="[[data.participantOf.event.length]]">
           <h3>participantOf</h3>
-          <template is="dom-repeat" items="{{data.participantOf}}">
+          <template is="dom-repeat" items="{{data.participantOf.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -172,10 +172,10 @@
         </template>
         <!-- end of participantOf -->
         <!-- needs -->
-        <template is="dom-if" if="[[needs.length]]">
+        <template is="dom-if" if="[[data.needs.length]]">
           <h3>needs</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{needs}}">
+            <template is="dom-repeat" items="{{data.needs}}">
               <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
@@ -183,10 +183,22 @@
           </div>
         </template>
         <!-- end of needs -->
+        <!-- offers -->
+        <template is="dom-if" if="[[data.offers.length]]">
+          <h3>offers</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.offers}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of offers -->
         <!-- brainstorms -->
-        <template is="dom-if" if="[[data.brainstorms.length]]">
+        <template is="dom-if" if="[[data.brainstorms.proposition.length]]">
           <h3>brainstorms</h3>
-          <template is="dom-repeat" items="{{data.brainstorms}}">
+          <template is="dom-repeat" items="{{data.brainstorms.proposition}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -194,6 +206,17 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of brainstorms -->
+        <!-- documentedby -->
+        <template is="dom-if" if="[[data.documentedBy.document.length]]">
+          <h3>documentedBy.document</h3>
+          <template is="dom-repeat" items="{{data.documentedBy.document}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of documentedby -->
       </section>
     </div>
   </template>
