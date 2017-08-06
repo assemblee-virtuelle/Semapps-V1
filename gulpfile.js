@@ -45,6 +45,8 @@ var filesJs = {
   'web/front/src/mm-detail-projet/mm-detail-projet': true,
   'web/front/src/mm-detail-event/mm-detail-event': true,
   'web/front/src/mm-detail-proposition/mm-detail-proposition': true,
+  'web/front/src/mm-detail-document/mm-detail-document': true,
+  'web/front/src/mm-detail-documenttype/mm-detail-documenttype': true,
   'web/front/src/mm-map/mm-map': true,
   'web/front/src/mm-map-pin/mm-map-pin': true
 };
@@ -72,6 +74,8 @@ var filesScss = {
   'web/front/src/mm-detail-projet/mm-detail-projet': true,
   'web/front/src/mm-detail-event/mm-detail-event': true,
   'web/front/src/mm-detail-proposition/mm-detail-proposition': true,
+  'web/front/src/mm-detail-document/mm-detail-document': true,
+  'web/front/src/mm-detail-documenttype/mm-detail-documenttype': true,
   'web/front/src/mm-logo-animated/mm-logo-animated': true,
   'web/front/src/mm-map/mm-map': true,
   'web/front/src/mm-map-pin/mm-map-pin': true

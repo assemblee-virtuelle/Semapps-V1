@@ -22,33 +22,15 @@
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
       this.$gvMap = $(document.getElementById('mm-map'));
-      this.searchTypes = {
-        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person": {
-          label: 'Personne',
-          type: 'person',
-          plural: 'Personnes'
-        },
-        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization": {
-          label: 'Organisation',
-          type: 'organization',
-          plural: 'Organisations'
-        },
-        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project": {
-          label: 'Projet',
-          type: 'projet',
-          plural: 'Projets'
-        },
-        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event": {
-          label: 'Evénement',
-          type: 'event',
-          plural: 'Evénements'
-        },
-        "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal": {
-          label: 'Proposition',
-          type: 'proposition',
-          plural: 'Propositions'
-        }
-      };
+      this.allowedType = [
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document",
+          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType",
+      ];
 
       // Play intro only once.
       if (cookie.get('introAnimation')) {
@@ -185,7 +167,7 @@
     imageOrFallback(path, typeUri) {
       "use strict";
       if (!path) {
-        return '/common/images/result-no_picture-' + gvc.searchTypes[typeUri].type + '.png';
+        return '/common/images/result-no_picture-' + gvc.entities[typeUri].nameType + '.png';
       }
       return path;
     }

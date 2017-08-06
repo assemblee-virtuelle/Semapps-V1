@@ -29,7 +29,7 @@ Polymer({
     "use strict";
     e.preventDefault();
     let path = '/';
-    switch (gvc.searchTypes[this.child.type].type) {
+    switch (gvc.entities[this.child.type].nameType) {
       case 'organization':
         path += 'orga/detail/' + this.id;
         break;
@@ -75,7 +75,8 @@ Polymer({
     }
 
     // Create inner depending of type.
-    let inner = document.createElement('mm-detail-' + gvc.searchTypes[data.properties.type].type.toLowerCase());
+      log(gvc.entities[data.properties.type].nameType.toLowerCase());
+    let inner = document.createElement('mm-detail-' + gvc.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
     inner.data = data;

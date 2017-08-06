@@ -19,36 +19,43 @@ class WebserviceController extends Controller
         'name'   => 'Organisation',
         'plural' => 'Organisations',
         'icon'   => 'tower',
+				'nameType' => 'organization'
       ],
       mmmfestConfig::URI_PAIR_PERSON       => [
         'name'   => 'Personne',
         'plural' => 'Personnes',
         'icon'   => 'user',
+				'nameType' => 'person'
       ],
       mmmfestConfig::URI_PAIR_PROJECT      => [
         'name'   => 'Projet',
         'plural' => 'Projets',
         'icon'   => 'screenshot',
+				'nameType' => 'projet'
       ],
       mmmfestConfig::URI_PAIR_EVENT        => [
         'name'   => 'Event',
         'plural' => 'Events',
         'icon'   => 'calendar',
+				'nameType' => 'event'
       ],
       mmmfestConfig::URI_PAIR_PROPOSAL  => [
         'name'   => 'Proposition',
         'plural' => 'Propositions',
         'icon'   => 'info-sign',
+				'nameType' => 'proposition'
       ],
 			mmmfestConfig::URI_PAIR_DOCUMENT  => [
 				'name'   => 'Document',
 				'plural' => 'Documents',
 				'icon'   => 'folder-open',
+				'nameType' => 'document'
 			],
 			mmmfestConfig::URI_PAIR_DOCUMENT_TYPE  => [
 				'name'   => 'Type de document',
 				'plural' => 'Types de document',
 				'icon'   => 'pushpin',
+				'nameType' => 'documenttype'
 			],
 
     ];
@@ -941,7 +948,7 @@ class WebserviceController extends Controller
 								if (isset($properties['representedBy'])) {
 										foreach ($properties['representedBy'] as $uri) {
 												$component = $this->uriPropertiesFiltered($uri);
-												//dump($component);
+
 												switch (current($component['type'])) {
 														case mmmfestConfig::URI_PAIR_PERSON:
 																$person[] = $this->getData(

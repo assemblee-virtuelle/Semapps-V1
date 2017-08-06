@@ -148,8 +148,8 @@ Polymer({
 
       for (let result of response.results) {
         // Data is allowed.
-        if (gvc.searchTypes[result.type]) {
 
+          if($.inArray(result.type,gvc.allowedType) !== -1){
           // Count results by building.
           if (gvc.buildings[result.building]) {
             buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
@@ -201,9 +201,13 @@ Polymer({
     }
 
     this.tabsRegistry.all && (this.tabsRegistry.all.counter = totalCounter);
-    for (let type of Object.keys(gvc.searchTypes)) {
-      this.tabsRegistry[type] && (this.tabsRegistry[type].counter = typesCounter[type] || 0);
-    }
+      /*
+      gvc.allowedType.forEach(function(type) {
+          this.tabsRegistry[type] && (this.tabsRegistry[type].counter = typesCounter[type] || 0);
+      });*/
+      for (var i = 0; i <  gvc.allowedType.length; i++) {
+          this.tabsRegistry[gvc.allowedType[i]] && (this.tabsRegistry[gvc.allowedType[i]].counter = typesCounter[gvc.allowedType[i]] || 0);
+      }
 
     setTimeout(() => {
       this.set('results', results);

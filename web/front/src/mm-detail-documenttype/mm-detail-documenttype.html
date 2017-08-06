@@ -1,0 +1,73 @@
+<dom-module id="mm-detail-documenttype">
+  <link rel="import" type="css" href="mm-detail-documenttype.css">
+  <template>
+    <div id="mm-detail-documenttype">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.preferedLabel]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[representedBy]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[representedBy]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!representedBy]]">
+              <mm-logo-mini text-color="#1e90ff"></mm-logo-mini>
+            </template>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[alternativeLabel]]">
+                <tr class="field">
+                  <td class="fieldLabel">surnom</td>
+                  <td>[[alternativeLabel]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">commentaire</td>
+                  <td>[[comment]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[homePage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
+                  </td>
+                </tr>
+              </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <!-- typeOf -->
+        <template is="dom-if" if="[[typeOf.length]]">
+          <h3>typeOf</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{typeOf}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of typeOf -->
+      </div>
+    </div>
+  </template>
+  <script src="mm-detail-documenttype.min.js"></script>
+</dom-module>
