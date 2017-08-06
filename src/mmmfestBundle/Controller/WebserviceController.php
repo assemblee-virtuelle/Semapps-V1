@@ -145,7 +145,7 @@ class WebserviceController extends Controller
         $typeDocumentType= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
         $typeProposition= array_key_exists(mmmfestConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(mmmfestConfig::URI_SKOS_THESAURUS,$arrayType);
-        $userLogged =  $this->getUser() != null;
+        //$userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
@@ -213,7 +213,7 @@ class WebserviceController extends Controller
 
         }
         $events = [];
-        if(($type == mmmfestConfig::Multiple || $typeEvent) && $userLogged){
+        if(($type == mmmfestConfig::Multiple || $typeEvent) ){
             $eventSparql = clone $sparql;
             $eventSparql->addSelect('?title')
                 ->addSelect('?start')
@@ -234,7 +234,7 @@ class WebserviceController extends Controller
 
         }
         $propositions = [];
-        if(($type == mmmfestConfig::Multiple || $typeProposition)&& $userLogged ){
+        if(($type == mmmfestConfig::Multiple || $typeProposition) ){
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
@@ -247,7 +247,7 @@ class WebserviceController extends Controller
             $propositions = $sfClient->sparqlResultsValues($results);
         }
 				$documents = [];
-				if(($type == mmmfestConfig::Multiple || $typeDocument)&& $userLogged ){
+				if(($type == mmmfestConfig::Multiple || $typeDocument) ){
 						$documentSparql = clone $sparql;
 						$documentSparql->addSelect('?title')
 							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
@@ -259,7 +259,7 @@ class WebserviceController extends Controller
 						$documents= $sfClient->sparqlResultsValues($results);
 				}
 				$documentTypes = [];
-				if(($type == mmmfestConfig::Multiple || $typeDocumentType)&& $userLogged ){
+				if(($type == mmmfestConfig::Multiple || $typeDocumentType)){
 						$documentTypeSparql = clone $sparql;
 						$documentTypeSparql->addSelect('?title')
 							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
