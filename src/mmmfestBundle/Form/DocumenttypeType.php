@@ -33,7 +33,7 @@ class DocumenttypeType extends AbstractForm
 
         $this
 					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class)
+					->add($builder, 'alternativeLabel', TextType::class, TextType::class,['required' => false,])
 					->add(
 						$builder,
 						'description',
