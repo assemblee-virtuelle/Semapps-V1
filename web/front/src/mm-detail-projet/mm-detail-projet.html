@@ -137,6 +137,18 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of involves -->
+        <!-- hasInterest -->
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>hasInterest</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasInterest}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of hasInterest -->
         <!-- needs -->
         <template is="dom-if" if="[[needs.length]]">
           <h3>needs</h3>

@@ -635,6 +635,14 @@ class WebserviceController extends Controller
 												];
 										}
 								}
+								if (isset($properties['hasInterest'])) {
+										foreach ($properties['hasInterest'] as $uri) {
+												$output['hasInterest'][] = [
+													'uri'  => $uri,
+													'name' => $sfClient->dbPediaLabel($uri),
+												];
+										}
+								}
 								$this->getData2($properties,$propertiesWithUri,$output);
                 break;
             // Event.

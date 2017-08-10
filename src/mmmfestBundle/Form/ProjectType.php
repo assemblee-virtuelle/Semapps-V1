@@ -33,6 +33,7 @@ class ProjectType extends AbstractForm
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#delivers'				=> 'delivers', # Place ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 			=> 'hasSubject', # ?
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 			=> 'subjectOf', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 			=> 'hasInterest', # dbpedia
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                             => 'type',
 		];
 
@@ -43,7 +44,7 @@ class ProjectType extends AbstractForm
 
         $this
 					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class, TextType::class,['required' => false,])
+					->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
 					->add(
 						$builder,
 						'description',
@@ -139,6 +140,14 @@ class ProjectType extends AbstractForm
 					->add(
 						$builder,
 						'hasSubject',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'hasInterest',
 						DbPediaType::class,
 						[
 							'required' => false,
