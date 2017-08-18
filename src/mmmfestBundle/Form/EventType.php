@@ -132,9 +132,12 @@ class EventType extends AbstractForm
 					->add(
 						$builder,
 						'hasInterest',
-						DbPediaType::class,
+						UriType::class,
 						[
-							'required' => false,
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
 					->add(
