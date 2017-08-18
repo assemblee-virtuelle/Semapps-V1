@@ -75,7 +75,8 @@ class mmmfestConfig
 			],
 			mmmfestConfig::URI_PAIR_DOCUMENT => [
 				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy',
-				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf'
+				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf',
+				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy'
 			],
 		];
     static $buildings = [

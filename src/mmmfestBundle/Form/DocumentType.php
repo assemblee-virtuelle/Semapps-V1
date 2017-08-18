@@ -24,7 +24,7 @@ class DocumentType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#represents' 				=> 'represents', # sf (doc)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents' 				=> 'documents', # sf (doc)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents' 				=> 'documents', # sf (doc)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references' 				=> 'references', # sf (doc)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType' 						=> 'hasType', # sf (docType)
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
@@ -79,6 +79,17 @@ class DocumentType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
+						]
+					)
+					->add(
+						$builder,
+						'documents',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   =>  implode('|',mmmfestConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
 						]
 					)
 					->add(
