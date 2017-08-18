@@ -32,6 +32,7 @@ security:
         - { path: ^/register/confirm, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: ROLE_NO_ACCESS }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/mon-compte/documentType/, role: ROLE_SUPER_ADMIN }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
         - { path: ^/orga/detail, role: ROLE_MEMBER }
         - { path: ^/orga/save, role: ROLE_MEMBER }
