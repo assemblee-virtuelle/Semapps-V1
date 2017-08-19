@@ -157,7 +157,7 @@ class WebserviceController extends Controller
             ->addSelect('?image')
             ->addSelect('?desc')
             ->addSelect('?building');
-        ($filter)? $sparql->addWhere('?uri','gvoi:thesaurus',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
+        ($filter)? $sparql->addWhere('?uri','default:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
         //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
         $sparql->addWhere('?uri','rdf:type', '?type','?GR')
             ->groupBy('?uri ?type ?title ?image ?desc ?building')
@@ -193,7 +193,7 @@ class WebserviceController extends Controller
                 //->addOptional('?org','gvoi:building','?building','?GR');
             if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'")) ');
             $personSparql->groupBy('?firstName ?lastName');
-            //dump($personSparql->getQuery());
+            //dump($personSparql->getQuery());exit;
             $results = $sfClient->sparql($personSparql->getQuery());
             $persons = $sfClient->sparqlResultsValues($results);
 
@@ -606,10 +606,11 @@ class WebserviceController extends Controller
 								}
 								if (isset($properties['hasInterest'])) {
 										foreach ($properties['hasInterest'] as $uri) {
-												$output['hasInterest'][] = [
-													'uri'  => $uri,
-													'name' => $sfClient->dbPediaLabel($uri),
+												$result = [
+													'uri' => $uri,
+													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
 												];
+												$output['hasInterest'][] = $result;
 										}
 								}
                 break;
@@ -637,10 +638,11 @@ class WebserviceController extends Controller
 								}
 								if (isset($properties['hasInterest'])) {
 										foreach ($properties['hasInterest'] as $uri) {
-												$output['hasInterest'][] = [
-													'uri'  => $uri,
-													'name' => $sfClient->dbPediaLabel($uri),
+												$result = [
+													'uri' => $uri,
+													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
 												];
+												$output['hasInterest'][] = $result;
 										}
 								}
 								$this->getData2($properties,$propertiesWithUri,$output);
@@ -652,10 +654,11 @@ class WebserviceController extends Controller
 								}
 								if (isset($properties['hasInterest'])) {
 										foreach ($properties['hasInterest'] as $uri) {
-												$output['hasInterest'][] = [
-													'uri'  => $uri,
-													'name' => $sfClient->dbPediaLabel($uri),
+												$result = [
+													'uri' => $uri,
+													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
 												];
+												$output['hasInterest'][] = $result;
 										}
 								}
 
@@ -746,10 +749,6 @@ class WebserviceController extends Controller
 																	'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
 																];
 																$output[$alias][$this->entitiesTabs[$componentType]['nameType']][] = $result;
-																break;
-														case mmmfestConfig::URI_SKOS_THESAURUS:
-																dump($component);
-																exit;
 																break;
 												}
 												$cacheTemp[$uri] = $result;
