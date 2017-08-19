@@ -271,25 +271,25 @@ class AdminController extends Controller
 										->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addDelete(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
+                      'default:image',
                       '?o',
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
                     ->addWhere(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
+                      'default:image',
                       '?o',
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sfClient->update(str_replace("#","%23",$sparql->getQuery()));
+                $sfClient->update($sparql->getQuery());
 								//dump($sparql->getQuery());
                 $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
                 $sparql->addPrefixes($sparql->prefixes)
 										->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addInsert(
                       $sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
-                      $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_URL),
+                      'default:image',
+                      $sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
                       $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                    $sfClient->update(str_replace("#","%23",$sparql->getQuery()));
+                    $sfClient->update($sparql->getQuery());
 								//dump($sparql->getQuery());
 								//exit;
             } else {

@@ -326,12 +326,12 @@ class OrganisationController extends Controller
 									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addDelete(
                       $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
+                      'default:image',
                       '?o',
                       $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL))
                     ->addWhere(
                       $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
+                      'default:image',
                       '?o',
                       $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
@@ -341,8 +341,8 @@ class OrganisationController extends Controller
 									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
                     ->addInsert(
                       $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:representedBy',
-                      $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_URL),
+                      'default:image',
+                      $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_TEXT),
                       $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
                 $sfClient->update($sparql->getQuery());
 

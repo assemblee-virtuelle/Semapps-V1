@@ -168,7 +168,7 @@ class WebserviceController extends Controller
             $orgaSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:comment','?desc','?GR');
                 //->addOptional('?uri','gvoi:building','?building','?GR');
             if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
@@ -185,7 +185,7 @@ class WebserviceController extends Controller
                 ->addSelect('( COALESCE(?lastName, "") As ?result) (fn:concat(?firstName, " " , ?result) as ?title)')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','default:firstName','?firstName','?GR')
-                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:description','?desc','?GR')
                 //->addOptional('?uri','default:building','?building','?GR')
                 ->addOptional('?uri','default:lastName','?lastName','?GR');
@@ -204,7 +204,7 @@ class WebserviceController extends Controller
             $projectSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:comment','?desc','?GR');
                 //->addOptional('?uri','default:building','?building','?GR');
             if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
@@ -220,7 +220,7 @@ class WebserviceController extends Controller
                 ->addSelect('?end')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:representedBy','?image','?GR')
+                ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:comment','?desc','?GR')
                 //->addOptional('?uri','default:building','?building','?GR')
                 ->addOptional('?uri','default:startDate','?start','?GR')
@@ -239,7 +239,7 @@ class WebserviceController extends Controller
 //            $propositionSparql->addSelect('?title')
 //                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
 //                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-//                ->addOptional('?uri','default:representedBy','?image','?GR')
+//                ->addOptional('?uri','default:image','?image','?GR')
 //                ->addOptional('?uri','default:comment','?desc','?GR');
 //            //$propositionSparql->addOptional('?uri','default:building','?building','?GR');
 //            if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
@@ -386,7 +386,7 @@ class WebserviceController extends Controller
                     ->addOptional('?uri','default:preferedLabel','?name','?gr')
                     ->addOptional('?uri','skos:prefLabel','?skos','?gr')
                     ->addOptional('?uri','default:comment','?desc','?gr')
-                    ->addOptional('?uri','default:representedBy','?image','?gr');
+                    ->addOptional('?uri','default:image','?image','?gr');
                     //->addOptional('?uri','gvoi:building','?building','?gr');
                 break;
         }
@@ -451,7 +451,7 @@ class WebserviceController extends Controller
 					->addOptional('?uri','default:preferedLabel','?name','?gr')
 					->addOptional('?uri','skos:prefLabel','?skos','?gr')
 					->addOptional('?uri','default:comment','?desc','?gr')
-					->addOptional('?uri','default:representedBy','?image','?gr');
+					->addOptional('?uri','default:image','?image','?gr');
         $ressourcesNeeded = clone $sparql;
         $ressourcesNeeded->addWhere('?uri','default:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
 

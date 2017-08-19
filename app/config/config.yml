@@ -59,6 +59,7 @@ parameters:
         typeOf: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf"
         references: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references"
         referencesBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy"
+        image: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image"
         type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
 
     fields_access:
@@ -110,6 +111,7 @@ parameters:
            - typeOf
            - references
            - referencesBy
+           - image
            - type
         member:
 
