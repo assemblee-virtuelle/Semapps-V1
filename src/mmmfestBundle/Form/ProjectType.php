@@ -34,6 +34,7 @@ class ProjectType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 			=> 'hasSubject', # ?
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 			=> 'subjectOf', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 			=> 'hasInterest', # dbpedia
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                             => 'type',
 		];
 
@@ -154,6 +155,14 @@ class ProjectType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
+						]
+					)
+					->add(
+						$builder,
+						'image',
+						UrlType::class,
+						[
+							'required' => false,
 						]
 					)
 					;

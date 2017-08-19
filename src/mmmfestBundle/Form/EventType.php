@@ -34,6 +34,7 @@ class EventType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 				=> 'hasInterest', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy' 				=> 'organizedBy', # sf (person,orga)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant' 		=> 'hasParticipant', # sf (person,orga)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
 		];
 
@@ -160,6 +161,14 @@ class EventType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'image',
+						UrlType::class,
+						[
+							'required' => false,
 						]
 					)
 				;

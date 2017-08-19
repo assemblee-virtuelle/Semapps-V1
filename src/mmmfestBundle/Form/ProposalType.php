@@ -29,6 +29,7 @@ class ProposalType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
 		];
 
@@ -106,6 +107,14 @@ class ProposalType extends AbstractForm
 						$builder,
 						'hasSubject',
 						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'image',
+						UrlType::class,
 						[
 							'required' => false,
 						]
