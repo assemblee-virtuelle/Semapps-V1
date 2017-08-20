@@ -33,14 +33,14 @@
       ];
 
       // Play intro only once.
-      if (cookie.get('introAnimation')) {
-        window.document.body.classList.add('skip-intro');
-      }
-      else {
-        cookie.set('introAnimation', true, {
-          expires: 1 // Days
-        });
-      }
+      // if (cookie.get('introAnimation')) {
+      //   window.document.body.classList.add('skip-intro');
+      // }
+      // else {
+      //   cookie.set('introAnimation', true, {
+      //     expires: 1 // Days
+      //   });
+      // }
 
       var loadParameters = () => {
         this.ajax('webservice/parameters', (response) => {
