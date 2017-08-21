@@ -29,7 +29,7 @@ Polymer({
   },
 
 });
-$(document).scroll(function (event) {
+/*$(document).scroll(function (event) {
     var alto_total = $("#mm-map").offset();
     var loader_business = $("#mm-header").offset();
     var mm_prez = $("#mm-prez");
@@ -37,4 +37,4 @@ $(document).scroll(function (event) {
     if (alto_total.top <= loader_business.top && mm_prez.is(":visible") ){
         mm_prez.hide();
     }
-});
+});*/
