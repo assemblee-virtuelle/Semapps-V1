@@ -117,7 +117,7 @@
 
     goSearch() {
       let term = this.domSearchTextInput.value;
-      let building = this.buildingSelected || 'partout';
+      let building = this.buildingSelected.split('/')[this.buildingSelected.split('/').length-1] || 'partout';
       let path = '/rechercher/' + building + '/' + term;
       if (document.location.pathname === path) {
         // Reload search manually.

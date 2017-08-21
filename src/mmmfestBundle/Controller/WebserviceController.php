@@ -169,8 +169,8 @@ class WebserviceController extends Controller
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','default:preferedLabel','?title','?GR')
                 ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:comment','?desc','?GR');
-                //->addOptional('?uri','gvoi:building','?building','?GR');
+                ->addOptional('?uri','default:comment','?desc','?GR')
+                ->addOptional('?uri','default:hostedIn','?building','?GR');
             if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
@@ -187,10 +187,9 @@ class WebserviceController extends Controller
                 ->addWhere('?uri','default:firstName','?firstName','?GR')
                 ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:description','?desc','?GR')
-                //->addOptional('?uri','default:building','?building','?GR')
-                ->addOptional('?uri','default:lastName','?lastName','?GR');
-                //->addOptional('?org','rdf:type','default:Organization','?GR')
-                //->addOptional('?org','gvoi:building','?building','?GR');
+                ->addOptional('?uri','default:lastName','?lastName','?GR')
+                ->addOptional('?org','rdf:type','default:Organization','?GR')
+                ->addOptional('?org','default:hostedIn','?building','?GR');
             if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'")) ');
             $personSparql->groupBy('?firstName ?lastName');
             //dump($personSparql->getQuery());exit;
@@ -543,7 +542,10 @@ class WebserviceController extends Controller
 									'documentedBy',
 								];
 								$this->getData2($properties,$propertiesWithUri,$output);
-
+								if (isset($properties['hostedIn'])) {
+										$properties['building'] = current($properties['hostedIn']);
+										$properties['hostedIn'] = mmmfestConfig::$buildings[current($properties['hostedIn'])]['title'];
+								}
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -568,10 +570,10 @@ class WebserviceController extends Controller
             // Person.
 						case  mmmfestConfig::URI_PAIR_PERSON:
 								//TODO: to be modified
-                //$query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type default:Person . ?org rdf:type default:Organization . ?org gvoi:building ?b .} }";
+                $query = " SELECT ?b WHERE { GRAPH ?G {<".$uri."> rdf:type default:Person . ?org rdf:type default:Organization . ?org default:hostedIn ?b .} }";
                 //dump($query);
-                //$buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
-								//$output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
+                $buildingsResult = $sfClient->sparql($sfClient->prefixesCompiled . $query);
+								$output['building'] = (isset($buildingsResult["results"]["bindings"][0])) ? $buildingsResult["results"]["bindings"][0]['b']['value'] : '';
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}

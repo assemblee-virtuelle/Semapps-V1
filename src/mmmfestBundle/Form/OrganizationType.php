@@ -29,7 +29,7 @@ class OrganizationType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 						=> 'email', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 							=> 'phone', # txt
-				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn' 					=> 'hostedIn', # adresse ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn' 					=> 'hostedIn', # adresse ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf ( Doc )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember' 					=> 'hasMember', # sf ( person )
@@ -181,6 +181,15 @@ class OrganizationType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
+						]
+					)
+					->add(
+						$builder,
+						'hostedIn',
+						ChoiceType::class,
+						[
+							'placeholder' => 'choisissez un batiment',
+							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
 						]
 					)
 					;

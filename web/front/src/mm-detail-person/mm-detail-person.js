@@ -19,7 +19,7 @@ Polymer({
     this.brainstorms = this.data.brainstorms;
     this.employedBy = this.data.employedBy;
     //log(this.data.building);
-    this.buildingTitle = gvc.buildings[this.data.building].title;
+    //this.buildingTitle = gvc.buildings[this.data.building].title;
   },
     handleClickDetail(e) {
         e.preventDefault();

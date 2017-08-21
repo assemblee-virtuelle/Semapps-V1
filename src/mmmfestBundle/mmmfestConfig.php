@@ -80,32 +80,32 @@ class mmmfestConfig
 			],
 		];
     static $buildings = [
-      "grandChateau" => [
+      "urn:mm/building/grandChateau" => [
         'title' => "Grand chateau",
         'x'     => '60%',
         'y'     => '21%',
       ],
-      "petitChateau"            => [
+      "urn:mm/building/petitChateau"            => [
         'title' => "Petit chateau",
         'x'     => '40%',
         'y'     => '29%',
       ],
-      "boisDesCochets"            => [
+      "urn:mm/building/boisDesCochets"            => [
         'title' => "Bois des cochets",
         'x'     => '22%',
         'y'     => '50%',
       ],
-      "pigeonnier"            => [
+      "urn:mm/building/pigeonnier"            => [
         'title' => "Pigeonnier",
         'x'     => '39%',
         'y'     => '54%',
       ],
-      "orangerie"       => [
+      "urn:mm/building/orangerie"       => [
         'title' => "Orangerie",
         'x'     => '50%',
         'y'     => '59%',
       ],
-      "camping"     => [
+      "urn:mm/building/camping"     => [
         'title' => "Camping",
         'x'     => '0%',
         'y'     => '0%',
@@ -122,22 +122,22 @@ class mmmfestConfig
     ];
 
     static $buildingsSimple = [
-      "grandChateau"  => "Grand Chateau",
-      "petitChateau"  => "Petit chateau",
-      "boisDesCochets"=> "Bois des cochets",
-      "pigeonnier"    => "Pigeonnier",
-      "orangerie"     => "Orangerie",
-      "camping"       => "Camping",
+      "urn:mm/building/grandChateau"  => "Grand Chateau",
+      "urn:mm/building/petitChateau"  => "Petit chateau",
+      "urn:mm/building/boisDesCochets"=> "Bois des cochets",
+      "urn:mm/building/pigeonnier"    => "Pigeonnier",
+      "urn:mm/building/orangerie"     => "Orangerie",
+      "urn:mm/building/camping"       => "Camping",
 
     ];
 
     static $buildingsExtended = [
-        "grandChateau"  => "Grand Chateau",
-        "petitChateau"  => "Petit chateau",
-        "boisDesCochets"=> "Bois des cochets",
-        "pigeonnier"    => "Pigeonnier",
-        "orangerie"     => "Orangerie",
-        "camping"       => "Camping",
+        "urn:mm/building/grandChateau"  => "Grand Chateau",
+        "urn:mm/building/petitChateau"  => "Petit chateau",
+        "urn:mm/building/boisDesCochets"=> "Bois des cochets",
+        "urn:mm/building/pigeonnier"    => "Pigeonnier",
+        "urn:mm/building/orangerie"     => "Orangerie",
+        "urn:mm/building/camping"       => "Camping",
         "partout"       => "Partout",
         "exterieur"     => "Extérieurs",
         "ailleurs"      => "Ailleurs",

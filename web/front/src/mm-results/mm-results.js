@@ -83,8 +83,9 @@ Polymer({
   search(term, building) {
     "use strict";
     let filterUri = this.$searchThemeFilter.val();
+    let prefixBuilding = 'urn:mm/building/';
     gvc.buildingSelected =
-      gvc.searchLastBuilding = (gvc.buildings[building] ? building : gvc.buildingSelectedAll);
+      gvc.searchLastBuilding = (gvc.buildings[prefixBuilding+building] ? prefixBuilding+building : gvc.buildingSelectedAll);
     // Term and has not changed.
     if (gvc.searchLastTerm === term &&
         // Filter has not changed.

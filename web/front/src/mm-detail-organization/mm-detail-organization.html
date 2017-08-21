@@ -23,6 +23,12 @@
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[hostedIn]]">
+                <tr class="field">
+                  <td class="fieldLabel">hostedIn</td>
+                  <td>[[hostedIn]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[homePage]]">
                 <tr class="field">
                   <td class="fieldLabel">home Site web </td>

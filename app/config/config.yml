@@ -61,7 +61,7 @@ parameters:
         referencesBy: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy"
         image: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image"
         type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
-
+        hostedIn: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn"
     fields_access:
         anonymous:
            # All
@@ -113,6 +113,7 @@ parameters:
            - referencesBy
            - image
            - type
+           - hostedIn
         member:
 
         super_admin:
