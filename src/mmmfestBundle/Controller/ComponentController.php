@@ -113,8 +113,9 @@ class ComponentController extends Controller
             );
         }
 	    $image = '' ; 
-	    if(isset($form->get('image'))
+	    if(isset($form->get('image')){
         $image = $form->get('image')->getData();
+		    }
         // Fill form
         return $this->render(
           'mmmfestBundle:Component:'.$this->componentName.'Form.html.twig',
