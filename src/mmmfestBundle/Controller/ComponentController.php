@@ -113,7 +113,7 @@ class ComponentController extends Controller
             );
         }
 	    $image = '' ; 
-	    if(isset($form->get('image'))){
+	    if($form->get('image') !== null){
         $image = $form->get('image')->getData();
 		    }
         // Fill form
