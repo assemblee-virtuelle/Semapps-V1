@@ -112,6 +112,8 @@ class ComponentController extends Controller
               strtolower($request->get('component')).'List'
             );
         }
+	    $image = '' ; 
+	    if(isset($form->get('image'))
         $image = $form->get('image')->getData();
         // Fill form
         return $this->render(
