@@ -586,7 +586,6 @@ class WebserviceController extends Controller
 									'involvedIn',
 									'manages',
 									'participantOf',
-									'participantOf',
 									'brainstorms',
 								];
 								$this->getData2($properties,$propertiesWithUri,$output);
