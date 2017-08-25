@@ -132,7 +132,7 @@ class WebserviceController extends Controller
         return new JsonResponse($parameters->get());
     }
 
-    public function searchSparqlRequest($term, $type = mmmfestConfig::Multiple, $filter=null)
+    public function searchSparqlRequest($term, $type = mmmfestConfig::Multiple, $filter=null,$isBlocked = false)
     {
         $sfClient    = $this->container->get('semantic_forms.client');
         $arrayType = explode('|',$type);
@@ -141,9 +141,9 @@ class WebserviceController extends Controller
         $typePerson= array_key_exists(mmmfestConfig::URI_PAIR_PERSON,$arrayType);
         $typeProject= array_key_exists(mmmfestConfig::URI_PAIR_PROJECT,$arrayType);
         $typeEvent= array_key_exists(mmmfestConfig::URI_PAIR_EVENT,$arrayType);
-        //$typeDocument= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT,$arrayType);
-        //$typeDocumentType= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
-        //$typeProposition= array_key_exists(mmmfestConfig::URI_PAIR_PROPOSAL,$arrayType);
+        $typeDocument= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT,$arrayType);
+        $typeDocumentType= array_key_exists(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
+        $typeProposition= array_key_exists(mmmfestConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(mmmfestConfig::URI_SKOS_THESAURUS,$arrayType);
         //$userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
@@ -232,43 +232,43 @@ class WebserviceController extends Controller
             $events = $sfClient->sparqlResultsValues($results);
 
         }
-//        $propositions = [];
-//        if(($type == mmmfestConfig::Multiple || $typeProposition) ){
-//            $propositionSparql = clone $sparql;
-//            $propositionSparql->addSelect('?title')
-//                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
-//                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-//                ->addOptional('?uri','default:image','?image','?GR')
-//                ->addOptional('?uri','default:comment','?desc','?GR');
-//            //$propositionSparql->addOptional('?uri','default:building','?building','?GR');
-//            if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
-//            $results = $sfClient->sparql($propositionSparql->getQuery());
-//            $propositions = $sfClient->sparqlResultsValues($results);
-//        }
-//				$documents = [];
-//				if(($type == mmmfestConfig::Multiple || $typeDocument) ){
-//						$documentSparql = clone $sparql;
-//						$documentSparql->addSelect('?title')
-//							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
-//							->addWhere('?uri','default:preferedLabel','?title','?GR')
-//							->addOptional('?uri','default:comment','?desc','?GR');
-//						//$documentSparql->addOptional('?uri','default:building','?building','?GR');
-//						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
-//						$results = $sfClient->sparql($documentSparql->getQuery());
-//						$documents= $sfClient->sparqlResultsValues($results);
-//				}
-//				$documentTypes = [];
-//				if(($type == mmmfestConfig::Multiple || $typeDocumentType)){
-//						$documentTypeSparql = clone $sparql;
-//						$documentTypeSparql->addSelect('?title')
-//							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-//							->addWhere('?uri','default:preferedLabel','?title','?GR')
-//							->addOptional('?uri','default:comment','?desc','?GR');
-//						//$documentTypeSparql->addOptional('?uri','default:building','?building','?GR');
-//						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
-//						$results = $sfClient->sparql($documentTypeSparql->getQuery());
-//						$documentTypes = $sfClient->sparqlResultsValues($results);
-//				}
+        $propositions = [];
+        if((($type == mmmfestConfig::Multiple || $typeProposition) && !$isBlocked) ){
+            $propositionSparql = clone $sparql;
+            $propositionSparql->addSelect('?title')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','default:preferedLabel','?title','?GR')
+                ->addOptional('?uri','default:image','?image','?GR')
+                ->addOptional('?uri','default:comment','?desc','?GR');
+            //$propositionSparql->addOptional('?uri','default:building','?building','?GR');
+            if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+            $results = $sfClient->sparql($propositionSparql->getQuery());
+            $propositions = $sfClient->sparqlResultsValues($results);
+        }
+				$documents = [];
+				if((($type == mmmfestConfig::Multiple || $typeDocument) && !$isBlocked) ){
+						$documentSparql = clone $sparql;
+						$documentSparql->addSelect('?title')
+							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
+							->addWhere('?uri','default:preferedLabel','?title','?GR')
+							->addOptional('?uri','default:comment','?desc','?GR');
+						//$documentSparql->addOptional('?uri','default:building','?building','?GR');
+						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						$results = $sfClient->sparql($documentSparql->getQuery());
+						$documents= $sfClient->sparqlResultsValues($results);
+				}
+				$documentTypes = [];
+				if((($type == mmmfestConfig::Multiple || $typeDocumentType) && !$isBlocked)){
+						$documentTypeSparql = clone $sparql;
+						$documentTypeSparql->addSelect('?title')
+							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
+							->addWhere('?uri','default:preferedLabel','?title','?GR')
+							->addOptional('?uri','default:comment','?desc','?GR');
+						//$documentTypeSparql->addOptional('?uri','default:building','?building','?GR');
+						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						$results = $sfClient->sparql($documentTypeSparql->getQuery());
+						$documentTypes = $sfClient->sparqlResultsValues($results);
+				}
 
         $thematiques = [];
         if($type == mmmfestConfig::Multiple || $typeThesaurus ){
@@ -284,7 +284,7 @@ class WebserviceController extends Controller
         $results = [];
 
         while ($organizations || $persons || $projects
-          || $events  || $thematiques) { /*|| $propositions || $documents || $documentTypes */
+          || $events  || $thematiques || $propositions || $documents || $documentTypes) {
 
             if (!empty($organizations)) {
                 $results[] = array_shift($organizations);
@@ -301,15 +301,15 @@ class WebserviceController extends Controller
 						else if (!empty($thematiques)) {
                 $results[] = array_shift($thematiques);
             }
-//						else if (!empty($propositions)) {
-//								$results[] = array_shift($propositions);
-//						}
-//						else if (!empty($documents)) {
-//								$results[] = array_shift($documents);
-//						}
-//						else if  (!empty($documentTypes)) {
-//								$results[] = array_shift($documentTypes);
-//						}
+						else if (!empty($propositions)) {
+								$results[] = array_shift($propositions);
+						}
+						else if (!empty($documents)) {
+								$results[] = array_shift($documents);
+						}
+						else if  (!empty($documentTypes)) {
+								$results[] = array_shift($documentTypes);
+						}
         }
 
         return $results;
@@ -323,7 +323,8 @@ class WebserviceController extends Controller
             'results' => $this->searchSparqlRequest(
               $request->get('t'),
               ''
-              ,$request->get('f')
+              ,$request->get('f'),
+							true
             ),
           ]
         );
