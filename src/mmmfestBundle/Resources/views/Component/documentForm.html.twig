@@ -7,7 +7,7 @@
 {% block formContent %}
     {{ parent() }}
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-6">
                     {{ form_row(form.preferedLabel) }}
@@ -49,6 +49,14 @@
                     {{ form_row(form.hasType) }}
                 </div>
             </div>
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les documents{% endblock %}
+                {% block content %}
+                    <p>Vous pouvez ici renseigner le #CodeSocial de votre projet. Et éventuellement partager d’autres documents autour de votre activité ou de vos centres d’intérêts … </p>
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 {% endblock %}

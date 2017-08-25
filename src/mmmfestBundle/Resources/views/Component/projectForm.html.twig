@@ -12,7 +12,7 @@
                 <img id="componentPicture" src="{{ (image != "" ? image : asset('common/images/no_avatar.jpg') )}}"/>
             </a>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-6">
                     {{ form_row(form.preferedLabel) }}
@@ -84,6 +84,24 @@
                     {{ form_row(form.involves) }}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les projets{% endblock %}
+                {% block content %}
+                    <p>Outre le projet qui sera au coeur de votre atelier au MMM, vous pouvez créer d’autres projets dans lesquels vous êtes impliqués
+                    </p>
+
+                    <p> Cela vous permettra de les faire connaitre, et pourquoi pas d’engager de superbes discussions à l’apéro avec d’illustres inconnus ;-)
+                    </p>
+
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 {% endblock %}

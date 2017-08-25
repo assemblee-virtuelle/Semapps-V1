@@ -1,6 +1,6 @@
 {% extends "mmmfestBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter une proposition{% endblock %}
+{% block pageContentTitle %}Ajouter une propositions pour la prochaine édition{% endblock %}
 
 {%  set menuSelected = 'proposalList' %}
 
@@ -12,7 +12,7 @@
                 <img id="componentPicture" src="{{ (image != "" ? image : asset('common/images/no_avatar.jpg') )}}"/>
             </a>
         </div>
-        <div class="col-sm-10">
+        <div class="col-sm-6">
             <div class="row">
                 <div class="col-sm-6">
                     {{ form_row(form.preferedLabel) }}
@@ -64,6 +64,15 @@
                     {{ form_row(form.hasSubject) }}
                 </div>
             </div>
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les propositions pour la prochaine édition{% endblock %}
+                {% block content %}
+                    <p>Si vous avez des suggestions pour la prochaine édition du festival, n’hésitez pas à les partager ici !</p>
+
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
 {% endblock %}
