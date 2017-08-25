@@ -8,17 +8,14 @@
 
 namespace mmmfestBundle\Form;
 
-use mmmfestBundle\Entity\Organisation;
-use mmmfestBundle\Repository\OrganisationRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegisterType extends AbstractType
 {
@@ -50,6 +47,16 @@ class RegisterType extends AbstractType
             PasswordType::class,
             array('required' => true,'mapped' => false)
           )
+					->add(
+						'codeSocial',
+						CheckboxType::class,
+						array('required' => true)
+					)
+					->add(
+						'membreAv',
+						CheckboxType::class,
+						array('required' => true)
+					)
           ->add('submit', SubmitType::class, array('label' => 'Enregistrer'));
     }
 
