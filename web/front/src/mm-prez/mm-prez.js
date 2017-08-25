@@ -5,6 +5,7 @@ Polymer({
   attached() {
     "use strict";
     GVCarto.ready(this.start.bind(this));
+
   },
 
   start() {
@@ -26,6 +27,7 @@ Polymer({
               window.location.hash = target;
           });
       });
+      this.isAnonymous = gvc.isAnonymous();
   },
     handleClickPrez(e) {
         e.preventDefault();
