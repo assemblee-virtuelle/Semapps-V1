@@ -246,7 +246,7 @@ class WebserviceController extends Controller
             $propositions = $sfClient->sparqlResultsValues($results);
         }
 				$documents = [];
-				if((($type == mmmfestConfig::Multiple || $typeDocument) && !$isBlocked) ){
+				if((($type == mmmfestConfig::Multiple || $typeDocument) ) ){
 						$documentSparql = clone $sparql;
 						$documentSparql->addSelect('?title')
 							->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
