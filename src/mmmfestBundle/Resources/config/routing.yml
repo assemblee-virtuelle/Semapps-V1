@@ -25,6 +25,15 @@ detail:
 ressource:
     path:     /ressource
     defaults: { _controller: mmmfestBundle:WebSite:index }
+programme:
+    path:     /programme
+    defaults: { _controller: mmmfestBundle:WebSite:index }
+codeSocial:
+    path:     /codeSocial
+    defaults: { _controller: mmmfestBundle:WebSite:index }
+infos:
+    path:     /infos
+    defaults: { _controller: mmmfestBundle:WebSite:index }
 ### administration ###
 # admin Controller #
 # tested
