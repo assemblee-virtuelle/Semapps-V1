@@ -33,6 +33,9 @@ Polymer({
         gvc.scrollToContent();
         gvc.myRoute = e.target.rel;
         gvc.goToPath(e.target.rel,{});
-
+    },
+    handleClickRegisterPrez(e){
+            "use strict";
+            gvc.realLink(e);
     },
 });
