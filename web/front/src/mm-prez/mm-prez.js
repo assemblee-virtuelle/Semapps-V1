@@ -27,14 +27,12 @@ Polymer({
           });
       });
   },
+    handleClickPrez(e) {
+        e.preventDefault();
+        log(e.target.rel);
+        gvc.scrollToContent();
+        gvc.myRoute = e.target.rel;
+        gvc.goToPath(e.target.rel,{});
 
+    },
 });
-/*$(document).scroll(function (event) {
-    var alto_total = $("#mm-map").offset();
-    var loader_business = $("#mm-header").offset();
-    var mm_prez = $("#mm-prez");
-    console.log(alto_total.top + " <= " + loader_business.top);
-    if (alto_total.top <= loader_business.top && mm_prez.is(":visible") ){
-        mm_prez.hide();
-    }
-});*/
