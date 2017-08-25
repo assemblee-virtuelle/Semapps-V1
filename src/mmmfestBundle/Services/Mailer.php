@@ -66,58 +66,45 @@ class Mailer
         $content = [];
         switch ($type){
             case self::TYPE_RESPONSIBLE :
-                $content['subject'] = "Cartographie de la mmmfest : Consultez et complétez votre fiche !";
-                $content['body'] = "Salut à toi ".$user->getUsername()." !<br>
-                                    Nous te souhaitons la bienvenue sur la carto de la mmmfest ! http://reseau.lesgrandsvoisins.org/<br><br>
-                                    
-                                    Pour valider/accéder à votre profil, merci de vous rendre sur ".$url."<br>
-                                    (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
-                                    Voici tes identifiants :):
-                                    Login : ".$user->getUsername()."<br>
-                                    Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
-                                    Membre de l'organisation : ".$organisation->getName()."<br><br>
-                                     
-                                    En tant que référent de structure, nous t’invitons à :<br><br>
-                                    
-                                    Compléter la fiche de ta structure (Menu de gauche “Mon organisation”)<br>
-                                    Inviter les membres de ton équipe / ton centre via l’onglet équipe dans l’interface d’administration. <br><br>
-                                    
-                                    La carto des Grand Voisins va vous permettre de communiquer en interne et vis à vis du grand public ! <br><br>
-                                    
-                                    Des questions ? Nous y répondons en live sur le channel carto du slack de la mmmfest, par mail : contact@assemblee-virtuelle.org ou par tel : 06 28 34 54 99<br><br>
-                                    Merci à vous,<br>
-                                    William, Charlotte, Guillaume, Romain, Jean-Marc, Sébastien, Tristan, Frédéric et toute l’équipe ! (sans oublier Bobby !) <br><br>
-                                    
-                                    Cette application 100% open-source a été développée par l’équipe de l’Assemblée Virtuelle (que vous pouvez soutenir !), le projet a reçu 2000 euros de la part de la mmmfest, les données sont hébergées par Aurore, elles ne sont pas revendues, ni utilisées en dehors de ce projet. L’application se base sur l’utilisation du web sémantique, et va évoluer dans les prochains mois (intégration de nouvelles fonctionnalités, capacité de réplication et de décentralisation de l’application. Objectif : créer un réseau social P2P de la transition).";
-                break;
-            case self::TYPE_USER :
-                $content['subject'] = "Cartographie de la mmmfest : Consultez et complétez votre fiche !";
-                $content['body'] = "Salut à toi ".$user->getUsername()." ! <br><br>
-                        Nous te souhaitons la bienvenue sur la carto de la mmmfest !  http://reseau.lesgrandsvoisins.org/ <br><br>
+                $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
+                $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme du mmmfest !   http://mmmfest.fr/ <br><br>
                         
-                        Pour valider/accéder à votre profil, merci de vous rendre sur ".$url."<br><br>
+                        Pour inscrire un atelier au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
-                        Identifiant : ".$user->getUsername()."<br>
+                        
+                        Voici tes identifiants :)<br>
+                        Login : ".$user->getUsername()."<br>
                         Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
                         Membre de l'organisation : ".$organisation->getName()."<br><br>
                         
-                        Quelques remarques à ce sujet :<br>
-                        - Tu ne peux te connecter qu’aux personnes disposant d’un profil sur la carto, si tu ne les trouves pas, invite les ;-)<br>
-                        - Les centres d’intérêts, les compétences, les offres et besoins de ressources sont gérés avec Wikipedia, pour l’instant on ne peut les saisir qu’en anglais, ce qui devrait évoluer dans les prochains mois. Utilise un traducteur si jamais ! <br>
-                        - Si vous souhaitez devenir admin de votre orga, demandez aux personnes identifiées comme responsables ou admin de votre orga sur la carto ;-) Il leur suffira de changer votre rôle dans “Equipe”<br><br>
+                       L’interface d’administration te permettra alors de renseigner : <br>
+												- Ton profil, <br>
+												- Celui de ton organisation, <br>
+												- Celui du projet faisant l’objet de l’atelier<br>
+												- Le #CodeSocial (en cliquant sur document)<br>
+												- Créer la fiche de l’atelier que vous organisez.<br><br>
                        
-                        Si tu es référent / administrateur de ton organisation, n’hésite pas à :<br>
-                        - Compléter la fiche de ta structure (Menu de gauche “Mon organisation”)<br>
-                        - Inviter les membres de ton équipe / ton centre via l’onglet équipe dans l’interface d’administration.<br>
-                        - En renseignant des projets que vous développez, des événements que vous organisez, des propositions que vous portez (dans le menu admin de gauche ...) <br><br>
+                       A très bientôt au Millemont Makers & Music Festival :-)
+                       ";
+                break;
+            case self::TYPE_USER :
+                $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
+                $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme du mmmfest !   http://mmmfest.fr/ <br><br>
                         
-                        Des questions ? Nous y répondons en live sur le channel carto du slack de la mmmfest, par mail : contact@assemblee-virtuelle.org ou par tel : 06 28 34 54 99<br><br>
-                        Merci à vous,<br><br>
+                        Pour t’inscrire au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
+                        (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
                         
-                        William, Charlotte, Guillaume, Romain, Jean-Marc, Sébastien, Tristan, Frédéric et toute l’équipe ! (sans oublier Bobby !) <br><br>
+                        Voici tes identifiants :)<br>
+                        Login : ".$user->getUsername()."<br>
+                        Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
+                        Membre de l'organisation : ".$organisation->getName()."<br><br>
                         
-                        Cette application 100% open-source a été développée par l’équipe de l’Assemblée Virtuelle (que vous pouvez soutenir !), le projet a reçu 2000 euros de la part de la mmmfest, les données sont hébergées par Aurore, elles ne sont pas revendues, ni utilisées en dehors de ce projet. L’application se base sur l’utilisation du web sémantique, et va évoluer dans les prochains mois (intégration de nouvelles fonctionnalités, capacité de réplication et de décentralisation de l’application. Objectif : créer un réseau social P2P de la transition). ";
-
+                       L’interface d’administration te permettra alors de renseigner ton profil et plein d’autres choses ;-)<br><br>
+                       
+                       A très bientôt au Millemont Makers & Music Festival :-)
+                       ";
                 break;
             default:
                 $content['subject'] = "[NOTIF] Cartographie de la mmmfest : Demande de création de compte !";
@@ -128,10 +115,7 @@ class Mailer
                                     Membre de l'organisation : ".$organisation->getName()."<br><br>
                                     
                                     Pour valider son compte, veuillez vous rendre dans l'onglet équipe et cliquer sur l'icone mail qui lui enverra ces infomration de connexion !<br><br>
-                                    
-                                    Des questions ? Nous y répondons en live sur le channel carto du slack de la mmmfest, par mail : contact@assemblee-virtuelle.org ou par tel : 06 28 34 54 99<br><br>
-                                    Merci à vous,<br><br>
-                                    William, Charlotte, Guillaume, Romain, Jean-Marc, Sébastien, Tristan, Frédéric et toute l’équipe ! (sans oublier Bobby !) <br><br>
+                                   
                                    ";
                 break;
         }
