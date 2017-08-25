@@ -34,8 +34,8 @@ class WebserviceController extends Controller
 				'nameType' => 'projet'
       ],
       mmmfestConfig::URI_PAIR_EVENT        => [
-        'name'   => 'Atelier',
-        'plural' => 'Ateliers',
+        'name'   => 'Event',
+        'plural' => 'Events',
         'icon'   => 'calendar',
 				'nameType' => 'event'
       ],
