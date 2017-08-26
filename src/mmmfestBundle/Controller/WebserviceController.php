@@ -623,10 +623,10 @@ class WebserviceController extends Controller
 								}
 
 								$propertiesWithUri = [
-									'concretizes',
+//									'concretizes',
 									'involves',
 									'managedBy',
-									'representedBy',
+//									'representedBy',
 									'documentedBy',
 
 								];

@@ -24,9 +24,9 @@ class ProjectType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 					=> 'comment', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 				=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 				=> 'aboutPage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes' 			=> 'concretizes', # sf (proposition)
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes' 			=> 'concretizes', # sf (proposition)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy' 				=> 'managedBy', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 		=> 'representedBy', # img
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 		=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 						=> 'needs', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves' 				=> 'involves', # sf (person,orga)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 		=> 'documentedBy', # sf (doc)
@@ -78,17 +78,17 @@ class ProjectType extends AbstractForm
 							'required' => false,
 						]
 					)
-					->add(
-						$builder,
-						'concretizes',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
-						]
-					)
+//					->add(
+//						$builder,
+//						'concretizes',
+//						UriType::class,
+//						[
+//							'required'  => false,
+//							'lookupUrl' => $options['lookupUrlPerson'],
+//							'labelUrl'  => $options['lookupUrlLabel'],
+//							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
+//						]
+//					)
 					->add(
 						$builder,
 						'managedBy',
@@ -100,14 +100,14 @@ class ProjectType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-					->add(
-						$builder,
-						'representedBy',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'representedBy',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'needs',

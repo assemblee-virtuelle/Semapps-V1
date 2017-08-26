@@ -61,15 +61,15 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <!-- concretizes -->
-        <template is="dom-if" if="[[data.concretizes.proposition.length]]">
-          <h3>concretizes</h3>
-          <template is="dom-repeat" items="{{data.concretizes.proposition}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
-        </template>
+        <!--<template is="dom-if" if="[[data.concretizes.proposition.length]]">-->
+          <!--<h3>concretizes</h3>-->
+          <!--<template is="dom-repeat" items="{{data.concretizes.proposition}}">-->
+            <!--<a href="#" rel="{{item.uri}}" on-click="handleClickDetail"-->
+               <!--class="list-item">-->
+              <!--<span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>-->
+          <!--</template>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
         <!-- end of concretizes -->
         <!-- managedBy -->
         <template is="dom-if" if="[[managedBy.person.length]]">
@@ -94,26 +94,26 @@
         </template>
         <!-- end of managedBy -->
         <!-- representedBy -->
-        <template is="dom-if" if="[[data.representedBy.person.length]]">
-          <h3>representedBy.person</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.representedBy.person}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
-        <template is="dom-if" if="[[data.representedBy.organization.length]]">
-          <h3>representedBy.organization</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.representedBy.organization}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
+        <!--<template is="dom-if" if="[[data.representedBy.person.length]]">-->
+          <!--<h3>representedBy.person</h3>-->
+          <!--<div class="thumbs">-->
+            <!--<template is="dom-repeat" items="{{data.representedBy.person}}">-->
+              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
+                         <!--label="[[item.name]]"></mm-avatar>-->
+            <!--</template>-->
+          <!--</div>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="[[data.representedBy.organization.length]]">-->
+          <!--<h3>representedBy.organization</h3>-->
+          <!--<div class="thumbs">-->
+            <!--<template is="dom-repeat" items="{{data.representedBy.organization}}">-->
+              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
+                         <!--label="[[item.name]]"></mm-avatar>-->
+            <!--</template>-->
+          <!--</div>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
         <!-- end of representedBy -->
         <!-- involves -->
         <template is="dom-if" if="[[data.involves.person.length]]">
