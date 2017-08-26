@@ -43,10 +43,10 @@
             <div class="col-sm-10">
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.preferedLabel) }}
+                        {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.alternativeLabel) }}
+                        {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
                     </div>
                 </div>
                 <div class="row">
@@ -62,10 +62,10 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.homePage) }}
+                        {{ form_row(form.homePage, { 'label': 'Site web'}) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.aboutPage) }}
+                        {{ form_row(form.aboutPage, { 'label': 'Autres liens'}) }}
                     </div>
                 </div>
                 <div class="row">
@@ -77,32 +77,46 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.hasMember) }}</div>
+                    <div class="col-sm-12">
+                        {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.hasResponsible) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.hasMember, { 'label': 'Ses membres'}) }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.employs) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.hasResponsible, { 'label': 'Ses responsables'}) }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.partnerOf) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.employs, { 'label': 'Ses employés'}) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.offers) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.manages, { 'label': 'Projets dont elle est (co-)responsable'}) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.organizes, { 'label': 'Événement(s) qu’elle (co-)organise'}) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.participantOf, { 'label': 'Événement(s) auquel(s) elle participe'}) }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.offers, { 'label': "Ce qu'elle propose" }) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'a besoin de' }) }}</div>
                 </div>
+
                 <div class="row">
-                    <div class="col-sm-12">
-                        {{ form_row(form.documentedBy) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{ form_row(form.hasSubject) }}
+                    <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
+                        {{ form_row(form.documentedBy, { 'label': "Document desciptif de l'organisation"}) }}
                     </div>
                 </div>
                 <div class="row">

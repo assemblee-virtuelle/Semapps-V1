@@ -36,11 +36,11 @@ class OrganizationType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible' 		=> 'hasResponsible', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs' 						=> 'employs', # sf ( person )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf' 					=> 'partnerOf', # sf (orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 				=> 'involvedIn', # sf (projet)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 						=> 'manages', # sf (projet)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 				=> 'involvedIn', # sf (projet)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 						=> 'manages', # sf (projet)
 				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#operates' 					=> 'operates', # building
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 					=> 'organizes', # sf (event)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 			=> 'participantOf', # sf (event)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 					=> 'organizes', # sf (event)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 			=> 'participantOf', # sf (event)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 						=> 'offers', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 							=> 'needs', # dbpedia
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 				=> 'brainstorms', # sf (proposition)
@@ -190,6 +190,50 @@ class OrganizationType extends AbstractForm
 						[
 							'placeholder' => 'choisissez un batiment',
 							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
+						]
+					)
+					->add(
+						$builder,
+						'involvedIn',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
+						]
+					)
+					->add(
+						$builder,
+						'manages',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
+						]
+					)
+					->add(
+						$builder,
+						'organizes',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
+						'participantOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
 					)
 					;
