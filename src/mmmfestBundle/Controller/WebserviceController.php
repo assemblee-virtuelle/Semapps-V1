@@ -681,7 +681,7 @@ class WebserviceController extends Controller
 								$propertiesWithUri = [
 									'brainstormedBy',
 									'concretizedBy',
-									'representedBy',
+									#'representedBy',
 									'documentedBy',
 
 								];
