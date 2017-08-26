@@ -26,7 +26,7 @@ class ProposalType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy' 		=> 'brainstormedBy', # sf (person,orga)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (project)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
@@ -84,14 +84,14 @@ class ProposalType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-					->add(
-						$builder,
-						'representedBy',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'representedBy',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'documentedBy',

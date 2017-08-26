@@ -97,26 +97,26 @@
         </template>
         <!-- end of concretizedBy -->
         <!-- representedBy -->
-        <template is="dom-if" if="[[data.representedBy.person.length]]">
-          <h3>representedBy.person</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.representedBy.person}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
-        <template is="dom-if" if="[[data.representedBy.organization.length]]">
-          <h3>representedBy.organization</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.representedBy.organization}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
+        <!--<template is="dom-if" if="[[data.representedBy.person.length]]">-->
+          <!--<h3>representedBy.person</h3>-->
+          <!--<div class="thumbs">-->
+            <!--<template is="dom-repeat" items="{{data.representedBy.person}}">-->
+              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
+                         <!--label="[[item.name]]"></mm-avatar>-->
+            <!--</template>-->
+          <!--</div>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
+        <!--<template is="dom-if" if="[[data.representedBy.organization.length]]">-->
+          <!--<h3>representedBy.organization</h3>-->
+          <!--<div class="thumbs">-->
+            <!--<template is="dom-repeat" items="{{data.representedBy.organization}}">-->
+              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
+                         <!--label="[[item.name]]"></mm-avatar>-->
+            <!--</template>-->
+          <!--</div>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
         <!-- end of representedBy -->
         <!-- documentedby -->
         <template is="dom-if" if="[[data.documentedBy.document.length]]">
