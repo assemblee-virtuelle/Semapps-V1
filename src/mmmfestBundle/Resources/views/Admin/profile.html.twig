@@ -66,7 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.aboutPage) }}
+                                {{ form_row(form.aboutPage, { 'label': 'Site web'}) }}
                             </div>
                         </div>
                         <div class="row">
@@ -79,29 +79,29 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.hasInterest) }}
+                                {{ form_row(form.hasInterest, { 'label': "Vos centres d'intérêts"}) }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.knows) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.affiliatedTo) }}
+                                {{ form_row(form.knows, { 'label': 'Vos amis sue le festival'}) }}
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.offers) }}
+                                {{ form_row(form.affiliatedTo, { 'label': 'Organisation(s)dont vous faites partie'}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.offers, { 'label': 'Ce que vous proposez'}) }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.needs, { 'label': 'a besoin de' }) }}
+                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                                {{ form_row(form.needs, { 'label': 'Ce dont vous avez besoin'  }) }}
                             </div>
                         </div>
 
