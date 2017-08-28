@@ -18,6 +18,7 @@ Polymer({
       this.brainstormedBy = this.data.brainstormedBy;
       this.concretizedBy = this.data.concretizedBy;
       this.representedBy = this.data.representedBy;
+      this.hasInterest = this.data.hasInterest;
       this.image = this.data.properties.image;
   },
 

@@ -129,7 +129,16 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of documentedby -->
-
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>hasInterest</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasInterest}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
       </div>
     </div>
   </template>

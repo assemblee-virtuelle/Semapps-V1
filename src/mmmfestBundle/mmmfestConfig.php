@@ -59,7 +59,7 @@ class mmmfestConfig
 				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliates'
 			],
 			mmmfestConfig::URI_PAIR_PROJECT => [
-					'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy',
+					#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy',
 					'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 	,
 					'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn',
 				'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' => 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'

@@ -150,10 +150,10 @@
         </template>
         <!-- end of hasInterest -->
         <!-- needs -->
-        <template is="dom-if" if="[[needs.length]]">
+        <template is="dom-if" if="[[data.needs.length]]">
           <h3>needs</h3>
           <div class="tags-cloud">
-            <template is="dom-repeat" items="{{needs}}">
+            <template is="dom-repeat" items="{{data.needs}}">
               <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
                 {{item.name}}</a>
             </template>
@@ -161,6 +161,18 @@
           </div>
         </template>
         <!-- end of needs -->
+        <!-- offers -->
+        <template is="dom-if" if="[[data.offers.length]]">
+          <h3>offers</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.offers}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of offers -->
         <!-- documentedby -->
         <template is="dom-if" if="[[data.documentedBy.document.length]]">
           <h3>documentedBy.document</h3>

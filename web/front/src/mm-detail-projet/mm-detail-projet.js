@@ -22,6 +22,7 @@ Polymer({
     this.involves = this.data.involves;
     this.managedBy = this.data.managedBy;
     this.representedBy = this.data.representedBy;
+    this.offers = this.data.offers;
     this.image = this.data.properties.image;
 
   },

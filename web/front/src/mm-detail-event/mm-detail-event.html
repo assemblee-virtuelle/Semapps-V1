@@ -43,6 +43,13 @@
                   </td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[homePage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
+                  </td>
+                </tr>
+              </template>
                 <template is="dom-if" if="[[comment]]">
                   <tr class="field">
                     <td class="fieldLabel">commentaire</td>
