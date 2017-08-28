@@ -29,6 +29,7 @@ class ProposalType extends AbstractForm
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 			=> 'hasInterest', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
 		];
@@ -117,6 +118,17 @@ class ProposalType extends AbstractForm
 						UrlType::class,
 						[
 							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'hasInterest',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
 				;

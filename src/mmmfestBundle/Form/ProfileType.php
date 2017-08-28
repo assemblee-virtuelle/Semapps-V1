@@ -24,6 +24,7 @@ class ProfileType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alias' 					=> 'alias', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 	=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 		=> 'description', # txt
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 			=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 			=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy' 		=> 'localizedBy', # txt ( url )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 				=> 'email', # txt
@@ -69,6 +70,14 @@ class ProfileType extends AbstractForm
                     'required' => false,
                 ]
             )
+					->add(
+						$builder,
+						'homePage',
+						UrlType::class,
+						[
+							'required' => false,
+						]
+					)
 					/*->add(
 						$builder,
 						'localizedBy',

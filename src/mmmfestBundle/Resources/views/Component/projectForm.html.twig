@@ -81,10 +81,14 @@
             </div>
             <div class="row">
                 <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
+                    {{ form_row(form.offers, { 'label': 'Ce dont elle propose' }) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                     {{ form_row(form.needs, { 'label': 'Ce dont elle a besoin' }) }}
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}

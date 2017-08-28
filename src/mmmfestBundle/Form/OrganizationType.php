@@ -27,6 +27,7 @@ class OrganizationType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 				=> 'hasInterest', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 						=> 'email', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 							=> 'phone', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn' 					=> 'hostedIn', # adresse ?
@@ -234,6 +235,17 @@ class OrganizationType extends AbstractForm
 							'lookupUrl' => $options['lookupUrlPerson'],
 							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
+						'hasInterest',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
 					;
