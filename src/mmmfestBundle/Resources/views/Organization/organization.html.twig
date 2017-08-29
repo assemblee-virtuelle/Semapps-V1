@@ -58,7 +58,7 @@
                     <div class="col-xs-12">{{ form_row(form.description) }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.comment) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.comment,, { 'label': 'Description en une phrase'}) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-6">
@@ -78,7 +78,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
-                        {{ form_row(form.hasInterest, { 'label': "Vos centres d'intérêts"}) }}
+                        {{ form_row(form.hasInterest, { 'label': "Centres d'intérêts de l'organization"}) }}
                     </div>
                 </div>
                 <div class="row">
@@ -116,12 +116,12 @@
                     <div class="col-xs-12">{{ form_row(form.offers, { 'label': "Ce qu'elle propose" }) }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'a besoin de' }) }}</div>
+                    <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'Ce dont elle a besoin' }) }}</div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
-                        {{ form_row(form.documentedBy, { 'label': "Document desciptif de l'organisation"}) }}
+                        {{ form_row(form.documentedBy, { 'label': "Document(s) desciptif(s) de l'organisation"}) }}
                     </div>
                 </div>
                 <div class="row">
