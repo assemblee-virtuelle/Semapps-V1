@@ -567,15 +567,6 @@ class WebserviceController extends Controller
 												];
 										}
 								}
-								if (isset($properties['hasInterest'])) {
-										foreach ($properties['hasInterest'] as $uri) {
-												$result = [
-													'uri' => $uri,
-													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
-												];
-												$output['hasInterest'][] = $result;
-										}
-								}
                 break;
             // Person.
 						case  mmmfestConfig::URI_PAIR_PERSON:
@@ -615,15 +606,6 @@ class WebserviceController extends Controller
 												];
 										}
 								}
-								if (isset($properties['hasInterest'])) {
-										foreach ($properties['hasInterest'] as $uri) {
-												$result = [
-													'uri' => $uri,
-													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
-												];
-												$output['hasInterest'][] = $result;
-										}
-								}
                 break;
             // Project.
             case mmmfestConfig::URI_PAIR_PROJECT:
@@ -655,30 +637,12 @@ class WebserviceController extends Controller
 												];
 										}
 								}
-								if (isset($properties['hasInterest'])) {
-										foreach ($properties['hasInterest'] as $uri) {
-												$result = [
-													'uri' => $uri,
-													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
-												];
-												$output['hasInterest'][] = $result;
-										}
-								}
 								$this->getData2($properties,$propertiesWithUri,$output);
                 break;
             // Event.
             case mmmfestConfig::URI_PAIR_EVENT:
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
-								}
-								if (isset($properties['hasInterest'])) {
-										foreach ($properties['hasInterest'] as $uri) {
-												$result = [
-													'uri' => $uri,
-													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
-												];
-												$output['hasInterest'][] = $result;
-										}
 								}
 
 								$propertiesWithUri = [
@@ -702,15 +666,6 @@ class WebserviceController extends Controller
 									'documentedBy',
 
 								];
-								if (isset($properties['hasInterest'])) {
-										foreach ($properties['hasInterest'] as $uri) {
-												$result = [
-													'uri' => $uri,
-													'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
-												];
-												$output['hasInterest'][] = $result;
-										}
-								}
 								$this->getData2($properties,$propertiesWithUri,$output);
                 break;
 						// document
@@ -738,6 +693,23 @@ class WebserviceController extends Controller
 								$this->getData2($properties,$propertiesWithUri,$output);
 								break;
         }
+				if (isset($properties['hasSubject'])) {
+						foreach ($properties['hasSubject'] as $uri) {
+								$output['hasSubject'][] = [
+									'uri'  => $uri,
+									'name' => $sfClient->dbPediaLabel($uri),
+								];
+						}
+				}
+				if (isset($properties['hasInterest'])) {
+						foreach ($properties['hasInterest'] as $uri) {
+								$result = [
+									'uri' => $uri,
+									'name' => $this->sparqlGetLabel($uri,mmmfestConfig::URI_SKOS_THESAURUS)
+								];
+								$output['hasInterest'][] = $result;
+						}
+				}
         $output['properties'] = $properties;
 
         //dump($output);

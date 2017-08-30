@@ -20,6 +20,7 @@ Polymer({
       this.representedBy = this.data.representedBy;
       this.hasInterest = this.data.hasInterest;
       this.image = this.data.properties.image;
+      this.hasSubject = this.data.hasSubject;
   },
 
     onClickThematic(e){

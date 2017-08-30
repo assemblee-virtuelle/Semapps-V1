@@ -19,6 +19,8 @@ Polymer({
         this.hasInterest = this.data.hasInterest;
         this.organizedBy = this.data.organizedBy;
         this.hasParticipant = this.data.properties.hasParticipant;
+        this.hasSubject = this.data.hasSubject;
+
         //this.buildingTitle = gvc.buildings[this.data.properties.building].title;
         if (this.startDate) {
             let startDate = new Date(this.startDate);

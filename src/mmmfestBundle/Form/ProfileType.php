@@ -30,6 +30,7 @@ class ProfileType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 				=> 'email', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 					=> 'phone', # txt
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 		=> 'hasInterest', # dbpedia
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 		=> 'hasSubject', # ?
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows' 					=> 'knows', # sf ( person )
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf' 			=> 'memberOf', # sf ( orga )
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf' 	=> 'responsibleOf', # sf ( orga )
@@ -139,6 +140,14 @@ class ProfileType extends AbstractForm
 					->add(
 						$builder,
 						'needs',
+						DbPediaType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'hasSubject',
 						DbPediaType::class,
 						[
 							'required' => false,

@@ -233,6 +233,16 @@
             <div class="clearfix"></div>
           </div>
         </template>
+        <template is="dom-if" if="[[hasSubject.length]]">
+          <h3>hasSubject</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasSubject}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
       </section>
     </div>
   </template>

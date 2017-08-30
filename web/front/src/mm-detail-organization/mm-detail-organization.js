@@ -27,6 +27,7 @@ Polymer({
     this.brainstorms = this.data.brainstorms;
     this.affiliates = this.data.affiliates;
     this.hasInterest = this.data.hasInterest;
+    this.hasSubject = this.data.hasSubject;
 
   },
 

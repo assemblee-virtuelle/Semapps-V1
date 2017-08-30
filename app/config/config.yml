@@ -62,6 +62,7 @@ parameters:
         image: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image"
         type: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
         hostedIn: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn"
+        hasSubject: "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject"
     fields_access:
         anonymous:
            # All
@@ -114,6 +115,7 @@ parameters:
            - image
            - type
            - hostedIn
+           - hasSubject
         member:
 
         super_admin:
