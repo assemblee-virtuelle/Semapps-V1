@@ -199,9 +199,8 @@ class ComponentController extends Controller
         $uri = $sparql->formatValue($_GET['uri'],$sparql::VALUE_TYPE_URL);
         $sparql->addDelete($uri,'?P','?O','?gr')
             ->addDelete('?s','?PP',$uri,'?gr')
-            ->addWhere($uri,'?P','?O','?gr')
-            ->addWhere('?s','?PP',$uri,'?gr');
-
+            ->addWhere($uri,'?P','?O','?gr');
+            //->addWhere('?s','?PP',$uri,'?gr');
         $sfClient->update($sparql->getQuery());
 
         return $this->redirect('/mon-compte/'.$route[$componentName]);
