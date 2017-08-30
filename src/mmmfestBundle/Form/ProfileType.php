@@ -78,14 +78,6 @@ class ProfileType extends AbstractForm
 							'required' => false,
 						]
 					)
-					/*->add(
-						$builder,
-						'localizedBy',
-						TextType::class,
-						[
-							'required' => false,
-						]
-					)*/
 					->add(
 						$builder,
 						'email',
@@ -124,17 +116,6 @@ class ProfileType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
 						]
 					)
-					/*->add(
-						$builder,
-						'memberOf',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
-						]
-					)*/
 					->add(
 						$builder,
 						'affiliatedTo',
@@ -146,39 +127,7 @@ class ProfileType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
-					/*->add(
-						$builder,
-						'responsibleOf',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'involvedIn',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'manages',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
-						]
-					)*/
+
 					->add(
 						$builder,
 						'offers',
@@ -195,39 +144,6 @@ class ProfileType extends AbstractForm
 							'required' => false,
 						]
 					)
-					/*->add(
-						$builder,
-						'organizes',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'participantOf',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
-						]
-					)*/
-					/*->add(
-						$builder,
-						'brainstorms',
-						UriType::class,
-						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
-						]
-					)*/
 				;
 
         $builder->add(

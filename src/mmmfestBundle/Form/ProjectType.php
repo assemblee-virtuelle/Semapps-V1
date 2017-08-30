@@ -80,17 +80,6 @@ class ProjectType extends AbstractForm
 							'required' => false,
 						]
 					)
-//					->add(
-//						$builder,
-//						'concretizes',
-//						UriType::class,
-//						[
-//							'required'  => false,
-//							'lookupUrl' => $options['lookupUrlPerson'],
-//							'labelUrl'  => $options['lookupUrlLabel'],
-//							'rdfType'   => mmmfestConfig::URI_PAIR_PROPOSAL,
-//						]
-//					)
 					->add(
 						$builder,
 						'managedBy',
@@ -102,14 +91,6 @@ class ProjectType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-//					->add(
-//						$builder,
-//						'representedBy',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
 					->add(
 						$builder,
 						'needs',
@@ -167,14 +148,6 @@ class ProjectType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
-//					->add(
-//						$builder,
-//						'image',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
 					;
 				$builder->add(
 					'componentPicture',

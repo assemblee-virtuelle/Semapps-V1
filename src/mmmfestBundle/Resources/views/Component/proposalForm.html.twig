@@ -24,11 +24,6 @@
                     {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12"  id="componentImage">#}
-                    {#{{ form_row(form.image, { 'attr' : {'class' : 'component-new-picture'} }) }}#}
-                {#</div>#}
-            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.description) }}
@@ -48,21 +43,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.brainstormedBy, { 'label': 'Personnes et/ou organisations à l’origine de la proposition'}) }}
-                </div>
-            </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.representedBy) }}#}
-                {#</div>#}
-            {#</div>#}
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs du projet (Code Social, présentations etc)'}) }}
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-xs-12">
                     {{ form_row(form.hasInterest, { 'label': "Vos centres d'intérêts"}) }}
                 </div>
@@ -70,6 +50,16 @@
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.brainstormedBy, { 'label': 'Personnes et/ou organisations à l’origine de la proposition'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs du projet (Code Social, présentations etc)'}) }}
                 </div>
             </div>
         </div>

@@ -24,11 +24,6 @@
                     {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12"  id="componentImage">#}
-                    {#{{ form_row(form.image, { 'attr' : {'class' : 'component-new-picture'} }) }}#}
-                {#</div>#}
-            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.description) }}
@@ -59,6 +54,16 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
+                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     {{ form_row(form.localizedBy, { 'label': 'Localisation de l’atelier'}) }}
                 </div>
             </div>
@@ -71,16 +76,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.documentedBy) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
                 </div>
             </div>
             <div class="row">

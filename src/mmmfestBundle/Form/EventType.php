@@ -173,14 +173,6 @@ class EventType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-//					->add(
-//						$builder,
-//						'image',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
 				;
 				$builder->add(
 					'componentPicture',

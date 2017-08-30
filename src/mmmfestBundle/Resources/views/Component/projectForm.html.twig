@@ -47,11 +47,17 @@
                     {{ form_row(form.aboutPage, { 'label': 'Autres liens'}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.concretizes) }}#}
-                {#</div>#}
-            {#</div>#}
+
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.managedBy, { 'label': 'Responsable(s) du projet (personnes ou organisations)'}) }}
@@ -62,24 +68,9 @@
                     {{ form_row(form.involves, { 'label': 'Contributeurs (personnes ou organisations) - (Remonter en dessous de responsables du projet)'}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.representedBy) }}#}
-                {#</div>#}
-            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs du projet (Code Social, présentations etc.)'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
                 </div>
             </div>
             <div class="row">

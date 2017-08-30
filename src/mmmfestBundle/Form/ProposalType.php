@@ -86,14 +86,6 @@ class ProposalType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-//					->add(
-//						$builder,
-//						'representedBy',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
 					->add(
 						$builder,
 						'documentedBy',
@@ -113,14 +105,6 @@ class ProposalType extends AbstractForm
 							'required' => false,
 						]
 					)
-//					->add(
-//						$builder,
-//						'image',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
 					->add(
 						$builder,
 						'hasInterest',
