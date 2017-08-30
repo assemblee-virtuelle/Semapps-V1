@@ -7,9 +7,12 @@
 {% block formContent %}
     {{ parent() }}
     <div class="row">
-        <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2">
-            <a href="#" id="componentPicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Pour mettre une image, veuillez coller le lien dans le champ image ci-dessous !">
-                <img id="componentPicture" src="{{ (image != "" ? image : asset('common/images/no_avatar.jpg') )}}"/>
+        <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
+            <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                <img id="componentPicture" src="{{ (image is not null ? image : asset('common/images/no_avatar.jpg') )}}"/>
+                <span id="profileEditPictureField">
+                       {{ form_widget(form.componentPicture) }}
+                </span>
             </a>
         </div>
         <div class="col-sm-6">
@@ -21,11 +24,11 @@
                     {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12"  id="componentImage">
-                    {{ form_row(form.image, { 'attr' : {'class' : 'component-new-picture'} }) }}
-                </div>
-            </div>
+            {#<div class="row">#}
+                {#<div class="col-sm-12"  id="componentImage">#}
+                    {#{{ form_row(form.image, { 'attr' : {'class' : 'component-new-picture'} }) }}#}
+                {#</div>#}
+            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.description) }}

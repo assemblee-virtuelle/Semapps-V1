@@ -5,6 +5,7 @@ namespace mmmfestBundle\Form;
 use mmmfestBundle\mmmfestConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -112,14 +113,14 @@ class ProposalType extends AbstractForm
 							'required' => false,
 						]
 					)
-					->add(
-						$builder,
-						'image',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'image',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'hasInterest',
@@ -132,7 +133,14 @@ class ProposalType extends AbstractForm
 						]
 					)
 				;
-
+				$builder->add(
+					'componentPicture',
+					FileType::class,
+					[
+						'data_class' => null,
+						'required'   => false,
+					]
+				);
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }
 }

@@ -6,6 +6,7 @@ use mmmfestBundle\mmmfestConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -166,15 +167,23 @@ class ProjectType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
-					->add(
-						$builder,
-						'image',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'image',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					;
+				$builder->add(
+					'componentPicture',
+					FileType::class,
+					[
+						'data_class' => null,
+						'required'   => false,
+					]
+				);
 
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }

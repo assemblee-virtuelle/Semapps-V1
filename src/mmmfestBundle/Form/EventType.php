@@ -7,6 +7,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -172,16 +173,23 @@ class EventType extends AbstractForm
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-					->add(
-						$builder,
-						'image',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'image',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 				;
-
+				$builder->add(
+					'componentPicture',
+					FileType::class,
+					[
+						'data_class' => null,
+						'required'   => false,
+					]
+				);
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }
 }
