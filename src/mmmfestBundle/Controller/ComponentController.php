@@ -128,44 +128,45 @@ class ComponentController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 						// Manage picture.
-						$newPicture = $form->get('componentPicture')->getData();
-						if ($newPicture) {
+						if($form->has('componentPicture')){
+								$newPicture = $form->get('componentPicture')->getData();
+								if ($newPicture) {
 
-								if ($actualImageName) {
-										// Check if file exists to avoid all errors.
-										if (is_file($pictureDir . '/' . $actualImageName)) {
-												$fileUploader->remove($actualImageName);
+										if ($actualImageName) {
+												// Check if file exists to avoid all errors.
+												if (is_file($pictureDir . '/' . $actualImageName)) {
+														$fileUploader->remove($actualImageName);
+												}
 										}
+										$newPictureName = $fileUploader->upload($newPicture);
+
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+											->addDelete(
+												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												'default:image',
+												'?o',
+												$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL))
+											->addWhere(
+												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												'default:image',
+												'?o',
+												$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL));
+										$sfClient->update($sparql->getQuery());
+
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+											->addInsert(
+												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												'default:image',
+												$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
+												$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL));
+										$sfClient->update($sparql->getQuery());
+										$actualImageName = $newPictureName;
 								}
-								$newPictureName = $fileUploader->upload($newPicture);
-
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-									->addDelete(
-										$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-										'default:image',
-										'?o',
-										$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL))
-									->addWhere(
-										$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-										'default:image',
-										'?o',
-										$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-									->addInsert(
-										$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-										'default:image',
-										$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
-										$sparql->formatValue($organisation->getGraphURI(), $sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-								$actualImageName = $newPictureName;
 						}
-
 						$this->addFlash('info', 'Le contenu à bien été mis à jour.');
             return $this->redirectToRoute(
               strtolower($request->get('component')).'List'
@@ -186,6 +187,8 @@ class ComponentController extends Controller
           'project' => 'projet',
           'event' => 'evenement',
           'proposal' => 'proposal',
+					'document' => 'document',
+					'documenttype' => 'documentType'
           ];
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
