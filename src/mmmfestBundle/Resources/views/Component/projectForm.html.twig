@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
             <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                <img id="componentPicture" src="{{ (image is not null ? image : asset('common/images/no_avatar.jpg') )}}"/>
+                <img src="{{ asset(image == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~image) | imagine_filter('profile') }}"/>
                 <span id="profileEditPictureField">
                        {{ form_widget(form.componentPicture) }}
                 </span>
