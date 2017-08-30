@@ -10,10 +10,15 @@
         <div class="col-sm-8">
             <div class="row">
                 <div class="col-sm-6">
-                    {{ form_row(form.preferedLabel) }}
+                    {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
                 </div>
                 <div class="col-sm-6">
                     {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
                 </div>
             </div>
             <div class="row">
@@ -23,12 +28,12 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.comment) }}
+                    {{ form_row(form.hasType, { 'label': 'Type de document'}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    {{ form_row(form.homePage) }}
+                    {{ form_row(form.homePage, { 'label': 'Lien vers le document'}) }}
                 </div>
                 <div class="col-sm-6">
                     {{ form_row(form.aboutPage) }}
@@ -44,11 +49,7 @@
                     {{ form_row(form.documents) }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.hasType) }}
-                </div>
-            </div>
+
         </div>
         <div class="col col-sm-4">
             {% embed "alertBobby.html.twig" %}

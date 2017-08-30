@@ -27,7 +27,7 @@ class EventType extends AbstractForm
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#startDate' 					=> 'startDate', # date
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#endDate' 						=> 'endDate', # date
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy' 				=> 'localizedBy', # sf ou building
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
+			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage'					=> 'aboutPage', # url
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
@@ -89,14 +89,14 @@ class EventType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
 						]
 					)
-					->add(
-						$builder,
-						'representedBy',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'representedBy',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'aboutPage',

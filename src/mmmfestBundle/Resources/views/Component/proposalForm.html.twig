@@ -21,7 +21,12 @@
                     {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
                 </div>
                 <div class="col-sm-6">
-                    {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
+                    {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
                 </div>
             </div>
             <div class="row">
@@ -30,36 +35,32 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.comment) }}
+                <div class="col-sm-6">
+                    {{ form_row(form.homePage) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.aboutPage) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
-                    {{ form_row(form.homePage, { 'label': 'Site web'}) }}
-                </div>
-                <div class="col-sm-6">
-                    {{ form_row(form.aboutPage, { 'label': 'Autres liens'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.brainstormedBy, { 'label': 'Auteurs & soutiens de la proposition (Personnes ou organisations)'}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    {{ form_row(form.hasInterest, { 'label': "Vos centres d'intérêts"}) }}
+                    {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
+                    {{ form_row(form.hasSubject) }}
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.brainstormedBy, { 'label': 'Personnes et/ou organisations à l’origine de la proposition'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs du projet (Code Social, présentations etc)'}) }}
+                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs'}) }}
                 </div>
             </div>
         </div>

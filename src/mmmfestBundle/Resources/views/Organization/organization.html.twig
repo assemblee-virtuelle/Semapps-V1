@@ -46,7 +46,7 @@
                         {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.alternativeLabel, { 'label': 'Autre nom'}) }}
+                        {{ form_row(form.alternativeLabel) }}
                     </div>
                 </div>
                 <div class="row">
@@ -55,17 +55,17 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.description) }}</div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12">{{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}</div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.description) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-xs-6">
-                        {{ form_row(form.homePage, { 'label': 'Site web'}) }}
+                        {{ form_row(form.homePage) }}
                     </div>
                     <div class="col-xs-6">
-                        {{ form_row(form.aboutPage, { 'label': 'Autres liens'}) }}
+                        {{ form_row(form.aboutPage) }}
                     </div>
                 </div>
                 <div class="row">
@@ -77,28 +77,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.hasInterest, { 'label': "Centres d'intérêts de l'organization"}) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{ form_row(form.hasSubject, { 'label': 'Mots-clés'}) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.hasMember, { 'label': 'Ses membres'}) }}</div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12">{{ form_row(form.hasResponsible, { 'label': 'Ses responsables'}) }}</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">{{ form_row(form.employs, { 'label': 'Ses employés'}) }}</div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-12">{{ form_row(form.hasMember, { 'label': 'Ses membres'}) }}</div>
+                </div>
+                <div class="row">
                     <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
                 </div>
-
+                <div class="row">
+                    <div class="col-xs-12">
+                        {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ form_row(form.hasSubject) }}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
                 </div>
