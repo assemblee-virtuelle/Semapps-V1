@@ -35,21 +35,21 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     {{ form_row(form.homePage) }}
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     {{ form_row(form.aboutPage) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
-                    {{ form_row(form.startDate, { 'label': 'Date de début'}) }}
+                <div class="col-sm-12">
+                    {{ form_row(form.startDate, { 'label': 'Date/heure de début'}) }}
                 </div>
-                <div class="col-sm-6">
-                    {{ form_row(form.endDate) }}
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.endDate, { 'label': 'Date/heure de fin'}) }}
                 </div>
             </div>
             <div class="row">

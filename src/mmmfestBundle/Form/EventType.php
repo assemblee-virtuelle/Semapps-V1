@@ -59,22 +59,27 @@ class EventType extends AbstractForm
 					->add(
 						$builder,
 						'startDate',
-						DateType::class,
+						DateTimeType::class,
 						[
 							'required' => false,
-							'widget'   => 'choice',
-							'format' => 'dd/MM/yyyy',
+
+							'placeholder' => array(
+								'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+								'hour' => 'Heure', 'minute' => 'Minute', 'second' => 'Seconde',
+							),
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
 					->add(
 						$builder,
 						'endDate',
-						DateType::class,
+						DateTimeType::class,
 						[
 							'required' => false,
-							'widget'   => 'choice',
-							'format' => 'dd/MM/yyyy',
+							'placeholder' => array(
+								'year' => 'Year', 'month' => 'Month', 'day' => 'Day',
+								'hour' => 'Hour', 'minute' => 'Minute', 'second' => 'Second',
+							),
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
@@ -89,14 +94,7 @@ class EventType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
 						]
 					)
-//					->add(
-//						$builder,
-//						'representedBy',
-//						UrlType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
+
 					->add(
 						$builder,
 						'aboutPage',
