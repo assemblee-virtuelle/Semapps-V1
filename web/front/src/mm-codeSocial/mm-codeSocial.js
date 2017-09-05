@@ -22,4 +22,8 @@ Polymer({
             // Request server.
         }
     },
+    handleAccountClick(e) {
+        "use strict";
+        gvc.realLink(e);
+    },
 });
