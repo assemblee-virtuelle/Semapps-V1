@@ -18,21 +18,14 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[alternativeLabel]]">
                 <tr class="field">
-                  <td class="fieldLabel">surnom</td>
+                  <td class="fieldLabel">Autre nom</td>
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[comment]]">
                 <tr class="field">
-                  <td class="fieldLabel">commentaire</td>
+                  <td class="fieldLabel">Commentaire</td>
                   <td>[[comment]]</td>
-                </tr>
-              </template>
-              <template is="dom-if" if="[[aboutPage]]">
-                <tr class="field">
-                  <td class="fieldLabel">Site web</td>
-                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
-                  </td>
                 </tr>
               </template>
               <template is="dom-if" if="[[homePage]]">
@@ -42,6 +35,14 @@
                   </td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre site</td>
+                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
+                  </td>
+                </tr>
+              </template>
+
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -56,7 +57,7 @@
       <div class="col col-sm-4 side-blocks">
         <!-- documents -->
         <template is="dom-if" if="[[data.documents.organization.length]]">
-          <h3>documents.organization</h3>
+          <h3>Sujet du document ( organisation )</h3>
           
             <template is="dom-repeat" items="{{data.documents.organization}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -67,7 +68,7 @@
 
         </template>
         <template is="dom-if" if="[[data.documents.projet.length]]">
-          <h3>documents.projet</h3>
+          <h3>Sujet du document ( projet )</h3>
           
             <template is="dom-repeat" items="{{data.documents.projet}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -78,7 +79,7 @@
 
         </template>
         <template is="dom-if" if="[[data.documents.event.length]]">
-          <h3>documents.event</h3>
+          <h3>Sujet du document ( événement )</h3>
           
             <template is="dom-repeat" items="{{data.documents.event}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -88,7 +89,7 @@
             <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.documents.proposition.length]]">
-          <h3>documents.proposition</h3>
+          <h3>Sujet du document ( proposition )</h3>
           
             <template is="dom-repeat" items="{{data.documents.proposition}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -101,7 +102,7 @@
         <!-- end of documents -->
         <!-- references -->
         <template is="dom-if" if="[[data.references.document.length]]">
-          <h3>references.document</h3>
+          <h3>Lien bibliographique</h3>
           
             <template is="dom-repeat" items="{{data.references.document}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -114,7 +115,7 @@
         <!-- end of references -->
         <!-- referencesBy -->
         <template is="dom-if" if="[[data.referencesBy.document.length]]">
-          <h3>referencesBy.document</h3>
+          <h3>Document(s) citant ce document</h3>
           
             <template is="dom-repeat" items="{{data.referencesBy.document}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -127,7 +128,7 @@
         <!-- end of referencesBy -->
         <!-- hasType -->
         <template is="dom-if" if="[[data.hasType.documenttype.length]]">
-          <h3>hasType.documenttype</h3>
+          <h3>Type</h3>
           
             <template is="dom-repeat" items="{{data.hasType.documenttype}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
