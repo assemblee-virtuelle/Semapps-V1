@@ -18,28 +18,29 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[alternativeLabel]]">
                 <tr class="field">
-                  <td class="fieldLabel">alternativeLabel</td>
+                  <td class="fieldLabel">Autre nom</td>
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[comment]]">
                 <tr class="field">
-                  <td class="fieldLabel">comment</td>
+                  <td class="fieldLabel">Description courte</td>
                   <td>[[comment]]</td>
-                </tr>
-              </template>
-              <template is="dom-if" if="[[aboutPage]]">
-                <tr class="field">
-                  <td class="fieldLabel">aboutPage</td>
-                  <td>[[aboutPage]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[homePage]]">
                 <tr class="field">
-                  <td class="fieldLabel">homePage</td>
+                  <td class="fieldLabel">Site web</td>
                   <td>[[homePage]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre site</td>
+                  <td>[[aboutPage]]</td>
+                </tr>
+              </template>
+
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -54,7 +55,7 @@
       <div class="col col-sm-4 side-blocks">
         <!-- brainstormedBy -->
         <template is="dom-if" if="[[data.brainstormedBy.person.length]]">
-          <h3>brainstormedBy.person</h3>
+          <h3>imaginé par ( personne )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.brainstormedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -64,7 +65,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.brainstormedBy.organization.length]]">
-          <h3>brainstormedBy.organization</h3>
+          <h3>imaginé par ( organisation )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.brainstormedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -76,7 +77,7 @@
         <!-- end of brainstormedBy -->
         <!-- concretizedBy -->
         <template is="dom-if" if="[[data.concretizedBy.person.length]]">
-          <h3>concretizedBy.person</h3>
+          <h3>concrétisé par ( personne )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.concretizedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -86,7 +87,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.concretizedBy.organization.length]]">
-          <h3>concretizedBy.organization</h3>
+          <h3>concrétisé par ( organisation )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.concretizedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -96,31 +97,9 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of concretizedBy -->
-        <!-- representedBy -->
-        <!--<template is="dom-if" if="[[data.representedBy.person.length]]">-->
-          <!--<h3>representedBy.person</h3>-->
-          <!--<div class="thumbs">-->
-            <!--<template is="dom-repeat" items="{{data.representedBy.person}}">-->
-              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
-                         <!--label="[[item.name]]"></mm-avatar>-->
-            <!--</template>-->
-          <!--</div>-->
-          <!--<div class="clearfix"></div>-->
-        <!--</template>-->
-        <!--<template is="dom-if" if="[[data.representedBy.organization.length]]">-->
-          <!--<h3>representedBy.organization</h3>-->
-          <!--<div class="thumbs">-->
-            <!--<template is="dom-repeat" items="{{data.representedBy.organization}}">-->
-              <!--<mm-avatar image="[[item.image]]" uri="[[item.uri]]"-->
-                         <!--label="[[item.name]]"></mm-avatar>-->
-            <!--</template>-->
-          <!--</div>-->
-          <!--<div class="clearfix"></div>-->
-        <!--</template>-->
-        <!-- end of representedBy -->
         <!-- documentedby -->
         <template is="dom-if" if="[[data.documentedBy.document.length]]">
-          <h3>documentedBy.document</h3>
+          <h3>Document(s) descriptif(s)</h3>
           <template is="dom-repeat" items="{{data.documentedBy.document}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -130,7 +109,7 @@
         </template>
         <!-- end of documentedby -->
         <template is="dom-if" if="[[hasInterest.length]]">
-          <h3>hasInterest</h3>
+          <h3>Centres d'intérêts</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{hasInterest}}">
               <a href="{{ item.uri }}" target="_blank">
@@ -140,7 +119,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[hasSubject.length]]">
-          <h3>hasSubject</h3>
+          <h3>Mots-clés</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{hasSubject}}">
               <a href="{{ item.uri }}" target="_blank">
