@@ -184,15 +184,15 @@ class OrganizationType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
 						]
 					)
-					->add(
-						$builder,
-						'hostedIn',
-						ChoiceType::class,
-						[
-							'placeholder' => 'choisissez un batiment',
-							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
-						]
-					)
+//					->add(
+//						$builder,
+//						'hostedIn',
+//						ChoiceType::class,
+//						[
+//							'placeholder' => 'choisissez un batiment',
+//							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
+//						]
+//					)
 					->add(
 						$builder,
 						'involvedIn',
