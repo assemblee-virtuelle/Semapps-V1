@@ -221,7 +221,7 @@ class WebserviceController extends Controller
                 ->addWhere('?uri','default:preferedLabel','?title','?GR')
                 ->addOptional('?uri','default:image','?image','?GR')
                 ->addOptional('?uri','default:comment','?desc','?GR')
-                //->addOptional('?uri','default:building','?building','?GR')
+                ->addOptional('?uri','default:localizedBy','?building','?GR')
                 ->addOptional('?uri','default:startDate','?start','?GR')
                 ->addOptional('?uri','default:endDate','?end','?GR');
             if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
@@ -651,6 +651,10 @@ class WebserviceController extends Controller
 									'documentedBy',
 
 								];
+								if (isset($properties['localizedBy'])) {
+										$properties['building'] = current($properties['localizedBy']);
+										$properties['localizedBy'] = mmmfestConfig::$buildings[current($properties['localizedBy'])]['title'];
+								}
 								$this->getData2($properties,$propertiesWithUri,$output);
                 break;
             // Proposition.

@@ -83,18 +83,26 @@ class EventType extends AbstractForm
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
+//					->add(
+//						$builder,
+//						'localizedBy',
+//						UriType::class,
+//						[
+//							'required'  => false,
+//							'lookupUrl' => $options['lookupUrlPerson'],
+//							'labelUrl'  => $options['lookupUrlLabel'],
+//							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
+//						]
+//					)
 					->add(
 						$builder,
 						'localizedBy',
-						UriType::class,
+						ChoiceType::class,
 						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
-							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
+							'placeholder' => 'choisissez un batiment',
+							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
 						]
 					)
-
 					->add(
 						$builder,
 						'aboutPage',
