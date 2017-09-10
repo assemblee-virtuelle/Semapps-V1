@@ -187,10 +187,9 @@ class OrganizationType extends AbstractForm
 //					->add(
 //						$builder,
 //						'hostedIn',
-//						ChoiceType::class,
+//						TextType::class,
 //						[
-//							'placeholder' => 'choisissez un batiment',
-//							'choices' => array_flip(mmmfestConfig::$buildingsSimple),
+//							'required' => false,
 //						]
 //					)
 					->add(

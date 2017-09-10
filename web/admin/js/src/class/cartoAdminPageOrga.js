@@ -21,5 +21,27 @@ class CartoAdminPageOrga extends CartoAdminPage {
         // Send form will reload the page.
         $form.submit();
     });
+      $('.lookupAdressse input').autocomplete({
+          source : function(requete, reponse){ // les deux arguments représentent les données nécessaires au plugin
+
+              $.ajax({
+
+                  url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
+                  data: 'q=' + $('.lookupAdressse input').val(),
+
+                  //dataType : 'json', // on spécifie bien que le type de données est en JSON
+
+                  success : function(donnee){
+                      reponse($.map(donnee.features, function(objet){
+                          log(objet.properties.label)
+                          return objet.properties.label; // on retourne cette forme de suggestion
+
+                      }));
+
+                  },
+              });
+
+          }
+      });
   }
 }
