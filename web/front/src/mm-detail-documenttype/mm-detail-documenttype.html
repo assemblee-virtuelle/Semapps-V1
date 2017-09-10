@@ -18,21 +18,14 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[alternativeLabel]]">
                 <tr class="field">
-                  <td class="fieldLabel">surnom</td>
+                  <td class="fieldLabel">Autre nom</td>
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[comment]]">
                 <tr class="field">
-                  <td class="fieldLabel">commentaire</td>
+                  <td class="fieldLabel">Commentaire</td>
                   <td>[[comment]]</td>
-                </tr>
-              </template>
-              <template is="dom-if" if="[[aboutPage]]">
-                <tr class="field">
-                  <td class="fieldLabel">Site web</td>
-                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
-                  </td>
                 </tr>
               </template>
               <template is="dom-if" if="[[homePage]]">
@@ -42,6 +35,14 @@
                   </td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre site</td>
+                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
+                  </td>
+                </tr>
+              </template>
+
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -56,7 +57,7 @@
       <div class="col col-sm-4 side-blocks">
         <!-- typeOf -->
         <template is="dom-if" if="[[typeOf.length]]">
-          <h3>typeOf</h3>
+          <h3>type de</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{typeOf}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
