@@ -35,12 +35,12 @@ class ProfileType extends AbstractForm
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf' 			=> 'memberOf', # sf ( orga )
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf' 	=> 'responsibleOf', # sf ( orga )
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo' 	=> 'affiliatedTo', # sf (orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 		=> 'involvedIn', # sf (projet)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 		=> 'involvedIn', # sf (projet)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 				=> 'manages', # sf (projet)
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 				=> 'offers', # dbpedia
 			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 					=> 'needs', # dbpedia
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 			=> 'organizes', # sf (event)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 	=> 'participantOf', # sf (event)
+			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 	=> 'participantOf', # sf (event)
 			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 		=> 'brainstorms', # sf (proposition)
 			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                           => 'type',
 		];
@@ -128,7 +128,28 @@ class ProfileType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
-
+					->add(
+						$builder,
+						'participantOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
+						'involvedIn',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
+						]
+					)
 					->add(
 						$builder,
 						'offers',

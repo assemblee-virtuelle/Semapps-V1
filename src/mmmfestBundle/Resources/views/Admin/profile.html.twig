@@ -88,19 +88,29 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                            <div class="col-sm-12">
+                                {{ form_row(form.involvedIn) }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                {{ form_row(form.hasSubject) }}
+                                {{ form_row(form.participantOf) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.affiliatedTo) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.affiliatedTo) }}
+                            <div class="col-sm-12">
+                                {{ form_row(form.hasSubject) }}
                             </div>
                         </div>
 
