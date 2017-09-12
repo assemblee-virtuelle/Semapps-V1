@@ -783,7 +783,6 @@ class AdminController extends Controller
 				$foodRecap = [];
 				foreach ($users as $user){
 						$userFood = json_decode($user->getRepas(),true);
-						dump($userFood);
 						if(!empty($userFood) ){
 								foreach ($userFood as $key => $dayFood){
 										if(!array_key_exists($key-1,$foodRecap)){
