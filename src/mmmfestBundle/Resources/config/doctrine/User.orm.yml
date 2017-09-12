@@ -20,4 +20,6 @@ mmmfestBundle\Entity\User:
         pictureName:
             type: text
             nullable: true
+        repas:
+            type: text
     lifecycleCallbacks: {  }

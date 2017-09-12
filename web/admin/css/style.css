@@ -332,3 +332,82 @@ input.form-control {
 
 .select2-tags .tags-value {
   display: none; }
+
+#register-form {
+  display: block;
+  width: 100%;
+  overflow: hidden; }
+  #register-form .content {
+    display: block;
+    min-height: 28em;
+    overflow: hidden;
+    position: relative;
+    width: inherit; }
+    #register-form .content .body {
+      float: left;
+      position: absolute;
+      width: 95%;
+      height: 95%;
+      padding: 2.5%; }
+      #register-form .content .body iframe {
+        border: 0 none;
+        width: 100%;
+        height: 100%; }
+    #register-form .content .body ul {
+      list-style: disc !important; }
+      #register-form .content .body ul li {
+        display: list-item; }
+    #register-form .content .body input {
+      display: block; }
+    #register-form .content .body input[type="radio"] {
+      display: inline;
+      margin-left: 1em;
+      margin-right: 1em; }
+    #register-form .content .body input.error {
+      background: #fbe3e4;
+      border: 1px solid #fbc2c4;
+      color: #8a1f11; }
+    #register-form .content .body label {
+      display: inline-block; }
+    #register-form .content .body label.error {
+      color: #8a1f11;
+      display: inline-block; }
+  #register-form a {
+    outline: 0; }
+  #register-form ul {
+    list-style: none !important;
+    padding: 0;
+    margin: 0; }
+  #register-form ul > li {
+    display: block;
+    padding: 0; }
+  #register-form .actions {
+    position: relative;
+    display: block;
+    text-align: right;
+    width: 100%; }
+    #register-form .actions ul {
+      display: inline-block;
+      text-align: right; }
+      #register-form .actions ul li {
+        float: left; }
+  #register-form h3 {
+    display: none; }
+
+#register-form > .actions a,
+#register-form > .actions a:hover,
+#register-form > .actions a:active {
+  background: #2184be;
+  color: #fff;
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+
+#register-form > .actions .disabled a,
+#register-form > .actions .disabled a:hover,
+#register-form > .actions .disabled a:active {
+  background: #eee;
+  color: #aaa; }

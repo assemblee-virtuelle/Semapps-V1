@@ -26,6 +26,15 @@ class AdminController extends Controller
 
     public function registerAction(Request $request)
     {
+    		$title = [
+    			'lundi 4 octobre',
+    			'mardi 5 octobre',
+    			'mercredi 6 octobre',
+    			'jeudi 7 octobre',
+    			'vendredi 8 octobre',
+    			'samedi 9 octobre',
+    			'dimanche 10 octobre',
+				];
         /** @var \mmmfestBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('mmmfestBundle.encryption');
         $userRepository = $this
@@ -80,6 +89,15 @@ class AdminController extends Controller
             $data->addRole('ROLE_MEMBER');
 
             $data->setFkOrganisation($form->get('organisation')->getData());
+
+            // Save the different diner
+						$week =[];
+						for ($i = 1; $i <= 7; $i++ ){
+								$week[$i][0] = $form->get("matin".$i)->getData();
+								$week[$i][1] = $form->get("midi".$i)->getData();
+								$week[$i][2] = $form->get("soir".$i)->getData();
+						}
+						$data->setRepas(json_encode($week));
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
@@ -112,6 +130,7 @@ class AdminController extends Controller
           'mmmfestBundle:Admin:register.html.twig',
           array(
             'form'      => $form->createView(),
+						'title' 	=> $title
           )
         );
     }
@@ -745,4 +764,42 @@ class AdminController extends Controller
 
         );
     }
+
+		public function foodRecapAction(){
+				$title = [
+					'lundi 4 octobre',
+					'mardi 5 octobre',
+					'mercredi 6 octobre',
+					'jeudi 7 octobre',
+					'vendredi 8 octobre',
+					'samedi 9 octobre',
+					'dimanche 10 octobre',
+				];
+				$userRepository = $this
+					->getDoctrine()
+					->getManager()
+					->getRepository('mmmfestBundle:User');
+				$users = $userRepository->findAll();
+				$foodRecap = [];
+				foreach ($users as $user){
+						$userFood = json_decode($user->getRepas(),true);
+						dump($userFood);
+						if(!empty($userFood) ){
+								foreach ($userFood as $key => $dayFood){
+										if(!array_key_exists($key-1,$foodRecap)){
+												$foodRecap[$key-1][0] = 0;
+												$foodRecap[$key-1][1] = 0;
+												$foodRecap[$key-1][2] = 0;
+										}
+										$foodRecap[$key-1][0] = $foodRecap[$key-1][0] += (int)$dayFood[0] ;
+										$foodRecap[$key-1][1] += (int)$dayFood[1];
+										$foodRecap[$key-1][2] += (int)$dayFood[2];
+								}
+						}
+				}
+				return $this->render(
+					'mmmfestBundle:Admin:foodRecap.html.twig',
+					["foodRecap" => $foodRecap,"title"=>$title]
+				);
+		}
 }

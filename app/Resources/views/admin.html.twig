@@ -8,6 +8,8 @@
           href="{{ asset('admin/css/menu.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/select2/dist/css/select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery-ui/themes/base/jquery-ui.min.css') }}">
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('bower_components/jquery.steps/demo/css/jquery.steps.css') }}">#}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -15,6 +17,7 @@
     <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('admin/js/dist/script.min.js') }}"></script>
     <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('bower_components/jquery.steps/build/jquery.steps.min.js') }}"></script>
 {% endblock %}
 
 {% macro menuItem(title, route, icon,tooltip = 'hello !', menuSelected, role, pathOptions = {}) %}
@@ -115,6 +118,7 @@
                                     {{ admin.menuItem('Proposition', 'proposalList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Document', 'documentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER') }}
                                     {{ admin.menuItem('Type de document', 'documenttypeList', 'pushpin','référencer des types documents', menuSelected, 'SUPER_ADMIN') }}
+                                    {{ admin.menuItem('Repas','food','grain','gérer les repas', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}

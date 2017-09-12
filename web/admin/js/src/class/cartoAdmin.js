@@ -20,6 +20,18 @@ class CartoAdmin {
     this.$modalConfirm = $('#modalConfirm');
     this.$modalConfirmBody = this.$modalConfirm.find('.modal-body:first');
     this.$modalConfirmValidate = this.$modalConfirm.find('.btn-primary:first');
+    // For register
+    $("#register-form").steps({
+        headerTag: "h3",
+        bodyTag: "section",
+        transitionEffect: "slideLeft",
+        enableFinishButton: false,
+        labels: {
+            next: "Suivant",
+            previous: "Précédent",
+        }
+    });
+    $('.steps ul[role="tablist"]').hide();
 
     // Change image field.
     $('form').each((index, form) => {

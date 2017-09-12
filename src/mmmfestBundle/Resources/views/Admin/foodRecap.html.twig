@@ -1,0 +1,33 @@
+{% extends '::admin.html.twig' %}
+
+{% block pageContentTitle %}
+Récapitulatif des repas
+{% endblock %}
+
+{% set menuSelected = 'food' %}
+
+{% block pageContent %}
+<div class="row">
+    <div class="col-sm-12">
+        <table  class="table table-bordered">
+            <tr>
+                <th></th>
+                <th>matin</th>
+                <th>midi</th>
+                <th>soir</th>
+            </tr>
+
+            {% for i in 0..6 %}
+                <tr>
+                <th>{{ title[i] }}</th>
+                <td>{{ foodRecap[i][0] }}</td>
+                <td>{{ foodRecap[i][1] }}</td>
+                <td>{{ foodRecap[i][2] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -41,4 +41,5 @@ security:
         - { path: ^/component/new, role: ROLE_MEMBER }
         - { path: ^/user/send/, role: ROLE_ADMIN }
         - { path: ^/user, role: ROLE_SUPER_ADMIN }
+        - { path: ^/mon-compte/food, role: ROLE_SUPER_ADMIN }
 

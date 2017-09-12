@@ -26,6 +26,8 @@ class User extends BaseUser
 
     private $pictureName;
 
+    private $repas;
+
     /**
      * Get id
      *
@@ -130,5 +132,29 @@ class User extends BaseUser
     public function getPictureName()
     {
         return $this->pictureName;
+    }
+
+    /**
+     * Set repas
+     *
+     * @param string $repas
+     *
+     * @return User
+     */
+    public function setRepas($repas)
+    {
+        $this->repas = $repas;
+
+        return $this;
+    }
+
+    /**
+     * Get repas
+     *
+     * @return string
+     */
+    public function getRepas()
+    {
+        return $this->repas;
     }
 }

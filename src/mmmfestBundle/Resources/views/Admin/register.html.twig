@@ -1,41 +1,85 @@
 {% extends "@FOSUser/layout.html.twig" %}
 {% block fos_user_content %}
     {{ form_start(form) }}
-    <div class="row">
-        <div class="col-xs-6 ">
-            {{ form_row(form.username, {'attr' : {'class' : 'form-control'}}) }}
-        </div>
-        <div class="col-xs-6 ">
-            {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6 ">
-            {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
-        </div>
-        <div class="col-xs-6 ">
-            {{ form_row(form.confPassword, {'attr' : {'class' : 'form-control'}}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12  form-group">
-            {{ form_row(form.organisation, {'attr' : {'class' : 'form-control'}}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12  form-group">
-            {{ form_row(form.codeSocial, {'label':'En cochant cette case, je reconnais avoir lu et validé le code social du MMM Fest'}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12  form-group">
-            {{ form_row(form.membreAv, {'label':'En cochant cette case, j’adhère en tant que membre bienfaiteur à l’association Assemblée Virtuelle'}) }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 ">
-            {{ form_row(form.submit, {'attr' : {'class' : ' form-control btn btn-primary-lgv pull-right'}}) }}
-        </div>
+    <div id="register-form" style="background-color: white">
+        <h3>Keyboard</h3>
+        <section>
+            <div class="row">
+                <div class="col-xs-12 ">
+                    <h2>Information de connextion</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 ">
+                    {{ form_row(form.username, {'attr' : {'class' : 'form-control'}}) }}
+                </div>
+                <div class="col-xs-6 ">
+                    {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6 ">
+                    {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
+                </div>
+                <div class="col-xs-6 ">
+                    {{ form_row(form.confPassword, {'attr' : {'class' : 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12  form-group">
+                    {{ form_row(form.organisation, {'attr' : {'class' : 'form-control'}}) }}
+                </div>
+            </div>
+        </section>
+        {% for i in 1..7 %}
+        <h3>Keyboard</h3>
+        <section>
+
+            <div class="row">
+                <div class="col-xs-12 ">
+                    <h2>Concernant les repas du {{ title[i-1] }} </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12  ">
+                    {{ form_row(form["matin"~i], {'label':'Miamerez vous au petit déjeuner ?'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12  ">
+                    {{ form_row(form["midi"~i], {'label':'Miamerez vous au  déjeuner ?'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 ">
+                    {{ form_row(form["soir"~i], {'label':'Miamerez vous au diner ?'}) }}
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+        <h3>Keyboard</h3>
+        <section>
+            <div class="row">
+                <div class="col-xs-12 ">
+                    <h2>Résumé avant inscription</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12  form-group">
+                    {{ form_row(form.codeSocial, {'label':'En cochant cette case, je reconnais avoir lu et validé le code social du MMM Fest'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12  form-group">
+                    {{ form_row(form.membreAv, {'label':'En cochant cette case, j’adhère en tant que membre bienfaiteur à l’association Assemblée Virtuelle'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 ">
+                    {{ form_row(form.submit, {'attr' : {'class' : ' form-control btn btn-primary-lgv pull-right'}}) }}
+                </div>
+            </div>
+        </section>
     </div>
     {{ form_end(form) }}
     <br/>
@@ -52,7 +96,7 @@
                 {% endblock %}
                 {% block content %}
                     <p>Je m’appelle Bobby, et je te souhaite la bienvenue au MMM Fest !
-                        </p>
+                    </p>
 
                     <h3>Organiser un workshop (date limite des inscriptions Lundi 18 septembre)</h3>
 
@@ -83,4 +127,7 @@
             {% endembed %}
         </div>
     </div>
+    <script>
+
+    </script>
 {% endblock bobby %}

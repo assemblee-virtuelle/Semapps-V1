@@ -86,8 +86,9 @@ changeAccess:
 tab:
     path:     /orga/tab
     defaults: { _controller: mmmfestBundle:Admin:allOrganization }
-
-
+food:
+    path:     /mon-compte/food
+    defaults: { _controller: mmmfestBundle:Admin:foodRecap }
 # orga Controller #
 all_orga:
     path:     /orga/all
