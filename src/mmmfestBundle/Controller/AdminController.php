@@ -3,6 +3,7 @@
 namespace mmmfestBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use mmmfestBundle\Form\FoodType;
 use mmmfestBundle\Form\ProfileType;
 use mmmfestBundle\Form\RegisterType;
 use mmmfestBundle\Form\UserType;
@@ -18,7 +19,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdminController extends Controller
 {
-
+		const title = [
+			'lundi 2 octobre',
+			'mardi 3 octobre',
+			'mercredi 4 octobre',
+			'jeudi 5 octobre',
+			'vendredi 6 octobre',
+			'samedi 7 octobre',
+			'dimanche 8 octobre',
+			'lundi 9 octobre',
+			'mardi 10 octobre',
+		];
     public function homeAction()
     {
         return $this->redirectToRoute('fos_user_profile_show');
@@ -26,17 +37,6 @@ class AdminController extends Controller
 
     public function registerAction(Request $request)
     {
-				$title = [
-					'lundi 2 octobre',
-					'mardi 3 octobre',
-					'mercredi 4 octobre',
-					'jeudi 5 octobre',
-					'vendredi 6 octobre',
-					'samedi 7 octobre',
-					'dimanche 8 octobre',
-					'lundi 9 octobre',
-					'mardi 10 octobre',
-				];
         /** @var \mmmfestBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('mmmfestBundle.encryption');
         $userRepository = $this
@@ -94,12 +94,13 @@ class AdminController extends Controller
 
             // Save the different diner
 						$week =[];
-						for ($i = 1; $i <= sizeof($title); $i++ ){
+						for ($i = 1; $i <= sizeof(self::title); $i++ ){
 								$week[$i][0] = $form->get("matin".$i)->getData();
 								$week[$i][1] = $form->get("midi".$i)->getData();
 								$week[$i][2] = $form->get("soir".$i)->getData();
 						}
 						$data->setRepas(json_encode($week));
+						$data->setVegetarien($form->get("isveg")->getData());
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
@@ -132,7 +133,7 @@ class AdminController extends Controller
           'mmmfestBundle:Admin:register.html.twig',
           array(
             'form'      => $form->createView(),
-						'title' 	=> $title
+						'title' 	=> self::title
           )
         );
     }
@@ -683,12 +684,38 @@ class AdminController extends Controller
                 );
             }
         }
+				// food for responsible
+        $formFood = null;
+        if($user->getRepas() == null){
+						$formFood = $this->createForm(
+							FoodType::class,
+							null,
+							// Options.
+							[]
+						);
+						$formFood->handleRequest($request);
+						if ($formFood->isSubmitted() && $formFood->isValid()){
+								$week =[];
+								for ($i = 1; $i <= sizeof(self::title); $i++ ){
+										$week[$i][0] = $formFood->get("matin".$i)->getData();
+										$week[$i][1] = $formFood->get("midi".$i)->getData();
+										$week[$i][2] = $formFood->get("soir".$i)->getData();
+								}
+								$user->setRepas(json_encode($week));
+								$user->setVegetarien($formFood->get("isveg")->getData());
+								$em = $this->getDoctrine()->getManager();
+								$em->persist($user);
+								$em->flush();
+						}
+				}
 
         return $this->render(
             'mmmfestBundle:Admin:settings.html.twig',
             array(
                 'form' => $form->createView(),
                 'user' => $user,
+								'formFood' => ($user->getRepas() != null)? null : $formFood->createView(),
+								'title' =>($user->getRepas() != null)? null : self::title,
             )
         );
     }
@@ -768,17 +795,7 @@ class AdminController extends Controller
     }
 
 		public function foodRecapAction(){
-				$title = [
-					'lundi 2 octobre',
-					'mardi 3 octobre',
-					'mercredi 4 octobre',
-					'jeudi 5 octobre',
-					'vendredi 6 octobre',
-					'samedi 7 octobre',
-					'dimanche 8 octobre',
-					'lundi 9 octobre',
-					'mardi 10 octobre',
-				];
+
 				$userRepository = $this
 					->getDoctrine()
 					->getManager()
@@ -787,23 +804,29 @@ class AdminController extends Controller
 				$foodRecap = [];
 				foreach ($users as $user){
 						$userFood = json_decode($user->getRepas(),true);
-						dump($userFood);
 						if(!empty($userFood) ){
 								foreach ($userFood as $key => $dayFood){
 										if(!array_key_exists($key-1,$foodRecap)){
-												$foodRecap[$key-1][0] = 0;
-												$foodRecap[$key-1][1] = 0;
-												$foodRecap[$key-1][2] = 0;
+												$foodRecap[$key-1][0][0] = 0;
+												$foodRecap[$key-1][1][0] = 0;
+												$foodRecap[$key-1][2][0] = 0;
+												$foodRecap[$key-1][0][1] = 0;
+												$foodRecap[$key-1][1][1] = 0;
+												$foodRecap[$key-1][2][1] = 0;
 										}
-										$foodRecap[$key-1][0] = $foodRecap[$key-1][0] += (int)$dayFood[0] ;
-										$foodRecap[$key-1][1] += (int)$dayFood[1];
-										$foodRecap[$key-1][2] += (int)$dayFood[2];
+										$foodRecap[$key-1][0][0] += (int)$dayFood[0];
+										$foodRecap[$key-1][1][0] += (int)$dayFood[1];
+										$foodRecap[$key-1][2][0] += (int)$dayFood[2];
+										$foodRecap[$key-1][0][1] += ($dayFood[0] == false)? 0 : $user->getVegetarien();
+										$foodRecap[$key-1][1][1] += ($dayFood[1] == false)? 0 : $user->getVegetarien();
+										$foodRecap[$key-1][2][1] += ($dayFood[2] == false)? 0 : $user->getVegetarien();
+
 								}
 						}
 				}
 				return $this->render(
 					'mmmfestBundle:Admin:foodRecap.html.twig',
-					["foodRecap" => $foodRecap,"title"=>$title]
+					["foodRecap" => $foodRecap,"title"=>self::title]
 				);
 		}
 }

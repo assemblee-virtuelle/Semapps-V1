@@ -28,6 +28,8 @@ class User extends BaseUser
 
     private $repas;
 
+    private $vegetarien;
+
     /**
      * Get id
      *
@@ -156,5 +158,29 @@ class User extends BaseUser
     public function getRepas()
     {
         return $this->repas;
+    }
+
+    /**
+     * Set vegetarien
+     *
+     * @param boolean $vegetarien
+     *
+     * @return User
+     */
+    public function setVegetarien($vegetarien)
+    {
+        $this->vegetarien = $vegetarien;
+
+        return $this;
+    }
+
+    /**
+     * Get vegetarien
+     *
+     * @return boolean
+     */
+    public function getVegetarien()
+    {
+        return $this->vegetarien;
     }
 }

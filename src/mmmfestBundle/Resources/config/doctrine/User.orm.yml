@@ -22,4 +22,8 @@ mmmfestBundle\Entity\User:
             nullable: true
         repas:
             type: text
+            nullable: true
+        vegetarien:
+          type: boolean
+          nullable: true
     lifecycleCallbacks: {  }

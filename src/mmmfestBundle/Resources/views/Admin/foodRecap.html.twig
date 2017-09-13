@@ -20,9 +20,9 @@ Récapitulatif des repas
             {% for i in 0..title|length-1 %}
                 <tr>
                 <th>{{ title[i] }}</th>
-                <td>{{ foodRecap[i][0] }}</td>
-                <td>{{ foodRecap[i][1] }}</td>
-                <td>{{ foodRecap[i][2] }}</td>
+                <td>{{ foodRecap[i][0][0] }} (dont {{ foodRecap[i][0][1] }} vegetarien)</td>
+                <td>{{ foodRecap[i][1][0] }} (dont {{ foodRecap[i][1][1] }} vegetarien)</td>
+                <td>{{ foodRecap[i][2][0] }} (dont {{ foodRecap[i][2][1] }} vegetarien)</td>
                 </tr>
             {% endfor %}
         </table>
