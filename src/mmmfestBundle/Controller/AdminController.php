@@ -26,14 +26,16 @@ class AdminController extends Controller
 
     public function registerAction(Request $request)
     {
-    		$title = [
-    			'lundi 4 octobre',
-    			'mardi 5 octobre',
-    			'mercredi 6 octobre',
-    			'jeudi 7 octobre',
-    			'vendredi 8 octobre',
-    			'samedi 9 octobre',
-    			'dimanche 10 octobre',
+				$title = [
+					'lundi 2 octobre',
+					'mardi 3 octobre',
+					'mercredi 4 octobre',
+					'jeudi 5 octobre',
+					'vendredi 6 octobre',
+					'samedi 7 octobre',
+					'dimanche 8 octobre',
+					'lundi 9 octobre',
+					'mardi 10 octobre',
 				];
         /** @var \mmmfestBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('mmmfestBundle.encryption');
@@ -92,7 +94,7 @@ class AdminController extends Controller
 
             // Save the different diner
 						$week =[];
-						for ($i = 1; $i <= 7; $i++ ){
+						for ($i = 1; $i <= sizeof($title); $i++ ){
 								$week[$i][0] = $form->get("matin".$i)->getData();
 								$week[$i][1] = $form->get("midi".$i)->getData();
 								$week[$i][2] = $form->get("soir".$i)->getData();
@@ -767,13 +769,15 @@ class AdminController extends Controller
 
 		public function foodRecapAction(){
 				$title = [
-					'lundi 4 octobre',
-					'mardi 5 octobre',
-					'mercredi 6 octobre',
-					'jeudi 7 octobre',
-					'vendredi 8 octobre',
-					'samedi 9 octobre',
-					'dimanche 10 octobre',
+					'lundi 2 octobre',
+					'mardi 3 octobre',
+					'mercredi 4 octobre',
+					'jeudi 5 octobre',
+					'vendredi 6 octobre',
+					'samedi 7 octobre',
+					'dimanche 8 octobre',
+					'lundi 9 octobre',
+					'mardi 10 octobre',
 				];
 				$userRepository = $this
 					->getDoctrine()
@@ -783,6 +787,7 @@ class AdminController extends Controller
 				$foodRecap = [];
 				foreach ($users as $user){
 						$userFood = json_decode($user->getRepas(),true);
+						dump($userFood);
 						if(!empty($userFood) ){
 								foreach ($userFood as $key => $dayFood){
 										if(!array_key_exists($key-1,$foodRecap)){

@@ -17,7 +17,7 @@ Récapitulatif des repas
                 <th>soir</th>
             </tr>
 
-            {% for i in 0..6 %}
+            {% for i in 0..title|length-1 %}
                 <tr>
                 <th>{{ title[i] }}</th>
                 <td>{{ foodRecap[i][0] }}</td>

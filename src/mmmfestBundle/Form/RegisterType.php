@@ -275,6 +275,68 @@ class RegisterType extends AbstractType
 						'multiple' => false,
 						'mapped' => false
 					))
+					->add('matin8', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+					))
+					->add('midi8', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+
+					))
+					->add('soir8', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+					))
+					->add('matin9', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+					))
+					->add('midi9', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+
+					))
+					->add('soir9', ChoiceType::class, array(
+						'choices'  => array(
+							'Oui' => true,
+							'Non' => false,
+						),
+						'required' => true,
+						'expanded' => true,
+						'multiple' => false,
+						'mapped' => false
+					))
 					->add('submit', SubmitType::class, array('label' => 'Enregistrer'));
 		}
 
