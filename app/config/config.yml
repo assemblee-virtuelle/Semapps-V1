@@ -73,8 +73,6 @@ parameters:
            - description
            - aboutPage
            - localizedBy
-           - email
-           - phone
            - hasInterest
            - knows
            - memberOf
@@ -117,7 +115,8 @@ parameters:
            - hostedIn
            - hasSubject
         member:
-
+           - email
+           - phone
         super_admin:
 
 
