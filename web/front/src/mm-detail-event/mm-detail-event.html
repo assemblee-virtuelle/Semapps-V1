@@ -117,7 +117,7 @@
           <h3>Centres d'intérêts</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{hasInterest}}">
-              <a href="{{ item.uri }}" target="_blank">
+              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
                 {{item.name}}</a>
             </template>
             <div class="clearfix"></div>

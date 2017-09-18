@@ -15,7 +15,6 @@ Polymer({
     });
     // Raw values.
     $.extend(this, this.data.properties);
-    this.buildingTitle = gvc.buildings[this.data.properties.building].title;
     this.concretizes = this.data.concretizes;
     this.needs = this.data.needs;
     this.hasInterest = this.data.hasInterest;

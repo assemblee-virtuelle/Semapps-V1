@@ -29,7 +29,7 @@ Polymer({
         c=' | ';
     }
     if (this.desc) {
-        this.info += c + this.desc;
+        this.info += c + (this.desc.length > 150)?  this.desc.substr(0,150)+'...' : this.desc;
         c=' | ';
     }
     if (this.subject) {

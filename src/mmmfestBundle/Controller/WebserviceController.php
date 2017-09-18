@@ -730,33 +730,36 @@ class WebserviceController extends Controller
 												$output[$alias][$this->entitiesTabs[$cacheTemp[$uri]['type']]['nameType']][] = $cacheTemp[$uri];
 										} else {
 												$component = $this->uriPropertiesFiltered($uri);
-												$componentType = current($component['type']);
-												$result = null;
-												switch ($componentType) {
-														case mmmfestConfig::URI_PAIR_PERSON:
-																$result = [
-																	'uri' => $uri,
-																	'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
-																	'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
-																];
-																$output[$alias][$this->entitiesTabs[$componentType]['nameType']][] = $result;
-																break;
-														case mmmfestConfig::URI_PAIR_ORGANIZATION:
-														case mmmfestConfig::URI_PAIR_PROJECT:
-														case mmmfestConfig::URI_PAIR_EVENT:
-														case mmmfestConfig::URI_PAIR_PROPOSAL:
-														case mmmfestConfig::URI_PAIR_DOCUMENT:
-														case mmmfestConfig::URI_PAIR_DOCUMENT_TYPE:
-																$result = [
-																	'uri' => $uri,
-																	'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
-																	'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
-																];
-																$output[$alias][$this->entitiesTabs[$componentType]['nameType']][] = $result;
-																break;
+												//dump($component);
+												if(array_key_exists('type',$component)){
+														$componentType = current($component['type']);
+														$result = null;
+														switch ($componentType) {
+																case mmmfestConfig::URI_PAIR_PERSON:
+																		$result = [
+																			'uri' => $uri,
+																			'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
+																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
+																		];
+																		$output[$alias][$this->entitiesTabs[$componentType]['nameType']][] = $result;
+																		break;
+																case mmmfestConfig::URI_PAIR_ORGANIZATION:
+																case mmmfestConfig::URI_PAIR_PROJECT:
+																case mmmfestConfig::URI_PAIR_EVENT:
+																case mmmfestConfig::URI_PAIR_PROPOSAL:
+																case mmmfestConfig::URI_PAIR_DOCUMENT:
+																case mmmfestConfig::URI_PAIR_DOCUMENT_TYPE:
+																		$result = [
+																			'uri' => $uri,
+																			'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
+																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
+																		];
+																		$output[$alias][$this->entitiesTabs[$componentType]['nameType']][] = $result;
+																		break;
+														}
+														$cacheTemp[$uri] = $result;
+														$cacheTemp[$uri]['type'] = $componentType;
 												}
-												$cacheTemp[$uri] = $result;
-												$cacheTemp[$uri]['type'] = $componentType;
 										}
 								}
 						}
