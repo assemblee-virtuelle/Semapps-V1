@@ -73,7 +73,7 @@
         <!-- end of concretizes -->
         <!-- managedBy -->
         <template is="dom-if" if="[[managedBy.person.length]]">
-          <h3>managedBy.person</h3>
+          <h3>Personnes responsables</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{managedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -83,7 +83,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[managedBy.organization.length]]">
-          <h3>Acteurs responsables</h3>
+          <h3>Organisations responsables</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{managedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -95,7 +95,7 @@
         <!-- end of managedBy -->
         <!-- involves -->
         <template is="dom-if" if="[[data.involves.person.length]]">
-          <h3>implique ( personne )</h3>
+          <h3>Personnes impliquées </h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.involves.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -105,7 +105,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.involves.organization.length]]">
-          <h3>implique ( organisation )</h3>
+          <h3>Organisations impliquées</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.involves.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -140,7 +140,7 @@
         </template>
         <!-- needs -->
         <template is="dom-if" if="[[data.needs.length]]">
-          <h3>A besion de</h3>
+          <h3>Besoins</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{data.needs}}">
               <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
@@ -152,7 +152,7 @@
         <!-- end of needs -->
         <!-- offers -->
         <template is="dom-if" if="[[data.offers.length]]">
-          <h3>Offre</h3>
+          <h3>Offres</h3>
           <div class="tags-cloud">
             <template is="dom-repeat" items="{{data.offers}}">
               <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
