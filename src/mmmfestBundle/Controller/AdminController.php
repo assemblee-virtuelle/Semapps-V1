@@ -381,7 +381,7 @@ class AdminController extends Controller
 								$userRepository = $this
 									->getDoctrine()
 									->getManager()
-									->getRepository('GrandsVoisinsBundle:User');
+									->getRepository('mmmfestBundle:User');
 								// Update sfLink.
 								$userRepository
 									->createQueryBuilder('q')

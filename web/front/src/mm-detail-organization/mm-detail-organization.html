@@ -97,18 +97,7 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of hasMember -->
-        <!-- affiliates -->
-        <template is="dom-if" if="[[data.affiliates.person.length]]">
-          <h3>Personnes faisant partie de l'organisation</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.affiliates.person}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
-        <!-- end of affiliates -->
+
         <!-- employs -->
         <template is="dom-if" if="[[data.employs.person.length]]">
           <h3>Employés</h3>

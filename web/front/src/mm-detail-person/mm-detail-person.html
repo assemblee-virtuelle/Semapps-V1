@@ -101,18 +101,6 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of knows -->
-        <!-- affiliatedTo -->
-        <template is="dom-if" if="[[data.affiliatedTo.organization.length]]">
-          <h3>Est affilié à</h3>
-          <div class="thumbs">
-            <template is="dom-repeat" items="{{data.affiliatedTo.organization}}">
-              <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
-                         label="[[item.name]]"></mm-avatar>
-            </template>
-          </div>
-          <div class="clearfix"></div>
-        </template>
-        <!-- end of affiliatedTo -->
         <!-- responsibleOf -->
         <template is="dom-if" if="[[data.responsibleOf.organization.length]]">
           <h3>Exerce des responsabilités chez</h3>
