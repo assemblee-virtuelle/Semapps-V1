@@ -71,7 +71,7 @@
       <div class="col col-sm-4 side-blocks">
         <!-- organizedBy -->
         <template is="dom-if" if="[[data.organizedBy.person.length]]">
-          <h3>Organisé par ( personne )</h3>
+          <h3>Co-organisateurs ( Personnes )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.organizedBy.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -81,7 +81,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.organizedBy.organization.length]]">
-          <h3>Organisé par ( organisation )</h3>
+          <h3>Co-organisateurs ( Organisations )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.organizedBy.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -93,7 +93,7 @@
         <!-- end of organizedBy -->
         <!-- hasParticipant -->
         <template is="dom-if" if="[[data.hasParticipant.person.length]]">
-          <h3>A pour participant ( personne )</h3>
+          <h3>Participants ( Personnes )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.hasParticipant.person}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
@@ -103,7 +103,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.hasParticipant.organization.length]]">
-          <h3>A pour participant ( organisation )</h3>
+          <h3>Participants( Organisations )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.hasParticipant.organization}}">
               <mm-avatar image="[[item.image]]" uri="[[item.uri]]"
