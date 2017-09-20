@@ -225,7 +225,7 @@ class WebserviceController extends Controller
                 ->addOptional('?uri','default:startDate','?start','?GR')
                 ->addOptional('?uri','default:endDate','?end','?GR');
             if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
-            $eventSparql->orderBy($sparql::ORDER_DESC,'?start')
+            $eventSparql->orderBy($sparql::ORDER_ASC,'?start')
                 ->groupBy('?start')
                 ->groupBy('?end');
             $results = $sfClient->sparql($eventSparql->getQuery());

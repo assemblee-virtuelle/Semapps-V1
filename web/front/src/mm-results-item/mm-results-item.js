@@ -25,7 +25,7 @@ Polymer({
     log(this.data);
     if (this.start) {
         let eventBegin = new Date(this.start);
-        this.info += c + "le " + eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' à ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min';
+        this.info += c + "le " + eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' à ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min ';
         c=' | ';
     }
     if (this.desc) {
