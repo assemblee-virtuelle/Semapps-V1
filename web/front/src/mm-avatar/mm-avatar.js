@@ -5,7 +5,9 @@ Polymer({
     uri: String,
     label: String
   },
-
+    attached() {
+        this.cutlabel =(this.label.length > 15)? gvc.capitalize(this.label,true).substr(0,10)+'...' : gvc.capitalize(this.label,true);
+    },
   handleClickAvatar(e) {
     e.preventDefault();
     gvc.goToPath('detail', {

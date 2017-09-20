@@ -190,6 +190,9 @@
       return !this.isMember();
     }
 
+    capitalize(string,lower) {
+        return (lower ? string.toLowerCase() : string).replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+    };
     /**
      * Set parameters from global object,
      * which are user into template as dynamic variables.
