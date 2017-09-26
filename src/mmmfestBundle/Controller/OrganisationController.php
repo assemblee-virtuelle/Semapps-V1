@@ -351,27 +351,14 @@ class OrganisationController extends Controller
             }
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($organization);
-            $em->flush();
+
 
             if (!$sfLink) {
-                // Get the main Organization entity.
-                $organizationRepository = $this
-                    ->getDoctrine()
-                    ->getManager()
-                    ->getRepository('mmmfestBundle:Organisation');
-
-                // Update sfOrganisation.
-                $organizationRepository
-                    ->createQueryBuilder('q')
-                    ->update()
-                    ->set('q.sfOrganisation', ':link')
-                    ->where('q.id=:id')
-                    ->setParameter('link', $form->uri)
-                    ->setParameter('id', $organization->getId())
-                    ->getQuery()
-                    ->execute();
+								// Update sfOrganisation.
+                $organization->setSfOrganisation($form->uri);
             }
+						$em->persist($organization);
+						$em->flush();
 
             $this->addFlash(
               'success',
