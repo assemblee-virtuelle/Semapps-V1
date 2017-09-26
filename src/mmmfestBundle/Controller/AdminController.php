@@ -48,13 +48,6 @@ class AdminController extends Controller
           ->getDoctrine()
           ->getManager()
           ->getRepository('mmmfestBundle:Organisation');
-        $organisations = $organisationRepository->findBy([],['name' =>'ASC']);
-
-        $tabOrga= [];
-        //build a tab with id and name of each organization for the choice type
-        foreach ($organisations as $organisation){
-            $tabOrga[$organisation->getId()] = $organisation->getName();
-        }
         //get the form
         $form = $this->createForm(
           RegisterType::class,
@@ -62,35 +55,27 @@ class AdminController extends Controller
           // Options.
           []
         );
-        //add the ChoiceType field with all orga
-        $form->add(
-          'organisation',
-          ChoiceType::class,array(
-            'mapped'  => false,
-            'choices' => array_flip($tabOrga)
-            )
-        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+            $newUser = $form->getData();
             $tokenGenerator = $this->container->get(
               'fos_user.util.token_generator'
             );
-            $data->setPassword(
+            $newUser->setPassword(
               password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
             );
 
-            $data->setSfUser($encryption->encrypt($form->get('password')->getData()));
+            $newUser->setSfUser($encryption->encrypt($form->get('password')->getData()));
 
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
-            $data->setConfirmationToken($conf_token);
+            $newUser->setConfirmationToken($conf_token);
 
             //Set the roles
-            $data->addRole('ROLE_MEMBER');
+            $newUser->addRole('ROLE_MEMBER');
 
-            $data->setFkOrganisation($form->get('organisation')->getData());
+            $newUser->setFkOrganisation($form->get('organisation')->getData());
 
             // Save the different diner
 						$week =[];
@@ -99,23 +84,23 @@ class AdminController extends Controller
 								$week[$i][1] = $form->get("midi".$i)->getData();
 								$week[$i][2] = $form->get("soir".$i)->getData();
 						}
-						$data->setRepas(json_encode($week));
-						$data->setVegetarien($form->get("isveg")->getData());
+						$newUser->setRepas(json_encode($week));
+						$newUser->setVegetarien($form->get("isveg")->getData());
             // Save it.
             $em = $this->getDoctrine()->getManager();
-            $em->persist($data);
+            $em->persist($newUser);
             try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash('danger', "l'utilisateur saisi existe déjà, vous pouvez essayer de réinitialiser votre mot de passe en renseignant votre e-mail ou votre login");
 
-                return $this->redirectToRoute('fos_user_resetting_request',array('email' => $data->getEmail()));
+                return $this->redirectToRoute('fos_user_resetting_request',array('email' => $newUser->getEmail()));
             }
             $this->addFlash('success','Merci à toi cher Voisin, nous avons bien pris en compte ton inscription,
              nous allons la valider dans les prochaines heures, après quoi tu recevras un mail de confirmation :-) A très bientôt sur la carto ! ');
 
             //notification
-            $usersSuperAdmin = $userRepository->createQueryBuilder('q')->select('q.email')->where("q.roles LIKE '%ROLE_SUPER_ADMIN%'")->getQuery()->getResult();
+            $usersSuperAdmin = $userRepository->getSuperAdminUsers();
             $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
             $listOfEmail= [];
             $organisation = $organisationRepository->find($form->get('organisation')->getData());
@@ -124,7 +109,7 @@ class AdminController extends Controller
                 array_push($listOfEmail,$superuser["email"]);
             }
             $mailer = $this->get('mmmfestBundle.EventListener.SendMail');
-            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$data,$organisation,array_unique($listOfEmail));
+            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$newUser,$organisation,array_unique($listOfEmail));
 
             return $this->redirectToRoute('fos_user_security_login');
         }
@@ -146,9 +131,6 @@ class AdminController extends Controller
           ->getManager()
           ->getRepository('mmmfestBundle:User')
           ->findAll();
-
-        //$userEnabled = $userRepository->findBy(array('enabled' => 1));
-        //$userDisabled = $userRepository->findBy(array('enabled' => 0));
 
         $tabUserEnabled = $tabUserDisabled = [];
         foreach ($users as $user){
@@ -187,8 +169,6 @@ class AdminController extends Controller
             ],
           )
         );
-
-
     }
 
     public function sendUserAction($userId,$nameRoute = 'team'){
@@ -214,7 +194,6 @@ class AdminController extends Controller
             $user,
             $organisation,
             $url
-            //$user->getSfUser()
           );
         if($result){
             $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
@@ -234,8 +213,9 @@ class AdminController extends Controller
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
         $oldPictureName = $user->getPictureName();
-        //$predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
-        $organisation = $this
+				$em = $this->getDoctrine()->getManager();
+
+				$organisation = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('mmmfestBundle:Organisation')
@@ -317,48 +297,34 @@ class AdminController extends Controller
             } else {
                 $user->setPictureName($oldPictureName);
             }
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
             // User never had a sf link, so save it.
             if (!$userSfLink) {
-                // Get the main user entity.
-                $userRepository = $this
-                    ->getDoctrine()
-                    ->getManager()
-                    ->getRepository('mmmfestBundle:User');
+								// Update sfLink.
+                $user->setSfLink($form->uri);
 
-                // Update sfLink.
-                $userRepository
-                    ->createQueryBuilder('q')
-                    ->update()
-                    ->set('q.sfLink', ':link')
-                    ->where('q.id=:id')
-                    ->setParameter('link', $form->uri)
-                    ->setParameter('id', $this->getUser()->getId())
-                    ->getQuery()
-                    ->execute();
                 //hasMember
-                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
-                $uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
-                $graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-                $sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-                    ->addInsert($uriOrgaFormatted,'default:hasMember',$uripersonFormatted,$graphFormatted);
-                //dump($sparql->getQuery());
-                $sfClient->update($sparql->getQuery());
-                //memberOf
-                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-                    ->addInsert($uripersonFormatted,'default:memberOf',$uriOrgaFormatted,$graphFormatted);
-                //dump($sparql->getQuery());
-                $sfClient->update($sparql->getQuery());
+								if($organisation->getSfOrganisation() != null){
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+										$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
+										$uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
+										$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+												->addInsert($uriOrgaFormatted,'default:hasMember',$uripersonFormatted,$graphFormatted);
+										//dump($sparql->getQuery());
+										$sfClient->update($sparql->getQuery());
+										//memberOf
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+												->addInsert($uripersonFormatted,'default:memberOf',$uriOrgaFormatted,$graphFormatted);
+										//dump($sparql->getQuery());
+										$sfClient->update($sparql->getQuery());
+								}
 
             }
+						$em->persist($user);
+						$em->flush();
 
             $this->addFlash(
                 'success',
@@ -378,20 +344,9 @@ class AdminController extends Controller
 
 						if ($importForm->isSubmitted() && $importForm->isValid()) {
 								$uri = $importForm->get('import')->getData();
-								$userRepository = $this
-									->getDoctrine()
-									->getManager()
-									->getRepository('mmmfestBundle:User');
-								// Update sfLink.
-								$userRepository
-									->createQueryBuilder('q')
-									->update()
-									->set('q.sfLink', ':link')
-									->where('q.id=:id')
-									->setParameter('link', $uri)
-									->setParameter('id', $this->getUser()->getId())
-									->getQuery()
-									->execute();
+								$user->setSfLink($form->uri);
+								$em->persist($user);
+								$em->flush();
 								//importer le profile
 								$sfClient->import($uri);
 								//déplacer dans le graph de l'orga
@@ -500,7 +455,7 @@ class AdminController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Get posted data of type user
-            $data = $form->getData();
+            $newUser = $form->getData();
             /** @var \mmmfestBundle\Services\Encryption $encryption */
             $encryption = $this->container->get('mmmfestBundle.encryption');
             // Generate password.
@@ -508,23 +463,23 @@ class AdminController extends Controller
                 'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
-            $data->setPassword(
+            $newUser->setPassword(
                 password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
-            $data->setSfUser($encryption->encrypt($randomPassword));
+            $newUser->setSfUser($encryption->encrypt($randomPassword));
 
             // Generate the token for the confirmation email
             $conf_token = $tokenGenerator->generateToken();
-            $data->setConfirmationToken($conf_token);
+            $newUser->setConfirmationToken($conf_token);
 
             //Set the roles
-            $data->addRole($form->get('access')->getData());
+            $newUser->addRole($form->get('access')->getData());
 
-            $data->setFkOrganisation($this->getUser()->getFkOrganisation());
+            $newUser->setFkOrganisation($this->getUser()->getFkOrganisation());
             // Save it.
             $em = $this->getDoctrine()->getManager();
-            $em->persist($data);
+            $em->persist($newUser);
             try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
@@ -541,7 +496,7 @@ class AdminController extends Controller
             $mailer =  $this->get('mmmfestBundle.EventListener.SendMail');
             $result =$mailer->sendConfirmMessage(
                   $mailer::TYPE_USER,
-                    $data,
+                    $newUser,
                     $organisation,
                     $url
                     //$randomPassword
@@ -553,18 +508,18 @@ class AdminController extends Controller
                 $this->addFlash(
                   'success',
                   'Un compte à bien été créé pour <b>'.
-                  $data->getUsername().
+                  $newUser->getUsername().
                   '</b>. Un email a été envoyé à <b>'.
-                  $data->getEmail().
+                  $newUser->getEmail().
                   '</b> pour lui communiquer ses informations de connexion.'
                 );
             }else{
                 $this->addFlash(
                   'danger',
                   'Un compte à bien été créé pour <b>'.
-                  $data->getUsername().
+                  $newUser->getUsername().
                   "</b>. mais l'email n'est pas parti à l'adresse <b>".
-                  $data->getEmail().
+                  $newUser->getEmail().
                   '</b>'
                 );
             }
@@ -686,7 +641,7 @@ class AdminController extends Controller
         }
 				// food for responsible
         $formFood = null;
-        if($user->getRepas() == null){
+        if(empty($user->getRepas())){
 						$formFood = $this->createForm(
 							FoodType::class,
 							null,
@@ -708,14 +663,13 @@ class AdminController extends Controller
 								$em->flush();
 						}
 				}
-
         return $this->render(
             'mmmfestBundle:Admin:settings.html.twig',
             array(
                 'form' => $form->createView(),
                 'user' => $user,
-								'formFood' => ($user->getRepas() != null)? null : $formFood->createView(),
-								'title' =>($user->getRepas() != null)? null : self::title,
+								'formFood' => (!empty($user->getRepas()))? null : $formFood->createView(),
+								'title' =>(!empty($user->getRepas()))? null : self::title,
             )
         );
     }

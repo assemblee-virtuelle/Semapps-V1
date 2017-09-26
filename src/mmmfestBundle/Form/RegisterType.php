@@ -8,6 +8,9 @@
 
 namespace mmmfestBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use mmmfestBundle\Form\Type\YesNoType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -57,295 +60,23 @@ class RegisterType extends AbstractType
 						'membreAv',
 						CheckboxType::class,
 						array('required' => true,'mapped' => false)
-					)
-					->add('matin1', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi1', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
+					);
+					for($i = 1 ; $i <=9 ; $i++){
+						$builder->add('matin'.$i, YesNoType::class)
+							->add('midi'.$i, YesNoType::class)
+							->add('soir'.$i, YesNoType::class);
+					}
+					$builder->add('isveg',YesNoType::class)
 
-					))
-					->add('soir1', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin2', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi2', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir2', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin3', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi3', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir3', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin4', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi4', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir4', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin5', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi5', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir5', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin6', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi6', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir6', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin7', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi7', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir7', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin8', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi8', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir8', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('matin9', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('midi9', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-
-					))
-					->add('soir9', ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false
-					))
-					->add('isveg',ChoiceType::class, array(
-						'choices'  => array(
-							'Oui' => true,
-							'Non' => false,
-						),
-						'required' => true,
-						'expanded' => true,
-						'multiple' => false,
-						'mapped' => false))
+						->add('organisation',EntityType::class, [
+							'class' => 'mmmfestBundle:Organisation',
+							'query_builder' => function (EntityRepository $er) {
+									return $er->createQueryBuilder('u')
+										->orderBy('u.name', 'ASC');
+							},
+							'choice_label' => 'name',
+							'mapped'  => false,
+						])
 					->add('submit', SubmitType::class, array('label' => 'Enregistrer'));
 		}
 

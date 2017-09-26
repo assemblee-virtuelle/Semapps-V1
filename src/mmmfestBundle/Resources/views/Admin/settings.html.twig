@@ -36,7 +36,7 @@
         </div>
     </div>
     {{ form_end(form) }}
-    {% if app.user.repas is null %}
+    {% if formFood is not null %}
     {{ form_start(formFood) }}
     {{ form_errors(formFood) }}
     <div class="formFood-group">
