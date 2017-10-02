@@ -93,9 +93,9 @@ class mmmfestConfig
         'y'     => '29%',
       ],
       "urn:mm/building/boisDesCochets"            => [
-        'title' => "Bois des cochets",
-        'x'     => '22%',
-        'y'     => '50%',
+        'title' => "Cours des cochets",
+        'x'     => '25%',
+        'y'     => '54%',
       ],
       "urn:mm/building/pigeonnier"            => [
         'title' => "Pigeonnier",
@@ -126,7 +126,7 @@ class mmmfestConfig
     static $buildingsSimple = [
       "urn:mm/building/grandChateau"  => "Grand Chateau",
       "urn:mm/building/petitChateau"  => "Petit chateau",
-      "urn:mm/building/boisDesCochets"=> "Bois des cochets",
+      "urn:mm/building/boisDesCochets"=> "Cours des cochets",
       "urn:mm/building/pigeonnier"    => "Pigeonnier",
       "urn:mm/building/orangerie"     => "Orangerie",
       "urn:mm/building/camping"       => "Camping",
@@ -136,7 +136,7 @@ class mmmfestConfig
     static $buildingsExtended = [
         "urn:mm/building/grandChateau"  => "Grand Chateau",
         "urn:mm/building/petitChateau"  => "Petit chateau",
-        "urn:mm/building/boisDesCochets"=> "Bois des cochets",
+        "urn:mm/building/boisDesCochets"=> "Cours des cochets",
         "urn:mm/building/pigeonnier"    => "Pigeonnier",
         "urn:mm/building/orangerie"     => "Orangerie",
         "urn:mm/building/camping"       => "Camping",
