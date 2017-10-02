@@ -84,28 +84,28 @@ class mmmfestConfig
     static $buildings = [
       "urn:mm/building/grandChateau" => [
         'title' => "Grand chateau",
-        'x'     => '60%',
-        'y'     => '21%',
+        'x'     => '65%',
+        'y'     => '17%',
       ],
       "urn:mm/building/petitChateau"            => [
         'title' => "Petit chateau",
-        'x'     => '40%',
-        'y'     => '29%',
+        'x'     => '42%',
+        'y'     => '26%',
       ],
       "urn:mm/building/boisDesCochets"            => [
         'title' => "Cours des cochets",
-        'x'     => '25%',
-        'y'     => '54%',
+        'x'     => '26%',
+        'y'     => '50%',
       ],
       "urn:mm/building/pigeonnier"            => [
         'title' => "Pigeonnier",
-        'x'     => '39%',
-        'y'     => '54%',
+        'x'     => '41%',
+        'y'     => '52%',
       ],
       "urn:mm/building/orangerie"       => [
         'title' => "Orangerie",
-        'x'     => '50%',
-        'y'     => '59%',
+        'x'     => '54%',
+        'y'     => '57%',
       ],
       "urn:mm/building/camping"     => [
         'title' => "Camping",
