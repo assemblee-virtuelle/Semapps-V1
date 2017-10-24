@@ -41,7 +41,7 @@ class WebserviceController extends Controller
       ],
       mmmfestConfig::URI_PAIR_PROPOSAL  => [
         'name'   => 'Proposition',
-        'plural' => 'Propositions',
+        'plural' => 'Feedback',
         'icon'   => 'info-sign',
 				'nameType' => 'proposition'
       ],
@@ -233,7 +233,7 @@ class WebserviceController extends Controller
 
         }
         $propositions = [];
-        if((($type == mmmfestConfig::Multiple || $typeProposition) && !$isBlocked) ){
+        if(($type == mmmfestConfig::Multiple || $typeProposition) ){
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(mmmfestConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
