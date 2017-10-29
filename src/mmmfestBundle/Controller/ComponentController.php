@@ -78,6 +78,7 @@ class ComponentController extends Controller
         $componentClassName = 'mmmfestBundle\Form\\'.ucfirst(
             $this->componentName
           ).'Type';
+        $componentConf = $this->getParameter($this->componentName.'Conf');
 
         $specName = 'SPEC_'.strtoupper($request->get('component'));
 
@@ -89,10 +90,8 @@ class ComponentController extends Controller
             'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
-            'reverse'               => mmmfestConfig::REVERSE,
-            'spec'                  => constant(
-              'mmmfestBundle\mmmfestConfig::'.$specName
-            ),
+            'sfConf'               => $componentConf,
+            'spec'                  => $componentConf['spec'],
             'values'                => $uri,
             'lookupUrlLabel'        => $this->generateUrl(
               'webserviceFieldUriLabel'

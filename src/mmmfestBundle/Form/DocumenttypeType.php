@@ -16,15 +16,7 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class DocumenttypeType extends AbstractForm
 {
-		var $fieldsAliases = [
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel' 			=> 'preferedLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' 	=> 'alternativeLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 				=> 'description', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
-			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
-		];
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

@@ -170,7 +170,7 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
 
-    documentTypeConf:
+    documenttypeConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
       spec: 'form-DocumentType'
       fields:

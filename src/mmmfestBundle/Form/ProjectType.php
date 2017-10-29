@@ -18,27 +18,7 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class ProjectType extends AbstractForm
 {
-		var $fieldsAliases = [
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel'	 	=> 'preferedLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' => 'alternativeLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 			=> 'description', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 					=> 'comment', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 				=> 'homePage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 				=> 'aboutPage', # url
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes' 			=> 'concretizes', # sf (proposition)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy' 				=> 'managedBy', # sf (person,orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 		=> 'representedBy', # img
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 						=> 'offers', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 						=> 'needs', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves' 				=> 'involves', # sf (person,orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 		=> 'documentedBy', # sf (doc)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#delivers'				=> 'delivers', # Place ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 			=> 'hasSubject', # ?
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf' 			=> 'subjectOf', # ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 			=> 'hasInterest', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
-			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                             => 'type',
-		];
+
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

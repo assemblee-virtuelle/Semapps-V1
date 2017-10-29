@@ -17,23 +17,6 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class ProposalType extends AbstractForm
 {
-		var $fieldsAliases = [
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel' 			=> 'preferedLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' 	=> 'alternativeLabel', # txt
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier' 	=> 'subjectIdentifier', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 				=> 'description', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy' 		=> 'brainstormedBy', # sf (person,orga)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy' 			=> 'concretizedBy', # sf (project)
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf (doc)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 			=> 'hasInterest', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image' 						=> 'image',
-			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                               => 'type',
-		];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
