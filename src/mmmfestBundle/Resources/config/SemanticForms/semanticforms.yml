@@ -109,8 +109,8 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
           access:
-        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#email:
-          value: 'e-mail'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail:
+          value: 'email'
           access:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone:
           value: 'phone'

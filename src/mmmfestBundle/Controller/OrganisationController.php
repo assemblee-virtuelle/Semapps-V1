@@ -235,8 +235,7 @@ class OrganisationController extends Controller
         $encryption = $this->container->get('mmmfestBundle.encryption');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
-        //$predicatImage  = $this->getParameter('semantic_forms.fields_aliases')['image'];
-
+				$organizationConf = $this->getParameter('organizationConf');
         /* @var $organisationEntity \mmmfestBundle\Repository\OrganisationRepository */
         // Ask database to know if organization has been already created.
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
@@ -278,8 +277,8 @@ class OrganisationController extends Controller
           'password'              => $sfPassword,
           'graphURI'              => $organization->getGraphURI(),
           'client'                => $sfClient,
-          'spec'                  => mmmfestConfig::SPEC_ORGANIZATION,
-          'reverse'               => mmmfestConfig::REVERSE,
+          'spec'                  => $organizationConf['spec'],
+          'sfConf'               => $organizationConf,
           'lookupUrlLabel'        => $this->generateUrl(
             'webserviceFieldUriLabel'
           ),

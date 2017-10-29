@@ -19,34 +19,6 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class OrganizationType extends AbstractForm
 {
-		var $fieldsAliases = [
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel' 			=> 'preferedLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel' 	=> 'alternativeLabel', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy' 			=> 'representedBy', # img
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description' 				=> 'description', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment' 						=> 'comment', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage' 					=> 'homePage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage' 					=> 'aboutPage', # url
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest' 				=> 'hasInterest', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail' 						=> 'email', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone' 							=> 'phone', # txt
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn' 					=> 'hostedIn', # adresse ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy' 			=> 'documentedBy', # sf ( Doc )
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject' 				=> 'hasSubject', # ?
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember' 					=> 'hasMember', # sf ( person )
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible' 		=> 'hasResponsible', # sf ( person )
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs' 						=> 'employs', # sf ( person )
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf' 					=> 'partnerOf', # sf (orga)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn' 				=> 'involvedIn', # sf (projet)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages' 						=> 'manages', # sf (projet)
-				#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#operates' 					=> 'operates', # building
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes' 					=> 'organizes', # sf (event)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf' 			=> 'participantOf', # sf (event)
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers' 						=> 'offers', # dbpedia
-			'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs' 							=> 'needs', # dbpedia
-			#'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms' 				=> 'brainstorms', # sf (proposition)
-			'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'                           		=> 'type',
-		];
 
 		public function buildForm(FormBuilderInterface $builder, array $options)
 		{
