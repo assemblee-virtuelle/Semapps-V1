@@ -212,6 +212,7 @@ class AdminController extends Controller
         $sfClient       = $this->container->get('semantic_forms.client');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
+        $personConf = $this->getParameter('profileConf');
         $oldPictureName = $user->getPictureName();
 				$em = $this->getDoctrine()->getManager();
 
@@ -227,8 +228,8 @@ class AdminController extends Controller
             'password'              => $encryption->decrypt($user->getSfUser()),
             'graphURI'              => $organisation->getGraphURI(),
             'client'                => $sfClient,
-            'reverse'               => mmmfestConfig::REVERSE,
-            'spec'                  => mmmfestConfig::SPEC_PERSON,
+            'sfConf'               => $personConf,
+            'spec'                  => $personConf['spec'],
             'lookupUrlLabel'        => $this->generateUrl(
                 'webserviceFieldUriLabel'
             ),
