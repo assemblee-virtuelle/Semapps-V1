@@ -14,6 +14,8 @@ use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class WebserviceController extends Controller
 {
+		const TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+
     var $entitiesTabs = [
       mmmfestConfig::URI_PAIR_ORGANIZATION => [
         'name'   => 'Organisation',
@@ -117,7 +119,7 @@ class WebserviceController extends Controller
                 $output = [
                   'access'       => $access,
                   'name'         => $name,
-                  'fieldsAccess' => $this->container->getParameter('fields_access'),
+                  //'fieldsAccess' => $this->container->getParameter('fields_access'),
                   'buildings'    => mmmfestConfig::$buildings,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
@@ -482,6 +484,7 @@ class WebserviceController extends Controller
     {
         $sfClient     = $this->container->get('semantic_forms.client');
         $properties   = $sfClient->uriProperties($uri);
+        $sfConf = $this->getConf(current($properties[self::TYPE]));
         $output       = [];
         $fieldsFilter = $this->container->getParameter('fields_access');
         $user         = $this->GetUser();
@@ -490,22 +493,16 @@ class WebserviceController extends Controller
           ->getManager()
           ->getRepository('mmmfestBundle:User')
           ->getAccessLevelString($user);
-        foreach ($fieldsFilter as $role => $fields) {
-            // User has role.
-            if ($role === 'anonymous' ||
-              $this->isGranted('ROLE_'.strtoupper($role))
-            ) {
-								if ($fields != null){
-										foreach ($fields as $fieldName) {
-												// Field should exist.
-												if (isset($properties[$fieldName])) {
-														$output[$fieldName] = $properties[$fieldName];
-												}
-										}
-								}
-            }
-        }
 
+        foreach ($sfConf['fields'] as $field =>$detail){
+						if ($detail['access'] === 'anonymous' ||
+							$this->isGranted('ROLE_'.strtoupper($detail['access']))
+						){
+								if (isset($properties[$field])) {
+										$output[$detail['value']] = $properties[$field];
+								}
+						}
+				}
         return $output;
     }
 
@@ -513,7 +510,6 @@ class WebserviceController extends Controller
     {
         $output     = [];
         $properties = $this->uriPropertiesFiltered($uri);
-        //dump($uri);exit;
         $sfClient   = $this->container->get('semantic_forms.client');
         switch (current($properties['type'])) {
             // Orga.
@@ -786,4 +782,33 @@ class WebserviceController extends Controller
 
         return $filtered;
     }
+
+    private function getConf($type){
+
+    	$conf = null;
+    		switch ($type){
+					case mmmfestConfig::URI_PAIR_PERSON:
+							$conf = $this->getParameter('profileConf');
+							break;
+					case mmmfestConfig::URI_PAIR_ORGANIZATION:
+							$conf = $this->getParameter('organizationConf');
+							break;
+					case mmmfestConfig::URI_PAIR_PROJECT:
+							$conf = $this->getParameter('projectConf');
+							break;
+					case mmmfestConfig::URI_PAIR_EVENT:
+							$conf = $this->getParameter('eventConf');
+							break;
+					case mmmfestConfig::URI_PAIR_PROPOSAL:
+							$conf = $this->getParameter('proposalConf');
+							break;
+					case mmmfestConfig::URI_PAIR_DOCUMENT:
+							$conf = $this->getParameter('documentConf');
+							break;
+					case mmmfestConfig::URI_PAIR_DOCUMENT_TYPE:
+							$conf = $this->getParameter('documenttypeConf');
+							break;
+			}
+				return $conf;
+		}
 }

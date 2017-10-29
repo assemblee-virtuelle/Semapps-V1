@@ -6,75 +6,76 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#firstName:
           value: 'firstName'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#lastName:
           value: 'lastName'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alias:
           value: 'alias'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
           value: 'representedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy:
           value: 'localizedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail:
           value: 'email'
-          access:
+          access: 'member'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone:
           value: 'phone'
-          access:
+          access: 'member'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
           value: 'hasSubject'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows:
           value: 'knows'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf:
           value: 'memberOf'
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf:
 #          value: 'responsibleOf'
-#          access:
+#          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo:
 #          value: 'affiliatedTo'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn:
           value: 'involvedIn'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages:
 #          value: 'manages'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
           value: 'offers'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
           value: 'needs'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes:
 #          value: 'organizes'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf:
           value: 'participantOf'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms:
 #          value: 'brainstorms'
-#          access:
+#          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember'
@@ -87,82 +88,82 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
           value: 'representedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail:
           value: 'email'
-          access:
+          access: 'member'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone:
           value: 'phone'
-          access:
+          access: 'member'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn:
           value: 'hostedIn'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
           value: 'documentedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
           value: 'hasSubject'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember:
           value: 'hasMember'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible:
           value: 'hasResponsible'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs:
           value: 'employs'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf:
           value: 'partnerOf'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn:
           value: 'involvedIn'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages:
           value: 'manages'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#operates:
 #          value: 'operates'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes:
           value: 'organizes'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf:
           value: 'participantOf'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
           value: 'offers'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
           value: 'needs'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms:
 #          value: 'brainstorms'
-#          access:
+#          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf'
@@ -176,25 +177,25 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse: null
 
     documentConf:
@@ -203,37 +204,37 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#represents:
 #          value: 'represents'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents:
           value: 'documents'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references:
           value: 'references'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType:
           value: 'hasType'
-          access:
+          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf'
@@ -245,61 +246,61 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes:
 #          value: 'concretizes'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy:
           value: 'managedBy'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
 #          value: 'representedBy'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
           value: 'offers'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
           value: 'needs'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves:
           value: 'involves'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
           value: 'documentedBy'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#delivers:
 #          value: 'delivers'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
           value: 'hasSubject'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf:
 #          value: 'subjectOf'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
           value: 'image'
-          access:
+          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes : 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages'
@@ -312,58 +313,58 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier:
 #          value: 'subjectIdentifier'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#startDate:
           value: 'startDate'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#endDate:
           value: 'endDate'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy:
           value: 'localizedBy'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
 #          value: 'representedBy'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
           value: 'documentedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
           value: 'hasSubject'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy:
           value: 'organizedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant:
           value: 'hasParticipant'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
           value: 'image'
-          access:
+          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf'
@@ -375,49 +376,49 @@ parameters:
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
           value: 'alternativeLabel'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier:
 #          value: 'subjectIdentifier'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
           value: 'description'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
           value: 'comment'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
           value: 'aboutPage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
           value: 'homePage'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy:
           value: 'brainstormedBy'
-          access:
+          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy:
 #          value: 'concretizedBy'
-#          access:
+#          access: 'anonymous'
 #        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
 #          value: 'representedBy'
-#          access:
+#          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
           value: 'documentedBy'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
           value: 'hasSubject'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
           value: 'hasInterest'
-          access:
+          access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
           value: 'image'
-          access:
+          access: 'anonymous'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
-          access:
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
