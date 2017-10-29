@@ -1,0 +1,423 @@
+parameters:
+
+    profileConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person'
+      spec: 'form-Person'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#firstName:
+          value: 'firstName'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#lastName:
+          value: 'lastName'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alias:
+          value: 'alias'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
+          value: 'representedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy:
+          value: 'localizedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#e-mail:
+          value: 'email'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone:
+          value: 'phone'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
+          value: 'hasInterest'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
+          value: 'hasSubject'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows:
+          value: 'knows'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf:
+          value: 'memberOf'
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf:
+#          value: 'responsibleOf'
+#          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#affiliatedTo:
+#          value: 'affiliatedTo'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn:
+          value: 'involvedIn'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages:
+#          value: 'manages'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
+          value: 'offers'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
+          value: 'needs'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes:
+#          value: 'organizes'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf:
+          value: 'participantOf'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms:
+#          value: 'brainstorms'
+#          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant'
+
+    organizationConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization'
+      spec: 'form-Organization'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
+          value: 'representedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
+          value: 'hasInterest'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#email:
+          value: 'e-mail'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#phone:
+          value: 'phone'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hostedIn:
+          value: 'hostedIn'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
+          value: 'documentedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
+          value: 'hasSubject'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember:
+          value: 'hasMember'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible:
+          value: 'hasResponsible'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs:
+          value: 'employs'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf:
+          value: 'partnerOf'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn:
+          value: 'involvedIn'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages:
+          value: 'manages'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#operates:
+#          value: 'operates'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes:
+          value: 'organizes'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf:
+          value: 'participantOf'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
+          value: 'offers'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
+          value: 'needs'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms:
+#          value: 'brainstorms'
+#          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasResponsible: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#responsibleOf'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employs: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employedBy'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#partnerOf'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
+
+    documentTypeConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
+      spec: 'form-DocumentType'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse: null
+
+    documentConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
+      spec: 'form-Document'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#represents:
+#          value: 'represents'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents:
+          value: 'documents'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references:
+          value: 'references'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType:
+          value: 'hasType'
+          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy'
+
+    projectConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
+      spec: 'form-Project'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes:
+#          value: 'concretizes'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy:
+          value: 'managedBy'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
+#          value: 'representedBy'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#offers:
+          value: 'offers'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#needs:
+          value: 'needs'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves:
+          value: 'involves'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
+          value: 'documentedBy'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#delivers:
+#          value: 'delivers'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
+          value: 'hasSubject'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf:
+#          value: 'subjectOf'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
+          value: 'hasInterest'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
+          value: 'image'
+          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizes : 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
+
+    eventConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
+      spec: 'form-Event'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier:
+#          value: 'subjectIdentifier'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#startDate:
+          value: 'startDate'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#endDate:
+          value: 'endDate'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#localizedBy:
+          value: 'localizedBy'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
+#          value: 'representedBy'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
+          value: 'documentedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
+          value: 'hasSubject'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
+          value: 'hasInterest'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy:
+          value: 'organizedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant:
+          value: 'hasParticipant'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
+          value: 'image'
+          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
+
+    proposalConf:
+      type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
+      spec: 'form-Proposal'
+      fields:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
+          value: 'preferedLabel'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#alternativeLabel:
+          value: 'alternativeLabel'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectIdentifier:
+#          value: 'subjectIdentifier'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#description:
+          value: 'description'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#comment:
+          value: 'comment'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#aboutPage:
+          value: 'aboutPage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#homePage:
+          value: 'homePage'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy:
+          value: 'brainstormedBy'
+          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#concretizedBy:
+#          value: 'concretizedBy'
+#          access:
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#representedBy:
+#          value: 'representedBy'
+#          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
+          value: 'documentedBy'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject:
+          value: 'hasSubject'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasInterest:
+          value: 'hasInterest'
+          access:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#image:
+          value: 'image'
+          access:
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access:
+      reverse:
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
