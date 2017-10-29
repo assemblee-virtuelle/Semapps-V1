@@ -119,7 +119,6 @@ class WebserviceController extends Controller
                 $output = [
                   'access'       => $access,
                   'name'         => $name,
-                  //'fieldsAccess' => $this->container->getParameter('fields_access'),
                   'buildings'    => mmmfestConfig::$buildings,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
@@ -486,7 +485,6 @@ class WebserviceController extends Controller
         $properties   = $sfClient->uriProperties($uri);
         $sfConf = $this->getConf(current($properties[self::TYPE]));
         $output       = [];
-        $fieldsFilter = $this->container->getParameter('fields_access');
         $user         = $this->GetUser();
         $this
           ->getDoctrine()
@@ -538,7 +536,7 @@ class WebserviceController extends Controller
 									'brainstorms',
 									'documentedBy',
 								];
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
 //								if (isset($properties['hostedIn'])) {
 //										$properties['building'] = current($properties['hostedIn']);
 //										$properties['hostedIn'] = mmmfestConfig::$buildings[current($properties['hostedIn'])]['title'];
@@ -585,7 +583,7 @@ class WebserviceController extends Controller
 									'participantOf',
 									'brainstorms',
 								];
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
 								if (isset($properties['offers'])) {
 										foreach ($properties['offers'] as $uri) {
 												$output['offers'][] = [
@@ -633,7 +631,7 @@ class WebserviceController extends Controller
 												];
 										}
 								}
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
                 break;
             // Event.
             case mmmfestConfig::URI_PAIR_EVENT:
@@ -651,7 +649,7 @@ class WebserviceController extends Controller
 										$properties['building'] = current($properties['localizedBy']);
 										$properties['localizedBy'] = mmmfestConfig::$buildings[current($properties['localizedBy'])]['title'];
 								}
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
                 break;
             // Proposition.
             case mmmfestConfig::URI_PAIR_PROPOSAL:
@@ -666,7 +664,7 @@ class WebserviceController extends Controller
 									'documentedBy',
 
 								];
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
                 break;
 						// document
 						case mmmfestConfig::URI_PAIR_DOCUMENT:
@@ -679,7 +677,7 @@ class WebserviceController extends Controller
 									'referencesBy',
 									'hasType'
 								];
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
 								break;
 						//document type
 						case mmmfestConfig::URI_PAIR_DOCUMENT_TYPE:
@@ -690,7 +688,7 @@ class WebserviceController extends Controller
 									'typeOf'
 								];
 								//dump($properties);exit;
-								$this->getData2($properties,$propertiesWithUri,$output);
+								$this->getData($properties,$propertiesWithUri,$output);
 								break;
         }
 				if (isset($properties['hasSubject'])) {
@@ -717,7 +715,7 @@ class WebserviceController extends Controller
 
     }
 
-		private function getData2($properties,$tabFieldsAlias,&$output){
+		private function getData($properties,$tabFieldsAlias,&$output){
 				$cacheTemp = [];
 				foreach ($tabFieldsAlias as $alias) {
 						if (isset($properties[$alias])) {
