@@ -582,6 +582,8 @@ class WebserviceController extends Controller
 									'manages',
 									'participantOf',
 									'brainstorms',
+									'manages',
+									'organizes',
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
 								if (isset($properties['offers'])) {

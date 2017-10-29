@@ -151,7 +151,7 @@
         <!-- manages -->
         <template is="dom-if" if="[[data.manages.projet.length]]">
           <h3>Projet(s) qu'il gère</h3>
-          <template is="dom-repeat" items="{{data.manages}}">
+          <template is="dom-repeat" items="{{data.manages.projet}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -183,6 +183,17 @@
           </div>
         </template>
         <!-- end of needs -->
+        <!-- participantOf -->
+        <template is="dom-if" if="[[data.organizes.event.length]]">
+          <h3>Evénements qu'il organise</h3>
+          <template is="dom-repeat" items="{{data.organizes.event}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of participantOf -->
         <!-- participantOf -->
         <template is="dom-if" if="[[data.participantOf.event.length]]">
           <h3>Evénements auxquels il participe</h3>
