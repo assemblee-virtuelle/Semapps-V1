@@ -99,6 +99,17 @@ class ProposalType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
+					->add(
+						$builder,
+						'hasSubjectPAIR',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => implode('|',mmmfestConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
+						]
+					)
 				;
 				$builder->add(
 					'componentPicture',

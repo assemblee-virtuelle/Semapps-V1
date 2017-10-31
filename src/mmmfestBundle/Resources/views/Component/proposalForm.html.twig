@@ -57,7 +57,11 @@
                     {{ form_row(form.hasSubject) }}
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasSubjectPAIR, { 'label': 'Concerne'}) }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs'}) }}

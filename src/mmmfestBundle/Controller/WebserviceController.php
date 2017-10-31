@@ -535,6 +535,7 @@ class WebserviceController extends Controller
 									'participantOf',
 									'brainstorms',
 									'documentedBy',
+										'subjectOfPAIR',
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
 //								if (isset($properties['hostedIn'])) {
@@ -585,6 +586,8 @@ class WebserviceController extends Controller
 									'manages',
 									'organizes',
 									'documentedBy',
+									'subjectOfPAIR',
+
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
 								if (isset($properties['offers'])) {
@@ -616,6 +619,7 @@ class WebserviceController extends Controller
 									'managedBy',
 //									'representedBy',
 									'documentedBy',
+									'subjectOfPAIR',
 
 								];
 								if (isset($properties['needs'])) {
@@ -646,6 +650,7 @@ class WebserviceController extends Controller
 									'organizedBy',
 									'hasParticipant',
 									'documentedBy',
+									'subjectOfPAIR',
 
 								];
 								if (isset($properties['localizedBy'])) {
@@ -665,6 +670,7 @@ class WebserviceController extends Controller
 									'concretizedBy',
 									#'representedBy',
 									'documentedBy',
+									'hasSubjectPAIR',
 
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
@@ -678,7 +684,8 @@ class WebserviceController extends Controller
 									'documents',
 									'references',
 									'referencesBy',
-									'hasType'
+									'hasType',
+									'subjectOfPAIR',
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
 								break;
