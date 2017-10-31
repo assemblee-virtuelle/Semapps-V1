@@ -82,6 +82,9 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#employedBy:
           value: 'employedBy'
           access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy:
+          value: 'documentedBy'
+          access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#knows'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#memberOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasMember'

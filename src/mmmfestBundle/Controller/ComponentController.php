@@ -80,8 +80,6 @@ class ComponentController extends Controller
           ).'Type';
         $componentConf = $this->getParameter($this->componentName.'Conf');
 
-        $specName = 'SPEC_'.strtoupper($request->get('component'));
-
         $form = $this->createForm(
           $componentClassName,
           null,
