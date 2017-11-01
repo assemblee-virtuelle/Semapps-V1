@@ -43,7 +43,7 @@ class WebserviceController extends Controller
       ],
       mmmfestConfig::URI_PAIR_PROPOSAL  => [
         'name'   => 'Proposition',
-        'plural' => 'Feedback',
+        'plural' => 'Propositions',
         'icon'   => 'info-sign',
 				'nameType' => 'proposition'
       ],
