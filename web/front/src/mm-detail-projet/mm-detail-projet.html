@@ -174,7 +174,7 @@
         </template>
         <!-- end of documentedby -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
-          <h3>Est concerné par</h3>
+          <h3>Propositions</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
