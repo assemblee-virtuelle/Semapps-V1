@@ -254,7 +254,7 @@ parameters:
           value: 'references'
           access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy:
-          value: 'references'
+          value: 'referencesBy'
           access: 'anonymous'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType:
           value: 'hasType'
