@@ -42,7 +42,30 @@
                   </td>
                 </tr>
               </template>
-
+              <template is="dom-if" if="[[licence]]">
+                <tr class="field">
+                  <td class="fieldLabel">Licence</td>
+                  <td>[[licence]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[publicationDate]]">
+                <tr class="field">
+                  <td class="fieldLabel">Date de publication</td>
+                  <td>[[publicationDate]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[format]]">
+                <tr class="field">
+                  <td class="fieldLabel">Format</td>
+                  <td>[[format]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[language]]">
+                <tr class="field">
+                  <td class="fieldLabel">Langage</td>
+                  <td>[[language]]</td>
+                </tr>
+              </template>
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -116,7 +139,6 @@
         <!-- referencesBy -->
         <template is="dom-if" if="[[data.referencesBy.document.length]]">
           <h3>Document(s) citant ce document</h3>
-          
             <template is="dom-repeat" items="{{data.referencesBy.document}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">

@@ -686,6 +686,8 @@ class WebserviceController extends Controller
 									'referencesBy',
 									'hasType',
 									'subjectOfPAIR',
+										'internal_author',
+										'internal_contributor',
 								];
 								$this->getData($properties,$propertiesWithUri,$output);
 								break;

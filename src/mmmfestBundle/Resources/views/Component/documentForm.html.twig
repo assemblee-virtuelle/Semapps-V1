@@ -27,6 +27,22 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.licence, { 'label': 'Licence'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.publicationDate, { 'label': 'Date de publication'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.format, { 'label': 'Format'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.language, { 'label': 'Langage'}) }}
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.hasType, { 'label': 'Type de document'}) }}
                 </div>
@@ -37,6 +53,16 @@
                 </div>
                 <div class="col-sm-6">
                     {{ form_row(form.aboutPage) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.internal_author, { 'label': 'Auteur'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.internal_contributor, { 'label': 'Contributeur'}) }}
                 </div>
             </div>
             <div class="row">

@@ -4,6 +4,7 @@ namespace mmmfestBundle\Form;
 
 use mmmfestBundle\mmmfestConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -91,6 +92,66 @@ class DocumentType extends AbstractForm
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT_TYPE,
 						]
 					)
+					->add(
+						$builder,
+						'internal_author',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'internal_contributor',
+						UriType::class,
+						[
+							'required'  => false,
+							'lookupUrl' => $options['lookupUrlPerson'],
+							'labelUrl'  => $options['lookupUrlLabel'],
+							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'format',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'language',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'licence',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'publicationDate',
+						DateType::class,
+						[
+							'required' => false,
+
+							'placeholder' => array(
+								'year' => 'Année', 'month' => 'Mois', 'day' => 'Jour',
+							),
+							'years' => range(date('Y') -150, date('Y')),
+						]
+					)
+
 				;
 
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);

@@ -262,6 +262,30 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#internal_author:
+          value: 'internal_author'
+          access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#internal_contributor:
+          value: 'internal_contributor'
+          access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#format:
+           value: 'format'
+           access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#language:
+           value: 'language'
+           access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#licence:
+           value: 'licence'
+           access: 'anonymous'
+        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#publicationDate:
+           value: 'publicationDate'
+           access: 'anonymous'
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#source:
+#           value: 'source'
+#           access: 'anonymous'
+#        http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#version:
+#           value: 'version'
+#           access: 'anonymous'
       reverse:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf'

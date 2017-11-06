@@ -20,6 +20,10 @@ Polymer({
         this.references = this.data.references;
         this.referencesBy = this.data.referencesBy;
         this.hasType = this.data.hasType;
+        if (this.publicationDate) {
+            let publicationDate = new Date(this.publicationDate);
+            this.publicationDate = publicationDate.getDate() + '/' + (publicationDate.getMonth() + 1) + '/' + publicationDate.getFullYear();
+        }
         //this.buildingTitle = gvc.buildings[this.data.properties.building].title;
     },
 
