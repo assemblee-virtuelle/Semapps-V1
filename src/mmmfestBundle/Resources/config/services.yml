@@ -13,8 +13,3 @@ services:
     mmmfestBundle.formattingForm:
         class: mmmfestBundle\Services\FormattingForm
         arguments: ~
-
-    mmmfestBundle.componentLoader:
-        class: mmmfestBundle\Routing\ComponentLoader
-        tags:
-            - { name: routing.loader }

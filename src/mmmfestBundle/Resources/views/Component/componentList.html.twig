@@ -6,7 +6,7 @@
     {{ parent() }}
     <ul class="nav nav-tabs">
         <li role="presentation" class="active pull-right">
-            <a href="{{ path(componentName ~ 'Add') }}">
+            <a href="{{ path('componentForm',{'componentName':componentName}) }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Ajouter</a>
         </li>
@@ -18,12 +18,12 @@
             <tr>
                 <td style="width:100%">{{ item.title }}</td>
                 <td>
-                    <a href="{{ path(componentName ~ 'Edit',{uri:item.uri}) }}"
+                    <a href="{{ path('componentForm',{'componentName':componentName,uri:item.uri}) }}"
                        class="btn"><span
                                 class="glyphicon glyphicon-edit"></span>&nbsp;Editer</a>
                 </td>
                 <td class="padded-value">
-                    <a class="component-delete" href="#" rel="{{ item.uri }}" name="{{ componentName }}">
+                    <a class="component-delete" href="{{ path('componentDelete',{'componentName':componentName,'uri':item.uri}) }}" name="{{ componentName }}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>

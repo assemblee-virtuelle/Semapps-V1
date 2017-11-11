@@ -1,10 +1,6 @@
 grands_voisins:
     resource: "@mmmfestBundle/Resources/config/routing.yml"
     prefix:   /
-# tested
-grands_voisins_loader:
-    resource: .
-    type: component
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"

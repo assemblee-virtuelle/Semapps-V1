@@ -6,12 +6,12 @@ class CartoAdminPageComponent extends CartoAdminPage {
     $('.component-delete').click((e) => {
       // Disable default click behavior.
       e.preventDefault();
-      let uri = $(e.currentTarget).attr('rel');
+      let route = $(e.currentTarget).attr('href');
       let nameComponent = $(e.currentTarget).attr('name');
       // Use custom modal for message.
       this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer ce '+nameComponent+' ? ' +
         'Toutes les informations seront perdues. ', () => {
-        window.location.replace('/mon-compte/component/delete?uri=' + uri+'&componentName='+nameComponent);
+        window.location.replace(route);
       });
     });
     $('.component-new-picture').change((e) => {

@@ -114,8 +114,16 @@ orgaDelete:
 # component Controller #
 # tested
 componentDelete:
-    path:     /mon-compte/component/delete
+    path:     /mon-compte/component/{componentName}/delete
     defaults: { _controller: mmmfestBundle:Component:remove }
+
+componentList:
+    path:     /mon-compte/component/{componentName}/list
+    defaults: { _controller: mmmfestBundle:Component:list}
+
+componentForm:
+    path:     /mon-compte/component/{componentName}/form
+    defaults: { _controller: mmmfestBundle:Component:add}
 
 ### webservice ###
 # tested

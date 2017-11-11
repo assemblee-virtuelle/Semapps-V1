@@ -10,12 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 class ComponentController extends Controller
 {
 
-    var $componentName = 'undefined';
-    var $pluralName = 'undefined';
-    var $sparqlPrefix = 'undefined';
-
-    public function listAction()
+    public function listAction($componentName)
     {
+				$componentList = $this->getParameter('semantic_forms.component');
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
@@ -34,7 +31,7 @@ class ComponentController extends Controller
         $sparql->addPrefixes($sparql->prefixes)
 					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
             ->addSelect('?URI ?NAME')
-            ->addWhere('?URI','rdf:type',$this->sparqlPrefix,$graphURI)
+            ->addWhere('?URI','rdf:type',$componentList[$componentName],$graphURI)
             ->addWhere('?URI','default:preferedLabel','?NAME',$graphURI);
         $results = $sfClient->sparql($sparql->getQuery());
 
@@ -49,16 +46,16 @@ class ComponentController extends Controller
         }
 
         return $this->render(
-          'mmmfestBundle:Component:'.$this->componentName.'List.html.twig',
+          'mmmfestBundle:Component:'.$componentName.'List.html.twig',
           array(
-            'componentName' => $this->componentName,
-            'plural'        => $this->pluralName,
+            'componentName' => $componentName,
+            'plural'        => $componentName.'(s)',
             'listContent'   => $listContent,
           )
         );
     }
 
-    public function addAction(Request $request)
+    public function addAction($componentName,Request $request)
     {
         /** @var \mmmfestBundle\Services\Encryption $encryption */
         $encryption 	= $this->container->get('mmmfestBundle.encryption');
@@ -76,9 +73,9 @@ class ComponentController extends Controller
 
         // Same as FormType::class
         $componentClassName = 'mmmfestBundle\Form\\'.ucfirst(
-            $this->componentName
+            $componentName
           ).'Type';
-        $componentConf = $this->getParameter($this->componentName.'Conf');
+        $componentConf = $this->getParameter($componentName.'Conf');
 
         $form = $this->createForm(
           $componentClassName,
@@ -166,40 +163,33 @@ class ComponentController extends Controller
 						}
 						$this->addFlash('info', 'Le contenu à bien été mis à jour.');
             return $this->redirectToRoute(
-              strtolower($request->get('component')).'List'
+              'componentList', ["componentName" => $componentName]
             );
         }
         // Fill form
         return $this->render(
-          'mmmfestBundle:Component:'.$this->componentName.'Form.html.twig',
+          'mmmfestBundle:Component:'.$componentName.'Form.html.twig',
           array(
             'form' => $form->createView(),
             'image' => $actualImageName
           )
         );
     }
-    public function removeAction(){
-
-        $route = [
-          'project' => 'projet',
-          'event' => 'evenement',
-          'proposal' => 'proposal',
-					'document' => 'document',
-					'documenttype' => 'documentType'
-          ];
+    public function removeAction($componentName,Request $request){
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
-        $componentName = $_GET['componentName'];
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-        $uri = $sparql->formatValue($_GET['uri'],$sparql::VALUE_TYPE_URL);
+        $uri = $sparql->formatValue($request->get('uri'),$sparql::VALUE_TYPE_URL);
         $sparql->addDelete($uri,'?P','?O','?gr')
             ->addDelete('?s','?PP',$uri,'?gr')
             ->addWhere($uri,'?P','?O','?gr');
             //->addWhere('?s','?PP',$uri,'?gr');
         $sfClient->update($sparql->getQuery());
 
-        return $this->redirect('/mon-compte/'.$route[$componentName]);
+				return $this->redirectToRoute(
+					'componentList', ["componentName" => $componentName]
+				);
     }
 }

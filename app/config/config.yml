@@ -13,6 +13,13 @@ parameters:
     picture_directory: '%kernel.root_dir%/../web/uploads/pictures'
     semantic_forms.prefixes:
         gvoi: "<http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#>"
+    semantic_forms.component:
+        project: 'default:Project'
+        event: 'default:Event'
+        proposal: 'default:Proposal'
+        document: 'default:Document'
+        documentType: 'default:DocumentType'
+
 framework:
     #esi:             ~
     translator:      ~

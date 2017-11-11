@@ -113,11 +113,11 @@
                                     {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
                                     {{ admin.menuItem('Les organisations', 'all_orga', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Les utilisateurs', 'user', 'user','gérer les utilisateurs', menuSelected, 'SUPER_ADMIN') }}
-                                    {{ admin.menuItem('Projets', 'projectList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER') }}
-                                    {{ admin.menuItem('Evénements', 'eventList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER') }}
-                                    {{ admin.menuItem('Proposition', 'proposalList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER') }}
-                                    {{ admin.menuItem('Document', 'documentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER') }}
-                                    {{ admin.menuItem('Type de document', 'documenttypeList', 'pushpin','référencer des types documents', menuSelected, 'SUPER_ADMIN') }}
+                                    {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
+                                    {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
+                                    {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
+                                    {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
+                                    {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'SUPER_ADMIN',{'componentName':'documentType'}) }}
                                     {{ admin.menuItem('Repas','food','grain','gérer les repas', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
