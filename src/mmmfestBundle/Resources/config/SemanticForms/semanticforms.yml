@@ -2,7 +2,7 @@ parameters:
 
     profileConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person'
-      spec: 'form-Person'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Person'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -96,7 +96,7 @@ parameters:
 
     organizationConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization'
-      spec: 'form-Organization'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Organization'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -191,7 +191,7 @@ parameters:
 
     documenttypeConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
-      spec: 'form-DocumentType'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-DocumentType'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel:
           value: 'preferedLabel'
@@ -221,7 +221,7 @@ parameters:
 
     documentConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
-      spec: 'form-Document'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Document'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -293,7 +293,7 @@ parameters:
 
     projectConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
-      spec: 'form-Project'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Project'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -363,7 +363,7 @@ parameters:
 
     eventConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
-      spec: 'form-Event'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Event'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -429,7 +429,7 @@ parameters:
 
     proposalConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
-      spec: 'form-Proposal'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Proposal'
       fields:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject_Pair:
           value: 'hasSubjectPAIR'

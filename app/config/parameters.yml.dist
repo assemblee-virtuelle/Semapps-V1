@@ -21,7 +21,6 @@ parameters:
     semantic_forms.login: 'aa'
     semantic_forms.password: 'aa'
     semantic_forms.timeout: 10
-    semantic_forms.base_url_form: ''
 
    # is here to have a message on all page in admin : typically, if we need to shutdown the Semantic Forms server --> all user can be prevent
    # example :
