@@ -14,7 +14,7 @@ use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class DocumenttypeType extends AbstractForm
+class DocumentTypeType extends AbstractForm
 {
 
 

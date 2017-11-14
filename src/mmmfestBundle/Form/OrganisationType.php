@@ -17,7 +17,7 @@ use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class OrganizationType extends AbstractForm
+class OrganisationType extends AbstractForm
 {
 
 		public function buildForm(FormBuilderInterface $builder, array $options)

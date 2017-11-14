@@ -59,11 +59,11 @@ user:
 sendUser:
     path:     /user/send/{userId}/{nameRoute}
     defaults: { _controller: mmmfestBundle:Admin:sendUser }
-
-# tested
-fos_user_profile_show:
-    path:     /mon-compte/profile
-    defaults: { _controller: mmmfestBundle:Admin:profile }
+#
+## tested
+#fos_user_profile_show:
+#    path:     /mon-compte/profile
+#    defaults: { _controller: mmmfestBundle:Admin:profile }
 
 # tested
 team:
@@ -97,19 +97,45 @@ all_orga:
 orgaExport:
     path:     /orga-export/csv
     defaults: { _controller: mmmfestBundle:Organisation:orgaExport }
-
-# tested
-detail_orga:
-    path:     /orga/detail
-    defaults: { _controller: mmmfestBundle:Organisation:organisation }
-# tested
-detail_orga_edit:
-    path:     /orga/detail/{orgaId}
-    defaults: { _controller: mmmfestBundle:Organisation:organisation }
+#
+## tested
+#detail_orga:
+#    path:     /orga/detail
+#    defaults: { _controller: mmmfestBundle:Organisation:organisation }
+## tested
+#detail_orga_edit:
+#    path:     /orga/detail/{orgaId}
+#    defaults: { _controller: mmmfestBundle:Organisation:organisation }
 
 orgaDelete:
     path:     /mon-compte/orga/delete/{orgaId}
     defaults: { _controller: mmmfestBundle:Organisation:orgaDelete }
+
+orgaComponentForm:
+    path:     /mon-compte/{uniqueComponentName}/form/{id}
+    defaults: { _controller: mmmfestBundle:Organisation:add}
+    requirements:
+      uniqueComponentName: 'organisation'
+
+
+orgaComponentFormWithoutId:
+    path:     /mon-compte/{uniqueComponentName}/form
+    defaults: { _controller: mmmfestBundle:Organisation:add}
+    requirements:
+      uniqueComponentName: 'organisation'
+
+
+personComponentForm:
+    path:     /mon-compte/{uniqueComponentName}/form/{id}
+    defaults: { _controller: mmmfestBundle:Admin:add}
+    requirements:
+      uniqueComponentName: 'person'
+
+personComponentFormWithoutId:
+    path:     /mon-compte/{uniqueComponentName}/form
+    defaults: { _controller: mmmfestBundle:Admin:add}
+    requirements:
+      uniqueComponentName: 'person'
 
 # component Controller #
 # tested

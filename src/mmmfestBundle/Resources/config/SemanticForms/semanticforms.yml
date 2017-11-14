@@ -1,6 +1,6 @@
 parameters:
 
-    profileConf:
+    personConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Person'
       fields:
@@ -94,7 +94,7 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant'
 
-    organizationConf:
+    organisationConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Organization'
       fields:
@@ -218,7 +218,8 @@ parameters:
           value: 'type'
           access: 'anonymous'
       reverse: null
-
+      label:
+        - http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel
     documentConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Document'
@@ -290,7 +291,8 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#references: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#referencesBy'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#typeOf'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy'
-
+      label:
+        - http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel
     projectConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Project'
@@ -360,6 +362,8 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#managedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#manages'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involves: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#involvedIn'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
+      label:
+        - http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel
 
     eventConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
@@ -426,7 +430,8 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#organizes'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasParticipant: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#participantOf'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
-
+      label:
+        - http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel
     proposalConf:
       type: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/mm-forms.ttl#form-Proposal'
@@ -483,3 +488,5 @@ parameters:
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstormedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#brainstorms'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documentedBy: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#documents'
         http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#hasSubject_Pair: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#subjectOf_Pair'
+      label:
+        - http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#preferedLabel
