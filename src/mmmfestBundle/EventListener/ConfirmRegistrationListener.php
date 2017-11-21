@@ -51,7 +51,8 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
             [
                 'form_params' => $data
             ]);
-        $url = $this->router->generate('fos_user_profile_show');
+
+				$url = $this->router->generate('personComponentFormWithoutId',["uniqueComponentName" => "person"]);
         $event->setResponse(new RedirectResponse($url));
     }
 }
