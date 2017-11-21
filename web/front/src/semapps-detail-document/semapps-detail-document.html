@@ -1,0 +1,179 @@
+<dom-module id="semapps-detail-document">
+  <link rel="import" type="css" href="semapps-detail-document.css">
+  <template>
+    <div id="semapps-detail-document">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.preferedLabel]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[representedBy]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[representedBy]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!representedBy]]">
+              <semapps-logo-mini text-color="#1e90ff"></semapps-logo-mini>
+            </template>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[alternativeLabel]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre nom</td>
+                  <td>[[alternativeLabel]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Commentaire</td>
+                  <td>[[comment]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[homePage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre site</td>
+                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[licence]]">
+                <tr class="field">
+                  <td class="fieldLabel">Licence</td>
+                  <td>[[licence]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[publicationDate]]">
+                <tr class="field">
+                  <td class="fieldLabel">Date de publication</td>
+                  <td>[[publicationDate]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[format]]">
+                <tr class="field">
+                  <td class="fieldLabel">Format</td>
+                  <td>[[format]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[language]]">
+                <tr class="field">
+                  <td class="fieldLabel">Langage</td>
+                  <td>[[language]]</td>
+                </tr>
+              </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <!-- documents -->
+        <template is="dom-if" if="[[data.documents.organization.length]]">
+          <h3>Sujet du document ( organisation )</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.organization}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <template is="dom-if" if="[[data.documents.projet.length]]">
+          <h3>Sujet du document ( projet )</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.projet}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <template is="dom-if" if="[[data.documents.event.length]]">
+          <h3>Sujet du document ( événement )</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.event}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.documents.proposition.length]]">
+          <h3>Sujet du document ( proposition )</h3>
+          
+            <template is="dom-repeat" items="{{data.documents.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <!-- end of documents -->
+        <!-- references -->
+        <template is="dom-if" if="[[data.references.document.length]]">
+          <h3>Lien bibliographique</h3>
+          
+            <template is="dom-repeat" items="{{data.references.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <!-- end of references -->
+        <!-- referencesBy -->
+        <template is="dom-if" if="[[data.referencesBy.document.length]]">
+          <h3>Document(s) citant ce document</h3>
+            <template is="dom-repeat" items="{{data.referencesBy.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <!-- end of referencesBy -->
+        <!-- hasType -->
+        <template is="dom-if" if="[[data.hasType.documenttype.length]]">
+          <h3>Type</h3>
+          
+            <template is="dom-repeat" items="{{data.hasType.documenttype}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+
+        </template>
+        <!-- end of hasType -->
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+          <h3>Propositions</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script src="semapps-detail-document.min.js"></script>
+</dom-module>

@@ -1,10 +1,10 @@
-body.skip-intro #mm-logo-animated-inner {
+body.skip-intro #semapps-logo-animated-inner {
   animation-delay: 0s;
   display: none;
 }
 
 .pageLoadingSpinner {
-  .mm-spinner {
+  .semapps-spinner {
     width: 50px;
     margin: 40px auto;
   }
@@ -24,9 +24,9 @@ footer {
 
   .wexample-logo,
   .aurore-logo,
-  .mm-logo-mini,
-  .mm-logo-mini div,
-  .mm-logo-mini svg,
+  .semapps-logo-mini,
+  .semapps-logo-mini div,
+  .semapps-logo-mini svg,
   .av-logo-svg {
     width: 40px;
     display: inline;
@@ -50,7 +50,7 @@ footer {
     }
   }
 
-  .mm-logo-mini svg {
+  .semapps-logo-mini svg {
     path {
       stroke: $logoColor;
     }

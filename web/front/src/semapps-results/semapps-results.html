@@ -1,0 +1,51 @@
+<dom-module id="semapps-results">
+  <link rel="import" type="css" href="semapps-results.css">
+  <link rel="import" href="../semapps-results-item/semapps-results-item.html">
+  <link rel="import" href="../semapps-results-tab/semapps-results-tab.html">
+  <link rel="import" href="../semapps-spinner/semapps-spinner.html">
+  <template>
+    <div class="row">
+      <div class="col col-sm-12">
+        <ul id="searchTabs" class="nav nav-tabs">
+          <template id="searchResultsList" is="dom-repeat" items="{{tabs}}">
+            <semapps-results-tab data="[[item]]"></semapps-results-tab>
+          </template>
+        </ul>
+      </div>
+      <div class="col col-sm-8">
+        <div class="clearfix"></div>
+        <h3 class="resultsTitle">[[resultsTitle]]</h3>
+        <div id="searchResults" class="col col-sm-12">
+          <template is="dom-repeat" items="{{results}}">
+            <semapps-results-item data="[[item]]"></semapps-results-item>
+          </template>
+        </div>
+        <template is="dom-if" if="[[searchError]]">
+          <div id="semapps-results-error" class="alert alert-danger">Une erreur c'est
+            produite lors du chargement...
+          </div>
+        </template>
+        <template is="dom-if" if="[[noResult]]">
+          <div id="semapps-results-empty" class="alert alert-info">
+            Ouch !
+          </div>
+        </template>
+        <div id="searchLoadingSpinner" class="pageLoadingSpinner">
+          <semapps-spinner></semapps-spinner>
+        </div>
+      </div>
+      <div class="col col-sm-4 col-blocks">
+        <div class="block">
+          La cartographie de la mmmfest
+        </div>
+        <div class="content">
+          Cet outil répertorie les structures et/ou personnes participant au projet mmmfest .<br>Il permet à tous ces acteurs de mieux se connaître et d'intégrer plus facilement la dynamique du projet.<br>
+          Pour le grand public, la Cartographie est un annuaire en ligne permettant d’identifier ou de retrouver les Voisins. <br>La recherche peut se faire par bâtiment et par domaines, et à terme par projet et par événement.<br>
+          La Cartographie de la mmmfest est développée par l’Assemblée virtuelle.
+        </div>
+      </div>
+    </div>
+
+  </template>
+  <script src="semapps-results.min.js"></script>
+</dom-module>

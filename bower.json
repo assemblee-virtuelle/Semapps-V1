@@ -1,5 +1,5 @@
 {
-  "name": "mm-carto",
+  "name": "semapps-carto",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",

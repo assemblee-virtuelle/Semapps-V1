@@ -1,6 +1,6 @@
 {
-  "name": "mm-carto",
-  "short_name": "mm-carto",
+  "name": "semapps-carto",
+  "short_name": "semapps-carto",
   "start_url": "/",
   "display": "standalone"
 }

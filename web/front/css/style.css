@@ -1,8 +1,8 @@
-body.skip-intro #mm-logo-animated-inner {
+body.skip-intro #semapps-logo-animated-inner {
   animation-delay: 0s;
   display: none; }
 
-.pageLoadingSpinner .mm-spinner {
+.pageLoadingSpinner .semapps-spinner {
   width: 50px;
   margin: 40px auto; }
 
@@ -16,9 +16,9 @@ footer {
     text-decoration: none; }
   footer .wexample-logo,
   footer .aurore-logo,
-  footer .mm-logo-mini,
-  footer .mm-logo-mini div,
-  footer .mm-logo-mini svg,
+  footer .semapps-logo-mini,
+  footer .semapps-logo-mini div,
+  footer .semapps-logo-mini svg,
   footer .av-logo-svg {
     width: 40px;
     display: inline;
@@ -32,7 +32,7 @@ footer {
     height: 20px; }
   footer .av-logo-svg path {
     fill: rgba(0, 0, 0, 0.3); }
-  footer .mm-logo-mini svg path {
+  footer .semapps-logo-mini svg path {
     stroke: rgba(0, 0, 0, 0.3); }
   footer .separator {
     border-right: 1px solid rgba(0, 0, 0, 0.1);

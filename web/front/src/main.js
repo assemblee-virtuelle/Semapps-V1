@@ -21,7 +21,7 @@
       this.$window = $(window);
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
-      this.$gvMap = $(document.getElementById('mm-map'));
+      this.$gvMap = $(document.getElementById('semapps-map'));
       this.allowedType = [
           "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person",
           "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization",

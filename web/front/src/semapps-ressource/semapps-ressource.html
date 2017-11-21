@@ -1,0 +1,38 @@
+<dom-module id="semapps-ressource">
+  <link rel="import" type="css" href="semapps-ressource.css">
+  <link rel="import" href="../semapps-results-item/semapps-results-item.html">
+  <template>
+    <div id="ressource" class="page-ressource" style="display: none">
+      <ul id="ressourceTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack" on-click="handleBack" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
+        </li>
+      </ul>
+      <div class="col col-sm-8">
+        <h2>Détail à propos de la ressource : {{ title }} </h2>
+    </div>
+    <div class="row">
+      <div id="searchResults"  class="col col-sm-6">
+        <h4>ressourceNeeded</h4>
+        <template is="dom-repeat" items="{{ressourcesNeeded}}">
+          <semapps-results-item data="[[item]]"></semapps-results-item>
+        </template>
+      </div>
+      <div id="searchResults"  class="col col-sm-6">
+        <h4>ressourcesProposed</h4>
+        <template is="dom-repeat" items="{{ressourcesProposed}}">
+          <semapps-results-item data="[[item]]"></semapps-results-item>
+        </template>
+      </div>
+    </div>
+
+    <template is="dom-if" if="[[loading]]">
+      <div id="ressourceSpinner" class="pageLoadingSpinner">
+        <semapps-spinner></semapps-spinner>
+      </div>
+    </template>
+
+  </template>
+  <script src="semapps-ressource.min.js"></script>
+</dom-module>

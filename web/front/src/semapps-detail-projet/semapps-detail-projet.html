@@ -1,0 +1,191 @@
+<dom-module id="semapps-detail-projet">
+  <link rel="import" type="css" href="semapps-detail-projet.css">
+  <template>
+    <div id="semapps-detail-projet">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.preferedLabel]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[image]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[image]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!haveImage]]">
+              <semapps-logo-mini text-color="#1e90ff"></semapps-logo-mini>
+            </template>
+            <div class="social-links">
+              <semapps-social-link url="[[facebook]]"
+                              icon="facebook-square"></semapps-social-link>
+              <semapps-social-link url="[[twitter]]"
+                              icon="twitter"></semapps-social-link>
+            </div>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[alternativeLabel]]">
+                <tr class="field">
+                  <td class="fieldLabel">Autre nom</td>
+                  <td>[[alternativeLabel]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Description courte</td>
+                  <td>[[comment]]
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[homepage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[homepage]]" target="_blank">[[homepage]]</a>
+                  </td>
+                </tr>
+              </template>
+                <template is="dom-if" if="[[aboutPage]]">
+                  <tr class="field">
+                    <td class="fieldLabel">Autre site</td>
+                    <td>[[aboutPage]]</td>
+                  </tr>
+                </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <!-- concretizes -->
+        <!--<template is="dom-if" if="[[data.concretizes.proposition.length]]">-->
+          <!--<h3>concretizes</h3>-->
+          <!--<template is="dom-repeat" items="{{data.concretizes.proposition}}">-->
+            <!--<a href="#" rel="{{item.uri}}" on-click="handleClickDetail"-->
+               <!--class="list-item">-->
+              <!--<span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>-->
+          <!--</template>-->
+          <!--<div class="clearfix"></div>-->
+        <!--</template>-->
+        <!-- end of concretizes -->
+        <!-- managedBy -->
+        <template is="dom-if" if="[[managedBy.person.length]]">
+          <h3>Personnes responsables</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{managedBy.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[managedBy.organization.length]]">
+          <h3>Organisations responsables</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{managedBy.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of managedBy -->
+        <!-- involves -->
+        <template is="dom-if" if="[[data.involves.person.length]]">
+          <h3>Personnes impliquées </h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.involves.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.involves.organization.length]]">
+          <h3>Organisations impliquées</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.involves.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of involves -->
+        <!-- hasInterest -->
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>Centres d'intérêts</h3>
+          <div class="tags-cloud">
+
+            <template is="dom-repeat" items="{{hasInterest}}">
+              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of hasInterest -->
+        <template is="dom-if" if="[[hasSubject.length]]">
+          <h3>Mots-clés</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasSubject}}">
+              <a href="{{ item.uri }}" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- needs -->
+        <template is="dom-if" if="[[data.needs.length]]">
+          <h3>Besoins</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.needs}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of needs -->
+        <!-- offers -->
+        <template is="dom-if" if="[[data.offers.length]]">
+          <h3>Offres</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{data.offers}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of offers -->
+        <!-- documentedby -->
+        <template is="dom-if" if="[[data.documentedBy.document.length]]">
+          <h3>Document(s) descriptif(s)</h3>
+          <template is="dom-repeat" items="{{data.documentedBy.document}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of documentedby -->
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+          <h3>Propositions</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script src="semapps-detail-projet.min.js"></script>
+</dom-module>
