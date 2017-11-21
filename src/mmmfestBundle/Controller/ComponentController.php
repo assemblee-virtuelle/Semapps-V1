@@ -31,16 +31,6 @@ class ComponentController extends AbstractMultipleComponentController
 				return $graphURI;
 		}
 
-		public function getPathFormFolder()
-		{
-				//TODO: find a way to have this info dynamically
-				return 'mmmfestBundle\Form\\';
-		}
-
-		public function getPathComponentView()
-		{
-				return 'mmmfestBundle:Component:';
-		}
 
 		public function specificTreatment($sfClient,$form,$request,$componentName)
 		{

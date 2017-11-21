@@ -11,11 +11,10 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 		abstract public function getGraphOfCurrentUser();
 		abstract public function getSFLoginOfCurrentUser();
 		abstract public function getSFPasswordOfCurrentUser();
-		abstract public function getPathFormFolder();
-		abstract public function getPathComponentView();
 
-    public function listAction($componentName)
+    public function listAction($componentName,Request $request)
     {
+				$bundleName = $this->getBundleNameFromRequest($request);
 				$componentList = $this->getParameter('semantic_forms.component');
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
@@ -57,7 +56,7 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         }
 
         return $this->render(
-          $this->getPathComponentView().$componentName.'List.html.twig',
+					$bundleName.':Component:'.$componentName.'List.html.twig',
           array(
             'componentName' => $componentName,
             'plural'        => $componentName.'(s)',
@@ -68,14 +67,15 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 
     public function addAction($componentName,Request $request)
     {
-        /** @var $user \mmmfestBundle\Entity\User */
+				$bundleName = $this->getBundleNameFromRequest($request);
+				/** @var $user \mmmfestBundle\Entity\User */
         $sfClient     = $this->container->get('semantic_forms.client');
         $uri 					= $request->get('uri');
 				$componentConf = $this->getParameter($componentName.'Conf');
 				$graphURI			= $this->getGraphOfCurrentUser();
 
         // Same as FormType::class
-        $componentClassName = $this->getPathFormFolder().ucfirst(
+        $componentClassName = $bundleName.'\Form\\'.ucfirst(
             $componentName
           ).'Type';
 
@@ -108,7 +108,7 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 
 						// Fill form
 						return $this->render(
-							$this->getPathComponentView().$componentName.'Form.html.twig',
+							$bundleName.':Component:'.$componentName.'Form.html.twig',
 							$dataForWebPage
 						);
 				}
