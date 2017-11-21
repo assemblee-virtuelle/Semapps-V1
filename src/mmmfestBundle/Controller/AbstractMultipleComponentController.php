@@ -90,15 +90,6 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
             'sfConf'               => $componentConf,
             'spec'                  => $componentConf['spec'],
             'values'                => $uri,
-            'lookupUrlLabel'        => $this->generateUrl(
-              'webserviceFieldUriLabel'
-            ),
-            'lookupUrlPerson'       => $this->generateUrl(
-              'webserviceFieldUriSearch'
-            ),
-            'lookupUrlOrganization' => $this->generateUrl(
-              'webserviceFieldUriSearch'
-            ),
           ]
         );
         // /!\ need to be array /!\

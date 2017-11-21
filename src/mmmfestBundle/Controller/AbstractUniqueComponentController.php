@@ -33,15 +33,6 @@ abstract class AbstractUniqueComponentController extends AbstractComponentContro
 					'client'                => $sfClient,
 					'sfConf'               => $uniqueComponentConf,
 					'spec'                  => $uniqueComponentConf['spec'],
-					'lookupUrlLabel'        => $this->generateUrl(
-						'webserviceFieldUriLabel'
-					),
-					'lookupUrlPerson'       => $this->generateUrl(
-						'webserviceFieldUriSearch'
-					),
-					'lookupUrlOrganization' => $this->generateUrl(
-						'webserviceFieldUriSearch'
-					),
 					'values'                => $this->getUriLinkUniqueElement($id),
 
 				];

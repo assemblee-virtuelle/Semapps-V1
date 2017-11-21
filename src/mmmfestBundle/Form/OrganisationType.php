@@ -14,10 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class OrganisationType extends AbstractForm
+class OrganisationType extends SemanticFormType
 {
 
 		public function buildForm(FormBuilderInterface $builder, array $options)
@@ -83,8 +84,7 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
+
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
 						]
 					)
@@ -94,8 +94,7 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
+
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
 						]
 					)
@@ -105,8 +104,7 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
+
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
 						]
 					)
@@ -116,8 +114,7 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
+
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
@@ -151,27 +148,16 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
 						]
 					)
-//					->add(
-//						$builder,
-//						'hostedIn',
-//						TextType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
+
 					->add(
 						$builder,
 						'involvedIn',
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
 						]
 					)
@@ -181,8 +167,6 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
 						]
 					)
@@ -192,8 +176,6 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
 					)
@@ -203,8 +185,6 @@ class OrganisationType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
 					)
@@ -213,9 +193,6 @@ class OrganisationType extends AbstractForm
 						'hasInterest',
 						UriType::class,
 						[
-							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)

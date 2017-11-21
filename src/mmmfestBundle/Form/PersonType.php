@@ -13,10 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class PersonType extends AbstractForm
+class PersonType extends SemanticFormType
 {
 
 
@@ -76,8 +77,6 @@ class PersonType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
@@ -87,8 +86,6 @@ class PersonType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON,
 						]
 					)
@@ -98,8 +95,6 @@ class PersonType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
@@ -109,8 +104,6 @@ class PersonType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_EVENT,
 						]
 					)
@@ -120,8 +113,6 @@ class PersonType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_PROJECT,
 						]
 					)
