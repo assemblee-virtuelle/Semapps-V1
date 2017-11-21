@@ -1,5 +1,5 @@
 grands_voisins:
-    resource: "@mmmfestBundle/Resources/config/routing.yml"
+    resource: "@semappsBundle/Resources/config/routing.yml"
     prefix:   /
 
 fos_user_security:

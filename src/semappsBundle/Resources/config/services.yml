@@ -1,0 +1,15 @@
+services:
+    grands_voisins.config:
+        class: semappsBundle\mmmfestConfig
+
+    semappsBundle.fileUploader:
+        class: semappsBundle\Services\FileUploader
+        arguments: ['%picture_directory%','%carto.domain%',]
+
+    semappsBundle.encryption:
+        class: semappsBundle\Services\Encryption
+        arguments: ['%secret%']
+
+    semappsBundle.formattingForm:
+        class: semappsBundle\Services\FormattingForm
+        arguments: ~

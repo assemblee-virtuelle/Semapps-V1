@@ -1,0 +1,29 @@
+semappsBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: semappsBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        sfLink:
+            type: text
+            nullable: true
+        sfUser:
+            type: text
+            nullable: true
+        fkOrganisation:
+            type: integer
+        pictureName:
+            type: text
+            nullable: true
+        repas:
+            type: text
+            nullable: true
+        vegetarien:
+          type: boolean
+          nullable: true
+    lifecycleCallbacks: {  }

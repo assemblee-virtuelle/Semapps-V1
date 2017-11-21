@@ -1,0 +1,39 @@
+{% extends "semappsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un type de document{% endblock %}
+
+{%  set menuSelected = 'Type de document' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.preferedLabel) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.homePage) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.aboutPage) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "semappsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un événement{% endblock %}
+
+{% set menuSelected = 'Evénements' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
+            <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                <img src="{{ asset(image == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~image) | imagine_filter('profile') }}"/>
+                <span id="profileEditPictureField">
+                       {{ form_widget(form.componentPicture) }}
+                </span>
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.homePage) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.aboutPage) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.startDate, { 'label': 'Date/heure de début'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.endDate, { 'label': 'Date/heure de fin'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.localizedBy, { 'label': 'Localisation de l’atelier'}) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.organizedBy, { 'label': '(Co-)organisateurs (Personnes ou organisations)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasParticipant, { 'label': 'Participants (Personnes ou organisations)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasSubject) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs (Compte rendus etc.)'}) }}
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les événements{% endblock %}
+                {% block content %}
+                    <p>Outre l’atelier auquel vous participez dans le cadre du MMM fest, vous pouvez créer d’autres événements que vous organisez dans d’autres contextes,
+                        cela vous permettra de faire un peu de pub :-)
+                    </p>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "semappsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un document{% endblock %}
+
+{%  set menuSelected = 'Document' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.licence, { 'label': 'Licence'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.publicationDate, { 'label': 'Date de publication'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.format, { 'label': 'Format'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.language, { 'label': 'Langage'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasType, { 'label': 'Type de document'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.homePage, { 'label': 'Lien vers le document'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.aboutPage) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.internal_author, { 'label': 'Auteur'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.internal_contributor, { 'label': 'Contributeur'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.references) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.documents) }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les documents{% endblock %}
+                {% block content %}
+                    <p>Vous pouvez ici renseigner le #CodeSocial de votre projet. Et éventuellement partager d’autres documents autour de votre activité ou de vos centres d’intérêts … </p>
+                    <p><a href="https://docs.google.com/document/d/1JevSlK4lx-ZJ5w0Mxcnsx9L6pj0YdTnOqe4ohehXQ5U/edit?usp=sharing" target="_blank">Ci-joint</a> un lien vous permettant d'accéder au formulaire afin de rédiger simplement votre #CodeSocial</p>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}
