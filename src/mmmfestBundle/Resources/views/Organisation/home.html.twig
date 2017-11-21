@@ -24,7 +24,7 @@
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">
-                        <a href="{{ path('detail_orga_edit', {'orgaId': organisation.id}) }}" >
+                        <a href="{{ path('orgaComponentForm', {'uniqueComponentName':'organisation' , 'id': organisation.id}) }}" >
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                     </td>

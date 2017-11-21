@@ -798,10 +798,10 @@ class WebserviceController extends Controller
     	$conf = null;
     		switch ($type){
 					case mmmfestConfig::URI_PAIR_PERSON:
-							$conf = $this->getParameter('profileConf');
+							$conf = $this->getParameter('personConf');
 							break;
 					case mmmfestConfig::URI_PAIR_ORGANIZATION:
-							$conf = $this->getParameter('organizationConf');
+							$conf = $this->getParameter('organisationConf');
 							break;
 					case mmmfestConfig::URI_PAIR_PROJECT:
 							$conf = $this->getParameter('projectConf');

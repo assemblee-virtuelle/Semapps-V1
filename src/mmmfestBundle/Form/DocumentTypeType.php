@@ -11,10 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class DocumenttypeType extends AbstractForm
+class DocumentTypeType extends SemanticFormType
 {
 
 

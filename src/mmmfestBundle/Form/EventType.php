@@ -14,10 +14,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class EventType extends AbstractForm
+class EventType extends SemanticFormType
 {
 
 
@@ -64,17 +65,6 @@ class EventType extends AbstractForm
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
-//					->add(
-//						$builder,
-//						'localizedBy',
-//						UriType::class,
-//						[
-//							'required'  => false,
-//							'lookupUrl' => $options['lookupUrlPerson'],
-//							'labelUrl'  => $options['lookupUrlLabel'],
-//							'rdfType'   => mmmfestConfig::URI_PAIR_PERSON, //TODO to be modified
-//						]
-//					)
 					->add(
 						$builder,
 						'localizedBy',
@@ -114,8 +104,6 @@ class EventType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
 						]
 					)
@@ -133,8 +121,6 @@ class EventType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)
@@ -144,8 +130,6 @@ class EventType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
@@ -155,8 +139,6 @@ class EventType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)

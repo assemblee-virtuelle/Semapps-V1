@@ -17,11 +17,26 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
-    semantic_forms.domain: 'dev.wexample.com:9000'
+    semantic_forms.domain: 'mmmfest.fr:9000'
     semantic_forms.login: 'aa'
     semantic_forms.password: 'aa'
     semantic_forms.timeout: 10
-    semantic_forms.base_url_form: ''
+
+   # This parameters do the work for linking what is a component and use it on the platform
+   # example :
+   # semantic_forms.component:
+   #     project: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
+   #     event: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
+   #     proposal: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
+   #     document: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
+   #     documentType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
+   # All component have the possibility to have a "standard comportment" with different function
+   semantic_forms.component:
+       project: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
+       event: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
+       proposal: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
+       document: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
+       documentType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
 
    # is here to have a message on all page in admin : typically, if we need to shutdown the Semantic Forms server --> all user can be prevent
    # example :

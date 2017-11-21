@@ -13,10 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
-class ProjectType extends AbstractForm
+class ProjectType extends SemanticFormType
 {
 
 
@@ -66,8 +67,6 @@ class ProjectType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
@@ -93,8 +92,6 @@ class ProjectType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => implode('|',mmmfestConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
@@ -104,8 +101,6 @@ class ProjectType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_PAIR_DOCUMENT,
 						]
 					)
@@ -123,8 +118,6 @@ class ProjectType extends AbstractForm
 						UriType::class,
 						[
 							'required'  => false,
-							'lookupUrl' => $options['lookupUrlPerson'],
-							'labelUrl'  => $options['lookupUrlLabel'],
 							'rdfType'   => mmmfestConfig::URI_SKOS_THESAURUS,
 						]
 					)

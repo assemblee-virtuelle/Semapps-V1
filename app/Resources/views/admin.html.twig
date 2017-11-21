@@ -22,7 +22,7 @@
 
 {% macro menuItem(title, route, icon,tooltip = 'hello !', menuSelected, role, pathOptions = {}) %}
     {% if (role == '' or is_granted('ROLE_' ~ role)) %}
-        <li class="{% if (menuSelected|default(false)==route) %}active{% endif %}">
+        <li class="{% if (menuSelected|default(false)==title or menuSelected|default(false)==route) %}active{% endif %}">
             <a href="{{ path(route, pathOptions) }}" data-toggle="tooltip" data-placement="top" title="{{ tooltip }}" >
                 <span class="glyphicon glyphicon-{{ icon }}"></span>
                 {{ title }}
@@ -108,8 +108,8 @@
                                             <small>{% if "ROLE_MEMBER" in app.user.roles %}Membre{% endif %}</small>
                                         </h4>
                                     </li>
-                                    {{ admin.menuItem('Mon profil', 'fos_user_profile_show', 'user','Editez votre profil perso', menuSelected) }}
-                                    {{ admin.menuItem('Mon organisation', 'detail_orga', 'tower','Editez votre organisation', menuSelected, 'MEMBER') }}
+                                    {{ admin.menuItem('Mon profil', 'personComponentFormWithoutId', 'user','Editez votre profil perso', menuSelected, 'MEMBER',{'uniqueComponentName':'person'}) }}
+                                    {{ admin.menuItem('Mon organisation', 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organisation'}) }}
                                     {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
                                     {{ admin.menuItem('Les organisations', 'all_orga', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Les utilisateurs', 'user', 'user','gérer les utilisateurs', menuSelected, 'SUPER_ADMIN') }}

@@ -1,7 +1,16 @@
 <!-- TODO Integrate this template into SF bundle -->
 
 {% block db_pedia_widget %}
-    <div class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="{{ lookupUrl }}">
+    <div class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}">
+        <div class="tags"></div>
+        <select class="tags-selector">
+        </select>
+        <textarea class="tags-value" {{ block('widget_attributes') }} >{{ value }}</textarea>
+    </div>
+{% endblock %}
+
+{% block adresse_widget %}
+    <div class="select2-tags" data-sf-type="adresse" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>
@@ -11,7 +20,7 @@
 
 {% block uri_widget %}
 
-    <div class="select2-tags" data-sf-type="uri" data-sf-lookup="{{ lookupUrl }}" data-sf-label="{{ labelUrl }}" data-sf-rdfType="{{ rdfType }}">
+    <div class="select2-tags" data-sf-type="uri" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>

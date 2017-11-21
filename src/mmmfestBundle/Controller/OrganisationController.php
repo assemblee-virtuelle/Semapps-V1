@@ -6,15 +6,12 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use mmmfestBundle\Entity\Organisation;
 use mmmfestBundle\Entity\User;
 use mmmfestBundle\Form\OrganisationMemberType;
-use mmmfestBundle\Form\OrganizationType;
 use mmmfestBundle\mmmfestConfig;
 use SimpleExcel\SimpleExcel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class OrganisationController extends Controller
+class OrganisationController extends UniqueComponentController
 {
 
     public function allAction(Request $request)
@@ -170,7 +167,7 @@ class OrganisationController extends Controller
         }
 
         return $this->render(
-          'mmmfestBundle:Organization:home.html.twig',
+          'mmmfestBundle:Organisation:home.html.twig',
           array(
             "organisations"       => $organisations,
             "formAddOrganisation" => $form->createView(),
@@ -226,159 +223,6 @@ class OrganisationController extends Controller
         return $this->redirectToRoute('all_orga');
     }
 
-    public function organisationAction(Request $request, $orgaId = null)
-    {
-        /** @var $user \mmmfestBundle\Entity\User */
-        $user     = $this->getUser();
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \mmmfestBundle\Services\Encryption $encryption */
-        $encryption = $this->container->get('mmmfestBundle.encryption');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
-				$organizationConf = $this->getParameter('organizationConf');
-        /* @var $organisationEntity \mmmfestBundle\Repository\OrganisationRepository */
-        // Ask database to know if organization has been already created.
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'mmmfestBundle:Organisation'
-        );
-        if($orgaId != null && $user->hasRole(
-            'ROLE_SUPER_ADMIN'
-        ) && $user->getFkOrganisation() != $orgaId){
-            $organization = $organisationEntity->find(
-                $orgaId
-            );
-            $userRepository = $this->getDoctrine()->getManager()->getRepository(
-                'mmmfestBundle:User'
-            );
-
-            $responsable = $userRepository->find($organization->getFkResponsable());
-            $sfUser = $responsable->getEmail();
-            $sfPassword = $encryption->decrypt($responsable->getSfUser());
-        }
-        else{
-            $organization = $organisationEntity->findOneById(
-                $user->getFkOrganisation()
-            );
-            $sfUser = $user->getEmail();
-            $sfPassword = $encryption->decrypt($user->getSfUser());
-        }
-
-
-        /* @var $organization \mmmfestBundle\Entity\Organisation */
-
-
-        $oldPictureName = $organization->getOrganisationPicture();
-
-        $sfLink = $organization->getSfOrganisation();
-
-        // Build main form.
-        $options = [
-          'login'                 => $sfUser,
-          'password'              => $sfPassword,
-          'graphURI'              => $organization->getGraphURI(),
-          'client'                => $sfClient,
-          'spec'                  => $organizationConf['spec'],
-          'sfConf'               => $organizationConf,
-          'lookupUrlLabel'        => $this->generateUrl(
-            'webserviceFieldUriLabel'
-          ),
-          'lookupUrlPerson'       => $this->generateUrl(
-            'webserviceFieldUriSearch'
-          ),
-          'lookupUrlOrganization' => $this->generateUrl(
-            'webserviceFieldUriSearch'
-          ),
-          'values'                => $sfLink,
-          'role'                  => $user->getRoles(),
-        ];
-
-        /** @var \VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType $form */
-        $form = $this->createForm(
-          OrganizationType::class,
-          $organization,
-          // Options.
-          $options
-        );
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // Manage picture.
-            $newPicture = $form->get('organisationPicture')->getData();
-            if ($newPicture) {
-                // Remove old picture.
-                $fileUploader = $this->get('mmmfestBundle.fileUploader');
-                if ($oldPictureName) {
-                    $oldDir = $fileUploader->getTargetDir();
-                    // Check if file exists to avoid all errors.
-                    if (is_file($oldDir.'/'.$oldPictureName)) {
-                        $fileUploader->remove($oldPictureName);
-                    }
-                }
-                $organization->setOrganisationPicture(
-                  $fileUploader->upload($newPicture)
-                );
-
-                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-                $sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-                    ->addDelete(
-                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:image',
-                      '?o',
-                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL))
-                    ->addWhere(
-                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:image',
-                      '?o',
-                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sfClient->update($sparql->getQuery());
-
-                $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-                $sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-                    ->addInsert(
-                      $sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-                      'default:image',
-                      $sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_TEXT),
-                      $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
-                $sfClient->update($sparql->getQuery());
-
-            } else {
-                $organization->setOrganisationPicture($oldPictureName);
-            }
-
-            $em = $this->getDoctrine()->getManager();
-
-
-            if (!$sfLink) {
-								// Update sfOrganisation.
-                $organization->setSfOrganisation($form->uri);
-            }
-						$em->persist($organization);
-						$em->flush();
-
-            $this->addFlash(
-              'success',
-              'Les données de l\'organisation ont bien été mises à jour.'
-            );
-            if(!$orgaId)
-                return $this->redirectToRoute('detail_orga');
-            else
-                return $this->redirectToRoute('detail_orga_edit',['orgaId' => $orgaId]);
-        }
-        // Fill form
-        return $this->render(
-          'mmmfestBundle:Organization:organization.html.twig',
-          array(
-            'form'         => $form->createView(),
-            'organization' => $organization,
-            'entityUri'    => $sfLink,
-          )
-        );
-    }
-
     public function orgaDeleteAction($orgaId)
     {
         $organisationRepository = $this->getDoctrine()
@@ -416,6 +260,97 @@ class OrganisationController extends Controller
 
         return $this->redirectToRoute('all_orga');
     }
+
+		public function specificTreatment($sfClient, $form, $request, $componentName,$id)
+		{
+				$organization = $this->getOrga($id);
+				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
+				$sparqlClient   = $this->container->get('sparqlbundle.client');
+
+				$sfLink = $this->getUriLinkUniqueElement($id);
+				$oldPictureName = $organization->getOrganisationPicture();
+
+				$form->handleRequest($request);
+
+				if ($form->isSubmitted() && $form->isValid()) {
+
+						// Manage picture.
+						$newPicture = $form->get('organisationPicture')->getData();
+						if ($newPicture) {
+								// Remove old picture.
+								$fileUploader = $this->get('mmmfestBundle.fileUploader');
+								if ($oldPictureName) {
+										$oldDir = $fileUploader->getTargetDir();
+										// Check if file exists to avoid all errors.
+										if (is_file($oldDir.'/'.$oldPictureName)) {
+												$fileUploader->remove($oldPictureName);
+										}
+								}
+								$organization->setOrganisationPicture(
+									$fileUploader->upload($newPicture)
+								);
+
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+									->addDelete(
+										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+										'default:image',
+										'?o',
+										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL))
+									->addWhere(
+										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+										'default:image',
+										'?o',
+										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+								$sfClient->update($sparql->getQuery());
+
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+									->addInsert(
+										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
+										'default:image',
+										$sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_TEXT),
+										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
+								$sfClient->update($sparql->getQuery());
+
+						} else {
+								$organization->setOrganisationPicture($oldPictureName);
+						}
+
+						$em = $this->getDoctrine()->getManager();
+
+
+						if (!$sfLink) {
+								// Update sfOrganisation.
+								$organization->setSfOrganisation($form->uri);
+						}
+						$em->persist($organization);
+						$em->flush();
+
+						$this->addFlash(
+							'success',
+							'Les données de l\'organisation ont bien été mises à jour.'
+						);
+						if(!$id)
+								return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $componentName]);
+						else
+								return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName,'id' => $id]);
+				}
+				return ['organization' => $organization];
+		}
+
+		public function getUniqueElement($id)
+		{
+				return $this->getOrga($id);
+		}
+
+		public function getUriLinkUniqueElement($id)
+		{
+
+				return $this->getUniqueElement($id)->getSfOrganisation();
+		}
 
 
 }
