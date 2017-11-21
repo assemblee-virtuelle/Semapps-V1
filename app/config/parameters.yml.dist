@@ -31,7 +31,7 @@ parameters:
    #     document: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
    #     documentType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
    # All component have the possibility to have a "standard comportment" with different function
-   semantic_forms.component:
+    semantic_forms.component:
        project: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
        event: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
        proposal: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
