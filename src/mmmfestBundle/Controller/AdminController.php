@@ -74,8 +74,7 @@ class AdminController extends UniqueComponentController
 
             //Set the roles
             $newUser->addRole('ROLE_MEMBER');
-
-            $newUser->setFkOrganisation($form->get('organisation')->getData());
+            $newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
 
             // Save the different diner
 						$week =[];
