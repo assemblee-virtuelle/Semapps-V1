@@ -36,54 +36,14 @@ abstract class UniqueComponentController extends AbstractUniqueComponentControll
 
 		public function getSfUser($id)
 		{
-
-				$currentUser =$this->getUser();
-				$userRepository = $this->getDoctrine()->getManager()->getRepository(
-					'semappsBundle:User'
-				);
-
-				$organization =null;
-				$sfUser = null;
-				if($id != null && $currentUser->hasRole(
-						'ROLE_SUPER_ADMIN'
-					) && $currentUser->getFkOrganisation() != $id){
-						$organization = $this->getOrga(
-							$id
-						);
-						$responsable = $userRepository->find($organization->getFkResponsable());
-						$sfUser = $responsable->getEmail();
-				}
-				else{
-						$sfUser = $currentUser->getEmail();
-				}
-				return $sfUser;
+				return  $this->getUser()->getEmail();
 		}
 
 		public function getSfPassword($id)
 		{
 				/** @var \semappsBundle\Services\Encryption $encryption */
 				$encryption = $this->container->get('semappsBundle.encryption');
-				$currentUser =$this->getUser();
-				$userRepository = $this->getDoctrine()->getManager()->getRepository(
-					'semappsBundle:User'
-				);
-
-				$organization =null;
-				$sfPassword = null;
-				if($id != null && $currentUser->hasRole(
-						'ROLE_SUPER_ADMIN'
-					) && $currentUser->getFkOrganisation() != $id){
-						$organization = $this->getOrga(
-							$id
-						);
-						$responsable = $userRepository->find($organization->getFkResponsable());
-						$sfPassword = $encryption->decrypt($responsable->getSfUser());
-
-				}
-				else{
-						$sfPassword = $encryption->decrypt($currentUser->getSfUser());
-				}
-				return $sfPassword;
+				return $encryption->decrypt($this->getUser()->getSfUser());
 		}
 		protected function getOrga($id){
 				$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
