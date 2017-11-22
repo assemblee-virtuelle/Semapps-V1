@@ -51,32 +51,15 @@ class RegisterType extends AbstractType
 						PasswordType::class,
 						array('required' => true,'mapped' => false)
 					)
-					->add(
-						'codeSocial',
-						CheckboxType::class,
-						array('required' => true,'mapped' => false)
-					)
-					->add(
-						'membreAv',
-						CheckboxType::class,
-						array('required' => true,'mapped' => false)
-					);
-					for($i = 1 ; $i <=9 ; $i++){
-						$builder->add('matin'.$i, YesNoType::class)
-							->add('midi'.$i, YesNoType::class)
-							->add('soir'.$i, YesNoType::class);
-					}
-					$builder->add('isveg',YesNoType::class)
-
-						->add('organisation',EntityType::class, [
-							'class' => 'semappsBundle:Organisation',
-							'query_builder' => function (EntityRepository $er) {
-									return $er->createQueryBuilder('u')
-										->orderBy('u.name', 'ASC');
-							},
-							'choice_label' => 'name',
-							'mapped'  => false,
-						])
+					->add('organisation',EntityType::class, [
+						'class' => 'semappsBundle:Organisation',
+						'query_builder' => function (EntityRepository $er) {
+								return $er->createQueryBuilder('u')
+									->orderBy('u.name', 'ASC');
+						},
+						'choice_label' => 'name',
+						'mapped'  => false,
+					])
 					->add('submit', SubmitType::class, array('label' => 'Enregistrer'));
 		}
 

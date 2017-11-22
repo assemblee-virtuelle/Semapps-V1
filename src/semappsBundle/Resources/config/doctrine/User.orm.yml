@@ -20,10 +20,4 @@ semappsBundle\Entity\User:
         pictureName:
             type: text
             nullable: true
-        repas:
-            type: text
-            nullable: true
-        vegetarien:
-          type: boolean
-          nullable: true
     lifecycleCallbacks: {  }

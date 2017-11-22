@@ -1,90 +1,31 @@
 {% extends "@FOSUser/layout.html.twig" %}
 {% block fos_user_content %}
     {{ form_start(form) }}
-    <div id="register-form" style="background-color: white">
-        <h3>Keyboard</h3>
-        <section>
-            <div class="row">
-                <div class="col-xs-12 ">
-                    <h2>Information de connexion</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 ">
-                    {{ form_row(form.username, {'attr' : {'class' : 'form-control'}}) }}
-                </div>
-                <div class="col-xs-6 ">
-                    {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6 ">
-                    {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
-                </div>
-                <div class="col-xs-6 ">
-                    {{ form_row(form.confPassword, {'attr' : {'class' : 'form-control'}}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  form-group">
-                    {{ form_row(form.organisation, {'attr' : {'class' : 'form-control'}}) }}
-                </div>
-            </div>
-        </section>
-        {% for i in 1..title|length %}
-        <h3>Keyboard</h3>
-        <section>
-
-            <div class="row">
-                <div class="col-xs-12 ">
-                    <h2>Concernant les repas du {{ title[i-1] }} </h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  ">
-                    {{ form_row(form["matin"~i], {'label':'Mangerez vous au petit déjeuner ?'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  ">
-                    {{ form_row(form["midi"~i], {'label':'Mangerez vous au  déjeuner ?'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 ">
-                    {{ form_row(form["soir"~i], {'label':'Mangerez vous au diner ?'}) }}
-                </div>
-            </div>
-        </section>
-        {% endfor %}
-        <h3>Keyboard</h3>
-        <section>
-            <div class="row">
-                <div class="col-xs-12 ">
-                    <h2>Fin de l'inscription</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  form-group">
-                    {{ form_row(form.isveg, {'label':'Etes-vous végétarien ?'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  form-group">
-                    {{ form_row(form.codeSocial, {'label':'En cochant cette case, je reconnais avoir lu et validé le code social du MMM Fest'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12  form-group">
-                    {{ form_row(form.membreAv, {'label':'En cochant cette case, j’adhère en tant que membre bienfaiteur à l’association Assemblée Virtuelle'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 ">
-                    {{ form_row(form.submit, {'attr' : {'class' : ' form-control btn btn-primary-lgv pull-right'}}) }}
-                </div>
-            </div>
-        </section>
+    <div class="row">
+        <div class="col-xs-6 ">
+            {{ form_row(form.username, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+        <div class="col-xs-6 ">
+            {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 ">
+            {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+        <div class="col-xs-6 ">
+            {{ form_row(form.confPassword, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12  form-group">
+            {{ form_row(form.organisation, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 ">
+            {{ form_row(form.submit, {'attr' : {'class' : ' form-control btn btn-primary-lgv pull-right'}}) }}
+        </div>
     </div>
     {{ form_end(form) }}
     <br/>

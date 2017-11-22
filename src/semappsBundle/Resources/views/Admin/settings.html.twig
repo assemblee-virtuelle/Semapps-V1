@@ -36,46 +36,4 @@
         </div>
     </div>
     {{ form_end(form) }}
-    {% if formFood is not null %}
-    {{ form_start(formFood) }}
-    {{ form_errors(formFood) }}
-    <div class="formFood-group">
-        <div class="row">
-            <div class="col col-sm-8">
-                <h2>Repas</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="formFood-group">
-        <div class="row">
-            <div class="col-sm-12">
-                <table  class="table table-bordered">
-                    <tr>
-                        <th></th>
-                        <th>Mangerez vous au petit déjeuner ?</th>
-                        <th>Mangerez vous au déjeuner ?</th>
-                        <th>Mangerez vous au diner ?</th>
-                    </tr>
-
-                    {% for i in 1..title|length %}
-                        <tr>
-                            <th>{{ title[i-1] }}</th>
-                            <td>{{ form_row(formFood["matin"~i], {'label':false}) }}</td>
-                            <td>{{ form_row(formFood["midi"~i], {'label':false}) }}</td>
-                            <td>{{ form_row(formFood["soir"~i], {'label':false}) }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
-        <div class="col col-sm-8">
-            {{ form_row(formFood.isveg, {'label':'Etes-vous végétarien ?'}) }}
-        </div>
-        <div class="col col-sm-8">
-            {{ form_widget(formFood.submit, {'attr':{'class':'btn btn-primary-lgv'}}) }}
-        </div>
-    </div>
-    {{ form_end(formFood) }}
-    {% endif %}
 {% endblock %}

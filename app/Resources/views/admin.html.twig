@@ -116,11 +116,6 @@
                                 {% block pageContentTitle %}Titre{% endblock %}
                             </h1>
                         </div>
-                        {% if app.user.repas is null %}
-                        <div class="alert alert-info fade in">
-                            <b>Les repas :</b> Veuillez vous rendre à la page <a href="/parametres">paramètres</a> pour renseigner les repas auquel vous souhaitez participer !
-                        </div>
-                        {% endif %}
                         {% for name,message in special_alert  %}
                             <div class="alert alert-info fade in">
                                <b>{{ name }} :</b>  {{ message }}
