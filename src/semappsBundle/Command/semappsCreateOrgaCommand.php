@@ -13,12 +13,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class mmmfestCreateOrgaCommand extends ContainerAwareCommand
+class semappsCreateOrgaCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-          ->setName('mmmfest:create:orga')
+          ->setName('semapps:create:orga')
           ->setDescription(
             'Create a new organization and a responsible of this organization'
           )

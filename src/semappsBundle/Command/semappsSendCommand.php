@@ -10,12 +10,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class mmmfestSendCommand extends ContainerAwareCommand
+class semappsSendCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('mmmfest:send')
+            ->setName('semapps:send')
             ->setDescription(
                 'Send the confirmation email for the user selected'
             )

@@ -498,64 +498,6 @@ class AdminController extends UniqueComponentController
         return $this->redirectToRoute('team');
     }
 
-    public function allOrganizationAction()
-    {
-        $sfClient = $this->container->get('semantic_forms.client');
-
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
-
-        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
-
-        $sparql->addPrefixes($sparql->prefixes)
-					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-            ->addSelect('?G ?P ?O')
-            ->addWhere('?s','rdf:type','foaf:Organization','?G')
-            ->addWhere('?s','?P','?O','?G')
-            ->groupBy('?G ?P ?O');
-
-        //$query    = 'SELECT ?G ?P ?O WHERE { GRAPH ?G {?S <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  <http://xmlns.com/foaf/0.1/Organization> . ?S ?P ?O } } GROUP BY ?G ?P ?O ';
-        $result   = $sfClient->sparql($sparql->getQuery());
-        if (!is_array($result)) {
-            $this->addFlash(
-                'danger',
-                'Une erreur s\'est produite lors de l\'affichage du formulaire'
-            );
-
-            return $this->redirectToRoute('home');
-        }
-        $result = $result["results"]["bindings"];
-        $data   = [];
-        foreach ($result as $value) {
-            $data[$value["G"]["value"]][$value["P"]["value"]][] = $value["O"]["value"];
-        }
-        $data2 = [];
-        $i     = 0;
-        foreach ($data as $graph => $value) {
-            $j = 0;
-            foreach (semappsConfig::$organisationFields as $key) {
-                if (array_key_exists($key, $data[$graph])) {
-                    $transform = "";
-                    foreach ($data[$graph][$key] as $temp) {
-                        $transform .= $temp.'<br>';
-                    }
-                    $data2[$i][$j] = $transform." ";
-                } else {
-                    $data2[$i][$j] = "";
-                }
-
-                $j++;
-            }
-            $i++;
-        }
-
-        return $this->render(
-            'semappsBundle:Admin:tab.html.twig',
-            ["data" => $data2, "key" => semappsConfig::$organisationFields]
-
-        );
-    }
-
 		public function foodRecapAction(){
 
 				$userRepository = $this
