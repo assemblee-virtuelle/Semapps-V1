@@ -2,8 +2,8 @@ Polymer({
   is: 'semapps-detail-person',
   properties: {},
   attached() {
-    GVCarto.ready(() => {
-      gvc.initElementGlobals(this);
+    SemAppsCarto.ready(() => {
+      semapps.initElementGlobals(this);
     });
     // Raw values.
     $.extend(this, this.data.properties);
@@ -21,11 +21,11 @@ Polymer({
       this.hasSubject = this.data.hasSubject;
 
       //log(this.data.building);
-    //this.buildingTitle = gvc.buildings[this.data.building].title;
+    //this.buildingTitle = semapps.buildings[this.data.building].title;
   },
     handleClickDetail(e) {
         e.preventDefault();
-        gvc.goToPath('detail', {
+        semapps.goToPath('detail', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
         });
     },
@@ -34,13 +34,13 @@ Polymer({
         let searchThemeFilter = document.getElementById('searchThemeFilter');
         searchThemeFilter.value = e.target.rel;
         //searchThemeFilter._activeChanged();
-        gvc.goSearch();
+        semapps.goSearch();
 
     },
     handleClickRessource(e) {
         e.preventDefault();
         log('test');
-        gvc.goToPath('ressource', {
+        semapps.goToPath('ressource', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel')),
             person: window.encodeURIComponent(this.uri)
         });

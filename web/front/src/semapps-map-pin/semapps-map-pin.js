@@ -30,17 +30,17 @@ Polymer({
   attached() {
     "use strict";
 
-    if (typeof( gvc.buildings[this.building].x ) != "undefined" || gvc.buildings[this.building].x != null) {
-      gvc.map.pinsRegistry[this.building] = this;
-      this.x = gvc.buildings[this.building].x;
-      this.y = gvc.buildings[this.building].y;
+    if (typeof( semapps.buildings[this.building].x ) != "undefined" || semapps.buildings[this.building].x != null) {
+      semapps.map.pinsRegistry[this.building] = this;
+      this.x = semapps.buildings[this.building].x;
+      this.y = semapps.buildings[this.building].y;
       this.domWrapper = this.querySelector('.semapps-map-pin-wrapper');
       this.$wrapper = this.$$('.semapps-map-pin-wrapper');
-      if (this.building === gvc.buildingSelected) {
+      if (this.building === semapps.buildingSelected) {
         this.select();
       }
     }else{
-      gvc.map.pinsRegistry[this.building] = null;
+      semapps.map.pinsRegistry[this.building] = null;
     }
   },
 
@@ -73,17 +73,17 @@ Polymer({
     "use strict";
     if (this.display !== 'none') {
       // Select building or deselect if already selected.
-      gvc.map.buildingClick(this.building !== gvc.buildingSelected && this.building);
+      semapps.map.buildingClick(this.building !== semapps.buildingSelected && this.building);
     }
   },
 
   handleMouseOver() {
     "use strict";
-    gvc.map.buildingHighlight(this.building);
+    semapps.map.buildingHighlight(this.building);
   },
 
   handleStopFixedSelection() {
     "use strict";
-    gvc.map.buildingSelect();
+    semapps.map.buildingSelect();
   }
 });

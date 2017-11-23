@@ -17,7 +17,7 @@ Polymer({
     "use strict";
     this.$counter = $(this.$$('.counter'));
     $.extend(this, this.data);
-    gvc.results.tabRegister(this.type, this);
+    semapps.results.tabRegister(this.type, this);
     this.refresh();
   },
 
@@ -40,6 +40,6 @@ Polymer({
 
   handleTabClick() {
     "use strict";
-    gvc.results.selectType(this.type);
+    semapps.results.selectType(this.type);
   }
 });

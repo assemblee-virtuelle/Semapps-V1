@@ -13,7 +13,7 @@ Polymer({
     "use strict";
     if (data && data.uri) {
       // Wait main object to be ready.
-      GVCarto.ready(() => {
+      SemAppsCarto.ready(() => {
         this.detailLoad(data.uri);
       });
     }
@@ -22,14 +22,14 @@ Polymer({
   handleBack (e) {
     "use strict";
     e.preventDefault();
-    gvc.goSearch();
+    semapps.goSearch();
   },
 
   handleEdit(e) {
     "use strict";
     e.preventDefault();
     let path = '/';
-    switch (gvc.entities[this.child.type].nameType) {
+    switch (semapps.entities[this.child.type].nameType) {
       case 'organization':
         path += 'orga/detail/' + this.id;
         break;
@@ -39,20 +39,20 @@ Polymer({
 
   attached () {
     "use strict";
-    GVCarto.ready(() => {
-      gvc.initElementGlobals(this);
+    SemAppsCarto.ready(() => {
+      semapps.initElementGlobals(this);
     });
   },
 
   detailLoad (encodedUri) {
     "use strict";
-    if( gvc.myRoute === "detail") {
+    if( semapps.myRoute === "detail") {
       // Show spinner.
       this.loading = true;
       // Hide content.
       this.$.detail.style.display = 'none';
       // Request server.
-      gvc.ajax('webservice/detail?uri=' + encodedUri, (data) => {
+      semapps.ajax('webservice/detail?uri=' + encodedUri, (data) => {
           "use strict";
           // Check that we are on the last callback expected.
           this.detailLoadComplete(data)
@@ -66,17 +66,17 @@ Polymer({
     data = data.responseJSON.detail || {};
     log(data);
     this.$.detail.style.display = '';
-    data.properties.image = gvc.imageOrFallback(data.properties.image, data.properties.type);
+    data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
     if (data.properties.building) {
       // Display building on the map.
-      gvc.map.pinShowOne(data.properties.building, 'ICI');
+      semapps.map.pinShowOne(data.properties.building, 'ICI');
     }else if (data.building){
-      gvc.map.pinShowOne(data.building, 'ICI');
+      semapps.map.pinShowOne(data.building, 'ICI');
     }
 
     // Create inner depending of type.
-      log(gvc.entities[data.properties.type].nameType.toLowerCase());
-    let inner = document.createElement('semapps-detail-' + gvc.entities[data.properties.type].nameType.toLowerCase());
+      log(semapps.entities[data.properties.type].nameType.toLowerCase());
+    let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
     inner.data = data;

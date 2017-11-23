@@ -4,14 +4,14 @@ Polymer({
 
     handleClickDetail(e) {
         e.preventDefault();
-        gvc.goToPath('detail', {
+        semapps.goToPath('detail', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
         });
     },
 
   attached() {
-    GVCarto.ready(() => {
-      gvc.initElementGlobals(this);
+    SemAppsCarto.ready(() => {
+      semapps.initElementGlobals(this);
     });
     // Raw values.
     $.extend(this, this.data.properties);
@@ -31,7 +31,7 @@ Polymer({
         e.preventDefault();
         let searchThemeFilter = document.getElementById('searchThemeFilter');
         searchThemeFilter.value = e.target.rel;
-        gvc.goSearch();
+        semapps.goSearch();
     }
 
 });

@@ -3,6 +3,6 @@ Polymer({
 
   ready() {
     "use strict";
-    new window.GVCarto(this);
+    new window.SemAppsCarto(this);
   }
 });

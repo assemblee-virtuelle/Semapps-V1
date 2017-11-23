@@ -9,9 +9,9 @@ Polymer({
 
   handleClick(e) {
     e.preventDefault();
-    gvc.scrollToContent();
-    gvc.myRoute = "detail";
-    gvc.goToPath('detail', {
+    semapps.scrollToContent();
+    semapps.myRoute = "detail";
+    semapps.goToPath('detail', {
       uri: window.encodeURIComponent(this.uri)
     });
   },
@@ -19,7 +19,7 @@ Polymer({
   attached() {
     "use strict";
     $.extend(this, this.data);
-    this.image = gvc.imageOrFallback(this.image, this.type);
+    this.image = semapps.imageOrFallback(this.image, this.type);
     this.info = '';
     let c = '';
     log(this.data);
@@ -36,8 +36,8 @@ Polymer({
       this.info += c + this.subject;
         c=' | ';
     }
-    if (gvc.buildings[this.building]) {
-      this.info += c + gvc.buildings[this.building].title;
+    if (semapps.buildings[this.building]) {
+      this.info += c + semapps.buildings[this.building].title;
         c=' | ';
     }
   },

@@ -19,7 +19,8 @@
     "paper-tooltip": "PolymerElements/paper-tooltip#^1.1.4",
     "juicy-html": "^1.2.0",
     "jquery-ui": "^1.12.1",
-    "jquery.steps": "jquery-steps#^1.1.0"
+    "jquery.steps": "jquery-steps#^1.1.0",
+    "leaflet": "^1.2.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

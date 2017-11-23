@@ -3,35 +3,35 @@ Polymer({
 
   handleAccountClick(e) {
     "use strict";
-    gvc.realLink(e);
+    semapps.realLink(e);
   },
 
   attached() {
     "use strict";
-    GVCarto.ready(this.start.bind(this));
+    SemAppsCarto.ready(this.start.bind(this));
   },
 
   start() {
     "use strict";
-    this.domSearchTextInput = gvc.domId('searchText');
-    this.haveName= gvc.haveName();
-    this.name = gvc.name;
-    this.thesaurus = gvc.thesaurus;
+    this.domSearchTextInput = semapps.domId('searchText');
+    this.haveName= semapps.haveName();
+    this.name = semapps.name;
+    this.thesaurus = semapps.thesaurus;
 
     let callbackSearchEvent = this.searchEvent.bind(this);
     let callbackSearchSubmit = (e) => {
       this.domSearchTextInput.blur();
-      gvc.scrollToContent();
+      semapps.scrollToContent();
       callbackSearchEvent(e);
     };
 
     // Click on submit button.
-    gvc.listen('searchForm', 'submit', callbackSearchSubmit);
-    gvc.listen('searchThemeFilter', 'change', callbackSearchSubmit);
+    semapps.listen('searchForm', 'submit', callbackSearchSubmit);
+    semapps.listen('searchThemeFilter', 'change', callbackSearchSubmit);
 
     let timeout;
     // Type in search field.
-    gvc.listen('searchText', 'keyup', () => {
+    semapps.listen('searchText', 'keyup', () => {
       if (timeout) {
         window.clearTimeout(timeout);
       }
@@ -44,8 +44,8 @@ Polymer({
     // Event may be missing.
     e && e.preventDefault();
     // Do not allow to have both building selected && search term.
-    gvc.map.buildingSelect(undefined, false);
+    semapps.map.buildingSelect(undefined, false);
     // Load search on term.
-    gvc.goSearch();
+    semapps.goSearch();
   }
 });

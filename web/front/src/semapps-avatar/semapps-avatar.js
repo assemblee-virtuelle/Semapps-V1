@@ -6,11 +6,11 @@ Polymer({
     label: String
   },
     attached() {
-        this.cutlabel =(this.label.length > 15)? gvc.capitalize(this.label,true).substr(0,10)+'...' : gvc.capitalize(this.label,true);
+        this.cutlabel =(this.label.length > 15)? semapps.capitalize(this.label,true).substr(0,10)+'...' : semapps.capitalize(this.label,true);
     },
   handleClickAvatar(e) {
     e.preventDefault();
-    gvc.goToPath('detail', {
+    semapps.goToPath('detail', {
       uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
     });
   },

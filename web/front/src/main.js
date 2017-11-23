@@ -9,11 +9,11 @@
   var readyCallbacks = [];
 
 
-  window.GVCarto = class {
+  window.SemAppsCarto = class {
 
     constructor(mainComponent) {
       log(mainComponent);
-      window.gvc = this;
+      window.semapps = this;
       this.baseUrl = '/';
       this.myRoute = 'detail';
       this.mainComponent = mainComponent;
@@ -159,15 +159,15 @@
     goToPath(path, params) {
       this.myRoute = path;
       // Set first params.
-      gvc.mainComponent.set('queryParams', params);
+      semapps.mainComponent.set('queryParams', params);
       // Changing route fires an event.
-      gvc.mainComponent.set('route.path', path);
+      semapps.mainComponent.set('route.path', path);
     }
 
     imageOrFallback(path, typeUri) {
       "use strict";
       if (!path) {
-        return '/common/images/result-no_picture-' + gvc.entities[typeUri].nameType + '.png';
+        return '/common/images/result-no_picture-' + semapps.entities[typeUri].nameType + '.png';
       }
       return path;
     }
@@ -214,8 +214,8 @@
     }
   };
 
-  window.GVCarto.ready = function (callback) {
-    if (!window.gvc || !window.gvc.isReady) {
+  window.SemAppsCarto.ready = function (callback) {
+    if (!window.semapps || !window.semapps.isReady) {
       readyCallbacks.push(callback);
     }
     else {

@@ -12,33 +12,33 @@ Polymer({
         if (data && data.uri && data.person) {
             this.person = data.person;
             // Wait main object to be ready.
-            GVCarto.ready(() => {
+            SemAppsCarto.ready(() => {
                 this.ressourceLoad(data.uri,data.person);
             });
         }
     },
   attached() {
     "use strict";
-    GVCarto.ready(() => {
-          gvc.initElementGlobals(this);
+    SemAppsCarto.ready(() => {
+          semapps.initElementGlobals(this);
       });
   },
     handleBack (e) {
         "use strict";
         e.preventDefault();
-        gvc.goToPath('detail', {
+        semapps.goToPath('detail', {
             uri: this.person,
         });
     },
    ressourceLoad (encodedUri,encodedUriPerson) {
         "use strict";
-       if( gvc.myRoute === "ressource"){
+       if( semapps.myRoute === "ressource"){
            // Show spinner.
            this.loading = true;
            // Hide content.
            this.$.ressource.style.display = 'none';
             // Request server.
-            gvc.ajax('webservice/ressource?uri=' + encodedUri+'&person='+encodedUriPerson, (data) => {
+            semapps.ajax('webservice/ressource?uri=' + encodedUri+'&person='+encodedUriPerson, (data) => {
                 "use strict";
                 // Check that we are on the last callback expected.
                 this.ressourceLoadComplete(data)

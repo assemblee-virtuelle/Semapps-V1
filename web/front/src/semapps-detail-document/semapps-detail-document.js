@@ -4,16 +4,15 @@ Polymer({
 
     handleClickDetail(e) {
         e.preventDefault();
-        gvc.goToPath('detail', {
+        semapps.goToPath('detail', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
         });
     },
 
     attached() {
-        GVCarto.ready(() => {
-            gvc.initElementGlobals(this);
+        SemAppsCarto.ready(() => {
+            semapps.initElementGlobals(this);
         });
-        log("hello document")
         // Raw values.
         $.extend(this, this.data.properties);
         this.documents = this.data.documents;
@@ -24,14 +23,14 @@ Polymer({
             let publicationDate = new Date(this.publicationDate);
             this.publicationDate = publicationDate.getDate() + '/' + (publicationDate.getMonth() + 1) + '/' + publicationDate.getFullYear();
         }
-        //this.buildingTitle = gvc.buildings[this.data.properties.building].title;
+        //this.buildingTitle = semapps.buildings[this.data.properties.building].title;
     },
 
     onClickThematic(e){
         e.preventDefault();
         let searchThemeFilter = document.getElementById('searchThemeFilter');
         searchThemeFilter.value = e.target.rel;
-        gvc.goSearch();
+        semapps.goSearch();
     }
 
 });

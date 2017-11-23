@@ -36,15 +36,15 @@ Polymer({
 
   attached() {
     "use strict";
-    gvc.results = this;
-    this.domSearchResults = gvc.domId('searchResults');
-    this.domLoadingSpinner = gvc.domId('searchLoadingSpinner');
+    semapps.results = this;
+    this.domSearchResults = semapps.domId('searchResults');
+    this.domLoadingSpinner = semapps.domId('searchLoadingSpinner');
     this.$searchThemeFilter = $('#searchThemeFilter');
     // Wait global settings.
-    GVCarto.ready(() => {
+    SemAppsCarto.ready(() => {
       let tabs = [];
       let typeSel = '';
-      $.each(gvc.entities, (type, data) => {
+      $.each(semapps.entities, (type, data) => {
         data.counter = 0;
         typeSel = (typeSel == '') ? type : typeSel;
         tabs.push(data);
@@ -73,7 +73,7 @@ Polymer({
     // We are on the search mode.
     if (data.prefix === '/rechercher') {
       // Route change may be fired before init.
-      window.GVCarto.ready(() => {
+      window.SemAppsCarto.ready(() => {
         let split = data.path.split('/');
         this.search(split[2], split[1]);
       });
@@ -84,21 +84,21 @@ Polymer({
     "use strict";
     let filterUri = this.$searchThemeFilter.val();
     let prefixBuilding = 'urn:mm/building/';
-    gvc.buildingSelected =
-      gvc.searchLastBuilding = (gvc.buildings[prefixBuilding+building] ? prefixBuilding+building : gvc.buildingSelectedAll);
+    semapps.buildingSelected =
+      semapps.searchLastBuilding = (semapps.buildings[prefixBuilding+building] ? prefixBuilding+building : semapps.buildingSelectedAll);
     // Term and has not changed.
-    if (gvc.searchLastTerm === term &&
+    if (semapps.searchLastTerm === term &&
         // Filter has not changed.
-      gvc.searchLastFilter === filterUri) {
+      semapps.searchLastFilter === filterUri) {
       // (maybe building changed).
       this.searchRender();
       return;
     }
     // Cleanup term to avoid search errors.
-    gvc.searchLastTerm =
+    semapps.searchLastTerm =
       term = (term || '').replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
     // Save filter.
-    gvc.searchLastFilter = filterUri;
+    semapps.searchLastFilter = filterUri;
     this.searchError =
       this.noResult = false;
     // Empty page.
@@ -114,9 +114,9 @@ Polymer({
     // only one we expect to be executed.
     // It prevent to parse multiple responses.
     this.searchQueryLastComplete = complete;
-    gvc.ajax('webservice/search?' +
+    semapps.ajax('webservice/search?' +
       't=' + encodeURIComponent(term) +
-      '&f=' + encodeURIComponent(gvc.searchLastFilter), (data) => {
+      '&f=' + encodeURIComponent(semapps.searchLastFilter), (data) => {
       "use strict";
       // Check that we are on the last callback expected.
       complete === this.searchQueryLastComplete
@@ -150,14 +150,14 @@ Polymer({
       for (let result of response.results) {
         // Data is allowed.
 
-          if($.inArray(result.type,gvc.allowedType) !== -1){
+          if($.inArray(result.type,semapps.allowedType) !== -1){
           // Count results by building.
-          if (gvc.buildings[result.building]) {
+          if (semapps.buildings[result.building]) {
             buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
             buildingsCounter[result.building]++;
           }
           // This building is enabled.
-          if (gvc.buildingSelected === gvc.buildingSelectedAll || result.building === gvc.buildingSelected) {
+          if (semapps.buildingSelected === semapps.buildingSelectedAll || result.building === semapps.buildingSelected) {
             // Count results.
             typesCounter[result.type] = typesCounter[result.type] || 0;
             typesCounter[result.type]++;
@@ -185,29 +185,23 @@ Polymer({
       // Results number.
       resultsTitle += (results.length) ? results.length + ' résultats dans ' : 'Aucun résultat dans ';
       // Building.
-      resultsTitle += (gvc.buildingSelected === gvc.buildingSelectedAll) ? 'tous les bâtiments' : 'le bâtiment ' + gvc.buildings[gvc.buildingSelected].title;
+      resultsTitle += (semapps.buildingSelected === semapps.buildingSelectedAll) ? 'tous les bâtiments' : 'le bâtiment ' + semapps.buildings[semapps.buildingSelected].title;
       // Display title.
       this.resultsTitle = resultsTitle;
 
       // Display no results section or not.
       this.noResult = results.length === 0;
 
-      // Show pins with results only.
-      gvc.map.pinHideAll();
-      $.each(gvc.buildings, (building) => {
-        if (buildingsCounter[building] || building === gvc.buildingSelected) {
-          gvc.map.pinShow(building, buildingsCounter[building] || 0);
-        }
-      });
+
     }
 
     this.tabsRegistry.all && (this.tabsRegistry.all.counter = totalCounter);
       /*
-      gvc.allowedType.forEach(function(type) {
+      semapps.allowedType.forEach(function(type) {
           this.tabsRegistry[type] && (this.tabsRegistry[type].counter = typesCounter[type] || 0);
       });*/
-      for (var i = 0; i <  gvc.allowedType.length; i++) {
-          this.tabsRegistry[gvc.allowedType[i]] && (this.tabsRegistry[gvc.allowedType[i]].counter = typesCounter[gvc.allowedType[i]] || 0);
+      for (var i = 0; i <  semapps.allowedType.length; i++) {
+          this.tabsRegistry[semapps.allowedType[i]] && (this.tabsRegistry[semapps.allowedType[i]].counter = typesCounter[semapps.allowedType[i]] || 0);
       }
 
     setTimeout(() => {
