@@ -483,7 +483,6 @@ class WebserviceController extends Controller
     {
         $sfClient     = $this->container->get('semantic_forms.client');
         $properties   = $sfClient->uriProperties($uri);
-        $sfConf = $this->getConf(current($properties[self::TYPE]));
         $output       = [];
         $user         = $this->GetUser();
         $this
@@ -491,13 +490,15 @@ class WebserviceController extends Controller
           ->getManager()
           ->getRepository('semappsBundle:User')
           ->getAccessLevelString($user);
-
-        foreach ($sfConf['fields'] as $field =>$detail){
-						if ($detail['access'] === 'anonymous' ||
-							$this->isGranted('ROLE_'.strtoupper($detail['access']))
-						){
-								if (isset($properties[$field])) {
-										$output[$detail['value']] = $properties[$field];
+				if(array_key_exists(self::TYPE,$properties)){
+						$sfConf = $this->getConf(current($properties[self::TYPE]));
+						foreach ($sfConf['fields'] as $field =>$detail){
+								if ($detail['access'] === 'anonymous' ||
+									$this->isGranted('ROLE_'.strtoupper($detail['access']))
+								){
+										if (isset($properties[$field])) {
+												$output[$detail['value']] = $properties[$field];
+										}
 								}
 						}
 				}

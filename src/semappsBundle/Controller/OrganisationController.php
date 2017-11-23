@@ -8,6 +8,8 @@ use semappsBundle\Entity\User;
 use semappsBundle\Form\OrganisationMemberType;
 use semappsBundle\semappsConfig;
 use SimpleExcel\SimpleExcel;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -266,7 +268,7 @@ class OrganisationController extends UniqueComponentController
 				$organization = $this->getOrga($id);
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient   = $this->container->get('sparqlbundle.client');
-
+				$em = $this->getDoctrine()->getManager();
 				$sfLink = $this->getUriLinkUniqueElement($id);
 				$oldPictureName = $organization->getOrganisationPicture();
 
@@ -319,9 +321,6 @@ class OrganisationController extends UniqueComponentController
 								$organization->setOrganisationPicture($oldPictureName);
 						}
 
-						$em = $this->getDoctrine()->getManager();
-
-
 						if (!$sfLink) {
 								// Update sfOrganisation.
 								$organization->setSfOrganisation($form->uri);
@@ -338,7 +337,45 @@ class OrganisationController extends UniqueComponentController
 						else
 								return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName,'id' => $id]);
 				}
-				return ['organization' => $organization];
+
+				$importForm = null;
+				if(!$this->getUriLinkUniqueElement($id)){
+						$importForm = $this->createFormBuilder();
+						$importForm->add('import',UrlType::class);
+						$importForm->add('save',SubmitType::class);
+						$importForm = $importForm->getForm();
+						$importForm->handleRequest($request);
+
+						if ($importForm->isSubmitted() && $importForm->isValid()) {
+								$uri = $importForm->get('import')->getData();
+								$organization->setSfOrganisation($uri);
+								$em->persist($organization);
+								$em->flush();
+								//importer le profile
+								$sfClient->import($uri);
+								//déplacer dans le graph de l'orga
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
+								$graphFormatted = $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL);
+
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#');
+								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addInsert("?s","?p","?o",$graphFormatted);
+								//dump($sparql->getQuery());
+								$sfClient->update($sparql->getQuery());
+
+								if(!$id)
+										return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $componentName]);
+								else
+										return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName,'id' => $id]);
+						}
+				}
+
+				return [
+					'organization' => $organization,
+					'importForm'=> ($importForm != null)? $importForm->createView() : null
+				];
 		}
 
 		public function getUniqueElement($id)

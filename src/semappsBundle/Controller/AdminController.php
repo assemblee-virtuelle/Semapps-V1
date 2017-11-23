@@ -582,7 +582,7 @@ class AdminController extends UniqueComponentController
 
 						if ($importForm->isSubmitted() && $importForm->isValid()) {
 								$uri = $importForm->get('import')->getData();
-								$user->setSfLink($form->uri);
+								$user->setSfLink($uri);
 								$em->persist($user);
 								$em->flush();
 								//importer le profile
@@ -600,21 +600,7 @@ class AdminController extends UniqueComponentController
 								$sparql->addInsert("?s","?p","?o",$graphFormatted);
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
-								//hasMember
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-									->addInsert($uriOrgaFormatted,'org:hasMember',$uripersonFormatted,$graphFormatted);
-								//dump($sparql->getQuery());
-								$sfClient->update($sparql->getQuery());
-								//memberOf
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-									->addInsert($uripersonFormatted,'org:memberOf',$uriOrgaFormatted,$graphFormatted);
-								//dump($sparql->getQuery());
-								$sfClient->update($sparql->getQuery());
 								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $componentName]);
 						}
 				}

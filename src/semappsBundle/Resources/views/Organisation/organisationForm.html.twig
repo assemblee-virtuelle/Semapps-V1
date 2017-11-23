@@ -26,108 +26,142 @@
             </ul>
             <br>
         {% endif %}
+
         <div class="row">
-            {{ form_start(form) }}
-            <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
-                {% if form is not null %}
-                    <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                        <img src="{{ asset(organization.getOrganisationPicture() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~organization.getOrganisationPicture()) | imagine_filter('organisation') }}"/>
-                    <span id="profileEditPictureField">
+            {% if importForm is not null %}
+                <ul id="myTab" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profile</a>
+                    </li>
+                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i> Importer son profile</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {% if importForm is not null %}
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="service-one">
+                    {% endif %}
+                    {{ form_start(form) }}
+                    <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
+                        {% if form is not null %}
+                            <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                                <img src="{{ asset(organization.getOrganisationPicture() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~organization.getOrganisationPicture()) | imagine_filter('organisation') }}"/>
+                                <span id="profileEditPictureField">
                         {{ form_widget(form.organisationPicture) }}
                     </span>
-                    </a>
-                {% endif %}
-            </div>
-            <div class="col-sm-10">
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
+                            </a>
+                        {% endif %}
                     </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.alternativeLabel) }}
-                    </div>
-                </div>
-                {#<div class="row">#}
-                    {#<div class="col-sm-12">#}
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.alternativeLabel) }}
+                            </div>
+                        </div>
+                        {#<div class="row">#}
+                        {#<div class="col-sm-12">#}
                         {#{{ form_row(form.hostedIn) }}#}
-                    {#</div>#}
-                {#</div>#}
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.description) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.homePage) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.aboutPage) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        {{ form_row(form.email) }}
-                    </div>
-                    <div class="col-xs-6">
-                        {{ form_row(form.phone) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.hasResponsible, { 'label': 'Ses responsables'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.employs, { 'label': 'Ses employés'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.hasMember, { 'label': 'Ses membres'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        {{ form_row(form.hasSubject) }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.manages, { 'label': 'Projets dont elle est (co-)responsable'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.organizes, { 'label': 'Événement(s) qu’elle (co-)organise'}) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.participantOf, { 'label': 'Événement(s) auquel(s) elle participe'}) }}</div>
-                </div>
+                        {#</div>#}
+                        {#</div>#}
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.description) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.homePage) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.aboutPage) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="col-xs-6">
+                                {{ form_row(form.phone) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.hasResponsible, { 'label': 'Ses responsables'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.employs, { 'label': 'Ses employés'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.hasMember, { 'label': 'Ses membres'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.hasSubject) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.manages, { 'label': 'Projets dont elle est (co-)responsable'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.organizes, { 'label': 'Événement(s) qu’elle (co-)organise'}) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.participantOf, { 'label': 'Événement(s) auquel(s) elle participe'}) }}</div>
+                        </div>
 
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.offers, { 'label': "Ce qu'elle propose" }) }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'Ce dont elle a besoin' }) }}</div>
-                </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.offers, { 'label': "Ce qu'elle propose" }) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'Ce dont elle a besoin' }) }}</div>
+                        </div>
 
-                <div class="row">
-                    <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
-                        {{ form_row(form.documentedBy, { 'label': "Document(s) desciptif(s) de l'organisation"}) }}
+                        <div class="row">
+                            <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
+                                {{ form_row(form.documentedBy, { 'label': "Document(s) desciptif(s) de l'organisation"}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
                     </div>
+                    {{ form_end(form) }}
+                    {% if importForm is not null %}
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                <div class="tab-pane fade" id="service-two">
+                    {{ form_start(importForm) }}
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                {{ form_row(importForm.import, { 'label': 'import', attr:{class:'form-control'} }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(importForm.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
                     </div>
+                    {{ form_end(importForm) }}
                 </div>
             </div>
-            {{ form_end(form) }}
+            {% endif%}
         </div>
     </div>
+
 {% endblock %}
