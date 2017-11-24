@@ -1,4 +1,4 @@
-# Semapps carto engine 
+# Semapps carto engine
 
 ## Installation
 
@@ -33,3 +33,8 @@ In order to contribute, you need to have
 
 [...]
 
+## Instances of Semapps
+
+- [La cartographie des Grands Voisins](http://reseau.lesgrandsvoisins.org/)
+ - [Presentation of the project](https://www.virtual-assembly.org/appli-carto-grands-voisins/) (French)
+ - [Repository](https://github.com/assemblee-virtuelle/grands-voisins-v2)
