@@ -229,15 +229,15 @@ class AdminController extends UniqueComponentController
             //TODO make function to find something about someone
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
             $sparql->addPrefixes($sparql->prefixes)
-							->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+							->addPrefix('pair','http://virtual-assembly.org/pair#')
                 ->addSelect('?name')
                 ->addSelect('?forname')
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'default:lastName',
+                  'pair:lastName',
                   '?name',
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'default:firstName',
+                  'pair:firstName',
                   '?forname',
                   $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
             $result = $sfClient->sparql($sparql->getQuery());
@@ -508,25 +508,25 @@ class AdminController extends UniqueComponentController
 								);
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
 								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+									->addPrefix('pair','http://virtual-assembly.org/pair#')
 									->addDelete(
 										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'default:image',
+										'pair:image',
 										'?o',
 										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
 									->addWhere(
 										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'default:image',
+										'pair:image',
 										'?o',
 										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
 								//dump($sparql->getQuery());
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+									->addPrefix('pair','http://virtual-assembly.org/pair#')
 									->addInsert(
 										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'default:image',
+										'pair:image',
 										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
 										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
@@ -547,15 +547,15 @@ class AdminController extends UniqueComponentController
 										$uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
 										$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
 										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-											->addInsert($uriOrgaFormatted,'default:hasMember',$uripersonFormatted,$graphFormatted);
+											->addPrefix('pair','http://virtual-assembly.org/pair#')
+											->addInsert($uriOrgaFormatted,'pair:hasMember',$uripersonFormatted,$graphFormatted);
 										//dump($sparql->getQuery());
 										$sfClient->update($sparql->getQuery());
 										//memberOf
 										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
-											->addInsert($uripersonFormatted,'default:memberOf',$uriOrgaFormatted,$graphFormatted);
+											->addPrefix('pair','http://virtual-assembly.org/pair#')
+											->addInsert($uripersonFormatted,'pair:memberOf',$uriOrgaFormatted,$graphFormatted);
 										//dump($sparql->getQuery());
 										$sfClient->update($sparql->getQuery());
 								}
@@ -594,7 +594,7 @@ class AdminController extends UniqueComponentController
 								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
 
 								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#');
+									->addPrefix('pair','http://virtual-assembly.org/pair#');
 								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
 								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
 								$sparql->addInsert("?s","?p","?o",$graphFormatted);

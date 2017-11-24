@@ -25,18 +25,18 @@ parameters:
    # This parameters do the work for linking what is a component and use it on the platform
    # example :
    # semantic_forms.component:
-   #     project: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
-   #     event: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
-   #     proposal: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
-   #     document: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
-   #     documentType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
+   #     project: 'http://virtual-assembly.org/pair#Project'
+   #     event: 'http://virtual-assembly.org/pair#Event'
+   #     proposal: 'http://virtual-assembly.org/pair#Proposal'
+   #     document: 'http://virtual-assembly.org/pair#Document'
+   #     documentType: 'http://virtual-assembly.org/pair#DocumentType'
    # All component have the possibility to have a "standard comportment" with different function
     semantic_forms.component:
-       project: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project'
-       event: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event'
-       proposal: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal'
-       document: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document'
-       documentType: 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType'
+       project: 'http://virtual-assembly.org/pair#Project'
+       event: 'http://virtual-assembly.org/pair#Event'
+       proposal: 'http://virtual-assembly.org/pair#Proposal'
+       document: 'http://virtual-assembly.org/pair#Document'
+       documentType: 'http://virtual-assembly.org/pair#DocumentType'
 
    # is here to have a message on all page in admin : typically, if we need to shutdown the Semantic Forms server --> all user can be prevent
    # example :

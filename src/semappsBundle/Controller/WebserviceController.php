@@ -152,13 +152,13 @@ class WebserviceController extends Controller
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         /* requete génériques */
         $sparql->addPrefixes($sparql->prefixes)
-					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+					->addPrefix('pair','http://virtual-assembly.org/pair#')
             ->addSelect('?uri')
             ->addSelect('?type')
             ->addSelect('?image')
             ->addSelect('?desc')
             ->addSelect('?building');
-        ($filter)? $sparql->addWhere('?uri','default:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
+        ($filter)? $sparql->addWhere('?uri','pair:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
         //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
         $sparql->addWhere('?uri','rdf:type', '?type','?GR')
             ->groupBy('?uri ?type ?title ?image ?desc ?building')
@@ -168,10 +168,10 @@ class WebserviceController extends Controller
             $orgaSparql = clone $sparql;
             $orgaSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:comment','?desc','?GR');
-                //->addOptional('?uri','default:hostedIn','?building','?GR');
+                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
+                ->addOptional('?uri','pair:image','?image','?GR')
+                ->addOptional('?uri','pair:comment','?desc','?GR');
+                //->addOptional('?uri','pair:hostedIn','?building','?GR');
             if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             //dump($orgaSparql->getQuery());
             $results = $sfClient->sparql($orgaSparql->getQuery());
@@ -185,12 +185,12 @@ class WebserviceController extends Controller
                 ->addSelect('?firstName')
                 ->addSelect('( COALESCE(?lastName, "") As ?result) (fn:concat(?firstName, " " , ?result) as ?title)')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','default:firstName','?firstName','?GR')
-                ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:description','?desc','?GR')
-                ->addOptional('?uri','default:lastName','?lastName','?GR')
-                ->addOptional('?org','rdf:type','default:Organization','?GR');
-                //->addOptional('?org','default:hostedIn','?building','?GR');
+                ->addWhere('?uri','pair:firstName','?firstName','?GR')
+                ->addOptional('?uri','pair:image','?image','?GR')
+                ->addOptional('?uri','pair:description','?desc','?GR')
+                ->addOptional('?uri','pair:lastName','?lastName','?GR')
+                ->addOptional('?org','rdf:type','pair:Organization','?GR');
+                //->addOptional('?org','pair:hostedIn','?building','?GR');
             if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'")) ');
             $personSparql->groupBy('?firstName ?lastName');
             //dump($personSparql->getQuery());exit;
@@ -203,10 +203,10 @@ class WebserviceController extends Controller
             $projectSparql = clone $sparql;
             $projectSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:comment','?desc','?GR');
-                //->addOptional('?uri','default:building','?building','?GR');
+                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
+                ->addOptional('?uri','pair:image','?image','?GR')
+                ->addOptional('?uri','pair:comment','?desc','?GR');
+                //->addOptional('?uri','pair:building','?building','?GR');
             if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($projectSparql->getQuery());
             $projects = $sfClient->sparqlResultsValues($results);
@@ -219,12 +219,12 @@ class WebserviceController extends Controller
                 ->addSelect('?start')
                 ->addSelect('?end')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:comment','?desc','?GR')
-                ->addOptional('?uri','default:localizedBy','?building','?GR')
-                ->addOptional('?uri','default:startDate','?start','?GR')
-                ->addOptional('?uri','default:endDate','?end','?GR');
+                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
+                ->addOptional('?uri','pair:image','?image','?GR')
+                ->addOptional('?uri','pair:comment','?desc','?GR')
+                ->addOptional('?uri','pair:localizedBy','?building','?GR')
+                ->addOptional('?uri','pair:startDate','?start','?GR')
+                ->addOptional('?uri','pair:endDate','?end','?GR');
             if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $eventSparql->orderBy($sparql::ORDER_ASC,'?start')
                 ->groupBy('?start')
@@ -238,10 +238,10 @@ class WebserviceController extends Controller
             $propositionSparql = clone $sparql;
             $propositionSparql->addSelect('?title')
                 ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','default:preferedLabel','?title','?GR')
-                ->addOptional('?uri','default:image','?image','?GR')
-                ->addOptional('?uri','default:comment','?desc','?GR');
-            //$propositionSparql->addOptional('?uri','default:building','?building','?GR');
+                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
+                ->addOptional('?uri','pair:image','?image','?GR')
+                ->addOptional('?uri','pair:comment','?desc','?GR');
+            //$propositionSparql->addOptional('?uri','pair:building','?building','?GR');
             if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
             $results = $sfClient->sparql($propositionSparql->getQuery());
             $propositions = $sfClient->sparqlResultsValues($results);
@@ -251,9 +251,9 @@ class WebserviceController extends Controller
 						$documentSparql = clone $sparql;
 						$documentSparql->addSelect('?title')
 							->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
-							->addWhere('?uri','default:preferedLabel','?title','?GR')
-							->addOptional('?uri','default:comment','?desc','?GR');
-						//$documentSparql->addOptional('?uri','default:building','?building','?GR');
+							->addWhere('?uri','pair:preferedLabel','?title','?GR')
+							->addOptional('?uri','pair:comment','?desc','?GR');
+						//$documentSparql->addOptional('?uri','pair:building','?building','?GR');
 						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
 						$results = $sfClient->sparql($documentSparql->getQuery());
 						$documents= $sfClient->sparqlResultsValues($results);
@@ -263,9 +263,9 @@ class WebserviceController extends Controller
 						$documentTypeSparql = clone $sparql;
 						$documentTypeSparql->addSelect('?title')
 							->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-							->addWhere('?uri','default:preferedLabel','?title','?GR')
-							->addOptional('?uri','default:comment','?desc','?GR');
-						//$documentTypeSparql->addOptional('?uri','default:building','?building','?GR');
+							->addWhere('?uri','pair:preferedLabel','?title','?GR')
+							->addOptional('?uri','pair:comment','?desc','?GR');
+						//$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
 						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
 						$results = $sfClient->sparql($documentTypeSparql->getQuery());
 						$documentTypes = $sfClient->sparqlResultsValues($results);
@@ -350,15 +350,15 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
-					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+					->addPrefix('pair','http://virtual-assembly.org/pair#')
             ->addSelect('?uri')
             ->addFilter('?uri = <'.$url.'>');
 
         switch ($uriType) {
             case semappsConfig::URI_PAIR_PERSON :
                 $sparql->addSelect('( COALESCE(?lastName, "") As ?result)  (fn:concat(?firstName, " ", ?result) as ?label)')
-                    ->addWhere('?uri','default:firstName','?firstName','?gr')
-                    ->addOptional('?uri','default:lastName','?lastName','?gr');
+                    ->addWhere('?uri','pair:firstName','?firstName','?gr')
+                    ->addOptional('?uri','pair:lastName','?lastName','?gr');
 
                 break;
             case semappsConfig::URI_PAIR_ORGANIZATION :
@@ -368,7 +368,7 @@ class WebserviceController extends Controller
 						case semappsConfig::URI_PAIR_DOCUMENT :
 						case semappsConfig::URI_PAIR_DOCUMENT_TYPE :
                 $sparql->addSelect('?label')
-                    ->addWhere('?uri','default:preferedLabel','?label','?gr');
+                    ->addWhere('?uri','pair:preferedLabel','?label','?gr');
 
                 break;
             case semappsConfig::URI_SKOS_THESAURUS:
@@ -382,12 +382,12 @@ class WebserviceController extends Controller
                     ->addSelect('( COALESCE(?skos, "") As ?result_4)')
                     ->addSelect('(fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
                     ->addWhere('?uri','rdf:type','?type','?gr')
-                    ->addOptional('?uri','default:firstName','?firstName','?gr')
-                    ->addOptional('?uri','default:lastName','?lastName','?gr')
-                    ->addOptional('?uri','default:preferedLabel','?name','?gr')
+                    ->addOptional('?uri','pair:firstName','?firstName','?gr')
+                    ->addOptional('?uri','pair:lastName','?lastName','?gr')
+                    ->addOptional('?uri','pair:preferedLabel','?name','?gr')
                     ->addOptional('?uri','skos:prefLabel','?skos','?gr')
-                    ->addOptional('?uri','default:comment','?desc','?gr')
-                    ->addOptional('?uri','default:image','?image','?gr');
+                    ->addOptional('?uri','pair:comment','?desc','?gr')
+                    ->addOptional('?uri','pair:image','?image','?gr');
                     //->addOptional('?uri','gvoi:building','?building','?gr');
                 break;
         }
@@ -438,7 +438,7 @@ class WebserviceController extends Controller
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
         $sparql->addPrefixes($sparql->prefixes)
-					->addPrefix('default','http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+					->addPrefix('pair','http://virtual-assembly.org/pair#')
             ->addSelect('?type')
             ->addSelect('?uri')
 					->addSelect('( COALESCE(?firstName, "") As ?result_1)')
@@ -447,18 +447,18 @@ class WebserviceController extends Controller
 					->addSelect('( COALESCE(?skos, "") As ?result_4)')
 					->addSelect('(fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
 					->addWhere('?uri','rdf:type','?type','?gr')
-					->addOptional('?uri','default:firstName','?firstName','?gr')
-					->addOptional('?uri','default:lastName','?lastName','?gr')
-					->addOptional('?uri','default:preferedLabel','?name','?gr')
+					->addOptional('?uri','pair:firstName','?firstName','?gr')
+					->addOptional('?uri','pair:lastName','?lastName','?gr')
+					->addOptional('?uri','pair:preferedLabel','?name','?gr')
 					->addOptional('?uri','skos:prefLabel','?skos','?gr')
-					->addOptional('?uri','default:comment','?desc','?gr')
-					->addOptional('?uri','default:image','?image','?gr');
+					->addOptional('?uri','pair:comment','?desc','?gr')
+					->addOptional('?uri','pair:image','?image','?gr');
         $ressourcesNeeded = clone $sparql;
-        $ressourcesNeeded->addWhere('?uri','default:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourcesNeeded->addWhere('?uri','pair:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
 
         $requests['ressourcesNeeded'] = $ressourcesNeeded->getQuery();
         $ressourcesProposed = clone $sparql;
-        $ressourcesProposed->addWhere('?uri','default:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourcesProposed->addWhere('?uri','pair:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
         $requests['ressourcesProposed'] =$ressourcesProposed->getQuery();
 
 

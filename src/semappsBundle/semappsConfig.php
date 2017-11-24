@@ -12,13 +12,13 @@ namespace semappsBundle;
 class semappsConfig
 {
 		//class
-		const URI_PAIR_PERSON = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person';
-		const URI_PAIR_ORGANIZATION ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization';
-		const URI_PAIR_PROJECT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project';
-		const URI_PAIR_EVENT ='http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event';
-		const URI_PAIR_PROPOSAL = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal';
-		const URI_PAIR_DOCUMENT = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document';
-		const URI_PAIR_DOCUMENT_TYPE = 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType';
+		const URI_PAIR_PERSON = 'http://virtual-assembly.org/pair#Person';
+		const URI_PAIR_ORGANIZATION ='http://virtual-assembly.org/pair#Organization';
+		const URI_PAIR_PROJECT ='http://virtual-assembly.org/pair#Project';
+		const URI_PAIR_EVENT ='http://virtual-assembly.org/pair#Event';
+		const URI_PAIR_PROPOSAL = 'http://virtual-assembly.org/pair#Proposal';
+		const URI_PAIR_DOCUMENT = 'http://virtual-assembly.org/pair#Document';
+		const URI_PAIR_DOCUMENT_TYPE = 'http://virtual-assembly.org/pair#DocumentType';
 		const URI_MIXTE_PERSON_ORGANIZATION = [
 			self::URI_PAIR_PERSON,
 			self::URI_PAIR_ORGANIZATION,

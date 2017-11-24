@@ -23,13 +23,13 @@
       this.buildingSelected = this.buildingSelectedAll;
       this.$gvMap = $(document.getElementById('semapps-map'));
       this.allowedType = [
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Person",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Organization",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Project",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Event",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Proposal",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#Document",
-          "http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#DocumentType",
+          "http://virtual-assembly.org/pair#Person",
+          "http://virtual-assembly.org/pair#Organization",
+          "http://virtual-assembly.org/pair#Project",
+          "http://virtual-assembly.org/pair#Event",
+          "http://virtual-assembly.org/pair#Proposal",
+          "http://virtual-assembly.org/pair#Document",
+          "http://virtual-assembly.org/pair#DocumentType",
       ];
 
       // Play intro only once.

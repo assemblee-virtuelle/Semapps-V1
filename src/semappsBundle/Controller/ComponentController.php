@@ -44,11 +44,11 @@ class ComponentController extends AbstractMultipleComponentController
 				//actualPicture
 				$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
 				$sparql->addPrefixes($sparql->prefixes)
-					->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+					->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 					->addSelect('?oldImage')
 					->addWhere(
 						$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-						'default:image',
+						'pair:image',
 						'?oldImage',
 						$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
 				$results = $sfClient->sparql($sparql->getQuery());
@@ -75,25 +75,25 @@ class ComponentController extends AbstractMultipleComponentController
 
 										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
 										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addDelete(
 												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-												'default:image',
+												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL))
 											->addWhere(
 												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-												'default:image',
+												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
 										$sfClient->update($sparql->getQuery());
 
 										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('default', 'http://assemblee-virtuelle.github.io/mmmfest/PAIR_temp.owl#')
+											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addInsert(
 												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
-												'default:image',
+												'pair:image',
 												$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
 										$sfClient->update($sparql->getQuery());
