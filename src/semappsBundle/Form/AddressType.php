@@ -5,6 +5,7 @@ namespace semappsBundle\Form;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -30,19 +31,17 @@ class AddressType extends SemanticFormType
 					->add(
 						$builder,
 						'latitude',
-						textType::class,
+						HiddenType::class,
 						[
 							'required' => false,
-							'disabled' => true,
 						]
 					)
 					->add(
 						$builder,
 						'longitude',
-						textType::class,
+						HiddenType::class,
 						[
 							'required' => false,
-							'disabled' => true
 						]
 					)
 					->add(

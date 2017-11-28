@@ -33,9 +33,10 @@ Polymer({
   start() {
     "use strict";
       this.OSM = L.map('semapps').setView([48.862725, 2.287592], 12);
-      let OpenStreetMap_France = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-          attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      });
+      // let OpenStreetMap_France = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+      //     attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      // });
+      // OpenStreetMap_France.add(this.OSM);
   },
 
 });

@@ -58,7 +58,12 @@ class WebserviceController extends Controller
 				'icon'   => 'pushpin',
 				'nameType' => 'documenttype'
 			],
-
+			semappsConfig::URI_PAIR_ADDRESS  => [
+				'name'   => 'Adresse',
+				'plural' => 'Adresses',
+				'icon'   => 'tent',
+				'nameType' => 'address'
+			],
     ];
 
     var $entitiesFilters = [
@@ -72,8 +77,7 @@ class WebserviceController extends Controller
       semappsConfig::URI_PAIR_DOCUMENT_TYPE,
 
     ];
-		/** @var \semappsBundle\Services\WebserviceTools $webserviceTools */
-		private $webserviceTools;
+
 
     public function __construct()
     {

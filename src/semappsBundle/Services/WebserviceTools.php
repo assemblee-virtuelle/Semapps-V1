@@ -198,7 +198,6 @@ class WebserviceTools
 						$results = $this->sfClient->sparql($addressSparql->getQuery());
 						$addresses = $this->sfClient->sparqlResultsValues($results);
 				}
-				dump($addresses);
 				$results = [];
 
 				while ($organizations || $persons || $projects
@@ -443,12 +442,9 @@ class WebserviceTools
 									'hasParticipant',
 									'documentedBy',
 									'subjectOfPAIR',
+									'localizedBy',
 
 								];
-								if (isset($properties['localizedBy'])) {
-										$properties['building'] = current($properties['localizedBy']);
-										$properties['localizedBy'] = semappsConfig::$buildings[current($properties['localizedBy'])]['title'];
-								}
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
 								break;
 						// Proposition.
@@ -554,6 +550,15 @@ class WebserviceTools
 																		];
 																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
 																		break;
+																case semappsConfig::URI_PAIR_ADDRESS:
+																		$result = [
+																			'uri' => $uri,
+																			'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
+																			'longitude' => ((current($component['longitude'])) ? current($component['longitude']) : ""),
+																			'latitude' => ((current($component['latitude'])) ? current($component['latitude']) : ""),
+																		];
+																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
+
 														}
 														$cacheTemp[$uri] = $result;
 														$cacheTemp[$uri]['type'] = $componentType;
