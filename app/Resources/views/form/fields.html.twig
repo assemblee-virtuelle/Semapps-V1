@@ -1,7 +1,7 @@
 <!-- TODO Integrate this template into SF bundle -->
 
 {% block db_pedia_widget %}
-    <div class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}">
+    <div class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="http://lookup.dbpedia.org/api/search.asmx/PrefixSearch">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block adresse_widget %}
-    <div class="select2-tags" data-sf-type="adresse" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}">
+    <div class="select2-tags" data-sf-type="adresse" data-sf-lookup="https://api-adresse.data.gouv.fr/search/">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>

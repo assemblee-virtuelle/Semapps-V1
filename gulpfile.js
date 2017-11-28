@@ -23,6 +23,7 @@ var filesJs = {
     'web/admin/js/src/class/cartoAdminPageProfile.js',
     'web/admin/js/src/class/cartoAdminPageOrga.js',
     'web/admin/js/src/class/cartoAdminPageComponent.js',
+    'web/admin/js/src/class/cartoAdminPageComponentAddress.js',
     // Fields.
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.uri.js',
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.dbPedia.js',

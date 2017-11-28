@@ -1,0 +1,31 @@
+{% extends "semappsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter une Adresse{% endblock %}
+
+{%  set menuSelected = 'Adresse' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="row address-elem">
+                <div class="col-sm-12 ">
+                    {{ form_row(form.preferedLabel, { 'attr': {'class': 'calendar'} } ) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.latitude) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.longitude) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.localizes) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

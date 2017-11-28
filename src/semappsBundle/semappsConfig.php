@@ -19,6 +19,7 @@ class semappsConfig
 		const URI_PAIR_PROPOSAL = 'http://virtual-assembly.org/pair#Proposal';
 		const URI_PAIR_DOCUMENT = 'http://virtual-assembly.org/pair#Document';
 		const URI_PAIR_DOCUMENT_TYPE = 'http://virtual-assembly.org/pair#DocumentType';
+		const URI_PAIR_ADDRESS = 'http://virtual-assembly.org/pair#Address';
 		const URI_MIXTE_PERSON_ORGANIZATION = [
 			self::URI_PAIR_PERSON,
 			self::URI_PAIR_ORGANIZATION,

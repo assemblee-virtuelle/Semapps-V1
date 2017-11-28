@@ -52,6 +52,7 @@ class WebserviceTools
 				$typeDocumentType= array_key_exists(semappsConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
 				$typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
 				$typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
+				$typeAddress= array_key_exists(semappsConfig::URI_PAIR_ADDRESS,$arrayType);
 				//$userLogged =  $this->getUser() != null;
 				$sparqlClient = new SparqlClient();
 				/** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -187,11 +188,21 @@ class WebserviceTools
 						$results = $this->sfClient->sparql($thematiqueSparql->getQuery());
 						$thematiques = $this->sfClient->sparqlResultsValues($results);
 				}
-
+				$addresses = [];
+				if($type == semappsConfig::Multiple || $typeAddress ){
+						$addressSparql = clone $sparql;
+						$addressSparql->addSelect('?title')
+							->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ADDRESS,$sparql::VALUE_TYPE_URL),'?GR')
+							->addWhere('?uri','pair:preferedLabel','?title','?GR');
+						if($term)$addressSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
+						$results = $this->sfClient->sparql($addressSparql->getQuery());
+						$addresses = $this->sfClient->sparqlResultsValues($results);
+				}
+				dump($addresses);
 				$results = [];
 
 				while ($organizations || $persons || $projects
-					|| $events  || $thematiques || $propositions || $documents || $documentTypes) {
+					|| $events  || $thematiques || $propositions || $documents || $documentTypes || $addresses) {
 
 						if (!empty($organizations)) {
 								$results[] = array_shift($organizations);
@@ -216,6 +227,9 @@ class WebserviceTools
 						}
 						else if  (!empty($documentTypes)) {
 								$results[] = array_shift($documentTypes);
+						}
+						else if  (!empty($addresses)) {
+								$results[] = array_shift($addresses);
 						}
 				}
 

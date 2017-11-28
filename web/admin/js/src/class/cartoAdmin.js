@@ -49,6 +49,7 @@ class CartoAdmin {
     new CartoAdminPageOrga(this);
     new CartoAdminPageComponent(this);
     new CartoAdminPageUser(this);
+    new CartoAdminPageComponentAddress(this);
   }
 
   modalConfirm(message, callback) {

@@ -28,9 +28,9 @@ parameters:
         http://virtual-assembly.org/pair#aboutPage:
           value: 'aboutPage'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#localizedBy:
-          value: 'localizedBy'
-          access: 'anonymous'
+#        http://virtual-assembly.org/pair#localizedBy:
+#          value: 'localizedBy'
+#          access: 'anonymous'
         http://virtual-assembly.org/pair#e-mail:
           value: 'email'
           access: 'member'
@@ -430,6 +430,9 @@ parameters:
         http://virtual-assembly.org/pair#organizedBy: 'http://virtual-assembly.org/pair#organizes'
         http://virtual-assembly.org/pair#hasParticipant: 'http://virtual-assembly.org/pair#participantOf'
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
+        http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
+        http://virtual-assembly.org/pair#localizedBy: 'http://virtual-assembly.org/pair#localizes'
+
       label:
         - http://virtual-assembly.org/pair#preferedLabel
     proposalConf:
@@ -488,5 +491,29 @@ parameters:
         http://virtual-assembly.org/pair#brainstormedBy: 'http://virtual-assembly.org/pair#brainstorms'
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#hasSubject_Pair: 'http://virtual-assembly.org/pair#subjectOf_Pair'
+      label:
+        - http://virtual-assembly.org/pair#preferedLabel
+
+    addressConf:
+      type: 'http://virtual-assembly.org/pair#Address'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Address'
+      fields:
+        http://virtual-assembly.org/pair#preferedLabel:
+          value: 'preferedLabel'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#latitude:
+          value: 'latitude'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#longitude:
+          value: 'longitude'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#localizes:
+          value: 'localizes'
+          access: 'anonymous'
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access: 'anonymous'
+      reverse:
+        http://virtual-assembly.org/pair#localizes: 'http://virtual-assembly.org/pair#localizedBy'
       label:
         - http://virtual-assembly.org/pair#preferedLabel

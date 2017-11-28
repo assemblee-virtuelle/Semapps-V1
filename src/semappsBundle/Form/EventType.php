@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Form;
 
+use GuzzleHttp\Psr7\Uri;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -68,10 +69,10 @@ class EventType extends SemanticFormType
 					->add(
 						$builder,
 						'localizedBy',
-						ChoiceType::class,
+						UriType::class,
 						[
-							'placeholder' => 'choisissez un batiment',
-							'choices' => array_flip(semappsConfig::$buildingsSimple),
+							'required' => false,
+							'rdfType' => semappsConfig::URI_PAIR_ADDRESS
 						]
 					)
 					->add(
