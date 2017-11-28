@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Repository;
 
+use FOS\UserBundle\Model\UserInterface;
 use \semappsBundle\Entity\User;
 
 /**
@@ -19,7 +20,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      */
     public function getAccessLevelString($user)
     {
-        if ($user) {
+        if ($user instanceof UserInterface) {
             if ($user->hasRole('ROLE_SUPER_ADMIN')) {
                 return 'super_admin';
             } else if ($user->hasRole('ROLE_ADMIN')) {

@@ -13,3 +13,11 @@ services:
     semappsBundle.formattingForm:
         class: semappsBundle\Services\FormattingForm
         arguments: ~
+
+    semappsBundle.webserviceTools:
+        class: semappsBundle\Services\WebserviceTools
+        arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client']
+
+    semappsBundle.confmanager:
+        class: semappsBundle\Services\confManager
+        arguments: ["%personConf%","%organisationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%"]
