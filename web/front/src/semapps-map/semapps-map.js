@@ -10,14 +10,6 @@ Polymer({
       type: Array,
       value: []
     },
-    pinsRegistry: {
-      type: Object,
-      value: {}
-    }
-  },
-
-  _routeChanged: function () {
-    this.updateVisibility();
   },
 
   // Wait all HTML to be loaded.
@@ -32,11 +24,45 @@ Polymer({
 
   start() {
     "use strict";
-      this.OSM = L.map('semapps').setView([48.862725, 2.287592], 12);
-      // let OpenStreetMap_France = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-      //     attribution: '&copy; Openstreetmap France | &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      // });
-      // OpenStreetMap_France.add(this.OSM);
+      this.OSM = L.map('semapps').setView([42.403681, 2.47986190000006], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.OSM );
+
   },
+
+    pinShow(latitude,longitude, uri, text) {
+        "use strict";
+        let marker = L.marker([latitude,longitude])
+            .bindPopup(text);
+        marker.addTo(this.OSM);
+        this.pins[uri] = marker;
+    },
+
+    pinShowOne(latitude,longitude, uri, text) {
+        "use strict";
+        this.pinHideAll();
+        this.pinShow(latitude,longitude, uri, text);
+    },
+
+    pinHide(uri) {
+        "use strict";
+        if(this.pins[uri] !== undefined){
+            let marker = this.pins[uri];
+            this.OSM.removeLayer(marker);
+        }
+    },
+
+    pinHideAll() {
+        "use strict";
+        for (let uri in this.pins){
+            log(uri);
+            if (this.pins.hasOwnProperty(uri)) {
+                this.pinHide(uri);
+            }
+        }
+    }
+
+
 
 });

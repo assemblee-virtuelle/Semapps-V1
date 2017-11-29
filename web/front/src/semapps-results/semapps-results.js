@@ -83,9 +83,7 @@ Polymer({
   search(term, building) {
     "use strict";
     let filterUri = this.$searchThemeFilter.val();
-    let prefixBuilding = 'urn:mm/building/';
-    semapps.buildingSelected =
-      semapps.searchLastBuilding = (semapps.buildings[prefixBuilding+building] ? prefixBuilding+building : semapps.buildingSelectedAll);
+
     // Term and has not changed.
     if (semapps.searchLastTerm === term &&
         // Filter has not changed.
@@ -132,6 +130,7 @@ Polymer({
     this.searchError =
       this.noResult = false;
     this.results.length = 0;
+    let dataPins = [];
     this.set('results', []);
     let totalCounter = 0;
     let typesCounter = {};
@@ -146,6 +145,7 @@ Polymer({
       this.searchError = true;
     }
     else if (response.results) {
+      semapps.map.pinHideAll();
 
       for (let result of response.results) {
         // Data is allowed.
@@ -168,18 +168,38 @@ Polymer({
               resultTemps[result.type].push(result);
 
           }
+          if(result["address"] !== undefined){
+            if(dataPins[result.address] === undefined){
+                dataPins[result.address] = [];
+                dataPins[result.address]['text'] =  '<span class="pin-content" style="display: none">'+result.address+'</span>'+ result.title;
+            }
+            else{
+                dataPins[result.address]['text'] += result.title;
+            }
+          }
+        }
+          if (result.type === "http://virtual-assembly.org/pair#Address"){
+              if(dataPins[result.uri] === undefined)
+                dataPins[result.uri] = [];
 
-        }
+              dataPins[result.uri]['latitude'] = result.latitude;
+              dataPins[result.uri]['longitude'] = result.longitude;
+          }
       }
-        if(typeof resultTemps[this.typeSelected] === 'undefined' ){
-            // Deselect tab if current.
-            let key = Object.keys(resultTemps)[0];
-            this.selection(key);
-            results =(typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[Object.keys(resultTemps)[0]] : [];
-        }
-        else{
-            results = resultTemps[this.typeSelected];
-        }
+      for (let uri in dataPins ){
+          if (dataPins.hasOwnProperty(uri)) {
+              semapps.map.pinShow(dataPins[uri]['latitude'],dataPins[uri]['longitude'], uri,dataPins[uri]['text'])
+          }
+      }
+      if(typeof resultTemps[this.typeSelected] === 'undefined' ){
+          // Deselect tab if current.
+          let key = Object.keys(resultTemps)[0];
+          this.selection(key);
+          results =(typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[Object.keys(resultTemps)[0]] : [];
+      }
+      else{
+          results = resultTemps[this.typeSelected];
+      }
       // Create title.
       let resultsTitle = '';
       // Results number.
