@@ -7,9 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractMultipleComponentController extends AbstractComponentController
 {
-		abstract public function getGraphOfCurrentUser();
-		abstract public function getSFLoginOfCurrentUser();
-		abstract public function getSFPasswordOfCurrentUser();
+		var $sfLink;
 
     public function listAction($componentName,Request $request)
     {
@@ -20,8 +18,8 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
 				$componentConf = $this->getParameter($componentName.'Conf');
-				$graphURI =$this->getGraphOfCurrentUser();
-
+				$graphURI =$this->getGraph(null);
+				/** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
         $graphURI = $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL);
         $componentType = $sparql->formatValue($componentList[$componentName],$sparql::VALUE_TYPE_URL);
@@ -64,36 +62,6 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         );
     }
 
-		public function getSfForm($sfClient,$componentName,Request $request)
-    //public function addAction($componentName,Request $request)
-    {
-				$bundleName = $this->getBundleNameFromRequest($request);
-				/** @var $user \semappsBundle\Entity\User */
-        $uri 					= $request->get('uri');
-				$componentConf = $this->getParameter($componentName.'Conf');
-				$graphURI			= $this->getGraphOfCurrentUser();
-
-        // Same as FormType::class
-        $componentClassName = $bundleName.'\Form\\'.ucfirst(
-            $componentName
-          ).'Type';
-
-        $form = $this->createForm(
-          $componentClassName,
-          null,
-          [
-            'login'                 => $this->getSFLoginOfCurrentUser(),
-            'password'              => $this->getSFPasswordOfCurrentUser(),
-            'graphURI'              => $graphURI,
-            'client'                => $sfClient,
-            'sfConf'               => $componentConf,
-            'spec'                  => $componentConf['spec'],
-            'values'                => $uri,
-          ]
-        );
-        return $form;
-    }
-
     public function removeAction($componentName,Request $request){
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
@@ -118,4 +86,16 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 					'componentList', ["componentName" => $componentName]
 				);
     }
+
+		function getSfLink($id = null)
+		{
+				return $this->sfLink;
+		}
+		public function setSfLink($sfLink){
+				$this->sfLink = $sfLink;
+		}
+		function getElement($id = null)
+		{
+				return null;
+		}
 }

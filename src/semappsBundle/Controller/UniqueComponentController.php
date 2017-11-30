@@ -9,12 +9,9 @@
 namespace semappsBundle\Controller;
 
 
-abstract class UniqueComponentController extends AbstractUniqueComponentController
+abstract class UniqueComponentController extends AbstractComponentController
 {
-
-
-		public function getGraph($id)
-		{
+		public function getGraph($id=null){
 				$user =$this->getUser();
 
 				$organization =null;
@@ -34,17 +31,18 @@ abstract class UniqueComponentController extends AbstractUniqueComponentControll
 				return $organization->getGraphURI();
 		}
 
-		public function getSfUser($id)
+		public function getSfUser($id = null )
 		{
 				return  $this->getUser()->getEmail();
 		}
 
-		public function getSfPassword($id)
+		public function getSfPassword($id = null)
 		{
 				/** @var \semappsBundle\Services\Encryption $encryption */
 				$encryption = $this->container->get('semappsBundle.encryption');
 				return $encryption->decrypt($this->getUser()->getSfUser());
 		}
+
 		protected function getOrga($id){
 				$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
 					'semappsBundle:Organisation'

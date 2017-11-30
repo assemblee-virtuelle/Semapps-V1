@@ -3,34 +3,23 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use semappsBundle\Form\FoodType;
-use semappsBundle\Form\PersonType;
+use FOS\UserBundle\Util\TokenGenerator;
+use semappsBundle\Entity\User;
 use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
-use semappsBundle\semappsConfig;
+use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use VirtualAssembly\SparqlBundle\Sparql\sparqlSelect;
 
 class AdminController extends UniqueComponentController
 {
-		const title = [
-			'lundi 2 octobre',
-			'mardi 3 octobre',
-			'mercredi 4 octobre',
-			'jeudi 5 octobre',
-			'vendredi 6 octobre',
-			'samedi 7 octobre',
-			'dimanche 8 octobre',
-			'lundi 9 octobre',
-			'mardi 10 octobre',
-		];
+
     public function homeAction()
     {
         return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => "person"]);
@@ -40,6 +29,7 @@ class AdminController extends UniqueComponentController
     {
         /** @var \semappsBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('semappsBundle.encryption');
+        /** @var UserRepository $userRepository */
         $userRepository = $this
           ->getDoctrine()
           ->getManager()
@@ -60,6 +50,7 @@ class AdminController extends UniqueComponentController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newUser = $form->getData();
+            /** @var TokenGenerator $tokenGenerator */
             $tokenGenerator = $this->container->get(
               'fos_user.util.token_generator'
             );
@@ -109,7 +100,6 @@ class AdminController extends UniqueComponentController
           'semappsBundle:Admin:register.html.twig',
           array(
             'form'      => $form->createView(),
-						'title' 	=> self::title
           )
         );
     }
@@ -124,6 +114,7 @@ class AdminController extends UniqueComponentController
           ->findAll();
 
         $tabUserEnabled = $tabUserDisabled = [];
+        /** @var User $user */
         foreach ($users as $user){
             $organization = $this
               ->getDoctrine()
@@ -220,14 +211,17 @@ class AdminController extends UniqueComponentController
         $organisation       = $organisationManager->find(
             $this->getUser()->getFkOrganisation()
         );
+        /** @var Form $form */
         $form                = $this->get('form.factory')->create(
             UserType::class
         );
         $idResponsible = $organisation->getFkResponsable();
 
         // using the field username_canonical to have the name and forname of each user
+				/** @var User $user */
         foreach ($users as $user){
             //TODO make function to find something about someone
+						/** @var sparqlSelect $sparql */
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
             $sparql->addPrefixes($sparql->prefixes)
 							->addPrefix('pair','http://virtual-assembly.org/pair#')
@@ -259,6 +253,7 @@ class AdminController extends UniqueComponentController
             /** @var \semappsBundle\Services\Encryption $encryption */
             $encryption = $this->container->get('semappsBundle.encryption');
             // Generate password.
+						/** @var TokenGenerator $tokenGenerator */
             $tokenGenerator = $this->container->get(
                 'fos_user.util.token_generator'
             );
@@ -374,6 +369,7 @@ class AdminController extends UniqueComponentController
     public function settingsAction(Request $request)
     {
         $user = $this->GetUser();
+        /** @var Form $form */
         $form = $this->get('form.factory')->create(AdminSettings::class, $user);
         $em   = $this->getDoctrine()->getManager();
         $form->handleRequest($request);
@@ -445,7 +441,6 @@ class AdminController extends UniqueComponentController
             array(
                 'form' => $form->createView(),
                 'user' => $user,
-								'title' =>(!empty($user->getRepas()))? null : self::title,
             )
         );
     }
@@ -467,20 +462,20 @@ class AdminController extends UniqueComponentController
     }
 
 
-		public function getUniqueElement($id)
+		public function getElement($id =null)
 		{
 			return $this->getUser();
 		}
 
-		public function getUriLinkUniqueElement($id)
+		public function getSfLink($id = null)
 		{
 				return $this->getUser()->getSfLink();
 		}
 
 		public function addAction($uniqueComponentName,$id =null,Request $request)
 		{
+				/** @var SemanticFormsClient $sfClient */
 				$sfClient       = $this->container->get('semantic_forms.client');
-
 				/** @var $user \semappsBundle\Entity\User */
 				$user           = $this->getUser();
 				$userSfLink     = $user->getSfLink();
@@ -490,7 +485,7 @@ class AdminController extends UniqueComponentController
 				$oldPictureName = $user->getPictureName();
 				$organisation = $this->getOrga(null);
 				/** @var Form $form */
-				$form = $this->getSfForm($sfClient,$uniqueComponentName,$id , $request);
+				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
 
 				$form->handleRequest($request);
 
@@ -594,8 +589,6 @@ class AdminController extends UniqueComponentController
 								$sfClient->import($uri);
 								//déplacer dans le graph de l'orga
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
-								$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
-								$uripersonFormatted = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
 								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
 
 								$sparql->addPrefixes($sparql->prefixes)
@@ -614,7 +607,7 @@ class AdminController extends UniqueComponentController
 					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
 						'importForm'=> ($importForm != null)? $importForm->createView() : null,
 						"form" => $form->createView(),
-						"entityUri" => $this->getUriLinkUniqueElement($id)
+						"entityUri" => $this->getSfLink($id)
 					]
 				);
 		}

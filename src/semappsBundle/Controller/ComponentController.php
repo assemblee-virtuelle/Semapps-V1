@@ -7,39 +7,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ComponentController extends AbstractMultipleComponentController
 {
-		public function getSFLoginOfCurrentUser()
-		{
-				return $this->getUser()->getEmail();
-		}
-
-		public function getSFPasswordOfCurrentUser()
-		{
-				/** @var \semappsBundle\Services\Encryption $encryption */
-				$encryption 	= $this->container->get('semappsBundle.encryption');
-				return $encryption->decrypt($this->getUser()->getSfUser());
-
-		}
-
-		public function getGraphOfCurrentUser()
-		{
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'semappsBundle:Organisation'
-        );
-        $organisation = $organisationEntity->find(
-          $this->getUser()->getFkOrganisation()
-        );
-				$graphURI = $organisation->getGraphURI();
-
-				return $graphURI;
-		}
-
 
 		public function addAction($componentName,Request $request)
 		{
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient = $this->container->get('sparqlbundle.client');
-				$uri 					= $request->get('uri');
-				$graphURI			= $this->getGraphOfCurrentUser();
+				$this->setSfLink($request->get('uri'));
+				$graphURI			= $this->getGraph();
 				$sfClient       = $this->container->get('semantic_forms.client');
 				$form 				= $this->getSfForm($sfClient,$componentName, $request);
 
@@ -52,7 +26,7 @@ class ComponentController extends AbstractMultipleComponentController
 					->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 					->addSelect('?oldImage')
 					->addWhere(
-						$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+						$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
 						'pair:image',
 						'?oldImage',
 						$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
@@ -82,12 +56,12 @@ class ComponentController extends AbstractMultipleComponentController
 										$sparql->addPrefixes($sparql->prefixes)
 											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addDelete(
-												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL))
 											->addWhere(
-												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
@@ -97,7 +71,7 @@ class ComponentController extends AbstractMultipleComponentController
 										$sparql->addPrefixes($sparql->prefixes)
 											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addInsert(
-												$sparql->formatValue($uri, $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
@@ -119,4 +93,29 @@ class ComponentController extends AbstractMultipleComponentController
 
 		}
 
-	}
+		function getGraph($id = null)
+		{
+				$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+					'semappsBundle:Organisation'
+				);
+				$organisation = $organisationEntity->find(
+					$this->getUser()->getFkOrganisation()
+				);
+				$graphURI = $organisation->getGraphURI();
+
+				return $graphURI;
+		}
+
+		function getSfUser($id = null)
+		{
+				return $this->getUser()->getEmail();
+		}
+
+		function getSfPassword($id = null)
+		{
+				/** @var \semappsBundle\Services\Encryption $encryption */
+				$encryption 	= $this->container->get('semappsBundle.encryption');
+				return $encryption->decrypt($this->getUser()->getSfUser());
+		}
+
+}

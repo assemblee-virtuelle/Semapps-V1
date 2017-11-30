@@ -271,10 +271,10 @@ class OrganisationController extends UniqueComponentController
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient   = $this->container->get('sparqlbundle.client');
 				$em = $this->getDoctrine()->getManager();
-				$sfLink = $this->getUriLinkUniqueElement($id);
+				$sfLink = $this->getSfLink($id);
 				$oldPictureName = $organization->getOrganisationPicture();
 				/** @var Form $form */
-				$form = $this->getSfForm($sfClient,$uniqueComponentName,$id , $request);
+				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
 				$form->handleRequest($request);
 
 				if ($form->isSubmitted() && $form->isValid()) {
@@ -342,7 +342,7 @@ class OrganisationController extends UniqueComponentController
 				}
 
 				$importForm = null;
-				if(!$this->getUriLinkUniqueElement($id)){
+				if(!$sfLink){
 						$importForm = $this->createFormBuilder();
 						$importForm->add('import',UrlType::class);
 						$importForm->add('save',SubmitType::class);
@@ -380,20 +380,20 @@ class OrganisationController extends UniqueComponentController
 						'organization' => $organization,
 						'importForm'=> ($importForm != null)? $importForm->createView() : null,
 						"form" => $form->createView(),
-						"entityUri" => $this->getUriLinkUniqueElement($id)
+						"entityUri" => $sfLink
 					]
 				);
 		}
 
-		public function getUniqueElement($id)
+		public function getElement($id =null)
 		{
 				return $this->getOrga($id);
 		}
 
-		public function getUriLinkUniqueElement($id)
+		public function getSfLink($id = null)
 		{
 
-				return $this->getUniqueElement($id)->getSfOrganisation();
+				return $this->getElement($id)->getSfOrganisation();
 		}
 
 
