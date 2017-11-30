@@ -8,19 +8,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractUniqueComponentController extends AbstractComponentController
 {
+		//TODO make interface for "abstract" function
 		abstract public function getGraph($id);
 		abstract public function getUniqueElement($id);
 		abstract public function getUriLinkUniqueElement($id);
 		abstract public function getSfUser($id);
 		abstract public function getSfPassword($id);
-		abstract public function specificTreatment($sfClient,$form,$request,$componentName,$id);
+		//abstract public function specificTreatment($sfClient,$form,$request,$componentName,$id);
 
 
-		public function addAction($uniqueComponentName,$id =null,Request $request)
-    {
+		public function getSfForm($sfClient,$uniqueComponentName,$id =null,Request $request)
+		{
     		$bundleName = $this->getBundleNameFromRequest($request);
-				//common
-				$sfClient       = $this->container->get('semantic_forms.client');
 				//common
 				$uniqueComponentConf = $this->getParameter($uniqueComponentName.'Conf');
 
@@ -31,7 +30,7 @@ abstract class AbstractUniqueComponentController extends AbstractComponentContro
 					'password'              => $this->getSfPassword($id),
 					'graphURI'              => $this->getGraph($id),
 					'client'                => $sfClient,
-					'sfConf'               => $uniqueComponentConf,
+					'sfConf'               	=> $uniqueComponentConf,
 					'spec'                  => $uniqueComponentConf['spec'],
 					'values'                => $this->getUriLinkUniqueElement($id),
 
@@ -49,20 +48,7 @@ abstract class AbstractUniqueComponentController extends AbstractComponentContro
 					// Options.
 					$options
 				);
-				$dataForWebPage = $this->specificTreatment($sfClient,$form,$request,$uniqueComponentName,$id);
-
-				if( is_array($dataForWebPage )){
-						$dataForWebPage["form"] = $form->createView();
-						$dataForWebPage["entityUri"] = $this->getUriLinkUniqueElement($id);
-						// Fill form
-						return $this->render(
-							$bundleName.':'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',
-							$dataForWebPage
-						);
-				}
-				else{
-					return $dataForWebPage;
-				}
+				return $form;
 		}
 
 }

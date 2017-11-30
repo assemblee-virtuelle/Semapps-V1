@@ -10,6 +10,7 @@ use semappsBundle\semappsConfig;
 use SimpleExcel\SimpleExcel;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -263,15 +264,17 @@ class OrganisationController extends UniqueComponentController
         return $this->redirectToRoute('all_orga');
     }
 
-		public function specificTreatment($sfClient, $form, $request, $componentName,$id)
+		public function addAction($uniqueComponentName,$id =null,Request $request)
 		{
+				$sfClient       = $this->container->get('semantic_forms.client');
 				$organization = $this->getOrga($id);
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient   = $this->container->get('sparqlbundle.client');
 				$em = $this->getDoctrine()->getManager();
 				$sfLink = $this->getUriLinkUniqueElement($id);
 				$oldPictureName = $organization->getOrganisationPicture();
-
+				/** @var Form $form */
+				$form = $this->getSfForm($sfClient,$uniqueComponentName,$id , $request);
 				$form->handleRequest($request);
 
 				if ($form->isSubmitted() && $form->isValid()) {
@@ -333,9 +336,9 @@ class OrganisationController extends UniqueComponentController
 							'Les données de l\'organisation ont bien été mises à jour.'
 						);
 						if(!$id)
-								return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $componentName]);
+								return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
 						else
-								return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName,'id' => $id]);
+								return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
 				}
 
 				$importForm = null;
@@ -366,16 +369,20 @@ class OrganisationController extends UniqueComponentController
 								$sfClient->update($sparql->getQuery());
 
 								if(!$id)
-										return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $componentName]);
+										return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
 								else
-										return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName,'id' => $id]);
+										return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
 						}
 				}
-
-				return [
-					'organization' => $organization,
-					'importForm'=> ($importForm != null)? $importForm->createView() : null
-				];
+				// Fill form
+				return $this->render(
+					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
+						'organization' => $organization,
+						'importForm'=> ($importForm != null)? $importForm->createView() : null,
+						"form" => $form->createView(),
+						"entityUri" => $this->getUriLinkUniqueElement($id)
+					]
+				);
 		}
 
 		public function getUniqueElement($id)

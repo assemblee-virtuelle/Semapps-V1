@@ -12,6 +12,7 @@ use semappsBundle\Form\AdminSettings;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
@@ -476,8 +477,10 @@ class AdminController extends UniqueComponentController
 				return $this->getUser()->getSfLink();
 		}
 
-		public function specificTreatment($sfClient, $form, $request, $componentName, $id)
+		public function addAction($uniqueComponentName,$id =null,Request $request)
 		{
+				$sfClient       = $this->container->get('semantic_forms.client');
+
 				/** @var $user \semappsBundle\Entity\User */
 				$user           = $this->getUser();
 				$userSfLink     = $user->getSfLink();
@@ -486,6 +489,8 @@ class AdminController extends UniqueComponentController
 				$em = $this->getDoctrine()->getManager();
 				$oldPictureName = $user->getPictureName();
 				$organisation = $this->getOrga(null);
+				/** @var Form $form */
+				$form = $this->getSfForm($sfClient,$uniqueComponentName,$id , $request);
 
 				$form->handleRequest($request);
 
@@ -569,7 +574,7 @@ class AdminController extends UniqueComponentController
 							'Votre profil a bien été mis à jour.'
 						);
 
-						return $this->redirectToRoute('personComponentFormWithoutId', ["uniqueComponentName" => $componentName]);
+						return $this->redirectToRoute('personComponentFormWithoutId', ["uniqueComponentName" => $uniqueComponentName]);
 				}
 				// import
 				$importForm = null;
@@ -601,12 +606,17 @@ class AdminController extends UniqueComponentController
 								//dump($sparql->getQuery());
 								$sfClient->update($sparql->getQuery());
 
-								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $componentName]);
+								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
 						}
 				}
-				return [
-					'importForm'=> ($importForm != null)? $importForm->createView() : null
-				];
+				// Fill form
+				return $this->render(
+					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
+						'importForm'=> ($importForm != null)? $importForm->createView() : null,
+						"form" => $form->createView(),
+						"entityUri" => $this->getUriLinkUniqueElement($id)
+					]
+				);
 		}
 
 }
