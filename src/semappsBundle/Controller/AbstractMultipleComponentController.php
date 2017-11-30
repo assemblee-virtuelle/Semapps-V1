@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractMultipleComponentController extends AbstractComponentController
 {
-		abstract public function specificTreatment($sfClient,$form,$request,$componentName);
 		abstract public function getGraphOfCurrentUser();
 		abstract public function getSFLoginOfCurrentUser();
 		abstract public function getSFPasswordOfCurrentUser();
@@ -65,11 +64,11 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         );
     }
 
-    public function addAction($componentName,Request $request)
+		public function getSfForm($sfClient,$componentName,Request $request)
+    //public function addAction($componentName,Request $request)
     {
 				$bundleName = $this->getBundleNameFromRequest($request);
 				/** @var $user \semappsBundle\Entity\User */
-        $sfClient     = $this->container->get('semantic_forms.client');
         $uri 					= $request->get('uri');
 				$componentConf = $this->getParameter($componentName.'Conf');
 				$graphURI			= $this->getGraphOfCurrentUser();
@@ -92,21 +91,7 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
             'values'                => $uri,
           ]
         );
-        // /!\ need to be array /!\
-        $dataForWebPage = $this->specificTreatment($sfClient,$form,$request,$componentName);
-        if( is_array($dataForWebPage )){
-						$dataForWebPage["form"] = $form->createView();
-
-						// Fill form
-						return $this->render(
-							$bundleName.':Component:'.$componentName.'Form.html.twig',
-							$dataForWebPage
-						);
-				}
-				else{
-        		return $dataForWebPage;
-				}
-
+        return $form;
     }
 
     public function removeAction($componentName,Request $request){

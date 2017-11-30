@@ -3,6 +3,8 @@
 namespace semappsBundle\Controller;
 
 
+use Symfony\Component\HttpFoundation\Request;
+
 class ComponentController extends AbstractMultipleComponentController
 {
 		public function getSFLoginOfCurrentUser()
@@ -32,12 +34,15 @@ class ComponentController extends AbstractMultipleComponentController
 		}
 
 
-		public function specificTreatment($sfClient,$form,$request,$componentName)
+		public function addAction($componentName,Request $request)
 		{
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient = $this->container->get('sparqlbundle.client');
 				$uri 					= $request->get('uri');
 				$graphURI			= $this->getGraphOfCurrentUser();
+				$sfClient       = $this->container->get('semantic_forms.client');
+				$form 				= $this->getSfForm($sfClient,$componentName, $request);
+
 				// Remove old picture.
 				$fileUploader = $this->get('semappsBundle.fileUploader');
 				$pictureDir = $fileUploader->getTargetDir();
@@ -104,8 +109,14 @@ class ComponentController extends AbstractMultipleComponentController
 							'componentList', ["componentName" => $componentName]
 						);
 				}
-				$array = ['image' => $actualImageName];
-				return $array;
+				// Fill form
+				return $this->render(
+					'semappsBundle:Component:'.$componentName.'Form.html.twig',
+					['image' => $actualImageName,
+						'form' => $form->createView()
+					]
+				);
+
 		}
 
 	}

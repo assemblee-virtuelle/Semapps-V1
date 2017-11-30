@@ -14,7 +14,6 @@ abstract class AbstractUniqueComponentController extends AbstractComponentContro
 		abstract public function getUriLinkUniqueElement($id);
 		abstract public function getSfUser($id);
 		abstract public function getSfPassword($id);
-		//abstract public function specificTreatment($sfClient,$form,$request,$componentName,$id);
 
 
 		public function getSfForm($sfClient,$uniqueComponentName,$id =null,Request $request)
