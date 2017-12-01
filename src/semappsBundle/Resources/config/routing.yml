@@ -177,5 +177,9 @@ webserviceRessource:
     path:     /webservice/ressource
     defaults: { _controller: semappsBundle:Webservice:ressource }
 
+### site ###
+site:
+    path:     /mon-compte/sites
+    defaults: { _controller: semappsBundle:SiteFederation:manageSite }
 
 
