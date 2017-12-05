@@ -190,36 +190,7 @@ class WebserviceTools
 						$thematiques = $this->sfClient->sparqlResultsValues($results);
 				}
 
-				$results = [];
-
-				while ($organizations || $persons || $projects
-					|| $events  || $thematiques || $propositions || $documents || $documentTypes) {
-
-						if (!empty($organizations)) {
-								$results[] = array_shift($organizations);
-						}
-						else if (!empty($persons)) {
-								$results[] = array_shift($persons);
-						}
-						else if (!empty($projects)) {
-								$results[] = array_shift($projects);
-						}
-						else if (!empty($events)) {
-								$results[] = array_shift($events);
-						}
-						else if (!empty($thematiques)) {
-								$results[] = array_shift($thematiques);
-						}
-						else if (!empty($propositions)) {
-								$results[] = array_shift($propositions);
-						}
-						else if (!empty($documents)) {
-								$results[] = array_shift($documents);
-						}
-						else if  (!empty($documentTypes)) {
-								$results[] = array_shift($documentTypes);
-						}
-				}
+				$results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents,$documentTypes);
 
 				return $results;
 		}
@@ -316,12 +287,11 @@ class WebserviceTools
 									'brainstorms',
 									'documentedBy',
 									'subjectOfPAIR',
+									'internal_author',
+									'internal_contributor',
+									'internal_publisher',
 								];
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
-//								if (isset($properties['hostedIn'])) {
-//										$properties['building'] = current($properties['hostedIn']);
-//										$properties['hostedIn'] = mmmfestConfig::$buildings[current($properties['hostedIn'])]['title'];
-//								}
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -363,11 +333,12 @@ class WebserviceTools
 									'manages',
 									'participantOf',
 									'brainstorms',
-									'manages',
 									'organizes',
 									'documentedBy',
 									'subjectOfPAIR',
-
+									'internal_author',
+									'internal_contributor',
+									'internal_publisher',
 								];
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
 								if (isset($properties['offers'])) {
@@ -425,13 +396,12 @@ class WebserviceTools
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
-
 								$propertiesWithUri = [
 									'organizedBy',
 									'hasParticipant',
 									'documentedBy',
 									'subjectOfPAIR',
-									'localizedBy',
+									'hasSubjectPAIR'
 
 								];
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
@@ -463,8 +433,9 @@ class WebserviceTools
 									'referencesBy',
 									'hasType',
 									'subjectOfPAIR',
-									'internal_author',
-									'internal_contributor',
+									'internal_document_author',
+									'internal_document_contributor',
+									'internal_document_publisher',
 								];
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
 								break;
@@ -475,13 +446,6 @@ class WebserviceTools
 								}
 								$propertiesWithUri = [
 									'typeOf'
-								];
-								//dump($properties);exit;
-								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
-								break;
-						case semappsConfig::URI_PAIR_ADDRESS:
-								$propertiesWithUri = [
-									'localizes'
 								];
 								//dump($properties);exit;
 								$this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
@@ -546,15 +510,6 @@ class WebserviceTools
 																		];
 																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
 																		break;
-																case semappsConfig::URI_PAIR_ADDRESS:
-																		$result = [
-																			'uri' => $uri,
-																			'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
-																			'longitude' => ((current($component['longitude'])) ? current($component['longitude']) : ""),
-																			'latitude' => ((current($component['latitude'])) ? current($component['latitude']) : ""),
-																		];
-																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
-
 														}
 														$cacheTemp[$uri] = $result;
 														$cacheTemp[$uri]['type'] = $componentType;

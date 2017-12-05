@@ -16,10 +16,10 @@
           </div>
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
-              <template is="dom-if" if="[[alternativeLabel]]">
+              <template is="dom-if" if="[[version]]">
                 <tr class="field">
-                  <td class="fieldLabel">Autre nom</td>
-                  <td>[[alternativeLabel]]</td>
+                  <td class="fieldLabel">Commentaire</td>
+                  <td>[[version]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[comment]]">
@@ -32,13 +32,6 @@
                 <tr class="field">
                   <td class="fieldLabel">Site web</td>
                   <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
-                  </td>
-                </tr>
-              </template>
-              <template is="dom-if" if="[[aboutPage]]">
-                <tr class="field">
-                  <td class="fieldLabel">Autre site</td>
-                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
                   </td>
                 </tr>
               </template>
@@ -66,6 +59,24 @@
                   <td>[[language]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[external_document_author]]">
+                <tr class="field">
+                  <td class="fieldLabel">Auteur (hors application)</td>
+                  <td>[[external_document_author]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[external_document_contributor]]">
+                <tr class="field">
+                  <td class="fieldLabel">Contributeur (hors application)</td>
+                  <td>[[external_document_contributor]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[external_document_publisher]]">
+                <tr class="field">
+                  <td class="fieldLabel">Editeur (hors application)</td>
+                  <td>[[external_document_publisher]]</td>
+                </tr>
+              </template>
             </table>
           </div>
           <template is="dom-if" if="[[description]]">
@@ -78,6 +89,66 @@
         </div>
       </div>
       <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[data.internal_document_author.person.length]]">
+          <h3>Auteur ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_author.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.internal_document_author.organization.length]]">
+          <h3>Auteur ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_author.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.internal_document_contributor.person.length]]">
+          <h3>Contributeur ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_contributor.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.internal_document_contributor.organization.length]]">
+          <h3>Contributeur ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_contributor.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.internal_document_publisher.person.length]]">
+          <h3>Editeur ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_publisher.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.internal_document_publisher.organization.length]]">
+          <h3>Editeur ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_document_publisher.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
         <!-- documents -->
         <template is="dom-if" if="[[data.documents.organization.length]]">
           <h3>Sujet du document ( organisation )</h3>
@@ -162,9 +233,20 @@
         </template>
         <!-- end of hasType -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
-          <h3>Propositions</h3>
+          <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
+          <h3>Est concerné par ( événements )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>

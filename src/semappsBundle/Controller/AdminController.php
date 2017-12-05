@@ -143,7 +143,7 @@ class AdminController extends UniqueComponentController
           array(
             'userEnabled'      => $tabUserEnabled,
             'userDisabled'     => $tabUserDisabled,
-            'nameRoute'        => 'user',
+            'nameRoute'        => 'users',
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',

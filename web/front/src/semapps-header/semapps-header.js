@@ -43,8 +43,6 @@ Polymer({
   searchEvent(e) {
     // Event may be missing.
     e && e.preventDefault();
-    // Do not allow to have both building selected && search term.
-    semapps.map.buildingSelect(undefined, false);
     // Load search on term.
     semapps.goSearch();
   }

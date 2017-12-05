@@ -145,9 +145,85 @@
         </template>
         <!-- end of documentedby -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
-          <h3>Propositions</h3>
+          <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
+          <h3>Est concerné par ( événements )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- hasSubjectPAIR -->
+        <template is="dom-if" if="[[data.hasSubjectPAIR.person.length]]">
+          <h3>concerne ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasSubjectPAIR.organization.length]]">
+          <h3>concerne ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasSubjectPAIR.projet.length]]">
+          <h3>concerne ( projet )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.projet}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasSubjectPAIR.event.length]]">
+          <h3>concerne ( evenement )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.event}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasSubjectPAIR.proposition.length]]">
+          <h3>concerne ( proposition )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.proposition}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasSubjectPAIR.document.length]]">
+          <h3>concerne ( document )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.document}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>

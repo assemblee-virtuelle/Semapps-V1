@@ -1,0 +1,8 @@
+imports:
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/personConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/organisationConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/projectConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/eventConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/proposalConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/documentConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/documenttypeConf.yml" }

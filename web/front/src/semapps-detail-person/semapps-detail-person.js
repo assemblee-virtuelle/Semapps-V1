@@ -18,10 +18,11 @@ Polymer({
     this.participantOf = this.data.participantOf;
     this.brainstorms = this.data.brainstorms;
     this.employedBy = this.data.employedBy;
-      this.hasSubject = this.data.hasSubject;
+    this.internal_author = this.data.internal_author;
+    this.internal_contributor = this.data.internal_contributor;
+    this.internal_publisher = this.data.internal_publisher;
+    this.hasSubject = this.data.hasSubject;
 
-      //log(this.data.building);
-    //this.buildingTitle = semapps.buildings[this.data.building].title;
   },
     handleClickDetail(e) {
         e.preventDefault();

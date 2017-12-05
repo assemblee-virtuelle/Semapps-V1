@@ -235,7 +235,7 @@
         </template>
         <!-- end of documentedby -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
-          <h3>Propositions</h3>
+          <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
             <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
@@ -245,6 +245,56 @@
           </div>
           <div class="clearfix"></div>
         </template>
+        <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
+          <h3>Est concerné par ( événements )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- internal_author -->
+        <template is="dom-if" if="[[data.internal_author.document.length]]">
+          <h3>Auteur de</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_author.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of internal_author -->
+        <!-- internal_contributor -->
+        <template is="dom-if" if="[[data.internal_contributor.document.length]]">
+          <h3>Contributeur de</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_contributor.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of internal_contributor -->
+        <!-- internal_publisher -->
+        <template is="dom-if" if="[[data.internal_publisher.document.length]]">
+          <h3>Editeur de</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.internal_publisher.document}}">
+              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of internal_publisher -->
       </section>
     </div>
   </template>
