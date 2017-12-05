@@ -85,12 +85,22 @@ parameters:
         http://virtual-assembly.org/pair#employedBy:
           value: 'employedBy'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#documentedBy: #internal_author (semapps),internal_contributor(semapps + gv)
+        http://virtual-assembly.org/pair#documentedBy:
           value: 'documentedBy'
           access: 'anonymous'
         http://virtual-assembly.org/pair#adress:
           value: 'address'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_author:
+          value: 'internal_author'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_contributor:
+          value: 'internal_contributor'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_publisher: #person + orga
+           value: 'internal_publisher'
+           access: 'anonymous'
+
       reverse:
         http://virtual-assembly.org/pair#knows: 'http://virtual-assembly.org/pair#knows'
         http://virtual-assembly.org/pair#memberOf: 'http://virtual-assembly.org/pair#hasMember'
@@ -191,6 +201,15 @@ parameters:
         http://virtual-assembly.org/pair#adress:
           value: 'address'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_author:
+          value: 'address'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_contributor:
+          value: 'address'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#internal_publisher: #person + orga
+           value: 'internal_publisher'
+           access: 'anonymous'
       reverse:
         http://virtual-assembly.org/pair#hasMember: 'http://virtual-assembly.org/pair#memberOf'
         http://virtual-assembly.org/pair#hasResponsible: 'http://virtual-assembly.org/pair#responsibleOf'
@@ -272,23 +291,23 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#internal_author:
-          value: 'internal_author'
+        http://virtual-assembly.org/pair#internal_document_author:
+          value: 'internal_document_author'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#internal_contributor:
-          value: 'internal_contributor'
+        http://virtual-assembly.org/pair#internal_document_contributor:
+          value: 'internal_document_contributor'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#external_author: #person + orga
-          value: 'external_author'
+        http://virtual-assembly.org/pair#external_document_author: #person + orga
+          value: 'external_document_author'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#external_contributor: #person + orga
-          value: 'external_contributor'
+        http://virtual-assembly.org/pair#external_document_contributor: #person + orga
+          value: 'external_document_contributor'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#internal_publisher: #person + orga
-           value: 'internal_publisher'
+        http://virtual-assembly.org/pair#internal_document_publisher: #person + orga
+           value: 'internal_document_publisher'
            access: 'anonymous'
-        http://virtual-assembly.org/pair#external_publisher: # person + orga
-           value: 'external_publisher'
+        http://virtual-assembly.org/pair#external_document_publisher: # person + orga
+           value: 'external_document_publisher'
            access: 'anonymous'
         http://virtual-assembly.org/pair#format:
            value: 'format'
@@ -312,6 +331,9 @@ parameters:
         http://virtual-assembly.org/pair#references: 'http://virtual-assembly.org/pair#referencesBy'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
         http://virtual-assembly.org/pair#documents: 'http://virtual-assembly.org/pair#documentedBy'
+        http://virtual-assembly.org/pair#internal_document_author: 'http://virtual-assembly.org/pair#internal_author'
+        http://virtual-assembly.org/pair#internal_document_contributor: 'http://virtual-assembly.org/pair#internal_contributor'
+        http://virtual-assembly.org/pair#internal_document_publisher: 'http://virtual-assembly.org/pair#internal_publisher'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
     projectConf:
@@ -378,6 +400,9 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#adress:
+          value: 'address'
+          access: 'anonymous'
       reverse:
 #        http://virtual-assembly.org/pair#concretizes : 'http://virtual-assembly.org/pair#concretizedBy'
         http://virtual-assembly.org/pair#managedBy: 'http://virtual-assembly.org/pair#manages'
@@ -392,6 +417,9 @@ parameters:
       fields:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#hasSubject_Pair:
+          value: 'hasSubjectPAIR'
           access: 'anonymous'
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'
@@ -456,7 +484,7 @@ parameters:
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#localizedBy: 'http://virtual-assembly.org/pair#localizes'
-
+        http://virtual-assembly.org/pair#hasSubject_Pair: 'http://virtual-assembly.org/pair#subjectOf_Pair'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
     proposalConf:

@@ -26,6 +26,11 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
+                    {{ form_row(form.address, { 'label': 'Adresse'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
                 </div>
             </div>
@@ -44,7 +49,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
+                    {{ form_row(form.hasInterest, { 'label': 'Domaines thématiques'}) }}
                 </div>
             </div>
             <div class="row">

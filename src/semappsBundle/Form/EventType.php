@@ -67,15 +67,15 @@ class EventType extends SemanticFormType
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
-//					->add(
-//						$builder,
-//						'localizedBy',
-//						UriType::class,
-//						[
-//							'required' => false,
-//							'rdfType' => semappsConfig::URI_PAIR_ADDRESS
-//						]
-//					)
+					->add(
+						$builder,
+						'hasSubjectPAIR',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => implode('|',semappsConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
+						]
+					)
 					->add(
 						$builder,
 						'aboutPage',

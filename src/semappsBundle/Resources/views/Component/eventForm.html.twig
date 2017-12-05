@@ -60,7 +60,12 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
+                    {{ form_row(form.hasSubjectPAIR, { 'label': 'Concerne'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasInterest, { 'label': 'Domaines thématiques'}) }}
                 </div>
             </div>
             <div class="row">
@@ -68,11 +73,6 @@
                     {{ form_row(form.hasSubject) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.localizedBy, { 'label': 'Localisation de l’atelier'}) }}#}
-                {#</div>#}
-            {#</div>#}
 
             <div class="row">
                 <div class="col-sm-12">

@@ -18,17 +18,22 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     {{ form_row(form.hasType, { 'label': 'Type de document'}) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.homePage, { 'label': 'Lien vers le document'}) }}
+                    {{ form_row(form.documents) }}
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                    {{ form_row(form.homePage, { 'label': 'Lien vers le document'}) }}
                 </div>
             </div>
             <div class="row">
@@ -53,36 +58,35 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.internal_author, { 'label': 'Auteur'}) }}
+                <div class="col-sm-6">
+                    {{ form_row(form.internal_document_author, { 'label': 'Auteur'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.external_document_author, { 'label': 'Si vous ne l\'avez pas trouvé ... '}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.external_author, { 'label': 'Si vous ne l\'avez pas trouvé ... '}) }}#}
-                {#</div>#}
-            {#</div>#}
             <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.internal_contributor, { 'label': 'Contributeur'}) }}
+                <div class="col-sm-6">
+                    {{ form_row(form.internal_document_contributor, { 'label': 'Contributeur'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.external_document_contributor, { 'label': 'Si vous ne l\'avez pas trouvé ... '}) }}
                 </div>
             </div>
-            {#<div class="row">#}
-                {#<div class="col-sm-12">#}
-                    {#{{ form_row(form.external_contributor, { 'label': 'Si vous ne l\'avez pas trouvé ... '}) }}#}
-                {#</div>#}
-            {#</div>#}
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.internal_document_publisher,{ 'label': 'Editeur'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.external_document_publisher, { 'label': 'Si vous ne l\'avez pas trouvé ... '}) }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.references) }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.documents) }}
-                </div>
-            </div>
-
         </div>
         <div class="col col-sm-4">
             {% embed "alertBobby.html.twig" %}

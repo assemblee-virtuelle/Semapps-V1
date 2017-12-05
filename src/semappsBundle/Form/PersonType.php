@@ -31,7 +31,7 @@ class PersonType extends SemanticFormType
         $this
 					->add($builder, 'firstName', TextType::class)
 					->add($builder, 'lastName', TextType::class)
-					->add($builder, 'alias', TextType::class)
+					->add($builder, 'alias', TextType::class,['required' => false,])
 					->add(
 						$builder,
 						'description',
@@ -99,15 +99,15 @@ class PersonType extends SemanticFormType
 							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
 						]
 					)
-//					->add(
-//						$builder,
-//						'employedBy',
-//						UriType::class,
-//						[
-//							'required'  => false,
-//							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
-//						]
-//					)
+					->add(
+						$builder,
+						'employedBy',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+						]
+					)
 					->add(
 						$builder,
 						'memberOf',

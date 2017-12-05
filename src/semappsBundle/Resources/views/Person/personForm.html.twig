@@ -25,9 +25,9 @@
         <div class="row">
             {% if importForm is not null %}
                 <ul id="myTab" class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profile</a>
+                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profil</a>
                     </li>
-                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i> Importer son profile</a>
+                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i> Importer mon profil</a>
                     </li>
                 </ul>
             {% endif %}
@@ -53,10 +53,10 @@
                                 {{ form_row(form.firstName) }}
                             </div>
                             <div class="col-xs-4">
-                                {{ form_row(form.lastName) }}
+                                {{ form_row(form.lastName, { 'label': 'Nom'}) }}
                             </div>
                             <div class="col-xs-4">
-                                {{ form_row(form.alias) }}
+                                {{ form_row(form.alias, { 'label': 'Pseudo'}) }}
                             </div>
                         </div>
                         <div class="row">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.address, { 'label': 'Adresse'}) }}
+                                {{ form_row(form.address, { 'label': 'Adresse '}) }}
                             </div>
                         </div>
                         <div class="row">
@@ -80,16 +80,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-6">
+                            <div class="col-xs-8">
                                 {{ form_row(form.email) }}
                             </div>
-                            <div class="col-xs-6">
+                            <div class="col-xs-4">
                                 {{ form_row(form.phone) }}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                                {{ form_row(form.hasInterest, { 'label': "Domaines thématiques"}) }}
                             </div>
                         </div>
 
@@ -108,11 +108,11 @@
                                 {{ form_row(form.responsibleOf) }}
                             </div>
                         </div>
-                        {#<div class="row">#}
-                            {#<div class="col-sm-12">#}
-                                {#{{ form_row(form.employedBy) }}#}
-                            {#</div>#}
-                        {#</div>#}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.employedBy) }}
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 {{ form_row(form.memberOf) }}
@@ -135,7 +135,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                {{ form_row(form.organizes, { 'label': 'Evénements que vous organisez'}) }}
+                                {{ form_row(form.organizes, { 'label': 'Evénements que vous (co-)organisez'}) }}
                             </div>
                         </div>
 
@@ -191,7 +191,7 @@
                             tu auras de chances de te faire des amis ! </p>
                         <p>Et n'oublie pas : To be Bobby or not Bobby, that is
                             the question ... </p>
-                        <p>/!\ ATTENTION /!\ : Pour ceux qui décident d'importer leur profile,
+                        <p>/!\ ATTENTION /!\ : Pour ceux qui décident d'importer leur profil,
                             toutes les modifications ne toucherons pas la source de vos données !
                             Toute modification restera locale, c'est-à-dire visible sur ce site</p>
 

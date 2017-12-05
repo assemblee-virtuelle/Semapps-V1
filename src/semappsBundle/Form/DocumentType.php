@@ -80,7 +80,7 @@ class DocumentType extends SemanticFormType
 					)
 					->add(
 						$builder,
-						'internal_author',
+						'internal_document_author',
 						UriType::class,
 						[
 							'required'  => false,
@@ -89,25 +89,40 @@ class DocumentType extends SemanticFormType
 					)
 					->add(
 						$builder,
-						'internal_contributor',
+						'internal_document_contributor',
 						UriType::class,
 						[
 							'required'  => false,
 							'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
-//					->add($builder, 'external_author',
-//						TextType::class,
-//						[
-//							'required' => false,
-//						]
-//						)
-//					->add($builder, 'external_contributor',
-//						TextType::class,
-//						[
-//							'required' => false,
-//						]
-//					)
+					->add($builder, 'external_document_author',
+						TextType::class,
+						[
+							'required' => false,
+						]
+						)
+					->add($builder, 'external_document_contributor',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'internal_document_publisher',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add($builder, 'external_document_publisher',
+						TextType::class,
+						[
+							'required' => false,
+						]
+					)
 					->add(
 						$builder,
 						'format',
