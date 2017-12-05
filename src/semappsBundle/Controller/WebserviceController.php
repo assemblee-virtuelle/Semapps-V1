@@ -58,12 +58,6 @@ class WebserviceController extends Controller
 				'icon'   => 'pushpin',
 				'nameType' => 'documenttype'
 			],
-			semappsConfig::URI_PAIR_ADDRESS  => [
-				'name'   => 'Adresse',
-				'plural' => 'Adresses',
-				'icon'   => 'tent',
-				'nameType' => 'address'
-			],
     ];
 
     var $entitiesFilters = [
@@ -124,7 +118,6 @@ class WebserviceController extends Controller
                 $output = [
                   'access'       => $access,
                   'name'         => $name,
-                  'buildings'    => semappsConfig::$buildings,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
                 ];

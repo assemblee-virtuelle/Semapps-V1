@@ -20,8 +20,7 @@ class confManager
 		private $proposalConf;
 		private $documentConf;
 		private $documenttypeConf;
-		private $addressConf;
-		public function __construct(	 $personConf, $organisationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf,$addressConf){
+		public function __construct(	 $personConf, $organisationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf){
 				$this->personConf = $personConf;
 				$this->organisationConf = $organisationConf;
 				$this->projectConf = $projectConf;
@@ -29,7 +28,6 @@ class confManager
 				$this->proposalConf = $proposalConf;
 				$this->documentConf = $documentConf;
 				$this->documenttypeConf = $documenttypeConf;
-				$this->addressConf = $addressConf;
 		}
 		public function getConf($type){
 
@@ -55,9 +53,6 @@ class confManager
 								break;
 						case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
 								$conf = $this->documenttypeConf;
-								break;
-						case semappsConfig::URI_PAIR_ADDRESS:
-								$conf = $this->addressConf;
 								break;
 				}
 				return $conf;

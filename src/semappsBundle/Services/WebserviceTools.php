@@ -52,7 +52,6 @@ class WebserviceTools
 				$typeDocumentType= array_key_exists(semappsConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
 				$typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
 				$typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
-				$typeAddress= array_key_exists(semappsConfig::URI_PAIR_ADDRESS,$arrayType);
 				//$userLogged =  $this->getUser() != null;
 				$sparqlClient = new SparqlClient();
 				/** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -190,25 +189,11 @@ class WebserviceTools
 						$results = $this->sfClient->sparql($thematiqueSparql->getQuery());
 						$thematiques = $this->sfClient->sparqlResultsValues($results);
 				}
-				$addresses = [];
-				if(($type == semappsConfig::Multiple || $typeAddress) ){
-						$addressSparql = clone $sparql;
-						$addressSparql->addSelect('?title')
-							->addSelect('?latitude')
-							->addSelect('?longitude')
-							->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ADDRESS,$sparql::VALUE_TYPE_URL),'?GR')
-							->addWhere('?uri','pair:preferedLabel','?title','?GR')
-							->addWhere('?uri','pair:latitude','?latitude','?GR')
-							->addWhere('?uri','pair:longitude','?longitude','?GR')
-							->groupBy('?latitude ?longitude');
-						if($term)$addressSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
-						$results = $this->sfClient->sparql($addressSparql->getQuery());
-						$addresses = $this->sfClient->sparqlResultsValues($results);
-				}
+
 				$results = [];
 
 				while ($organizations || $persons || $projects
-					|| $events  || $thematiques || $propositions || $documents || $documentTypes || $addresses) {
+					|| $events  || $thematiques || $propositions || $documents || $documentTypes) {
 
 						if (!empty($organizations)) {
 								$results[] = array_shift($organizations);
@@ -233,9 +218,6 @@ class WebserviceTools
 						}
 						else if  (!empty($documentTypes)) {
 								$results[] = array_shift($documentTypes);
-						}
-						else if  (!empty($addresses)) {
-								$results[] = array_shift($addresses);
 						}
 				}
 

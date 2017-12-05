@@ -151,23 +151,21 @@ Polymer({
         // Data is allowed.
 
           if($.inArray(result.type,semapps.allowedType) !== -1){
-            // Count results by building.
-            if (semapps.buildings[result.building]) {
-              buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
-              buildingsCounter[result.building]++;
-            }
-            // This building is enabled.
-            if (semapps.buildingSelected === semapps.buildingSelectedAll || result.building === semapps.buildingSelected) {
+            // // Count results by building.
+            // if (semapps.buildings[result.building]) {
+            //   buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
+            //   buildingsCounter[result.building]++;
+            // }
+            // // This building is enabled.
               // Count results.
-              typesCounter[result.type] = typesCounter[result.type] || 0;
-              typesCounter[result.type]++;
-              totalCounter++;
+            typesCounter[result.type] = typesCounter[result.type] || 0;
+            typesCounter[result.type]++;
+            totalCounter++;
 
-                if (typeof resultTemps[result.type] === 'undefined')
-                    resultTemps[result.type] = [];
-                resultTemps[result.type].push(result);
+              if (typeof resultTemps[result.type] === 'undefined')
+                  resultTemps[result.type] = [];
+              resultTemps[result.type].push(result);
 
-            }
             if(result["address"]){
               if(dataPins[result.address] === undefined && semapps.map.pins[result.address] === undefined){
                 $.ajax({

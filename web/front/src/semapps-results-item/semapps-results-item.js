@@ -36,10 +36,6 @@ Polymer({
       this.info += c + this.subject;
         c=' | ';
     }
-    if (semapps.buildings[this.building]) {
-      this.info += c + semapps.buildings[this.building].title;
-        c=' | ';
-    }
   },
     haveTitle(value){
         return value != null;

@@ -99,7 +99,6 @@
                                     {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
                                     {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
                                     {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'SUPER_ADMIN',{'componentName':'documentType'}) }}
-                                    {{ admin.menuItem('Adresse', 'componentList', 'tent','référencer des Adresses', menuSelected, 'SUPER_ADMIN',{'componentName':'address'}) }}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}
