@@ -20,7 +20,9 @@
     "juicy-html": "^1.2.0",
     "jquery-ui": "^1.12.1",
     "jquery.steps": "jquery-steps#^1.1.0",
-    "leaflet": "^1.2.0"
+    "leaflet": "^1.2.0",
+    "Leaflet.awesome-markers": "^2.0.2",
+    "leaflet.markercluster": "leaflet-markercluster-aimaps#^1.0.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
