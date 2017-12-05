@@ -85,9 +85,6 @@ class WebserviceController extends Controller
         foreach ($this->entitiesTabs as $key => $item) {
             $this->entitiesTabs[$key]['type'] = $key;
         }
-				/** @var \semappsBundle\Services\WebserviceTools $webserviceTools */
-
-
 		}
 
     public function parametersAction()

@@ -24,18 +24,20 @@ Polymer({
 
   start() {
     "use strict";
-      this.OSM = L.map('semapps').setView([42.403681, 2.47986190000006], 13);
+      this.OSM = L.map('semapps').setView([48.862725, 2.287592000000018], 6);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.OSM );
-
+      this.markers = L.markerClusterGroup();
+      this.OSM.addLayer(this.markers) ;
   },
 
     pinShow(latitude,longitude, uri, text) {
         "use strict";
         let marker = L.marker([latitude,longitude])
             .bindPopup(text);
-        marker.addTo(this.OSM);
+        //marker.addTo(this.OSM);
+        this.markers.addLayer(marker);
         this.pins[uri] = marker;
     },
 
@@ -56,13 +58,9 @@ Polymer({
     pinHideAll() {
         "use strict";
         for (let uri in this.pins){
-            log(uri);
             if (this.pins.hasOwnProperty(uri)) {
                 this.pinHide(uri);
             }
         }
     }
-
-
-
 });

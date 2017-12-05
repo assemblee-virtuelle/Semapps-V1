@@ -64,11 +64,13 @@ class WebserviceTools
 					->addSelect('?type')
 					->addSelect('?image')
 					->addSelect('?desc')
-					->addSelect('?address');
+					->addSelect('?address')
+					->addSelect('?Address');
 				($filter)? $sparql->addWhere('?uri','pair:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
 				//($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
 				$sparql->addWhere('?uri','rdf:type', '?type','?GR')
-					->groupBy('?uri ?type ?title ?image ?desc ?address')
+					->addOptional('?uri','pair:adress','?address','?GR')
+					->groupBy('?uri ?type ?title ?image ?desc ?Address ?address')
 					->orderBy($sparql::ORDER_ASC,'?title');
 				$organizations =[];
 				if($type == semappsConfig::Multiple || $typeOrganization ){
@@ -129,7 +131,7 @@ class WebserviceTools
 							->addWhere('?uri','pair:preferedLabel','?title','?GR')
 							->addOptional('?uri','pair:image','?image','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR')
-							->addOptional('?uri','pair:localizedBy','?address','?GR')
+							->addOptional('?uri','pair:localizedBy','?Address','?GR')
 							->addOptional('?uri','pair:startDate','?start','?GR')
 							->addOptional('?uri','pair:endDate','?end','?GR');
 						if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');

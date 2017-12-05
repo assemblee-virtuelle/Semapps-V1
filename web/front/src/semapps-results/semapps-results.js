@@ -151,46 +151,38 @@ Polymer({
         // Data is allowed.
 
           if($.inArray(result.type,semapps.allowedType) !== -1){
-          // Count results by building.
-          if (semapps.buildings[result.building]) {
-            buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
-            buildingsCounter[result.building]++;
-          }
-          // This building is enabled.
-          if (semapps.buildingSelected === semapps.buildingSelectedAll || result.building === semapps.buildingSelected) {
-            // Count results.
-            typesCounter[result.type] = typesCounter[result.type] || 0;
-            typesCounter[result.type]++;
-            totalCounter++;
-
-              if (typeof resultTemps[result.type] === 'undefined')
-                  resultTemps[result.type] = [];
-              resultTemps[result.type].push(result);
-
-          }
-          if(result["address"] !== undefined){
-            if(dataPins[result.address] === undefined){
-                dataPins[result.address] = [];
-                dataPins[result.address]['text'] =  '<span class="pin-content" style="display: none">'+result.address+'</span>'+ result.title;
+            // Count results by building.
+            if (semapps.buildings[result.building]) {
+              buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
+              buildingsCounter[result.building]++;
             }
-            else{
-                dataPins[result.address]['text'] += result.title;
-            }
-          }
-        }
-          if (result.type === "http://virtual-assembly.org/pair#Address"){
-              if(dataPins[result.uri] === undefined)
-                dataPins[result.uri] = [];
+            // This building is enabled.
+            if (semapps.buildingSelected === semapps.buildingSelectedAll || result.building === semapps.buildingSelected) {
+              // Count results.
+              typesCounter[result.type] = typesCounter[result.type] || 0;
+              typesCounter[result.type]++;
+              totalCounter++;
 
-              dataPins[result.uri]['latitude'] = result.latitude;
-              dataPins[result.uri]['longitude'] = result.longitude;
+                if (typeof resultTemps[result.type] === 'undefined')
+                    resultTemps[result.type] = [];
+                resultTemps[result.type].push(result);
+
+            }
+            if(result["address"]){
+              if(dataPins[result.address] === undefined && semapps.map.pins[result.address] === undefined){
+                $.ajax({
+                    url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
+                    data: 'q=' + result["address"],
+                    success : function(donnee){
+                      semapps.map.pinShow(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], result["address"],result["title"]);
+                      log(semapps.map.pins[result.address]);
+                      },
+                });
+              }
+            }
           }
       }
-      for (let uri in dataPins ){
-          if (dataPins.hasOwnProperty(uri)) {
-              semapps.map.pinShow(dataPins[uri]['latitude'],dataPins[uri]['longitude'], uri,dataPins[uri]['text'])
-          }
-      }
+
       if(typeof resultTemps[this.typeSelected] === 'undefined' ){
           // Deselect tab if current.
           let key = Object.keys(resultTemps)[0];
