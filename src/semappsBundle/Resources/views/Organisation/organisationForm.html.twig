@@ -66,6 +66,11 @@
                         {#</div>#}
                         {#</div>#}
                         <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.address, { 'label': 'Adresse'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12">{{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}</div>
                         </div>
                         <div class="row">
@@ -88,6 +93,16 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.hasSubject) }}
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-xs-12">{{ form_row(form.hasResponsible, { 'label': 'Ses responsables'}) }}</div>
                         </div>
                         <div class="row">
@@ -99,16 +114,7 @@
                         <div class="row">
                             <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_row(form.hasSubject) }}
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
                         </div>
@@ -131,7 +137,7 @@
 
                         <div class="row">
                             <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
-                                {{ form_row(form.documentedBy, { 'label': "Document(s) desciptif(s) de l'organisation"}) }}
+                                {{ form_row(form.documentedBy, { 'label': "Documents descriptifs"}) }}
                             </div>
                         </div>
                         <div class="row">

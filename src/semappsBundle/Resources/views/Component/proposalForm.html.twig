@@ -1,11 +1,12 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter une propositions pour la prochaine édition{% endblock %}
+{% block pageContentTitle %}Ajouter une proposition{% endblock %}
 
 {%  set menuSelected = 'Proposition' %}
 
 {% block formContent %}
     {{ parent() }}
+{#<div class="row"> to be removed#}
     <div class="row">
         <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
             <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
@@ -34,17 +35,17 @@
                     {{ form_row(form.description) }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    {{ form_row(form.homePage) }}
-                </div>
-                <div class="col-sm-6">
-                    {{ form_row(form.aboutPage) }}
-                </div>
-            </div>
+            {#<div class="row">#}
+                {#<div class="col-sm-6">#}
+                    {#{{ form_row(form.homePage) }}#}
+                {#</div>#}
+                {#<div class="col-sm-6">#}
+                    {#{{ form_row(form.aboutPage) }}#}
+                {#</div>#}
+            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.brainstormedBy, { 'label': 'Auteurs & soutiens de la proposition (Personnes ou organisations)'}) }}
+                    {{ form_row(form.hasSubjectPAIR, { 'label': 'A pour sujet'}) }}
                 </div>
             </div>
             <div class="row">
@@ -59,9 +60,10 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.hasSubjectPAIR, { 'label': 'Concerne'}) }}
+                    {{ form_row(form.brainstormedBy, { 'label': 'Auteurs de la proposition (Personnes ou organisations)'}) }}
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs'}) }}
@@ -70,9 +72,9 @@
         </div>
         <div class="col col-sm-4">
             {% embed "alertBobby.html.twig" %}
-                {% block title %}Les propositions pour la prochaine édition{% endblock %}
+                {% block title %}Les propositions {% endblock %}
                 {% block content %}
-                    <p>Si vous avez des suggestions pour la prochaine édition du festival, n’hésitez pas à les partager ici !</p>
+                    <p>Faites une proposition et renseignez le champ "a pour sujet" pour désigner à qui, à quoi elle s'adresse : Les propositions peuvent concerner une personne, une organisation, un projet, un événement ...</p>
 
                 {% endblock %}
             {% endembed %}

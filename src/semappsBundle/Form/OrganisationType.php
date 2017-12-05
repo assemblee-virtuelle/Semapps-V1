@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
@@ -194,6 +195,14 @@ class OrganisationType extends SemanticFormType
 						UriType::class,
 						[
 							'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+						]
+					)
+					->add(
+						$builder,
+						'address',
+						AdresseType::class,
+						[
+							'required'  => false,
 						]
 					)
 					;

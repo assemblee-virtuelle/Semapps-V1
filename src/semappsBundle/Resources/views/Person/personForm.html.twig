@@ -66,6 +66,11 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
+                                {{ form_row(form.address, { 'label': 'Adresse'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
                                 {{ form_row(form.homePage) }}
                             </div>
                         </div>
@@ -84,7 +89,33 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                {{ form_row(form.knows, { 'label': 'Vos amis sur le festival'}) }}
+                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.hasSubject) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.knows, { 'label': 'Vos amis et collaborateurs'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.responsibleOf) }}
+                            </div>
+                        </div>
+                        {#<div class="row">#}
+                            {#<div class="col-sm-12">#}
+                                {#{{ form_row(form.employedBy) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.memberOf) }}
                             </div>
                         </div>
                         <div class="row">
@@ -94,23 +125,17 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
+                                {{ form_row(form.manages) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
                                 {{ form_row(form.participantOf) }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.memberOf) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                {{ form_row(form.hasInterest, { 'label': "Domaine(s) thématique(s)"}) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-sm-12">
-                                {{ form_row(form.hasSubject) }}
+                                {{ form_row(form.organizes, { 'label': 'Evénements que vous organisez'}) }}
                             </div>
                         </div>
 

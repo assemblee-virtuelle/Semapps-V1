@@ -43,22 +43,22 @@ class ProposalType extends SemanticFormType
 							'required' => false,
 						]
 					)
-					->add(
-						$builder,
-						'homePage',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'aboutPage',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
+//					->add(
+//						$builder,
+//						'homePage',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
+//					->add(
+//						$builder,
+//						'aboutPage',
+//						UrlType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'brainstormedBy',

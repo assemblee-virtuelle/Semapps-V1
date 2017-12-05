@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
@@ -91,6 +92,24 @@ class PersonType extends SemanticFormType
 					)
 					->add(
 						$builder,
+						'responsibleOf',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+						]
+					)
+//					->add(
+//						$builder,
+//						'employedBy',
+//						UriType::class,
+//						[
+//							'required'  => false,
+//							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+//						]
+//					)
+					->add(
+						$builder,
 						'memberOf',
 						UriType::class,
 						[
@@ -118,6 +137,24 @@ class PersonType extends SemanticFormType
 					)
 					->add(
 						$builder,
+						'manages',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+						]
+					)
+					->add(
+						$builder,
+						'organizes',
+						UriType::class,
+						[
+							'required'  => false,
+							'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+						]
+					)
+					->add(
+						$builder,
 						'offers',
 						DbPediaType::class,
 						[
@@ -138,6 +175,14 @@ class PersonType extends SemanticFormType
 						DbPediaType::class,
 						[
 							'required' => false,
+						]
+					)
+					->add(
+						$builder,
+						'address',
+						AdresseType::class,
+						[
+							'required'  => false,
 						]
 					)
 				;

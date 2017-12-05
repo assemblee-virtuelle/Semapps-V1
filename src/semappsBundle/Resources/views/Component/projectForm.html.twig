@@ -44,16 +44,6 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.managedBy, { 'label': 'Responsable(s) du projet (personnes ou organisations)'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    {{ form_row(form.involves, { 'label': 'Contributeurs (personnes ou organisations)'}) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
                     {{ form_row(form.hasInterest, { 'label': 'Domaine(s) thématique(s)'}) }}
                 </div>
             </div>
@@ -62,7 +52,16 @@
                     {{ form_row(form.hasSubject) }}
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.managedBy, { 'label': 'Responsable(s) du projet (personnes ou organisations)'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.involves, { 'label': 'Contributeurs (personnes ou organisations)'}) }}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
                     {{ form_row(form.offers, { 'label': 'Offres' }) }}
@@ -75,7 +74,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs (Code Social, présentations etc.)'}) }}
+                    {{ form_row(form.documentedBy, { 'label': 'Documents descriptifs'}) }}
                 </div>
             </div>
             <div class="row">

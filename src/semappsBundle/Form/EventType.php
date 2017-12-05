@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
@@ -66,15 +67,15 @@ class EventType extends SemanticFormType
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
-					->add(
-						$builder,
-						'localizedBy',
-						UriType::class,
-						[
-							'required' => false,
-							'rdfType' => semappsConfig::URI_PAIR_ADDRESS
-						]
-					)
+//					->add(
+//						$builder,
+//						'localizedBy',
+//						UriType::class,
+//						[
+//							'required' => false,
+//							'rdfType' => semappsConfig::URI_PAIR_ADDRESS
+//						]
+//					)
 					->add(
 						$builder,
 						'aboutPage',
@@ -141,6 +142,14 @@ class EventType extends SemanticFormType
 						[
 							'required'  => false,
 							'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+						]
+					)
+					->add(
+						$builder,
+						'address',
+						AdresseType::class,
+						[
+							'required'  => false,
 						]
 					)
 				;

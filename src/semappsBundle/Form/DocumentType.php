@@ -27,7 +27,6 @@ class DocumentType extends SemanticFormType
 
         $this
 					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
 					->add(
 						$builder,
 						'description',
@@ -47,14 +46,6 @@ class DocumentType extends SemanticFormType
 					->add(
 						$builder,
 						'homePage',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'aboutPage',
 						UrlType::class,
 						[
 							'required' => false,
@@ -105,6 +96,18 @@ class DocumentType extends SemanticFormType
 							'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
 						]
 					)
+//					->add($builder, 'external_author',
+//						TextType::class,
+//						[
+//							'required' => false,
+//						]
+//						)
+//					->add($builder, 'external_contributor',
+//						TextType::class,
+//						[
+//							'required' => false,
+//						]
+//					)
 					->add(
 						$builder,
 						'format',
@@ -142,6 +145,7 @@ class DocumentType extends SemanticFormType
 							'years' => range(date('Y') -150, date('Y')),
 						]
 					)
+					->add($builder, 'version', TextType::class, ['required' => false,])
 
 				;
 
