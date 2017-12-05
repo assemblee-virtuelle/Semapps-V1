@@ -1,0 +1,60 @@
+home:
+    path:     /
+    defaults: { _controller: semappsBundle:Admin:home }
+team:
+    path:     /invite
+    defaults: { _controller: semappsBundle:Admin:team }
+# tested
+# todo: /mon-compte/user/{userId}/delete
+userDelete:
+    path:     /user/delete/{userId}
+    defaults: { _controller: semappsBundle:Admin:userDelete }
+# todo: /mon-compte/access/{userId}/change/{roles}
+changeAccess:
+    path:    /access/change/{userId}/{roles}
+    defaults: { _controller: semappsBundle:Admin:changeAccess }
+orgaDelete:
+    path:     /orga/delete/{orgaId}
+    defaults: { _controller: semappsBundle:Organisation:orgaDelete }
+
+orgaComponentForm:
+    path:     /{uniqueComponentName}/form/{id}
+    defaults: { _controller: semappsBundle:Organisation:add}
+    requirements:
+      uniqueComponentName: 'organisation'
+
+orgaComponentFormWithoutId:
+    path:     /{uniqueComponentName}/form
+    defaults: { _controller: semappsBundle:Organisation:add}
+    requirements:
+      uniqueComponentName: 'organisation'
+
+personComponentForm:
+    path:     /{uniqueComponentName}/form/{id}
+    defaults: { _controller: semappsBundle:Admin:add}
+    requirements:
+      uniqueComponentName: 'person'
+
+personComponentFormWithoutId:
+    path:     /{uniqueComponentName}/form
+    defaults: { _controller: semappsBundle:Admin:add}
+    requirements:
+      uniqueComponentName: 'person'
+
+# component Controller #
+# tested
+componentDelete:
+    path:     /component/{componentName}/delete
+    defaults: { _controller: semappsBundle:Component:remove }
+
+componentList:
+    path:     /component/{componentName}/list
+    defaults: { _controller: semappsBundle:Component:list}
+
+componentForm:
+    path:     /component/{componentName}/form
+    defaults: { _controller: semappsBundle:Component:add}
+### site ###
+site:
+    path:     /sites
+    defaults: { _controller: semappsBundle:SiteFederation:manageSite }
