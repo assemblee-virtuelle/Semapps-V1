@@ -30,37 +30,114 @@ Polymer({
       }).addTo(this.OSM );
       this.markers = L.markerClusterGroup();
       this.OSM.addLayer(this.markers) ;
+      this.pinAvailaible = [];
+      this.awesome= {
+          "http://virtual-assembly.org/pair#Person":L.AwesomeMarkers.icon({
+              icon: 'user',
+              markerColor: 'blue'
+          }),
+          "http://virtual-assembly.org/pair#Organization":L.AwesomeMarkers.icon({
+              icon: 'tower',
+              markerColor: 'blue'
+          }),
+          "http://virtual-assembly.org/pair#Project":L.AwesomeMarkers.icon({
+              icon: 'screenshot',
+              markerColor: 'red'
+          }),
+          "http://virtual-assembly.org/pair#Event":L.AwesomeMarkers.icon({
+              icon: 'calendar',
+              markerColor: 'orange'
+          }),
+          "http://virtual-assembly.org/pair#Proposal":L.AwesomeMarkers.icon({
+              icon: 'info-sign',
+              markerColor: 'green'
+          }),
+          "http://virtual-assembly.org/pair#Document":L.AwesomeMarkers.icon({
+              icon: 'folder-open',
+              markerColor: 'black'
+          }),
+          "http://virtual-assembly.org/pair#DocumentType":L.AwesomeMarkers.icon({
+              icon: 'pushpin',
+              markerColor: 'black'
+          }),
+      }
+
   },
 
-    pinShow(latitude,longitude, uri, text) {
+    /**
+     * affiche tous les points enregistré
+     */
+    pinShowAll() {
         "use strict";
-        let marker = L.marker([latitude,longitude])
-            .bindPopup(text);
-        //marker.addTo(this.OSM);
-        this.markers.addLayer(marker);
-        this.pins[uri] = marker;
-    },
-
-    pinShowOne(latitude,longitude, uri, text) {
-        "use strict";
-        this.pinHideAll();
-        this.pinShow(latitude,longitude, uri, text);
-    },
-
-    pinHide(uri) {
-        "use strict";
-        if(this.pins[uri] !== undefined){
-            let marker = this.pins[uri];
-            this.OSM.removeLayer(marker);
-        }
-    },
-
-    pinHideAll() {
-        "use strict";
-        for (let uri in this.pins){
-            if (this.pins.hasOwnProperty(uri)) {
-                this.pinHide(uri);
+        for (let key in this.pins) {
+            if (this.pins.hasOwnProperty(key)) {
+                this.pinShow(key);
             }
         }
-    }
+    },
+
+    pinShow(key){
+        "use strict";
+        if (this.pins.hasOwnProperty(key) && this.pinAvailaible[key]) {
+            this.markers.addLayer(this.pins[key]);
+            this.pinAvailaible[key] = false;
+
+        }else{
+            log("error: " + key + " is not a marker")
+            log(this.pins)
+        }
+
+        //this.pins[key].addTo(this.OSM);
+    },
+
+
+    addPin(latitude,longitude, key, text,type) {
+        "use strict";
+        this.pinAvailaible[key] = true;
+        if (this.awesome[type] !== undefined) {
+            this.pins[key] = L.marker([latitude,longitude],  {icon: this.awesome[type]})
+                .bindPopup(text);
+        }else{
+            this.pins[key] = L.marker([latitude,longitude])
+                .bindPopup(text);
+        }
+
+        this.pinShow(key);
+    },
+    /**
+     * affiche un point et efface les autres
+     * @param key -- la clé qui va être la seule affiché
+     */
+    pinShowOne(key) {
+        "use strict";
+        this.pinHideAll();
+        this.pinShow(key);
+    },
+
+    /**
+     * efface un point
+     * @param key -- la clé du point a ne plus afficher
+     */
+    pinHide(key) {
+        "use strict";
+        if(this.pins[key] !== undefined && !this.pinAvailaible[key]){
+            let marker = this.pins[key];
+            this.markers.removeLayer(marker);
+            this.pinAvailaible[key] = true;
+        }
+    },
+
+    /**
+     * efface tous les points
+     */
+    pinHideAll() {
+        "use strict";
+        for (let key in this.pins){
+            if (this.pins.hasOwnProperty(key)) {
+                this.pinHide(key);
+            }
+        }
+    },
+
+
 });

@@ -259,6 +259,7 @@ class WebserviceTools
 		{
 				$output     = [];
 				$properties = $this->uriPropertiesFiltered($uri);
+				$output['uri'] = $uri;
 				switch (current($properties['type'])) {
 						// Orga.
 						case  semappsConfig::URI_PAIR_ORGANIZATION:

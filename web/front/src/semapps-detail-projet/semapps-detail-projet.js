@@ -24,6 +24,7 @@ Polymer({
     this.offers = this.data.offers;
     this.image = this.data.properties.image;
     this.hasSubject = this.data.hasSubject;
+      semapps.map.pinShowOne(this.address[0]);
 
   },
 

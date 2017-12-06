@@ -172,15 +172,14 @@ Polymer({
                     url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
                     data: 'q=' + result["address"],
                     success : function(donnee){
-                      semapps.map.pinShow(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], result["address"],result["title"]);
-                      log(semapps.map.pins[result.address]);
+                      semapps.map.addPin(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], result["address"],result["title"],result["type"]);
                       },
                 });
               }
             }
           }
       }
-
+      semapps.map.pinShowAll();
       if(typeof resultTemps[this.typeSelected] === 'undefined' ){
           // Deselect tab if current.
           let key = Object.keys(resultTemps)[0];
