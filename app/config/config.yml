@@ -9,7 +9,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    carto.domain: 'mmmfest.fr' #to be moved on parameters
     picture_directory: '%kernel.root_dir%/../web/uploads/pictures'
     semantic_forms.prefixes:
         gvoi: "<http://assemblee-virtuelle.github.io/grands-voisins-v2/gv.owl.ttl#>"
