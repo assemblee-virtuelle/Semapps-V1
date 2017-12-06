@@ -68,7 +68,7 @@ class Mailer
             case self::TYPE_RESPONSIBLE :
                 $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
-                        Nous te souhaitons la bienvenue sur la plateforme du mmmfest !   http://mmmfest.fr/ <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
                         
                         Pour inscrire un atelier au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
@@ -85,13 +85,13 @@ class Mailer
 												- Le #CodeSocial (en cliquant sur document)<br>
 												- Créer la fiche de l’atelier que vous organisez.<br><br>
                        
-                       A très bientôt au Millemont Makers & Music Festival :-)
+                       A très bientôt sur SemApps :-)
                        ";
                 break;
             case self::TYPE_USER :
                 $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
-                        Nous te souhaitons la bienvenue sur la plateforme du mmmfest !   http://mmmfest.fr/ <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
                         
                         Pour t’inscrire au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
@@ -107,7 +107,7 @@ class Mailer
                        ";
                 break;
             default:
-                $content['subject'] = "[NOTIF] Cartographie de la mmmfest : Demande de création de compte !";
+                $content['subject'] = "[NOTIF] Cartographie SemApps : Demande de création de compte !";
                 $content['body'] = "Un nouvel utilisateur demande l'accès à l'application !</br></br>
                                   
                                     Email : ".$user->getEmail()."<br>

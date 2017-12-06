@@ -1,6 +1,4 @@
 services:
-    grands_voisins.config:
-        class: semappsBundle\mmmfestConfig
 
     semappsBundle.fileUploader:
         class: semappsBundle\Services\FileUploader

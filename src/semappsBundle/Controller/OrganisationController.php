@@ -221,7 +221,7 @@ class OrganisationController extends UniqueComponentController
           $output
         );
         $writer->setDelimiter(";");
-        $writer->saveFile('mmmfest-'.date('Y_m_d'));
+        $writer->saveFile('SemApps-'.date('Y_m_d'));
 
         return $this->redirectToRoute('all_orga');
     }
