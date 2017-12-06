@@ -18,7 +18,7 @@
             <table class="detailInfo">
               <template is="dom-if" if="[[version]]">
                 <tr class="field">
-                  <td class="fieldLabel">Commentaire</td>
+                  <td class="fieldLabel">version</td>
                   <td>[[version]]</td>
                 </tr>
               </template>
@@ -75,6 +75,12 @@
                 <tr class="field">
                   <td class="fieldLabel">Editeur (hors application)</td>
                   <td>[[external_document_publisher]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[data.uri]]">
+                <tr class="field">
+                  <td class="fieldLabel">uri</td>
+                  <td>[[data.uri]]</td>
                 </tr>
               </template>
             </table>
