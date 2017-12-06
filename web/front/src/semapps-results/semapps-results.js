@@ -192,9 +192,8 @@ Polymer({
       // Create title.
       let resultsTitle = '';
       // Results number.
-      resultsTitle += (results.length) ? results.length + ' résultats dans ' : 'Aucun résultat dans ';
+      resultsTitle += (results.length) ? results.length + ' résultats ' : 'Aucun résultat  ';
       // Building.
-      resultsTitle += (semapps.buildingSelected === semapps.buildingSelectedAll) ? 'tous les bâtiments' : 'le bâtiment ' + semapps.buildings[semapps.buildingSelected].title;
       // Display title.
       this.resultsTitle = resultsTitle;
 
