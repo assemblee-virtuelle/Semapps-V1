@@ -65,7 +65,7 @@ class Mailer
         $content = [];
         switch ($type){
             case self::TYPE_RESPONSIBLE :
-                $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
+                $content['subject'] = "Bienvenue sur la plateforme SemApps !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
                         Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
                         
@@ -105,7 +105,7 @@ class Mailer
 								$content['body'] .= "A très bientôt sur SemApps :-)";
                 break;
             case self::TYPE_USER :
-                $content['subject'] = "Bienvenue sur la plateforme du MMM Fest !";
+                $content['subject'] = "Bienvenue sur la plateforme SemApps !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
                         Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
                         
