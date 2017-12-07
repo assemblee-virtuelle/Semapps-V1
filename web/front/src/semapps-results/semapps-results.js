@@ -130,11 +130,9 @@ Polymer({
     this.searchError =
       this.noResult = false;
     this.results.length = 0;
-    let dataPins = [];
     this.set('results', []);
     let totalCounter = 0;
     let typesCounter = {};
-    let buildingsCounter = {};
     let resultTemps = {};
     // Allow empty response.
     response = response || this.renderSearchResultResponse || {};
@@ -167,14 +165,8 @@ Polymer({
               resultTemps[result.type].push(result);
 
             if(result["address"]){
-              if(dataPins[result.address] === undefined && semapps.map.pins[result.address] === undefined){
-                $.ajax({
-                    url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
-                    data: 'q=' + result["address"],
-                    success : function(donnee){
-                      semapps.map.addPin(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], result["address"],result["title"],result["type"]);
-                      },
-                });
+              if( semapps.map.pins[result.address] === undefined){
+                semapps.getAddressToCreatePoint(result["address"],result["title"],result["type"]);
               }
             }
           }

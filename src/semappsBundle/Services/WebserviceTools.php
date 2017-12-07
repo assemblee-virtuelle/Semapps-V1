@@ -274,7 +274,7 @@ class WebserviceTools
 								);
 								if(!is_null($organization))
 										$output['id'] = $organization->getId();
-
+								$output['title'] = current($properties['preferedLabel']);
 								$propertiesWithUri =[
 									'hasResponsible',
 									'hasMember',
@@ -324,6 +324,7 @@ class WebserviceTools
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
+								$output ['title'] = current($properties['firstName']).' '.current($properties['lastName']);
 								$propertiesWithUri = [
 									'knows',
 									'affiliatedTo',
@@ -361,6 +362,8 @@ class WebserviceTools
 								break;
 						// Project.
 						case semappsConfig::URI_PAIR_PROJECT:
+								$output['title'] = current($properties['preferedLabel']);
+
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -394,6 +397,8 @@ class WebserviceTools
 								break;
 						// Event.
 						case semappsConfig::URI_PAIR_EVENT:
+								$output['title'] = current($properties['preferedLabel']);
+
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -409,6 +414,8 @@ class WebserviceTools
 								break;
 						// Proposition.
 						case semappsConfig::URI_PAIR_PROPOSAL:
+								$output['title'] = current($properties['preferedLabel']);
+
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -425,6 +432,8 @@ class WebserviceTools
 								break;
 						// document
 						case semappsConfig::URI_PAIR_DOCUMENT:
+								$output['title'] = current($properties['preferedLabel']);
+
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}
@@ -442,6 +451,8 @@ class WebserviceTools
 								break;
 						//document type
 						case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
+								$output['title'] = current($properties['preferedLabel']);
+
 								if (isset($properties['description'])) {
 										$properties['description'] = nl2br(current($properties['description']),false);
 								}

@@ -68,11 +68,14 @@ Polymer({
     log(data);
     this.$.detail.style.display = '';
     data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
-    if (data.properties.building) {
-      // Display building on the map.
-      semapps.map.pinShowOne(data.properties.building, 'ICI');
-    }else if (data.building){
-      semapps.map.pinShowOne(data.building, 'ICI');
+    if(data.properties.address ){
+      let addressLabel = data.properties.address[0];
+      if(semapps.detailAddress[addressLabel]){
+        semapps.map.pinShowOne(addressLabel);
+      }
+      else{
+        semapps.getAddressToCreatePoint(addressLabel,data.title,data.properties.type[0])
+      }
     }
 
     // Create inner depending of type.

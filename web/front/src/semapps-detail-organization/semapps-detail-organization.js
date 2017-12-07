@@ -31,7 +31,6 @@ Polymer({
     this.internal_author = this.data.internal_author;
     this.internal_contributor = this.data.internal_contributor;
     this.internal_publisher = this.data.internal_publisher;
-      semapps.map.pinShowOne(this.address[0]);
 
   },
 

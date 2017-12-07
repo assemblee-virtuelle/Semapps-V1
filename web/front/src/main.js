@@ -22,6 +22,7 @@
       this.buildingSelectedAll = 'partout';
       this.buildingSelected = this.buildingSelectedAll;
       this.$gvMap = $(document.getElementById('semapps-map'));
+      this.detailAddress= [];
       this.allowedType = [
           "http://virtual-assembly.org/pair#Person",
           "http://virtual-assembly.org/pair#Organization",
@@ -212,6 +213,17 @@
       e.preventDefault();
       // Force links to reload the hole page.
       window.location.replace(e.currentTarget.getAttribute('href'));
+    }
+
+    getAddressToCreatePoint(address,title,type){
+        $.ajax({
+            url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
+            data: 'q=' + address,
+            success : function(donnee){
+                semapps.map.addPin(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], address,title,type);
+                semapps.detailAddress[address] = donnee;
+            },
+        });
     }
   };
 
