@@ -22,6 +22,18 @@ Polymer({
     this.internal_contributor = this.data.internal_contributor;
     this.internal_publisher = this.data.internal_publisher;
     this.hasSubject = this.data.hasSubject;
+    if (semapps.isMember()){
+        this.addressTitle = this.address[0];
+    }else{
+        this.addressTitle = "";
+        let addressSplit = this.address[0].split(" ");
+        let testIsOk = false;
+        for (let i = addressSplit.length-1; i<0 || !testIsOk; i--){
+            this.addressTitle= addressSplit[i]+" "+this.addressTitle;
+            if (isNaN(addressSplit[i]) ===false)
+                testIsOk = true;
+        }
+    }
 
   },
     handleClickDetail(e) {
