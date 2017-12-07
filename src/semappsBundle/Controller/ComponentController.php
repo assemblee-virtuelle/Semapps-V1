@@ -56,12 +56,12 @@ class ComponentController extends AbstractMultipleComponentController
 										$sparql->addPrefixes($sparql->prefixes)
 											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addDelete(
-												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL))
 											->addWhere(
-												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												'?o',
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
@@ -71,12 +71,16 @@ class ComponentController extends AbstractMultipleComponentController
 										$sparql->addPrefixes($sparql->prefixes)
 											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 											->addInsert(
-												$sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
+												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 												'pair:image',
 												$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
 												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
 										$sfClient->update($sparql->getQuery());
 								}
+								$this->addFlash('info', "l'image a été rajouté avec succès");
+								return $this->redirectToRoute(
+									'componentForm', ["componentName" => $componentName, "uri" => $form->uri]
+								);
 						}
 						$this->addFlash('info', 'Le contenu à bien été mis à jour.');
 						return $this->redirectToRoute(
