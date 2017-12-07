@@ -32,7 +32,7 @@ class Mailer
     protected function sendMessage($to, $subject, $body ,$from =null)
     {
         $mail = \Swift_Message::newInstance()
-            ->setFrom($from)
+            ->setFrom('fake@fake.fr')
             ->setTo($to)
             //->setBcc("sebastien.lemoine@cri-paris.org")
             ->setSubject($subject)
