@@ -18,7 +18,12 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
 				$componentConf = $this->getParameter($componentName.'Conf');
-				$graphURI =$this->getGraph(null);
+
+				if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)
+						$graphURI = $componentConf['graphuri'];
+				else
+						$graphURI = $this->getGraph(null);
+
 				/** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
         $graphURI = $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL);

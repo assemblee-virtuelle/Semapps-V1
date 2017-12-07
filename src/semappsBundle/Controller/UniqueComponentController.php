@@ -11,26 +11,6 @@ namespace semappsBundle\Controller;
 
 abstract class UniqueComponentController extends AbstractComponentController
 {
-		public function getGraph($id=null){
-				$user =$this->getUser();
-
-				$organization =null;
-				if($id != null && $user->hasRole(
-						'ROLE_SUPER_ADMIN'
-					) && $user->getFkOrganisation() != $id){
-						$organization = $this->getOrga(
-							$id
-						);
-
-				}
-				else{
-						$organization = $this->getOrga(
-							$user->getFkOrganisation()
-						);
-				}
-				return $organization->getGraphURI();
-		}
-
 		public function getSfUser($id = null )
 		{
 				return  $this->getUser()->getEmail();

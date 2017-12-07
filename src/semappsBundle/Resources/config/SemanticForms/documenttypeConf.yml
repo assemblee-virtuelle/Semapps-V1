@@ -3,6 +3,7 @@ parameters:
     documenttypeConf:
       type: 'http://virtual-assembly.org/pair#DocumentType'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-DocumentType'
+      graphuri: 'urn:semapps/component/documenttype'
       fields:
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'

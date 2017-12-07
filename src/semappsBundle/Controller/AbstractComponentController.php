@@ -19,13 +19,17 @@ abstract class AbstractComponentController extends Controller
 				$bundleName = $this->getBundleNameFromRequest($request);
 				//common
 				$componentConf = $this->getParameter($componentName.'Conf');
+				if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)
+						$graphURI = $componentConf['graphuri'];
+				else
+						$graphURI = $this->getGraph($id);
 
 				// Build main form.
 				//common idea but spec data
 				$options = [
 					'login'                 => $this->getSfUser($id),
 					'password'              => $this->getSfPassword($id),
-					'graphURI'              => $this->getGraph($id),
+					'graphURI'              => $graphURI,
 					'client'                => $sfClient,
 					'sfConf'               	=> $componentConf,
 					'spec'                  => $componentConf['spec'],

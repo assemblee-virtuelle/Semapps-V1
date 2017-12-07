@@ -36,6 +36,6 @@ class semappsConfig
 		const URI_SKOS_THESAURUS = 'http://www.w3.org/2004/02/skos/core#Concept';
 
 		const Multiple = '';
-		const PREFIX = 'urn:mm/contacts/row/';
+		const PREFIX = 'urn:semapps/contacts/row/';
 
 }

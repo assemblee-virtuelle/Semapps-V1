@@ -103,7 +103,145 @@ class AdminController extends UniqueComponentController
           )
         );
     }
+		public function addAction($uniqueComponentName,$id =null,Request $request)
+		{
+				/** @var SemanticFormsClient $sfClient */
+				$sfClient       = $this->container->get('semantic_forms.client');
+				/** @var $user \semappsBundle\Entity\User */
+				$user           = $this->getUser();
+				$userSfLink     = $user->getSfLink();
+				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
+				$sparqlClient   = $this->container->get('sparqlbundle.client');
+				$em = $this->getDoctrine()->getManager();
+				$oldPictureName = $user->getPictureName();
+				$organisation = $this->getOrga(null);
+				/** @var Form $form */
+				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
 
+				$form->handleRequest($request);
+
+				if ($form->isSubmitted() && $form->isValid()) {
+
+						// Manage picture.
+						$newPicture = $form->get('pictureName')->getData();
+						if ($newPicture) {
+								// Remove old picture.
+								$fileUploader = $this->get('semappsBundle.fileUploader');
+								if ($oldPictureName) {
+										$dir = $fileUploader->getTargetDir();
+										// Check if file exists to avoid all errors.
+										if (is_file($dir.'/'.$oldPictureName)) {
+												$fileUploader->remove($oldPictureName);
+										}
+								}
+								$user->setPictureName(
+									$fileUploader->upload($newPicture)
+								);
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('pair','http://virtual-assembly.org/pair#')
+									->addDelete(
+										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										'pair:image',
+										'?o',
+										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
+									->addWhere(
+										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										'pair:image',
+										'?o',
+										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+								$sfClient->update($sparql->getQuery());
+								//dump($sparql->getQuery());
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('pair','http://virtual-assembly.org/pair#')
+									->addInsert(
+										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										'pair:image',
+										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
+										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+								$sfClient->update($sparql->getQuery());
+								//dump($sparql->getQuery());
+								//exit;
+						} else {
+								$user->setPictureName($oldPictureName);
+						}
+						// User never had a sf link, so save it.
+						if (!$userSfLink) {
+								// Update sfLink.
+								$user->setSfLink($form->uri);
+
+								//hasMember
+								if($organisation->getSfOrganisation() != null){
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+										$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
+										$uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
+										$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('pair','http://virtual-assembly.org/pair#')
+											->addInsert($uriOrgaFormatted,'pair:hasMember',$uripersonFormatted,$graphFormatted);
+										//dump($sparql->getQuery());
+										$sfClient->update($sparql->getQuery());
+										//memberOf
+										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
+										$sparql->addPrefixes($sparql->prefixes)
+											->addPrefix('pair','http://virtual-assembly.org/pair#')
+											->addInsert($uripersonFormatted,'pair:memberOf',$uriOrgaFormatted,$graphFormatted);
+										//dump($sparql->getQuery());
+										$sfClient->update($sparql->getQuery());
+								}
+
+						}
+						$em->persist($user);
+						$em->flush();
+
+						$this->addFlash(
+							'success',
+							'Votre profil a bien été mis à jour.'
+						);
+
+						return $this->redirectToRoute('personComponentFormWithoutId', ["uniqueComponentName" => $uniqueComponentName]);
+				}
+				// import
+				$importForm = null;
+				if(!$userSfLink){
+						$importForm = $this->createFormBuilder();
+						$importForm->add('import',UrlType::class);
+						$importForm->add('save',SubmitType::class);
+						$importForm = $importForm->getForm();
+						$importForm->handleRequest($request);
+
+						if ($importForm->isSubmitted() && $importForm->isValid()) {
+								$uri = $importForm->get('import')->getData();
+								$user->setSfLink($uri);
+								$em->persist($user);
+								$em->flush();
+								//importer le profile
+								$sfClient->import($uri);
+								//déplacer dans le graph de l'orga
+								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
+								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
+
+								$sparql->addPrefixes($sparql->prefixes)
+									->addPrefix('pair','http://virtual-assembly.org/pair#');
+								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+								$sparql->addInsert("?s","?p","?o",$graphFormatted);
+								//dump($sparql->getQuery());
+								$sfClient->update($sparql->getQuery());
+
+								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+						}
+				}
+				// Fill form
+				return $this->render(
+					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
+						'importForm'=> ($importForm != null)? $importForm->createView() : null,
+						"form" => $form->createView(),
+						"entityUri" => $this->getSfLink($id)
+					]
+				);
+		}
     public function listUserAction()
     {
 
@@ -472,144 +610,9 @@ class AdminController extends UniqueComponentController
 				return $this->getUser()->getSfLink();
 		}
 
-		public function addAction($uniqueComponentName,$id =null,Request $request)
+		public function getGraph($id = null)
 		{
-				/** @var SemanticFormsClient $sfClient */
-				$sfClient       = $this->container->get('semantic_forms.client');
-				/** @var $user \semappsBundle\Entity\User */
-				$user           = $this->getUser();
-				$userSfLink     = $user->getSfLink();
-				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-				$sparqlClient   = $this->container->get('sparqlbundle.client');
-				$em = $this->getDoctrine()->getManager();
-				$oldPictureName = $user->getPictureName();
-				$organisation = $this->getOrga(null);
-				/** @var Form $form */
-				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-
-				$form->handleRequest($request);
-
-				if ($form->isSubmitted() && $form->isValid()) {
-
-						// Manage picture.
-						$newPicture = $form->get('pictureName')->getData();
-						if ($newPicture) {
-								// Remove old picture.
-								$fileUploader = $this->get('semappsBundle.fileUploader');
-								if ($oldPictureName) {
-										$dir = $fileUploader->getTargetDir();
-										// Check if file exists to avoid all errors.
-										if (is_file($dir.'/'.$oldPictureName)) {
-												$fileUploader->remove($oldPictureName);
-										}
-								}
-								$user->setPictureName(
-									$fileUploader->upload($newPicture)
-								);
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addDelete(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
-									->addWhere(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-								//dump($sparql->getQuery());
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addInsert(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-								//dump($sparql->getQuery());
-								//exit;
-						} else {
-								$user->setPictureName($oldPictureName);
-						}
-						// User never had a sf link, so save it.
-						if (!$userSfLink) {
-								// Update sfLink.
-								$user->setSfLink($form->uri);
-
-								//hasMember
-								if($organisation->getSfOrganisation() != null){
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-										$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
-										$uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
-										$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair','http://virtual-assembly.org/pair#')
-											->addInsert($uriOrgaFormatted,'pair:hasMember',$uripersonFormatted,$graphFormatted);
-										//dump($sparql->getQuery());
-										$sfClient->update($sparql->getQuery());
-										//memberOf
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair','http://virtual-assembly.org/pair#')
-											->addInsert($uripersonFormatted,'pair:memberOf',$uriOrgaFormatted,$graphFormatted);
-										//dump($sparql->getQuery());
-										$sfClient->update($sparql->getQuery());
-								}
-
-						}
-						$em->persist($user);
-						$em->flush();
-
-						$this->addFlash(
-							'success',
-							'Votre profil a bien été mis à jour.'
-						);
-
-						return $this->redirectToRoute('personComponentFormWithoutId', ["uniqueComponentName" => $uniqueComponentName]);
-				}
-				// import
-				$importForm = null;
-				if(!$userSfLink){
-						$importForm = $this->createFormBuilder();
-						$importForm->add('import',UrlType::class);
-						$importForm->add('save',SubmitType::class);
-						$importForm = $importForm->getForm();
-						$importForm->handleRequest($request);
-
-						if ($importForm->isSubmitted() && $importForm->isValid()) {
-								$uri = $importForm->get('import')->getData();
-								$user->setSfLink($uri);
-								$em->persist($user);
-								$em->flush();
-								//importer le profile
-								$sfClient->import($uri);
-								//déplacer dans le graph de l'orga
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
-								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#');
-								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addInsert("?s","?p","?o",$graphFormatted);
-								//dump($sparql->getQuery());
-								$sfClient->update($sparql->getQuery());
-
-								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-						}
-				}
-				// Fill form
-				return $this->render(
-					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
-						'importForm'=> ($importForm != null)? $importForm->createView() : null,
-						"form" => $form->createView(),
-						"entityUri" => $this->getSfLink($id)
-					]
-				);
+				return $this->getSfLink($id);
 		}
 
 }

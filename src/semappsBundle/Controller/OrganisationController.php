@@ -392,9 +392,11 @@ class OrganisationController extends UniqueComponentController
 
 		public function getSfLink($id = null)
 		{
-
 				return $this->getElement($id)->getSfOrganisation();
 		}
-
+		public function getGraph($id = null)
+		{
+				return $this->getElement($id)->getGraphURI();
+		}
 
 }
