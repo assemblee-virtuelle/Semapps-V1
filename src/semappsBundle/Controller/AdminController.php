@@ -253,13 +253,13 @@ class AdminController extends UniqueComponentController
                 $tabUserEnabled[$user->getId()]["username"] = $user->getUsername();
                 $tabUserEnabled[$user->getId()]["email"] = $user->getEmail();
                 $tabUserEnabled[$user->getId()]["lastLogin"] = $user->getLastLogin();
-                $tabUserEnabled[$user->getId()]["organization"] = $organization->getName();
+                $tabUserEnabled[$user->getId()]["organization"] =($organization)? $organization->getName():null;
             }
             else{
                 $tabUserDisabled[$user->getId()]["username"] = $user->getUsername();
                 $tabUserDisabled[$user->getId()]["email"] = $user->getEmail();
-                $tabUserDisabled[$user->getId()]["organization"] = $organization->getName();
-                $tabUserDisabled[$user->getId()]["isResponsible"] = $organization->getFkResponsable() == $user->getId();
+                $tabUserDisabled[$user->getId()]["organization"] = ($organization)? $organization->getName():null;
+                $tabUserDisabled[$user->getId()]["isResponsible"] = ($organization)? $organization->getName():null;
             }
 
         }
