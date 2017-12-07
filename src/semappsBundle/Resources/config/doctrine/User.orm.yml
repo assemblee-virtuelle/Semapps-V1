@@ -17,6 +17,7 @@ semappsBundle\Entity\User:
             nullable: true
         fkOrganisation:
             type: integer
+            nullable: true
         pictureName:
             type: text
             nullable: true

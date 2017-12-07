@@ -28,10 +28,12 @@ abstract class UniqueComponentController extends AbstractComponentController
 					'semappsBundle:Organisation'
 				);
 				$id = ($id != null)? $id : $this->getUser()->getFkOrganisation();
-				$organization = $organisationEntity->find(
-					$id
-				);
-				return $organization;
+				if ($id)
+						return $organisationEntity->find($id);
+				else
+						return null;
+
+
 		}
 
 }

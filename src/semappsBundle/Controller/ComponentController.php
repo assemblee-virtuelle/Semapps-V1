@@ -95,15 +95,18 @@ class ComponentController extends AbstractMultipleComponentController
 
 		function getGraph($id = null)
 		{
-				$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-					'semappsBundle:Organisation'
-				);
-				$organisation = $organisationEntity->find(
-					$this->getUser()->getFkOrganisation()
-				);
-				$graphURI = $organisation->getGraphURI();
-
-				return $graphURI;
+				$id = $this->getUser()->getFkOrganisation();
+				if($id){
+						$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+							'semappsBundle:Organisation'
+						);
+						$organisation = $organisationEntity->find(
+							$this->getUser()->getFkOrganisation()
+						);
+						return $organisation->getGraphURI();
+				}
+				else
+					return $this->getUser()->getSfLink();
 		}
 
 		function getSfUser($id = null)

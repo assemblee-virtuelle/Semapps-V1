@@ -66,9 +66,14 @@ class AdminController extends UniqueComponentController
 
             //Set the roles
             $newUser->addRole('ROLE_MEMBER');
-            $newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
+						if(!is_null($form->get('organisation')->getData()))
+								$organisationId = $form->get('organisation')->getData()->getId();
+						else
+								$organisationId = $form->get('organisation')->getData();
 
-            // Save it.
+						$newUser->setFkOrganisation($organisationId);
+
+								// Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($newUser);
             try {
@@ -83,10 +88,14 @@ class AdminController extends UniqueComponentController
 
             //notification
             $usersSuperAdmin = $userRepository->getSuperAdminUsers();
-            $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
             $listOfEmail= [];
-            $organisation = $organisationRepository->find($form->get('organisation')->getData());
-            array_push($listOfEmail,$responsible->getEmail());
+						$organisation=null;
+            if($organisationId){
+								$organisation = $organisationRepository->find($form->get('organisation')->getData());
+								$responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
+								array_push($listOfEmail,$responsible->getEmail());
+						}
+
             foreach ($usersSuperAdmin as $superuser){
                 array_push($listOfEmail,$superuser["email"]);
             }
@@ -141,25 +150,25 @@ class AdminController extends UniqueComponentController
 								$sparql->addPrefixes($sparql->prefixes)
 									->addPrefix('pair','http://virtual-assembly.org/pair#')
 									->addDelete(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 										'pair:image',
 										'?o',
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
+										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL))
 									->addWhere(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 										'pair:image',
 										'?o',
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
 								//dump($sparql->getQuery());
 								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
 								$sparql->addPrefixes($sparql->prefixes)
 									->addPrefix('pair','http://virtual-assembly.org/pair#')
 									->addInsert(
-										$sparql->formatValue($userSfLink, $sparql::VALUE_TYPE_URL),
+										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
 										'pair:image',
 										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
-										$sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
 								//dump($sparql->getQuery());
 								//exit;
@@ -170,27 +179,6 @@ class AdminController extends UniqueComponentController
 						if (!$userSfLink) {
 								// Update sfLink.
 								$user->setSfLink($form->uri);
-
-								//hasMember
-								if($organisation->getSfOrganisation() != null){
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-										$uriOrgaFormatted = $sparql->formatValue($organisation->getSfOrganisation(),$sparql::VALUE_TYPE_URL);
-										$uripersonFormatted = $sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL);
-										$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair','http://virtual-assembly.org/pair#')
-											->addInsert($uriOrgaFormatted,'pair:hasMember',$uripersonFormatted,$graphFormatted);
-										//dump($sparql->getQuery());
-										$sfClient->update($sparql->getQuery());
-										//memberOf
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair','http://virtual-assembly.org/pair#')
-											->addInsert($uripersonFormatted,'pair:memberOf',$uriOrgaFormatted,$graphFormatted);
-										//dump($sparql->getQuery());
-										$sfClient->update($sparql->getQuery());
-								}
-
 						}
 						$em->persist($user);
 						$em->flush();

@@ -57,7 +57,10 @@ class RegisterType extends AbstractType
 								return $er->createQueryBuilder('u')
 									->orderBy('u.name', 'ASC');
 						},
+						'placeholder' =>'***utilisateur simple***',
 						'choice_label' => 'name',
+						'required'   => false,
+						'empty_data' => null,
 						'mapped'  => false,
 					])
 					->add('submit', SubmitType::class, array('label' => 'Enregistrer'));

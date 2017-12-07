@@ -53,7 +53,7 @@ class OrganisationController extends UniqueComponentController
                 return $this->redirectToRoute('all_orga');
             }
             $organisation->setGraphURI(
-              semappsConfig::PREFIX.$organisation->getId().'-org'
+              semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getBatiment().'-org'
             );
             $em->flush();
 

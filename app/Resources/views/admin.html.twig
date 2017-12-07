@@ -90,15 +90,20 @@
                                         </h4>
                                     </li>
                                     {{ admin.menuItem('Mon profil', 'personComponentFormWithoutId', 'user','Editez votre profil perso', menuSelected, 'MEMBER',{'uniqueComponentName':'person'}) }}
-                                    {{ admin.menuItem('Mon organisation', 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organisation'}) }}
-                                    {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
+                                    {% if app.user.fkOrganisation %}
+                                        {{ admin.menuItem('Mon organisation', 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organisation'}) }}
+                                        {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
+                                    {% endif %}
+
                                     {{ admin.menuItem('Les organisations', 'all_orga', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Les utilisateurs', 'users', 'user','gérer les utilisateurs', menuSelected, 'SUPER_ADMIN') }}
-                                    {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
-                                    {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
-                                    {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
-                                    {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
-                                    {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'SUPER_ADMIN',{'componentName':'documentType'}) }}
+                                    {% if app.user.sfLink or app.user.fkOrganisation %}
+                                        {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
+                                        {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
+                                        {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
+                                        {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
+                                        {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
+                                    {% endif %}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
                                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}
