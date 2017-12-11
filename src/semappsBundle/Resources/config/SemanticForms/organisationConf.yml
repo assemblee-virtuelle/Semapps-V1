@@ -91,6 +91,9 @@ parameters:
         http://virtual-assembly.org/pair#adress:
           value: 'address'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#adressLine2:
+          value: 'complementAddress'
+          access: 'anonymous'
         http://virtual-assembly.org/pair#internal_author:
           value: 'internal_author'
           access: 'anonymous'

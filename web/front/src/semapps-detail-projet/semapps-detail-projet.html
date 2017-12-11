@@ -28,6 +28,18 @@
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[address]]">
+                <tr class="field">
+                  <td class="fieldLabel">Adresse</td>
+                  <td>[[address]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[complementAddress]]">
+                <tr class="field">
+                  <td class="fieldLabel">Complément d'adresse</td>
+                  <td>[[complementAddress]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[comment]]">
                 <tr class="field">
                   <td class="fieldLabel">Description courte</td>

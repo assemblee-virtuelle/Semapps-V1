@@ -95,7 +95,7 @@ class WebserviceTools
 							->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
 							->addWhere('?uri','pair:firstName','?firstName','?GR')
 							->addOptional('?uri','pair:image','?image','?GR')
-							->addOptional('?uri','pair:description','?desc','?GR')
+							->addOptional('?uri','pair:comment','?desc','?GR')
 							->addOptional('?uri','pair:lastName','?lastName','?GR')
 							->addOptional('?org','rdf:type','pair:Organization','?GR');
 						//->addOptional('?org','pair:hostedIn','?building','?GR');

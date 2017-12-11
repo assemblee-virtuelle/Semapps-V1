@@ -24,10 +24,23 @@
 
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Description courte</td>
+                  <td>[[comment]]
+                  </td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[addressTitle]]">
                 <tr class="field">
-                  <td class="fieldLabel">addressTitle</td>
+                  <td class="fieldLabel">Adresse</td>
                   <td>[[addressTitle]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[complementAddress]]">
+                <tr class="field">
+                  <td class="fieldLabel">Complément d'adresse</td>
+                  <td>[[complementAddress]]</td>
                 </tr>
               </template>
               <template is="dom-if" if="[[alias]]">

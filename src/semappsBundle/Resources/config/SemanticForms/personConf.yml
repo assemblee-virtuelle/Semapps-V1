@@ -22,6 +22,9 @@ parameters:
         http://virtual-assembly.org/pair#description:
           value: 'description'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#comment:
+          value: 'comment'
+          access: 'anonymous'
         http://virtual-assembly.org/pair#homePage:
           value: 'homePage'
           access: 'anonymous'
@@ -90,6 +93,9 @@ parameters:
           access: 'anonymous'
         http://virtual-assembly.org/pair#adress:
           value: 'address'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#adressLine2:
+          value: 'complementAddress'
           access: 'anonymous'
         http://virtual-assembly.org/pair#internal_author:
           value: 'internal_author'

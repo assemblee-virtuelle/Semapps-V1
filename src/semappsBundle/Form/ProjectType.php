@@ -130,6 +130,14 @@ class ProjectType extends SemanticFormType
 							'required'  => false,
 						]
 					)
+					->add(
+						$builder,
+						'complementAddress',
+						TextType::class,
+						[
+							'required'  => false,
+						]
+					)
 					;
 				$builder->add(
 					'componentPicture',

@@ -40,7 +40,8 @@ class PersonType extends SemanticFormType
 							'required' => false,
 						]
 					)
-            ->add(
+					->add($builder, 'comment', TextType::class,['required' => false,])
+					->add(
                 $builder,
                 'aboutPage',
                 UrlType::class,
@@ -181,6 +182,14 @@ class PersonType extends SemanticFormType
 						$builder,
 						'address',
 						AdresseType::class,
+						[
+							'required'  => false,
+						]
+					)
+					->add(
+						$builder,
+						'complementAddress',
+						TextType::class,
 						[
 							'required'  => false,
 						]

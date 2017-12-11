@@ -67,6 +67,9 @@ parameters:
         http://virtual-assembly.org/pair#adress:
           value: 'address'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#adressLine2:
+          value: 'complementAddress'
+          access: 'anonymous'
       reverse:
 #        http://virtual-assembly.org/pair#concretizes : 'http://virtual-assembly.org/pair#concretizedBy'
         http://virtual-assembly.org/pair#managedBy: 'http://virtual-assembly.org/pair#manages'
