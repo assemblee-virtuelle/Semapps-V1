@@ -505,7 +505,7 @@ class WebserviceTools
 																		$result = [
 																			'uri' => $uri,
 																			'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
-																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
+																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
 																		];
 																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
 																		break;
@@ -518,7 +518,7 @@ class WebserviceTools
 																		$result = [
 																			'uri' => $uri,
 																			'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
-																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.jpg' : $component['image'],
+																			'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
 																		];
 																		$output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
 																		break;

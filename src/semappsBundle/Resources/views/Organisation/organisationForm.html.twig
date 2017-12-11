@@ -44,7 +44,7 @@
                     <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
                         {% if form is not null %}
                             <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                                <img src="{{ asset(organization.getOrganisationPicture() == null ? 'common/images/no_avatar.jpg' : 'uploads/pictures/'~organization.getOrganisationPicture()) | imagine_filter('organisation') }}"/>
+                                <img src="{{ asset(organization.getOrganisationPicture() == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~organization.getOrganisationPicture()) | imagine_filter('organisation') }}"/>
                                 <span id="profileEditPictureField">
                         {{ form_widget(form.organisationPicture) }}
                     </span>
