@@ -25,20 +25,20 @@
 
           <div class="detail-header col col-sm-8">
             <table class="detailInfo">
-              <template is="dom-if" if="[[detail.abstract]]">
+              <template is="dom-if" if="[[detail.comment]]">
                 <tr class="field">
-                  <td class="fieldLabel">Abstract</td>
-                  <td>[[detail.abstract]]
+                  <td class="fieldLabel">Résumé</td>
+                  <td>[[detail.comment]]
                   </td>
                 </tr>
               </template>
             </table>
           </div>
         </div>
-        <template is="dom-if" if="[[detail.comment]]">
+        <template is="dom-if" if="[[detail.abstract]]">
           <div class="detail-description col col-sm-12">
             <div class="detail-description-inner">
-              <template is="juicy-html" content$="{{detail.comment}}"></template>
+              <template is="juicy-html" content$="{{detail.abstract}}"></template>
             </div>
           </div>
         </template>
