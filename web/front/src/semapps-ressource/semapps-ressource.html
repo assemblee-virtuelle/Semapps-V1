@@ -9,30 +9,184 @@
             <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
         </li>
       </ul>
-      <div class="col col-sm-8">
-        <h2>Détail à propos de la ressource : {{ title }} </h2>
-    </div>
     <div class="row">
-      <div id="searchResults"  class="col col-sm-6">
-        <h4>ressourceNeeded</h4>
-        <template is="dom-repeat" items="{{ressourcesNeeded}}">
-          <semapps-results-item data="[[item]]"></semapps-results-item>
+      <div class="col col-sm-8">
+        <h2>Détail à propos de la ressource : [[ detail.label ]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[detail.depiction]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[detail.depiction]]');"></div>
+            </template>
+            <template is="dom-if" if="[[!detail.depiction]]">
+              <semapps-logo-mini text-color="#1e90ff"></semapps-logo-mini>
+            </template>
+          </div>
+
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[detail.abstract]]">
+                <tr class="field">
+                  <td class="fieldLabel">Abstract</td>
+                  <td>[[detail.abstract]]
+                  </td>
+                </tr>
+              </template>
+            </table>
+          </div>
+        </div>
+        <template is="dom-if" if="[[detail.comment]]">
+          <div class="detail-description col col-sm-12">
+            <div class="detail-description-inner">
+              <template is="juicy-html" content$="{{detail.comment}}"></template>
+            </div>
+          </div>
         </template>
       </div>
-      <div id="searchResults"  class="col col-sm-6">
-        <h4>ressourcesProposed</h4>
-        <template is="dom-repeat" items="{{ressourcesProposed}}">
-          <semapps-results-item data="[[item]]"></semapps-results-item>
+      <div class="col col-sm-4 side-blocks">
+        <!-- ressourcesNeeded -->
+        <template is="dom-if" if="[[ressourcesNeeded.person]]">
+          <h3>ressourcesNeeded.person</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
         </template>
-      </div>
+        <template is="dom-if" if="[[ressourcesNeeded.organization]]">
+          <h3>ressourcesNeeded.organization</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.projet]]">
+          <h3>ressourcesNeeded.projet</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.projet}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.event]]">
+          <h3>ressourcesNeeded.event</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.event}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.proposition]]">
+          <h3>ressourcesNeeded.proposition</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.proposition}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+
+
+        <!-- ressourcesProposed -->
+        <template is="dom-if" if="[[ressourcesProposed.person]]">
+          <h3>ressourcesProposed.person</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.organization]]">
+          <h3>ressourcesProposed.organization</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.projet]]">
+          <h3>ressourcesProposed.projet</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.projet}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.event]]">
+          <h3>ressourcesProposed.event</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.event}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.proposition]]">
+          <h3>ressourcesProposed.proposition</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.proposition}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+
+        <!-- hasSubject -->
+        <template is="dom-if" if="[[hasSubject.person]]">
+          <h3>hasSubject.person</h3>
+          <template is="dom-repeat" items="{{hasSubject.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.organization]]">
+          <h3>hasSubject.organization</h3>
+          <template is="dom-repeat" items="{{hasSubject.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.projet]]">
+          <h3>hasSubject.projet</h3>
+          <template is="dom-repeat" items="{{hasSubject.projet}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.event]]">
+          <h3>hasSubject.event</h3>
+          <template is="dom-repeat" items="{{hasSubject.event}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.proposition]]">
+          <h3>hasSubject.proposition</h3>
+          <template is="dom-repeat" items="{{hasSubject.proposition}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
     </div>
 
-    <template is="dom-if" if="[[loading]]">
+      <template is="dom-if" if="[[loading]]">
       <div id="ressourceSpinner" class="pageLoadingSpinner">
         <semapps-spinner></semapps-spinner>
       </div>
     </template>
-
+    </div>
   </template>
   <script src="semapps-ressource.min.js"></script>
 </dom-module>

@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/assemblee-virtuelle/SemanticFormsBundle.git",
-                "reference": "7090499eae224e5b6926545354e7d60e8130bd3f"
+                "reference": "d56c5d3ed6c676bd9de90a91e720176e03b1cb6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/assemblee-virtuelle/SemanticFormsBundle/zipball/7090499eae224e5b6926545354e7d60e8130bd3f",
-                "reference": "7090499eae224e5b6926545354e7d60e8130bd3f",
+                "url": "https://api.github.com/repos/assemblee-virtuelle/SemanticFormsBundle/zipball/d56c5d3ed6c676bd9de90a91e720176e03b1cb6b",
+                "reference": "d56c5d3ed6c676bd9de90a91e720176e03b1cb6b",
                 "shasum": ""
             },
             "type": "symfony-bundle",
@@ -48,7 +48,7 @@
                 "source": "https://github.com/assemblee-virtuelle/SemanticFormsBundle/tree/master",
                 "issues": "https://github.com/assemblee-virtuelle/SemanticFormsBundle/issues"
             },
-            "time": "2017-12-07T16:34:47+00:00"
+            "time": "2017-12-12T15:13:29+00:00"
         },
         {
             "name": "VirtualAssembly/SparqlBundle",
@@ -1025,12 +1025,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "75f40e042b2c9329fb39ff3aa190edf28162d60f"
+                "reference": "faaf1d37cabe3da2f59d92d3125f4b5a729d6196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/75f40e042b2c9329fb39ff3aa190edf28162d60f",
-                "reference": "75f40e042b2c9329fb39ff3aa190edf28162d60f",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/faaf1d37cabe3da2f59d92d3125f4b5a729d6196",
+                "reference": "faaf1d37cabe3da2f59d92d3125f4b5a729d6196",
                 "shasum": ""
             },
             "require": {
@@ -1085,8 +1085,7 @@
                     "homepage": "https://github.com/friendsofsymfony/FOSUserBundle/contributors"
                 },
                 {
-                    "name": "Thibault Duplessis",
-                    "email": "thibault.duplessis@gmail.com"
+                    "name": "Thibault Duplessis"
                 }
             ],
             "description": "Symfony FOSUserBundle",
@@ -1094,7 +1093,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-11-29T17:12:55+00:00"
+            "time": "2017-12-12T14:22:46+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -26,9 +26,7 @@ Polymer({
     handleBack (e) {
         "use strict";
         e.preventDefault();
-        semapps.goToPath('detail', {
-            uri: this.person,
-        });
+        semapps.goSearch();
     },
    ressourceLoad (encodedUri,encodedUriPerson) {
         "use strict";
@@ -50,12 +48,18 @@ Polymer({
         // Show detail content.
         this.$.ressource.style.display = '';
         data = data.responseJSON.ressource || {};
-        log(data.ressourcesNeeded);
-        log(this.ressourcesNeeded);
         this.ressourcesNeeded = data.ressourcesNeeded;
         this.ressourcesProposed = data.ressourcesProposed;
+        this.hasSubject = data.hasSubject;
         this.title = data.name;
+        this.detail = data.detail;
         this.loading = false;
-    }
+    },
+    handleClickDetail(e) {
+        e.preventDefault();
+        semapps.goToPath('detail', {
+            uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel'))
+        });
+    },
 
 });

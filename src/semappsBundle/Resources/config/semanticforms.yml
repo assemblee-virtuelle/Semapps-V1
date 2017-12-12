@@ -6,3 +6,4 @@ imports:
     - { resource: "@semappsBundle/Resources/config/SemanticForms/proposalConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/documentConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/documenttypeConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/dbpedia.yml" }

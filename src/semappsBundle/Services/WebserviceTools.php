@@ -260,6 +260,7 @@ class WebserviceTools
 				$output     = [];
 				$properties = $this->uriPropertiesFiltered($uri);
 				$output['uri'] = $uri;
+				$dbpediaConf = $this->confmanager->getConf();
 				switch (current($properties['type'])) {
 						// Orga.
 						case  semappsConfig::URI_PAIR_ORGANIZATION:
@@ -301,7 +302,7 @@ class WebserviceTools
 										foreach ($properties['offers'] as $uri) {
 												$output['offers'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -309,7 +310,7 @@ class WebserviceTools
 										foreach ($properties['needs'] as $uri) {
 												$output['needs'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -347,7 +348,7 @@ class WebserviceTools
 										foreach ($properties['offers'] as $uri) {
 												$output['offers'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -355,7 +356,7 @@ class WebserviceTools
 										foreach ($properties['needs'] as $uri) {
 												$output['needs'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -381,7 +382,7 @@ class WebserviceTools
 										foreach ($properties['needs'] as $uri) {
 												$output['needs'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -389,7 +390,7 @@ class WebserviceTools
 										foreach ($properties['offers'] as $uri) {
 												$output['offers'][] = [
 													'uri'  => $uri,
-													'name' => $this->sfClient->dbPediaLabel($uri),
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 												];
 										}
 								}
@@ -467,7 +468,7 @@ class WebserviceTools
 						foreach ($properties['hasSubject'] as $uri) {
 								$output['hasSubject'][] = [
 									'uri'  => $uri,
-									'name' => $this->sfClient->dbPediaLabel($uri),
+									'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
 								];
 						}
 				}

@@ -198,7 +198,8 @@ class WebserviceController extends Controller
     public function ressourceAction(Request $request){
         $uri                = $request->get('uri');
         $sfClient           = $this->container->get('semantic_forms.client');
-        $nameRessource      = $sfClient->dbPediaLabel($uri);
+				$dbpediaConf				= $this->getParameter('dbpediaConf');
+				$ressource      = $sfClient->dbPediaDetail($dbpediaConf,$uri,$request->getLanguages()[0]);
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
@@ -206,16 +207,15 @@ class WebserviceController extends Controller
 					->addPrefix('pair','http://virtual-assembly.org/pair#')
             ->addSelect('?type')
             ->addSelect('?uri')
+            ->addSelect('?image')
 					->addSelect('( COALESCE(?firstName, "") As ?result_1)')
 					->addSelect('( COALESCE(?lastName, "") As ?result_2)')
 					->addSelect('( COALESCE(?name, "") As ?result_3)')
-					->addSelect('( COALESCE(?skos, "") As ?result_4)')
-					->addSelect('(fn:concat(?result_4,?result_3,?result_2, " ", ?result_1) as ?label)')
+					->addSelect('(fn:concat(?result_3,?result_2, " ", ?result_1) as ?label)')
 					->addWhere('?uri','rdf:type','?type','?gr')
 					->addOptional('?uri','pair:firstName','?firstName','?gr')
 					->addOptional('?uri','pair:lastName','?lastName','?gr')
 					->addOptional('?uri','pair:preferedLabel','?name','?gr')
-					->addOptional('?uri','skos:prefLabel','?skos','?gr')
 					->addOptional('?uri','pair:comment','?desc','?gr')
 					->addOptional('?uri','pair:image','?image','?gr');
         $ressourcesNeeded = clone $sparql;
@@ -226,20 +226,35 @@ class WebserviceController extends Controller
         $ressourcesProposed->addWhere('?uri','pair:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
         $requests['ressourcesProposed'] =$ressourcesProposed->getQuery();
 
+				$ressourcesProposed = clone $sparql;
+				$ressourcesProposed->addWhere('?uri','pair:hasSubject',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+				$requests['hasSubject'] =$ressourcesProposed->getQuery();
 
-        $filtered['name'] = $nameRessource;
-        $filtered['uri'] = $uri;
+				$results['detail'] = $ressource;
+				$results['uri'] = $uri;
         foreach ($requests as $key => $request){
             //dump($request);
-            $results[$key]  = $sfClient->sparql($request);
-            $results[$key] = is_array($results[$key]) ? $sfClient->sparqlResultsValues(
-                $results[$key]
+            $resultsTemp = $sfClient->sparql($request);
+						$results[$key]  = [];
+
+						$resultsTemp = is_array($resultsTemp) ? $sfClient->sparqlResultsValues(
+							$resultsTemp
             ) : [];
-            $filtered[$key] = $this->filter($results[$key]);
+
+						$resultsTemp = $this->filter($resultsTemp);
+						foreach ($resultsTemp as $resultTemp){
+								if(array_key_exists('type',$resultTemp)){
+										if(!array_key_exists($this->entitiesTabs[$resultTemp['type']]['nameType'],$results[$key]))
+												$results[$key][$this->entitiesTabs[$resultTemp['type']]['nameType']] = [];
+
+										array_push($results[$key][$this->entitiesTabs[$resultTemp['type']]['nameType']],$resultTemp);
+								}
+						}
+
         }
         return new JsonResponse(
             (object)[
-                'ressource' => $filtered,
+                'ressource' => $results,
             ]
         );
     }

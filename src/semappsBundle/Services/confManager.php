@@ -20,7 +20,8 @@ class confManager
 		private $proposalConf;
 		private $documentConf;
 		private $documenttypeConf;
-		public function __construct(	 $personConf, $organisationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf){
+		private $dbpedia;
+		public function __construct(	 $personConf, $organisationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf,$dbpedia){
 				$this->personConf = $personConf;
 				$this->organisationConf = $organisationConf;
 				$this->projectConf = $projectConf;
@@ -28,8 +29,9 @@ class confManager
 				$this->proposalConf = $proposalConf;
 				$this->documentConf = $documentConf;
 				$this->documenttypeConf = $documenttypeConf;
+				$this->dbpedia = $dbpedia;
 		}
-		public function getConf($type){
+		public function getConf($type = null){
 
 				$conf = null;
 				switch ($type){
@@ -54,6 +56,8 @@ class confManager
 						case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
 								$conf = $this->documenttypeConf;
 								break;
+						default:
+								$conf = $this->dbpedia;
 				}
 				return $conf;
 		}

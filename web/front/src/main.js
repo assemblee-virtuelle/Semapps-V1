@@ -15,7 +15,7 @@
       log(mainComponent);
       window.semapps = this;
       this.baseUrl = '/';
-      this.myRoute = 'detail';
+      this.myRoute = window.location.pathname.replace(/\//g, '');
       this.mainComponent = mainComponent;
       this.firstSearch = true;
       this.$window = $(window);
