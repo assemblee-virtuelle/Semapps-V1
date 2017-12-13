@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/assemblee-virtuelle/SemanticFormsBundle.git",
-                "reference": "d56c5d3ed6c676bd9de90a91e720176e03b1cb6b"
+                "reference": "3e7d77af161ea131792e5f95d20496e2b7864030"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/assemblee-virtuelle/SemanticFormsBundle/zipball/d56c5d3ed6c676bd9de90a91e720176e03b1cb6b",
-                "reference": "d56c5d3ed6c676bd9de90a91e720176e03b1cb6b",
+                "url": "https://api.github.com/repos/assemblee-virtuelle/SemanticFormsBundle/zipball/3e7d77af161ea131792e5f95d20496e2b7864030",
+                "reference": "3e7d77af161ea131792e5f95d20496e2b7864030",
                 "shasum": ""
             },
             "type": "symfony-bundle",
@@ -48,7 +48,7 @@
                 "source": "https://github.com/assemblee-virtuelle/SemanticFormsBundle/tree/master",
                 "issues": "https://github.com/assemblee-virtuelle/SemanticFormsBundle/issues"
             },
-            "time": "2017-12-12T15:13:29+00:00"
+            "time": "2017-12-13T15:00:18+00:00"
         },
         {
             "name": "VirtualAssembly/SparqlBundle",

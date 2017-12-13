@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
+use VirtualAssembly\SemanticFormsBundle\Form\MultipleType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
@@ -42,13 +43,13 @@ class PersonType extends SemanticFormType
 					)
 					->add($builder, 'comment', TextType::class,['required' => false,])
 					->add(
-                $builder,
-                'aboutPage',
-                UrlType::class,
-                [
-                    'required' => false,
-                ]
-            )
+						$builder,
+						'aboutPage',
+						MultipleType::class,
+						[
+								'required' => false,
+						]
+					)
 					->add(
 						$builder,
 						'homePage',

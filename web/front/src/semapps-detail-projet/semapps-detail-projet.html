@@ -54,12 +54,14 @@
                   </td>
                 </tr>
               </template>
-                <template is="dom-if" if="[[aboutPage]]">
+              <template is="dom-if" if="[[aboutPage]]">
+                <template is="dom-repeat" items="{{aboutPage}}">
                   <tr class="field">
-                    <td class="fieldLabel">Autre site</td>
-                    <td>[[aboutPage]]</td>
+                    <td class="fieldLabel">Autre lien</td>
+                    <td><a href="[[item]]" target="_blank">[[item]]</a>
                   </tr>
                 </template>
+              </template>
               <template is="dom-if" if="[[data.uri]]">
                 <tr class="field">
                   <td class="fieldLabel">uri</td>

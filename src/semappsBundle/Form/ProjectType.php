@@ -57,7 +57,7 @@ class ProjectType extends SemanticFormType
 					->add(
 						$builder,
 						'aboutPage',
-						UrlType::class,
+						MultipleType::class,
 						[
 							'required' => false,
 						]

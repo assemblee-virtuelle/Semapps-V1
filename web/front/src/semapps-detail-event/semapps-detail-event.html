@@ -44,11 +44,12 @@
                 </tr>
               </template>
               <template is="dom-if" if="[[aboutPage]]">
-                <tr class="field">
-                  <td class="fieldLabel">Autre site</td>
-                  <td><a href="[[aboutPage]]" target="_blank">[[aboutPage]]</a>
-                  </td>
-                </tr>
+                <template is="dom-repeat" items="{{aboutPage}}">
+                  <tr class="field">
+                    <td class="fieldLabel">Autre lien</td>
+                    <td><a href="[[item]]" target="_blank">[[item]]</a>
+                  </tr>
+                </template>
               </template>
 
                 <template is="dom-if" if="[[comment]]">

@@ -18,6 +18,15 @@
     </div>
 {% endblock %}
 
+{% block multiple_widget %}
+    <div class="select2-tags" data-sf-type="multiple" data-sf-lookup="https://api-adresse.data.gouv.fr/search/" >
+        <div class="tags"></div>
+        <select class="tags-selector" multiple="multiple" >
+        </select>
+        <textarea class="tags-value" {{ block('widget_attributes') }} >{{ value }}</textarea>
+    </div>
+{% endblock %}
+
 {% block uri_widget %}
 
     <div class="select2-tags" data-sf-type="uri" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}">
