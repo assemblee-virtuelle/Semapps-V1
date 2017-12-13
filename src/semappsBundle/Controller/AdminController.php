@@ -285,24 +285,26 @@ class AdminController extends UniqueComponentController
           ->getManager()
           ->getRepository('semappsBundle:User')
           ->find($userId);
-        $organisation = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:Organisation')
-          ->find($user->getFkOrganisation());
-        $url = $this->generateUrl(
-          'fos_user_registration_confirm',
-          array('token' => $user->getConfirmationToken()),
-          UrlGeneratorInterface::ABSOLUTE_URL
-        );
-        //send email to the new user
-        $mailer = $this->get('semappsBundle.EventListener.SendMail');
-        $result = $mailer->sendConfirmMessage(
-          ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
-            $user,
-            $organisation,
-            $url
-          );
+
+				$url = $this->generateUrl(
+					'fos_user_registration_confirm',
+					array('token' => $user->getConfirmationToken()),
+					UrlGeneratorInterface::ABSOLUTE_URL
+				);
+				$organisation = ($user->getFkOrganisation())?$this
+					->getDoctrine()
+					->getManager()
+					->getRepository('semappsBundle:Organisation')
+					->find($user->getFkOrganisation()) : null;
+				//send email to the new user
+				$mailer = $this->get('semappsBundle.EventListener.SendMail');
+				$result = $mailer->sendConfirmMessage(
+					($organisation != null && $user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
+					$user,
+					$organisation,
+					$url
+				);
+
         if($result){
             $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
         }
