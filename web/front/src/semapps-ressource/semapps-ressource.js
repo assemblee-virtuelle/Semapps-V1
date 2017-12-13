@@ -51,6 +51,7 @@ Polymer({
         this.ressourcesNeeded = data.ressourcesNeeded;
         this.ressourcesProposed = data.ressourcesProposed;
         this.hasSubject = data.hasSubject;
+        this.skill = data.skill;
         this.title = data.name;
         this.detail = data.detail;
         this.loading = false;

@@ -218,17 +218,22 @@ class WebserviceController extends Controller
 					->addOptional('?uri','pair:preferedLabel','?name','?gr')
 					->addOptional('?uri','pair:comment','?desc','?gr')
 					->addOptional('?uri','pair:image','?image','?gr');
-        $ressourcesNeeded = clone $sparql;
-        $ressourcesNeeded->addWhere('?uri','pair:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourceQuery = clone $sparql;
+        $ressourceQuery->addWhere('?uri','pair:needs',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
 
-        $requests['ressourcesNeeded'] = $ressourcesNeeded->getQuery();
-        $ressourcesProposed = clone $sparql;
-        $ressourcesProposed->addWhere('?uri','pair:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
-        $requests['ressourcesProposed'] =$ressourcesProposed->getQuery();
+        $requests['ressourcesNeeded'] = $ressourceQuery->getQuery();
+        $ressourceQuery = clone $sparql;
+        $ressourceQuery->addWhere('?uri','pair:offers',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $requests['ressourcesProposed'] =$ressourceQuery->getQuery();
 
-				$ressourcesProposed = clone $sparql;
-				$ressourcesProposed->addWhere('?uri','pair:hasSubject',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
-				$requests['hasSubject'] =$ressourcesProposed->getQuery();
+				$ressourceQuery = clone $sparql;
+				$ressourceQuery->addWhere('?uri','pair:hasSubject',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+				$requests['hasSubject'] =$ressourceQuery->getQuery();
+
+				$ressourceQuery = clone $sparql;
+				$ressourceQuery->addWhere('?uri','pair:Skill',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+				$requests['skill'] =$ressourceQuery->getQuery();
+
 
 				$results['detail'] = $ressource;
 				$results['uri'] = $uri;

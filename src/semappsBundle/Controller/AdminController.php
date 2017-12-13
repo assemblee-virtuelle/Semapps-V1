@@ -170,8 +170,8 @@ class AdminController extends UniqueComponentController
 										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
 										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
-								//dump($sparql->getQuery());
-								//exit;
+								dump($sparql->getQuery());
+								exit;
 						} else {
 								$user->setPictureName($oldPictureName);
 						}

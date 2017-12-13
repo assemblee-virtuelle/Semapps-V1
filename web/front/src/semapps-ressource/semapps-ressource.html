@@ -44,6 +44,14 @@
         </template>
       </div>
       <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[skill.person]]">
+          <h3>skill.person</h3>
+          <template is="dom-repeat" items="{{skill.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
         <!-- ressourcesNeeded -->
         <template is="dom-if" if="[[ressourcesNeeded.person]]">
           <h3>ressourcesNeeded.person</h3>

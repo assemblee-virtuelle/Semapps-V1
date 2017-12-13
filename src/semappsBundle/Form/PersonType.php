@@ -195,6 +195,14 @@ class PersonType extends SemanticFormType
 							'required'  => false,
 						]
 					)
+					->add(
+						$builder,
+						'skill',
+						DbPediaType::class,
+						[
+							'required'  => false,
+						]
+					)
 				;
 
         $builder->add(

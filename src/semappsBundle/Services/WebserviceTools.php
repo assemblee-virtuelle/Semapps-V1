@@ -360,6 +360,14 @@ class WebserviceTools
 												];
 										}
 								}
+								if (isset($properties['skill'])) {
+										foreach ($properties['skill'] as $uri) {
+												$output['skill'][] = [
+													'uri'  => $uri,
+													'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
+												];
+										}
+								}
 								break;
 						// Project.
 						case semappsConfig::URI_PAIR_PROJECT:

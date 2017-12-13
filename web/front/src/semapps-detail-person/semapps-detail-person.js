@@ -22,6 +22,7 @@ Polymer({
     this.internal_contributor = this.data.internal_contributor;
     this.internal_publisher = this.data.internal_publisher;
     this.hasSubject = this.data.hasSubject;
+    this.skill = this.data.skill;
     if (semapps.isMember()){
         this.addressTitle = this.address[0];
     }else{

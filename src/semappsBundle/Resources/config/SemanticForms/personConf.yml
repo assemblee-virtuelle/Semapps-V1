@@ -106,6 +106,9 @@ parameters:
         http://virtual-assembly.org/pair#internal_publisher: #person + orga
            value: 'internal_publisher'
            access: 'anonymous'
+        http://virtual-assembly.org/pair#Skill: #person + orga
+           value: 'skill'
+           access: 'anonymous'
 
       reverse:
         http://virtual-assembly.org/pair#knows: 'http://virtual-assembly.org/pair#knows'

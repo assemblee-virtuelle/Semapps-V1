@@ -115,6 +115,16 @@
             <div class="clearfix"></div>
           </div>
         </template>
+        <template is="dom-if" if="[[skill.length]]">
+          <h3>Ses Compétences</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{skill}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <!-- end of hasInterest -->
         <!-- knows -->
         <template is="dom-if" if="[[data.knows.person.length]]">
