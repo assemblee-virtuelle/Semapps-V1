@@ -3,12 +3,15 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Util\TokenGenerator;
 use semappsBundle\Entity\User;
 use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Form;
@@ -230,10 +233,70 @@ class AdminController extends UniqueComponentController
 					]
 				);
 		}
-    public function listUserAction()
+    public function listUserAction(Request $request)
     {
 
-        $users = $this
+				$form = $this->createForm(
+					UserType::class,
+					null,
+					// Options.
+					[]
+				);
+				$form->add('organisation',EntityType::class, [
+					'class' => 'semappsBundle:Organisation',
+					'query_builder' => function (EntityRepository $er) {
+							return $er->createQueryBuilder('u')
+								->orderBy('u.name', 'ASC');
+					},
+					'placeholder' =>'Choisir une organisation',
+					'choice_label' => 'name',
+					'required'   => false,
+					'mapped'  => false,
+				]);
+				$form->add(
+					'access',
+					HiddenType::class,
+					['data' => 'ROLE_MEMBER', 'mapped' =>false]
+					);
+
+				$form->handleRequest($request);
+
+				if ($form->isSubmitted() && $form->isValid()) {
+						// Get posted data of type user
+						$newUser = $form->getData();
+						/** @var \semappsBundle\Services\Encryption $encryption */
+						$encryption = $this->container->get('semappsBundle.encryption');
+						// Generate password.
+						/** @var TokenGenerator $tokenGenerator */
+						$tokenGenerator = $this->container->get(
+							'fos_user.util.token_generator'
+						);
+						$randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
+						$newUser->setPassword(
+							password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+						);
+
+						$newUser->setSfUser($encryption->encrypt($randomPassword));
+
+						// Generate the token for the confirmation email
+						$conf_token = $tokenGenerator->generateToken();
+						$newUser->setConfirmationToken($conf_token);
+
+						//Set the roles
+						$newUser->addRole($form->get('access')->getData());
+						$newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
+						// Save it.
+						$em = $this->getDoctrine()->getManager();
+						$em->persist($newUser);
+						try {
+								$em->flush();
+						} catch (UniqueConstraintViolationException $e) {
+								$this->addFlash('danger', "l'utilisateur saisi existe déjà");
+
+								return $this->redirectToRoute('users');
+						}
+				}
+						$users = $this
           ->getDoctrine()
           ->getManager()
           ->getRepository('semappsBundle:User')
@@ -259,7 +322,7 @@ class AdminController extends UniqueComponentController
                 $tabUserDisabled[$user->getId()]["username"] = $user->getUsername();
                 $tabUserDisabled[$user->getId()]["email"] = $user->getEmail();
                 $tabUserDisabled[$user->getId()]["organization"] = ($organization)? $organization->getName():null;
-                $tabUserDisabled[$user->getId()]["isResponsible"] = ($organization)? $organization->getName():null;
+                $tabUserDisabled[$user->getId()]["isResponsible"] = ($organization && $organization->getFkResponsable() == $user->getId())? true:false;
             }
 
         }
@@ -275,6 +338,7 @@ class AdminController extends UniqueComponentController
               'ROLE_ADMIN'       => 'Administration',
               'ROLE_MEMBER'      => 'Member',
             ],
+						'userForm'					=>$form->createView()
           )
         );
     }

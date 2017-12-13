@@ -11,7 +11,7 @@ Liste des user
     <div class="col-sm-12">
         <table id="userDisabledManager" class="table table-bordered">
             <th colspan="5">
-                <h3>Liste des utilisateurs n'ayant validé leur compte</h3>
+                <h3>Liste des utilisateurs n'ayant pas validé leur compte</h3>
             </th>
             <tr>
                 <th class="padded-value" style="width:25%">
@@ -100,6 +100,45 @@ Liste des user
                 </tr>
             {% endfor %}
         </table>
+        {% if is_granted('ROLE_ADMIN')%}
+            <h2>Ajouter</h2>
+            <div class="panel panel-gv">
+                <div class="panel-body">
+                    Vous pouvez créer des comptes pour les membres de votre équipe. Les
+                    editeurs auront la possibilité de modifier les informations
+                    relatives à
+                    votre organisation, les membres auront uniquement accès aux données
+                    de
+                    l'annuaire de SemApps.
+                </div>
+            </div>
+            {{ form_start(userForm) }}
+            {{ form_errors(userForm) }}
+            <div class="col col-sm-3">
+                <div class="form-group ">
+                    {{ form_row(userForm.username, { 'attr': {'class': 'form-control', 'placeholder':'Nom d\'utilisateur'} }) }}
+                </div>
+            </div>
+            <div class="col col-sm-3">
+                <div class="form-group ">
+                    {{ form_row(userForm.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'} }) }}
+
+                </div>
+            </div>
+            <div class="col col-sm-3">
+                <div class="form-group ">
+                    {{ form_row(userForm.organisation, { 'attr': {'class': 'form-control', 'placeholder':'Organisation'} }) }}
+
+                </div>
+            </div>
+            <div class="col col-sm-2">
+                {{ form_row(userForm.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
+            </div>
+            {{ form_row(userForm.access) }}
+
+            {{ form_end(userForm) }}
+
+        {% endif %}
     </div>
 
 </div>
