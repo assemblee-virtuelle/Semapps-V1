@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Form;
 
+use semappsBundle\Form\Type\YesNoType;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -41,6 +42,14 @@ class OrganisationMemberType extends AbstractType
               'mapped' => false,
             )
           )
+					->add(
+						'sendEmail',
+						YesNoType::class,
+						array(
+							'mapped' => false,
+							'label' => 'Email ?',
+						)
+					)
           ->add('submit', SubmitType::class, array());
 
     }

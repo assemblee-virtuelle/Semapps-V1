@@ -62,29 +62,6 @@ class Organisation
         return $this->name;
     }
 
-    /**
-     * Set batiment
-     *
-     * @param string $batiment
-     *
-     * @return Organisation
-     */
-    public function setBatiment($batiment)
-    {
-        $this->batiment = $batiment;
-
-        return $this;
-    }
-
-    /**
-     * Get batiment
-     *
-     * @return string
-     */
-    public function getBatiment()
-    {
-        return $this->batiment;
-    }
 
     /**
      * Set sfOrganisation

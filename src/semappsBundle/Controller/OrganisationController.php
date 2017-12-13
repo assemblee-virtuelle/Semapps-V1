@@ -53,7 +53,7 @@ class OrganisationController extends UniqueComponentController
                 return $this->redirectToRoute('all_orga');
             }
             $organisation->setGraphURI(
-              semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getBatiment().'-org'
+              semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getName().'-org'
             );
             $em->flush();
 
@@ -131,41 +131,52 @@ class OrganisationController extends UniqueComponentController
 
                 return $this->redirectToRoute('all_orga');
             }
-            $url = $this->generateUrl(
-              'fos_user_registration_confirm',
-              array('token' => $conf_token),
-              UrlGeneratorInterface::ABSOLUTE_URL
-            );
-            // send email to the new organization
-            $mailer = $this->get('semappsBundle.EventListener.SendMail');
-            $result = $mailer->sendConfirmMessage(
-                $mailer::TYPE_RESPONSIBLE,
-                $user,
-                $organisation,
-                $url
-              );
+						$sendEmail = $form->get('sendEmail')->getData();
+						if($sendEmail){
+								$url = $this->generateUrl(
+									'fos_user_registration_confirm',
+									array('token' => $conf_token),
+									UrlGeneratorInterface::ABSOLUTE_URL
+								);
+								// send email to the new organization
+								$mailer = $this->get('semappsBundle.EventListener.SendMail');
+								$result = $mailer->sendConfirmMessage(
+									$mailer::TYPE_RESPONSIBLE,
+									$user,
+									$organisation,
+									$url
+								);
 
-            // TODO Grant permission to edit same organisation as current user.
-            // Display message.
-            if($result){
-            $this->addFlash(
-              'success',
-              'Un compte à bien été créé pour <b>'.
-              $user->getUsername().
-              '</b>. Un email a été envoyé à <b>'.
-              $user->getEmail().
-              '</b> pour lui communiquer ses informations de connexion.'
-            );
-            }else{
-                $this->addFlash(
-                  'danger',
-                  'Un compte à bien été créé pour <b>'.
-                  $user->getUsername().
-                  "</b>. mais l'email n'est pas parti à l'adresse <b>".
-                  $user->getEmail().
-                  '</b>'
-                );
-            }
+								// TODO Grant permission to edit same organisation as current user.
+								// Display message.
+								if($result){
+										$this->addFlash(
+											'success',
+											'Un compte à bien été créé pour <b>'.
+											$user->getUsername().
+											'</b>. Un email a été envoyé à <b>'.
+											$user->getEmail().
+											'</b> pour lui communiquer ses informations de connexion.'
+										);
+								}else{
+										$this->addFlash(
+											'danger',
+											'Un compte à bien été créé pour <b>'.
+											$user->getUsername().
+											"</b>. mais l'email n'est pas parti à l'adresse <b>".
+											$user->getEmail().
+											'</b>'
+										);
+								}
+						}
+						else{
+								$this->addFlash(
+									'success',
+									'Un compte à bien été créé pour <b>'.
+									$user->getUsername()
+								);
+						}
+
             return $this->redirectToRoute('all_orga');
         }
 
