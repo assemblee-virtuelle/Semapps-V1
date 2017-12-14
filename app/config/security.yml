@@ -36,7 +36,6 @@ security:
         - { path: '^/mon-compte/person/form/{0,9}', role: ROLE_SUPER_ADMIN }
         - { path: ^/mon-compte/organisation/form$, role: ROLE_MEMBER }
         - { path: '^/mon-compte/organisation/form/{0,9}', role: ROLE_SUPER_ADMIN }
-        - { path: ^/mon-compte/invite, role: ROLE_ADMIN }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
         #administration.yml
         - { path: ^/administration/access, role: ROLE_ADMIN }
