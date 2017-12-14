@@ -27,7 +27,6 @@ abstract class UniqueComponentController extends AbstractComponentController
 				$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
 					'semappsBundle:Organisation'
 				);
-				$id = ($id != null)? $id : $this->getUser()->getFkOrganisation();
 				if ($id)
 						return $organisationEntity->find($id);
 				else

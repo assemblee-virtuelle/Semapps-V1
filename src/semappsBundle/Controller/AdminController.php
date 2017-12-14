@@ -120,13 +120,12 @@ class AdminController extends UniqueComponentController
 				/** @var SemanticFormsClient $sfClient */
 				$sfClient       = $this->container->get('semantic_forms.client');
 				/** @var $user \semappsBundle\Entity\User */
-				$user           = $this->getUser();
+				$user           = $this->getElement($id);
 				$userSfLink     = $user->getSfLink();
 				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
 				$sparqlClient   = $this->container->get('sparqlbundle.client');
 				$em = $this->getDoctrine()->getManager();
 				$oldPictureName = $user->getPictureName();
-				$organisation = $this->getOrga(null);
 				/** @var Form $form */
 				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
 
@@ -173,7 +172,6 @@ class AdminController extends UniqueComponentController
 										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
 										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
 								$sfClient->update($sparql->getQuery());
-								dump($sparql->getQuery());
 								exit;
 						} else {
 								$user->setPictureName($oldPictureName);
@@ -190,8 +188,10 @@ class AdminController extends UniqueComponentController
 							'success',
 							'Votre profil a bien été mis à jour.'
 						);
-
-						return $this->redirectToRoute('personComponentFormWithoutId', ["uniqueComponentName" => $uniqueComponentName]);
+						if(!$id)
+								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+						else
+								return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
 				}
 				// import
 				$importForm = null;
@@ -209,19 +209,10 @@ class AdminController extends UniqueComponentController
 								$em->flush();
 								//importer le profile
 								$sfClient->import($uri);
-								//déplacer dans le graph de l'orga
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
-								$graphFormatted = $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL);
-
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#');
-								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addInsert("?s","?p","?o",$graphFormatted);
-								//dump($sparql->getQuery());
-								$sfClient->update($sparql->getQuery());
-
-								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+								if(!$id)
+										return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+								else
+										return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
 						}
 				}
 				// Fill form
@@ -653,15 +644,31 @@ class AdminController extends UniqueComponentController
         return $this->redirectToRoute('team');
     }
 
-
+		//all be modified
 		public function getElement($id =null)
 		{
-			return $this->getUser();
+				$userManager         = $this->getDoctrine()
+					->getManager()
+					->getRepository(
+						'semappsBundle:User'
+					);
+				if ($id){
+						return $userManager->find($id);
+				}
+				else{
+						return $this->getUser();
+
+				}
 		}
 
 		public function getSfLink($id = null)
 		{
-				return $this->getUser()->getSfLink();
+				if ($id){
+						return $this->getElement($id)->getSfLink();
+				}
+				else{
+						return $this->getUser()->getSfLink();
+				}
 		}
 
 		public function getGraph($id = null)
