@@ -50,7 +50,7 @@ class OrganisationController extends UniqueComponentController
                   "le nom de l'orgnanisation que vous avez saisi est déjà présent"
                 );
 
-                return $this->redirectToRoute('all_orga');
+                return $this->redirectToRoute('orgaList');
             }
             $organisation->setGraphURI(
               semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getName().'-org'
@@ -102,7 +102,7 @@ class OrganisationController extends UniqueComponentController
                   "l'utilisateur saisi est déjà présent"
                 );
 
-                return $this->redirectToRoute('all_orga');
+                return $this->redirectToRoute('orgaList');
             }
 
             $organisation->setFkResponsable($user->getId());
@@ -129,7 +129,7 @@ class OrganisationController extends UniqueComponentController
                   "Problème lors de la mise à jour des champs, veuillez contacter un administrateur"
                 );
 
-                return $this->redirectToRoute('all_orga');
+                return $this->redirectToRoute('orgaList');
             }
 						$sendEmail = $form->get('sendEmail')->getData();
 						if($sendEmail){
@@ -177,7 +177,7 @@ class OrganisationController extends UniqueComponentController
 								);
 						}
 
-            return $this->redirectToRoute('all_orga');
+            return $this->redirectToRoute('orgaList');
         }
 
         return $this->render(
@@ -234,7 +234,7 @@ class OrganisationController extends UniqueComponentController
         $writer->setDelimiter(";");
         $writer->saveFile('SemApps-'.date('Y_m_d'));
 
-        return $this->redirectToRoute('all_orga');
+        return $this->redirectToRoute('orgaList');
     }
 
     public function orgaDeleteAction($orgaId)
@@ -272,7 +272,7 @@ class OrganisationController extends UniqueComponentController
             );
         }
 
-        return $this->redirectToRoute('all_orga');
+        return $this->redirectToRoute('orgaList');
     }
 
 		public function addAction($uniqueComponentName,$id =null,Request $request)
@@ -403,7 +403,8 @@ class OrganisationController extends UniqueComponentController
 
 		public function getSfLink($id = null)
 		{
-				return $this->getElement($id)->getSfOrganisation();
+				$sfLink = $this->getElement($id)->getSfOrganisation();
+				return ($sfLink)? $sfLink:null;
 		}
 		public function getGraph($id = null)
 		{

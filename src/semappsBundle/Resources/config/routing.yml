@@ -4,51 +4,23 @@ account:
 webservice:
     resource: "@semappsBundle/Resources/config/routing/webservice.yml"
     prefix:   /webservice
+administration:
+    resource: "@semappsBundle/Resources/config/routing/administration.yml"
+    prefix:   /administration
 
 ### carto ###
 index:
     path:     /
     defaults: { _controller: semappsBundle:WebSite:index }
-
 searchBuildingTerm:
     path:     /rechercher/{building}/{term}
     defaults: { _controller: semappsBundle:WebSite:index,building: partout,term: null }
 detail:
     path:     /detail
     defaults: { _controller: semappsBundle:WebSite:index }
-
 ressource:
     path:     /ressource
     defaults: { _controller: semappsBundle:WebSite:index }
-### administration ###
-# admin Controller #
-# tested
-
 register:
     path:     /register
     defaults: { _controller: semappsBundle:Admin:register }
-
-users:
-    path:     /users
-    defaults: { _controller: semappsBundle:Admin:listUser }
-
-sendUser:
-    path:     /users/send/{userId}/{nameRoute}
-    defaults: { _controller: semappsBundle:Admin:sendUser }
-## tested
-# tested
-
-# tested
-settings:
-    path:     /parametres
-    defaults: { _controller: semappsBundle:Admin:settings }
-
-# orga Controller #
-all_orga:
-    path:     /orga/all
-    defaults: { _controller: semappsBundle:Organisation:all }
-
-orgaExport:
-    path:     /orga-export/csv
-    defaults: { _controller: semappsBundle:Organisation:orgaExport }
-

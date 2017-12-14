@@ -27,7 +27,7 @@ class AdminControllerTest extends toolsFormTest
           'passwordNewConfirm' => [$this->password],
         ];
         self::testLogin();
-        $this->crawler = $this->client->request('GET','/parametres');
+        $this->crawler = $this->client->request('GET','/mon-compte/parametres');
         self::assertGreaterThan(0,$this->crawler->filter('html:contains("'.$formButtonName.'")')->count());
         $this->getForm($formButtonName);
         $this->setForm('grandsvoisinsbundle_user',$field,0);
@@ -37,7 +37,7 @@ class AdminControllerTest extends toolsFormTest
         self::assertEquals('test_php_new',$this->form["grandsvoisinsbundle_user[username]"]->getValue());
         $this->testLogout();
         $this->login('test_php_new','newPassword');
-        $this->crawler = $this->client->request('GET', '/parametres');
+        $this->crawler = $this->client->request('GET', '/mon-compte/parametres');
         $this->getForm($formButtonName);
         $this->setForm('grandsvoisinsbundle_user',$fieldBack,0);
         $this->crawler = $this->client->submit($this->form);
@@ -69,7 +69,7 @@ class AdminControllerTest extends toolsFormTest
         self::assertEquals(1,$this->crawler->filter('#delete-'.$field['username'][0])->count());
         $userId = $this->crawler->filter('#delete-'.$field['username'][0])->attr('rel');
 
-        $this->crawler = $this->client->request('GET','/mon-compte/user/delete/' . $userId);
+        $this->crawler = $this->client->request('GET','/administration/user/'.$userId.'/delete' );
         $this->crawler = $this->client->followRedirect();
         $this->debugContent();
         self::assertEquals(1,$this->crawler->filter('html:contains("a bien été supprimé")')->count());

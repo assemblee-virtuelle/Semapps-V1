@@ -4,19 +4,9 @@ home:
 team:
     path:     /invite
     defaults: { _controller: semappsBundle:Admin:team }
-# tested
-# todo: /mon-compte/user/{userId}/delete
-userDelete:
-    path:     /user/delete/{userId}
-    defaults: { _controller: semappsBundle:Admin:userDelete }
-# todo: /mon-compte/access/{userId}/change/{roles}
-changeAccess:
-    path:    /access/change/{userId}/{roles}
-    defaults: { _controller: semappsBundle:Admin:changeAccess }
-orgaDelete:
-    path:     /orga/delete/{orgaId}
-    defaults: { _controller: semappsBundle:Organisation:orgaDelete }
-
+settings:
+    path:     /parametres
+    defaults: { _controller: semappsBundle:Admin:settings }
 orgaComponentForm:
     path:     /{uniqueComponentName}/form/{id}
     defaults: { _controller: semappsBundle:Organisation:add}
@@ -40,9 +30,6 @@ personComponentFormWithoutId:
     defaults: { _controller: semappsBundle:Admin:add}
     requirements:
       uniqueComponentName: 'person'
-
-# component Controller #
-# tested
 componentDelete:
     path:     /component/{componentName}/delete
     defaults: { _controller: semappsBundle:Component:remove }
@@ -54,7 +41,6 @@ componentList:
 componentForm:
     path:     /component/{componentName}/form
     defaults: { _controller: semappsBundle:Component:add}
-### site ###
 site:
     path:     /sites
     defaults: { _controller: semappsBundle:SiteFederation:manageSite }

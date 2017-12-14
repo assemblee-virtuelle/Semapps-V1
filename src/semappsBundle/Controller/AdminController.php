@@ -284,7 +284,7 @@ class AdminController extends UniqueComponentController
 						} catch (UniqueConstraintViolationException $e) {
 								$this->addFlash('danger', "l'utilisateur saisi existe déjà");
 
-								return $this->redirectToRoute('users');
+								return $this->redirectToRoute('userList');
 						}
 				}
 						$users = $this
@@ -323,7 +323,7 @@ class AdminController extends UniqueComponentController
           array(
             'userEnabled'      => $tabUserEnabled,
             'userDisabled'     => $tabUserDisabled,
-            'nameRoute'        => 'users',
+            'nameRoute'        => 'userList',
             'usersRolesLabels' => [
               'ROLE_SUPER_ADMIN' => 'Super admin',
               'ROLE_ADMIN'       => 'Administration',

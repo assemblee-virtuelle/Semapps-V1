@@ -11,7 +11,7 @@ class CartoAdminPageTeam extends CartoAdminPage {
       this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer ce compte ? ' +
         'Toutes les informations du profil seront perdues, ' +
         'et le membre n\'aura plus accès au site.', () => {
-        window.location.replace('/mon-compte/user/delete/' + userId);
+        window.location.replace('/administration/user/'+ userId+'/delete' );
       });
     });
 
@@ -22,7 +22,7 @@ class CartoAdminPageTeam extends CartoAdminPage {
       // Manage select changes.
       $this.find('select[name=accessLevel]').change(function () {
           let roles = $(this).val();
-          window.location.replace('/mon-compte/access/change/' + userId + '/' + roles);
+          window.location.replace('/administration/access/'+ userId +'/change/'+ roles);
       });
     });
   }

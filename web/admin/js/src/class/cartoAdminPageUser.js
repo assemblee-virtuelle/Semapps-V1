@@ -9,7 +9,7 @@ class CartoAdminPageUser extends CartoAdminPage {
       let userId = $(e.currentTarget).attr('rel');
       let nameRoute = $(e.currentTarget).attr('nameRoute');
       // Use custom modal for message.
-       window.location.replace('/users/send/' + userId +'/'+nameRoute);
+       window.location.replace('/administration/user/'+userId+'/send/' +nameRoute);
     });
 
 
