@@ -110,11 +110,13 @@
                                         {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
                                         {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
                                     {% endif %}
+                                    {% if is_granted("ROLE_ADMIN") %}
                                     <li class="main">
                                         <h5>
                                             Administration
                                         </h5>
                                     </li>
+                                    {% endif %}
                                     {% if app.user.fkOrganisation %}
                                         {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
                                     {% endif %}
