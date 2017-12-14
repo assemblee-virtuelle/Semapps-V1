@@ -1,16 +1,15 @@
 userDelete:
     path:     /user/{userId}/delete
     defaults: { _controller: semappsBundle:Admin:userDelete }
-changeAccess:
-    path:    /access/{userId}/change/{roles}
-    defaults: { _controller: semappsBundle:Admin:changeAccess }
 userList:
     path:     /user/list
     defaults: { _controller: semappsBundle:Admin:listUser }
 sendUser:
     path:     /user/{userId}/send/{nameRoute}
     defaults: { _controller: semappsBundle:Admin:sendUser }
-
+changeAccess:
+    path:    /access/{userId}/change/{roles}
+    defaults: { _controller: semappsBundle:Admin:changeAccess }
 orgaDelete:
     path:     /organisation/{orgaId}/delete
     defaults: { _controller: semappsBundle:Organisation:orgaDelete }

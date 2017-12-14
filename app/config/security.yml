@@ -29,17 +29,12 @@ security:
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register/confirm, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: ROLE_NO_ACCESS }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/mon-compte/documentType/, role: ROLE_SUPER_ADMIN }
+        #account.yml
+        - { path: ^/mon-compte/invite, role: ROLE_ADMIN }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
-        - { path: ^/orga/detail, role: ROLE_MEMBER }
-        - { path: ^/orga/save, role: ROLE_MEMBER }
-        - { path: ^/orga/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/component/, role: ROLE_MEMBER }
-        - { path: ^/component/new, role: ROLE_MEMBER }
-        - { path: ^/user/send/, role: ROLE_ADMIN }
-        - { path: ^/user, role: ROLE_SUPER_ADMIN }
-        - { path: ^/mon-compte/food, role: ROLE_SUPER_ADMIN }
-
+        #administration.yml
+        - { path: ^/administration/access, role: ROLE_ADMIN }
+        - { path: ^/administration/user/list, role: ROLE_SUPER_ADMIN }
+        - { path: ^/administration/user, role: ROLE_ADMIN }
+        - { path: ^/administration, role: ROLE_SUPER_ADMIN }
