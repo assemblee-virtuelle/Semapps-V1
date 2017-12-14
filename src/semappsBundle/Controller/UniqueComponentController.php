@@ -30,7 +30,7 @@ abstract class UniqueComponentController extends AbstractComponentController
 				if ($id)
 						return $organisationEntity->find($id);
 				else
-						return null;
+						return $organisationEntity->find($this->getUser()->getFkOrganisation());
 
 
 		}
