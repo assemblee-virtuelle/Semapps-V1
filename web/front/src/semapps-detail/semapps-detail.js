@@ -46,7 +46,6 @@ Polymer({
 
   detailLoad (encodedUri) {
     "use strict";
-    semapps.map.pinHideAll();
     if( semapps.myRoute === "detail") {
       // Show spinner.
       this.loading = true;
