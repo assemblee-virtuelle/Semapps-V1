@@ -65,7 +65,6 @@ Polymer({
     "use strict";
     // Show detail content.
     data = data.responseJSON.detail || {};
-    log(data);
     this.$.detail.style.display = '';
     data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
     if(data.properties.address ){
@@ -78,8 +77,6 @@ Polymer({
       }
     }
 
-    // Create inner depending of type.
-      log(semapps.entities[data.properties.type].nameType.toLowerCase());
     let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
