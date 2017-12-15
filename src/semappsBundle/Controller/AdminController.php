@@ -10,6 +10,7 @@ use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
+use semappsBundle\Services\SparqlRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -122,8 +123,8 @@ class AdminController extends UniqueComponentController
 				/** @var $user \semappsBundle\Entity\User */
 				$user           = $this->getElement($id);
 				$userSfLink     = $user->getSfLink();
-				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-				$sparqlClient   = $this->container->get('sparqlbundle.client');
+				/** @var SparqlRepository $sparqlRepository */
+				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
 				$em = $this->getDoctrine()->getManager();
 				$oldPictureName = $user->getPictureName();
 				/** @var Form $form */
@@ -148,31 +149,8 @@ class AdminController extends UniqueComponentController
 								$user->setPictureName(
 									$fileUploader->upload($newPicture)
 								);
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addDelete(
-										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL))
-									->addWhere(
-										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-								//dump($sparql->getQuery());
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addInsert(
-										$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										$sparql->formatValue($fileUploader->generateUrlForFile($user->getPictureName()),$sparql::VALUE_TYPE_TEXT),
-										$sparql->formatValue($form->uri,$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-								exit;
+								$sparqlRepository->changeImage($form->uri,$form->uri,$fileUploader->generateUrlForFile($user->getPictureName()));
+
 						} else {
 								$user->setPictureName($oldPictureName);
 						}
@@ -375,8 +353,8 @@ class AdminController extends UniqueComponentController
     {
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
+				/** @var SparqlRepository $sparqlRepository */
+				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
         // Find all users.
         $userManager         = $this->getDoctrine()
             ->getManager()
@@ -405,7 +383,7 @@ class AdminController extends UniqueComponentController
         foreach ($users as $user){
             //TODO make function to find something about someone
 						/** @var sparqlSelect $sparql */
-            $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
+            $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
             $sparql->addPrefixes($sparql->prefixes)
 							->addPrefix('pair','http://virtual-assembly.org/pair#')
                 ->addSelect('?name')

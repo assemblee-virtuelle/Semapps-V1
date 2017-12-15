@@ -7,6 +7,7 @@ use semappsBundle\Entity\Organisation;
 use semappsBundle\Entity\User;
 use semappsBundle\Form\OrganisationMemberType;
 use semappsBundle\semappsConfig;
+use semappsBundle\Services\SparqlRepository;
 use SimpleExcel\SimpleExcel;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -279,8 +280,8 @@ class OrganisationController extends UniqueComponentController
 		{
 				$sfClient       = $this->container->get('semantic_forms.client');
 				$organization = $this->getOrga($id);
-				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-				$sparqlClient   = $this->container->get('sparqlbundle.client');
+				/** @var SparqlRepository $sparqlRepository */
+				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
 				$em = $this->getDoctrine()->getManager();
 				$sfLink = $this->getSfLink($id);
 				$oldPictureName = $organization->getOrganisationPicture();
@@ -305,32 +306,7 @@ class OrganisationController extends UniqueComponentController
 								$organization->setOrganisationPicture(
 									$fileUploader->upload($newPicture)
 								);
-
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addDelete(
-										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL))
-									->addWhere(
-										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										'?o',
-										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#')
-									->addInsert(
-										$sparql->formatValue($sfLink, $sparql::VALUE_TYPE_URL),
-										'pair:image',
-										$sparql->formatValue($fileUploader->generateUrlForFile($organization->getOrganisationPicture()),$sparql::VALUE_TYPE_TEXT),
-										$sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL));
-								$sfClient->update($sparql->getQuery());
-
+								$sparqlRepository->changeImage($organization->getGraphURI(),$sfLink,$fileUploader->generateUrlForFile($organization->getOrganisationPicture()));
 						} else {
 								$organization->setOrganisationPicture($oldPictureName);
 						}
@@ -365,10 +341,10 @@ class OrganisationController extends UniqueComponentController
 								$organization->setSfOrganisation($uri);
 								$em->persist($organization);
 								$em->flush();
-								//importer le profile
+								//importer le profil
 								$sfClient->import($uri);
 								//déplacer dans le graph de l'orga
-								$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT);
+								$sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT);
 								$graphFormatted = $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL);
 
 								$sparql->addPrefixes($sparql->prefixes)

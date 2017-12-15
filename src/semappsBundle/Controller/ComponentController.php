@@ -3,6 +3,7 @@
 namespace semappsBundle\Controller;
 
 
+use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class ComponentController extends AbstractMultipleComponentController
@@ -10,8 +11,8 @@ class ComponentController extends AbstractMultipleComponentController
 
 		public function addAction($componentName,Request $request)
 		{
-				/** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-				$sparqlClient = $this->container->get('sparqlbundle.client');
+				/** @var SparqlRepository $sparqlRepository */
+				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
 				$this->setSfLink($request->get('uri'));
 				$graphURI			= $this->getGraph();
 				$sfClient       = $this->container->get('semantic_forms.client');
@@ -21,7 +22,7 @@ class ComponentController extends AbstractMultipleComponentController
 				$fileUploader = $this->get('semappsBundle.fileUploader');
 				$pictureDir = $fileUploader->getTargetDir();
 				//actualPicture
-				$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
+				$sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
 				$sparql->addPrefixes($sparql->prefixes)
 					->addPrefix('pair', 'http://virtual-assembly.org/pair#')
 					->addSelect('?oldImage')
@@ -51,31 +52,7 @@ class ComponentController extends AbstractMultipleComponentController
 												}
 										}
 										$newPictureName = $fileUploader->upload($newPicture);
-
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
-											->addDelete(
-												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-												'pair:image',
-												'?o',
-												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL))
-											->addWhere(
-												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-												'pair:image',
-												'?o',
-												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
-										$sfClient->update($sparql->getQuery());
-
-										$sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_INSERT_DATA);
-										$sparql->addPrefixes($sparql->prefixes)
-											->addPrefix('pair', 'http://virtual-assembly.org/pair#')
-											->addInsert(
-												$sparql->formatValue($form->uri, $sparql::VALUE_TYPE_URL),
-												'pair:image',
-												$sparql->formatValue($fileUploader->generateUrlForFile($newPictureName), $sparql::VALUE_TYPE_TEXT),
-												$sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
-										$sfClient->update($sparql->getQuery());
+										$sparqlRepository->changeImage($graphURI,$form->uri,$fileUploader->generateUrlForFile($newPictureName));
 								}
 								$this->addFlash('info', "l'image a été rajouté avec succès");
 								return $this->redirectToRoute(
