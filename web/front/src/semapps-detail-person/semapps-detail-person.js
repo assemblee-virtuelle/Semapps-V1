@@ -28,11 +28,10 @@ Polymer({
     }else{
         this.addressTitle = "";
         let addressSplit = this.address[0].split(" ");
-        let testIsOk = false;
-        for (let i = addressSplit.length-1; i<0 || !testIsOk; i--){
+        for (let i = addressSplit.length-1; i>=0 ; i--){
             this.addressTitle= addressSplit[i]+" "+this.addressTitle;
             if (isNaN(addressSplit[i]) ===false)
-                testIsOk = true;
+                break;
         }
     }
 
