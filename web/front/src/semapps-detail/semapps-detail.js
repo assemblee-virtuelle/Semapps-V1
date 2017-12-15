@@ -63,7 +63,8 @@ Polymer({
   detailLoadComplete (data) {
     "use strict";
     // Show detail content.
-    data = data.responseJSON.detail || {};
+      semapps.map.pinHideAll();
+      data = data.responseJSON.detail || {};
     this.$.detail.style.display = '';
     data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
     if(data.properties.address ){

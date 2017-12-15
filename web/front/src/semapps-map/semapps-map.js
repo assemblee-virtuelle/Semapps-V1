@@ -120,16 +120,11 @@ Polymer({
      */
     pinHide(key) {
         "use strict";
-        log('start pinHide');
-        log('this.pins[key] !== undefined : '+this.pins[key] !== undefined);
-        log('!this.pinAvailaible[key] : ' + !this.pinAvailaible[key]);
         if(this.pins[key] !== undefined && !this.pinAvailaible[key]){
             let marker = this.pins[key];
-            log('marker :' + marker);
             this.markers.removeLayer(marker);
             this.pinAvailaible[key] = true;
         }
-        log('stop pinHide');
 
     },
 
@@ -139,11 +134,9 @@ Polymer({
     pinHideAll() {
         "use strict";
         log('start pinHideAll');
-        log('pins : '+ this.pins);
+        log(this.pins);
         for (let key in this.pins){
-            log('key' + key);
             if (this.pins.hasOwnProperty(key)) {
-                log('pinHide' + key);
                 this.pinHide(key);
             }
         }
