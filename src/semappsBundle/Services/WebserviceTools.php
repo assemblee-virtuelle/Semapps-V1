@@ -80,7 +80,7 @@ class WebserviceTools
 							->addOptional('?uri','pair:image','?image','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR');
 						//->addOptional('?uri','pair:hostedIn','?building','?GR');
-						if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'")) ');
 						//dump($orgaSparql->getQuery());
 						$results = $this->sfClient->sparql($orgaSparql->getQuery());
 						$organizations = $this->sfClient->sparqlResultsValues($results);
@@ -99,7 +99,7 @@ class WebserviceTools
 							->addOptional('?uri','pair:lastName','?lastName','?GR')
 							->addOptional('?org','rdf:type','pair:Organization','?GR');
 						//->addOptional('?org','pair:hostedIn','?building','?GR');
-						if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'")) ');
+						if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
 						$personSparql->groupBy('?firstName ?lastName');
 						//dump($personSparql->getQuery());exit;
 						$results = $this->sfClient->sparql($personSparql->getQuery());
@@ -115,7 +115,7 @@ class WebserviceTools
 							->addOptional('?uri','pair:image','?image','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR');
 						//->addOptional('?uri','pair:building','?building','?GR');
-						if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
 						$results = $this->sfClient->sparql($projectSparql->getQuery());
 						$projects = $this->sfClient->sparqlResultsValues($results);
 
@@ -133,7 +133,7 @@ class WebserviceTools
 							->addOptional('?uri','pair:localizedBy','?Address','?GR')
 							->addOptional('?uri','pair:startDate','?start','?GR')
 							->addOptional('?uri','pair:endDate','?end','?GR');
-						if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
 						$eventSparql->orderBy($sparql::ORDER_ASC,'?start')
 							->groupBy('?start')
 							->groupBy('?end');
@@ -150,7 +150,7 @@ class WebserviceTools
 							->addOptional('?uri','pair:image','?image','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR');
 						//$propositionSparql->addOptional('?uri','pair:building','?building','?GR');
-						if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
 						$results = $this->sfClient->sparql($propositionSparql->getQuery());
 						$propositions = $this->sfClient->sparqlResultsValues($results);
 				}
@@ -162,7 +162,7 @@ class WebserviceTools
 							->addWhere('?uri','pair:preferedLabel','?title','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR');
 						//$documentSparql->addOptional('?uri','pair:building','?building','?GR');
-						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
 						$results = $this->sfClient->sparql($documentSparql->getQuery());
 						$documents= $this->sfClient->sparqlResultsValues($results);
 				}
@@ -174,7 +174,7 @@ class WebserviceTools
 							->addWhere('?uri','pair:preferedLabel','?title','?GR')
 							->addOptional('?uri','pair:comment','?desc','?GR');
 						//$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) ');
+						if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
 						$results = $this->sfClient->sparql($documentTypeSparql->getQuery());
 						$documentTypes = $this->sfClient->sparqlResultsValues($results);
 				}
