@@ -125,6 +125,7 @@ Polymer({
 
   searchRender(response) {
     "use strict";
+    log('hello !!!');
     let results = [];
     // Reset again if just rendering fired.
     this.searchError =
@@ -149,13 +150,6 @@ Polymer({
         // Data is allowed.
 
           if($.inArray(result.type,semapps.allowedType) !== -1){
-            // // Count results by building.
-            // if (semapps.buildings[result.building]) {
-            //   buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
-            //   buildingsCounter[result.building]++;
-            // }
-            // // This building is enabled.
-              // Count results.
             typesCounter[result.type] = typesCounter[result.type] || 0;
             typesCounter[result.type]++;
             totalCounter++;
@@ -168,10 +162,13 @@ Polymer({
               if( semapps.map.pins[result["uri"]] === undefined){
                 semapps.getAddressToCreatePoint(result["address"],result["title"],result["type"],result["uri"]);
               }
+              else{
+                semapps.map.pinShow(result["uri"]);
+              }
             }
           }
       }
-      semapps.map.pinShowAll();
+      // semapps.map.pinShowAll();
       if(typeof resultTemps[this.typeSelected] === 'undefined' ){
           // Deselect tab if current.
           let key = Object.keys(resultTemps)[0];
@@ -196,10 +193,6 @@ Polymer({
     }
 
     this.tabsRegistry.all && (this.tabsRegistry.all.counter = totalCounter);
-      /*
-      semapps.allowedType.forEach(function(type) {
-          this.tabsRegistry[type] && (this.tabsRegistry[type].counter = typesCounter[type] || 0);
-      });*/
       for (var i = 0; i <  semapps.allowedType.length; i++) {
           this.tabsRegistry[semapps.allowedType[i]] && (this.tabsRegistry[semapps.allowedType[i]].counter = typesCounter[semapps.allowedType[i]] || 0);
       }
