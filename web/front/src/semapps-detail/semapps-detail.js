@@ -31,7 +31,7 @@ Polymer({
     let path = '/';
     switch (semapps.entities[this.child.type].nameType) {
       case 'organization':
-        path += 'orga/detail/' + this.id;
+        path += 'mon-compte/organisation/form/' + this.id;
         break;
     }
     window.location.replace(path);
