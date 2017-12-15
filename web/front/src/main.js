@@ -215,12 +215,12 @@
       window.location.replace(e.currentTarget.getAttribute('href'));
     }
 
-    getAddressToCreatePoint(address,title,type){
+    getAddressToCreatePoint(address,title,type,uri){
         $.ajax({
             url : 'http://api-adresse.data.gouv.fr/search/', // on appelle le script JSON
             data: 'q=' + address,
             success : function(donnee){
-                semapps.map.addPin(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], address,title,type);
+                semapps.map.addPin(donnee.features[0].geometry.coordinates[1],donnee.features[0].geometry.coordinates[0], uri,title,type);
                 semapps.detailAddress[address] = donnee;
             },
         });

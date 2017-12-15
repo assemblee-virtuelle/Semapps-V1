@@ -63,8 +63,8 @@ Polymer({
   detailLoadComplete (data) {
     "use strict";
     // Show detail content.
-      semapps.map.pinHideAll();
-      data = data.responseJSON.detail || {};
+    semapps.map.pinHideAll();
+    data = data.responseJSON.detail || {};
     this.$.detail.style.display = '';
     data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
     if(data.properties.address ){
@@ -73,7 +73,7 @@ Polymer({
         semapps.map.pinShowOne(addressLabel);
       }
       else{
-        semapps.getAddressToCreatePoint(addressLabel,data.title,data.properties.type[0])
+        semapps.getAddressToCreatePoint(addressLabel,data.title,data.properties.type[0],data.uri)
       }
     }
 

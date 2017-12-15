@@ -166,7 +166,7 @@ Polymer({
 
             if(result["address"]){
               if( semapps.map.pins[result.address] === undefined){
-                semapps.getAddressToCreatePoint(result["address"],result["title"],result["type"]);
+                semapps.getAddressToCreatePoint(result["address"],result["title"],result["type"],result["uri"]);
               }
             }
           }
