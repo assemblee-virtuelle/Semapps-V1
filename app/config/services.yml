@@ -15,4 +15,4 @@ services:
 
     semappsBundle.EventListener.SendMail:
         class: semappsBundle\Services\Mailer
-        arguments: ["@mailer", "@templating",'@semappsBundle.encryption']
+        arguments: ["@mailer", "@templating",'@semappsBundle.encryption',"%carto.domain%"]

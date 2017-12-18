@@ -18,15 +18,17 @@ class Mailer
 {
     protected $mailer;
     protected $templating;
+    protected $address;
     private $encryption;
     CONST TYPE_USER = 1;
     CONST TYPE_RESPONSIBLE= 2;
     CONST TYPE_NOTIFICATION= 3;
-    public function __construct($mailer, EngineInterface $templating,Encryption $encryption)
+    public function __construct($mailer, EngineInterface $templating,Encryption $encryption, $addressOfTheSite)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->encryption = $encryption;
+        $this->address = $addressOfTheSite;
     }
 
     protected function sendMessage($to, $subject, $body ,$from =null)
@@ -67,7 +69,7 @@ class Mailer
             case self::TYPE_RESPONSIBLE :
                 $content['subject'] = "Bienvenue sur la plateforme SemApps !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
-                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   ".$this->address." <br><br>
                         
                         Pour inscrire un atelier au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>";
@@ -107,7 +109,7 @@ class Mailer
             case self::TYPE_USER :
                 $content['subject'] = "Bienvenue sur la plateforme SemApps !";
                 $content['body'] = "Bonjour ".$user->getUsername()." ! <br><br>
-                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   http://sandbox.assemblee-virtuelle.org <br><br>
+                        Nous te souhaitons la bienvenue sur la plateforme SemApps !   ".$this->address." <br><br>
                         
                         Pour t’inscrire au festival, il te suffit de cliquer sur le lien ci-dessous : <br>".$url."<br>
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>
