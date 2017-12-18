@@ -198,7 +198,8 @@ class AdminController extends UniqueComponentController
 					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
 						'importForm'=> ($importForm != null)? $importForm->createView() : null,
 						"form" => $form->createView(),
-						"entityUri" => $this->getSfLink($id)
+						"entityUri" => $this->getSfLink($id),
+						'currentUser' => $user
 					]
 				);
 		}
