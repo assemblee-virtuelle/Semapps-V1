@@ -122,7 +122,7 @@ class WebserviceController extends Controller
                   'name'         => $name,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
-									'userUri'					 => $user->getSfLink(),
+									'userUri'			 => ($user != null)?$user->getSfLink() : null,
                 ];
             }
 
