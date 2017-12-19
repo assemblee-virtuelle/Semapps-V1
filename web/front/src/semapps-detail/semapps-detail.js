@@ -46,6 +46,9 @@ Polymer({
 
   detailLoad (encodedUri) {
     "use strict";
+    if (window.location.pathname.indexOf("detail") !== -1)
+        semapps.myRoute = "detail";
+
     if( semapps.myRoute === "detail") {
       // Show spinner.
       this.loading = true;

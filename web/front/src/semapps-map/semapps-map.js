@@ -96,10 +96,10 @@ Polymer({
         this.pinAvailaible[key] = true;
         if (this.awesome[type] !== undefined) {
             this.pins[key] = L.marker([latitude,longitude],  {icon: this.awesome[type]})
-                .bindPopup(text);
+                .bindPopup( '<a href="/detail?uri='+key+'"><h5>'+text+'</h5> </a>');
         }else{
             this.pins[key] = L.marker([latitude,longitude])
-                .bindPopup(text);
+                .bindPopup('<a href="/detail?uri='+key+'" ><h5>'+text+' </h5></a>');
         }
 
         this.pinShow(key);
@@ -144,5 +144,12 @@ Polymer({
 
     },
 
-
+    handleClick(e) {
+        e.preventDefault();
+        semapps.scrollToContent();
+        semapps.myRoute = "detail";
+        semapps.goToPath('detail', {
+            uri: window.encodeURIComponent(this.uri)
+        });
+    },
 });
