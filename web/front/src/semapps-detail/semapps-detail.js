@@ -66,6 +66,7 @@ Polymer({
   detailLoadComplete (data) {
     "use strict";
     // Show detail content.
+    semapps.scrollToContent();
     semapps.map.pinHideAll();
     data = data.responseJSON.detail || {};
     this.$.detail.style.display = '';

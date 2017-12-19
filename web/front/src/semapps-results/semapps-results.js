@@ -125,7 +125,6 @@ Polymer({
 
   searchRender(response) {
     "use strict";
-    log('hello !!!');
     let results = [];
     // Reset again if just rendering fired.
     this.searchError =
