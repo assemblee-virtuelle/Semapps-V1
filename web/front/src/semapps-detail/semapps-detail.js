@@ -33,6 +33,10 @@ Polymer({
       case 'organization':
         path += 'mon-compte/organisation/form/' + this.id;
         break;
+      case 'person':
+        path += 'mon-compte/person/form';
+        break;
+
     }
     window.location.replace(path);
   },
@@ -84,6 +88,8 @@ Polymer({
     let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
+    this.isSameUri = (data.uri === semapps.userUri);
+    log(this.isSameUri);
     inner.data = data;
     inner.parent = this;
     let domInner = document.getElementById('semapps-detail-inner');

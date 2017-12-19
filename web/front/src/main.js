@@ -33,16 +33,6 @@
           "http://virtual-assembly.org/pair#DocumentType",
       ];
 
-      // Play intro only once.
-      // if (cookie.get('introAnimation')) {
-      //   window.document.body.classList.add('skip-intro');
-      // }
-      // else {
-      //   cookie.set('introAnimation', true, {
-      //     expires: 1 // Days
-      //   });
-      // }
-
       var loadParameters = () => {
         this.ajax('webservice/parameters', (response) => {
           if (response && response.responseJSON && response.responseJSON.no_internet) {
@@ -90,10 +80,7 @@
     start(parameters) {
       "use strict";
       $.extend(this, parameters);
-      // Save key for further usage.
-      for (let key in this.buildings) {
-        this.buildings[key].key = key;
-      }
+      log(this.userUri);
       // Shortcuts.
       this.domSearchTextInput = this.domId('searchText');
 

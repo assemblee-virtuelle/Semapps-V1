@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Controller;
 
+use semappsBundle\Entity\User;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 use semappsBundle\semappsConfig;
 use GuzzleHttp\Client;
@@ -88,6 +89,7 @@ class WebserviceController extends Controller
 				$webserviceTools       = $this->get('semappsBundle.webserviceTools');
 
 				//if (!$parameters->isHit()) {
+						/** @var User $user */
             $user = $this->GetUser();
             // Get results.
             $results = $webserviceTools->searchSparqlRequest(
@@ -120,6 +122,7 @@ class WebserviceController extends Controller
                   'name'         => $name,
                   'entities'     => $this->entitiesTabs,
                   'thesaurus'    => $thesaurus,
+									'userUri'					 => $user->getSfLink(),
                 ];
             }
 
