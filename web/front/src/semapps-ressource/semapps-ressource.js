@@ -1,11 +1,11 @@
 Polymer({
-  is: 'semapps-ressource',
-  properties: {
-      person: String,
-      queryParams: {
-          observer: '_queryChanged'
-      }
-  },
+    is: 'semapps-ressource',
+    properties: {
+        person: String,
+        queryParams: {
+            observer: '_queryChanged'
+        }
+    },
     _queryChanged: function (data) {
         // We are on the search mode.
         "use strict";
@@ -17,24 +17,28 @@ Polymer({
             });
         }
     },
-  attached() {
-    "use strict";
-    SemAppsCarto.ready(() => {
-          semapps.initElementGlobals(this);
-      });
-  },
+    attached() {
+        "use strict";
+        SemAppsCarto.ready(() => {
+            semapps.initElementGlobals(this);
+        });
+    },
     handleBack (e) {
         "use strict";
         e.preventDefault();
         semapps.goSearch();
     },
-   ressourceLoad (encodedUri,encodedUriPerson) {
+    ressourceLoad (encodedUri,encodedUriPerson) {
         "use strict";
-       if( semapps.myRoute === "ressource"){
-           // Show spinner.
-           this.loading = true;
-           // Hide content.
-           this.$.ressource.style.display = 'none';
+        // log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        // if (window.location.pathname.indexOf("ressource") !== -1)
+        //     semapps.myRoute = "ressource";
+
+        if( semapps.myRoute === "ressource"){
+            // Show spinner.
+            this.loading = true;
+            // Hide content.
+            this.$.ressource.style.display = 'none';
             // Request server.
             semapps.ajax('webservice/ressource?uri=' + encodedUri+'&person='+encodedUriPerson, (data) => {
                 "use strict";
@@ -43,8 +47,8 @@ Polymer({
             });
         }
     },
-   ressourceLoadComplete (data) {
-       "use strict";
+    ressourceLoadComplete (data) {
+        "use strict";
         // Show detail content.
         this.$.ressource.style.display = '';
         data = data.responseJSON.ressource || {};

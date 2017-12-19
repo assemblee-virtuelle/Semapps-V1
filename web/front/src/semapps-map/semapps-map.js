@@ -101,10 +101,10 @@ Polymer({
         this.pinAvailaible[key] = true;
         if (this.awesome[type] !== undefined) {
             this.pins[key] = L.marker([latitude,longitude],  {icon: this.awesome[type]})
-                .bindPopup( '<a href="/detail?uri='+key+'"><h5>'+text+'</h5> </a>');
+                .bindPopup( '<a href="#" onclick="getDetail(this)" rel="'+key+'"><h5>'+text+'</h5> </a>');
         }else{
             this.pins[key] = L.marker([latitude,longitude])
-                .bindPopup('<a href="/detail?uri='+key+'" ><h5>'+text+' </h5></a>');
+                .bindPopup('<a href="#" onclick="getDetail(this)" rel="'+key+'"><h5>'+text+' </h5></a>');
         }
 
         this.pinShow(key);
@@ -190,4 +190,9 @@ function mouseOut(e){
 
     $('#semapps-map-message').hide();
     $('#semapps-map-black').animate({ height: "0px"},'fast','linear')
+}
+function getDetail(elem) {
+    semapps.goToPath('detail', {
+        uri: window.encodeURIComponent(elem.rel)
+    });
 }
