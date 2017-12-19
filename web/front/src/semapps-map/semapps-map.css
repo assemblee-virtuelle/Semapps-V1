@@ -32,6 +32,17 @@
       transform: rotate(-1deg);
       max-width: 200vh;
       margin: 20px auto; }
+  #semapps-map #semapps-map-black {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 4500;
+    background-color: rgba(0, 0, 0, 0.6);
+    text-align: center; }
+  #semapps-map #semapps-map-message {
+    display: inline-block;
+    color: white; }
 
 #semapps-map-pins {
   position: absolute;

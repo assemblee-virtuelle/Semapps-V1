@@ -30,6 +30,11 @@ Polymer({
       }).addTo(this.OSM );
       this.markers = L.markerClusterGroup();
       this.OSM.addLayer(this.markers) ;
+      this.OSM.scrollWheelZoom.disable();
+      this.OSM.off('dblclick');
+      this.OSM.on('dblclick', onMapClick);
+      this.OSM.on('mouseover',mouseOver);
+      this.OSM.on('mouseout',mouseOut);
       this.pinAvailaible = [];
       this.awesome= {
           "http://virtual-assembly.org/pair#Person":L.AwesomeMarkers.icon({
@@ -152,4 +157,37 @@ Polymer({
             uri: window.encodeURIComponent(this.uri)
         });
     },
+
+
 });
+
+function onMapClick(e) {
+    log('onMapClick');
+
+    if (semapps.map.OSM.scrollWheelZoom.enabled()) {
+        semapps.map.OSM.scrollWheelZoom.disable();
+    }
+    else {
+        semapps.map.OSM.scrollWheelZoom.enable();
+    }
+    mouseOver();
+}
+function mouseOver(e) {
+    log('mouseOver');
+    let element = document.getElementById('semapps-map-black');
+    if(!semapps.map.OSM.scrollWheelZoom.enabled()){
+        $('#semapps-map-black').animate({ height: "100%"},'fast','linear');
+        element.style.display = 'block';
+        $('#semapps-map-message').show()
+    }
+    else{
+        $('#semapps-map-black').animate({ height: "0px"},'fast','linear');
+        $('#semapps-map-message').hide()
+    }
+}
+function mouseOut(e){
+    log('mouseOut');
+
+    $('#semapps-map-message').hide();
+    $('#semapps-map-black').animate({ height: "0px"},'fast','linear')
+}
