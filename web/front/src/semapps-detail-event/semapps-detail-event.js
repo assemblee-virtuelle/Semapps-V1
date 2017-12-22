@@ -30,18 +30,6 @@ Polymer({
             let endDate = new Date(this.endDate);
             this.endDate = endDate.getDate() + '/' + (endDate.getMonth() + 1) + '/' + endDate.getFullYear() + ' ' + endDate.getHours() + ' H ' + endDate.getMinutes() + ' min';
         }
-        log(this.data.localizedBy);
-
-        if(this.data.localizedBy !== null ){
-            log('hello !');
-            log(this.data.localizedBy.address[0]);
-            log(this.data.localizedBy.address[0].uri);
-            log(this.data.localizedBy.address[0].name);
-            log(this.data.localizedBy.address[0].latitude);
-            log(this.data.localizedBy.address[0].longitude);
-            let address = this.data.localizedBy.address[0];
-            semapps.map.pinShowOne(address.latitude,address.longitude, address.uri, address.uri + ' -> '+ address.name);
-        }
 
     },
 
