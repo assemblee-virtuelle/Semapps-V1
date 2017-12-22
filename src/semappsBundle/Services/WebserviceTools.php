@@ -63,7 +63,7 @@ class WebserviceTools
             ->addSelect('?type')
             ->addSelect('?image')
             ->addSelect('?desc')
-            ->addSelect('?address')
+            ->addSelect('?address');;
             //->addSelect('?Address');
         ($filter)? $sparql->addWhere('?uri','pair:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
         //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
