@@ -1,6 +1,6 @@
 parameters:
 
-    organisationConf:
+    organizationConf:
       type: 'http://virtual-assembly.org/pair#Organization'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Organization'
       fields:
