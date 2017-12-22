@@ -90,8 +90,10 @@ Polymer({
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
+    log('debug');
     log(Array.from(data.properties.graph));
     this.isInGraph = (Array.from(data.properties.graph).includes(semapps.userGraphUri));
+    log(this.isInGraph);
     this.canEdit = (this.isSameUri || this.isInGraph);
     inner.data = data;
     inner.parent = this;
