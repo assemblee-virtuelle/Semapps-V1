@@ -540,7 +540,7 @@ class WebserviceTools
     {
         $properties   = $this->sfClient->uriProperties($uri);
         $output       = [
-            'graph' => json_encode($properties['graph'])
+            'graph' => implode(',',$properties['graph'])
         ];
         $user         = $this->tokenStorage->getToken()->GetUser();
         $this
