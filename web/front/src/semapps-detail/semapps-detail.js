@@ -86,13 +86,12 @@ Polymer({
         semapps.getAddressToCreatePoint(addressLabel,data.title,data.properties.type[0],data.uri)
       }
     }
-
     let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
-    log(data.properties.graph);
-    this.isInGraph = (data.properties.graph.includes(semapps.userGraphUri));
+    log(Array.from(data.properties.graph));
+    this.isInGraph = (Array.from(data.properties.graph).includes(semapps.userGraphUri));
     this.canEdit = (this.isSameUri || this.isInGraph);
     inner.data = data;
     inner.parent = this;
