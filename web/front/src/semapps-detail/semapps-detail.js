@@ -91,7 +91,11 @@ Polymer({
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
     log('debug');
-    log(Array.from(data.properties.graph));
+    log(data.properties.graph);
+    log(data.properties.graph instanceof Array);
+    if(data.properties.graph instanceof Array)
+        data.properties.graph = array_map( 'object_to_array', (array) data.properties.graph);
+
     this.isInGraph = (Array.from(data.properties.graph).includes(semapps.userGraphUri));
     log(this.isInGraph);
     this.canEdit = (this.isSameUri || this.isInGraph);
