@@ -2,7 +2,7 @@
 
 namespace semappsBundle\Command;
 
-use semappsBundle\Entity\Organisation;
+use semappsBundle\Entity\Organization;
 use semappsBundle\Entity\User;
 use semappsBundle\semappsConfig;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -50,7 +50,7 @@ class semappsCreateUserCommand extends ContainerAwareCommand
             $question->setValidator(
                 function ($orgaId) {
                     $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
-                    $organizationRepository = $em->getRepository('semappsBundle:Organisation');
+                    $organizationRepository = $em->getRepository('semappsBundle:Organization');
                     if (empty($orgaId)) {
                         throw new \Exception('organization can not be empty');
                     }
@@ -131,8 +131,8 @@ class semappsCreateUserCommand extends ContainerAwareCommand
             )
         ); // <-- finish
 
-        /** @var \semappsBundle\Entity\Organisation $organization */
-        $organization = $em->getRepository('semappsBundle:Organisation')->find($orgaId);
+        /** @var \semappsBundle\Entity\Organization $organization */
+        $organization = $em->getRepository('semappsBundle:Organization')->find($orgaId);
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles($role);

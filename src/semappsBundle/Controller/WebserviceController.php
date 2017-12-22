@@ -18,7 +18,7 @@ class WebserviceController extends Controller
 
     var $entitiesTabs = [
         semappsConfig::URI_PAIR_ORGANIZATION => [
-            'name'   => 'Organisation',
+            'name'   => 'Organization',
             'plural' => 'Organisations',
             'icon'   => 'tower',
             'nameType' => 'organization'
@@ -112,7 +112,7 @@ class WebserviceController extends Controller
             ->getAccessLevelString($user);
         $graphUri =($user && $user->getFkOrganisation())? $this->getDoctrine()
             ->getManager()
-            ->getRepository('semappsBundle:Organisation')
+            ->getRepository('semappsBundle:Organization')
             ->find($user->getFkOrganisation())->getGraphUri() : null;
 
         $name = ($user != null)? $user->getUsername() : '';

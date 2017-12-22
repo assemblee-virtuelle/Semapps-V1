@@ -7,7 +7,7 @@
  * Time: 15:33
  */
 namespace semappsBundle\Services;
-use semappsBundle\Entity\Organisation;
+use semappsBundle\Entity\Organization;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Templating\EngineInterface;
 use semappsBundle\Entity\User;
@@ -45,24 +45,24 @@ class Mailer
         return $this->mailer->send($mail);
     }
 
-    public function sendConfirmMessage($type,User $user,Organisation $organisation= null,  $url,$from =null)
+    public function sendConfirmMessage($type, User $user, Organization $organisation= null, $url, $from =null)
     {
         //$subject = "Sortie de la carto de la mmmfest : Un outil pour nous connaître, partager et coopérer ! (On a besoin de toi !) "; //$user->getUsername()
         $content = $this->bodyMail( $user, $organisation, $url,$type);
         return $this->sendMessage($user->getEmail(), $content["subject"], $content["body"],$from);
     }
 
-    public function sendNotification($type,User $user,Organisation $organisation =null,Array $to){
+    public function sendNotification($type, User $user, Organization $organisation =null, Array $to){
         $content = $this->bodyMail( $user, $organisation, null,$type);
         return $this->sendMessage($to, $content["subject"], $content["body"]);
     }
 
     // E-mail configuration
     private  function bodyMail(
-      User $user,
-      Organisation $organisation = null,
-      $url,
-      $type
+        User $user,
+        Organization $organisation = null,
+        $url,
+        $type
     ) {
         $content = [];
         switch ($type){

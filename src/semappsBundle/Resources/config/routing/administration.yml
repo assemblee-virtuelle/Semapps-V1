@@ -12,10 +12,10 @@ changeAccess:
     defaults: { _controller: semappsBundle:Admin:changeAccess }
 orgaDelete:
     path:     /organization/{orgaId}/delete
-    defaults: { _controller: semappsBundle:Organisation:orgaDelete }
+    defaults: { _controller: semappsBundle:Organization:orgaDelete }
 orgaList:
     path:     /organization/list
-    defaults: { _controller: semappsBundle:Organisation:all }
+    defaults: { _controller: semappsBundle:Organization:all }
 orgaExport:
     path:     /organization/export/csv
-    defaults: { _controller: semappsBundle:Organisation:orgaExport }
+    defaults: { _controller: semappsBundle:Organization:orgaExport }

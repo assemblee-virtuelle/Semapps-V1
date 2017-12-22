@@ -19,6 +19,7 @@ abstract class AbstractComponentController extends Controller
 				$bundleName = $this->getBundleNameFromRequest($request);
 				//common
 				$componentConf = $this->getParameter($componentName.'Conf');
+
 				if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)
 						$graphURI = $componentConf['graphuri'];
 				else

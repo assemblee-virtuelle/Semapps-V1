@@ -3,7 +3,7 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use semappsBundle\Entity\Organisation;
+use semappsBundle\Entity\Organization;
 use semappsBundle\Entity\User;
 use semappsBundle\Form\OrganisationMemberType;
 use semappsBundle\semappsConfig;
@@ -15,7 +15,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class OrganisationController extends UniqueComponentController
+class OrganizationController extends UniqueComponentController
 {
 
     public function allAction(Request $request)
@@ -23,12 +23,12 @@ class OrganisationController extends UniqueComponentController
         /** @var \semappsBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('semappsBundle.encryption');
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'semappsBundle:Organisation'
+          'semappsBundle:Organization'
         );
         $organisations      = $organisationEntity->findAll();
 
         //form pour l'organisation
-        $organisation = new Organisation();
+        $organisation = new Organization();
         $form         = $this->get('form.factory')->create(
           OrganisationMemberType::class,
           $organisation
@@ -93,7 +93,7 @@ class OrganisationController extends UniqueComponentController
                 //removing the organization added before
                 $em = $this->getDoctrine()->resetManager();
                 $em->remove(
-                  $em->getRepository('semappsBundle:Organisation')->find(
+                  $em->getRepository('semappsBundle:Organization')->find(
                     $organisation->getId()
                   )
                 );
@@ -120,7 +120,7 @@ class OrganisationController extends UniqueComponentController
                   )
                 );
                 $em->remove(
-                  $em->getRepository('semappsBundle:Organisation')->find(
+                  $em->getRepository('semappsBundle:Organization')->find(
                     $organisation->getId()
                   )
                 );
@@ -182,7 +182,7 @@ class OrganisationController extends UniqueComponentController
         }
 
         return $this->render(
-          'semappsBundle:Organisation:home.html.twig',
+          'semappsBundle:Organization:home.html.twig',
           array(
             "organisations"       => $organisations,
             "formAddOrganisation" => $form->createView(),
@@ -195,7 +195,7 @@ class OrganisationController extends UniqueComponentController
         $lines              = [];
         $sfClient           = $this->container->get('semantic_forms.client');
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'semappsBundle:Organisation'
+          'semappsBundle:Organization'
         );
         $organisations      = $organisationEntity->findAll();
         $columns            = [];
@@ -242,7 +242,7 @@ class OrganisationController extends UniqueComponentController
     {
         $organisationRepository = $this->getDoctrine()
           ->getManager()
-          ->getRepository('semappsBundle:Organisation');
+          ->getRepository('semappsBundle:Organization');
 
         $organisation  = $organisationRepository->find($orgaId);
         $entityManager = $this->getDoctrine()->getManager();
@@ -250,7 +250,7 @@ class OrganisationController extends UniqueComponentController
             // Display error message.
             $this->addFlash(
               'danger',
-              'Organisation introuvable.'
+              'Organization introuvable.'
             );
         } else {
             // Delete.

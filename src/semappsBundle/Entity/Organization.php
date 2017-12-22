@@ -3,9 +3,9 @@
 namespace semappsBundle\Entity;
 
 /**
- * Organisation
+ * Organization
  */
-class Organisation
+class Organization
 {
     /**
      * @var int
@@ -43,7 +43,7 @@ class Organisation
      *
      * @param string $name
      *
-     * @return Organisation
+     * @return Organization
      */
     public function setName($name)
     {
@@ -68,7 +68,7 @@ class Organisation
      *
      * @param string $sfOrganisation
      *
-     * @return Organisation
+     * @return Organization
      */
     public function setSfOrganisation($sfOrganisation)
     {
@@ -92,7 +92,7 @@ class Organisation
      *
      * @param integer $fkResponsable
      *
-     * @return Organisation
+     * @return Organization
      */
     public function setFkResponsable($fkResponsable)
     {
@@ -116,7 +116,7 @@ class Organisation
      *
      * @param string $graphURI
      *
-     * @return Organisation
+     * @return Organization
      */
     public function setGraphURI($graphURI)
     {
@@ -140,7 +140,7 @@ class Organisation
      *
      * @param string $organisation_picture
      *
-     * @return Organisation
+     * @return Organization
      */
     public function setOrganisationPicture($organisationPicture)
     {

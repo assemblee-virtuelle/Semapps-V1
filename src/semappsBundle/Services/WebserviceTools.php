@@ -267,7 +267,7 @@ class WebserviceTools
                 // Organization should be saved internally.
 
                 $organization = $this->em->getRepository(
-                    'semappsBundle:Organisation'
+                    'semappsBundle:Organization'
                 )->findOneBy(
                     [
                         'sfOrganisation' => $uri,

@@ -82,11 +82,11 @@ class semappsSendCommand extends ContainerAwareCommand
         );
 
         $userRepository         = $em->getRepository('semappsBundle:User');
-        $organisationRepository         = $em->getRepository('semappsBundle:Organisation');
+        $organisationRepository         = $em->getRepository('semappsBundle:Organization');
 
         /** @var \semappsBundle\Entity\User $user */
         $user = $userRepository->find($id);
-        /** @var \semappsBundle\Entity\Organisation $organisation */
+        /** @var \semappsBundle\Entity\Organization $organisation */
         $organisation = $organisationRepository->find($user->getFkOrganisation());
 
         $url = $this->getContainer()->get('router')->generate(

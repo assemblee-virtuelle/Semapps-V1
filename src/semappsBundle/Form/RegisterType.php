@@ -52,7 +52,7 @@ class RegisterType extends AbstractType
 						array('required' => true,'mapped' => false)
 					)
 					->add('organisation',EntityType::class, [
-						'class' => 'semappsBundle:Organisation',
+						'class' => 'semappsBundle:Organization',
 						'query_builder' => function (EntityRepository $er) {
 								return $er->createQueryBuilder('u')
 									->orderBy('u.name', 'ASC');

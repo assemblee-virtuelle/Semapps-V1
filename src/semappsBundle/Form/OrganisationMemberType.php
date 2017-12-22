@@ -61,7 +61,7 @@ class OrganisationMemberType extends AbstractType
     {
         $resolver->setDefaults(
           array(
-            'data_class' => 'semappsBundle\Entity\Organisation',
+            'data_class' => 'semappsBundle\Entity\Organization',
           )
         );
     }

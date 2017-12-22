@@ -9,13 +9,13 @@ settings:
     defaults: { _controller: semappsBundle:Admin:settings }
 orgaComponentForm:
     path:     /{uniqueComponentName}/form/{id}
-    defaults: { _controller: semappsBundle:Organisation:add}
+    defaults: { _controller: semappsBundle:Organization:add}
     requirements:
       uniqueComponentName: 'organization'
 
 orgaComponentFormWithoutId:
     path:     /{uniqueComponentName}/form
-    defaults: { _controller: semappsBundle:Organisation:add}
+    defaults: { _controller: semappsBundle:Organization:add}
     requirements:
       uniqueComponentName: 'organization'
 

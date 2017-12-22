@@ -2,7 +2,7 @@
 
 namespace semappsBundle\Command;
 
-use semappsBundle\Entity\Organisation;
+use semappsBundle\Entity\Organization;
 use semappsBundle\Entity\User;
 use semappsBundle\semappsConfig;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -107,7 +107,7 @@ class semappsCreateOrgaCommand extends ContainerAwareCommand
         );
         $encryption = $this->getContainer()->get('semappsBundle.encryption');
         $user         = new User();
-        $organization = new Organisation();
+        $organization = new Organization();
 
         $organizationName = $input->getArgument('organization');
         $username         = $input->getArgument('username');

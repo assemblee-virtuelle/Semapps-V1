@@ -42,7 +42,7 @@ class AdminController extends UniqueComponentController
         $organisationRepository =  $this
           ->getDoctrine()
           ->getManager()
-          ->getRepository('semappsBundle:Organisation');
+          ->getRepository('semappsBundle:Organization');
         //get the form
         $form = $this->createForm(
           RegisterType::class,
@@ -213,7 +213,7 @@ class AdminController extends UniqueComponentController
 					[]
 				);
 				$form->add('organisation',EntityType::class, [
-					'class' => 'semappsBundle:Organisation',
+					'class' => 'semappsBundle:Organization',
 					'query_builder' => function (EntityRepository $er) {
 							return $er->createQueryBuilder('u')
 								->orderBy('u.name', 'ASC');
@@ -278,7 +278,7 @@ class AdminController extends UniqueComponentController
             $organization = $this
               ->getDoctrine()
               ->getManager()
-              ->getRepository('semappsBundle:Organisation')
+              ->getRepository('semappsBundle:Organization')
               ->findOneBy(array('id' => $user->getFkOrganisation()));
 
             if($user->isEnabled()){
@@ -328,7 +328,7 @@ class AdminController extends UniqueComponentController
 				$organisation = ($user->getFkOrganisation())?$this
 					->getDoctrine()
 					->getManager()
-					->getRepository('semappsBundle:Organisation')
+					->getRepository('semappsBundle:Organization')
 					->find($user->getFkOrganisation()) : null;
 				//send email to the new user
 				$mailer = $this->get('semappsBundle.EventListener.SendMail');
@@ -365,7 +365,7 @@ class AdminController extends UniqueComponentController
         $organisationManager = $this->getDoctrine()
             ->getManager()
             ->getRepository(
-                'semappsBundle:Organisation'
+                'semappsBundle:Organization'
             );
         $users               = $userManager->findBy(
             array('fkOrganisation' => $this->getUser()->getFkOrganisation())

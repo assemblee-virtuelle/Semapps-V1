@@ -79,7 +79,7 @@ class ComponentController extends AbstractMultipleComponentController
 				$id = $this->getUser()->getFkOrganisation();
 				if($id){
 						$organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-							'semappsBundle:Organisation'
+							'semappsBundle:Organization'
 						);
 						$organisation = $organisationEntity->find(
 							$this->getUser()->getFkOrganisation()
