@@ -14,16 +14,16 @@ use semappsBundle\semappsConfig;
 class confManager
 {
 		private $personConf;
-		private $organisationConf;
+		private $organizationConf;
 		private $projectConf;
 		private $eventConf;
 		private $proposalConf;
 		private $documentConf;
 		private $documenttypeConf;
 		private $dbpedia;
-		public function __construct(	 $personConf, $organisationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf,$dbpedia){
+		public function __construct(	 $personConf, $organizationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf,$dbpedia){
 				$this->personConf = $personConf;
-				$this->organisationConf = $organisationConf;
+				$this->organizationConf = $organizationConf;
 				$this->projectConf = $projectConf;
 				$this->eventConf = $eventConf;
 				$this->proposalConf = $proposalConf;
@@ -39,7 +39,7 @@ class confManager
 								$conf = $this->personConf;
 								break;
 						case semappsConfig::URI_PAIR_ORGANIZATION:
-								$conf = $this->organisationConf;
+								$conf = $this->organizationConf;
 								break;
 						case semappsConfig::URI_PAIR_PROJECT:
 								$conf = $this->projectConf;

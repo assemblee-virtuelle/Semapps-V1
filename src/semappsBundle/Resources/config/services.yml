@@ -22,4 +22,4 @@ services:
 
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager
-        arguments: ["%personConf%","%organisationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%"]
+        arguments: ["%personConf%","%organizationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%"]
