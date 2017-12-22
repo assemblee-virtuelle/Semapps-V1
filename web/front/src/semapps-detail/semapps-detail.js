@@ -29,13 +29,16 @@ Polymer({
     "use strict";
     e.preventDefault();
     let path = '/';
-    switch (semapps.entities[this.child.type].nameType) {
+    let nameType = semapps.entities[this.child.type].nameType;
+    switch (nameType) {
       case 'organization':
-        path += 'mon-compte/organisation/form/' + this.id;
+        path += 'mon-compte/organization/form/' + this.id;
         break;
       case 'person':
         path += 'mon-compte/person/form';
         break;
+      default:
+        path += 'mon-compte/component/'+nameType+'/form?uri='+this.currentComponentUri;
 
     }
     window.location.replace(path);
@@ -88,9 +91,11 @@ Polymer({
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
-    log(this.isSameUri);
+    this.isInGraph = (data.properties.graph.includes(semapps.userGraphUri));
+    this.canEdit = (this.isSameUri || this.isInGraph);
     inner.data = data;
     inner.parent = this;
+    this.currentComponentUri = data.uri;
     let domInner = document.getElementById('semapps-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);

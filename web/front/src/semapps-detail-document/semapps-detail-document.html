@@ -167,10 +167,10 @@
             <div class="clearfix"></div>
 
         </template>
-        <template is="dom-if" if="[[data.documents.projet.length]]">
+        <template is="dom-if" if="[[data.documents.project.length]]">
           <h3>Sujet du document ( projet )</h3>
           
-            <template is="dom-repeat" items="{{data.documents.projet}}">
+            <template is="dom-repeat" items="{{data.documents.project}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -188,10 +188,10 @@
             </template>
             <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.documents.proposition.length]]">
+        <template is="dom-if" if="[[data.documents.proposal.length]]">
           <h3>Sujet du document ( proposition )</h3>
           
-            <template is="dom-repeat" items="{{data.documents.proposition}}">
+            <template is="dom-repeat" items="{{data.documents.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -226,10 +226,10 @@
         </template>
         <!-- end of referencesBy -->
         <!-- hasType -->
-        <template is="dom-if" if="[[data.hasType.documenttype.length]]">
+        <template is="dom-if" if="[[data.hasType.documentType.length]]">
           <h3>Type</h3>
           
-            <template is="dom-repeat" items="{{data.hasType.documenttype}}">
+            <template is="dom-repeat" items="{{data.hasType.documentType}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -238,10 +238,10 @@
 
         </template>
         <!-- end of hasType -->
-        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>

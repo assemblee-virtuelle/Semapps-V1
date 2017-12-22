@@ -1,5 +1,5 @@
-<dom-module id="semapps-detail-projet">
-  <link rel="import" type="css" href="semapps-detail-projet.css">
+<dom-module id="semapps-detail-project">
+  <link rel="import" type="css" href="semapps-detail-project.css">
   <template>
     <div id="semapps-detail-projet">
       <div class="col col-sm-8">
@@ -81,9 +81,9 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <!-- concretizes -->
-        <!--<template is="dom-if" if="[[data.concretizes.proposition.length]]">-->
+        <!--<template is="dom-if" if="[[data.concretizes.proposal.length]]">-->
           <!--<h3>concretizes</h3>-->
-          <!--<template is="dom-repeat" items="{{data.concretizes.proposition}}">-->
+          <!--<template is="dom-repeat" items="{{data.concretizes.proposal}}">-->
             <!--<a href="#" rel="{{item.uri}}" on-click="handleClickDetail"-->
                <!--class="list-item">-->
               <!--<span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>-->
@@ -193,10 +193,10 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of documentedby -->
-        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -218,5 +218,5 @@
       </div>
     </div>
   </template>
-  <script src="semapps-detail-projet.min.js"></script>
+  <script src="semapps-detail-project.min.js"></script>
 </dom-module>

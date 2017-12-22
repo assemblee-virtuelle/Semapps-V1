@@ -1,5 +1,5 @@
 Polymer({
-  is: 'semapps-detail-proposition',
+  is: 'semapps-detail-project',
   properties: {},
 
     handleClickDetail(e) {
@@ -15,12 +15,16 @@ Polymer({
     });
     // Raw values.
     $.extend(this, this.data.properties);
-      this.brainstormedBy = this.data.brainstormedBy;
-      this.concretizedBy = this.data.concretizedBy;
-      this.representedBy = this.data.representedBy;
-      this.hasInterest = this.data.hasInterest;
-      this.image = this.data.properties.image;
-      this.hasSubject = this.data.hasSubject;
+    this.concretizes = this.data.concretizes;
+    this.needs = this.data.needs;
+    this.hasInterest = this.data.hasInterest;
+    this.involves = this.data.involves;
+    this.managedBy = this.data.managedBy;
+    this.representedBy = this.data.representedBy;
+    this.offers = this.data.offers;
+    this.image = this.data.properties.image;
+    this.hasSubject = this.data.hasSubject;
+
   },
 
     onClickThematic(e){
@@ -37,4 +41,5 @@ Polymer({
             person: window.encodeURIComponent(this.uri)
         });
     },
+
 });

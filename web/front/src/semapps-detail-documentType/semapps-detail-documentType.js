@@ -1,5 +1,5 @@
 Polymer({
-    is: 'semapps-detail-documenttype',
+    is: 'semapps-detail-documentType',
     properties: {},
 
     handleClickDetail(e) {

@@ -81,6 +81,7 @@
       "use strict";
       $.extend(this, parameters);
       log(this.userUri);
+      log(this.userGraphUri);
       // Shortcuts.
       this.domSearchTextInput = this.domId('searchText');
 

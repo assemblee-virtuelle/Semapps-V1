@@ -101,7 +101,7 @@
                                     </li>
                                     {{ admin.menuItem('Mon profil', 'personComponentFormWithoutId', 'user','Editez votre profil perso', menuSelected, 'MEMBER',{'uniqueComponentName':'person'}) }}
                                     {% if app.user.fkOrganisation %}
-                                        {{ admin.menuItem('Mon organisation', 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organisation'}) }}
+                                        {{ admin.menuItem('Mon organisation', 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization'}) }}
                                     {% endif %}
                                     {% if app.user.sfLink or app.user.fkOrganisation %}
                                         {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}

@@ -1,5 +1,5 @@
 <dom-module id="semapps-detail-proposition">
-  <link rel="import" type="css" href="semapps-detail-proposition.css">
+  <link rel="import" type="css" href="semapps-detail-proposal.css">
   <template>
     <div id="semapps-detail-proposition">
       <div class="col col-sm-8">
@@ -122,10 +122,10 @@
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.hasSubjectPAIR.projet.length]]">
+        <template is="dom-if" if="[[data.hasSubjectPAIR.project.length]]">
           <h3>concerne ( projet )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.hasSubjectPAIR.projet}}">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.project}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -144,10 +144,10 @@
           </div>
           <div class="clearfix"></div>
         </template>
-        <template is="dom-if" if="[[data.hasSubjectPAIR.proposition.length]]">
+        <template is="dom-if" if="[[data.hasSubjectPAIR.proposal.length]]">
           <h3>concerne ( proposition )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.hasSubjectPAIR.proposition}}">
+            <template is="dom-repeat" items="{{data.hasSubjectPAIR.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -167,10 +167,10 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of hasSubjectPAIR -->
-        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -212,5 +212,5 @@
       </div>
     </div>
   </template>
-  <script src="semapps-detail-proposition.min.js"></script>
+  <script src="semapps-detail-proposal.min.js"></script>
 </dom-module>

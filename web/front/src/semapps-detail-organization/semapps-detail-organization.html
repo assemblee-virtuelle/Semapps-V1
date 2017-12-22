@@ -164,9 +164,9 @@
         </template>
 
         <!-- involvedIn -->
-        <template is="dom-if" if="[[data.involvedIn.projet.length]]">
+        <template is="dom-if" if="[[data.involvedIn.project.length]]">
           <h3>Impliquée dans</h3>
-          <template is="dom-repeat" items="{{data.involvedIn.projet}}">
+          <template is="dom-repeat" items="{{data.involvedIn.project}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -175,9 +175,9 @@
         </template>
         <!-- end of involvedIn -->
         <!-- manages -->
-        <template is="dom-if" if="[[data.manages.projet.length]]">
+        <template is="dom-if" if="[[data.manages.project.length]]">
           <h3>(Co-)responsable de</h3>
-          <template is="dom-repeat" items="{{data.manages.projet}}">
+          <template is="dom-repeat" items="{{data.manages.project}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -232,9 +232,9 @@
         </template>
         <!-- end of needs -->
         <!-- brainstorms -->
-        <template is="dom-if" if="[[data.brainstorms.proposition.length]]">
+        <template is="dom-if" if="[[data.brainstorms.proposal.length]]">
           <h3>Proposition dont l'organisation est à l'origine</h3>
-          <template is="dom-repeat" items="{{data.brainstorms.proposition}}">
+          <template is="dom-repeat" items="{{data.brainstorms.proposal}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
               <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
@@ -253,10 +253,10 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of documentedby -->
-        <template is="dom-if" if="[[data.subjectOfPAIR.proposition.length]]">
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">
-            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposition}}">
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
               <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                  class="list-item">
                 <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
