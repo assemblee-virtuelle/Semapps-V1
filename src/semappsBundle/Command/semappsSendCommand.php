@@ -26,9 +26,9 @@ class semappsSendCommand extends ContainerAwareCommand
                 'Id of the user'
             )
             ->addArgument(
-            'email',
-            InputArgument::OPTIONAL,
-            'email from'
+                'email',
+                InputArgument::OPTIONAL,
+                'email from'
             );
 
     }
@@ -47,7 +47,7 @@ class semappsSendCommand extends ContainerAwareCommand
                         throw new \Exception('organization can not be empty');
                     }
                     elseif(empty($user)){
-                            throw new \Exception('ID incorrect, no person correspond to this id');
+                        throw new \Exception('ID incorrect, no person correspond to this id');
                     }
                     elseif($user->isEnabled()){
                         throw new \Exception('ID incorrect, id already activated');
@@ -97,9 +97,9 @@ class semappsSendCommand extends ContainerAwareCommand
         $output->writeln($email);
         $url = str_replace('localhost',$this->getContainer()->getParameter('carto.domain'),$url);
         $result = $mailer->sendConfirmMessage(
-          ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
+            ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
             $user,
-          $organisation,
+            $organisation,
             $url,
             $email
         );

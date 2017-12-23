@@ -23,208 +23,208 @@ use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 class OrganizationType extends SemanticFormType
 {
 
-		public function buildForm(FormBuilderInterface $builder, array $options)
-		{
-				// This will manage form specification.
-				parent::buildForm($builder, $options);
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        // This will manage form specification.
+        parent::buildForm($builder, $options);
 
-				$this
-					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class,['required' => false,])
-					->add(
-						$builder,
-						'description',
-						TextareaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'comment',
-						TextType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'homePage',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'aboutPage',
-						MultipleType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'email',
-						EmailType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'phone',
-						TextType::class,
-						[
-							'required' => false,
-						]
-					)
+        $this
+            ->add($builder, 'preferedLabel', TextType::class)
+            ->add($builder, 'alternativeLabel', TextType::class,['required' => false,])
+            ->add(
+                $builder,
+                'description',
+                TextareaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'comment',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'homePage',
+                UrlType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'aboutPage',
+                MultipleType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'email',
+                EmailType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'phone',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
 
-					->add(
-						$builder,
-						'hasMember',
-						UriType::class,
-						[
-							'required'  => false,
+            ->add(
+                $builder,
+                'hasMember',
+                UriType::class,
+                [
+                    'required'  => false,
 
-							'rdfType'   => semappsConfig::URI_PAIR_PERSON,
-						]
-					)
-					->add(
-						$builder,
-						'hasResponsible',
-						UriType::class,
-						[
-							'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasResponsible',
+                UriType::class,
+                [
+                    'required'  => false,
 
-							'rdfType'   => semappsConfig::URI_PAIR_PERSON,
-						]
-					)
-					->add(
-						$builder,
-						'employs',
-						UriType::class,
-						[
-							'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                ]
+            )
+            ->add(
+                $builder,
+                'employs',
+                UriType::class,
+                [
+                    'required'  => false,
 
-							'rdfType'   => semappsConfig::URI_PAIR_PERSON,
-						]
-					)
-					->add(
-						$builder,
-						'partnerOf',
-						UriType::class,
-						[
-							'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                ]
+            )
+            ->add(
+                $builder,
+                'partnerOf',
+                UriType::class,
+                [
+                    'required'  => false,
 
-							'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
-						]
-					)
-					->add(
-						$builder,
-						'offers',
-						DbPediaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'needs',
-						DbPediaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'hasSubject',
-						DbPediaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'documentedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
-						]
-					)
+                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+                ]
+            )
+            ->add(
+                $builder,
+                'offers',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'needs',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasSubject',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'documentedBy',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
+                ]
+            )
 
-					->add(
-						$builder,
-						'involvedIn',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
-						]
-					)
-					->add(
-						$builder,
-						'manages',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
-						]
-					)
-					->add(
-						$builder,
-						'organizes',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_EVENT,
-						]
-					)
-					->add(
-						$builder,
-						'participantOf',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_EVENT,
-						]
-					)
-					->add(
-						$builder,
-						'hasInterest',
-						UriType::class,
-						[
-							'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
-						]
-					)
-					->add(
-						$builder,
-						'address',
-						AdresseType::class,
-						[
-							'required'  => false,
-						]
-					)
-					->add(
-						$builder,
-						'complementAddress',
-						TextType::class,
-						[
-							'required'  => false,
-						]
-					)
-					;
+            ->add(
+                $builder,
+                'involvedIn',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                ]
+            )
+            ->add(
+                $builder,
+                'manages',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                ]
+            )
+            ->add(
+                $builder,
+                'organizes',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                ]
+            )
+            ->add(
+                $builder,
+                'participantOf',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasInterest',
+                UriType::class,
+                [
+                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                ]
+            )
+            ->add(
+                $builder,
+                'address',
+                AdresseType::class,
+                [
+                    'required'  => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'complementAddress',
+                TextType::class,
+                [
+                    'required'  => false,
+                ]
+            )
+        ;
 
-				$builder->add(
-					'organisationPicture',
-					FileType::class,
-					[
-						'data_class' => null,
-						'required'   => false,
-					]
-				);
+        $builder->add(
+            'organisationPicture',
+            FileType::class,
+            [
+                'data_class' => null,
+                'required'   => false,
+            ]
+        );
 
-				$builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
-		}
+        $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
+    }
 }

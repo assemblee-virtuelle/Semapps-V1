@@ -21,44 +21,44 @@ class AdminSettings extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-          'username',
-          TextType::class,
-          array(
-            'label'       => 'login',
-            'mapped'  => false,
-            'data' =>$options["data"]->getUsername(),
-            'constraints' => array(
-              new NotBlank(),
-            ),
-          )
+            'username',
+            TextType::class,
+            array(
+                'label'       => 'login',
+                'mapped'  => false,
+                'data' =>$options["data"]->getUsername(),
+                'constraints' => array(
+                    new NotBlank(),
+                ),
+            )
         )
-          ->add(
-            'password',
-            PasswordType::class,
-            [
-              'label' => 'Mot de passe',
-              'mapped'  => false,
-            ]
-          )
-          ->add(
-            'passwordNew',
-            PasswordType::class,
-            [
-              'label'   => 'Nouveau mot de passe',
-              'mapped'  => false,
-              'required' => false,
-            ]
-          )
-          ->add(
-            'passwordNewConfirm',
-            PasswordType::class,
-            [
-              'label'  => 'Confirmation',
-              'mapped' => false,
-              'required' => false,
-            ]
-          )
-          ->add('submit', SubmitType::class, ['label' => 'Enregistrer']);
+            ->add(
+                'password',
+                PasswordType::class,
+                [
+                    'label' => 'Mot de passe',
+                    'mapped'  => false,
+                ]
+            )
+            ->add(
+                'passwordNew',
+                PasswordType::class,
+                [
+                    'label'   => 'Nouveau mot de passe',
+                    'mapped'  => false,
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'passwordNewConfirm',
+                PasswordType::class,
+                [
+                    'label'  => 'Confirmation',
+                    'mapped' => false,
+                    'required' => false,
+                ]
+            )
+            ->add('submit', SubmitType::class, ['label' => 'Enregistrer']);
     }
 
     /**
@@ -67,9 +67,9 @@ class AdminSettings extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'semappsBundle\Entity\User',
-          )
+            array(
+                'data_class' => 'semappsBundle\Entity\User',
+            )
         );
     }
 

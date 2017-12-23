@@ -21,36 +21,36 @@ class OrganisationMemberType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-          'name',
-          TextType::class
+            'name',
+            TextType::class
         )
-          ->add(
-            'username',
-            TextType::class,
-            array(
-              'mapped'      => false,
-              'label'       => 'login',
-              'constraints' => array(
-                new NotBlank(),
-              ),
+            ->add(
+                'username',
+                TextType::class,
+                array(
+                    'mapped'      => false,
+                    'label'       => 'login',
+                    'constraints' => array(
+                        new NotBlank(),
+                    ),
+                )
             )
-          )
-          ->add(
-            'email',
-            EmailType::class,
-            array(
-              'mapped' => false,
+            ->add(
+                'email',
+                EmailType::class,
+                array(
+                    'mapped' => false,
+                )
             )
-          )
-					->add(
-						'sendEmail',
-						YesNoType::class,
-						array(
-							'mapped' => false,
-							'label' => 'Email ?',
-						)
-					)
-          ->add('submit', SubmitType::class, array());
+            ->add(
+                'sendEmail',
+                YesNoType::class,
+                array(
+                    'mapped' => false,
+                    'label' => 'Email ?',
+                )
+            )
+            ->add('submit', SubmitType::class, array());
 
     }
 
@@ -60,9 +60,9 @@ class OrganisationMemberType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'semappsBundle\Entity\Organization',
-          )
+            array(
+                'data_class' => 'semappsBundle\Entity\Organization',
+            )
         );
     }
 

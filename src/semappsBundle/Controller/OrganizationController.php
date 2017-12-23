@@ -23,15 +23,15 @@ class OrganizationController extends UniqueComponentController
         /** @var \semappsBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('semappsBundle.encryption');
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'semappsBundle:Organization'
+            'semappsBundle:Organization'
         );
         $organisations      = $organisationEntity->findAll();
 
         //form pour l'organisation
         $organisation = new Organization();
         $form         = $this->get('form.factory')->create(
-          OrganisationMemberType::class,
-          $organisation
+            OrganisationMemberType::class,
+            $organisation
         );
 
         $form->handleRequest($request);
@@ -47,14 +47,14 @@ class OrganizationController extends UniqueComponentController
                 $em->flush($organisation);
             } catch (UniqueConstraintViolationException $e) {
                 $this->addFlash(
-                  'danger',
-                  "le nom de l'orgnanisation que vous avez saisi est déjà présent"
+                    'danger',
+                    "le nom de l'orgnanisation que vous avez saisi est déjà présent"
                 );
 
                 return $this->redirectToRoute('orgaList');
             }
             $organisation->setGraphURI(
-              semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getName().'-org'
+                semappsConfig::PREFIX.$organisation->getId().'/'.$organisation->getName().'-org'
             );
             $em->flush();
 
@@ -66,11 +66,11 @@ class OrganizationController extends UniqueComponentController
 
             // Generate password.
             $tokenGenerator = $this->container->get(
-              'fos_user.util.token_generator'
+                'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
             $user->setPassword(
-              password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $user->setSfUser($encryption->encrypt($randomPassword));
@@ -93,14 +93,14 @@ class OrganizationController extends UniqueComponentController
                 //removing the organization added before
                 $em = $this->getDoctrine()->resetManager();
                 $em->remove(
-                  $em->getRepository('semappsBundle:Organization')->find(
-                    $organisation->getId()
-                  )
+                    $em->getRepository('semappsBundle:Organization')->find(
+                        $organisation->getId()
+                    )
                 );
                 $em->flush();
                 $this->addFlash(
-                  'danger',
-                  "l'utilisateur saisi est déjà présent"
+                    'danger',
+                    "l'utilisateur saisi est déjà présent"
                 );
 
                 return $this->redirectToRoute('orgaList');
@@ -115,78 +115,78 @@ class OrganizationController extends UniqueComponentController
                 //removing the organization and the user added before
                 $em = $this->getDoctrine()->resetManager();
                 $em->remove(
-                  $em->getRepository('semappsBundle:User')->find(
-                    $user->getId()
-                  )
+                    $em->getRepository('semappsBundle:User')->find(
+                        $user->getId()
+                    )
                 );
                 $em->remove(
-                  $em->getRepository('semappsBundle:Organization')->find(
-                    $organisation->getId()
-                  )
+                    $em->getRepository('semappsBundle:Organization')->find(
+                        $organisation->getId()
+                    )
                 );
                 $em->flush();
                 $this->addFlash(
-                  'danger',
-                  "Problème lors de la mise à jour des champs, veuillez contacter un administrateur"
+                    'danger',
+                    "Problème lors de la mise à jour des champs, veuillez contacter un administrateur"
                 );
 
                 return $this->redirectToRoute('orgaList');
             }
-						$sendEmail = $form->get('sendEmail')->getData();
-						if($sendEmail){
-								$url = $this->generateUrl(
-									'fos_user_registration_confirm',
-									array('token' => $conf_token),
-									UrlGeneratorInterface::ABSOLUTE_URL
-								);
-								// send email to the new organization
-								$mailer = $this->get('semappsBundle.EventListener.SendMail');
-								$result = $mailer->sendConfirmMessage(
-									$mailer::TYPE_RESPONSIBLE,
-									$user,
-									$organisation,
-									$url
-								);
+            $sendEmail = $form->get('sendEmail')->getData();
+            if($sendEmail){
+                $url = $this->generateUrl(
+                    'fos_user_registration_confirm',
+                    array('token' => $conf_token),
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                );
+                // send email to the new organization
+                $mailer = $this->get('semappsBundle.EventListener.SendMail');
+                $result = $mailer->sendConfirmMessage(
+                    $mailer::TYPE_RESPONSIBLE,
+                    $user,
+                    $organisation,
+                    $url
+                );
 
-								// TODO Grant permission to edit same organisation as current user.
-								// Display message.
-								if($result){
-										$this->addFlash(
-											'success',
-											'Un compte à bien été créé pour <b>'.
-											$user->getUsername().
-											'</b>. Un email a été envoyé à <b>'.
-											$user->getEmail().
-											'</b> pour lui communiquer ses informations de connexion.'
-										);
-								}else{
-										$this->addFlash(
-											'danger',
-											'Un compte à bien été créé pour <b>'.
-											$user->getUsername().
-											"</b>. mais l'email n'est pas parti à l'adresse <b>".
-											$user->getEmail().
-											'</b>'
-										);
-								}
-						}
-						else{
-								$this->addFlash(
-									'success',
-									'Un compte à bien été créé pour <b>'.
-									$user->getUsername()
-								);
-						}
+                // TODO Grant permission to edit same organisation as current user.
+                // Display message.
+                if($result){
+                    $this->addFlash(
+                        'success',
+                        'Un compte à bien été créé pour <b>'.
+                        $user->getUsername().
+                        '</b>. Un email a été envoyé à <b>'.
+                        $user->getEmail().
+                        '</b> pour lui communiquer ses informations de connexion.'
+                    );
+                }else{
+                    $this->addFlash(
+                        'danger',
+                        'Un compte à bien été créé pour <b>'.
+                        $user->getUsername().
+                        "</b>. mais l'email n'est pas parti à l'adresse <b>".
+                        $user->getEmail().
+                        '</b>'
+                    );
+                }
+            }
+            else{
+                $this->addFlash(
+                    'success',
+                    'Un compte à bien été créé pour <b>'.
+                    $user->getUsername()
+                );
+            }
 
             return $this->redirectToRoute('orgaList');
         }
 
         return $this->render(
-          'semappsBundle:Organization:home.html.twig',
-          array(
-            "organisations"       => $organisations,
-            "formAddOrganisation" => $form->createView(),
-          )
+            'semappsBundle:Organization:home.html.twig',
+            array(
+                "organisations"       => $organisations,
+                "formAddOrganisation" => $form->createView(),
+            )
         );
     }
 
@@ -195,7 +195,7 @@ class OrganizationController extends UniqueComponentController
         $lines              = [];
         $sfClient           = $this->container->get('semantic_forms.client');
         $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-          'semappsBundle:Organization'
+            'semappsBundle:Organization'
         );
         $organisations      = $organisationEntity->findAll();
         $columns            = [];
@@ -203,13 +203,13 @@ class OrganizationController extends UniqueComponentController
         foreach ($organisations as $organisation) {
             // Sparql request.
             $properties = $sfClient->uriProperties(
-              $organisation->getSfOrganisation()
+                $organisation->getSfOrganisation()
             );
             // We have key / pair values.
             $lines[] = $properties;
             // Save new columns if some are missing.
             $columns = array_unique(
-              array_merge($columns, array_keys($properties))
+                array_merge($columns, array_keys($properties))
             );
         }
 
@@ -230,7 +230,7 @@ class OrganizationController extends UniqueComponentController
         $writer = $excel->writer;
         // Fill.
         $writer->setData(
-          $output
+            $output
         );
         $writer->setDelimiter(";");
         $writer->saveFile('SemApps-'.date('Y_m_d'));
@@ -241,150 +241,150 @@ class OrganizationController extends UniqueComponentController
     public function orgaDeleteAction($orgaId)
     {
         $organisationRepository = $this->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:Organization');
+            ->getManager()
+            ->getRepository('semappsBundle:Organization');
 
         $organisation  = $organisationRepository->find($orgaId);
         $entityManager = $this->getDoctrine()->getManager();
         if (!$organisation) {
             // Display error message.
             $this->addFlash(
-              'danger',
-              'Organization introuvable.'
+                'danger',
+                'Organization introuvable.'
             );
         } else {
             // Delete.
             $entityManager->remove($organisation);
 
             $entityManager
-              ->getConnection()
-              ->prepare(
-                'DELETE FROM user WHERE fk_organisation = :id_organisation'
-              )
-              ->execute([':id_organisation' => $organisation->getId()]);
+                ->getConnection()
+                ->prepare(
+                    'DELETE FROM user WHERE fk_organisation = :id_organisation'
+                )
+                ->execute([':id_organisation' => $organisation->getId()]);
 
             $entityManager->flush();
             // Display success message.
             $this->addFlash(
-              'success',
-              'L\'organisation <b>'.
-              $organisation->getName().
-              '</b> a bien été supprimée.'
+                'success',
+                'L\'organisation <b>'.
+                $organisation->getName().
+                '</b> a bien été supprimée.'
             );
         }
 
         return $this->redirectToRoute('orgaList');
     }
 
-		public function addAction($uniqueComponentName,$id =null,Request $request)
-		{
-				$sfClient       = $this->container->get('semantic_forms.client');
-				$organization = $this->getOrga($id);
-				/** @var SparqlRepository $sparqlRepository */
-				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-				$em = $this->getDoctrine()->getManager();
-				$sfLink = $this->getSfLink($id);
-				$oldPictureName = $organization->getOrganisationPicture();
-				/** @var Form $form */
-				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-				$form->handleRequest($request);
+    public function addAction($uniqueComponentName,$id =null,Request $request)
+    {
+        $sfClient       = $this->container->get('semantic_forms.client');
+        $organization = $this->getOrga($id);
+        /** @var SparqlRepository $sparqlRepository */
+        $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
+        $em = $this->getDoctrine()->getManager();
+        $sfLink = $this->getSfLink($id);
+        $oldPictureName = $organization->getOrganisationPicture();
+        /** @var Form $form */
+        $form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+        $form->handleRequest($request);
 
-				if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-						// Manage picture.
-						$newPicture = $form->get('organisationPicture')->getData();
-						if ($newPicture) {
-								// Remove old picture.
-								$fileUploader = $this->get('semappsBundle.fileUploader');
-								if ($oldPictureName) {
-										$oldDir = $fileUploader->getTargetDir();
-										// Check if file exists to avoid all errors.
-										if (is_file($oldDir.'/'.$oldPictureName)) {
-												$fileUploader->remove($oldPictureName);
-										}
-								}
-								$organization->setOrganisationPicture(
-									$fileUploader->upload($newPicture)
-								);
-								$sparqlRepository->changeImage($organization->getGraphURI(),$sfLink,$fileUploader->generateUrlForFile($organization->getOrganisationPicture()));
-						} else {
-								$organization->setOrganisationPicture($oldPictureName);
-						}
+            // Manage picture.
+            $newPicture = $form->get('organisationPicture')->getData();
+            if ($newPicture) {
+                // Remove old picture.
+                $fileUploader = $this->get('semappsBundle.fileUploader');
+                if ($oldPictureName) {
+                    $oldDir = $fileUploader->getTargetDir();
+                    // Check if file exists to avoid all errors.
+                    if (is_file($oldDir.'/'.$oldPictureName)) {
+                        $fileUploader->remove($oldPictureName);
+                    }
+                }
+                $organization->setOrganisationPicture(
+                    $fileUploader->upload($newPicture)
+                );
+                $sparqlRepository->changeImage($organization->getGraphURI(),$sfLink,$fileUploader->generateUrlForFile($organization->getOrganisationPicture()));
+            } else {
+                $organization->setOrganisationPicture($oldPictureName);
+            }
 
-						if (!$sfLink) {
-								// Update sfOrganisation.
-								$organization->setSfOrganisation($form->uri);
-						}
-						$em->persist($organization);
-						$em->flush();
+            if (!$sfLink) {
+                // Update sfOrganisation.
+                $organization->setSfOrganisation($form->uri);
+            }
+            $em->persist($organization);
+            $em->flush();
 
-						$this->addFlash(
-							'success',
-							'Les données de l\'organisation ont bien été mises à jour.'
-						);
-						if(!$id)
-								return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-						else
-								return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
-				}
+            $this->addFlash(
+                'success',
+                'Les données de l\'organisation ont bien été mises à jour.'
+            );
+            if(!$id)
+                return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+            else
+                return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
+        }
 
-				$importForm = null;
-				if(!$sfLink){
-						$importForm = $this->createFormBuilder();
-						$importForm->add('import',UrlType::class);
-						$importForm->add('save',SubmitType::class);
-						$importForm = $importForm->getForm();
-						$importForm->handleRequest($request);
+        $importForm = null;
+        if(!$sfLink){
+            $importForm = $this->createFormBuilder();
+            $importForm->add('import',UrlType::class);
+            $importForm->add('save',SubmitType::class);
+            $importForm = $importForm->getForm();
+            $importForm->handleRequest($request);
 
-						if ($importForm->isSubmitted() && $importForm->isValid()) {
-								$uri = $importForm->get('import')->getData();
-								$organization->setSfOrganisation($uri);
-								$em->persist($organization);
-								$em->flush();
-								//importer le profil
-								$sfClient->import($uri);
-								//déplacer dans le graph de l'orga
-								$sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT);
-								$graphFormatted = $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL);
+            if ($importForm->isSubmitted() && $importForm->isValid()) {
+                $uri = $importForm->get('import')->getData();
+                $organization->setSfOrganisation($uri);
+                $em->persist($organization);
+                $em->flush();
+                //importer le profil
+                $sfClient->import($uri);
+                //déplacer dans le graph de l'orga
+                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT);
+                $graphFormatted = $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL);
 
-								$sparql->addPrefixes($sparql->prefixes)
-									->addPrefix('pair','http://virtual-assembly.org/pair#');
-								//$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-								$sparql->addInsert("?s","?p","?o",$graphFormatted);
-								//dump($sparql->getQuery());
-								$sfClient->update($sparql->getQuery());
+                $sparql->addPrefixes($sparql->prefixes)
+                    ->addPrefix('pair','http://virtual-assembly.org/pair#');
+                //$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+                $sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
+                $sparql->addInsert("?s","?p","?o",$graphFormatted);
+                //dump($sparql->getQuery());
+                $sfClient->update($sparql->getQuery());
 
-								if(!$id)
-										return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-								else
-										return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
-						}
-				}
-				// Fill form
-				return $this->render(
-					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
-						'organization' => $organization,
-						'importForm'=> ($importForm != null)? $importForm->createView() : null,
-						"form" => $form->createView(),
-						"entityUri" => $sfLink
-					]
-				);
-		}
+                if(!$id)
+                    return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+                else
+                    return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
+            }
+        }
+        // Fill form
+        return $this->render(
+            'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
+                'organization' => $organization,
+                'importForm'=> ($importForm != null)? $importForm->createView() : null,
+                "form" => $form->createView(),
+                "entityUri" => $sfLink
+            ]
+        );
+    }
 
-		public function getElement($id =null)
-		{
-				return $this->getOrga($id);
-		}
+    public function getElement($id =null)
+    {
+        return $this->getOrga($id);
+    }
 
-		public function getSfLink($id = null)
-		{
-				$sfLink = $this->getElement($id)->getSfOrganisation();
-				return ($sfLink)? $sfLink:null;
-		}
-		public function getGraph($id = null)
-		{
-				return $this->getElement($id)->getGraphURI();
-		}
+    public function getSfLink($id = null)
+    {
+        $sfLink = $this->getElement($id)->getSfOrganisation();
+        return ($sfLink)? $sfLink:null;
+    }
+    public function getGraph($id = null)
+    {
+        return $this->getElement($id)->getGraphURI();
+    }
 
 }

@@ -35,20 +35,20 @@ class AdminController extends UniqueComponentController
         $encryption = $this->container->get('semappsBundle.encryption');
         /** @var UserRepository $userRepository */
         $userRepository = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:User');
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:User');
         //get all organization
         $organisationRepository =  $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:Organization');
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:Organization');
         //get the form
         $form = $this->createForm(
-          RegisterType::class,
-          null,
-          // Options.
-          []
+            RegisterType::class,
+            null,
+            // Options.
+            []
         );
         $form->handleRequest($request);
 
@@ -56,10 +56,10 @@ class AdminController extends UniqueComponentController
             $newUser = $form->getData();
             /** @var TokenGenerator $tokenGenerator */
             $tokenGenerator = $this->container->get(
-              'fos_user.util.token_generator'
+                'fos_user.util.token_generator'
             );
             $newUser->setPassword(
-              password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
+                password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $newUser->setSfUser($encryption->encrypt($form->get('password')->getData()));
@@ -70,14 +70,14 @@ class AdminController extends UniqueComponentController
 
             //Set the roles
             $newUser->addRole('ROLE_MEMBER');
-						if(!is_null($form->get('organisation')->getData()))
-								$organisationId = $form->get('organisation')->getData()->getId();
-						else
-								$organisationId = $form->get('organisation')->getData();
+            if(!is_null($form->get('organisation')->getData()))
+                $organisationId = $form->get('organisation')->getData()->getId();
+            else
+                $organisationId = $form->get('organisation')->getData();
 
-						$newUser->setFkOrganisation($organisationId);
+            $newUser->setFkOrganisation($organisationId);
 
-								// Save it.
+            // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($newUser);
             try {
@@ -93,12 +93,12 @@ class AdminController extends UniqueComponentController
             //notification
             $usersSuperAdmin = $userRepository->getSuperAdminUsers();
             $listOfEmail= [];
-						$organisation=null;
+            $organisation=null;
             if($organisationId){
-								$organisation = $organisationRepository->find($form->get('organisation')->getData());
-								$responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
-								array_push($listOfEmail,$responsible->getEmail());
-						}
+                $organisation = $organisationRepository->find($form->get('organisation')->getData());
+                $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
+                array_push($listOfEmail,$responsible->getEmail());
+            }
 
             foreach ($usersSuperAdmin as $superuser){
                 array_push($listOfEmail,$superuser["email"]);
@@ -110,176 +110,176 @@ class AdminController extends UniqueComponentController
         }
         // Fill form
         return $this->render(
-          'semappsBundle:Admin:register.html.twig',
-          array(
-            'form'      => $form->createView(),
-          )
+            'semappsBundle:Admin:register.html.twig',
+            array(
+                'form'      => $form->createView(),
+            )
         );
     }
-		public function addAction($uniqueComponentName,$id =null,Request $request)
-		{
-				/** @var SemanticFormsClient $sfClient */
-				$sfClient       = $this->container->get('semantic_forms.client');
-				/** @var $user \semappsBundle\Entity\User */
-				$user           = $this->getElement($id);
-				$userSfLink     = $user->getSfLink();
-				/** @var SparqlRepository $sparqlRepository */
-				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-				$em = $this->getDoctrine()->getManager();
-				$oldPictureName = $user->getPictureName();
-				/** @var Form $form */
-				$form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+    public function addAction($uniqueComponentName,$id =null,Request $request)
+    {
+        /** @var SemanticFormsClient $sfClient */
+        $sfClient       = $this->container->get('semantic_forms.client');
+        /** @var $user \semappsBundle\Entity\User */
+        $user           = $this->getElement($id);
+        $userSfLink     = $user->getSfLink();
+        /** @var SparqlRepository $sparqlRepository */
+        $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
+        $em = $this->getDoctrine()->getManager();
+        $oldPictureName = $user->getPictureName();
+        /** @var Form $form */
+        $form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
 
-				$form->handleRequest($request);
+        $form->handleRequest($request);
 
-				if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-						// Manage picture.
-						$newPicture = $form->get('pictureName')->getData();
-						if ($newPicture) {
-								// Remove old picture.
-								$fileUploader = $this->get('semappsBundle.fileUploader');
-								if ($oldPictureName) {
-										$dir = $fileUploader->getTargetDir();
-										// Check if file exists to avoid all errors.
-										if (is_file($dir.'/'.$oldPictureName)) {
-												$fileUploader->remove($oldPictureName);
-										}
-								}
-								$user->setPictureName(
-									$fileUploader->upload($newPicture)
-								);
-								$sparqlRepository->changeImage($form->uri,$form->uri,$fileUploader->generateUrlForFile($user->getPictureName()));
+            // Manage picture.
+            $newPicture = $form->get('pictureName')->getData();
+            if ($newPicture) {
+                // Remove old picture.
+                $fileUploader = $this->get('semappsBundle.fileUploader');
+                if ($oldPictureName) {
+                    $dir = $fileUploader->getTargetDir();
+                    // Check if file exists to avoid all errors.
+                    if (is_file($dir.'/'.$oldPictureName)) {
+                        $fileUploader->remove($oldPictureName);
+                    }
+                }
+                $user->setPictureName(
+                    $fileUploader->upload($newPicture)
+                );
+                $sparqlRepository->changeImage($form->uri,$form->uri,$fileUploader->generateUrlForFile($user->getPictureName()));
 
-						} else {
-								$user->setPictureName($oldPictureName);
-						}
-						// User never had a sf link, so save it.
-						if (!$userSfLink) {
-								// Update sfLink.
-								$user->setSfLink($form->uri);
-						}
-						$em->persist($user);
-						$em->flush();
+            } else {
+                $user->setPictureName($oldPictureName);
+            }
+            // User never had a sf link, so save it.
+            if (!$userSfLink) {
+                // Update sfLink.
+                $user->setSfLink($form->uri);
+            }
+            $em->persist($user);
+            $em->flush();
 
-						$this->addFlash(
-							'success',
-							'Votre profil a bien été mis à jour.'
-						);
-						if(!$id)
-								return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-						else
-								return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
-				}
-				// import
-				$importForm = null;
-				if(!$userSfLink){
-						$importForm = $this->createFormBuilder();
-						$importForm->add('import',UrlType::class);
-						$importForm->add('save',SubmitType::class);
-						$importForm = $importForm->getForm();
-						$importForm->handleRequest($request);
+            $this->addFlash(
+                'success',
+                'Votre profil a bien été mis à jour.'
+            );
+            if(!$id)
+                return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+            else
+                return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
+        }
+        // import
+        $importForm = null;
+        if(!$userSfLink){
+            $importForm = $this->createFormBuilder();
+            $importForm->add('import',UrlType::class);
+            $importForm->add('save',SubmitType::class);
+            $importForm = $importForm->getForm();
+            $importForm->handleRequest($request);
 
-						if ($importForm->isSubmitted() && $importForm->isValid()) {
-								$uri = $importForm->get('import')->getData();
-								$user->setSfLink($uri);
-								$em->persist($user);
-								$em->flush();
-								//importer le profile
-								$sfClient->import($uri);
-								if(!$id)
-										return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-								else
-										return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
-						}
-				}
-				// Fill form
-				return $this->render(
-					'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
-						'importForm'=> ($importForm != null)? $importForm->createView() : null,
-						"form" => $form->createView(),
-						"entityUri" => $this->getSfLink($id),
-						'currentUser' => $user
-					]
-				);
-		}
+            if ($importForm->isSubmitted() && $importForm->isValid()) {
+                $uri = $importForm->get('import')->getData();
+                $user->setSfLink($uri);
+                $em->persist($user);
+                $em->flush();
+                //importer le profile
+                $sfClient->import($uri);
+                if(!$id)
+                    return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+                else
+                    return $this->redirectToRoute('personComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
+            }
+        }
+        // Fill form
+        return $this->render(
+            'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
+                'importForm'=> ($importForm != null)? $importForm->createView() : null,
+                "form" => $form->createView(),
+                "entityUri" => $this->getSfLink($id),
+                'currentUser' => $user
+            ]
+        );
+    }
     public function listUserAction(Request $request)
     {
 
-				$form = $this->createForm(
-					UserType::class,
-					null,
-					// Options.
-					[]
-				);
-				$form->add('organisation',EntityType::class, [
-					'class' => 'semappsBundle:Organization',
-					'query_builder' => function (EntityRepository $er) {
-							return $er->createQueryBuilder('u')
-								->orderBy('u.name', 'ASC');
-					},
-					'placeholder' =>'Choisir une organisation',
-					'choice_label' => 'name',
-					'required'   => false,
-					'mapped'  => false,
-				]);
-				$form->add(
-					'access',
-					HiddenType::class,
-					['data' => 'ROLE_MEMBER', 'mapped' =>false]
-					);
+        $form = $this->createForm(
+            UserType::class,
+            null,
+            // Options.
+            []
+        );
+        $form->add('organisation',EntityType::class, [
+            'class' => 'semappsBundle:Organization',
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+            },
+            'placeholder' =>'Choisir une organisation',
+            'choice_label' => 'name',
+            'required'   => false,
+            'mapped'  => false,
+        ]);
+        $form->add(
+            'access',
+            HiddenType::class,
+            ['data' => 'ROLE_MEMBER', 'mapped' =>false]
+        );
 
-				$form->handleRequest($request);
+        $form->handleRequest($request);
 
-				if ($form->isSubmitted() && $form->isValid()) {
-						// Get posted data of type user
-						$newUser = $form->getData();
-						/** @var \semappsBundle\Services\Encryption $encryption */
-						$encryption = $this->container->get('semappsBundle.encryption');
-						// Generate password.
-						/** @var TokenGenerator $tokenGenerator */
-						$tokenGenerator = $this->container->get(
-							'fos_user.util.token_generator'
-						);
-						$randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
-						$newUser->setPassword(
-							password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
-						);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Get posted data of type user
+            $newUser = $form->getData();
+            /** @var \semappsBundle\Services\Encryption $encryption */
+            $encryption = $this->container->get('semappsBundle.encryption');
+            // Generate password.
+            /** @var TokenGenerator $tokenGenerator */
+            $tokenGenerator = $this->container->get(
+                'fos_user.util.token_generator'
+            );
+            $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
+            $newUser->setPassword(
+                password_hash($randomPassword, PASSWORD_BCRYPT, ['cost' => 13])
+            );
 
-						$newUser->setSfUser($encryption->encrypt($randomPassword));
+            $newUser->setSfUser($encryption->encrypt($randomPassword));
 
-						// Generate the token for the confirmation email
-						$conf_token = $tokenGenerator->generateToken();
-						$newUser->setConfirmationToken($conf_token);
+            // Generate the token for the confirmation email
+            $conf_token = $tokenGenerator->generateToken();
+            $newUser->setConfirmationToken($conf_token);
 
-						//Set the roles
-						$newUser->addRole($form->get('access')->getData());
-						$newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
-						// Save it.
-						$em = $this->getDoctrine()->getManager();
-						$em->persist($newUser);
-						try {
-								$em->flush();
-						} catch (UniqueConstraintViolationException $e) {
-								$this->addFlash('danger', "l'utilisateur saisi existe déjà");
+            //Set the roles
+            $newUser->addRole($form->get('access')->getData());
+            $newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
+            // Save it.
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($newUser);
+            try {
+                $em->flush();
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "l'utilisateur saisi existe déjà");
 
-								return $this->redirectToRoute('userList');
-						}
-				}
-						$users = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:User')
-          ->findAll();
+                return $this->redirectToRoute('userList');
+            }
+        }
+        $users = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:User')
+            ->findAll();
 
         $tabUserEnabled = $tabUserDisabled = [];
         /** @var User $user */
         foreach ($users as $user){
             $organization = $this
-              ->getDoctrine()
-              ->getManager()
-              ->getRepository('semappsBundle:Organization')
-              ->findOneBy(array('id' => $user->getFkOrganisation()));
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('semappsBundle:Organization')
+                ->findOneBy(array('id' => $user->getFkOrganisation()));
 
             if($user->isEnabled()){
 
@@ -298,46 +298,46 @@ class AdminController extends UniqueComponentController
         }
 
         return $this->render(
-          'semappsBundle:Admin:listUser.html.twig',
-          array(
-            'userEnabled'      => $tabUserEnabled,
-            'userDisabled'     => $tabUserDisabled,
-            'nameRoute'        => 'userList',
-            'usersRolesLabels' => [
-              'ROLE_SUPER_ADMIN' => 'Super admin',
-              'ROLE_ADMIN'       => 'Administration',
-              'ROLE_MEMBER'      => 'Member',
-            ],
-						'userForm'					=>$form->createView()
-          )
+            'semappsBundle:Admin:listUser.html.twig',
+            array(
+                'userEnabled'      => $tabUserEnabled,
+                'userDisabled'     => $tabUserDisabled,
+                'nameRoute'        => 'userList',
+                'usersRolesLabels' => [
+                    'ROLE_SUPER_ADMIN' => 'Super admin',
+                    'ROLE_ADMIN'       => 'Administration',
+                    'ROLE_MEMBER'      => 'Member',
+                ],
+                'userForm'					=>$form->createView()
+            )
         );
     }
 
     public function sendUserAction($userId,$nameRoute = 'team'){
         $user = $this
-          ->getDoctrine()
-          ->getManager()
-          ->getRepository('semappsBundle:User')
-          ->find($userId);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:User')
+            ->find($userId);
 
-				$url = $this->generateUrl(
-					'fos_user_registration_confirm',
-					array('token' => $user->getConfirmationToken()),
-					UrlGeneratorInterface::ABSOLUTE_URL
-				);
-				$organisation = ($user->getFkOrganisation())?$this
-					->getDoctrine()
-					->getManager()
-					->getRepository('semappsBundle:Organization')
-					->find($user->getFkOrganisation()) : null;
-				//send email to the new user
-				$mailer = $this->get('semappsBundle.EventListener.SendMail');
-				$result = $mailer->sendConfirmMessage(
-					($organisation != null && $user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
-					$user,
-					$organisation,
-					$url
-				);
+        $url = $this->generateUrl(
+            'fos_user_registration_confirm',
+            array('token' => $user->getConfirmationToken()),
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+        $organisation = ($user->getFkOrganisation())?$this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:Organization')
+            ->find($user->getFkOrganisation()) : null;
+        //send email to the new user
+        $mailer = $this->get('semappsBundle.EventListener.SendMail');
+        $result = $mailer->sendConfirmMessage(
+            ($organisation != null && $user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
+            $user,
+            $organisation,
+            $url
+        );
 
         if($result){
             $this->addFlash('info',"email envoyé pour l'utilisateur <b>".$user->getUsername()."</b> à l'adresse <b>".$user->getEmail()."</b>");
@@ -354,8 +354,8 @@ class AdminController extends UniqueComponentController
     {
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient       = $this->container->get('semantic_forms.client');
-				/** @var SparqlRepository $sparqlRepository */
-				$sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
+        /** @var SparqlRepository $sparqlRepository */
+        $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
         // Find all users.
         $userManager         = $this->getDoctrine()
             ->getManager()
@@ -380,23 +380,23 @@ class AdminController extends UniqueComponentController
         $idResponsible = $organisation->getFkResponsable();
 
         // using the field username_canonical to have the name and forname of each user
-				/** @var User $user */
+        /** @var User $user */
         foreach ($users as $user){
             //TODO make function to find something about someone
-						/** @var sparqlSelect $sparql */
+            /** @var sparqlSelect $sparql */
             $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
             $sparql->addPrefixes($sparql->prefixes)
-							->addPrefix('pair','http://virtual-assembly.org/pair#')
+                ->addPrefix('pair','http://virtual-assembly.org/pair#')
                 ->addSelect('?name')
                 ->addSelect('?forname')
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'pair:lastName',
-                  '?name',
-                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
+                    'pair:lastName',
+                    '?name',
+                    $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL))
                 ->addOptional($sparql->formatValue($user->getSfLink(),$sparql::VALUE_TYPE_URL),
-                  'pair:firstName',
-                  '?forname',
-                  $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
+                    'pair:firstName',
+                    '?forname',
+                    $sparql->formatValue($organisation->getGraphURI(),$sparql::VALUE_TYPE_URL));
             $result = $sfClient->sparql($sparql->getQuery());
             $nom = $prenom = "";
             if (array_key_exists(0,$result["results"]["bindings"])){
@@ -415,7 +415,7 @@ class AdminController extends UniqueComponentController
             /** @var \semappsBundle\Services\Encryption $encryption */
             $encryption = $this->container->get('semappsBundle.encryption');
             // Generate password.
-						/** @var TokenGenerator $tokenGenerator */
+            /** @var TokenGenerator $tokenGenerator */
             $tokenGenerator = $this->container->get(
                 'fos_user.util.token_generator'
             );
@@ -452,32 +452,32 @@ class AdminController extends UniqueComponentController
             //send email to the new user
             $mailer =  $this->get('semappsBundle.EventListener.SendMail');
             $result =$mailer->sendConfirmMessage(
-                  $mailer::TYPE_USER,
-                    $newUser,
-                    $organisation,
-                    $url
-                    //$randomPassword
-                );
+                $mailer::TYPE_USER,
+                $newUser,
+                $organisation,
+                $url
+            //$randomPassword
+            );
 
             // TODO Grant permission to edit same organisation as current user.
             // Display message.
             if($result){
                 $this->addFlash(
-                  'success',
-                  'Un compte à bien été créé pour <b>'.
-                  $newUser->getUsername().
-                  '</b>. Un email a été envoyé à <b>'.
-                  $newUser->getEmail().
-                  '</b> pour lui communiquer ses informations de connexion.'
+                    'success',
+                    'Un compte à bien été créé pour <b>'.
+                    $newUser->getUsername().
+                    '</b>. Un email a été envoyé à <b>'.
+                    $newUser->getEmail().
+                    '</b> pour lui communiquer ses informations de connexion.'
                 );
             }else{
                 $this->addFlash(
-                  'danger',
-                  'Un compte à bien été créé pour <b>'.
-                  $newUser->getUsername().
-                  "</b>. mais l'email n'est pas parti à l'adresse <b>".
-                  $newUser->getEmail().
-                  '</b>'
+                    'danger',
+                    'Un compte à bien été créé pour <b>'.
+                    $newUser->getUsername().
+                    "</b>. mais l'email n'est pas parti à l'adresse <b>".
+                    $newUser->getEmail().
+                    '</b>'
                 );
             }
 
@@ -623,36 +623,36 @@ class AdminController extends UniqueComponentController
         return $this->redirectToRoute('team');
     }
 
-		//all be modified
-		public function getElement($id =null)
-		{
-				$userManager         = $this->getDoctrine()
-					->getManager()
-					->getRepository(
-						'semappsBundle:User'
-					);
-				if ($id){
-						return $userManager->find($id);
-				}
-				else{
-						return $this->getUser();
+    //all be modified
+    public function getElement($id =null)
+    {
+        $userManager         = $this->getDoctrine()
+            ->getManager()
+            ->getRepository(
+                'semappsBundle:User'
+            );
+        if ($id){
+            return $userManager->find($id);
+        }
+        else{
+            return $this->getUser();
 
-				}
-		}
+        }
+    }
 
-		public function getSfLink($id = null)
-		{
-				if ($id){
-						return $this->getElement($id)->getSfLink();
-				}
-				else{
-						return $this->getUser()->getSfLink();
-				}
-		}
+    public function getSfLink($id = null)
+    {
+        if ($id){
+            return $this->getElement($id)->getSfLink();
+        }
+        else{
+            return $this->getUser()->getSfLink();
+        }
+    }
 
-		public function getGraph($id = null)
-		{
-				return $this->getSfLink($id);
-		}
+    public function getGraph($id = null)
+    {
+        return $this->getSfLink($id);
+    }
 
 }

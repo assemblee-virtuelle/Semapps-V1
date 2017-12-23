@@ -19,32 +19,32 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(
-          'username',
-          TextType::class,
-          array(
-            'label'       => 'login',
-            'constraints' => array(
-              new NotBlank(),
-            ),
-          )
-        )
-          ->add(
-            'email',
-            EmailType::class,
-            array()
-          )
-          ->add(
-            'access',
-            ChoiceType::class,
+            'username',
+            TextType::class,
             array(
-              'mapped'  => false,
-              'choices' => array(
-                'Administrateur' => 'ROLE_ADMIN',
-                'Membre'         => 'ROLE_MEMBER',
-              ),
+                'label'       => 'login',
+                'constraints' => array(
+                    new NotBlank(),
+                ),
             )
-          )
-          ->add('submit', SubmitType::class, array());
+        )
+            ->add(
+                'email',
+                EmailType::class,
+                array()
+            )
+            ->add(
+                'access',
+                ChoiceType::class,
+                array(
+                    'mapped'  => false,
+                    'choices' => array(
+                        'Administrateur' => 'ROLE_ADMIN',
+                        'Membre'         => 'ROLE_MEMBER',
+                    ),
+                )
+            )
+            ->add('submit', SubmitType::class, array());
     }
 
     /**
@@ -53,9 +53,9 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-          array(
-            'data_class' => 'semappsBundle\Entity\User',
-          )
+            array(
+                'data_class' => 'semappsBundle\Entity\User',
+            )
         );
     }
 

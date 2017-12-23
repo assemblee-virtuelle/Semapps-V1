@@ -52,7 +52,7 @@ class ConfirmRegistrationListener implements EventSubscriberInterface
                 'form_params' => $data
             ]);
 
-				$url = $this->router->generate('personComponentFormWithoutId',["uniqueComponentName" => "person"]);
+        $url = $this->router->generate('personComponentFormWithoutId',["uniqueComponentName" => "person"]);
         $event->setResponse(new RedirectResponse($url));
     }
 }

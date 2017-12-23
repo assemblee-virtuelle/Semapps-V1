@@ -25,77 +25,77 @@ class ProposalType extends SemanticFormType
         parent::buildForm($builder, $options);
 
         $this
-					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
-					->add(
-						$builder,
-						'description',
-						TextareaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'comment',
-						TextType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'brainstormedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
-						]
-					)
-					->add(
-						$builder,
-						'documentedBy',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
-						]
-					)
-					->add(
-						$builder,
-						'hasSubject',
-						DbPediaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'hasInterest',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
-						]
-					)
-					->add(
-						$builder,
-						'hasSubjectPAIR',
-						UriType::class,
-						[
-							'required'  => false,
-							'rdfType'   => implode('|',semappsConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
-						]
-					)
-				;
-				$builder->add(
-					'componentPicture',
-					FileType::class,
-					[
-						'data_class' => null,
-						'required'   => false,
-					]
-				);
+            ->add($builder, 'preferedLabel', TextType::class)
+            ->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
+            ->add(
+                $builder,
+                'description',
+                TextareaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'comment',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'brainstormedBy',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'documentedBy',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasSubject',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasInterest',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasSubjectPAIR',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
+                ]
+            )
+        ;
+        $builder->add(
+            'componentPicture',
+            FileType::class,
+            [
+                'data_class' => null,
+                'required'   => false,
+            ]
+        );
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }
 }

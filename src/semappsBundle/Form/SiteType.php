@@ -17,12 +17,12 @@ class SiteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-					->add('name', TextType::class)
-					->add('site', UrlType::class)
-					->add('submit', SubmitType::class, array());
-				;
+            ->add('name', TextType::class)
+            ->add('site', UrlType::class)
+            ->add('submit', SubmitType::class, array());
+        ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

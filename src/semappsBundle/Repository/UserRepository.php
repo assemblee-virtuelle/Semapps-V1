@@ -34,8 +34,8 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function getSuperAdminUsers(){
-				return $this->createQueryBuilder('q')->select('q.email')->where("q.roles LIKE '%ROLE_SUPER_ADMIN%'")->getQuery()->getResult();
-		}
+        return $this->createQueryBuilder('q')->select('q.email')->where("q.roles LIKE '%ROLE_SUPER_ADMIN%'")->getQuery()->getResult();
+    }
 
 
 }

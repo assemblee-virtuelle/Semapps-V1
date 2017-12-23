@@ -26,41 +26,41 @@ class DocumentTypeType extends SemanticFormType
         parent::buildForm($builder, $options);
 
         $this
-					->add($builder, 'preferedLabel', TextType::class)
-					->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
-					->add(
-						$builder,
-						'description',
-						TextareaType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'comment',
-						TextType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'homePage',
-						UrlType::class,
-						[
-							'required' => false,
-						]
-					)
-					->add(
-						$builder,
-						'aboutPage',
-						MultipleType::class,
-						[
-							'required' => false,
-						]
-					)
-				;
+            ->add($builder, 'preferedLabel', TextType::class)
+            ->add($builder, 'alternativeLabel', TextType::class, ['required' => false,])
+            ->add(
+                $builder,
+                'description',
+                TextareaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'comment',
+                TextType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'homePage',
+                UrlType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'aboutPage',
+                MultipleType::class,
+                [
+                    'required' => false,
+                ]
+            )
+        ;
 
         $builder->add('save', SubmitType::class, ['label' => 'Enregistrer']);
     }

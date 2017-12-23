@@ -16,8 +16,8 @@ class OrganizationRepository extends \Doctrine\ORM\EntityRepository
         $result   = $sfClient->sparql($query);
         if (!is_array($result)) {
             $this->addFlash(
-              'danger',
-              'Une erreur s\'est produite lors de l\'affichage du formulaire'
+                'danger',
+                'Une erreur s\'est produite lors de l\'affichage du formulaire'
             );
 
             return $this->redirectToRoute('home');

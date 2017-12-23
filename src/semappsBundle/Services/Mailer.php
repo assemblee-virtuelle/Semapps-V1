@@ -75,7 +75,7 @@ class Mailer
                         (Ce lien ne peut être utilisé qu'une seule fois, il sert à valider votre compte.)<br><br>";
 
                 if($organisation){
-										$content['body'] .= "
+                    $content['body'] .= "
                         Voici tes identifiants :)<br>
                         Login : ".$user->getUsername()."<br>
                         Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
@@ -88,9 +88,9 @@ class Mailer
 												- Le #CodeSocial (en cliquant sur document)<br>
 												- Créer la fiche de l’atelier que vous organisez.<br><br>
                        ";
-								}
-								else{
-										$content['body'] .= "
+                }
+                else{
+                    $content['body'] .= "
                         Voici tes identifiants :)<br>
                         Login : ".$user->getUsername()."<br>
                         Mot de passe : ".$this->encryption->decrypt($user->getSfUser())."<br>
@@ -103,8 +103,8 @@ class Mailer
                        
                        A très bientôt sur SemApps :-)
                        ";
-								}
-								$content['body'] .= "A très bientôt sur SemApps :-)";
+                }
+                $content['body'] .= "A très bientôt sur SemApps :-)";
                 break;
             case self::TYPE_USER :
                 $content['subject'] = "Bienvenue sur la plateforme SemApps !";
@@ -124,7 +124,7 @@ class Mailer
                        ";
                 break;
             default:
-            		$text = ($organisation != null)? $organisation->getName(): "pas d'organisation";
+                $text = ($organisation != null)? $organisation->getName(): "pas d'organisation";
                 $content['subject'] = "[NOTIF] Cartographie SemApps : Demande de création de compte !";
                 $content['body'] = "Un nouvel utilisateur demande l'accès à l'application !</br></br>
                                   
