@@ -3,6 +3,7 @@ parameters:
     personConf:
       type: 'http://virtual-assembly.org/pair#Person'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Person'
+      nameType: 'person'
       fields:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -119,3 +120,6 @@ parameters:
         http://virtual-assembly.org/pair#organizes: "http://virtual-assembly.org/pair#organizedBy"
         http://virtual-assembly.org/pair#responsibleOf: 'http://virtual-assembly.org/pair#hasResponsible'
         http://virtual-assembly.org/pair#employedBy: 'http://virtual-assembly.org/pair#employs'
+      label:
+        - http://virtual-assembly.org/pair#firstName
+        - http://virtual-assembly.org/pair#lastName

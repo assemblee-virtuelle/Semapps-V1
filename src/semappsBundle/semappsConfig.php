@@ -8,7 +8,7 @@
 
 namespace semappsBundle;
 
-
+/** TODO remove this file */
 class semappsConfig
 {
     //class

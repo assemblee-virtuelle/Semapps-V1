@@ -3,6 +3,7 @@ parameters:
     projectConf:
       type: 'http://virtual-assembly.org/pair#Project'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Project'
+      nameType: 'project'
       fields:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'

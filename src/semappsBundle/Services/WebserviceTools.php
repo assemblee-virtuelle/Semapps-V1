@@ -56,6 +56,7 @@ class WebserviceTools
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+        /** TODO: move to sparqlRepository */
         /* requete génériques */
         $sparql->addPrefixes($sparql->prefixes)
             ->addPrefix('pair','http://virtual-assembly.org/pair#')
@@ -255,7 +256,7 @@ class WebserviceTools
     }
 
 
-    public function requestPair($uri,$entitiesTab)
+    public function requestPair($uri)
     {
         $output     = [];
         $properties = $this->uriPropertiesFiltered($uri);
@@ -293,7 +294,7 @@ class WebserviceTools
                     'internal_contributor',
                     'internal_publisher',
                 ];
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 if (isset($properties['description'])) {
                     $properties['description'] = nl2br(current($properties['description']),false);
                 }
@@ -338,7 +339,7 @@ class WebserviceTools
                     'internal_contributor',
                     'internal_publisher',
                 ];
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 if (isset($properties['offers'])) {
                     foreach ($properties['offers'] as $uri) {
                         $output['offers'][] = [
@@ -397,7 +398,7 @@ class WebserviceTools
                         ];
                     }
                 }
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 break;
             // Event.
             case semappsConfig::URI_PAIR_EVENT:
@@ -414,7 +415,7 @@ class WebserviceTools
                     'hasSubjectPAIR'
 
                 ];
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 break;
             // Proposition.
             case semappsConfig::URI_PAIR_PROPOSAL:
@@ -432,7 +433,7 @@ class WebserviceTools
                     'hasSubjectPAIR',
 
                 ];
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 break;
             // document
             case semappsConfig::URI_PAIR_DOCUMENT:
@@ -451,7 +452,7 @@ class WebserviceTools
                     'internal_document_contributor',
                     'internal_document_publisher',
                 ];
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 break;
             //document type
             case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
@@ -464,7 +465,7 @@ class WebserviceTools
                     'typeOf'
                 ];
                 //dump($properties);exit;
-                $this->getData($properties,$propertiesWithUri,$output,$entitiesTab);
+                $this->getData($properties,$propertiesWithUri,$output);
                 break;
         }
         if (isset($properties['hasSubject'])) {
@@ -491,18 +492,25 @@ class WebserviceTools
 
     }
 
-    private function getData($properties,$tabFieldsAlias,&$output,$entitiesTabs){
+    private function getData($properties,$tabFieldsAlias,&$output){
         $cacheTemp = [];
+        $cacheComponentConf = [];
         foreach ($tabFieldsAlias as $alias) {
             if (isset($properties[$alias])) {
                 foreach ($properties[$alias] as $uri) {
                     if (array_key_exists($uri, $cacheTemp)) {
-                        $output[$alias][$entitiesTabs[$cacheTemp[$uri]['type']]['nameType']][] = $cacheTemp[$uri];
+                        $output[$alias][$cacheComponentConf[$cacheTemp[$uri]['type']]['nameType']][] = $cacheTemp[$uri];
                     } else {
                         $component = $this->uriPropertiesFiltered($uri);
                         //dump($component);
                         if(array_key_exists('type',$component)){
                             $componentType = current($component['type']);
+                            if($cacheComponentConf[$componentType]){
+                                $componentConf = $cacheComponentConf[$componentType];
+                            }
+                            else
+                                $componentConf = $cacheComponentConf[$componentType] = $this->confmanager->getConf($componentType);
+
                             $result = null;
                             switch ($componentType) {
                                 case semappsConfig::URI_PAIR_PERSON:
@@ -511,7 +519,7 @@ class WebserviceTools
                                         'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
                                         'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
                                     ];
-                                    $output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
+                                    $output[$alias][$componentConf['nameType']][] = $result;
                                     break;
                                 case semappsConfig::URI_PAIR_ORGANIZATION:
                                 case semappsConfig::URI_PAIR_PROJECT:
@@ -524,7 +532,7 @@ class WebserviceTools
                                         'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
                                         'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
                                     ];
-                                    $output[$alias][$entitiesTabs[$componentType]['nameType']][] = $result;
+                                    $output[$alias][$componentConf['nameType']][] = $result;
                                     break;
                             }
                             $cacheTemp[$uri] = $result;
@@ -562,7 +570,5 @@ class WebserviceTools
         }
         return $output;
     }
-
-
 
 }

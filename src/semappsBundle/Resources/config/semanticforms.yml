@@ -7,3 +7,13 @@ imports:
     - { resource: "@semappsBundle/Resources/config/SemanticForms/documentConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/documenttypeConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/dbpedia.yml" }
+
+parameters:
+  typeToName:
+    http://virtual-assembly.org/pair#Person: 'person'
+    http://virtual-assembly.org/pair#Organization: 'organization'
+    http://virtual-assembly.org/pair#Project: 'project'
+    http://virtual-assembly.org/pair#Event: 'event'
+    http://virtual-assembly.org/pair#Proposal: 'proposal'
+    http://virtual-assembly.org/pair#Document: 'document'
+    http://virtual-assembly.org/pair#DocumentType: 'documentType'

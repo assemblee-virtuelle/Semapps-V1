@@ -16,50 +16,6 @@ use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 class WebserviceController extends Controller
 {
 
-    var $entitiesTabs = [
-        semappsConfig::URI_PAIR_ORGANIZATION => [
-            'name'   => 'Organization',
-            'plural' => 'Organisations',
-            'icon'   => 'tower',
-            'nameType' => 'organization'
-        ],
-        semappsConfig::URI_PAIR_PERSON       => [
-            'name'   => 'Personne',
-            'plural' => 'Personnes',
-            'icon'   => 'user',
-            'nameType' => 'person'
-        ],
-        semappsConfig::URI_PAIR_PROJECT      => [
-            'name'   => 'Projet',
-            'plural' => 'Projets',
-            'icon'   => 'screenshot',
-            'nameType' => 'project'
-        ],
-        semappsConfig::URI_PAIR_EVENT        => [
-            'name'   => 'Event',
-            'plural' => 'Events',
-            'icon'   => 'calendar',
-            'nameType' => 'event'
-        ],
-        semappsConfig::URI_PAIR_PROPOSAL  => [
-            'name'   => 'Proposition',
-            'plural' => 'Propositions',
-            'icon'   => 'info-sign',
-            'nameType' => 'proposal'
-        ],
-        semappsConfig::URI_PAIR_DOCUMENT  => [
-            'name'   => 'Document',
-            'plural' => 'Documents',
-            'icon'   => 'folder-open',
-            'nameType' => 'document'
-        ],
-        semappsConfig::URI_PAIR_DOCUMENT_TYPE  => [
-            'name'   => 'Type de document',
-            'plural' => 'Types de document',
-            'icon'   => 'pushpin',
-            'nameType' => 'documentType'
-        ],
-    ];
 
     var $entitiesFilters = [
         semappsConfig::URI_PAIR_ORGANIZATION,
@@ -72,15 +28,6 @@ class WebserviceController extends Controller
         semappsConfig::URI_PAIR_DOCUMENT_TYPE,
 
     ];
-
-
-    public function __construct()
-    {
-        // We also need to type as property.
-        foreach ($this->entitiesTabs as $key => $item) {
-            $this->entitiesTabs[$key]['type'] = $key;
-        }
-    }
 
     public function parametersAction()
     {
@@ -124,7 +71,7 @@ class WebserviceController extends Controller
             $output = [
                 'access'        => $access,
                 'name'          => $name,
-                'entities'      => $this->entitiesTabs,
+                'typeToName'      => $this->getParameter("typeToName"),
                 'thesaurus'     => $thesaurus,
                 'userUri'       => ($user != null)?$user->getSfLink() : null,
                 'userGraphUri'  => $graphUri
@@ -198,7 +145,7 @@ class WebserviceController extends Controller
 
         return new JsonResponse(
             (object)[
-                'detail' => $webserviceTools->requestPair($request->get('uri'),$this->entitiesTabs),
+                'detail' => $webserviceTools->requestPair($request->get('uri')),
             ]
         );
     }
@@ -206,7 +153,8 @@ class WebserviceController extends Controller
     public function ressourceAction(Request $request){
         $uri                = $request->get('uri');
         $sfClient           = $this->container->get('semantic_forms.client');
-        $dbpediaConf				= $this->getParameter('dbpediaConf');
+        $confManager           = $this->container->get('semappsBundle.confmanager');
+        $dbpediaConf		= $this->getParameter('dbpediaConf');
         $ressource      = $sfClient->dbPediaDetail($dbpediaConf,$uri,$request->getLanguages()[0]);
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -257,10 +205,11 @@ class WebserviceController extends Controller
             $resultsTemp = $this->filter($resultsTemp);
             foreach ($resultsTemp as $resultTemp){
                 if(array_key_exists('type',$resultTemp)){
-                    if(!array_key_exists($this->entitiesTabs[$resultTemp['type']]['nameType'],$results[$key]))
-                        $results[$key][$this->entitiesTabs[$resultTemp['type']]['nameType']] = [];
+                    $componentConf =$confManager->getConf($resultTemp['type']);
+                    if(!array_key_exists($componentConf['nameType'],$results[$key]))
+                        $results[$key][$componentConf['nameType']] = [];
 
-                    array_push($results[$key][$this->entitiesTabs[$resultTemp['type']]['nameType']],$resultTemp);
+                    array_push($results[$key][$componentConf['nameType']],$resultTemp);
                 }
             }
 

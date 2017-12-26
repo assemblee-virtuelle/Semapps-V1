@@ -3,6 +3,7 @@ parameters:
     organizationConf:
       type: 'http://virtual-assembly.org/pair#Organization'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Organization'
+      nameType: 'organization'
       fields:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
@@ -113,3 +114,5 @@ parameters:
         http://virtual-assembly.org/pair#organizes: 'http://virtual-assembly.org/pair#organizedBy'
         http://virtual-assembly.org/pair#manages: 'http://virtual-assembly.org/pair#managedBy'
         http://virtual-assembly.org/pair#participantOf: 'http://virtual-assembly.org/pair#hasParticipant'
+      label:
+        - http://virtual-assembly.org/pair#preferedLabel

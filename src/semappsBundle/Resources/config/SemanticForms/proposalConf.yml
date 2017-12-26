@@ -3,6 +3,7 @@ parameters:
     proposalConf:
       type: 'http://virtual-assembly.org/pair#Proposal'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Proposal'
+      nameType: 'proposal'
       fields:
         http://virtual-assembly.org/pair#hasSubject_Pair:
           value: 'hasSubjectPAIR'
