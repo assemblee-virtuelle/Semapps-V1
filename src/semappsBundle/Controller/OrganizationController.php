@@ -375,7 +375,10 @@ class OrganizationController extends UniqueComponentController
 
     public function getElement($id =null)
     {
-        return $this->getOrgaByGraph($this->getGraph($id));
+        if($id == null)
+            return $this->getOrgaByGraph($this->getGraph($id));
+        else
+            return $this->getOrga($id);
     }
 
     public function getSfLink($id = null)
@@ -385,9 +388,13 @@ class OrganizationController extends UniqueComponentController
     }
     public function getGraph($id = null)
     {
-        /** @var contextManager $contextManager */
-        $contextManager = $this->container->get("semappsBundle.contextManager");
-        return $contextManager->getContext($this->getUser()->getSfLink())['context'];
+        if($id == null){
+            /** @var contextManager $contextManager */
+            $contextManager = $this->container->get("semappsBundle.contextManager");
+            return $contextManager->getContext($this->getUser()->getSfLink())['context'];
+        }
+        else
+            return $this->getElement($id)->getGraphURI();
     }
 
 }
