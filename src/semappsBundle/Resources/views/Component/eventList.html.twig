@@ -1,5 +1,5 @@
 {% extends "semappsBundle:Component:componentList.html.twig" %}
 
-{% block pageContentTitle %}Evénements{% endblock %}
+{% block pageContentTitle %}Evénements  de {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
 
 {% set menuSelected = 'Evénements' %}

@@ -7,6 +7,7 @@ use semappsBundle\Entity\Organization;
 use semappsBundle\Entity\User;
 use semappsBundle\Form\OrganisationMemberType;
 use semappsBundle\semappsConfig;
+use semappsBundle\Services\contextManager;
 use semappsBundle\Services\SparqlRepository;
 use SimpleExcel\SimpleExcel;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -374,7 +375,7 @@ class OrganizationController extends UniqueComponentController
 
     public function getElement($id =null)
     {
-        return $this->getOrga($id);
+        return $this->getOrgaByGraph($this->getGraph($id));
     }
 
     public function getSfLink($id = null)
@@ -384,7 +385,9 @@ class OrganizationController extends UniqueComponentController
     }
     public function getGraph($id = null)
     {
-        return $this->getElement($id)->getGraphURI();
+        /** @var contextManager $contextManager */
+        $contextManager = $this->container->get("semappsBundle.contextManager");
+        return $contextManager->getContext($this->getUser()->getSfLink())['context'];
     }
 
 }

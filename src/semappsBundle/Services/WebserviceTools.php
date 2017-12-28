@@ -505,7 +505,7 @@ class WebserviceTools
                         //dump($component);
                         if(array_key_exists('type',$component)){
                             $componentType = current($component['type']);
-                            if($cacheComponentConf[$componentType]){
+                            if(array_key_exists($componentType,$cacheComponentConf)){
                                 $componentConf = $cacheComponentConf[$componentType];
                             }
                             else

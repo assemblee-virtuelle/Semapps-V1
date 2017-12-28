@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter une proposition{% endblock %}
+{% block pageContentTitle %}Ajouter une proposition pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
 
 {%  set menuSelected = 'Proposition' %}
 

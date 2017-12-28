@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter un projet{% endblock %}
+{% block pageContentTitle %}Ajouter un projet pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
 
 {% set menuSelected = 'Projets' %}
 

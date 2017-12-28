@@ -41,4 +41,5 @@ security:
         - { path: ^/administration/access, role: ROLE_ADMIN }
         - { path: ^/administration/user/list, role: ROLE_SUPER_ADMIN }
         - { path: ^/administration/user, role: ROLE_ADMIN }
+        - { path: ^/administration/context/change, role: ROLE_MEMBER }
         - { path: ^/administration, role: ROLE_SUPER_ADMIN }

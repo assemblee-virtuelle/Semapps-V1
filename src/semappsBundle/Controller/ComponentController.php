@@ -3,6 +3,8 @@
 namespace semappsBundle\Controller;
 
 
+use semappsBundle\Services\confManager;
+use semappsBundle\Services\contextManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -76,18 +78,10 @@ class ComponentController extends AbstractMultipleComponentController
 
     function getGraph($id = null)
     {
-        $id = $this->getUser()->getFkOrganisation();
-        if($id){
-            $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-                'semappsBundle:Organization'
-            );
-            $organisation = $organisationEntity->find(
-                $this->getUser()->getFkOrganisation()
-            );
-            return $organisation->getGraphURI();
-        }
-        else
-            return $this->getUser()->getSfLink();
+        /** @var contextManager $contextManager */
+        $contextManager = $this->container->get("semappsBundle.contextManager");
+        return $contextManager->getContext($this->getUser()->getSfLink())['context'];
+
     }
 
     function getSfUser($id = null)

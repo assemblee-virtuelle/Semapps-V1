@@ -31,7 +31,16 @@ abstract class UniqueComponentController extends AbstractComponentController
             return $organisationEntity->find($id);
         else
             return $organisationEntity->find($this->getUser()->getFkOrganisation());
-        
+    }
+
+    protected function getOrgaByGraph($graph){
+        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+            'semappsBundle:Organization'
+        );
+        if ($graph)
+            return $organisationEntity->findOneBy(['graphURI'=> $graph]);
+        else
+            return null;
     }
 
 }

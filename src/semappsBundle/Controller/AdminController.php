@@ -10,6 +10,7 @@ use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
+use semappsBundle\Services\contextManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -621,6 +622,14 @@ class AdminController extends UniqueComponentController
 
 
         return $this->redirectToRoute('team');
+    }
+
+    public function changeContextAction($context =null){
+        /** @var contextManager $contextManager */
+        $contextManager = $this->container->get('semappsBundle.contextManager');
+        $contextManager->setContext($this->getUser()->getSfLink(),$context);
+        $this->addFlash('success',"le contexte a bien été changé");
+        return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
 
     //all be modified

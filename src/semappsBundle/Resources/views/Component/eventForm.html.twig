@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter un événement{% endblock %}
+{% block pageContentTitle %}Ajouter un événement pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
 
 {% set menuSelected = 'Evénements' %}
 

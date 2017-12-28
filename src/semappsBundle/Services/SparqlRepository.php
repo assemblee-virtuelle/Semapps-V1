@@ -15,9 +15,11 @@ use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 class SparqlRepository extends SparqlClient
 {
     protected $sfClient;
+    protected $confManager;
 
-    public function __construct(SemanticFormsClient $sfClient){
+    public function __construct(SemanticFormsClient $sfClient,confManager $confManager){
         $this->sfClient = $sfClient;
+        $this->confManager = $confManager;
 
     }
     public function changeImage($graph,$uri,$newImage){
@@ -45,5 +47,109 @@ class SparqlRepository extends SparqlClient
                 $sparql->formatValue($newImage,$sparql::VALUE_TYPE_TEXT),
                 $sparql->formatValue($graph,$sparql::VALUE_TYPE_URL));
         $this->sfClient->update($sparql->getQuery());
+    }
+
+    public function getLabel($type,$graphURI){
+        $componentConf = $this->confManager->getConf($type);
+        $results = null;
+        if ($componentConf['label']){
+            /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
+            $sparql = $this->newQuery(self::SPARQL_SELECT);
+            $graphURI = $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL);
+            $componentType = $sparql->formatValue($type,$sparql::VALUE_TYPE_URL);
+
+            $sparql->addPrefixes($sparql->prefixes)
+                ->addSelect('?URI')
+                ->addWhere('?URI','rdf:type',$componentType,$graphURI);
+            foreach ($componentConf['label'] as $field ){
+                $label = $componentConf['fields'][$field]['value'];
+                $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
+                $sparql->addSelect('?'.$label)
+                    ->addOptional('?URI',$fieldFormatted,'?'.$label,$graphURI);
+            }
+
+            $results = $this->sfClient->sparql($sparql->getQuery());
+        }
+
+        dump($results);
+        return $results;
+    }
+
+    public function getImage($type,$graphURI){
+        $componentConf = $this->confManager->getConf($type);
+        $results = null;
+        if ($componentConf['image']){
+            /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
+            $sparql = $this->newQuery(self::SPARQL_SELECT);
+            $graphURI = $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL);
+            $componentType = $sparql->formatValue($type,$sparql::VALUE_TYPE_URL);
+
+            $sparql->addPrefixes($sparql->prefixes)
+                ->addSelect('?URI')
+                ->addWhere('?URI','rdf:type',$componentType,$graphURI);
+            foreach ($componentConf['image'] as $field ){
+                $label = $componentConf['fields'][$field]['value'];
+                $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
+                $sparql->addSelect('?'.$label)
+                    ->addOptional('?URI',$fieldFormatted,'?'.$label,$graphURI);
+            }
+
+            $results = $this->sfClient->sparql($sparql->getQuery());
+        }
+        dump($results);
+
+        return $results;
+    }
+
+    public function getLabelAndImage($type,$graphURI){
+        $componentConf = $this->confManager->getConf($type);
+        $results = null;
+        if ($componentConf['image'] || $componentConf['image']) {
+            /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
+            $sparql = $this->newQuery(self::SPARQL_SELECT);
+            $graphURI = $sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL);
+            $componentType = $sparql->formatValue($type, $sparql::VALUE_TYPE_URL);
+
+            $sparql->addPrefixes($sparql->prefixes)
+                ->addSelect('?URI')
+                ->addWhere('?URI', 'rdf:type', $componentType, $graphURI);
+            if($componentConf['label']){
+                foreach ($componentConf['label'] as $field) {
+                    $label = $componentConf['fields'][$field]['value'];
+                    $fieldFormatted = $sparql->formatValue($field, $sparql::VALUE_TYPE_URL);
+                    $sparql->addSelect('?' . $label)
+                        ->addOptional('?URI', $fieldFormatted, '?' . $label, $graphURI);
+                }
+            }
+            if($componentConf['image']) {
+                foreach ($componentConf['image'] as $field) {
+                    $label = $componentConf['fields'][$field]['value'];
+                    $fieldFormatted = $sparql->formatValue($field, $sparql::VALUE_TYPE_URL);
+                    $sparql->addSelect('?' . $label)
+                        ->addOptional('?URI', $fieldFormatted, '?' . $label, $graphURI);
+                }
+            }
+            $results = $this->sfClient->sparql($sparql->getQuery());
+        }
+        dump($results);
+        return $results;
+    }
+
+    public function getAllowedGraphOfCurrentUser($sfLink){
+        return $this->sfClient->sparqlResultsValues($this->sfClient->sparql(" 
+        PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        PREFIX pair: <http://virtual-assembly.org/pair#>
+        SELECT ?G
+        WHERE {GRAPH ?G 
+        {
+            {?s rdf:type pair:Organization . ?s pair:hasMember <".$sfLink.">. }
+            UNION 
+                { ?s rdf:type pair:Organization . ?s pair:hasResponsible <".$sfLink.">.}
+            UNION 
+                {?s rdf:type pair:Organization. ?s pair:employs <".$sfLink.">.}
+            }
+        }
+        GROUP BY ?G"
+        ));
     }
 }

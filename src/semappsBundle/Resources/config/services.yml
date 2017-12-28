@@ -14,11 +14,15 @@ services:
 
     semappsBundle.sparqlRepository:
         class: semappsBundle\Services\SparqlRepository
-        arguments: ['@semantic_forms.client']
+        arguments: ['@semantic_forms.client',"@semappsBundle.confmanager"]
 
     semappsBundle.webserviceTools:
         class: semappsBundle\Services\WebserviceTools
         arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client']
+
+    semappsBundle.contextManager:
+        class: semappsBundle\Services\contextManager
+        arguments: ['@semappsBundle.sparqlRepository','@doctrine.orm.entity_manager']
 
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager

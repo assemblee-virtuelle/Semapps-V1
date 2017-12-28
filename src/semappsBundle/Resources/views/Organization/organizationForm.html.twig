@@ -2,7 +2,7 @@
 
 {% block title %}SemApps  | organisation{% endblock %}
 
-{% block pageContentTitle %}Mon organisation{% endblock %}
+{% block pageContentTitle %}Organisation : {{ context_manager.getContext(app.user.sfLink).contextName}}{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}

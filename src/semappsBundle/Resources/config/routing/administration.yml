@@ -19,3 +19,6 @@ orgaList:
 orgaExport:
     path:     /organization/export/csv
     defaults: { _controller: semappsBundle:Organization:orgaExport }
+changeContext:
+    path:     /context/change/{context}
+    defaults: { _controller: semappsBundle:Admin:changeContext, context: null}
