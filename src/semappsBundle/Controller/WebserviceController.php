@@ -26,6 +26,9 @@ class WebserviceController extends Controller
         semappsConfig::URI_SKOS_THESAURUS,
         semappsConfig::URI_PAIR_DOCUMENT,
         semappsConfig::URI_PAIR_DOCUMENT_TYPE,
+        semappsConfig::URI_PAIR_PROJECT_TYPE,
+        semappsConfig::URI_PAIR_EVENT_TYPE,
+        semappsConfig::URI_PAIR_PROPOSAL_TYPE,
 
     ];
 

@@ -8,10 +8,6 @@ services:
         class: semappsBundle\Services\Encryption
         arguments: ['%secret%']
 
-    semappsBundle.formattingForm:
-        class: semappsBundle\Services\FormattingForm
-        arguments: ~
-
     semappsBundle.sparqlRepository:
         class: semappsBundle\Services\SparqlRepository
         arguments: ['@semantic_forms.client',"@semappsBundle.confmanager"]
@@ -26,4 +22,4 @@ services:
 
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager
-        arguments: ["%personConf%","%organizationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%"]
+        arguments: ["%personConf%","%organizationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%","%projecttypeConf%","%eventtypeconf%","%proposaltypeconf%"]

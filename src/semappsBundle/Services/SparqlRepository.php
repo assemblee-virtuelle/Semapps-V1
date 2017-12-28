@@ -71,7 +71,6 @@ class SparqlRepository extends SparqlClient
             $results = $this->sfClient->sparql($sparql->getQuery());
         }
 
-        dump($results);
         return $results;
     }
 
@@ -96,7 +95,6 @@ class SparqlRepository extends SparqlClient
 
             $results = $this->sfClient->sparql($sparql->getQuery());
         }
-        dump($results);
 
         return $results;
     }
@@ -131,7 +129,6 @@ class SparqlRepository extends SparqlClient
             }
             $results = $this->sfClient->sparql($sparql->getQuery());
         }
-        dump($results);
         return $results;
     }
 

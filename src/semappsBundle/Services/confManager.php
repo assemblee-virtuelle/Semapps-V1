@@ -20,8 +20,13 @@ class confManager
     private $proposalConf;
     private $documentConf;
     private $documenttypeConf;
+    private $projecttypeConf;
+    private $eventtypeConf;
+    private $proposaltypeConf;
     private $dbpedia;
-    public function __construct(	 $personConf, $organizationConf, $projectConf, $eventConf, $proposalConf, $documentConf, $documenttypeConf,$dbpedia){
+    public function __construct(	 $personConf, $organizationConf, $projectConf, $eventConf,
+                                     $proposalConf, $documentConf, $documenttypeConf,$dbpedia,
+                                     $projecttypeConf,$eventtypeConf,$proposaltypeConf){
         $this->personConf = $personConf;
         $this->organizationConf = $organizationConf;
         $this->projectConf = $projectConf;
@@ -30,6 +35,9 @@ class confManager
         $this->documentConf = $documentConf;
         $this->documenttypeConf = $documenttypeConf;
         $this->dbpedia = $dbpedia;
+        $this->projecttypeConf = $projecttypeConf;
+        $this->eventtypeConf = $eventtypeConf;
+        $this->proposaltypeConf = $proposaltypeConf;
     }
     public function getConf($type = null){
 
@@ -55,6 +63,15 @@ class confManager
                 break;
             case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
                 $conf = $this->documenttypeConf;
+                break;
+            case semappsConfig::URI_PAIR_PROJECT_TYPE:
+                $conf = $this->projecttypeConf;
+                break;
+            case semappsConfig::URI_PAIR_EVENT_TYPE:
+                $conf = $this->eventtypeConf;
+                break;
+            case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
+                $conf = $this->proposaltypeConf;
                 break;
             default:
                 $conf = $this->dbpedia;
