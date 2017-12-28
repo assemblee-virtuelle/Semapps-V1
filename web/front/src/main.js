@@ -66,6 +66,24 @@
                     icon: 'pushpin',
                 }
                 ,
+                "http://virtual-assembly.org/pair#ProjectType":{
+                    name: 'Type de projet',
+                    plural: 'Types de projets',
+                    icon: 'pushpin',
+                }
+                ,
+                "http://virtual-assembly.org/pair#EventType":{
+                    name: 'Type d\'événement',
+                    plural: 'Types d\'événements',
+                    icon: 'pushpin',
+                }
+                ,
+                "http://virtual-assembly.org/pair#ProposalType":{
+                    name: 'Type de proposition',
+                    plural: 'Types de propositions',
+                    icon: 'pushpin',
+                }
+                ,
             };
 
             var loadParameters = () => {

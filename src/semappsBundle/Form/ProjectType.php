@@ -139,6 +139,15 @@ class ProjectType extends SemanticFormType
                     'required'  => false,
                 ]
             )
+            ->add(
+                $builder,
+                'hasType',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT_TYPE,
+                ]
+            )
         ;
         $builder->add(
             'componentPicture',

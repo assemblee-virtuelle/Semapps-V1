@@ -87,6 +87,15 @@ class ProposalType extends SemanticFormType
                     'rdfType'   => implode('|',semappsConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
                 ]
             )
+            ->add(
+                $builder,
+                'hasType',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PROPOSAL_TYPE,
+                ]
+            )
         ;
         $builder->add(
             'componentPicture',

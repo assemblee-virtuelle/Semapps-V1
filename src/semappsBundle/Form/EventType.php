@@ -153,6 +153,15 @@ class EventType extends SemanticFormType
                     'required'  => false,
                 ]
             )
+            ->add(
+                $builder,
+                'hasType',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_EVENT_TYPE,
+                ]
+            )
         ;
         $builder->add(
             'componentPicture',

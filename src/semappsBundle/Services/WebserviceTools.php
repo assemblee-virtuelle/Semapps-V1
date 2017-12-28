@@ -210,7 +210,7 @@ class WebserviceTools
         if((($type == semappsConfig::Multiple || $typeProposalType) && !$isBlocked)){
             $documentTypeSparql = clone $sparql;
             $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROPOSAL_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
                 ->addWhere('?uri','pair:preferedLabel','?title','?GR')
                 ->addOptional('?uri','pair:comment','?desc','?GR');
             //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
@@ -421,6 +421,7 @@ class WebserviceTools
 //									'representedBy',
                     'documentedBy',
                     'subjectOfPAIR',
+                    'hasType',
 
                 ];
                 if (isset($properties['needs'])) {
@@ -453,6 +454,7 @@ class WebserviceTools
                     'hasParticipant',
                     'documentedBy',
                     'subjectOfPAIR',
+                    'hasType',
                     'hasSubjectPAIR'
 
                 ];
@@ -472,6 +474,7 @@ class WebserviceTools
                     #'representedBy',
                     'documentedBy',
                     'hasSubjectPAIR',
+                    'hasType',
 
                 ];
                 $this->getData($properties,$propertiesWithUri,$output);
@@ -541,7 +544,7 @@ class WebserviceTools
         $cacheComponentConf = [];
         foreach ($tabFieldsAlias as $alias) {
             if (isset($properties[$alias])) {
-                foreach ($properties[$alias] as $uri) {
+                foreach (array_unique($properties[$alias]) as $uri) {
                     if (array_key_exists($uri, $cacheTemp)) {
                         $output[$alias][$cacheComponentConf[$cacheTemp[$uri]['type']]['nameType']][] = $cacheTemp[$uri];
                     } else {

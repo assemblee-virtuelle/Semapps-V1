@@ -53,9 +53,13 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#hasType:
+          value: 'hasType'
+          access: 'anonymous'
       reverse:
         http://virtual-assembly.org/pair#brainstormedBy: 'http://virtual-assembly.org/pair#brainstorms'
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#hasSubject_Pair: 'http://virtual-assembly.org/pair#subjectOf_Pair'
+        http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
       label:
         - http://virtual-assembly.org/pair#preferedLabel

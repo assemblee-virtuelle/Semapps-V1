@@ -173,6 +173,19 @@
           </div>
           <div class="clearfix"></div>
         </template>
+        <!-- hasType -->
+        <template is="dom-if" if="[[data.hasType.eventType.length]]">
+          <h3>Type</h3>
+
+          <template is="dom-repeat" items="{{data.hasType.eventType}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+
+        </template>
+        <!-- end of hasType -->
         <!-- hasSubjectPAIR -->
         <template is="dom-if" if="[[data.hasSubjectPAIR.person.length]]">
           <h3>concerne ( personne )</h3>

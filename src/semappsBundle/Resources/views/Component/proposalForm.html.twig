@@ -27,6 +27,11 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
+                    {{ form_row(form.hasType, { 'label': 'Type de proposition'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
                 </div>
             </div>
@@ -35,14 +40,6 @@
                     {{ form_row(form.description) }}
                 </div>
             </div>
-            {#<div class="row">#}
-            {#<div class="col-sm-6">#}
-            {#{{ form_row(form.homePage) }}#}
-            {#</div>#}
-            {#<div class="col-sm-6">#}
-            {#{{ form_row(form.aboutPage) }}#}
-            {#</div>#}
-            {#</div>#}
             <div class="row">
                 <div class="col-sm-12">
                     {{ form_row(form.hasSubjectPAIR, { 'label': 'Concerne'}) }}
