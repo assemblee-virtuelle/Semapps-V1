@@ -214,6 +214,15 @@ class OrganizationType extends SemanticFormType
                     'required'  => false,
                 ]
             )
+            ->add(
+                $builder,
+                'hasType',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION_TYPE,
+                ]
+            )
         ;
 
         $builder->add(

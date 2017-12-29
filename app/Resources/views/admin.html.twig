@@ -113,12 +113,14 @@
                                     {% if context_manager.getContext(app.user.sfLink).contextName %}
                                         {{ admin.menuItem(context_manager.getContext(app.user.sfLink).contextName, 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization'}) }}
                                     {% endif %}
+
                                     {% if app.user.sfLink or app.user.fkOrganisation %}
                                         {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
                                         {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
                                         {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
                                         {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
-                                        {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
+                                        {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types de documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
+                                        {{ admin.menuItem('Type d\'organisation', 'componentList', 'pushpin','référencer des types d\'organisation', menuSelected, 'MEMBER',{'componentName':'organizationType'}) }}
                                         {{ admin.menuItem('Type de projet', 'componentList', 'pushpin','référencer des types de projet', menuSelected, 'MEMBER',{'componentName':'projectType'}) }}
                                         {{ admin.menuItem('Type d\'événement', 'componentList', 'pushpin','référencer des types d\'événnement', menuSelected, 'MEMBER',{'componentName':'eventType'}) }}
                                         {{ admin.menuItem('Type de proposition', 'componentList', 'pushpin','référencer des types de proposition', menuSelected, 'MEMBER',{'componentName':'proposalType'}) }}

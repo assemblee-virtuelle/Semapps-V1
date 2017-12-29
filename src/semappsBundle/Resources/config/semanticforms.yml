@@ -9,6 +9,7 @@ imports:
     - { resource: "@semappsBundle/Resources/config/SemanticForms/projecttypeConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/eventtypeConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/proposaltypeConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/organizationtypeConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/dbpedia.yml" }
 
 parameters:
@@ -23,3 +24,4 @@ parameters:
     http://virtual-assembly.org/pair#ProjectType: 'projectType'
     http://virtual-assembly.org/pair#EventType: 'eventType'
     http://virtual-assembly.org/pair#ProposalType: 'proposalType'
+    http://virtual-assembly.org/pair#OrganizationType: 'organizationType'

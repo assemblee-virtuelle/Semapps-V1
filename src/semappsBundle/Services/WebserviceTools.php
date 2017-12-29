@@ -53,6 +53,7 @@ class WebserviceTools
         $typeProjectType= array_key_exists(semappsConfig::URI_PAIR_PROJECT_TYPE,$arrayType);
         $typeEventType= array_key_exists(semappsConfig::URI_PAIR_EVENT_TYPE,$arrayType);
         $typeProposalType= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL_TYPE,$arrayType);
+        $typeOrganizationType= array_key_exists(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$arrayType);
         $typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
         //$userLogged =  $this->getUser() != null;
@@ -218,6 +219,18 @@ class WebserviceTools
             $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
             $proposalTypes = $this->sfClient->sparqlResultsValues($results);
         }
+        $organizationTypes = [];
+        if((($type == semappsConfig::Multiple || $typeOrganizationType) && !$isBlocked)){
+            $documentTypeSparql = clone $sparql;
+            $documentTypeSparql->addSelect('?title')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
+                ->addOptional('?uri','pair:comment','?desc','?GR');
+            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
+            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
+            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
+            $organizationTypes = $this->sfClient->sparqlResultsValues($results);
+        }
         $thematiques = [];
         if($type == semappsConfig::Multiple || $typeThesaurus ){
             $thematiqueSparql = clone $sparql;
@@ -229,7 +242,7 @@ class WebserviceTools
             $thematiques = $this->sfClient->sparqlResultsValues($results);
         }
 
-        $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents,$documentTypes,$projectTypes,$eventTypes,$proposalTypes);
+        $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents,$documentTypes,$projectTypes,$eventTypes,$proposalTypes,$organizationTypes);
 
         return $results;
     }
@@ -260,6 +273,7 @@ class WebserviceTools
             case semappsConfig::URI_PAIR_PROJECT_TYPE :
             case semappsConfig::URI_PAIR_EVENT_TYPE :
             case semappsConfig::URI_PAIR_PROPOSAL_TYPE :
+            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','pair:preferedLabel','?label','?gr');
 
@@ -334,6 +348,7 @@ class WebserviceTools
                     'internal_author',
                     'internal_contributor',
                     'internal_publisher',
+                    'hasType',
                 ];
                 $this->getData($properties,$propertiesWithUri,$output);
                 if (isset($properties['description'])) {
@@ -503,6 +518,7 @@ class WebserviceTools
             case semappsConfig::URI_PAIR_PROJECT_TYPE:
             case semappsConfig::URI_PAIR_EVENT_TYPE:
             case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
+            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
                 $output['title'] = current($properties['preferedLabel']);
 
                 if (isset($properties['description'])) {
@@ -577,6 +593,7 @@ class WebserviceTools
                                 case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
                                 case semappsConfig::URI_PAIR_EVENT_TYPE:
                                 case semappsConfig::URI_PAIR_PROJECT_TYPE:
+                                case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
                                     $result = [
                                         'uri' => $uri,
                                         'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),

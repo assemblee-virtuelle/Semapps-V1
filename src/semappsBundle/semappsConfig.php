@@ -22,6 +22,7 @@ class semappsConfig
     const URI_PAIR_PROJECT_TYPE = 'http://virtual-assembly.org/pair#ProjectType';
     const URI_PAIR_EVENT_TYPE = 'http://virtual-assembly.org/pair#EventType';
     const URI_PAIR_PROPOSAL_TYPE = 'http://virtual-assembly.org/pair#ProposalType';
+    const URI_PAIR_ORGANIZATION_TYPE = 'http://virtual-assembly.org/pair#OrganizationType';
     const URI_MIXTE_PERSON_ORGANIZATION = [
         self::URI_PAIR_PERSON,
         self::URI_PAIR_ORGANIZATION,

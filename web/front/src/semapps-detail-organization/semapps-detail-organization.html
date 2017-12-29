@@ -253,6 +253,19 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of documentedby -->
+        <!-- hasType -->
+        <template is="dom-if" if="[[data.hasType.organizationType.length]]">
+          <h3>Type</h3>
+
+          <template is="dom-repeat" items="{{data.hasType.organizationType}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+          </template>
+          <div class="clearfix"></div>
+
+        </template>
+        <!-- end of hasType -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div class="thumbs">

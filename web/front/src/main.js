@@ -84,6 +84,12 @@
                     icon: 'pushpin',
                 }
                 ,
+                "http://virtual-assembly.org/pair#OrganizationType":{
+                    name: 'Type d\'organisation',
+                    plural: 'Types d\'organisations',
+                    icon: 'pushpin',
+                }
+                ,
             };
 
             var loadParameters = () => {
