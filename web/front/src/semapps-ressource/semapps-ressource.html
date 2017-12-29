@@ -187,6 +187,15 @@
           </template>
           <div class="clearfix"></div>
         </template>
+        <template is="dom-if" if="[[hasSubject.document]]">
+          <h3>hasSubject.document</h3>
+          <template is="dom-repeat" items="{{hasSubject.document}}">
+            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
+               class="list-item">
+              <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+          </template>
+          <div class="clearfix"></div>
+        </template>
     </div>
 
       <template is="dom-if" if="[[loading]]">

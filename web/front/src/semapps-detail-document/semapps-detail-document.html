@@ -200,6 +200,26 @@
 
         </template>
         <!-- end of documents -->
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>Centres d'intérêts</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasInterest}}">
+              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.length]]">
+          <h3>Mots-clés</h3>
+          <div class="tags-cloud">
+            <template is="dom-repeat" items="{{hasSubject}}">
+              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
+                {{item.name}}</a>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <!-- references -->
         <template is="dom-if" if="[[data.references.document.length]]">
           <h3>Lien bibliographique</h3>

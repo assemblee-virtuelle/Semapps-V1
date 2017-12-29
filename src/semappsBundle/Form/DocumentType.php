@@ -160,6 +160,22 @@ class DocumentType extends SemanticFormType
                     'years' => range(date('Y') -150, date('Y')),
                 ]
             )
+            ->add(
+                $builder,
+                'hasSubject',
+                DbPediaType::class,
+                [
+                    'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasInterest',
+                UriType::class,
+                [
+                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                ]
+            )
             ->add($builder, 'version', TextType::class, ['required' => false,])
 
         ;

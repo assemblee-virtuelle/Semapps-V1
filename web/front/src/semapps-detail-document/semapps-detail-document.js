@@ -19,11 +19,12 @@ Polymer({
         this.references = this.data.references;
         this.referencesBy = this.data.referencesBy;
         this.hasType = this.data.hasType;
+        this.hasInterest = this.data.hasInterest;
+        this.hasSubject = this.data.hasSubject;
         if (this.publicationDate) {
             let publicationDate = new Date(this.publicationDate);
             this.publicationDate = publicationDate.getDate() + '/' + (publicationDate.getMonth() + 1) + '/' + publicationDate.getFullYear();
         }
-        //this.buildingTitle = semapps.buildings[this.data.properties.building].title;
     },
 
     onClickThematic(e){
@@ -31,6 +32,14 @@ Polymer({
         let searchThemeFilter = document.getElementById('searchThemeFilter');
         searchThemeFilter.value = e.target.rel;
         semapps.goSearch();
-    }
+    },
+    handleClickRessource(e) {
+        e.preventDefault();
+        log('test');
+        semapps.goToPath('ressource', {
+            uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel')),
+            person: window.encodeURIComponent(this.uri)
+        });
+    },
 
 });

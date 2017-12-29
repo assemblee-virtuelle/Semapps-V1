@@ -80,6 +80,12 @@ parameters:
         http://virtual-assembly.org/pair#version:
            value: 'version'
            access: 'anonymous'
+        http://virtual-assembly.org/pair#hasInterest:
+           value: 'hasInterest'
+           access: 'anonymous'
+        http://virtual-assembly.org/pair#hasSubject:
+           value: 'hasSubject'
+           access: 'anonymous'
       reverse:
         http://virtual-assembly.org/pair#references: 'http://virtual-assembly.org/pair#referencesBy'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
