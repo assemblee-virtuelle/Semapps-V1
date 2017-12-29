@@ -117,6 +117,7 @@ Polymer({
         "use strict";
         this.pinHideAll();
         this.pinShow(key);
+        this.OSM.setView(this.pins[key].getLatLng(),15,{animate: true});
     },
 
     /**
