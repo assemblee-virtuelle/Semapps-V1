@@ -58,7 +58,7 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         }
 
         return $this->render(
-            $bundleName.':Component:'.$componentName.'List.html.twig',
+            $bundleName.':'.ucfirst($componentName).':'.$componentName.'List.html.twig',
             array(
                 'componentName' => $componentName,
                 'plural'        => $componentName.'(s)',

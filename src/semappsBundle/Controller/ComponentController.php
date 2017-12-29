@@ -68,7 +68,7 @@ class ComponentController extends AbstractMultipleComponentController
         }
         // Fill form
         return $this->render(
-            'semappsBundle:Component:'.$componentName.'Form.html.twig',
+            'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',
             ['image' => $actualImageName,
                 'form' => $form->createView()
             ]
