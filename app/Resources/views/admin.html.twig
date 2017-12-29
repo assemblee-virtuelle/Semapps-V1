@@ -129,7 +129,7 @@
                                         </h5>
                                     </li>
                                     {{ admin.menuItemContext(app.user.username,"",'changeContext','arrow-right',"Permet d'éditer vos projets, events, propositions... ") }}
-                                    {% for context in context_manager.getListOfContext(app.user.sfLink) %}
+                                    {% for context in context_manager.getListOfContext(app.user.sfLink,app.user.id) %}
                                         {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId}) }}
                                     {% endfor %}
                                     {% if is_granted("ROLE_ADMIN") %}

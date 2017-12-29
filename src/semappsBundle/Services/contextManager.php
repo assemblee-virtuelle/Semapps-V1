@@ -58,16 +58,28 @@ class contextManager
         $this->cache->save($this->parameters);
     }
 
-    public function getListOfContext($sfLink){
+    public function getListOfContext($sfLink,$userID){
         $listOfGraph = $this->sparqlRepository->getAllowedGraphOfCurrentUser($sfLink);
         $output = [];
+        $organizationIdOfUser = $this->em->getRepository('semappsBundle:User')->find($userID)->getFkOrganisation();
+        $isIdIn =false;
         foreach ($listOfGraph as $graph){
             $organization = $this->em->getRepository('semappsBundle:Organization')->findOneBy(['graphURI' => $graph['G']]);
             $output[] = [
                 'name' => $organization->getName(),
                 'contextId' => $organization->getId()
             ];
+            if($organizationIdOfUser == $organization->getId())
+                $isIdIn = true;
         }
+        if (!$isIdIn){
+            $organization = $this->em->getRepository('semappsBundle:Organization')->find($organizationIdOfUser);
+            $output[] = [
+                'name' => $organization->getName(),
+                'contextId' => $organization->getId()
+            ];
+        }
+
         return $output;
     }
 
