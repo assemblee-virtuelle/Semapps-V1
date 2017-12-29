@@ -1,73 +1,77 @@
 Polymer({
-  is: 'semapps-map',
+    is: 'semapps-map',
 
-  properties: {
-    route: {
-      type: Object,
-      observer: '_routeChanged'
+    properties: {
+        route: {
+            type: Object,
+            observer: '_routeChanged'
+        },
+        pins: {
+            type: Array,
+            value: []
+        },
     },
-    pins: {
-      type: Array,
-      value: []
+
+    // Wait all HTML to be loaded.
+    attached() {
+        this.ready = false;
+        // Global ref.
+        semapps.map = this;
+
+        // Wait for buildings to be loaded.
+        SemAppsCarto.ready(this.start.bind(this));
     },
-  },
 
-  // Wait all HTML to be loaded.
-  attached() {
-    this.ready = false;
-    // Global ref.
-    semapps.map = this;
+    start() {
+        "use strict";
+        this.globalX = 48.862725;
+        this.globalY = 2.287592000000018;
+        this.globalZoom = 6;
 
-    // Wait for buildings to be loaded.
-    SemAppsCarto.ready(this.start.bind(this));
-  },
+        this.OSM = L.map('semapps').setView([this.globalX,this.globalY], this.globalZoom);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(this.OSM );
+        this.markers = L.markerClusterGroup();
+        this.OSM.addLayer(this.markers) ;
+        this.OSM.scrollWheelZoom.disable();
+        this.OSM.off('dblclick');
+        this.OSM.on('dblclick', onMapClick);
+        this.OSM.on('mouseover',mouseOver);
+        this.OSM.on('mouseout',mouseOut);
+        this.pinAvailaible = [];
+        this.awesome= {
+            "http://virtual-assembly.org/pair#Person":L.AwesomeMarkers.icon({
+                icon: 'user',
+                markerColor: 'blue'
+            }),
+            "http://virtual-assembly.org/pair#Organization":L.AwesomeMarkers.icon({
+                icon: 'tower',
+                markerColor: 'blue'
+            }),
+            "http://virtual-assembly.org/pair#Project":L.AwesomeMarkers.icon({
+                icon: 'screenshot',
+                markerColor: 'red'
+            }),
+            "http://virtual-assembly.org/pair#Event":L.AwesomeMarkers.icon({
+                icon: 'calendar',
+                markerColor: 'orange'
+            }),
+            "http://virtual-assembly.org/pair#Proposal":L.AwesomeMarkers.icon({
+                icon: 'info-sign',
+                markerColor: 'green'
+            }),
+            "http://virtual-assembly.org/pair#Document":L.AwesomeMarkers.icon({
+                icon: 'folder-open',
+                markerColor: 'black'
+            }),
+            "http://virtual-assembly.org/pair#DocumentType":L.AwesomeMarkers.icon({
+                icon: 'pushpin',
+                markerColor: 'black'
+            }),
+        }
 
-  start() {
-    "use strict";
-      this.OSM = L.map('semapps').setView([48.862725, 2.287592000000018], 6);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(this.OSM );
-      this.markers = L.markerClusterGroup();
-      this.OSM.addLayer(this.markers) ;
-      this.OSM.scrollWheelZoom.disable();
-      this.OSM.off('dblclick');
-      this.OSM.on('dblclick', onMapClick);
-      this.OSM.on('mouseover',mouseOver);
-      this.OSM.on('mouseout',mouseOut);
-      this.pinAvailaible = [];
-      this.awesome= {
-          "http://virtual-assembly.org/pair#Person":L.AwesomeMarkers.icon({
-              icon: 'user',
-              markerColor: 'blue'
-          }),
-          "http://virtual-assembly.org/pair#Organization":L.AwesomeMarkers.icon({
-              icon: 'tower',
-              markerColor: 'blue'
-          }),
-          "http://virtual-assembly.org/pair#Project":L.AwesomeMarkers.icon({
-              icon: 'screenshot',
-              markerColor: 'red'
-          }),
-          "http://virtual-assembly.org/pair#Event":L.AwesomeMarkers.icon({
-              icon: 'calendar',
-              markerColor: 'orange'
-          }),
-          "http://virtual-assembly.org/pair#Proposal":L.AwesomeMarkers.icon({
-              icon: 'info-sign',
-              markerColor: 'green'
-          }),
-          "http://virtual-assembly.org/pair#Document":L.AwesomeMarkers.icon({
-              icon: 'folder-open',
-              markerColor: 'black'
-          }),
-          "http://virtual-assembly.org/pair#DocumentType":L.AwesomeMarkers.icon({
-              icon: 'pushpin',
-              markerColor: 'black'
-          }),
-      }
-
-  },
+    },
 
     /**
      * affiche tous les points enregistré
@@ -148,6 +152,10 @@ Polymer({
         }
         log('stop pinHideAll');
 
+    },
+
+    zoomGlobal(){
+        this.OSM.setView([this.globalX,this.globalY], this.globalZoom);
     },
 
     handleClick(e) {
