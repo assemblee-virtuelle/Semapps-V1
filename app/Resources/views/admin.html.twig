@@ -114,7 +114,7 @@
                                         {{ admin.menuItem(context_manager.getContext(app.user.sfLink).contextName, 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization'}) }}
                                     {% endif %}
 
-                                    {% if app.user.sfLink or admin.menuItem(context_manager.getContext(app.user.sfLink).contextName %}
+                                    {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
                                         {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
                                         {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
                                         {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
