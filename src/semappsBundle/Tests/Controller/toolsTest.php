@@ -13,8 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class toolsTest extends WebTestCase
 {
-    protected $user = 'test';
-    protected $password = 'oRoUpLVQY5xW';
+    protected $user = 'testname';
+    protected $password = 'test';
     /** @var $client \Symfony\Bundle\FrameworkBundle\Client */
     protected $client = null;
     /**@var $crawler \Symfony\Component\DomCrawler\Crawler*/

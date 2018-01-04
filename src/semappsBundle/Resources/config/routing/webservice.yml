@@ -24,3 +24,6 @@ webserviceRessource:
     path:     /ressource
     defaults: { _controller: semappsBundle:Webservice:ressource }
 
+webserviceChangeContext:
+    path:    /context/change/{id}
+    defaults: { _controller: semappsBundle:Webservice:changeContext }

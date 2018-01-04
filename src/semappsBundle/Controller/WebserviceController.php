@@ -38,7 +38,7 @@ class WebserviceController extends Controller
         $cache = new FilesystemAdapter();
         $parameters = $cache->getItem('gv.webservice.parameters');
         $webserviceTools       = $this->get('semappsBundle.webserviceTools');
-
+        $contextManager        = $this->get('semappsbundle.contextmanager');
         //if (!$parameters->isHit()) {
         /** @var User $user */
         $user = $this->GetUser();
@@ -61,11 +61,11 @@ class WebserviceController extends Controller
             ->getManager()
             ->getRepository('semappsBundle:User')
             ->getAccessLevelString($user);
-        $graphUri =($user && $user->getFkOrganisation())? $this->getDoctrine()
-            ->getManager()
-            ->getRepository('semappsBundle:Organization')
-            ->find($user->getFkOrganisation())->getGraphUri() : null;
-
+//        $graphUri =($user && $user->getFkOrganisation())? $this->getDoctrine()
+//            ->getManager()
+//            ->getRepository('semappsBundle:Organization')
+//            ->find($user->getFkOrganisation())->getGraphUri() : null;
+        $graphUri = ($user)? $contextManager->getListOfContext($user->getSfLink(),$user->getId()) :null;
         $name = ($user != null)? $user->getUsername() : '';
         // If no internet, we use a cached version of services
         // placed int face_service folder.
@@ -223,6 +223,14 @@ class WebserviceController extends Controller
                 'ressource' => $results,
             ]
         );
+    }
+
+    public function changeContextAction($id){
+        $contextManager        = $this->get('semappsbundle.contextmanager');
+
+        $contextManager->setContext($this->getUser()->getSfLink(),$id);
+
+        return new Response("ok",100);
     }
 
 

@@ -41,7 +41,13 @@ Polymer({
         path += 'mon-compte/component/'+nameType+'/form?uri='+this.currentComponentUri;
 
     }
-    window.location.replace(path);
+      semapps.ajax('webservice/context/change/' + this.idOfGraph, (data) => {
+          "use strict";
+          // Check that we are on the last callback expected.
+          log(data);
+          window.location.replace(path);
+      });
+
   },
 
   attached () {
@@ -90,10 +96,27 @@ Polymer({
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
-    log(data.properties.graph);
-    log(semapps.userGraphUri);
-    this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
-    log(this.isInGraph);
+    log("debug is in graph")
+    let arrayOfGraph  = data.properties.graph.split(",")
+    log(semapps.userGraphUri)
+    this.idOfGraph = null;
+    this.isInGraph = false;
+    if(semapps.userGraphUri){
+      for (let i = 0, len = arrayOfGraph.length ; i < len && !this.isInGraph; i++) {
+          log(arrayOfGraph)
+          if(semapps.userGraphUri.hasOwnProperty(arrayOfGraph[i])){
+              this.isInGraph =true;
+              this.idOfGraph = semapps.userGraphUri[arrayOfGraph[i]]['contextId']
+          }
+      }
+    }
+
+    log(this.isInGraph)
+
+    log("end of debug is in graph")
+
+    //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
+    //log(this.isInGraph);
     this.canEdit = (this.isSameUri || this.isInGraph);
     inner.data = data;
     inner.parent = this;

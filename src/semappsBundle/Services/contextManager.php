@@ -27,7 +27,7 @@ class contextManager
 
     public function getContext($userSflink){
         $parameters = $this->parameters->get();
-        if($parameters[$userSflink]){
+        if($parameters && array_key_exists($userSflink,$parameters)){
             return $parameters[$userSflink];
         }
         else{
@@ -65,7 +65,7 @@ class contextManager
         $isIdIn =false;
         foreach ($listOfGraph as $graph){
             $organization = $this->em->getRepository('semappsBundle:Organization')->findOneBy(['graphURI' => $graph['G']]);
-            $output[] = [
+            $output[$graph['G']] = [
                 'name' => $organization->getName(),
                 'contextId' => $organization->getId()
             ];
@@ -74,7 +74,7 @@ class contextManager
         }
         if (!$isIdIn){
             $organization = $this->em->getRepository('semappsBundle:Organization')->find($organizationIdOfUser);
-            $output[] = [
+            $output[$organization->getGraphURI()] = [
                 'name' => $organization->getName(),
                 'contextId' => $organization->getId()
             ];
@@ -82,5 +82,4 @@ class contextManager
 
         return $output;
     }
-
 }
