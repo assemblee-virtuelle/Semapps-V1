@@ -8,6 +8,7 @@ parameters:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'
           access: 'anonymous'
@@ -44,45 +45,58 @@ parameters:
         http://virtual-assembly.org/pair#documentedBy:
           value: 'documentedBy'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasSubject:
           value: 'hasSubject'
           access: 'anonymous'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#hasMember:
           value: 'hasMember'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasResponsible:
           value: 'hasResponsible'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#employs:
           value: 'employs'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#partnerOf:
           value: 'partnerOf'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#involvedIn:
           value: 'involvedIn'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#manages:
           value: 'manages'
           access: 'anonymous'
+          type: 'uri'
 #        http://virtual-assembly.org/pair#operates:
 #          value: 'operates'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#organizes:
           value: 'organizes'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#participantOf:
           value: 'participantOf'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#offers:
           value: 'offers'
           access: 'anonymous'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#needs:
           value: 'needs'
           access: 'anonymous'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#brainstorms:
           value: 'brainstorms'
           access: 'anonymous'
+          type: 'uri'
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
@@ -98,15 +112,19 @@ parameters:
         http://virtual-assembly.org/pair#internal_author:
           value: 'internal_author'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#internal_contributor:
           value: 'internal_contributor'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#internal_publisher: #person + orga
            value: 'internal_publisher'
            access: 'anonymous'
+           type: 'uri'
         http://virtual-assembly.org/pair#hasType:
            value: 'hasType'
            access: 'anonymous'
+           type: 'uri'
       reverse:
         http://virtual-assembly.org/pair#hasMember: 'http://virtual-assembly.org/pair#memberOf'
         http://virtual-assembly.org/pair#hasResponsible: 'http://virtual-assembly.org/pair#responsibleOf'

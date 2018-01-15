@@ -8,9 +8,11 @@ parameters:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasSubject_Pair:
           value: 'hasSubjectPAIR'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'
           access: 'anonymous'
@@ -47,18 +49,22 @@ parameters:
         http://virtual-assembly.org/pair#documentedBy:
           value: 'documentedBy'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasSubject:
           value: 'hasSubject'
           access: 'anonymous'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#hasInterest:
           value: 'hasInterest'
           access: 'anonymous'
         http://virtual-assembly.org/pair#organizedBy:
           value: 'organizedBy'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasParticipant:
           value: 'hasParticipant'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#image:
           value: 'image'
           access: 'anonymous'
@@ -71,6 +77,7 @@ parameters:
         http://virtual-assembly.org/pair#hasType:
           value: 'hasType'
           access: 'anonymous'
+          type: 'uri'
       reverse:
         http://virtual-assembly.org/pair#organizedBy: 'http://virtual-assembly.org/pair#organizes'
         http://virtual-assembly.org/pair#hasParticipant: 'http://virtual-assembly.org/pair#participantOf'

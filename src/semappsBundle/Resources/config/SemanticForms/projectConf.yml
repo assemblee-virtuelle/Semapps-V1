@@ -8,6 +8,7 @@ parameters:
         http://virtual-assembly.org/pair#subjectOf_Pair:
           value: 'subjectOfPAIR'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'
           access: 'anonymous'
@@ -32,27 +33,33 @@ parameters:
         http://virtual-assembly.org/pair#managedBy:
           value: 'managedBy'
           access: 'anonymous'
+          type: 'uri'
 #        http://virtual-assembly.org/pair#representedBy:
 #          value: 'representedBy'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#offers:
           value: 'offers'
           access: 'anonymous'
+          type: 'offers'
         http://virtual-assembly.org/pair#needs:
           value: 'needs'
           access: 'anonymous'
+          type: 'needs'
         http://virtual-assembly.org/pair#involves:
           value: 'involves'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#documentedBy:
           value: 'documentedBy'
           access: 'anonymous'
+          type: 'uri'
 #        http://virtual-assembly.org/pair#delivers: #bien et services
 #          value: 'delivers'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#hasSubject:
           value: 'hasSubject'
           access: 'anonymous'
+          type: 'dbpedia'
 #        http://virtual-assembly.org/pair#subjectOf:
 #          value: 'subjectOf'
 #          access: 'anonymous'
@@ -74,6 +81,7 @@ parameters:
         http://virtual-assembly.org/pair#hasType:
           value: 'hasType'
           access: 'anonymous'
+          type: 'uri'
       reverse:
 #        http://virtual-assembly.org/pair#concretizes : 'http://virtual-assembly.org/pair#concretizedBy'
         http://virtual-assembly.org/pair#managedBy: 'http://virtual-assembly.org/pair#manages'

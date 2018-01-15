@@ -8,6 +8,7 @@ parameters:
         http://virtual-assembly.org/pair#hasSubject_Pair:
           value: 'hasSubjectPAIR'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#preferedLabel:
           value: 'preferedLabel'
           access: 'anonymous'
@@ -32,18 +33,22 @@ parameters:
         http://virtual-assembly.org/pair#brainstormedBy:
           value: 'brainstormedBy'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#concretizedBy:
           value: 'concretizedBy'
           access: 'anonymous'
+          type: 'uri'
 #        http://virtual-assembly.org/pair#representedBy:
 #          value: 'representedBy'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#documentedBy:
           value: 'documentedBy'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasSubject:
           value: 'hasSubject'
           access: 'anonymous'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#hasInterest:
           value: 'hasInterest'
           access: 'anonymous'
@@ -56,6 +61,7 @@ parameters:
         http://virtual-assembly.org/pair#hasType:
           value: 'hasType'
           access: 'anonymous'
+          type: 'uri'
       reverse:
         http://virtual-assembly.org/pair#brainstormedBy: 'http://virtual-assembly.org/pair#brainstorms'
         http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'

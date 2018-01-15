@@ -317,237 +317,45 @@ class WebserviceTools
         $properties = $this->uriPropertiesFiltered($uri);
         $output['uri'] = $uri;
         $dbpediaConf = $this->confmanager->getConf();
-        switch (current($properties['type'])) {
-            // Orga.
-            case  semappsConfig::URI_PAIR_ORGANIZATION:
-                // Organization should be saved internally.
+        $componentConf = $this->confmanager->getConf(current($properties['type']));
+        $propertiesWithUri=[];
+        foreach ($componentConf['fields'] as $predicat =>$detail){
+            $simpleKey = $detail['value'];
 
-                $organization = $this->em->getRepository(
-                    'semappsBundle:Organization'
-                )->findOneBy(
-                    [
-                        'sfOrganisation' => $uri,
-                    ]
-                );
-                if(!is_null($organization))
-                    $output['id'] = $organization->getId();
-                $output['title'] = current($properties['preferedLabel']);
-                $propertiesWithUri =[
-                    'hasResponsible',
-                    'hasMember',
-                    'employs',
-                    'affiliates',
-                    'partnerOf',
-                    'involvedIn',
-                    'manages',
-                    'organizes',
-                    'participantOf',
-                    'brainstorms',
-                    'documentedBy',
-                    'subjectOfPAIR',
-                    'internal_author',
-                    'internal_contributor',
-                    'internal_publisher',
-                    'hasType',
-                ];
-                $this->getData($properties,$propertiesWithUri,$output);
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
+            if (isset($properties[$simpleKey])){
+                switch ( (array_key_exists('type',$detail)?$detail['type'] : null) ){
+                    case 'uri':
+                        $propertiesWithUri[] = $simpleKey;
+                        break;
+                    case 'dbpedia':
+                        foreach ($properties[$simpleKey] as $uri) {
+                            $output[$simpleKey][] = [
+                                'uri'  => $uri,
+                                'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
+                            ];
+                        }
+                        break;
+                    default:
+                        switch ($simpleKey){
+                            case 'description':
+                                break;
+                                $properties[$simpleKey] = nl2br(current($properties[$simpleKey]),false);
 
-                if (isset($properties['offers'])) {
-                    foreach ($properties['offers'] as $uri) {
-                        $output['offers'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
+                            case 'hasInterest':
+                                foreach ($properties[$simpleKey] as $uri) {
+                                    $result = [
+                                        'uri' => $uri,
+                                        'name' => $this->sparqlGetLabel($uri,semappsConfig::URI_SKOS_THESAURUS)
+                                    ];
+                                    $output[$simpleKey][] = $result;
+                                }
+                                break;
+                        }
+                        break;
                 }
-                if (isset($properties['needs'])) {
-                    foreach ($properties['needs'] as $uri) {
-                        $output['needs'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                break;
-            // Person.
-            case  semappsConfig::URI_PAIR_PERSON:
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-                $output ['title'] = current($properties['firstName']).' '.current($properties['lastName']);
-                $propertiesWithUri = [
-                    'knows',
-                    'affiliatedTo',
-                    'responsibleOf',
-                    'memberOf',
-                    'employedBy',
-                    'involvedIn',
-                    'manages',
-                    'participantOf',
-                    'brainstorms',
-                    'organizes',
-                    'documentedBy',
-                    'subjectOfPAIR',
-                    'internal_author',
-                    'internal_contributor',
-                    'internal_publisher',
-                ];
-                $this->getData($properties,$propertiesWithUri,$output);
-                if (isset($properties['offers'])) {
-                    foreach ($properties['offers'] as $uri) {
-                        $output['offers'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                if (isset($properties['needs'])) {
-                    foreach ($properties['needs'] as $uri) {
-                        $output['needs'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                if (isset($properties['skill'])) {
-                    foreach ($properties['skill'] as $uri) {
-                        $output['skill'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                break;
-            // Project.
-            case semappsConfig::URI_PAIR_PROJECT:
-                $output['title'] = current($properties['preferedLabel']);
-
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-
-                $propertiesWithUri = [
-//									'concretizes',
-                    'involves',
-                    'managedBy',
-//									'representedBy',
-                    'documentedBy',
-                    'subjectOfPAIR',
-                    'hasType',
-
-                ];
-                if (isset($properties['needs'])) {
-                    foreach ($properties['needs'] as $uri) {
-                        $output['needs'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                if (isset($properties['offers'])) {
-                    foreach ($properties['offers'] as $uri) {
-                        $output['offers'][] = [
-                            'uri'  => $uri,
-                            'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                        ];
-                    }
-                }
-                $this->getData($properties,$propertiesWithUri,$output);
-                break;
-            // Event.
-            case semappsConfig::URI_PAIR_EVENT:
-                $output['title'] = current($properties['preferedLabel']);
-
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-                $propertiesWithUri = [
-                    'organizedBy',
-                    'hasParticipant',
-                    'documentedBy',
-                    'subjectOfPAIR',
-                    'hasType',
-                    'hasSubjectPAIR'
-
-                ];
-                $this->getData($properties,$propertiesWithUri,$output);
-                break;
-            // Proposition.
-            case semappsConfig::URI_PAIR_PROPOSAL:
-                $output['title'] = current($properties['preferedLabel']);
-
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-
-                $propertiesWithUri = [
-                    'brainstormedBy',
-                    'concretizedBy',
-                    #'representedBy',
-                    'documentedBy',
-                    'hasSubjectPAIR',
-                    'hasType',
-
-                ];
-                $this->getData($properties,$propertiesWithUri,$output);
-                break;
-            // document
-            case semappsConfig::URI_PAIR_DOCUMENT:
-                $output['title'] = current($properties['preferedLabel']);
-
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-                $propertiesWithUri = [
-                    'documents',
-                    'references',
-                    'referencesBy',
-                    'hasType',
-                    'subjectOfPAIR',
-                    'internal_document_author',
-                    'internal_document_contributor',
-                    'internal_document_publisher',
-                ];
-                $this->getData($properties,$propertiesWithUri,$output);
-                break;
-            //document type
-            case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
-            case semappsConfig::URI_PAIR_PROJECT_TYPE:
-            case semappsConfig::URI_PAIR_EVENT_TYPE:
-            case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
-            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
-                $output['title'] = current($properties['preferedLabel']);
-
-                if (isset($properties['description'])) {
-                    $properties['description'] = nl2br(current($properties['description']),false);
-                }
-                $propertiesWithUri = [
-                    'typeOf'
-                ];
-                //dump($properties);exit;
-                $this->getData($properties,$propertiesWithUri,$output);
-                break;
-        }
-        if (isset($properties['hasSubject'])) {
-            foreach ($properties['hasSubject'] as $uri) {
-                $output['hasSubject'][] = [
-                    'uri'  => $uri,
-                    'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                ];
             }
         }
-        if (isset($properties['hasInterest'])) {
-            foreach ($properties['hasInterest'] as $uri) {
-                $result = [
-                    'uri' => $uri,
-                    'name' => $this->sparqlGetLabel($uri,semappsConfig::URI_SKOS_THESAURUS)
-                ];
-                $output['hasInterest'][] = $result;
-            }
-        }
+        $this->getData($properties,$propertiesWithUri,$output);
         $output['properties'] = $properties;
 
         //dump($output);
