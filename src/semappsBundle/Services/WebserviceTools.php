@@ -355,6 +355,53 @@ class WebserviceTools
                 }
             }
         }
+
+        switch (current($properties['type'])) {
+            // Orga.
+            case  semappsConfig::URI_PAIR_ORGANIZATION:
+                // Organization should be saved internally.
+
+                $organization = $this->em->getRepository(
+                    'semappsBundle:Organization'
+                )->findOneBy(
+                    [
+                        'sfOrganisation' => $uri,
+                    ]
+                );
+                if(!is_null($organization))
+                    $output['id'] = $organization->getId();
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+            // Person.
+            case  semappsConfig::URI_PAIR_PERSON:
+                $output ['title'] = current($properties['firstName']).' '.current($properties['lastName']);
+                break;
+            // Project.
+            case semappsConfig::URI_PAIR_PROJECT:
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+            // Event.
+            case semappsConfig::URI_PAIR_EVENT:
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+            // Proposition.
+            case semappsConfig::URI_PAIR_PROPOSAL:
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+            // document
+            case semappsConfig::URI_PAIR_DOCUMENT:
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+            //document type
+            case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
+            case semappsConfig::URI_PAIR_PROJECT_TYPE:
+            case semappsConfig::URI_PAIR_EVENT_TYPE:
+            case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
+            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
+                $output['title'] = current($properties['preferedLabel']);
+                break;
+        }
+
         $this->getData($properties,$propertiesWithUri,$output);
         $output['properties'] = $properties;
 

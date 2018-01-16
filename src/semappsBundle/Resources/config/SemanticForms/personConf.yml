@@ -80,7 +80,7 @@ parameters:
         http://virtual-assembly.org/pair#needs:
           value: 'needs'
           access: 'anonymous'
-          type: 'bdpedia'
+          type: 'dbpedia'
         http://virtual-assembly.org/pair#organizes:
           value: 'organizes'
           access: 'anonymous'

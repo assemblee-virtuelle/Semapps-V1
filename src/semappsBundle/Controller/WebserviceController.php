@@ -146,7 +146,6 @@ class WebserviceController extends Controller
     public function detailAction(Request $request)
     {
         $webserviceTools       = $this->get('semappsBundle.webserviceTools');
-
         return new JsonResponse(
             (object)[
                 'detail' => $webserviceTools->requestPair($request->get('uri')),
