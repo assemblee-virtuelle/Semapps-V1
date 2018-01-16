@@ -24,3 +24,4 @@ web/cookie.txt
 /web/uploads/
 /web/fake_service
 package-lock.json
+composer.lock
