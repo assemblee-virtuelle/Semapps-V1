@@ -329,10 +329,12 @@ class WebserviceTools
                         break;
                     case 'dbpedia':
                         foreach ($properties[$simpleKey] as $uri) {
-                            $output[$simpleKey][] = [
-                                'uri'  => $uri,
-                                'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
-                            ];
+                            $label = $this->sfClient->dbPediaLabel($dbpediaConf,$uri);
+                            if ($label)
+                                $output[$simpleKey][] = [
+                                    'uri'  => $uri,
+                                    'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
+                                ];
                         }
                         break;
                     default:
