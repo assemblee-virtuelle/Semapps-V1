@@ -9,16 +9,11 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 {
     var $sfLink;
 
-    public function componentList($componentConf,$componentType){
+    public function componentList($componentConf,$componentType,$graphURI){
         /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
         $sfClient = $this->container->get('semantic_forms.client');
         /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
         $sparqlClient   = $this->container->get('sparqlbundle.client');
-
-        if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)
-            $graphURI = $componentConf['graphuri'];
-        else
-            $graphURI = $this->getGraph(null);
 
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
@@ -60,7 +55,13 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
         $bundleName = $this->getBundleNameFromRequest($request);
         $componentList = $this->getParameter('semantic_forms.component');
         $componentConf = $this->getParameter($componentName.'Conf');
-        $listContent = $this->componentList($componentConf,$componentList[$componentName]);
+
+        if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)
+            $graphURI = $componentConf['graphuri'];
+        else
+            $graphURI = $this->getGraph(null);
+
+        $listContent = $this->componentList($componentConf,$componentList[$componentName],$graphURI);
         return $this->render(
             $bundleName.':'.ucfirst($componentName).':'.$componentName.'List.html.twig',
             array(
