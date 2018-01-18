@@ -24,6 +24,8 @@
                                     class="glyphicon glyphicon-eye-open"></span>
                             actualiser</a>
                     </li>
+                {% endif %}
+                {% if app.user.id == currentUser.id %}
                     <li role="presentation" class="active pull-right">
                         <a  href="{{ path('personRemoveComponent', {'uniqueComponentName':'person'}) }}"><span
                                     class="glyphicon glyphicon-eye-open"></span>
