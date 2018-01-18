@@ -29,6 +29,10 @@ class PersonType extends SemanticFormType
         // This will manage form specification.
         parent::buildForm($builder, $options);
 
+        if(strpos($options['values'] ,$options['client']->domain) === false){
+            $builder->setDisabled(true);
+        }
+
         $this
             ->add($builder, 'firstName', TextType::class)
             ->add($builder, 'lastName', TextType::class)

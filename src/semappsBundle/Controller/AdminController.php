@@ -6,6 +6,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Util\TokenGenerator;
 use semappsBundle\Entity\User;
+use semappsBundle\Form\ImportType;
 use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
@@ -175,10 +176,7 @@ class AdminController extends UniqueComponentController
         // import
         $importForm = null;
         if(!$userSfLink){
-            $importForm = $this->createFormBuilder();
-            $importForm->add('import',UrlType::class);
-            $importForm->add('save',SubmitType::class);
-            $importForm = $importForm->getForm();
+            $importForm = $this->createForm(ImportType::class, null);
             $importForm->handleRequest($request);
 
             if ($importForm->isSubmitted() && $importForm->isValid()) {
@@ -632,7 +630,50 @@ class AdminController extends UniqueComponentController
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
 
-    //all be modified
+    public function actualizeAction($uniqueComponentName,$id =null){
+        $user = $this->getElement($id);
+
+        /** @var \semappsBundle\Services\ImportManager $importManager */
+        $importManager = $this->container->get('semappsBundle.importmanager');
+        $sfDomain = $this->getParameter('semantic_forms.domain');
+        if($user->getSfLink() && strpos($user->getSfLink() ,$sfDomain) ==false ){
+            $importManager->actualize($user->getSfLink());
+            $this->addFlash('success','ok');
+        }else{
+            $this->addFlash('success','NOK !!!');
+
+        }
+
+        return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+
+    }
+
+    public function removeAction($uniqueComponentName, $id =null){
+        $user = $this->getElement($id);
+
+        /** @var \semappsBundle\Services\ImportManager $importManager */
+        $importManager = $this->container->get('semappsBundle.importmanager');
+        $sfDomain = $this->getParameter('semantic_forms.domain');
+        if($user->getSfLink() && strpos($user->getSfLink() ,$sfDomain) ==false){
+            $importManager->removeUri($user->getSfLink());
+            $user->setSfLink(null);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            try {
+                $em->flush();
+                $this->addFlash('success','ok');
+            } catch (UniqueConstraintViolationException $e) {
+                $this->addFlash('danger', "Problème mise à jour");
+                return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' => $uniqueComponentName]);
+
+            }
+        }else{
+            $this->addFlash('success','NOK !!!');
+        }
+
+        return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
+    }
+
     public function getElement($id =null)
     {
         $userManager         = $this->getDoctrine()

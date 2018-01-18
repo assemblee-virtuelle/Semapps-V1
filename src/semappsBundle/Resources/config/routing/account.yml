@@ -30,6 +30,18 @@ personComponentFormWithoutId:
     defaults: { _controller: semappsBundle:Admin:add}
     requirements:
       uniqueComponentName: 'person'
+
+personActualizeComponent:
+    path:     /{uniqueComponentName}/actualize
+    defaults: { _controller: semappsBundle:Admin:actualize}
+    requirements:
+      uniqueComponentName: 'person'
+personRemoveComponent:
+    path:     /{uniqueComponentName}/remove
+    defaults: { _controller: semappsBundle:Admin:remove}
+    requirements:
+      uniqueComponentName: 'person'
+
 componentDelete:
     path:     /component/{componentName}/delete
     defaults: { _controller: semappsBundle:Component:remove }

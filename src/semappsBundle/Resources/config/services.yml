@@ -23,3 +23,7 @@ services:
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager
         arguments: ["%personConf%","%organizationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%","%projecttypeConf%","%eventtypeconf%","%proposaltypeconf%","%organizationtypeconf%"]
+
+    semappsBundle.importmanager:
+        class: semappsBundle\Services\ImportManager
+        arguments: ['@semantic_forms.client','@semappsBundle.sparqlRepository']

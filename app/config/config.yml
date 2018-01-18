@@ -48,6 +48,7 @@ twig:
     globals:
         special_alert: "%special_alert%"
         context_manager: '@semappsBundle.contextManager'
+        sf_domain: "%semantic_forms.domain%"
     form_themes:
         - 'form/fields.html.twig'
 

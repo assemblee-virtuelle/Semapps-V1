@@ -18,6 +18,18 @@
                                 class="glyphicon glyphicon-eye-open"></span>
                         Voir</a>
                 </li>
+                {% if sf_domain not in entityUri and app.user.id == currentUser.id%}
+                    <li role="presentation" class="active pull-right">
+                        <a  href="{{ path('personActualizeComponent', {'uniqueComponentName':'person'}) }}"><span
+                                    class="glyphicon glyphicon-eye-open"></span>
+                            actualiser</a>
+                    </li>
+                    <li role="presentation" class="active pull-right">
+                        <a  href="{{ path('personRemoveComponent', {'uniqueComponentName':'person'}) }}"><span
+                                    class="glyphicon glyphicon-eye-open"></span>
+                            retirer</a>
+                    </li>
+                {% endif %}
             </ul>
             <br>
         {% endif %}
