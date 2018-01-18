@@ -635,8 +635,7 @@ class AdminController extends UniqueComponentController
 
         /** @var \semappsBundle\Services\ImportManager $importManager */
         $importManager = $this->container->get('semappsBundle.importmanager');
-        $sfDomain = $this->getParameter('semantic_forms.domain');
-        if($user->getSfLink() && strpos($user->getSfLink() ,$sfDomain) ==false ){
+        if($user->getSfLink() ){
             $importManager->actualize($user->getSfLink());
             $this->addFlash('success','ok');
         }else{
@@ -653,8 +652,7 @@ class AdminController extends UniqueComponentController
 
         /** @var \semappsBundle\Services\ImportManager $importManager */
         $importManager = $this->container->get('semappsBundle.importmanager');
-        $sfDomain = $this->getParameter('semantic_forms.domain');
-        if($user->getSfLink() && strpos($user->getSfLink() ,$sfDomain) ==false){
+        if($user->getSfLink()){
             $importManager->removeUri($user->getSfLink());
             $user->setSfLink(null);
             $em = $this->getDoctrine()->getManager();
