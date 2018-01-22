@@ -11,6 +11,7 @@ use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
+use semappsBundle\semappsConfig;
 use semappsBundle\Services\contextManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -185,7 +186,29 @@ class AdminController extends UniqueComponentController
                 $em->persist($user);
                 $em->flush();
                 //importer le profile
-                $sfClient->import($uri);
+                //$sfClient->import($uri);
+                $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+                $contentToImport = json_decode(file_get_contents($uri),JSON_OBJECT_AS_ARRAY);
+                $componentConf = $this->getParameter($uniqueComponentName.'Conf');
+
+                $contentforForm = [
+                    'type' => semappsConfig::URI_PAIR_PERSON
+                ];
+                foreach ($contentToImport['@context'] as $localHtmlName => $content){
+                    if(array_key_exists($content['@id'],$componentConf['fields'])){
+                        if (is_array($contentToImport[$localHtmlName])){
+                            if(array_key_exists('@value',$contentToImport[$localHtmlName])){
+                                $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName]['@value'];
+                            }else{
+                                $contentforForm[$componentConf['fields'][$content['@id']]['value']] = json_encode(array_flip($contentToImport[$localHtmlName]));
+                            }
+                        }else{
+                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName];
+                        }
+                    }
+                }
+                $testForm->submit($contentforForm);
+
                 if(!$id)
                     return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
                 else
@@ -630,13 +653,37 @@ class AdminController extends UniqueComponentController
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
 
-    public function actualizeAction($uniqueComponentName,$id =null){
+    public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $user = $this->getElement($id);
-
-        /** @var \semappsBundle\Services\ImportManager $importManager */
+        $sfClient =$this->container->get('semantic_forms.client');
         $importManager = $this->container->get('semappsBundle.importmanager');
         if($user->getSfLink() ){
-            $importManager->actualize($user->getSfLink());
+            //$importManager->actualize($user->getSfLink());
+            $contentToImport = json_decode(file_get_contents($user->getSfLink()),JSON_OBJECT_AS_ARRAY);
+            $componentConf = $this->getParameter($uniqueComponentName.'Conf');
+
+            $importManager->removeUri($user->getSfLink());
+            /** @var Form $testForm */
+            $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+
+            $contentforForm = [
+                'type' => semappsConfig::URI_PAIR_PERSON
+            ];
+            foreach ($contentToImport['@context'] as $localHtmlName => $content){
+                if(array_key_exists($content['@id'],$componentConf['fields'])){
+                    if (is_array($contentToImport[$localHtmlName])){
+                        if(array_key_exists('@value',$contentToImport[$localHtmlName])){
+                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName]['@value'];
+                        }else{
+                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = json_encode(array_flip($contentToImport[$localHtmlName]));
+                        }
+                    }else{
+                        $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName];
+                    }
+                }
+            }
+            //dump($contentforForm);
+            $testForm->submit($contentforForm);
             $this->addFlash('success','ok');
         }else{
             $this->addFlash('success','NOK !!!');
