@@ -1,12 +1,6 @@
 home:
     path:     /
-    defaults: { _controller: semappsBundle:Admin:home }
-team:
-    path:     /invite
-    defaults: { _controller: semappsBundle:Admin:team }
-settings:
-    path:     /parametres
-    defaults: { _controller: semappsBundle:Admin:settings }
+    defaults: { _controller: semappsBundle:Person:home }
 orgaComponentForm:
     path:     /{uniqueComponentName}/form/{id}
     defaults: { _controller: semappsBundle:Organization:add}

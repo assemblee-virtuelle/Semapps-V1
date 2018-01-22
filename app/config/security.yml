@@ -31,7 +31,6 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         #account.yml
-        - { path: ^/mon-compte/invite, role: ROLE_ADMIN }
         - { path: ^/mon-compte/person/form$, role: ROLE_MEMBER }
         - { path: '^/mon-compte/person/form/{0,9}', role: ROLE_SUPER_ADMIN }
         - { path: ^/mon-compte/organization/form$, role: ROLE_MEMBER }
@@ -42,4 +41,6 @@ security:
         - { path: ^/administration/user/list, role: ROLE_SUPER_ADMIN }
         - { path: ^/administration/user, role: ROLE_ADMIN }
         - { path: ^/administration/context/change, role: ROLE_MEMBER }
+        - { path: ^/administration/parametres, role: ROLE_MEMBER }
+        - { path: ^/administration/invite, role: ROLE_ADMIN }
         - { path: ^/administration, role: ROLE_SUPER_ADMIN }

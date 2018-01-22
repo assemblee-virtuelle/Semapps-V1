@@ -1,24 +1,30 @@
 userDelete:
     path:     /user/{userId}/delete
-    defaults: { _controller: semappsBundle:Admin:userDelete }
+    defaults: { _controller: semappsBundle:AdministrationUser:userDelete}
 userList:
     path:     /user/list
-    defaults: { _controller: semappsBundle:Admin:listUser }
+    defaults: { _controller: semappsBundle:AdministrationUser:listUser }
 sendUser:
     path:     /user/{userId}/send/{nameRoute}
-    defaults: { _controller: semappsBundle:Admin:sendUser }
+    defaults: { _controller: semappsBundle:AdministrationUser:sendUser }
 changeAccess:
     path:    /access/{userId}/change/{roles}
-    defaults: { _controller: semappsBundle:Admin:changeAccess }
+    defaults: { _controller: semappsBundle:AdministrationUser:changeAccess }
 orgaDelete:
     path:     /organization/{orgaId}/delete
-    defaults: { _controller: semappsBundle:Organization:orgaDelete }
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:orgaDelete }
 orgaList:
     path:     /organization/list
-    defaults: { _controller: semappsBundle:Organization:all }
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:all }
 orgaExport:
     path:     /organization/export/csv
-    defaults: { _controller: semappsBundle:Organization:orgaExport }
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:orgaExport }
 changeContext:
     path:     /context/change/{context}
-    defaults: { _controller: semappsBundle:Admin:changeContext, context: null}
+    defaults: { _controller: semappsBundle:Administration:changeContext, context: null}
+team:
+    path:     /invite
+    defaults: { _controller: semappsBundle:AdministrationUser:team }
+settings:
+    path:     /parametres
+    defaults: { _controller: semappsBundle:Administration:settings }
