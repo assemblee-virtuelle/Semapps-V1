@@ -72,7 +72,7 @@ class contextManager
             if($organizationIdOfUser == $organization->getId())
                 $isIdIn = true;
         }
-        if (!$isIdIn){
+        if ($isIdIn){
             $organization = $this->em->getRepository('semappsBundle:Organization')->find($organizationIdOfUser);
             $output[$organization->getGraphURI()] = [
                 'name' => $organization->getName(),
