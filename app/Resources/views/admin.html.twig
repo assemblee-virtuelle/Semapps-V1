@@ -103,7 +103,15 @@
                                         {{ admin.menuItem('layout.logout'|trans({}, 'FOSUserBundle'),'fos_user_security_logout','log-out','Se déconnecter', menuSelected) }}
                                     {% endif %}
                                     {{ admin.menuItem('Paramètres','settings','cog','Changez votre login ou mot de passe', menuSelected) }}
-
+                                    <li class="main">
+                                        <h5>
+                                            Vous éditez en tant que :
+                                        </h5>
+                                    </li>
+                                    {{ admin.menuItemContext(app.user.username,"",'changeContext','arrow-right',"Permet d'éditer vos projets, events, propositions... ") }}
+                                    {% for context in context_manager.getListOfContext(app.user.sfLink,app.user.id) %}
+                                        {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId}) }}
+                                    {% endfor %}
                                     <li class="main">
                                         <h5>
                                             Les formulaires
@@ -119,21 +127,19 @@
                                         {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
                                         {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
                                         {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
+                                        {% endif %}
+                                    {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
+                                    <li class="main">
+                                        <h5>
+                                            Gestion des types
+                                        </h5>
+                                    </li>
                                         {{ admin.menuItem('Type de document', 'componentList', 'pushpin','référencer des types de documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
                                         {{ admin.menuItem('Type d\'organisation', 'componentList', 'pushpin','référencer des types d\'organisation', menuSelected, 'MEMBER',{'componentName':'organizationType'}) }}
                                         {{ admin.menuItem('Type de projet', 'componentList', 'pushpin','référencer des types de projet', menuSelected, 'MEMBER',{'componentName':'projectType'}) }}
                                         {{ admin.menuItem('Type d\'événement', 'componentList', 'pushpin','référencer des types d\'événnement', menuSelected, 'MEMBER',{'componentName':'eventType'}) }}
                                         {{ admin.menuItem('Type de proposition', 'componentList', 'pushpin','référencer des types de proposition', menuSelected, 'MEMBER',{'componentName':'proposalType'}) }}
                                     {% endif %}
-                                    <li class="main">
-                                        <h5>
-                                            Context
-                                        </h5>
-                                    </li>
-                                    {{ admin.menuItemContext(app.user.username,"",'changeContext','arrow-right',"Permet d'éditer vos projets, events, propositions... ") }}
-                                    {% for context in context_manager.getListOfContext(app.user.sfLink,app.user.id) %}
-                                        {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId}) }}
-                                    {% endfor %}
                                     {% if is_granted("ROLE_ADMIN") %}
                                         <li class="main">
                                             <h5>
