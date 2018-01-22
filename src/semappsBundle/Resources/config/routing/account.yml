@@ -21,24 +21,24 @@ orgaComponentFormWithoutId:
 
 personComponentForm:
     path:     /{uniqueComponentName}/form/{id}
-    defaults: { _controller: semappsBundle:Admin:add}
+    defaults: { _controller: semappsBundle:Person:add}
     requirements:
       uniqueComponentName: 'person'
 
 personComponentFormWithoutId:
     path:     /{uniqueComponentName}/form
-    defaults: { _controller: semappsBundle:Admin:add}
+    defaults: { _controller: semappsBundle:Person:add}
     requirements:
       uniqueComponentName: 'person'
 
 personActualizeComponent:
     path:     /{uniqueComponentName}/actualize
-    defaults: { _controller: semappsBundle:Admin:actualize}
+    defaults: { _controller: semappsBundle:Person:actualize}
     requirements:
       uniqueComponentName: 'person'
 personRemoveComponent:
     path:     /{uniqueComponentName}/remove
-    defaults: { _controller: semappsBundle:Admin:remove}
+    defaults: { _controller: semappsBundle:Person:remove}
     requirements:
       uniqueComponentName: 'person'
 
