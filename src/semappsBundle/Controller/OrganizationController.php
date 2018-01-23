@@ -79,7 +79,7 @@ class OrganizationController extends AbstractMultipleComponentController
 
             }
             $this->addFlash('info', 'Le contenu à bien été mis à jour.');
-            return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' =>urlencode($uri)]);
+            return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' =>urlencode($form->uri)]);
 
         }
         // Fill form

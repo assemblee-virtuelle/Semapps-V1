@@ -112,6 +112,7 @@
                                     {% for context in context_manager.getListOfContext(app.user.sfLink,app.user.id) %}
                                         {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId|url_encode}) }}
                                     {% endfor %}
+                                    {{ admin.menuItem('Nouvelle organisation', 'orgaComponentFormWithoutId', 'plus','Créer une nouvelle organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization'}) }}
                                     <li class="main">
                                         <h5>
                                             Les formulaires
