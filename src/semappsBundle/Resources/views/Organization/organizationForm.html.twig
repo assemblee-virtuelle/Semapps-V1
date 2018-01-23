@@ -9,7 +9,7 @@
 
 {% endblock %}
 
-{% set menuSelected = 'Mon organisation' %}
+{% set menuSelected =  context_manager.getContext(app.user.sfLink).contextName %}
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
