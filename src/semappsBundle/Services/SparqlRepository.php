@@ -141,9 +141,9 @@ class SparqlRepository extends SparqlClient
         {
             {?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:hasMember <".$sfLink.">. }
             UNION 
-                { ?s rdf:type pair:Organization . ?s pair:hasResponsible <".$sfLink.">.}
+                { ?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:hasResponsible <".$sfLink.">.}
             UNION 
-                {?s rdf:type pair:Organization. ?s pair:employs <".$sfLink.">.}
+                {?s pair:preferedLabel ?O. ?s rdf:type pair:Organization. ?s pair:employs <".$sfLink.">.}
             }
         }
         GROUP BY ?G ?O"

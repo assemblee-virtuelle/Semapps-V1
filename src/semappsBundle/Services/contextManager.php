@@ -81,4 +81,17 @@ class contextManager
 
         return $output;
     }
+
+    public function actualizeContext($sfLink){
+        $actualContext = $this->getContext($sfLink);
+
+        if($actualContext['contextId']){
+            $listOfContext=$this->getListOfContext($sfLink,null);
+            if(!array_key_exists($actualContext['contextId'],$listOfContext)){
+                $this->setContext($sfLink,null);
+                return false;
+            }
+        }
+        return true;
+    }
 }

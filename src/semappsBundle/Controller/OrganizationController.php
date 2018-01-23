@@ -23,12 +23,19 @@ class OrganizationController extends AbstractMultipleComponentController
     public function addAction($componentName ="organization",$id = null,Request $request)
     {
         $uri = urldecode($id);
+        //voter
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
         $this->setSfLink($uri);
         $graphURI			= $this->getGraph();
         $sfClient       = $this->container->get('semantic_forms.client');
+        /** @var contextManager $contextManager */
+        $contextManager       = $this->container->get('semappsBundle.contextManager');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
+
+        if($uri && !$contextManager->actualizeContext($this->getUser()->getSfLink())){
+            return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' => 'person']);
+        }
 
         // Remove old picture.
         $fileUploader = $this->get('semappsBundle.fileUploader');
@@ -72,6 +79,7 @@ class OrganizationController extends AbstractMultipleComponentController
 
             }
             $this->addFlash('info', 'Le contenu à bien été mis à jour.');
+            return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' =>urlencode($uri)]);
 
         }
         // Fill form

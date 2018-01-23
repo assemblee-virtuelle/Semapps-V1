@@ -43,6 +43,9 @@ class PersonController extends UniqueComponentController
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
         /** @var \semappsBundle\Services\contextManager $contextManager */
         $contextManager   = $this->container->get('semappsBundle.contextManager');
+
+        $contextManager->actualizeContext($this->getUser()->getSfLink());
+
         $em = $this->getDoctrine()->getManager();
         $oldPictureName = $user->getPictureName();
         /** @var Form $form */
