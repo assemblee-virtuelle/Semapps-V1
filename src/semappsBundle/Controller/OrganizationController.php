@@ -53,8 +53,8 @@ class OrganizationController extends AbstractMultipleComponentController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Manage picture.
-            if($form->has('componentPicture')){
-                $newPicture = $form->get('componentPicture')->getData();
+            if($form->has('organisationPicture')){
+                $newPicture = $form->get('organisationPicture')->getData();
                 if ($newPicture) {
 
                     if ($actualImageName) {
@@ -64,7 +64,8 @@ class OrganizationController extends AbstractMultipleComponentController
                         }
                     }
                     $newPictureName = $fileUploader->upload($newPicture);
-                    $sparqlRepository->changeImage($graphURI,$form->uri,$fileUploader->generateUrlForFile($newPictureName));
+                    if($uri)
+                        $sparqlRepository->changeImage($graphURI,$uri,$fileUploader->generateUrlForFile($newPictureName));
                     $actualImageName = $newPictureName;
                 }
                 $this->addFlash('info', "l'image a été rajouté avec succès");
@@ -76,7 +77,6 @@ class OrganizationController extends AbstractMultipleComponentController
         // Fill form
         return $this->render(
             'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',[
-                'organization' => null,
                 'importForm'=>  null,
                 "form" => $form->createView(),
                 "entityUri" => $this->getSfLink(),
