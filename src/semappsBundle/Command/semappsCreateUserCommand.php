@@ -19,12 +19,12 @@ class semappsCreateUserCommand extends ContainerAwareCommand
     {
         $this
             ->setName('semapps:create:user')
-            ->setDescription('Adding a user on one organization')
-            ->addArgument(
-                'orgaId',
-                InputArgument::REQUIRED,
-                'id of the organization'
-            )
+            ->setDescription('Adding a user')
+//            ->addArgument(
+//                'orgaId',
+//                InputArgument::REQUIRED,
+//                'id of the organization'
+//            )
             ->addArgument(
                 'username',
                 InputArgument::REQUIRED,
@@ -43,25 +43,6 @@ class semappsCreateUserCommand extends ContainerAwareCommand
     {
 
         $questions = array();
-        if (!$input->getArgument('orgaId')) {
-            $question = new Question(
-                'Please choose the id of the organization:'
-            );
-            $question->setValidator(
-                function ($orgaId) {
-                    $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
-                    $organizationRepository = $em->getRepository('semappsBundle:Organization');
-                    if (empty($orgaId)) {
-                        throw new \Exception('organization can not be empty');
-                    }
-                    elseif (empty($organizationRepository->find($orgaId))) {
-                        throw new \Exception('organization not found');
-                    }
-                    return $orgaId;
-                }
-            );
-            $questions['orgaId'] = $question;
-        }
 
         if (!$input->getArgument('username')) {
             $question = new Question('Please choose a username:');
@@ -113,7 +94,6 @@ class semappsCreateUserCommand extends ContainerAwareCommand
         $encryption = $this->getContainer()->get('semappsBundle.encryption');
         $user         = new User();
 
-        $orgaId           = $input->getArgument('orgaId');
         $username         = $input->getArgument('username');
         $email            = $input->getArgument('email');
 
@@ -122,21 +102,18 @@ class semappsCreateUserCommand extends ContainerAwareCommand
 
         $output->writeln(
             sprintf(
-                "creating the user %s with argument: \n\t-username:%s\n\t-email:%s\n\t-role:%s\n\t-organization id:%s",
+                "creating the user %s with argument: \n\t-username:%s\n\t-email:%s\n\t-role:%s",
                 $username,
                 $username,
                 $email,
-                implode(",", $role),
-                $orgaId
+                implode(",", $role)
             )
         ); // <-- finish
 
         /** @var \semappsBundle\Entity\Organization $organization */
-        $organization = $em->getRepository('semappsBundle:Organization')->find($orgaId);
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles($role);
-        $user->setFkOrganisation($orgaId);
         // Generate password.
         $randomPassword = substr($token->generateToken(), 0, 12);
         $user->setPassword(

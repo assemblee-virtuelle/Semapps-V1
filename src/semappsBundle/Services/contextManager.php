@@ -46,13 +46,22 @@ class contextManager
                 'contextName' => null,
             ];
         }else{
-            $organization = $this->em->getRepository('semappsBundle:Organization')->find($contextId);
+            $listOfGraph = $this->sparqlRepository->getAllowedGraphOfCurrentUser($userSflink);
+            $array = [];
+            foreach ($listOfGraph as $content){
+                if (!array_key_exists($content['G'],$array) || !$array[$content['G']] ){
+                    $array[$content['G']] = $content['O'];
+                }
+            }
 
-            $parameters[$userSflink] = [
-                'context' => $organization->getGraphURI(),
-                'contextId' => $contextId,
-                'contextName' => $organization->getName(),
-            ];
+            if(array_key_exists($contextId,$array)){
+                $parameters[$userSflink] = [
+                    'context' => $contextId,
+                    'contextId' => $contextId,
+                    'contextName' => $array[$contextId],
+                ];
+            }
+
         }
         $this->parameters->set($parameters);
         $this->cache->save($this->parameters);
@@ -61,23 +70,13 @@ class contextManager
     public function getListOfContext($sfLink,$userID){
         $listOfGraph = $this->sparqlRepository->getAllowedGraphOfCurrentUser($sfLink);
         $output = [];
-        $organizationIdOfUser = $this->em->getRepository('semappsBundle:User')->find($userID)->getFkOrganisation();
-        $isIdIn =false;
         foreach ($listOfGraph as $graph){
-            $organization = $this->em->getRepository('semappsBundle:Organization')->findOneBy(['graphURI' => $graph['G']]);
-            $output[$graph['G']] = [
-                'name' => $organization->getName(),
-                'contextId' => $organization->getId()
-            ];
-            if($organizationIdOfUser == $organization->getId())
-                $isIdIn = true;
-        }
-        if (!$isIdIn && $organizationIdOfUser){
-            $organization = $this->em->getRepository('semappsBundle:Organization')->find($organizationIdOfUser);
-            $output[$organization->getGraphURI()] = [
-                'name' => $organization->getName(),
-                'contextId' => $organization->getId()
-            ];
+            if(array_key_exists('O',$graph)&& $graph['O'] ){
+                $output[$graph['G']] = [
+                    'name' => $graph['O'],
+                    'contextId' => $graph['G']
+                ];
+            }
         }
 
         return $output;

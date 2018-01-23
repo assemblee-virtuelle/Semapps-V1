@@ -33,8 +33,8 @@ security:
         #account.yml
         - { path: ^/mon-compte/person/form$, role: ROLE_MEMBER }
         - { path: '^/mon-compte/person/form/{0,9}', role: ROLE_SUPER_ADMIN }
-        - { path: ^/mon-compte/organization/form$, role: ROLE_MEMBER }
-        - { path: '^/mon-compte/organization/form/{0,9}', role: ROLE_SUPER_ADMIN }
+        - { path: ^/mon-compte/organization/form, role: ROLE_MEMBER }
+#        - { path: '^/mon-compte/organization/form/{0,9}', role: ROLE_SUPER_ADMIN }
         - { path: ^/mon-compte/, role: ROLE_MEMBER }
         #administration.yml
         - { path: ^/administration/access, role: ROLE_ADMIN }

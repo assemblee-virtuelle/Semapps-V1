@@ -361,17 +361,6 @@ class WebserviceTools
         switch (current($properties['type'])) {
             // Orga.
             case  semappsConfig::URI_PAIR_ORGANIZATION:
-                // Organization should be saved internally.
-
-                $organization = $this->em->getRepository(
-                    'semappsBundle:Organization'
-                )->findOneBy(
-                    [
-                        'sfOrganisation' => $uri,
-                    ]
-                );
-                if(!is_null($organization))
-                    $output['id'] = $organization->getId();
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             // Person.

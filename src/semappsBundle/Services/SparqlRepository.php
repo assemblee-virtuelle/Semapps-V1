@@ -136,17 +136,17 @@ class SparqlRepository extends SparqlClient
         return $this->sfClient->sparqlResultsValues($this->sfClient->sparql(" 
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX pair: <http://virtual-assembly.org/pair#>
-        SELECT ?G
+        SELECT ?G ?O
         WHERE {GRAPH ?G 
         {
-            {?s rdf:type pair:Organization . ?s pair:hasMember <".$sfLink.">. }
+            {?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:hasMember <".$sfLink.">. }
             UNION 
                 { ?s rdf:type pair:Organization . ?s pair:hasResponsible <".$sfLink.">.}
             UNION 
                 {?s rdf:type pair:Organization. ?s pair:employs <".$sfLink.">.}
             }
         }
-        GROUP BY ?G"
+        GROUP BY ?G ?O"
         ));
     }
 }

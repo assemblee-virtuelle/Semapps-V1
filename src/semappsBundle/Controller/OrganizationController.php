@@ -16,128 +16,91 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class OrganizationController extends UniqueComponentController
+class OrganizationController extends AbstractMultipleComponentController
 {
 
 
-    public function addAction($uniqueComponentName,$id =null,Request $request)
+    public function addAction($componentName ="organization",$id = null,Request $request)
     {
-        $sfClient       = $this->container->get('semantic_forms.client');
-        $organization = $this->getOrga($id);
+        $uri = urldecode($id);
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-        $em = $this->getDoctrine()->getManager();
-        $sfLink = $this->getSfLink($id);
-        $oldPictureName = $organization->getOrganisationPicture();
-        /** @var Form $form */
-        $form = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-        $form->handleRequest($request);
+        $this->setSfLink($uri);
+        $graphURI			= $this->getGraph();
+        $sfClient       = $this->container->get('semantic_forms.client');
+        $form 				= $this->getSfForm($sfClient,$componentName, $request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // Manage picture.
-            $newPicture = $form->get('organisationPicture')->getData();
-            if ($newPicture) {
-                // Remove old picture.
-                $fileUploader = $this->get('semappsBundle.fileUploader');
-                if ($oldPictureName) {
-                    $oldDir = $fileUploader->getTargetDir();
-                    // Check if file exists to avoid all errors.
-                    if (is_file($oldDir.'/'.$oldPictureName)) {
-                        $fileUploader->remove($oldPictureName);
-                    }
-                }
-                $organization->setOrganisationPicture(
-                    $fileUploader->upload($newPicture)
-                );
-                $sparqlRepository->changeImage($organization->getGraphURI(),$sfLink,$fileUploader->generateUrlForFile($organization->getOrganisationPicture()));
-            } else {
-                $organization->setOrganisationPicture($oldPictureName);
-            }
-
-            if (!$sfLink) {
-                // Update sfOrganisation.
-                $organization->setSfOrganisation($form->uri);
-            }
-            $em->persist($organization);
-            $em->flush();
-
-            $this->addFlash(
-                'success',
-                'Les données de l\'organisation ont bien été mises à jour.'
-            );
-            if(!$id)
-                return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-            else
-                return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
+        // Remove old picture.
+        $fileUploader = $this->get('semappsBundle.fileUploader');
+        $pictureDir = $fileUploader->getTargetDir();
+        //actualPicture
+        $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+        $sparql->addPrefixes($sparql->prefixes)
+            ->addPrefix('pair', 'http://virtual-assembly.org/pair#')
+            ->addSelect('?oldImage')
+            ->addWhere(
+                $sparql->formatValue($this->getSfLink(), $sparql::VALUE_TYPE_URL),
+                'pair:image',
+                '?oldImage',
+                $sparql->formatValue($graphURI, $sparql::VALUE_TYPE_URL));
+        $results = $sfClient->sparql($sparql->getQuery());
+        $actualImage = $sfClient->sparqlResultsValues($results);
+        $actualImageName = null;
+        if (!empty($actualImage)) {
+            $cutUrl = explode("/", $actualImage[0]['oldImage']);
+            $actualImageName = $cutUrl[sizeof($cutUrl) - 1];
         }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Manage picture.
+            if($form->has('componentPicture')){
+                $newPicture = $form->get('componentPicture')->getData();
+                if ($newPicture) {
 
-        $importForm = null;
-        if(!$sfLink){
-            $importForm = $this->createFormBuilder();
-            $importForm->add('import',UrlType::class);
-            $importForm->add('save',SubmitType::class);
-            $importForm = $importForm->getForm();
-            $importForm->handleRequest($request);
+                    if ($actualImageName) {
+                        // Check if file exists to avoid all errors.
+                        if (is_file($pictureDir . '/' . $actualImageName)) {
+                            $fileUploader->remove($actualImageName);
+                        }
+                    }
+                    $newPictureName = $fileUploader->upload($newPicture);
+                    $sparqlRepository->changeImage($graphURI,$form->uri,$fileUploader->generateUrlForFile($newPictureName));
+                    $actualImageName = $newPictureName;
+                }
+                $this->addFlash('info', "l'image a été rajouté avec succès");
 
-            if ($importForm->isSubmitted() && $importForm->isValid()) {
-                $uri = $importForm->get('import')->getData();
-                $organization->setSfOrganisation($uri);
-                $em->persist($organization);
-                $em->flush();
-                //importer le profil
-                $sfClient->import($uri);
-                //déplacer dans le graph de l'orga
-                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT);
-                $graphFormatted = $sparql->formatValue($organization->getGraphURI(),$sparql::VALUE_TYPE_URL);
-
-                $sparql->addPrefixes($sparql->prefixes)
-                    ->addPrefix('pair','http://virtual-assembly.org/pair#');
-                //$sparql->addDelete("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-                $sparql->addWhere("?s","?p","?o",$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL));
-                $sparql->addInsert("?s","?p","?o",$graphFormatted);
-                //dump($sparql->getQuery());
-                $sfClient->update($sparql->getQuery());
-
-                if(!$id)
-                    return $this->redirectToRoute('orgaComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
-                else
-                    return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $uniqueComponentName,'id' => $id]);
             }
+            $this->addFlash('info', 'Le contenu à bien été mis à jour.');
+
         }
         // Fill form
         return $this->render(
-            'semappsBundle:'.ucfirst($uniqueComponentName).':'.$uniqueComponentName.'Form.html.twig',[
-                'organization' => $organization,
-                'importForm'=> ($importForm != null)? $importForm->createView() : null,
+            'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',[
+                'organization' => null,
+                'importForm'=>  null,
                 "form" => $form->createView(),
-                "entityUri" => $sfLink
+                "entityUri" => $this->getSfLink(),
+                "image" => $actualImageName
             ]
         );
+
     }
 
-    public function getElement($id =null)
-    {
-        if($id == null)
-            return $this->getOrgaByGraph($this->getGraph($id));
-        else
-            return $this->getOrga($id);
-    }
-
-    public function getSfLink($id = null)
-    {
-        $sfLink = $this->getElement($id)->getSfOrganisation();
-        return ($sfLink)? $sfLink:null;
-    }
     public function getGraph($id = null)
     {
-        if($id == null){
-            /** @var contextManager $contextManager */
-            $contextManager = $this->container->get("semappsBundle.contextManager");
-            return $contextManager->getContext($this->getUser()->getSfLink())['context'];
-        }
-        else
-            return $this->getElement($id)->getGraphURI();
+        return $this->getSfLink();
+
     }
 
+    public function getSfUser($id = null)
+    {
+        return $this->getUser()->getEmail();
+    }
+
+    public function getSfPassword($id = null)
+    {
+        /** @var \semappsBundle\Services\Encryption $encryption */
+        $encryption 	= $this->container->get('semappsBundle.encryption');
+        return $encryption->decrypt($this->getUser()->getSfUser());
+    }
 }

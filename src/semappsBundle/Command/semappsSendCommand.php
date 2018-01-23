@@ -44,7 +44,7 @@ class semappsSendCommand extends ContainerAwareCommand
                     $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
                     $user   = $em->getRepository('semappsBundle:User')->find($id);
                     if (empty($id)) {
-                        throw new \Exception('organization can not be empty');
+                        throw new \Exception('person id can not be empty');
                     }
                     elseif(empty($user)){
                         throw new \Exception('ID incorrect, no person correspond to this id');
@@ -82,12 +82,10 @@ class semappsSendCommand extends ContainerAwareCommand
         );
 
         $userRepository         = $em->getRepository('semappsBundle:User');
-        $organisationRepository         = $em->getRepository('semappsBundle:Organization');
 
         /** @var \semappsBundle\Entity\User $user */
         $user = $userRepository->find($id);
         /** @var \semappsBundle\Entity\Organization $organisation */
-        $organisation = $organisationRepository->find($user->getFkOrganisation());
 
         $url = $this->getContainer()->get('router')->generate(
             'fos_user_registration_confirm',
@@ -97,9 +95,9 @@ class semappsSendCommand extends ContainerAwareCommand
         $output->writeln($email);
         $url = str_replace('localhost',$this->getContainer()->getParameter('carto.domain'),$url);
         $result = $mailer->sendConfirmMessage(
-            ($user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
+             $mailer::TYPE_USER,
             $user,
-            $organisation,
+            null,
             $url,
             $email
         );

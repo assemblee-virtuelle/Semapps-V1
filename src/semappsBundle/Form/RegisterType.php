@@ -51,18 +51,6 @@ class RegisterType extends AbstractType
                 PasswordType::class,
                 array('required' => true,'mapped' => false)
             )
-            ->add('organisation',EntityType::class, [
-                'class' => 'semappsBundle:Organization',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC');
-                },
-                'placeholder' =>'***utilisateur simple***',
-                'choice_label' => 'name',
-                'required'   => false,
-                'empty_data' => null,
-                'mapped'  => false,
-            ])
             ->add('submit', SubmitType::class, array('label' => 'Enregistrer'));
     }
 

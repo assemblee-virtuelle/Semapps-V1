@@ -38,10 +38,10 @@ class AdministrationController extends Controller
             ->getManager()
             ->getRepository('semappsBundle:User');
         //get all organization
-        $organisationRepository =  $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('semappsBundle:Organization');
+//        $organisationRepository =  $this
+//            ->getDoctrine()
+//            ->getManager()
+//            ->getRepository('semappsBundle:Organization');
         //get the form
         $form = $this->createForm(
             RegisterType::class,
@@ -69,12 +69,12 @@ class AdministrationController extends Controller
 
             //Set the roles
             $newUser->addRole('ROLE_MEMBER');
-            if(!is_null($form->get('organisation')->getData()))
-                $organisationId = $form->get('organisation')->getData()->getId();
-            else
-                $organisationId = $form->get('organisation')->getData();
+//            if(!is_null($form->get('organisation')->getData()))
+//                $organisationId = $form->get('organisation')->getData()->getId();
+//            else
+//                $organisationId = $form->get('organisation')->getData();
 
-            $newUser->setFkOrganisation($organisationId);
+            //$newUser->setFkOrganisation($organisationId);
 
             // Save it.
             $em = $this->getDoctrine()->getManager();
@@ -92,18 +92,18 @@ class AdministrationController extends Controller
             //notification
             $usersSuperAdmin = $userRepository->getSuperAdminUsers();
             $listOfEmail= [];
-            $organisation=null;
-            if($organisationId){
-                $organisation = $organisationRepository->find($form->get('organisation')->getData());
-                $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
-                array_push($listOfEmail,$responsible->getEmail());
-            }
+            //$organisation=null;
+//            if($organisationId){
+//                $organisation = $organisationRepository->find($form->get('organisation')->getData());
+//                $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
+//                array_push($listOfEmail,$responsible->getEmail());
+//            }
 
             foreach ($usersSuperAdmin as $superuser){
                 array_push($listOfEmail,$superuser["email"]);
             }
             $mailer = $this->get('semappsBundle.EventListener.SendMail');
-            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$newUser,$organisation,array_unique($listOfEmail));
+            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$newUser,null,array_unique($listOfEmail));
 
             return $this->redirectToRoute('fos_user_security_login');
         }
@@ -198,7 +198,7 @@ class AdministrationController extends Controller
     public function changeContextAction($context =null){
         /** @var contextManager $contextManager */
         $contextManager = $this->container->get('semappsBundle.contextManager');
-        $contextManager->setContext($this->getUser()->getSfLink(),$context);
+        $contextManager->setContext($this->getUser()->getSfLink(),urldecode($context));
         $this->addFlash('success',"le contexte a bien été changé");
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }

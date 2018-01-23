@@ -110,7 +110,7 @@
                                     </li>
                                     {{ admin.menuItemContext(app.user.username,"",'changeContext','arrow-right',"Permet d'éditer vos projets, events, propositions... ") }}
                                     {% for context in context_manager.getListOfContext(app.user.sfLink,app.user.id) %}
-                                        {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId}) }}
+                                        {{ admin.menuItemContext(context.name,context.contextId,'changeContext','arrow-right',"Permet d'éditer les projets, events, propositions et autres pour l'organisation " ~ context.name,{"context":context.contextId|url_encode}) }}
                                     {% endfor %}
                                     <li class="main">
                                         <h5>
@@ -119,7 +119,7 @@
                                     </li>
                                     {{ admin.menuItem('Mon profil', 'personComponentFormWithoutId', 'user','Editez votre profil perso', menuSelected, 'MEMBER',{'uniqueComponentName':'person'}) }}
                                     {% if context_manager.getContext(app.user.sfLink).contextName %}
-                                        {{ admin.menuItem(context_manager.getContext(app.user.sfLink).contextName, 'orgaComponentFormWithoutId', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization'}) }}
+                                        {{ admin.menuItem(context_manager.getContext(app.user.sfLink).contextName, 'orgaComponentForm', 'tower','Editez votre organisation', menuSelected, 'MEMBER',{'uniqueComponentName':'organization','id' : context_manager.getContext(app.user.sfLink).contextId|url_encode}) }}
                                     {% endif %}
 
                                     {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
@@ -146,9 +146,6 @@
                                                 Administration
                                             </h5>
                                         </li>
-                                    {% endif %}
-                                    {% if app.user.fkOrganisation %}
-                                        {{ admin.menuItem('Equipe', 'team', 'record','Ajoutez les membres de votre équipe', menuSelected, 'ADMIN') }}
                                     {% endif %}
                                     {{ admin.menuItem('Les organisations', 'orgaList', 'globe','Ajoutez de nouvelle organisation', menuSelected, 'SUPER_ADMIN') }}
                                     {{ admin.menuItem('Les utilisateurs', 'userList', 'user','gérer les utilisateurs', menuSelected, 'SUPER_ADMIN') }}
