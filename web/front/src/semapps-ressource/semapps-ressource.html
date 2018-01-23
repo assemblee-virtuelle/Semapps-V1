@@ -45,7 +45,7 @@
       </div>
       <div class="col col-sm-4 side-blocks">
         <template is="dom-if" if="[[skill.person]]">
-          <h3>skill.person</h3>
+          <h3>Compétence de</h3>
           <template is="dom-repeat" items="{{skill.person}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -54,7 +54,7 @@
         </template>
         <!-- ressourcesNeeded -->
         <template is="dom-if" if="[[ressourcesNeeded.person]]">
-          <h3>ressourcesNeeded.person</h3>
+          <h3>Besoin de (personne)</h3>
           <template is="dom-repeat" items="{{ressourcesNeeded.person}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -62,7 +62,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesNeeded.organization]]">
-          <h3>ressourcesNeeded.organization</h3>
+          <h3>Besoin de (organisation)</h3>
           <template is="dom-repeat" items="{{ressourcesNeeded.organization}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -70,7 +70,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesNeeded.project]]">
-          <h3>ressourcesNeeded.project</h3>
+          <h3>Besoin de (projet)</h3>
           <template is="dom-repeat" items="{{ressourcesNeeded.project}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -79,7 +79,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesNeeded.event]]">
-          <h3>ressourcesNeeded.event</h3>
+          <h3>Besoin de (evennement)</h3>
           <template is="dom-repeat" items="{{ressourcesNeeded.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -88,7 +88,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesNeeded.proposal]]">
-          <h3>ressourcesNeeded.proposal</h3>
+          <h3>Besoin de (proposition)</h3>
           <template is="dom-repeat" items="{{ressourcesNeeded.proposal}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -100,7 +100,7 @@
 
         <!-- ressourcesProposed -->
         <template is="dom-if" if="[[ressourcesProposed.person]]">
-          <h3>ressourcesProposed.person</h3>
+          <h3>Proposé par (personne)</h3>
           <template is="dom-repeat" items="{{ressourcesProposed.person}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -108,7 +108,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesProposed.organization]]">
-          <h3>ressourcesProposed.organization</h3>
+          <h3>Proposé par (organisation)</h3>
           <template is="dom-repeat" items="{{ressourcesProposed.organization}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -116,7 +116,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesProposed.project]]">
-          <h3>ressourcesProposed.project</h3>
+          <h3>Proposé par (projet)</h3>
           <template is="dom-repeat" items="{{ressourcesProposed.project}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -125,7 +125,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesProposed.event]]">
-          <h3>ressourcesProposed.event</h3>
+          <h3>Proposé par (evennement)</h3>
           <template is="dom-repeat" items="{{ressourcesProposed.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -134,7 +134,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[ressourcesProposed.proposal]]">
-          <h3>ressourcesProposed.proposal</h3>
+          <h3>Proposé par (proposition)</h3>
           <template is="dom-repeat" items="{{ressourcesProposed.proposal}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -145,7 +145,7 @@
 
         <!-- hasSubject -->
         <template is="dom-if" if="[[hasSubject.person]]">
-          <h3>hasSubject.person</h3>
+          <h3>Mot-clé de (personne)</h3>
           <template is="dom-repeat" items="{{hasSubject.person}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -153,7 +153,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[hasSubject.organization]]">
-          <h3>hasSubject.organization</h3>
+          <h3>Mot-clé de (organisation)</h3>
           <template is="dom-repeat" items="{{hasSubject.organization}}">
             <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
                             label="[[item.label]]"></semapps-avatar>
@@ -161,7 +161,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[hasSubject.project]]">
-          <h3>hasSubject.project</h3>
+          <h3>Mot-clé de (projet)</h3>
           <template is="dom-repeat" items="{{hasSubject.project}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -170,7 +170,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[hasSubject.event]]">
-          <h3>hasSubject.event</h3>
+          <h3>Mot-clé de (evennement)</h3>
           <template is="dom-repeat" items="{{hasSubject.event}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -179,7 +179,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[hasSubject.proposal]]">
-          <h3>hasSubject.proposal</h3>
+          <h3>Mot-clé de (proposition)</h3>
           <template is="dom-repeat" items="{{hasSubject.proposal}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
@@ -188,7 +188,7 @@
           <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[hasSubject.document]]">
-          <h3>hasSubject.document</h3>
+          <h3>Mot-clé de (document)</h3>
           <template is="dom-repeat" items="{{hasSubject.document}}">
             <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
                class="list-item">
