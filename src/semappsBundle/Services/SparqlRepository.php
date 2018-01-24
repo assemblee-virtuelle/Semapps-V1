@@ -149,4 +149,41 @@ class SparqlRepository extends SparqlClient
         GROUP BY ?G ?O"
         ));
     }
+
+    public function getListOfContentByType($type,$componentConf,$graphURI =null){
+
+        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
+        $sparql = $this->newQuery($this::SPARQL_SELECT);
+        $graphURI =($graphURI)? $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL):" ?GR ";
+        $componentType = $sparql->formatValue($type,$sparql::VALUE_TYPE_URL);
+
+        $sparql->addPrefixes($sparql->prefixes)
+            ->addSelect('?URI')
+            ->addWhere('?URI','rdf:type',$componentType,$graphURI);
+        foreach ($componentConf['label'] as $field ){
+            $label = $componentConf['fields'][$field]['value'];
+            $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
+            $sparql->addSelect('?'.$label)
+                ->addWhere('?URI',$fieldFormatted,'?'.$label,$graphURI);
+        }
+
+        $results = $this->sfClient->sparql($sparql->getQuery());
+
+        $listContent = [];
+        if (isset($results["results"]["bindings"])) {
+            foreach ($results["results"]["bindings"] as $item) {
+                $title = '';
+                foreach ($componentConf['label'] as $field ){
+                    $label = $componentConf['fields'][$field]['value'];
+                    $title .= $item[$label]['value'] .' ';
+                }
+                $listContent[] = [
+                    'uri'   => $item['URI']['value'],
+                    'title' => $title,
+                ];
+
+            }
+        }
+        return $listContent;
+    }
 }

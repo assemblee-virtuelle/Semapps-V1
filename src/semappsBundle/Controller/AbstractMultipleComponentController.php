@@ -8,48 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class AbstractMultipleComponentController extends AbstractComponentController
 {
     var $sfLink;
-
-    public function componentList($componentConf,$componentType,$graphURI){
-        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
-
-        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
-        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_SELECT);
-        $graphURI = $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL);
-        $componentType = $sparql->formatValue($componentType,$sparql::VALUE_TYPE_URL);
-
-        $sparql->addPrefixes($sparql->prefixes)
-            ->addSelect('?URI')
-            ->addWhere('?URI','rdf:type',$componentType,$graphURI);
-        foreach ($componentConf['label'] as $field ){
-            $label = $componentConf['fields'][$field]['value'];
-            $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
-            $sparql->addSelect('?'.$label)
-                ->addWhere('?URI',$fieldFormatted,'?'.$label,$graphURI);
-        }
-
-        $results = $sfClient->sparql($sparql->getQuery());
-
-        $listContent = [];
-        if (isset($results["results"]["bindings"])) {
-            foreach ($results["results"]["bindings"] as $item) {
-                $title = '';
-                foreach ($componentConf['label'] as $field ){
-                    $label = $componentConf['fields'][$field]['value'];
-                    $title .= $item[$label]['value'] .' ';
-                }
-                $listContent[] = [
-                    'uri'   => $item['URI']['value'],
-                    'title' => $title,
-                ];
-
-            }
-        }
-        return $listContent;
-    }
-
+    public abstract function componentList($componentConf,$componentType,$graphURI);
+    public abstract function removeComponent($uri);
     public function listAction($componentName,Request $request)
     {
         $bundleName = $this->getBundleNameFromRequest($request);
@@ -70,26 +30,6 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
                 'listContent'   => $listContent,
             )
         );
-    }
-
-    public function removeComponent($uri){
-        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
-
-        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-        $sparqlDeux = clone $sparql;
-
-        $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
-
-        $sparql->addDelete($uri,'?P','?O','?gr')
-            ->addWhere($uri,'?P','?O','?gr');
-        $sparqlDeux->addDelete('?s','?PP',$uri,'?gr')
-            ->addWhere('?s','?PP',$uri,'?gr');
-
-        $sfClient->update($sparql->getQuery());
-        $sfClient->update($sparqlDeux->getQuery());
     }
 
     public function removeAction($componentName,Request $request){

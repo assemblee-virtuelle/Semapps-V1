@@ -10,12 +10,13 @@ sendUser:
 #changeAccess:
 #    path:    /access/{userId}/change/{roles}
 #    defaults: { _controller: semappsBundle:AdministrationUser:changeAccess }
-orgaDelete:
-    path:     /organization/{orgaId}/delete
-    defaults: { _controller: semappsBundle:AdministrationOrganisation:orgaDelete }
-orgaList:
+deleteOrganization:
+    path:     /organization/delete/{uriOrganization}
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:removeOrganization }
+
+organizationList:
     path:     /organization/list
-    defaults: { _controller: semappsBundle:AdministrationOrganisation:all }
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:completeOragizationList }
 orgaExport:
     path:     /organization/export/csv
     defaults: { _controller: semappsBundle:AdministrationOrganisation:orgaExport }

@@ -2,19 +2,9 @@
 
 namespace semappsBundle\Controller;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use semappsBundle\Entity\Organization;
-use semappsBundle\Entity\User;
-use semappsBundle\Form\OrganisationMemberType;
-use semappsBundle\semappsConfig;
 use semappsBundle\Services\contextManager;
 use semappsBundle\Services\SparqlRepository;
-use SimpleExcel\SimpleExcel;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OrganizationController extends AbstractMultipleComponentController
 {
@@ -110,5 +100,32 @@ class OrganizationController extends AbstractMultipleComponentController
         /** @var \semappsBundle\Services\Encryption $encryption */
         $encryption 	= $this->container->get('semappsBundle.encryption');
         return $encryption->decrypt($this->getUser()->getSfUser());
+    }
+
+    public function componentList($componentConf, $componentType, $graphURI)
+    {
+        /** @var SparqlRepository $sparqlrepository */
+        $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
+        $listOfContent = $sparqlrepository->getListOfContentByType($componentType,$componentConf,$graphURI);
+        return $listOfContent;
+    }
+    public function removeComponent($uri){
+        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
+        $sfClient = $this->container->get('semantic_forms.client');
+        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
+        $sparqlClient   = $this->container->get('sparqlbundle.client');
+
+        $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+        $sparqlDeux = clone $sparql;
+
+        $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
+
+        $sparql->addDelete($uri,'?P','?O','?gr')
+            ->addWhere($uri,'?P','?O','?gr');
+        $sparqlDeux->addDelete('?s','?PP',$uri,'?gr')
+            ->addWhere('?s','?PP',$uri,'?gr');
+
+        $sfClient->update($sparql->getQuery());
+        $sfClient->update($sparqlDeux->getQuery());
     }
 }

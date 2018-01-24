@@ -9,7 +9,7 @@ class CartoAdminPageOrga extends CartoAdminPage {
             var orgaId = $(e.currentTarget).attr('rel');
             // Use custom modal for message.
             this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer cette organisation ? Tous les membres associés vont être supprimés.', () => {
-                window.location.replace('/administration/organization/' + orgaId + '/delete');
+                window.location.replace('/administration/organization/delete/'+encodeURI(orgaId));
             });
         });
 
