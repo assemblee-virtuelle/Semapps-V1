@@ -101,14 +101,12 @@ Polymer({
     this.isInGraph = false;
     if(semapps.userGraphUri){
       for (let i = 0, len = arrayOfGraph.length ; i < len && !this.isInGraph; i++) {
-          log(arrayOfGraph)
           if(semapps.userGraphUri.hasOwnProperty(arrayOfGraph[i])){
               this.isInGraph =true;
               this.idOfGraph = semapps.userGraphUri[arrayOfGraph[i]]['contextId']
           }
       }
     }
-
 
     //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
     //log(this.isInGraph);
