@@ -110,7 +110,7 @@ Polymer({
 
     //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
     //log(this.isInGraph);
-    this.canEdit = ((this.isSameUri || this.isInGraph) || semapps.isSuperAdmin());
+    this.canEdit = ((this.isSameUri || this.isInGraph) || (semapps.isSuperAdmin() && semapps.entities[data.properties.type].nameType.toLowerCase() === "organization"));
     inner.data = data;
     inner.parent = this;
     this.currentComponentUri = data.uri;

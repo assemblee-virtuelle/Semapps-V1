@@ -5,13 +5,11 @@ namespace semappsBundle\Controller;
 use semappsBundle\Entity\User;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 use semappsBundle\semappsConfig;
-use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class WebserviceController extends Controller
 {
