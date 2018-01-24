@@ -32,7 +32,7 @@ Polymer({
     let nameType = semapps.entities[this.child.type].nameType;
     switch (nameType) {
       case 'organization':
-        path += 'mon-compte/organization/form/' + this.id;
+        path += 'mon-compte/organization/form/' + encodeURI(encodeURIComponent(this.idOfGraph));
         break;
       case 'person':
         path += 'mon-compte/person/form';
@@ -41,7 +41,7 @@ Polymer({
         path += 'mon-compte/component/'+nameType+'/form?uri='+this.currentComponentUri;
 
     }
-      semapps.ajax('webservice/context/change/' + this.idOfGraph, (data) => {
+      semapps.ajax('webservice/context/change/' + encodeURI(encodeURIComponent(this.idOfGraph)), (data) => {
           "use strict";
           // Check that we are on the last callback expected.
           log(data);
@@ -112,7 +112,8 @@ Polymer({
     }
 
     log(this.isInGraph)
-
+    log("id of graph");
+    log(this.idOfGraph);
     log("end of debug is in graph")
 
     //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);

@@ -61,10 +61,7 @@ class WebserviceController extends Controller
             ->getManager()
             ->getRepository('semappsBundle:User')
             ->getAccessLevelString($user);
-//        $graphUri =($user && $user->getFkOrganisation())? $this->getDoctrine()
-//            ->getManager()
-//            ->getRepository('semappsBundle:Organization')
-//            ->find($user->getFkOrganisation())->getGraphUri() : null;
+
         $graphUri = ($user)? $contextManager->getListOfContext($user->getSfLink(),$user->getId()) :null;
         $name = ($user != null)? $user->getUsername() : '';
         // If no internet, we use a cached version of services
@@ -227,7 +224,7 @@ class WebserviceController extends Controller
     public function changeContextAction($id){
         $contextManager        = $this->get('semappsbundle.contextmanager');
 
-        $contextManager->setContext($this->getUser()->getSfLink(),$id);
+        $contextManager->setContext($this->getUser()->getSfLink(),urldecode($id));
 
         return new Response("ok",100);
     }
