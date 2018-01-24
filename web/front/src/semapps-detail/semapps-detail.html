@@ -25,14 +25,7 @@
               <span class="glyphicon glyphicon-edit"></span>Editer</a>
           </li>
         </template>
-        <template is="dom-if" if="[[isSuperAdmin]]">
-          <template is="dom-if" if="[[id]]">
-            <li role="presentation" class="active">
-              <a on-click="handleEdit" href="#">
-                <span class="glyphicon glyphicon-edit"></span>Editer</a>
-            </li>
-          </template>
-        </template>
+
       </ul>
       <div id="semapps-detail-inner"></div>
     </div>

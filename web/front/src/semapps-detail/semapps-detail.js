@@ -96,9 +96,7 @@ Polymer({
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.userUri);
-    log("debug is in graph")
     let arrayOfGraph  = data.properties.graph.split(",")
-    log(semapps.userGraphUri)
     this.idOfGraph = null;
     this.isInGraph = false;
     if(semapps.userGraphUri){
@@ -111,14 +109,10 @@ Polymer({
       }
     }
 
-    log(this.isInGraph)
-    log("id of graph");
-    log(this.idOfGraph);
-    log("end of debug is in graph")
 
     //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
     //log(this.isInGraph);
-    this.canEdit = (this.isSameUri || this.isInGraph);
+    this.canEdit = ((this.isSameUri || this.isInGraph) || semapps.isSuperAdmin());
     inner.data = data;
     inner.parent = this;
     this.currentComponentUri = data.uri;
