@@ -46,6 +46,7 @@ class confManager
         $conf = null;
         switch ($type){
             case semappsConfig::URI_PAIR_PERSON:
+            case 'http://xmlns.com/foaf/0.1/Person':
                 $conf = $this->personConf;
                 break;
             case semappsConfig::URI_PAIR_ORGANIZATION:

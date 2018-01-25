@@ -3,26 +3,12 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityRepository;
-use FOS\UserBundle\Util\TokenGenerator;
-use semappsBundle\Entity\User;
 use semappsBundle\Form\ImportType;
-use semappsBundle\Form\RegisterType;
-use semappsBundle\Form\UserType;
-use semappsBundle\Repository\UserRepository;
-use semappsBundle\Form\AdminSettings;
-use semappsBundle\semappsConfig;
-use semappsBundle\Services\contextManager;
+use semappsBundle\Services\ImportManager;
 use semappsBundle\Services\SparqlRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
-use VirtualAssembly\SparqlBundle\Sparql\sparqlSelect;
 
 class PersonController extends UniqueComponentController
 {
@@ -97,36 +83,20 @@ class PersonController extends UniqueComponentController
         if(!$userSfLink){
             $importForm = $this->createForm(ImportType::class, null);
             $importForm->handleRequest($request);
-
+            /** @var ImportManager $importManager */
+            $importManager = $this->container->get('semappsBundle.importmanager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
                 $user->setSfLink($uri);
                 $em->persist($user);
                 $em->flush();
                 $contextManager->setContext($uri,null);
-                //importer le profile
-                //$sfClient->import($uri);
-                $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-                $contentToImport = json_decode(file_get_contents($uri),JSON_OBJECT_AS_ARRAY);
-                $componentConf = $this->getParameter($uniqueComponentName.'Conf');
 
-                $contentforForm = [
-                    'type' => semappsConfig::URI_PAIR_PERSON
-                ];
-                foreach ($contentToImport['@context'] as $localHtmlName => $content){
-                    if(array_key_exists($content['@id'],$componentConf['fields'])){
-                        if (is_array($contentToImport[$localHtmlName])){
-                            if(array_key_exists('@value',$contentToImport[$localHtmlName])){
-                                $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName]['@value'];
-                            }else{
-                                $contentforForm[$componentConf['fields'][$content['@id']]['value']] = json_encode(array_flip($contentToImport[$localHtmlName]));
-                            }
-                        }else{
-                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName];
-                        }
-                    }
-                }
-                $testForm->submit($contentforForm);
+                $componentConf = $this->getParameter($uniqueComponentName.'Conf');
+                $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+
+                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+                $testForm->submit($dataToSave);
 
                 if(!$id)
                     return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
@@ -148,34 +118,13 @@ class PersonController extends UniqueComponentController
     public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $user = $this->getElement($id);
         $sfClient =$this->container->get('semantic_forms.client');
+        /** @var ImportManager $importManager */
         $importManager = $this->container->get('semappsBundle.importmanager');
         if($user->getSfLink() ){
-            //$importManager->actualize($user->getSfLink());
-            $contentToImport = json_decode(file_get_contents($user->getSfLink()),JSON_OBJECT_AS_ARRAY);
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
-
-            $importManager->removeUri($user->getSfLink());
-            /** @var Form $testForm */
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-
-            $contentforForm = [
-                'type' => semappsConfig::URI_PAIR_PERSON
-            ];
-            foreach ($contentToImport['@context'] as $localHtmlName => $content){
-                if(array_key_exists($content['@id'],$componentConf['fields'])){
-                    if (is_array($contentToImport[$localHtmlName])){
-                        if(array_key_exists('@value',$contentToImport[$localHtmlName])){
-                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName]['@value'];
-                        }else{
-                            $contentforForm[$componentConf['fields'][$content['@id']]['value']] = json_encode(array_flip($contentToImport[$localHtmlName]));
-                        }
-                    }else{
-                        $contentforForm[$componentConf['fields'][$content['@id']]['value']] = $contentToImport[$localHtmlName];
-                    }
-                }
-            }
-            //dump($contentforForm);
-            $testForm->submit($contentforForm);
+            $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf['fields']);
+            $testForm->submit($dataToSave,false);
             $this->addFlash('success','ok');
         }else{
             $this->addFlash('success','NOK !!!');

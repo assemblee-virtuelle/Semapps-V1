@@ -318,6 +318,7 @@ class WebserviceTools
         $output['uri'] = $uri;
         $dbpediaConf = $this->confmanager->getConf();
         $componentConf = $this->confmanager->getConf(current($properties['type']));
+        $properties['type'] = [$componentConf['type']];
         $propertiesWithUri=[];
         foreach ($componentConf['fields'] as $predicat =>$detail){
             $simpleKey = $detail['value'];

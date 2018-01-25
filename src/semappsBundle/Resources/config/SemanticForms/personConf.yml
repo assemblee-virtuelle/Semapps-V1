@@ -3,6 +3,8 @@ parameters:
     personConf:
       type: 'http://virtual-assembly.org/pair#Person'
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Person'
+      otherType:
+        - http://xmlns.com/foaf/0.1/Person
       nameType: 'person'
       fields:
         http://virtual-assembly.org/pair#subjectOf_Pair:
@@ -12,9 +14,15 @@ parameters:
         http://virtual-assembly.org/pair#firstName:
           value: 'firstName'
           access: 'anonymous'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/firstName
+            - http://xmlns.com/foaf/0.1/givenName
         http://virtual-assembly.org/pair#lastName:
           value: 'lastName'
           access: 'anonymous'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/familyName
+            - http://xmlns.com/foaf/0.1/lastName
         http://virtual-assembly.org/pair#alias:
           value: 'alias'
           access: 'anonymous'
@@ -30,6 +38,8 @@ parameters:
         http://virtual-assembly.org/pair#homePage:
           value: 'homePage'
           access: 'anonymous'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/homepage
         http://virtual-assembly.org/pair#aboutPage:
           value: 'aboutPage'
           access: 'anonymous'
@@ -39,9 +49,13 @@ parameters:
         http://virtual-assembly.org/pair#e-mail:
           value: 'email'
           access: 'member'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/mbox
         http://virtual-assembly.org/pair#phone:
           value: 'phone'
           access: 'member'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/phone
         http://virtual-assembly.org/pair#hasInterest:
           value: 'hasInterest'
           access: 'anonymous'
@@ -49,10 +63,14 @@ parameters:
           value: 'hasSubject'
           access: 'anonymous'
           type: 'dbpedia'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/topic_interest
         http://virtual-assembly.org/pair#knows:
           value: 'knows'
           access: 'anonymous'
           type: 'uri'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/knows
         http://virtual-assembly.org/pair#memberOf:
           value: 'memberOf'
           access: 'anonymous'
@@ -99,6 +117,8 @@ parameters:
         http://virtual-assembly.org/pair#image:
           value: 'image'
           access: 'anonymous'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/img
         http://virtual-assembly.org/pair#employedBy:
           value: 'employedBy'
           access: 'anonymous'

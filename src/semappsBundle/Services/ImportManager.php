@@ -24,28 +24,41 @@ class ImportManager
         $this->sparqlRepository = $sparqlRepository;
     }
 
-    public function actualize($uri){
-        $this->removeUri($uri);
-        $this->sfClient->import($uri);
-    }
+    public function contentToImport($uri,$fields){
+        $data =new \EasyRdf_Graph($uri);
 
-    public function changeUri($oldUri,$newUri){
-        $this->removeUri($oldUri);
-        $this->sfClient->import($newUri);
-    }
-    public function removeUri($uri){
+        $data->load();
+        $arrayOfFields = [];
+        foreach ($fields as $key => $content){
+            $arrayOfFields[$key] = $key;
+            if(array_key_exists('otherPredicat',$content) ){
+                if (is_array($content['otherPredicat'])){
+                    foreach ($content['otherPredicat'] as $predicat)
+                        $arrayOfFields[$predicat] = $key;
+                }
+                else{
+                    $arrayOfFields[$content['otherPredicat']] = $key;
+                }
+            }
+        }
 
-        $sparql = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_DELETE);
-        $sparqlDeux = clone $sparql;
+        $dataToSave = [];
+        $fieldOfSource = $data->toRdfPhp();
+        foreach ($fieldOfSource[$uri] as $key =>$field){
+            if(array_key_exists($key,$arrayOfFields)){
+                foreach ($field as $content){
+                    if(!array_key_exists('type',$fields[$arrayOfFields[$key]]) || $fields[$arrayOfFields[$key]]['type'] === 'litteral')
+                        $dataToSave[$fields[$arrayOfFields[$key]]['value']] = $content["value"];
+                    else{
+                        if(array_key_exists($fields[$arrayOfFields[$key]]['value'],$dataToSave))
+                            $dataToSave[$fields[$arrayOfFields[$key]]['value']]= array_flip(json_decode($dataToSave[$fields[$arrayOfFields[$key]]['value']],JSON_OBJECT_AS_ARRAY));
+                        $dataToSave[$fields[$arrayOfFields[$key]]['value']][] = $content["value"];
+                        $dataToSave[$fields[$arrayOfFields[$key]]['value']] = json_encode(array_flip($dataToSave[$fields[$arrayOfFields[$key]]['value']]));
+                    }
 
-        $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
-
-        $sparql->addDelete($uri,'?P','?O','?gr')
-            ->addWhere($uri,'?P','?O','?gr');
-        $sparqlDeux->addDelete('?s','?PP',$uri,'?gr')
-            ->addWhere('?s','?PP',$uri,'?gr');
-
-        $this->sfClient->update($sparql->getQuery());
-        $this->sfClient->update($sparqlDeux->getQuery());
+                }
+            }
+        }
+        return $dataToSave;
     }
 }

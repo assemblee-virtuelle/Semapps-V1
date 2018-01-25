@@ -36,7 +36,8 @@
         "liip/imagine-bundle": "^1.7",
         "faisalman/simple-excel-php": "^0.3.15",
         "VirtualAssembly/SparqlBundle" : "dev-master",
-        "VirtualAssembly/SemanticFormsBundle" : "dev-master"
+        "VirtualAssembly/SemanticFormsBundle" : "dev-master",
+        "easyrdf/easyrdf": "^0.9.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
