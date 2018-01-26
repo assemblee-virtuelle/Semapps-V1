@@ -23,4 +23,4 @@ ressource:
     defaults: { _controller: semappsBundle:WebSite:index }
 register:
     path:     /register
-    defaults: { _controller: semappsBundle:Admin:register }
+    defaults: { _controller: semappsBundle:Administration:register }
