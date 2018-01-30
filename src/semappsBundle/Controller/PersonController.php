@@ -130,9 +130,9 @@ class PersonController extends UniqueComponentController
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
             $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf['fields']);
             $testForm->submit($dataToSave,false);
-            $this->addFlash('success','ok');
+            $this->addFlash('success','Actualisation ok !');
         }else{
-            $this->addFlash('success','NOK !!!');
+            $this->addFlash('info',"Problème lors de l'actualisation !");
 
         }
 

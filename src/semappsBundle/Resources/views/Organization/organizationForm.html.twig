@@ -23,10 +23,14 @@
                                 class="glyphicon glyphicon-eye-open"></span>
                         Voir</a>
                 </li>
+                <li role="presentation" class="active pull-right">
+                    <a  href="{{ path('orgaActualizeComponent', {'uniqueComponentName':'organization', 'id': entityUri|url_encode}) }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        actualiser</a>
+                </li>
             </ul>
             <br>
         {% endif %}
-
         <div class="row">
             {% if importForm is not null %}
                 <ul id="myTab" class="nav nav-tabs nav-justified">

@@ -12,7 +12,11 @@ orgaComponentFormWithoutId:
     defaults: { _controller: semappsBundle:Organization:add}
     requirements:
       uniqueComponentName: 'organization'
-
+orgaActualizeComponent:
+    path:     /{uniqueComponentName}/actualize/{id}
+    defaults: { _controller: semappsBundle:Organization:actualize}
+    requirements:
+      uniqueComponentName: 'organization'
 personComponentForm:
     path:     /{uniqueComponentName}/form/{id}
     defaults: { _controller: semappsBundle:Person:add}

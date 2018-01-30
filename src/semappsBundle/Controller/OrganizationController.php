@@ -84,7 +84,6 @@ class OrganizationController extends AbstractMultipleComponentController
         }
 
         $importForm = null;
-//        dump($uri);
         if(!$this->getSfLink()){
             $importForm = $this->createForm(ImportType::class, null);
             $importForm->handleRequest($request);
@@ -98,11 +97,9 @@ class OrganizationController extends AbstractMultipleComponentController
                 $componentConf = $this->getParameter($componentName.'Conf');
                 $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
                 $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
-//                dump($dataToSave);
                 $testForm->submit($dataToSave);
-                $form = $this->getSfForm($sfClient,$componentName, $request);
-                $importForm = null;
                 $this->addFlash("success","Import réussi !");
+                return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
             }
         }
 
@@ -115,7 +112,23 @@ class OrganizationController extends AbstractMultipleComponentController
                 "image" => $actualImageName
             ]
         );
+    }
 
+    public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
+        $uri = urldecode($id);
+        $sfClient =$this->container->get('semantic_forms.client');
+        /** @var ImportManager $importManager */
+        $importManager = $this->container->get('semappsBundle.importmanager');
+        if( $uri ){
+            $componentConf = $this->getParameter($uniqueComponentName.'Conf');
+            $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$uri );
+            $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+            $testForm->submit($dataToSave,false);
+            $this->addFlash('success','Actualisation ok !');
+        }else{
+            $this->addFlash('info',"Problème lors de l'actualisation !");
+        }
+        return $this->redirectToRoute('orgaComponentForm',["uniqueComponentName" => $uniqueComponentName,"id" => urlencode($uri)]);
     }
 
     public function getGraph($id = null)
