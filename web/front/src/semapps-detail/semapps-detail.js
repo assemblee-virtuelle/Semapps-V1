@@ -113,8 +113,11 @@ Polymer({
     this.canEdit = ((this.isSameUri || this.isInGraph) || (semapps.isSuperAdmin() && semapps.entities[data.properties.type].nameType.toLowerCase() === "organization"));
     inner.data = data;
     inner.parent = this;
+    semapps.detail = this;
     this.currentComponentUri = data.uri;
-    let domInner = document.getElementById('semapps-detail-inner');
+    log(semapps.detail.canEdit);
+
+      let domInner = document.getElementById('semapps-detail-inner');
     domInner.innerHTML = '';
     domInner.appendChild(inner);
     this.loading = false;

@@ -21,6 +21,7 @@ Polymer({
       this.hasInterest = this.data.hasInterest;
       this.image = this.data.properties.image;
       this.hasSubject = this.data.hasSubject;
+      this.allowUri = semapps.detail.canEdit;
   },
 
     onClickThematic(e){

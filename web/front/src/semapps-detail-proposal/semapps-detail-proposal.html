@@ -28,11 +28,13 @@
                   <td>[[comment]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[allowUri]]">
               <template is="dom-if" if="[[data.uri]]">
                 <tr class="field">
                   <td class="fieldLabel">uri</td>
                   <td>[[data.uri]]</td>
                 </tr>
+              </template>
               </template>
             </table>
           </div>

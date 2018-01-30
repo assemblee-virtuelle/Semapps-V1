@@ -21,6 +21,7 @@ Polymer({
         this.hasType = this.data.hasType;
         this.hasInterest = this.data.hasInterest;
         this.hasSubject = this.data.hasSubject;
+        this.allowUri = semapps.detail.canEdit;
         if (this.publicationDate) {
             let publicationDate = new Date(this.publicationDate);
             this.publicationDate = publicationDate.getDate() + '/' + (publicationDate.getMonth() + 1) + '/' + publicationDate.getFullYear();

@@ -20,6 +20,8 @@ Polymer({
         this.organizedBy = this.data.organizedBy;
         this.hasParticipant = this.data.properties.hasParticipant;
         this.hasSubject = this.data.hasSubject;
+        this.allowUri = semapps.detail.canEdit;
+
         if (semapps.isMember()){
             this.addressTitle = this.address[0];
         }else{
