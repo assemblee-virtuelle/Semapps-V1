@@ -97,6 +97,16 @@ class OrganizationController extends AbstractMultipleComponentController
                 $componentConf = $this->getParameter($componentName.'Conf');
                 $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
                 $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+                //dump($dataToSave);exit;
+                if(array_key_exists('hasResponsible',$dataToSave)){
+                    $hasResponsible = json_decode($dataToSave['hasResponsible']);
+                    $hasResponsible[$this->getUser()->getSflink()] = 0;
+                    $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                }
+                else{
+                    $hasResponsible[$this->getUser()->getSflink()] = 0;
+                    $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                }
                 $testForm->submit($dataToSave);
                 $this->addFlash("success","Import réussi !");
                 return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
