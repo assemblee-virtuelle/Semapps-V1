@@ -20,7 +20,19 @@ Polymer({
         this.organizedBy = this.data.organizedBy;
         this.hasParticipant = this.data.properties.hasParticipant;
         this.hasSubject = this.data.hasSubject;
-
+        if (semapps.isMember()){
+            this.addressTitle = this.address[0];
+        }else{
+            this.addressTitle = "";
+            let addressSplit = this.address[0].split(" ");
+            for (let i = addressSplit.length-1; i>=0 ; i--){
+                this.addressTitle= addressSplit[i]+" "+this.addressTitle;
+                if (isNaN(addressSplit[i]) ===false)
+                    break;
+            }
+        }
+        this.complementAddress = this.complementAddress[0];
+        log(this.complementAddress);
         //this.buildingTitle = semapps.buildings[this.data.properties.building].title;
         if (this.startDate) {
             let startDate = new Date(this.startDate);

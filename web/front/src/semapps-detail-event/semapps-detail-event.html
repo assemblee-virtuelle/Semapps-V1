@@ -22,6 +22,19 @@
                   <td>[[alternativeLabel]]</td>
                 </tr>
               </template>
+              <template is="dom-if" if="[[addressTitle]]">
+                <tr class="field">
+                  <td class="fieldLabel">Adresse</td>
+                  <td>[[addressTitle]]</td>
+                </tr>
+              </template>
+
+              <template is="dom-if" if="[[complementAddress]]">
+                <tr class="field">
+                  <td class="fieldLabel">Complément d'adresse</td>
+                  <td>[[complementAddress]]</td>
+                </tr>
+              </template>
               <template is="dom-if" if="[[startDate]]">
                 <tr class="field">
                   <td class="fieldLabel">Date de début de l'event </td>
