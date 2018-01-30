@@ -57,7 +57,10 @@ class PersonController extends UniqueComponentController
                     $fileUploader->upload($newPicture)
                 );
                 $sparqlRepository->changeImage($form->uri,$form->uri,$fileUploader->generateUrlForFile($user->getPictureName()));
-
+                $this->addFlash(
+                    'success',
+                    'Votre image a bien été changé.'
+                );
             } else {
                 $user->setPictureName($oldPictureName);
             }
@@ -68,11 +71,13 @@ class PersonController extends UniqueComponentController
             }
             $em->persist($user);
             $em->flush();
+            if(!$newPicture){
+                $this->addFlash(
+                    'success',
+                    'Votre profil a bien été mis à jour.'
+                );
+            }
 
-            $this->addFlash(
-                'success',
-                'Votre profil a bien été mis à jour.'
-            );
             if(!$id)
                 return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
             else

@@ -50,6 +50,7 @@ class OrganizationController extends AbstractMultipleComponentController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Manage picture.
+            $newPictureName = null;
             if($form->has('organisationPicture')){
                 $newPicture = $form->get('organisationPicture')->getData();
                 if ($newPicture) {
@@ -64,11 +65,19 @@ class OrganizationController extends AbstractMultipleComponentController
                     if($uri)
                         $sparqlRepository->changeImage($graphURI,$uri,$fileUploader->generateUrlForFile($newPictureName));
                     $actualImageName = $newPictureName;
+                    $this->addFlash(
+                        'success',
+                        'Votre image a bien été changé.'
+                    );
                 }
-                $this->addFlash('info', "l'image a été rajouté avec succès");
 
             }
-            $this->addFlash('info', 'Le contenu à bien été mis à jour.');
+            if(!$newPictureName)
+                $this->addFlash(
+                    'success',
+                    'Le contenu a bien été mis à jour.'
+                );
+
             return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' =>urlencode($form->uri)]);
 
         }

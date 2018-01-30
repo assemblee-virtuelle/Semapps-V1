@@ -53,13 +53,13 @@ class ComponentController extends AbstractMultipleComponentController
                     }
                     $newPictureName = $fileUploader->upload($newPicture);
                     $sparqlRepository->changeImage($graphURI,$form->uri,$fileUploader->generateUrlForFile($newPictureName));
+                    $this->addFlash('success', "l'image a été rajouté avec succès");
+                    return $this->redirectToRoute(
+                        'componentForm', ["componentName" => $componentName, "uri" => $form->uri]
+                    );
                 }
-                $this->addFlash('info', "l'image a été rajouté avec succès");
-                return $this->redirectToRoute(
-                    'componentForm', ["componentName" => $componentName, "uri" => $form->uri]
-                );
             }
-            $this->addFlash('info', 'Le contenu à bien été mis à jour.');
+            $this->addFlash('success', 'Le contenu à bien été mis à jour.');
             return $this->redirectToRoute(
                 'componentList', ["componentName" => $componentName]
             );
