@@ -341,8 +341,8 @@ class WebserviceTools
                     default:
                         switch ($simpleKey){
                             case 'description':
-                                break;
                                 $properties[$simpleKey] = nl2br(current($properties[$simpleKey]),false);
+                                break;
 
                             case 'hasInterest':
                                 foreach ($properties[$simpleKey] as $uri) {
