@@ -2,7 +2,9 @@
 
 namespace semappsBundle\Controller;
 
+use semappsBundle\Form\ImportType;
 use semappsBundle\Services\contextManager;
+use semappsBundle\Services\ImportManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -22,7 +24,6 @@ class OrganizationController extends AbstractMultipleComponentController
         /** @var contextManager $contextManager */
         $contextManager       = $this->container->get('semappsBundle.contextManager');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
-
         if($uri && !$contextManager->actualizeContext($this->getUser()->getSfLink())){
             return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' => 'person']);
         }
@@ -81,10 +82,34 @@ class OrganizationController extends AbstractMultipleComponentController
             return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' =>urlencode($form->uri)]);
 
         }
+
+        $importForm = null;
+//        dump($uri);
+        if(!$this->getSfLink()){
+            $importForm = $this->createForm(ImportType::class, null);
+            $importForm->handleRequest($request);
+            /** @var ImportManager $importManager */
+            $importManager = $this->container->get('semappsBundle.importmanager');
+            if ($importForm->isSubmitted() && $importForm->isValid()) {
+                $uri = $importForm->get('import')->getData();
+                $contextManager->setContext($uri,null);
+                $this->setSfLink($uri);
+
+                $componentConf = $this->getParameter($componentName.'Conf');
+                $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
+                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+//                dump($dataToSave);
+                $testForm->submit($dataToSave);
+                $form = $this->getSfForm($sfClient,$componentName, $request);
+                $importForm = null;
+                $this->addFlash("success","Import réussi !");
+            }
+        }
+
         // Fill form
         return $this->render(
             'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',[
-                'importForm'=>  null,
+                'importForm'=>  ($importForm)?$importForm->createView():null,
                 "form" => $form->createView(),
                 "entityUri" => $this->getSfLink(),
                 "image" => $actualImageName

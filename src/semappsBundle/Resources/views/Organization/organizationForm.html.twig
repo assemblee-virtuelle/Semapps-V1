@@ -2,7 +2,7 @@
 
 {% block title %}SemApps  | organisation{% endblock %}
 
-{% block pageContentTitle %}Organisation : {{ context_manager.getContext(app.user.sfLink).contextName}}{% endblock %}
+{% block pageContentTitle %}{% if entityUri %} Organisation : {{ context_manager.getContext(app.user.sfLink).contextName}} {% else %} Nouvelle organisation {% endif %}{% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
