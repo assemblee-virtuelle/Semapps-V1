@@ -8,7 +8,6 @@
  */
 namespace semappsBundle\Services;
 use semappsBundle\Entity\Organization;
-use semappsBundle\semappsConfig;
 use Symfony\Component\Templating\EngineInterface;
 use semappsBundle\Entity\User;
 /**
@@ -31,12 +30,11 @@ class Mailer
         $this->address = $addressOfTheSite;
     }
 
-    protected function sendMessage($to, $subject, $body ,$from =null)
+    public function sendMessage($to, $subject, $body ,$from =null)
     {
         $mail = \Swift_Message::newInstance()
             ->setFrom('fake@fake.fr')
             ->setTo($to)
-            //->setBcc("sebastien.lemoine@cri-paris.org")
             ->setSubject($subject)
             ->setBody($body)
 
@@ -47,7 +45,6 @@ class Mailer
 
     public function sendConfirmMessage($type, User $user, Organization $organisation= null, $url, $from =null)
     {
-        //$subject = "Sortie de la carto de la mmmfest : Un outil pour nous connaître, partager et coopérer ! (On a besoin de toi !) "; //$user->getUsername()
         $content = $this->bodyMail( $user, $organisation, $url,$type);
         return $this->sendMessage($user->getEmail(), $content["subject"], $content["body"],$from);
     }

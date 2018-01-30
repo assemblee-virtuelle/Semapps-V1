@@ -28,8 +28,9 @@ security:
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register$, role: ROLE_NO_ACCESS }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         #account.yml
         - { path: ^/mon-compte/person/form$, role: ROLE_MEMBER }
         - { path: '^/mon-compte/person/form/{0,9}', role: ROLE_SUPER_ADMIN }

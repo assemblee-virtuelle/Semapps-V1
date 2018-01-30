@@ -27,3 +27,14 @@ services:
     semappsBundle.importmanager:
         class: semappsBundle\Services\ImportManager
         arguments: ['@semantic_forms.client','@semappsBundle.sparqlRepository']
+    semappsBundle.invitemanager:
+        class: semappsBundle\Services\InviteManager
+        arguments: ['@fos_user.util.token_generator']
+#
+#    semappsBundle.voter:
+#        class: semappsBundle\Voters\ExampleVoter
+#        arguments: ['@semappsBundle.sparqlRepository','@semantic_forms.client']
+#        tags:
+#          - { name: security.voter }
+#        # small performance boost
+#        public: false

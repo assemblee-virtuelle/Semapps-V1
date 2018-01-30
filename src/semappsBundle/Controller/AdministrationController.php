@@ -3,45 +3,39 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityRepository;
-use FOS\UserBundle\Util\TokenGenerator;
-use semappsBundle\Entity\User;
-use semappsBundle\Form\ImportType;
 use semappsBundle\Form\RegisterType;
-use semappsBundle\Form\UserType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
-use semappsBundle\semappsConfig;
 use semappsBundle\Services\contextManager;
-use semappsBundle\Services\SparqlRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use semappsBundle\Services\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
-use VirtualAssembly\SparqlBundle\Sparql\sparqlSelect;
 
 class AdministrationController extends Controller
 {
 
-    public function registerAction(Request $request)
+    public function registerAction(Request $request,$token)
     {
         /** @var \semappsBundle\Services\Encryption $encryption */
         $encryption = $this->container->get('semappsBundle.encryption');
-        /** @var UserRepository $userRepository */
-        $userRepository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('semappsBundle:User');
-        //get all organization
-//        $organisationRepository =  $this
-//            ->getDoctrine()
-//            ->getManager()
-//            ->getRepository('semappsBundle:Organization');
+        /** @var \semappsBundle\Services\InviteManager $inviteManager */
+        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+
+
+        if($this->getUser()) {
+            $this->addFlash('info', "Vous devez vous déconnecter avant d'accéder à cette page");
+            return $this->redirectToRoute("home");
+        }
+
+        // voter pour le token
+        $email = $inviteManager->verifyInvite($token);
+        if(!$email){
+            $this->addFlash('info', "token non reconnu");
+            return $this->redirectToRoute("fos_user_security_login");
+        }
         //get the form
         $form = $this->createForm(
             RegisterType::class,
@@ -53,28 +47,17 @@ class AdministrationController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newUser = $form->getData();
-            /** @var TokenGenerator $tokenGenerator */
-            $tokenGenerator = $this->container->get(
-                'fos_user.util.token_generator'
-            );
+
             $newUser->setPassword(
                 password_hash($form->get('password')->getData(), PASSWORD_BCRYPT, ['cost' => 13])
             );
 
             $newUser->setSfUser($encryption->encrypt($form->get('password')->getData()));
 
-            // Generate the token for the confirmation email
-            $conf_token = $tokenGenerator->generateToken();
-            $newUser->setConfirmationToken($conf_token);
-
             //Set the roles
             $newUser->addRole('ROLE_MEMBER');
-//            if(!is_null($form->get('organisation')->getData()))
-//                $organisationId = $form->get('organisation')->getData()->getId();
-//            else
-//                $organisationId = $form->get('organisation')->getData();
 
-            //$newUser->setFkOrganisation($organisationId);
+            $newUser->setEnabled(true);
 
             // Save it.
             $em = $this->getDoctrine()->getManager();
@@ -86,24 +69,8 @@ class AdministrationController extends Controller
 
                 return $this->redirectToRoute('fos_user_resetting_request',array('email' => $newUser->getEmail()));
             }
-            $this->addFlash('success','Merci à toi cher Voisin, nous avons bien pris en compte ton inscription,
-             nous allons la valider dans les prochaines heures, après quoi tu recevras un mail de confirmation :-) A très bientôt sur la carto ! ');
+            $this->addFlash('success', 'votre compte est maintenant créé, vous pouvez vous connecter et commencer à remplir votre profil !');
 
-            //notification
-            $usersSuperAdmin = $userRepository->getSuperAdminUsers();
-            $listOfEmail= [];
-            //$organisation=null;
-//            if($organisationId){
-//                $organisation = $organisationRepository->find($form->get('organisation')->getData());
-//                $responsible = $userRepository->findOneBy(['fkOrganisation' => $form->get('organisation')->getData()]);
-//                array_push($listOfEmail,$responsible->getEmail());
-//            }
-
-            foreach ($usersSuperAdmin as $superuser){
-                array_push($listOfEmail,$superuser["email"]);
-            }
-            $mailer = $this->get('semappsBundle.EventListener.SendMail');
-            $mailer->sendNotification($mailer::TYPE_NOTIFICATION,$newUser,null,array_unique($listOfEmail));
 
             return $this->redirectToRoute('fos_user_security_login');
         }
@@ -112,6 +79,7 @@ class AdministrationController extends Controller
             'semappsBundle:Admin:register.html.twig',
             array(
                 'form'      => $form->createView(),
+                'email'     => ($email)? $email : null,
             )
         );
     }
@@ -202,4 +170,51 @@ class AdministrationController extends Controller
         $this->addFlash('success',"le contexte a bien été changé");
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
+
+    public function inviteAction(Request $request){
+        $form = $this->createFormBuilder(null)
+            ->add('email', EmailType::class)
+            ->add('submit', SubmitType::class, array('label' => 'Envoyer une invitation'))
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            /** @var UserRepository $userRepository */
+            $userRepository = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('semappsBundle:User');
+
+            /** @var \semappsBundle\Services\InviteManager $inviteManager */
+            $inviteManager = $this->container->get('semappsBundle.invitemanager');
+            /** @var Mailer $mailer */
+            $mailer = $this->container->get('semappsBundle.EventListener.SendMail');
+            $email = $form->get('email')->getData();
+
+            $user = $userRepository->findOneBy(['email' => $email]);
+            if ($user){
+                $this->addFlash("info","l'email existe déjà");
+                $this->redirectToRoute('invite');
+            }
+
+            $token= $inviteManager->newInvite($email);
+
+            $website = $this->getParameter('carto.domain');
+            $url = "http://".$website.'/register/'.$token;
+            $sujet = "[".$website."] Vous avez recu une invitation !";
+            $content= "Bonjour ".$email." !<br><br> 
+                        L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
+                        Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br><br>
+                        a bientôt sur la plateforme ! <br>l'équipe de ".$website;
+            $mailer->sendMessage($email,$sujet,$content);
+        }
+
+        return $this->render(
+            'semappsBundle:Admin:invite.html.twig',
+            array(
+                'form' => $form->createView(),
+            )
+        );
+    }
+
 }

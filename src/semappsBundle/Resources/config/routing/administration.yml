@@ -29,3 +29,6 @@ changeContext:
 settings:
     path:     /parametres
     defaults: { _controller: semappsBundle:Administration:settings }
+invite:
+    path:     /invite
+    defaults: { _controller: semappsBundle:Administration:invite }
