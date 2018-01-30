@@ -155,6 +155,14 @@ class EventType extends SemanticFormType
             )
             ->add(
                 $builder,
+                'complementAddress',
+                TextType::class,
+                [
+                    'required'  => false,
+                ]
+            )
+            ->add(
+                $builder,
                 'hasType',
                 UriType::class,
                 [
