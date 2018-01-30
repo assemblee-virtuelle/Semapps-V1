@@ -1,5 +1,5 @@
 {% extends "semappsBundle:Component:componentList.html.twig" %}
 
-{% block pageContentTitle %}Document de {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
+{% block pageContentTitle %}Document {{ (context_manager.getContext(app.user.sfLink).contextName)? "de " + context_manager.getContext(app.user.sfLink).contextName : 'personnels'}}{% endblock %}
 
 {% set menuSelected = 'Document' %}

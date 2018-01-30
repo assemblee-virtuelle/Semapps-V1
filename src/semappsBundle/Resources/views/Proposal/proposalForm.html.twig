@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter une proposition pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
+{% block pageContentTitle %}Ajouter une proposition {{ (context_manager.getContext(app.user.sfLink).contextName)? "de la part de " + context_manager.getContext(app.user.sfLink).contextName : 'personnel'}}{% endblock %}
 
 {%  set menuSelected = 'Proposition' %}
 
@@ -71,8 +71,16 @@
             {% embed "alertBobby.html.twig" %}
                 {% block title %}Les propositions {% endblock %}
                 {% block content %}
-                    <p>Faites une proposition et renseignez le champ "a pour sujet" pour désigner à qui, à quoi elle s'adresse : Les propositions peuvent concerner une personne, une organisation, un projet, un événement ...</p>
-
+                    <p>
+                        Vous pouvez éditer une proposition :
+                    </p>
+                    <ul>
+                        <li>En tant que Personne</li>
+                        <li>Ou en tant qu'Organisation si vous avez des droits d'administration sur cette dernière.</li>
+                    </ul>
+                    <p>
+                        Si vous n'avez pas de droits d'édition sur une organisation, demandez en un à l'un de ses responsables
+                    </p>
                 {% endblock %}
             {% endembed %}
         </div>

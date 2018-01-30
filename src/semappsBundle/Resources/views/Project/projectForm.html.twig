@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter un projet pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
+{% block pageContentTitle %}Ajouter un projet  {{ (context_manager.getContext(app.user.sfLink).contextName)? "pour "context_manager.getContext(app.user.sfLink).contextName : 'personnel'}}{% endblock %}
 
 {% set menuSelected = 'Projets' %}
 
@@ -103,7 +103,14 @@
                 {% block title %}Les projets{% endblock %}
                 {% block content %}
                     <p>
-                        Outre le projet de votre atelier au MMM, vous pouvez créer d’autres projets dans lesquels vous êtes déjà impliqués . Cela permettra aux participants de se renseigner sur les projets en cours réalisation au sein du site mais aussi ceux que vous menez en dehors du Festival.
+                        Vous pouvez éditer un projet :
+                    </p>
+                    <ul>
+                        <li>En tant que Personne</li>
+                        <li>Ou en tant qu'Organisation si vous avez des droits d'administration sur cette dernière.</li>
+                    </ul>
+                    <p>
+                        Si vous n'avez pas de droits d'édition sur une organisation, demandez en un à l'un de ses responsables
                     </p>
 
                     <p>Une belle occasion de les faire connaître et de créer de nouvelles opportunités !

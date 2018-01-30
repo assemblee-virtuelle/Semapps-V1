@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter un événement pour {{ (context_manager.getContext(app.user.sfLink).contextName)? context_manager.getContext(app.user.sfLink).contextName : 'vous'}}{% endblock %}
+{% block pageContentTitle %}Ajouter un événement  {{ (context_manager.getContext(app.user.sfLink).contextName)? "pour " + context_manager.getContext(app.user.sfLink).contextName : 'personnel'}}{% endblock %}
 
 {% set menuSelected = 'Evénements' %}
 
@@ -107,8 +107,15 @@
             {% embed "alertBobby.html.twig" %}
                 {% block title %}Les événements{% endblock %}
                 {% block content %}
-                    <p>Outre l’atelier auquel vous participez dans le cadre du MMM fest, vous pouvez créer d’autres événements que vous organisez dans d’autres contextes,
-                        cela vous permettra de faire un peu de pub :-)
+                    <p>
+                        Vous pouvez éditer un événnement :
+                    </p>
+                    <ul>
+                        <li>En tant que Personne</li>
+                        <li>Ou en tant qu'Organisation si vous avez des droits d'administration sur cette dernière.</li>
+                    </ul>
+                    <p>
+                        Si vous n'avez pas de droits d'édition sur une organisation, demandez en un à l'un de ses responsables
                     </p>
                 {% endblock %}
             {% endembed %}

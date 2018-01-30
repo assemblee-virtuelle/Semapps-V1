@@ -1,6 +1,6 @@
 {% extends "semappsBundle:Component:componentForm.html.twig" %}
 
-{% block pageContentTitle %}Ajouter un document{% endblock %}
+{% block pageContentTitle %}Ajouter un document {{ (context_manager.getContext(app.user.sfLink).contextName)? "pour " + context_manager.getContext(app.user.sfLink).contextName : 'personnel'}}{% endblock %}
 
 {%  set menuSelected = 'Document' %}
 
@@ -102,8 +102,16 @@
             {% embed "alertBobby.html.twig" %}
                 {% block title %}Les documents{% endblock %}
                 {% block content %}
-                    <p>Vous pouvez ici renseigner le #CodeSocial de votre projet. Et éventuellement partager d’autres documents autour de votre activité ou de vos centres d’intérêts … </p>
-                    <p><a href="https://docs.google.com/document/d/1JevSlK4lx-ZJ5w0Mxcnsx9L6pj0YdTnOqe4ohehXQ5U/edit?usp=sharing" target="_blank">Ci-joint</a> un lien vous permettant d'accéder au formulaire afin de rédiger simplement votre #CodeSocial</p>
+                    <p>
+                        Vous pouvez éditer un document :
+                    </p>
+                    <ul>
+                        <li>En tant que Personne</li>
+                        <li>Ou en tant qu'Organisation si vous avez des droits d'administration sur cette dernière.</li>
+                    </ul>
+                    <p>
+                        Si vous n'avez pas de droits d'édition sur une organisation, demandez en un à l'un de ses responsables
+                    </p>
                 {% endblock %}
             {% endembed %}
         </div>
