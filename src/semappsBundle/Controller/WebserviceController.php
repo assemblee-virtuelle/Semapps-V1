@@ -95,9 +95,9 @@ class WebserviceController extends Controller
         return new JsonResponse(
             (object)[
                 'results' => $webserviceTools->searchSparqlRequest(
-                    $request->get('t'),
+                    $request->get('term'),
                     ''
-                    ,$request->get('f'),
+                    ,$request->get('filter'),
                     true
                 ),
             ]

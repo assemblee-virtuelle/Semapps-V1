@@ -114,8 +114,8 @@ Polymer({
         // It prevent to parse multiple responses.
         this.searchQueryLastComplete = complete;
         semapps.ajax('webservice/search?' +
-            't=' + encodeURIComponent(term) +
-            '&f=' + encodeURIComponent(semapps.searchLastFilter), (data) => {
+            'term=' + encodeURIComponent(term) +
+            '&filter=' + encodeURIComponent(semapps.searchLastFilter), (data) => {
             "use strict";
             // Check that we are on the last callback expected.
             complete === this.searchQueryLastComplete

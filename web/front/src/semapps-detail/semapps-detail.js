@@ -101,7 +101,7 @@ Polymer({
     this.isInGraph = false;
     if(semapps.user.graphuri){
       for (let i = 0, len = arrayOfGraph.length ; i < len && !this.isInGraph; i++) {
-          if(semapps.useer.graphuri.hasOwnProperty(arrayOfGraph[i])){
+          if(semapps.user.graphuri.hasOwnProperty(arrayOfGraph[i])){
               this.isInGraph =true;
               this.idOfGraph = semapps.user.graphuri[arrayOfGraph[i]]['contextId']
           }
