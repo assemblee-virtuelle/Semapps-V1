@@ -92,16 +92,27 @@ class PersonController extends UniqueComponentController
             $importManager = $this->container->get('semappsBundle.importmanager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
-                $user->setSfLink($uri);
-                $em->persist($user);
-                $em->flush();
-                $contextManager->setContext($uri,null);
 
                 $componentConf = $this->getParameter($uniqueComponentName.'Conf');
                 $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+                $type = array_merge([$componentConf['type']],$componentConf['otherType']);
+                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
 
-                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
-                $testForm->submit($dataToSave);
+                if(is_null($dataToSave)){
+                    $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
+
+                }elseif(!$dataToSave){
+                    $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
+
+                }else{
+                    $this->addFlash("success","Votre profil a été importé avec succès !");
+                    $testForm->submit($dataToSave);
+                    $user->setSfLink($uri);
+                    $em->persist($user);
+                    $em->flush();
+                    $contextManager->setContext($uri,null);
+                }
+
 
                 if(!$id)
                     return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);

@@ -38,9 +38,10 @@ class ImportManager
         $this->sfClient->update($sparql->getQuery());
         $this->sfClient->update($sparqlDeux->getQuery());
     }
-    public function contentToImport($uri,$fields){
+    public function contentToImport($uri,$fields,$type){
         $data =new \EasyRdf_Graph($uri);
-
+        $predicatType = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+        $dataToSave = null;
         $data->load();
         $arrayOfFields = [];
         foreach ($fields as $key => $content){
@@ -56,23 +57,31 @@ class ImportManager
             }
         }
 
-        $dataToSave = [];
         $fieldOfSource = $data->toRdfPhp();
-        foreach ($fieldOfSource[$uri] as $key =>$field){
-            if(array_key_exists($key,$arrayOfFields)){
-                foreach ($field as $content){
-                    if(!array_key_exists('type',$fields[$arrayOfFields[$key]]) || $fields[$arrayOfFields[$key]]['type'] === 'litteral')
-                        $dataToSave[$fields[$arrayOfFields[$key]]['value']] = $content["value"];
-                    else{
-                        if(array_key_exists($fields[$arrayOfFields[$key]]['value'],$dataToSave))
-                            $dataToSave[$fields[$arrayOfFields[$key]]['value']]= array_flip(json_decode($dataToSave[$fields[$arrayOfFields[$key]]['value']],JSON_OBJECT_AS_ARRAY));
-                        $dataToSave[$fields[$arrayOfFields[$key]]['value']][] = $content["value"];
-                        $dataToSave[$fields[$arrayOfFields[$key]]['value']] = json_encode(array_flip($dataToSave[$fields[$arrayOfFields[$key]]['value']]));
-                    }
+        if($fieldOfSource ){
+            $dataToSave = false;
+            foreach ($fieldOfSource[$uri][$predicatType] as $content ){
+                $dataToSave = (in_array($content['value'],$type))? [] : $dataToSave ;
+            }
+            if (is_array($dataToSave)){
+                foreach ($fieldOfSource[$uri] as $key =>$field){
+                    if(array_key_exists($key,$arrayOfFields)){
+                        foreach ($field as $content){
+                            if(!array_key_exists('type',$fields[$arrayOfFields[$key]]) || $fields[$arrayOfFields[$key]]['type'] === 'litteral')
+                                $dataToSave[$fields[$arrayOfFields[$key]]['value']] = $content["value"];
+                            else{
+                                if(array_key_exists($fields[$arrayOfFields[$key]]['value'],$dataToSave))
+                                    $dataToSave[$fields[$arrayOfFields[$key]]['value']]= array_flip(json_decode($dataToSave[$fields[$arrayOfFields[$key]]['value']],JSON_OBJECT_AS_ARRAY));
+                                $dataToSave[$fields[$arrayOfFields[$key]]['value']][] = $content["value"];
+                                $dataToSave[$fields[$arrayOfFields[$key]]['value']] = json_encode(array_flip($dataToSave[$fields[$arrayOfFields[$key]]['value']]));
+                            }
 
+                        }
+                    }
                 }
             }
         }
+
         return $dataToSave;
     }
 }

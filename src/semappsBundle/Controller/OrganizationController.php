@@ -95,20 +95,31 @@ class OrganizationController extends AbstractMultipleComponentController
                 $this->setSfLink($uri);
 
                 $componentConf = $this->getParameter($componentName.'Conf');
+                $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
+
                 $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
-                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
                 //dump($dataToSave);exit;
-                if(array_key_exists('hasResponsible',$dataToSave)){
-                    $hasResponsible = json_decode($dataToSave['hasResponsible']);
-                    $hasResponsible[$this->getUser()->getSflink()] = 0;
-                    $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                if(is_null($dataToSave)){
+                    $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
+
+                }elseif(!$dataToSave){
+                    $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
+
+                }else{
+                    $this->addFlash("success","Votre profil a été importé avec succès !");
+                    if(array_key_exists('hasResponsible',$dataToSave)){
+                        $hasResponsible = json_decode($dataToSave['hasResponsible'],JSON_OBJECT_AS_ARRAY);
+                        $hasResponsible[$this->getUser()->getSfLink()] = 0;
+                        $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                    }
+                    else{
+                        $hasResponsible[$this->getUser()->getSflink()] = 0;
+                        $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                    }
+//                    dump($dataToSave);exit;
+                    $testForm->submit($dataToSave);
                 }
-                else{
-                    $hasResponsible[$this->getUser()->getSflink()] = 0;
-                    $dataToSave['hasResponsible'] = json_encode($hasResponsible);
-                }
-                $testForm->submit($dataToSave);
-                $this->addFlash("success","Import réussi !");
                 return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
             }
         }
