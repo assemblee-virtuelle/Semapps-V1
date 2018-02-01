@@ -15,22 +15,6 @@ class WebserviceController extends Controller
 {
 
 
-    var $entitiesFilters = [
-        semappsConfig::URI_PAIR_ORGANIZATION,
-        semappsConfig::URI_PAIR_PERSON,
-        semappsConfig::URI_PAIR_PROJECT,
-        semappsConfig::URI_PAIR_EVENT,
-        semappsConfig::URI_PAIR_PROPOSAL,
-        semappsConfig::URI_SKOS_THESAURUS,
-        semappsConfig::URI_PAIR_DOCUMENT,
-        semappsConfig::URI_PAIR_DOCUMENT_TYPE,
-        semappsConfig::URI_PAIR_PROJECT_TYPE,
-        semappsConfig::URI_PAIR_EVENT_TYPE,
-        semappsConfig::URI_PAIR_PROPOSAL_TYPE,
-        semappsConfig::URI_PAIR_ORGANIZATION_TYPE,
-
-    ];
-
     public function parametersAction()
     {
         $cache = new FilesystemAdapter();
@@ -226,7 +210,7 @@ class WebserviceController extends Controller
 
         $contextManager->setContext($this->getUser()->getSfLink(),urldecode($id));
 
-        return new Response("ok",100);
+        return new Response("ok",200);
     }
 
 
@@ -237,11 +221,12 @@ class WebserviceController extends Controller
      */
     public function filter(Array $array){
         $filtered = [];
+        $type = $this->getParameter('typeToName');
         foreach ($array as $result) {
             // Type is sometime missing.
-            if (isset($result['type']) && in_array(
+            if (isset($result['type']) && array_key_exists(
                     $result['type'],
-                    $this->entitiesFilters
+                    $type
                 )
             ) {
                 $filtered[] = $result;
