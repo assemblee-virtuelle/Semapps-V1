@@ -223,18 +223,18 @@
             return path;
         }
         haveName(){
-            return this.name !== '';
+            return this.user.name !== '';
         }
         isSuperAdmin() {
-            return this.access === 'super_admin';
+            return this.user.access === 'super_admin';
         }
 
         isAdmin() {
-            return (this.access === 'admin') || this.isSuperAdmin();
+            return (this.user.access === 'admin') || this.isSuperAdmin();
         }
 
         isMember() {
-            return (this.access === 'super_admin') || this.isAdmin();
+            return (this.user.access === 'super_admin') || this.isAdmin();
         }
 
         isAnonymous() {

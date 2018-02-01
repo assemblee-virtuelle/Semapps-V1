@@ -15,7 +15,7 @@ Polymer({
     "use strict";
     this.domSearchTextInput = semapps.domId('searchText');
     this.haveName= semapps.haveName();
-    this.name = semapps.name;
+    this.name = semapps.user.name;
     this.thesaurus = semapps.thesaurus;
 
     let callbackSearchEvent = this.searchEvent.bind(this);

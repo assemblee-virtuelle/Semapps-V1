@@ -95,15 +95,15 @@ Polymer({
     let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
-    this.isSameUri = (data.uri === semapps.userUri);
+    this.isSameUri = (data.uri === semapps.user.uri);
     let arrayOfGraph  = data.properties.graph.split(",")
     this.idOfGraph = null;
     this.isInGraph = false;
-    if(semapps.userGraphUri){
+    if(semapps.user.graphuri){
       for (let i = 0, len = arrayOfGraph.length ; i < len && !this.isInGraph; i++) {
-          if(semapps.userGraphUri.hasOwnProperty(arrayOfGraph[i])){
+          if(semapps.useer.graphuri.hasOwnProperty(arrayOfGraph[i])){
               this.isInGraph =true;
-              this.idOfGraph = semapps.userGraphUri[arrayOfGraph[i]]['contextId']
+              this.idOfGraph = semapps.user.graphuri[arrayOfGraph[i]]['contextId']
           }
       }
     }

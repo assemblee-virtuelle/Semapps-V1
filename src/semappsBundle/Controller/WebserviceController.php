@@ -68,12 +68,14 @@ class WebserviceController extends Controller
             $output = ['no_internet' => 1];
         } else {
             $output = [
-                'access'        => $access,
-                'name'          => $name,
+                'user'  => [
+                    "name"  => $name,
+                    "access"  => $access,
+                    "uri"  => ($user != null)?$user->getSfLink() : null,
+                    "graphuri"  => $graphUri
+                ],
                 'typeToName'      => $this->getParameter("typeToName"),
                 'thesaurus'     => $thesaurus,
-                'userUri'       => ($user != null)?$user->getSfLink() : null,
-                'userGraphUri'  => $graphUri
             ];
         }
 
