@@ -30,6 +30,11 @@ class PersonController extends UniqueComponentController
         /** @var \semappsBundle\Services\contextManager $contextManager */
         $contextManager   = $this->container->get('semappsBundle.contextManager');
 
+        $userRepository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('semappsBundle:User');
+
         $contextManager->actualizeContext($this->getUser()->getSfLink());
 
         $em = $this->getDoctrine()->getManager();
@@ -92,27 +97,31 @@ class PersonController extends UniqueComponentController
             $importManager = $this->container->get('semappsBundle.importmanager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
+                $result = $userRepository->findOneBy(['sfLink' =>$uri]);
+                if(!$result){
+                    $componentConf = $this->getParameter($uniqueComponentName.'Conf');
+                    $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
+                    $type = array_merge([$componentConf['type']],$componentConf['otherType']);
+                    $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
 
-                $componentConf = $this->getParameter($uniqueComponentName.'Conf');
-                $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-                $type = array_merge([$componentConf['type']],$componentConf['otherType']);
-                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+                    if(is_null($dataToSave)){
+                        $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
 
-                if(is_null($dataToSave)){
-                    $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
+                    }elseif(!$dataToSave){
+                        $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
 
-                }elseif(!$dataToSave){
-                    $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
+                    }else{
+                        $this->addFlash("success","Votre profil a été importé avec succès !");
+                        $testForm->submit($dataToSave);
+                        $user->setSfLink($uri);
+                        $em->persist($user);
+                        $em->flush();
+                        $contextManager->setContext($uri,null);
+                    }
 
                 }else{
-                    $this->addFlash("success","Votre profil a été importé avec succès !");
-                    $testForm->submit($dataToSave);
-                    $user->setSfLink($uri);
-                    $em->persist($user);
-                    $em->flush();
-                    $contextManager->setContext($uri,null);
+                    $this->addFlash("info","l'Uri existe déjà");
                 }
-
 
                 if(!$id)
                     return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);
