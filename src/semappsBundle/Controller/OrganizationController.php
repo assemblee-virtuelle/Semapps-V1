@@ -101,9 +101,11 @@ class OrganizationController extends AbstractMultipleComponentController
                 $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
                 //dump($dataToSave);exit;
                 if(is_null($dataToSave)){
+                    $this->setSfLink(null);
                     $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
 
                 }elseif(!$dataToSave){
+                    $this->setSfLink(null);
                     $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
 
                 }else{
@@ -119,8 +121,8 @@ class OrganizationController extends AbstractMultipleComponentController
                     }
 //                    dump($dataToSave);exit;
                     $testForm->submit($dataToSave);
+                    return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
                 }
-                return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
             }
         }
 
