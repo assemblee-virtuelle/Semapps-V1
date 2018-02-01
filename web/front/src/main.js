@@ -17,11 +17,7 @@
             this.baseUrl = '/';
             this.myRoute = window.location.pathname.replace(/\//g, '');
             this.mainComponent = mainComponent;
-            this.firstSearch = true;
             this.$window = $(window);
-            this.buildingSelectedAll = 'partout';
-            this.buildingSelected = this.buildingSelectedAll;
-            this.$gvMap = $(document.getElementById('semapps-map'));
             this.detailAddress= [];
             this.entities = {
                 "http://virtual-assembly.org/pair#Person":{
@@ -167,12 +163,12 @@
 
         goSearch() {
             let term = this.domSearchTextInput.value;
-            let building = this.buildingSelected.split('/')[this.buildingSelected.split('/').length-1] || 'partout';
-            let path = '/rechercher/' + building ;//+ '/' + term;
+            // let building = this.buildingSelected.split('/')[this.buildingSelected.split('/').length-1] || 'partout';
+            let path = '/rechercher'; ///' + building ;//+ '/' + term;
             path += (term)? '/' + term : '';
             if (document.location.pathname === path) {
                 // Reload search manually.
-                this.results.search(term, building);
+                this.results.search(term, '');
             }
             else {
                 // Changing path will execute search action.

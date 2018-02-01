@@ -13,8 +13,8 @@ index:
     path:     /
     defaults: { _controller: semappsBundle:WebSite:index }
 searchBuildingTerm:
-    path:     /rechercher/{building}/{term}
-    defaults: { _controller: semappsBundle:WebSite:index,building: partout,term: null }
+    path:     /rechercher/{term}
+    defaults: { _controller: semappsBundle:WebSite:index,term: null }
 detail:
     path:     /detail
     defaults: { _controller: semappsBundle:WebSite:index }

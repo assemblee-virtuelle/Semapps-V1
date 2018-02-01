@@ -76,7 +76,8 @@ Polymer({
             // Route change may be fired before init.
             window.SemAppsCarto.ready(() => {
                 let split = data.path.split('/');
-                this.search(split[2], split[1]);
+                log(split)
+                this.search(split[1]);
             });
         }
     },
