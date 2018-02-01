@@ -145,7 +145,8 @@ class OrganizationController extends AbstractMultipleComponentController
         if( $uri ){
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$uri );
-            $dataToSave = $importManager->contentToImport($uri,$componentConf['fields']);
+            $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
+            $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
             $testForm->submit($dataToSave,false);
             $this->addFlash('success','Actualisation ok !');
         }else{

@@ -148,7 +148,8 @@ class PersonController extends UniqueComponentController
         if($user->getSfLink() ){
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
-            $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf['fields']);
+            $type = array_merge([$componentConf['type']],$componentConf['otherType']);
+            $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf['fields'],$type);
             $testForm->submit($dataToSave,false);
             $this->addFlash('success','Actualisation ok !');
         }else{
