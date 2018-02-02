@@ -205,7 +205,7 @@ class AdministrationController extends Controller
             $content= "Bonjour ".$email." !<br><br> 
                         L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
                         Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br><br>
-                        a bientôt sur la plateforme ! <br>l'équipe de ".$website;
+                        A très bientôt :-)";
             $mailer->sendMessage($email,$sujet,$content);
         }
 
