@@ -36,3 +36,12 @@
         <textarea class="tags-value" {{ block('widget_attributes') }} >{{ value }}</textarea>
     </div>
 {% endblock %}
+{% block thesaurus_widget %}
+
+    <div class="select2-tags" data-sf-type="thesaurus" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}" data-sf-graphuri="{{ graphUri }}">
+        <div class="tags"></div>
+        <select class="tags-selector">
+        </select>
+        <textarea class="tags-value" {{ block('widget_attributes') }} >{{ value }}</textarea>
+    </div>
+{% endblock %}

@@ -3,9 +3,6 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\semappsConfig;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -16,8 +13,8 @@ use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\MultipleType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
+use VirtualAssembly\SemanticFormsBundle\Form\ThesaurusType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class ProjectType extends SemanticFormType
 {
@@ -117,10 +114,10 @@ class ProjectType extends SemanticFormType
             ->add(
                 $builder,
                 'hasInterest',
-                UriType::class,
+                ThesaurusType::class,
                 [
-                    'required'  => false,
                     'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
             ->add(
@@ -142,10 +139,11 @@ class ProjectType extends SemanticFormType
             ->add(
                 $builder,
                 'hasType',
-                UriType::class,
+                ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT_TYPE,
+                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'graphUri'   => 'urn://semapps/thesaurus/projecttype',
                 ]
             )
         ;

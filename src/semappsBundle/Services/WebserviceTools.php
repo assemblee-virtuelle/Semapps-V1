@@ -37,7 +37,7 @@ class WebserviceTools
         $this->tokenStorage = $tokenStorage;
         $this->confmanager = $confmanager;
     }
-    public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false)
+    public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
         $this
             ->em
@@ -55,6 +55,7 @@ class WebserviceTools
         $typeProposalType= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL_TYPE,$arrayType);
         $typeOrganizationType= array_key_exists(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$arrayType);
         $typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
+        $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
         $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
         //$userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
@@ -235,7 +236,7 @@ class WebserviceTools
         if($type == semappsConfig::Multiple || $typeThesaurus ){
             $thematiqueSparql = clone $sparql;
             $thematiqueSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),'?GR')
+                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),($graphUri)? "<".$graphUri.">" :'?GR')
                 ->addWhere('?uri','skos:prefLabel','?title','?GR');
             if($term)$thematiqueSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
             $results = $this->sfClient->sparql($thematiqueSparql->getQuery());

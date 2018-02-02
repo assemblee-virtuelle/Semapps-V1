@@ -3,11 +3,8 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\semappsConfig;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,8 +14,8 @@ use VirtualAssembly\SemanticFormsBundle\Form\AdresseType;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\MultipleType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
+use VirtualAssembly\SemanticFormsBundle\Form\ThesaurusType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class OrganizationType extends SemanticFormType
 {
@@ -193,9 +190,10 @@ class OrganizationType extends SemanticFormType
             ->add(
                 $builder,
                 'hasInterest',
-                UriType::class,
+                ThesaurusType::class,
                 [
                     'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
             ->add(
@@ -217,10 +215,11 @@ class OrganizationType extends SemanticFormType
             ->add(
                 $builder,
                 'hasType',
-                UriType::class,
+                ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION_TYPE,
+                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'graphUri'   => 'urn://semapps/thesaurus/organizationtype',
                 ]
             )
         ;

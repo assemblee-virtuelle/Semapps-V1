@@ -2,19 +2,14 @@
 
 namespace semappsBundle\Form;
 
-use semappsBundle\semappsConfig;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
-use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\MultipleType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
-use VirtualAssembly\SemanticFormsBundle\Form\UriType;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class ProposalTypeType extends SemanticFormType
 {
@@ -58,6 +53,16 @@ class ProposalTypeType extends SemanticFormType
                 MultipleType::class,
                 [
                     'required' => false,
+                ]
+            )
+            ->add(
+                $builder,
+                'hasTopConcept',
+                HiddenType::class,
+                [
+                    'required' => false,
+                    'data'     => $options['graphURI'],
+                    'empty_data'     => $options['graphURI'],
                 ]
             )
         ;

@@ -51,6 +51,18 @@ componentList:
 componentForm:
     path:     /component/{componentName}/form
     defaults: { _controller: semappsBundle:Component:add}
+
+thesaurusDelete:
+    path:     /thesaurus/{componentName}/delete
+    defaults: { _controller: semappsBundle:Thesaurus:remove }
+
+thesaurusList:
+    path:     /thesaurus/{componentName}/list
+    defaults: { _controller: semappsBundle:Thesaurus:list}
+
+thesaurusForm:
+    path:     /thesaurus/{componentName}/form
+    defaults: { _controller: semappsBundle:Thesaurus:add}
 site:
     path:     /sites
     defaults: { _controller: semappsBundle:SiteFederation:manageSite }

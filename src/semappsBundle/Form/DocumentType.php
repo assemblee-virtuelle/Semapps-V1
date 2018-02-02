@@ -3,9 +3,7 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\semappsConfig;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -13,8 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use VirtualAssembly\SemanticFormsBundle\Form\DbPediaType;
 use VirtualAssembly\SemanticFormsBundle\Form\SemanticFormType;
+use VirtualAssembly\SemanticFormsBundle\Form\ThesaurusType;
 use VirtualAssembly\SemanticFormsBundle\Form\UriType;
-use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class DocumentType extends SemanticFormType
 {
@@ -72,10 +70,11 @@ class DocumentType extends SemanticFormType
             ->add(
                 $builder,
                 'hasType',
-                UriType::class,
+                ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT_TYPE,
+                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'graphUri'   => 'urn://semapps/thesaurus/documenttype',
                 ]
             )
             ->add(
@@ -171,9 +170,10 @@ class DocumentType extends SemanticFormType
             ->add(
                 $builder,
                 'hasInterest',
-                UriType::class,
+                ThesaurusType::class,
                 [
                     'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
             ->add($builder, 'version', TextType::class, ['required' => false,])

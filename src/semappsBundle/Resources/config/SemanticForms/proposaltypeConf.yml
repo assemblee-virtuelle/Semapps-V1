@@ -1,23 +1,27 @@
 parameters:
 
     proposaltypeConf:
-      type: 'http://virtual-assembly.org/pair#ProposalType'
-      spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-ProposalType'
-      graphuri: 'urn:semapps/component/proposaltype'
+      type: 'http://www.w3.org/2004/02/skos/core#Concept'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-ThesaurusType'
+      graphuri: 'urn://semapps/thesaurus/proposaltype'
       nameType: 'proposalType'
       fields:
-        http://virtual-assembly.org/pair#preferedLabel:
+        http://www.w3.org/2004/02/skos/core#prefLabel:
           value: 'preferedLabel'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#alternativeLabel:
+        http://www.w3.org/2004/02/skos/core#altLabel:
           value: 'alternativeLabel'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#description:
+        http://www.w3.org/2004/02/skos/core#definition:
           value: 'description'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#comment:
+        http://www.w3.org/2004/02/skos/core#notation:
           value: 'comment'
           access: 'anonymous'
+        http://www.w3.org/2004/02/skos/core#hasTopConcept:
+          value: 'hasTopConcept'
+          access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#aboutPage:
           value: 'aboutPage'
           access: 'anonymous'
@@ -31,6 +35,7 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
-      reverse: null
+      reverse:
+        http://www.w3.org/2004/02/skos/core#hasTopConcept: "http://www.w3.org/2004/02/skos/core#topConceptOf"
       label:
-        - http://virtual-assembly.org/pair#preferedLabel
+        - http://www.w3.org/2004/02/skos/core#prefLabel

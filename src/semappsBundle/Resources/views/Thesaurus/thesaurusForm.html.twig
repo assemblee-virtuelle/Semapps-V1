@@ -1,0 +1,18 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | thesaurus{% endblock %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <div class="container">
+        <div class="row">
+            {{ form_start(form) }}
+            {% block formContent %}
+            {% endblock %}
+            {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

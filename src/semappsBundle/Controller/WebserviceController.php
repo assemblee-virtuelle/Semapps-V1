@@ -91,10 +91,9 @@ class WebserviceController extends Controller
     public function fieldUriSearchAction(Request $request)
     {
         $webserviceTools       = $this->get('semappsBundle.webserviceTools');
-
         $output = [];
         // Get results.
-        $results = $webserviceTools->searchSparqlRequest($request->get('QueryString'),$request->get('rdfType'));
+        $results = $webserviceTools->searchSparqlRequest($request->get('QueryString'),$request->get('rdfType'),null,false, $request->get('graphUri'));
         // Transform data to match to uri field (uri => title).
         foreach ($results as $item) {
             $output[$item['uri']] = $item['title'];
