@@ -34,7 +34,7 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
 
     public function removeAction($componentName,Request $request){
 
-        self::removeComponent($request->get('uri'));
+        $this->removeComponent($request->get('uri'));
         return $this->redirectToRoute(
             'componentList', ["componentName" => $componentName]
         );

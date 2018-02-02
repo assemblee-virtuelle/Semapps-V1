@@ -2,7 +2,9 @@
 
 namespace semappsBundle\Controller;
 
+use semappsBundle\Form\ImportType;
 use semappsBundle\Services\contextManager;
+use semappsBundle\Services\ImportManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,7 +15,7 @@ class ComponentController extends AbstractMultipleComponentController
     {
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-        $this->setSfLink($request->get('uri'));
+        $this->setSfLink(urldecode($request->get('uri')));
         $graphURI			= $this->getGraph();
         $sfClient       = $this->container->get('semantic_forms.client');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
@@ -64,11 +66,58 @@ class ComponentController extends AbstractMultipleComponentController
                 'componentList', ["componentName" => $componentName]
             );
         }
+
+        $importForm = null;
+        if(!$this->getSfLink()){
+            $importForm = $this->createForm(ImportType::class, null);
+            $importForm->handleRequest($request);
+            /** @var ImportManager $importManager */
+            $importManager = $this->container->get('semappsBundle.importmanager');
+            if ($importForm->isSubmitted() && $importForm->isValid()) {
+                $uri = $importForm->get('import')->getData();
+
+                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                $sparql->addSelect("?o")
+                    ->addPrefixes($sparql->prefixes)
+                    ->addWhere("<".$uri.">","rdf:type","?o","?gr")
+                    ->groupBy("?o");
+                $result = $sfClient->sparql($sparql->getQuery());
+                if(empty($result["results"]["bindings"])){
+                    $this->setSfLink($uri);
+
+                    $componentConf = $this->getParameter($componentName.'Conf');
+                    $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
+
+                    $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
+                    $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+                    //dump($dataToSave);exit;
+                    if(is_null($dataToSave)){
+                        $this->setSfLink(null);
+                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
+
+                    }elseif(!$dataToSave){
+                        $this->setSfLink(null);
+                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
+
+                    }else{
+                        $this->addFlash("success","Le profil organisation a été importé avec succès !");
+//                        dump($dataToSave);exit;
+                        $testForm->submit($dataToSave);
+                        return $this->redirectToRoute('componentForm', ["componentName" => $componentName, "uri" => urlencode($uri)]);
+                    }
+                }else{
+                    $this->addFlash("info","l'Uri existe déjà");
+                }
+            }
+        }
         // Fill form
         return $this->render(
             'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',
-            ['image' => $actualImageName,
-                'form' => $form->createView()
+            [
+                'image' => $actualImageName,
+                'form' => $form->createView(),
+                "entityUri" => $this->getSfLink(),
+                'importForm'=>  ($importForm)?$importForm->createView():null,
             ]
         );
 
