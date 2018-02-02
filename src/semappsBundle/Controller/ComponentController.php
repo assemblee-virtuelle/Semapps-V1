@@ -100,7 +100,7 @@ class ComponentController extends AbstractMultipleComponentController
                         $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
 
                     }else{
-                        $this->addFlash("success","Le profil organisation a été importé avec succès !");
+                        $this->addFlash("success","Le profil a été importé avec succès !");
 //                        dump($dataToSave);exit;
                         $testForm->submit($dataToSave);
                         return $this->redirectToRoute('componentForm', ["componentName" => $componentName, "uri" => urlencode($uri)]);
