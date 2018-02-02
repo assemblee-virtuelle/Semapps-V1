@@ -1,6 +1,6 @@
-#userDelete:
-#    path:     /user/{userId}/delete
-#    defaults: { _controller: semappsBundle:AdministrationUser:userDelete}
+userDelete:
+    path:     /user/{userId}/delete
+    defaults: { _controller: semappsBundle:AdministrationUser:removeUser}
 userList:
     path:     /user/list
     defaults: { _controller: semappsBundle:AdministrationUser:listUser }

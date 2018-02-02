@@ -3,27 +3,14 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityRepository;
 use FOS\UserBundle\Util\TokenGenerator;
 use semappsBundle\Entity\User;
-use semappsBundle\Form\ImportType;
-use semappsBundle\Form\RegisterType;
 use semappsBundle\Form\UserType;
-use semappsBundle\Repository\UserRepository;
-use semappsBundle\Form\AdminSettings;
-use semappsBundle\semappsConfig;
-use semappsBundle\Services\contextManager;
-use semappsBundle\Services\SparqlRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
-use VirtualAssembly\SparqlBundle\Sparql\sparqlSelect;
 
 class AdministrationUserController extends Controller
 {
@@ -147,5 +134,44 @@ class AdministrationUserController extends Controller
             $this->addFlash('info', "email envoyé pour l'utilisateur <b>" . $user->getUsername() . "</b> à l'adresse <b>" . $user->getEmail() . "</b>");
         }
         return $this->redirectToRoute($nameRoute);
+    }
+
+    public function removeUserAction($userId){
+
+        $em = $this
+            ->getDoctrine()
+            ->getManager();
+        $user = $em
+            ->getRepository('semappsBundle:User')
+            ->find($userId);
+
+        $uri = $user->getSfLink();
+        if($uri){
+            /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
+            $sfClient = $this->container->get('semantic_forms.client');
+            /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
+            $sparqlClient   = $this->container->get('sparqlbundle.client');
+
+            $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
+            $sparqlDeux = clone $sparql;
+
+            $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
+
+            $sparql->addDelete('?S','?P','?O',$uri)
+                ->addDelete('?SS','?PP','?S','?GR')
+                ->addWhere('?S','?P','?O',$uri);
+
+            $sfClient->update($sparql->getQuery());
+            $sfClient->update($sparqlDeux->getQuery());
+        }
+        $em->remove($user);
+        try{
+            $em->flush();
+            $this->addFlash("success", "Utilisateur supprimé !");
+        }catch (Exception $e){
+            $this->addFlash("info", "Problème lors de la suppression");
+        }
+        return $this->redirectToRoute('userList');
+
     }
 }
