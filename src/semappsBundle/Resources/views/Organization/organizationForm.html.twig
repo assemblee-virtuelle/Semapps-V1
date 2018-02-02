@@ -177,6 +177,20 @@
                 </div>
             </div>
             {% endif%}
+            <div class="col col-sm-4">
+                {% embed "alertBobby.html.twig" %}
+                    {% block title %}L'organisation{% endblock %}
+                    {% block content %}
+                        <p> C'est ici que vous pouvez renseigner les informations concernant votre organisation </p>
+                        <p>/!\ ATTENTION /!\ : Lorsque des membres, employés et responsables de l'organisation sont renseignés ici,
+                            cela leur donne des droits d'édition sur l'ensemble des contenus de l'organisation (profil orga, projets, événements, documents).
+                            Renseignez donc ici les personnes auxquelles vous souhaitez donner des accès en édition !</p>
+                        <p>/!\ ATTENTION /!\ : Pour celles et ceux qui décident d'importer un profil,
+                            les modifications ne toucheront pas la source de vos données !
+                            Elles resteront locale, c'est-à-dire visibles uniquement sur ce site</p>
+                    {% endblock %}
+                {% endembed %}
+            </div>
         </div>
     </div>
 
