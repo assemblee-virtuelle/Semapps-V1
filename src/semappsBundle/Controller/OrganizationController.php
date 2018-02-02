@@ -91,37 +91,48 @@ class OrganizationController extends AbstractMultipleComponentController
             $importManager = $this->container->get('semappsBundle.importmanager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
+
+                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                $sparql->addSelect("?o")
+                    ->addPrefixes($sparql->prefixes)
+                    ->addWhere("<".$uri.">","rdf:type","?o","?gr")
+                    ->groupBy("?o");
+                $result = $sfClient->sparql($sparql->getQuery());
                 $contextManager->setContext($uri,null);
-                $this->setSfLink($uri);
+                if(empty($result["results"]["bindings"])){
+                    $this->setSfLink($uri);
 
-                $componentConf = $this->getParameter($componentName.'Conf');
-                $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
+                    $componentConf = $this->getParameter($componentName.'Conf');
+                    $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
 
-                $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
-                $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
-                //dump($dataToSave);exit;
-                if(is_null($dataToSave)){
-                    $this->setSfLink(null);
-                    $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
+                    $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
+                    $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+                    //dump($dataToSave);exit;
+                    if(is_null($dataToSave)){
+                        $this->setSfLink(null);
+                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
 
-                }elseif(!$dataToSave){
-                    $this->setSfLink(null);
-                    $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
+                    }elseif(!$dataToSave){
+                        $this->setSfLink(null);
+                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
 
-                }else{
-                    $this->addFlash("success","Votre profil a été importé avec succès !");
-                    if(array_key_exists('hasResponsible',$dataToSave)){
-                        $hasResponsible = json_decode($dataToSave['hasResponsible'],JSON_OBJECT_AS_ARRAY);
-                        $hasResponsible[$this->getUser()->getSfLink()] = 0;
-                        $dataToSave['hasResponsible'] = json_encode($hasResponsible);
-                    }
-                    else{
-                        $hasResponsible[$this->getUser()->getSflink()] = 0;
-                        $dataToSave['hasResponsible'] = json_encode($hasResponsible);
-                    }
+                    }else{
+                        $this->addFlash("success","Le profil organisation a été importé avec succès !");
+                        if(array_key_exists('hasResponsible',$dataToSave)){
+                            $hasResponsible = json_decode($dataToSave['hasResponsible'],JSON_OBJECT_AS_ARRAY);
+                            $hasResponsible[$this->getUser()->getSfLink()] = 0;
+                            $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                        }
+                        else{
+                            $hasResponsible[$this->getUser()->getSflink()] = 0;
+                            $dataToSave['hasResponsible'] = json_encode($hasResponsible);
+                        }
 //                    dump($dataToSave);exit;
-                    $testForm->submit($dataToSave);
-                    return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
+                        $testForm->submit($dataToSave);
+                        return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
+                    }
+                }else{
+                    $this->addFlash("info","l'Uri existe déjà");
                 }
             }
         }

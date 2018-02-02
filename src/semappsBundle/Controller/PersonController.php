@@ -105,10 +105,10 @@ class PersonController extends UniqueComponentController
                     $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
 
                     if(is_null($dataToSave)){
-                        $this->addFlash("info","l'Uri donné ne renvoie aucune donnée");
+                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
 
                     }elseif(!$dataToSave){
-                        $this->addFlash("info","l'uri donné ne correspond pas au type actuel");
+                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
 
                     }else{
                         $this->addFlash("success","Votre profil a été importé avec succès !");
