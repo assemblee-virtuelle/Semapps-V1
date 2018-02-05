@@ -21,13 +21,17 @@ class WebserviceController extends Controller
         $parameters = $cache->getItem('gv.webservice.parameters');
         $webserviceTools       = $this->get('semappsBundle.webserviceTools');
         $contextManager        = $this->get('semappsbundle.contextmanager');
+        $thematicConf        = $this->getParameter('thematicConf');
         //if (!$parameters->isHit()) {
         /** @var User $user */
         $user = $this->GetUser();
         // Get results.
         $results = $webserviceTools->searchSparqlRequest(
             '',
-            semappsConfig::URI_SKOS_THESAURUS
+            semappsConfig::URI_SKOS_THESAURUS,
+            null,
+            false,
+            $thematicConf['graphuri']
         );
 
         $thesaurus = [];
@@ -59,6 +63,7 @@ class WebserviceController extends Controller
                     "graphuri"  => $graphUri
                 ],
                 'typeToName'      => $this->getParameter("typeToName"),
+                'graphToName'      => $this->getParameter("graphToName"),
                 'thesaurus'     => $thesaurus,
             ];
         }
@@ -188,7 +193,7 @@ class WebserviceController extends Controller
             $resultsTemp = $this->filter($resultsTemp);
             foreach ($resultsTemp as $resultTemp){
                 if(array_key_exists('type',$resultTemp)){
-                    $componentConf =$confManager->getConf($resultTemp['type']);
+                    $componentConf =$confManager->getConf($resultTemp['type'])['conf'];
                     if(!array_key_exists($componentConf['nameType'],$results[$key]))
                         $results[$key][$componentConf['nameType']] = [];
 

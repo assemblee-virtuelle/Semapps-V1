@@ -50,7 +50,7 @@ class SparqlRepository extends SparqlClient
     }
 
     public function getLabel($type,$graphURI){
-        $componentConf = $this->confManager->getConf($type);
+        $componentConf = $this->confManager->getConf($type)['conf'];
         $results = null;
         if ($componentConf['label']){
             /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -75,7 +75,7 @@ class SparqlRepository extends SparqlClient
     }
 
     public function getImage($type,$graphURI){
-        $componentConf = $this->confManager->getConf($type);
+        $componentConf = $this->confManager->getConf($type)['conf'];
         $results = null;
         if ($componentConf['image']){
             /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -100,7 +100,7 @@ class SparqlRepository extends SparqlClient
     }
 
     public function getLabelAndImage($type,$graphURI){
-        $componentConf = $this->confManager->getConf($type);
+        $componentConf = $this->confManager->getConf($type)['conf'];
         $results = null;
         if ($componentConf['image'] || $componentConf['image']) {
             /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */

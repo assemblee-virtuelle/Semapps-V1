@@ -22,7 +22,7 @@ services:
 
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager
-        arguments: ["%personConf%","%organizationConf%","%projectConf%","%eventConf%","%proposalConf%","%documentConf%","%documenttypeConf%","%dbpediaConf%","%projecttypeConf%","%eventtypeconf%","%proposaltypeconf%","%organizationtypeconf%"]
+        arguments: ['@service_container','%typetoname%','%graphtoname%']
 
     semappsBundle.importmanager:
         class: semappsBundle\Services\ImportManager

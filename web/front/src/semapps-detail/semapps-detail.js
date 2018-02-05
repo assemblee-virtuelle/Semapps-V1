@@ -82,7 +82,7 @@ Polymer({
     semapps.map.pinHideAll();
     data = data.responseJSON.detail || {};
     this.$.detail.style.display = '';
-    data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.type);
+    data.properties.image = semapps.imageOrFallback(data.properties.image, data.properties.key);
     if(data.properties.address ){
       let addressLabel = data.properties.address[0];
       if(semapps.map.pins[data.uri]){
@@ -92,7 +92,7 @@ Polymer({
         semapps.getAddressToCreatePoint(addressLabel,data.title,data.properties.type[0],data.uri)
       }
     }
-    let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.type].nameType.toLowerCase());
+    let inner = document.createElement('semapps-detail-' + semapps.entities[data.properties.key].nameType.toLowerCase());
     this.child = inner;
     this.id = data.id;
     this.isSameUri = (data.uri === semapps.user.uri);
@@ -110,7 +110,7 @@ Polymer({
 
     //this.isInGraph = (data.properties.graph.indexOf(semapps.userGraphUri) !== -1);
     //log(this.isInGraph);
-    this.canEdit = ((this.isSameUri || this.isInGraph) || (semapps.isSuperAdmin() && semapps.entities[data.properties.type].nameType.toLowerCase() === "organization"));
+    this.canEdit = ((this.isSameUri || this.isInGraph) || (semapps.isSuperAdmin() && semapps.entities[data.properties.key].nameType.toLowerCase() === "organization"));
     inner.data = data;
     inner.parent = this;
     semapps.detail = this;

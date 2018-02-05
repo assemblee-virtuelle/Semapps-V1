@@ -56,31 +56,37 @@
                     icon: 'folder-open',
                 }
                 ,
-                "http://virtual-assembly.org/pair#DocumentType":{
+                "urn://semapps/thesaurus/documenttype":{
                     name: 'Type de document',
                     plural: 'Types de document',
                     icon: 'pushpin',
                 }
                 ,
-                "http://virtual-assembly.org/pair#ProjectType":{
+                "urn://semapps/thesaurus/projecttype":{
                     name: 'Type de projet',
                     plural: 'Types de projets',
                     icon: 'pushpin',
                 }
                 ,
-                "http://virtual-assembly.org/pair#EventType":{
+                "urn://semapps/thesaurus/eventtype":{
                     name: 'Type d\'événement',
                     plural: 'Types d\'événements',
                     icon: 'pushpin',
                 }
                 ,
-                "http://virtual-assembly.org/pair#ProposalType":{
+                "urn://semapps/thesaurus/proposaltype":{
                     name: 'Type de proposition',
                     plural: 'Types de propositions',
                     icon: 'pushpin',
                 }
                 ,
-                "http://virtual-assembly.org/pair#OrganizationType":{
+                "urn://semapps/thesaurus/organizationtype":{
+                    name: 'Type d\'organisation',
+                    plural: 'Types d\'organisations',
+                    icon: 'pushpin',
+                }
+                ,
+                "http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl":{
                     name: 'Type d\'organisation',
                     plural: 'Types d\'organisations',
                     icon: 'pushpin',
@@ -136,8 +142,13 @@
             "use strict";
             $.extend(this, parameters);
             $.each(this.entities, function(key, value) {
-                semapps.entities[key].nameType = semapps.typeToName[key];
-                semapps.entities[key].type = key;
+                if(semapps.typeToName.hasOwnProperty(key)){
+                    semapps.entities[key].nameType = semapps.typeToName[key];
+                    semapps.entities[key].type = key;
+                }else{
+                    semapps.entities[key].nameType = semapps.graphToName[key];
+                    semapps.entities[key].type = 'http://www.w3.org/2004/02/skos/core#Concept';
+                }
             });
             // Shortcuts.
             this.domSearchTextInput = this.domId('searchText');
@@ -211,10 +222,11 @@
             semapps.mainComponent.set('route.path', path);
         }
 
-        imageOrFallback(path, typeUri) {
+        imageOrFallback(path, key) {
             "use strict";
             if (!path) {
-                return '/common/images/result-no_picture-' + semapps.entities[typeUri].nameType + '.png';
+                if(semapps.entities.hasOwnProperty(key))
+                    return '/common/images/result-no_picture-' + semapps.entities[key].nameType + '.png';
             }
             return path;
         }

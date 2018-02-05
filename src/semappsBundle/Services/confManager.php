@@ -9,80 +9,52 @@
 namespace semappsBundle\Services;
 
 
-use semappsBundle\semappsConfig;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class confManager
 {
-    private $personConf;
-    private $organizationConf;
-    private $projectConf;
-    private $eventConf;
-    private $proposalConf;
-    private $documentConf;
-    private $documenttypeConf;
-    private $projecttypeConf;
-    private $eventtypeConf;
-    private $proposaltypeConf;
-    private $organizationtypeConf;
-    private $dbpedia;
-    public function __construct(	 $personConf, $organizationConf, $projectConf, $eventConf,
-                                     $proposalConf, $documentConf, $documenttypeConf,$dbpedia,
-                                     $projecttypeConf,$eventtypeConf,$proposaltypeConf,$organizationtypeConf){
-        $this->personConf = $personConf;
-        $this->organizationConf = $organizationConf;
-        $this->projectConf = $projectConf;
-        $this->eventConf = $eventConf;
-        $this->proposalConf = $proposalConf;
-        $this->documentConf = $documentConf;
-        $this->documenttypeConf = $documenttypeConf;
-        $this->dbpedia = $dbpedia;
-        $this->projecttypeConf = $projecttypeConf;
-        $this->eventtypeConf = $eventtypeConf;
-        $this->proposaltypeConf = $proposaltypeConf;
-        $this->organizationtypeConf = $organizationtypeConf;
+    private $container;
+    private $typeToName;
+    private $graphToName;
+    public function __construct( Container $container,$typeToName,$graphToName){
+        $this->container=$container;
+        $this->typeToName = $typeToName;
+        $this->graphToName = $graphToName;
     }
-    public function getConf($type = null){
-
-        $conf = null;
-        switch ($type){
-            case semappsConfig::URI_PAIR_PERSON:
-            case 'http://xmlns.com/foaf/0.1/Person':
-                $conf = $this->personConf;
-                break;
-            case semappsConfig::URI_PAIR_ORGANIZATION:
-                $conf = $this->organizationConf;
-                break;
-            case semappsConfig::URI_PAIR_PROJECT:
-                $conf = $this->projectConf;
-                break;
-            case semappsConfig::URI_PAIR_EVENT:
-                $conf = $this->eventConf;
-                break;
-            case semappsConfig::URI_PAIR_PROPOSAL:
-                $conf = $this->proposalConf;
-                break;
-            case semappsConfig::URI_PAIR_DOCUMENT:
-                $conf = $this->documentConf;
-                break;
-            case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
-                $conf = $this->documenttypeConf;
-                break;
-            case semappsConfig::URI_PAIR_PROJECT_TYPE:
-                $conf = $this->projecttypeConf;
-                break;
-            case semappsConfig::URI_PAIR_EVENT_TYPE:
-                $conf = $this->eventtypeConf;
-                break;
-            case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
-                $conf = $this->proposaltypeConf;
-                break;
-            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
-                $conf = $this->organizationtypeConf;
-                break;
-            default:
-                $conf = $this->dbpedia;
+    public function getConf($types = null,$graph =null){
+        if(is_array($types)){
+            foreach ($types as $type){
+                if(array_key_exists($type,$this->typeToName)){
+                    return [ 'key' => $type,
+                        'conf' => $this->container->getParameter($this->typeToName[$type].'Conf')
+                    ];
+                }
+            }
+        }else{
+            if(array_key_exists($types,$this->typeToName)){
+                return [ 'key' => $types,
+                    'conf' => $this->container->getParameter($this->typeToName[$types].'Conf')
+                ];
+            }
         }
-        return $conf;
+        if($graph != null){
+
+            foreach ($graph as $key=>$content){
+                if(array_key_exists($key,$this->graphToName)){
+                    return [ 'key' => $key,
+                        'conf' => $this->container->getParameter($this->graphToName[$key].'Conf')
+                    ];
+                    break;
+                }
+            }
+            return [ 'key' => 'default',
+                'conf' =>$this->container->getParameter('dbpediaconf')];
+        }
+        else{
+            return [ 'key' => 'default',
+                'conf' =>$this->container->getParameter('dbpediaconf')];
+
+        }
     }
 
 }

@@ -56,7 +56,6 @@ class WebserviceTools
         $typeOrganizationType= array_key_exists(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$arrayType);
         $typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
-        $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
         //$userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
@@ -317,8 +316,9 @@ class WebserviceTools
         $output     = [];
         $properties = $this->uriPropertiesFiltered($uri);
         $output['uri'] = $uri;
-        $dbpediaConf = $this->confmanager->getConf();
-        $componentConf = $this->confmanager->getConf(current($properties['type']));
+        $dbpediaConf = $this->confmanager->getConf()['conf'];
+        $componentConfComplete = $this->confmanager->getConf($properties['key'],array_flip(explode(',',$properties['graph'])));
+        $componentConf = $componentConfComplete['conf'];
         $properties['type'] = [$componentConf['type']];
         $propertiesWithUri=[];
         foreach ($componentConf['fields'] as $predicat =>$detail){
@@ -385,6 +385,7 @@ class WebserviceTools
             case semappsConfig::URI_PAIR_DOCUMENT:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
+            case semappsConfig::URI_SKOS_CONCEPT:
             //document type
             case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
             case semappsConfig::URI_PAIR_PROJECT_TYPE:
@@ -394,7 +395,6 @@ class WebserviceTools
                 $output['title'] = current($properties['preferedLabel']);
                 break;
         }
-
         $this->getData($properties,$propertiesWithUri,$output);
         $output['properties'] = $properties;
 
@@ -413,17 +413,17 @@ class WebserviceTools
                         $output[$alias][$cacheComponentConf[$cacheTemp[$uri]['type']]['nameType']][] = $cacheTemp[$uri];
                     } else {
                         $component = $this->uriPropertiesFiltered($uri);
-                        //dump($component);
                         if(array_key_exists('type',$component)){
                             $componentType = current($component['type']);
                             if(array_key_exists($componentType,$cacheComponentConf)){
                                 $componentConf = $cacheComponentConf[$componentType];
                             }
-                            else
-                                $componentConf = $cacheComponentConf[$componentType] = $this->confmanager->getConf($componentType);
-
+                            else{
+                                $componentConfComplete = $this->confmanager->getConf($component['key'],array_flip(explode(',',$component['graph'])));
+                                $componentConf = $cacheComponentConf[$componentType] =$componentConfComplete['conf'];
+                            }
                             $result = null;
-                            switch ($componentType) {
+                            switch ($componentConf['type']) {
                                 case semappsConfig::URI_PAIR_PERSON:
                                     $result = [
                                         'uri' => $uri,
@@ -432,6 +432,7 @@ class WebserviceTools
                                     ];
                                     $output[$alias][$componentConf['nameType']][] = $result;
                                     break;
+                                case semappsConfig::URI_SKOS_CONCEPT:
                                 case semappsConfig::URI_PAIR_ORGANIZATION:
                                 case semappsConfig::URI_PAIR_PROJECT:
                                 case semappsConfig::URI_PAIR_EVENT:
@@ -471,7 +472,8 @@ class WebserviceTools
             ->getRepository('semappsBundle:User')
             ->getAccessLevelString($user);
         if(array_key_exists(self::TYPE,$properties)){
-            $sfConf = $this->confmanager->getConf(current($properties[self::TYPE]));
+            $componentConfComplete = $this->confmanager->getConf($properties[self::TYPE],array_flip($properties['graph']));
+            $sfConf = $componentConfComplete['conf'];
             foreach ($sfConf['fields'] as $field =>$detail){
                 if ($detail['access'] === 'anonymous' ||
                     $this->checker->isGranted('ROLE_'.strtoupper($detail['access']))
@@ -482,6 +484,7 @@ class WebserviceTools
                     }
                 }
             }
+            $output['key'] =$componentConfComplete['key'];
         }
         return $output;
     }
