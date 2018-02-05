@@ -11,11 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 class ComponentController extends AbstractMultipleComponentController
 {
 
-    public function addAction($componentName,Request $request)
+    public function addAction($componentName,$uri =null,Request $request)
     {
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-        $this->setSfLink(urldecode($request->get('uri')));
+        if($uri)
+            $this->setSfLink(urldecode($uri));
+        else
+            $this->setSfLink(urldecode($request->get('uri')));
         $graphURI			= $this->getGraph();
         $sfClient       = $this->container->get('semantic_forms.client');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
@@ -118,9 +121,29 @@ class ComponentController extends AbstractMultipleComponentController
                 'form' => $form->createView(),
                 "entityUri" => $this->getSfLink(),
                 'importForm'=>  ($importForm)?$importForm->createView():null,
+                'componentName' => $componentName
             ]
         );
 
+    }
+
+    public function actualizeAction(Request $request,$componentName,$uri =null){
+        $uri = urldecode($uri);
+        $sfClient =$this->container->get('semantic_forms.client');
+        /** @var ImportManager $importManager */
+        $importManager = $this->container->get('semappsBundle.importmanager');
+        if( $uri ){
+            $componentConf = $this->getParameter($componentName.'Conf');
+            $this->setSfLink($uri);
+            $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
+            $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
+            $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+            $testForm->submit($dataToSave,false);
+            $this->addFlash('success','Actualisation ok !');
+        }else{
+            $this->addFlash('info',"Problème lors de l'actualisation !");
+        }
+        return $this->redirectToRoute('componentFormWithUri',["componentName" => $componentName,"uri" => urlencode($uri)]);
     }
 
     function getGraph($id = null)

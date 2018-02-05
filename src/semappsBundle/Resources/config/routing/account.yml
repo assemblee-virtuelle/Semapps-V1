@@ -51,6 +51,12 @@ componentList:
 componentForm:
     path:     /component/{componentName}/form
     defaults: { _controller: semappsBundle:Component:add}
+componentFormWithUri:
+    path:     /component/{componentName}/form/{uri}
+    defaults: { _controller: semappsBundle:Component:add}
+actualizeComponent:
+    path:     /component/{componentName}/actualize/{uri}
+    defaults: { _controller: semappsBundle:Component:actualize}
 
 thesaurusDelete:
     path:     /thesaurus/{componentName}/delete

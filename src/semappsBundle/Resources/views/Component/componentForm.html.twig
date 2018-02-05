@@ -15,7 +15,7 @@
                         Voir</a>
                 </li>
                 <li role="presentation" class="active pull-right">
-                    <a  href="{{ path('orgaActualizeComponent', {'uniqueComponentName':'organization', 'id': entityUri|url_encode}) }}"><span
+                    <a  href="{{ path('actualizeComponent', {'componentName':componentName, 'uri': entityUri|url_encode}) }}"><span
                                 class="glyphicon glyphicon-eye-open"></span>
                         actualiser</a>
                 </li>
