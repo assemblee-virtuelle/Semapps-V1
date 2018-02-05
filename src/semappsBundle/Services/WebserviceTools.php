@@ -49,14 +49,8 @@ class WebserviceTools
         $typeProject= array_key_exists(semappsConfig::URI_PAIR_PROJECT,$arrayType);
         $typeEvent= array_key_exists(semappsConfig::URI_PAIR_EVENT,$arrayType);
         $typeDocument= array_key_exists(semappsConfig::URI_PAIR_DOCUMENT,$arrayType);
-        $typeDocumentType= array_key_exists(semappsConfig::URI_PAIR_DOCUMENT_TYPE,$arrayType);
-        $typeProjectType= array_key_exists(semappsConfig::URI_PAIR_PROJECT_TYPE,$arrayType);
-        $typeEventType= array_key_exists(semappsConfig::URI_PAIR_EVENT_TYPE,$arrayType);
-        $typeProposalType= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL_TYPE,$arrayType);
-        $typeOrganizationType= array_key_exists(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$arrayType);
         $typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
         $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
-        //$userLogged =  $this->getUser() != null;
         $sparqlClient = new SparqlClient();
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
@@ -171,66 +165,6 @@ class WebserviceTools
             $results = $this->sfClient->sparql($documentSparql->getQuery());
             $documents= $this->sfClient->sparqlResultsValues($results);
         }
-        $documentTypes = [];
-        if((($type == semappsConfig::Multiple || $typeDocumentType) && !$isBlocked)){
-            $documentTypeSparql = clone $sparql;
-            $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_DOCUMENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
-            $documentTypes = $this->sfClient->sparqlResultsValues($results);
-        }
-        $projectTypes = [];
-        if((($type == semappsConfig::Multiple || $typeProjectType) && !$isBlocked)){
-            $documentTypeSparql = clone $sparql;
-            $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROJECT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
-            $projectTypes = $this->sfClient->sparqlResultsValues($results);
-        }
-        $eventTypes = [];
-        if((($type == semappsConfig::Multiple || $typeEventType) && !$isBlocked)){
-            $documentTypeSparql = clone $sparql;
-            $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_EVENT_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
-            $eventTypes = $this->sfClient->sparqlResultsValues($results);
-        }
-        $proposalTypes = [];
-        if((($type == semappsConfig::Multiple || $typeProposalType) && !$isBlocked)){
-            $documentTypeSparql = clone $sparql;
-            $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROPOSAL_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
-            $proposalTypes = $this->sfClient->sparqlResultsValues($results);
-        }
-        $organizationTypes = [];
-        if((($type == semappsConfig::Multiple || $typeOrganizationType) && !$isBlocked)){
-            $documentTypeSparql = clone $sparql;
-            $documentTypeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ORGANIZATION_TYPE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentTypeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentTypeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($documentTypeSparql->getQuery());
-            $organizationTypes = $this->sfClient->sparqlResultsValues($results);
-        }
         $thematiques = [];
         if($type == semappsConfig::Multiple || $typeThesaurus ){
             $thematiqueSparql = clone $sparql;
@@ -242,7 +176,7 @@ class WebserviceTools
             $thematiques = $this->sfClient->sparqlResultsValues($results);
         }
 
-        $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents,$documentTypes,$projectTypes,$eventTypes,$proposalTypes,$organizationTypes);
+        $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents);
 
         return $results;
     }
@@ -269,11 +203,6 @@ class WebserviceTools
             case semappsConfig::URI_PAIR_PROPOSAL :
             case semappsConfig::URI_PAIR_EVENT :
             case semappsConfig::URI_PAIR_DOCUMENT :
-            case semappsConfig::URI_PAIR_DOCUMENT_TYPE :
-            case semappsConfig::URI_PAIR_PROJECT_TYPE :
-            case semappsConfig::URI_PAIR_EVENT_TYPE :
-            case semappsConfig::URI_PAIR_PROPOSAL_TYPE :
-            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','pair:preferedLabel','?label','?gr');
 
@@ -386,12 +315,6 @@ class WebserviceTools
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             case semappsConfig::URI_SKOS_CONCEPT:
-            //document type
-            case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
-            case semappsConfig::URI_PAIR_PROJECT_TYPE:
-            case semappsConfig::URI_PAIR_EVENT_TYPE:
-            case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
-            case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
         }
@@ -438,11 +361,6 @@ class WebserviceTools
                                 case semappsConfig::URI_PAIR_EVENT:
                                 case semappsConfig::URI_PAIR_PROPOSAL:
                                 case semappsConfig::URI_PAIR_DOCUMENT:
-                                case semappsConfig::URI_PAIR_DOCUMENT_TYPE:
-                                case semappsConfig::URI_PAIR_PROPOSAL_TYPE:
-                                case semappsConfig::URI_PAIR_EVENT_TYPE:
-                                case semappsConfig::URI_PAIR_PROJECT_TYPE:
-                                case semappsConfig::URI_PAIR_ORGANIZATION_TYPE:
                                     $result = [
                                         'uri' => $uri,
                                         'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
