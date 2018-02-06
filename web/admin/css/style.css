@@ -9,7 +9,7 @@
   src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf"); }
 
 .btn-primary-lgv {
-  background: #007cb7;
+  background: #28ccfb;
   border-radius: 0; }
 
 .table tbody tr td.padded-value {
@@ -17,11 +17,11 @@
 
 .panel-gv {
   background: #F0F0F0;
-  color: #555; }
+  color: #65767B; }
 
 .logo-circle {
   position: absolute;
-  background: #007cb7;
+  background: #28ccfb;
   border-radius: 1000px;
   z-index: 100;
   width: 110px;
@@ -43,11 +43,11 @@
   font-family: Quicksand; }
 
 a {
-  color: #003869; }
+  color: #07c3f8; }
 
 a:hover {
   text-decoration: none;
-  color: #001d36;
+  color: #069cc6;
   animation: aHover 3s forwards; }
 
 @keyframes aHover {
@@ -59,7 +59,7 @@ a:hover {
     text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.1); } }
 
 header {
-  background: #007cb7;
+  background: #28ccfb;
   min-height: 60px; }
   header .semapps-logo-mini-inner {
     width: 100px;
@@ -73,9 +73,21 @@ header {
     float: right; }
 
 footer {
-  margin-top: 100px;
-  height: 100px;
-  background: #F0F0F0; }
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+  display: block;
+  letter-spacing: 5px;
+  font-size: 16px;
+  font-family: petitevoisine; }
+  footer .about-av {
+    background-color: #F5F5F5;
+    font-family: Helvetica;
+    letter-spacing: normal;
+    font-size: 18px; }
+    footer .about-av a {
+      color: #28ccfb; }
 
 h2, label, input[type=submit] {
   font-family: petitevoisine, sans-serif; }
@@ -86,12 +98,12 @@ h1 {
 h2 {
   font-size: 18px;
   font-weight: normal;
-  color: #003869;
+  color: #65767B;
   border-bottom: 2px dashed #EEE; }
 
 label {
   font-family: petitevoisine, sans-serif;
-  color: #555;
+  color: #65767B;
   font-weight: normal;
   margin: 15px 0 3px 0; }
 
@@ -100,7 +112,7 @@ input[type=submit] {
 
 input[type=submit]:hover {
   color: #FFF;
-  background: #003869; }
+  background: #07c3f8; }
 
 input.form-control {
   border-radius: 0; }
@@ -202,22 +214,23 @@ input.form-control {
 
 .page-header {
   font-family: petitevoisine, sans-serif;
-  border-bottom: 4px dashed #007cb7;
-  color: #555; }
+  border-bottom: 4px dashed #28ccfb;
+  color: #65767B; }
   .page-header .glyphicon {
-    color: #007cb7; }
+    color: #28ccfb; }
 
 .page-content {
   min-height: 60vh; }
 
 .navbar-default .navbar-nav > .main {
   background: #F0F0F0;
-  padding: 5px 15px; }
+  padding: 5px 15px;
+  color: #65767B; }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .active > a {
   box-shadow: none;
-  background: #1e90ff;
-  color: #FFF; }
+  background: #bcef5b;
+  color: #65767B; }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
   background: #F5F5F5; }
@@ -228,19 +241,19 @@ input.form-control {
   .nav-tabs li.active a .glyphicon,
   .nav-tabs li a .glyphicon {
     margin-right: 8px;
-    color: #1e90ff; }
+    color: #bcef5b; }
 
 .list {
-  color: #007cb7; }
+  color: #28ccfb; }
   .list li span {
-    color: #555; }
+    color: #65767B; }
 
 .alert-bobby {
   background: url("../../common/images/bobby-min.png") no-repeat center top;
   padding-top: 80px; }
   .alert-bobby .alert-bobby-inner {
     background: #f1f6fb;
-    background: linear-gradient(to bottom, #f5faff 1%, #f1f6fb 100%);
+    background: linear-gradient(to bottom, #FFF 1%, #EFEFEF 100%);
     border: 3px solid #f1f6fb;
     border-radius: 15px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.1); }
@@ -320,7 +333,7 @@ input.form-control {
   margin-bottom: 5px;
   margin-right: 5px; }
   .select2-tags .tags .tag {
-    background: #1e90ff;
+    background: #bcef5b;
     padding: 5px 11px;
     display: block;
     float: left;

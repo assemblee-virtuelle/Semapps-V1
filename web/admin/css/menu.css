@@ -34,7 +34,8 @@
     display: block; }
   .sidebar-nav .navbar li a {
     padding-top: 12px;
-    padding-bottom: 12px; } }
+    padding-bottom: 12px;
+    color: #838e91; } }
 
 @media (min-width: 769px) {
   .affix-content .container {
@@ -68,7 +69,7 @@
   .navbar-collapse {
     padding: 0; }
   .sidebar-nav .navbar li a:hover {
-    background-color: #428bca;
+    background-color: #87c513;
     color: white; }
   .sidebar-nav .navbar li a > .caret {
     margin-top: 8px; } }

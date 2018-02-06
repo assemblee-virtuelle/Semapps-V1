@@ -1,10 +1,5 @@
-$lgvMainYellow: #FFCC00;
-$lgvSecondYellow: #BB6600;
+@import "./color.scss";
 
-$lgvMainBlue: #007cb7;
-$lgvSecondBlue: #003869;
-$lgvMainGreen: #00cd00;
-$lgvSecondGreen: #00a500;
 @font-face {
   font-family: 'petitevoisineexpanded';
   src: url('../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2') format('woff2'),
@@ -19,7 +14,7 @@ $lgvSecondGreen: #00a500;
 }
 
 .btn-primary-lgv {
-  background: $lgvMainBlue;
+  background: $mainColorOne;
   border-radius: 0;
 }
 
@@ -29,12 +24,12 @@ $lgvSecondGreen: #00a500;
 
 .panel-gv {
   background: #F0F0F0;
-  color: #555;
+  color: $greyDark;
 }
 
 .logo-circle {
   position: absolute;
-  background: $lgvMainBlue;
+  background: $mainColorOne;
   border-radius: 1000px;
   z-index: 100;
   width: 110px;
