@@ -25,7 +25,12 @@ class ThesaurusController extends AbstractMultipleComponentController
         $sfClient       = $this->container->get('semantic_forms.client');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
         $form->handleRequest($request);
-
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Le contenu à bien été mis à jour.');
+            return $this->redirectToRoute(
+                'componentList', ["componentName" => $componentName]
+            );
+        }
         // Fill form
         return $this->render(
             'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',
