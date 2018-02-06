@@ -1,3 +1,5 @@
+@import "./../../../common/css/color.scss";
+
 .avatar {
   width: 100px;
   float: left;
@@ -22,8 +24,8 @@
     left: 0;
     right: 0;
     bottom: -6px;
-    background: #1e90ff;
-    color: #555;
+    background: $ClearOneColorTwo;
+    color: $greyDark;
     text-align: center;
     padding: 5px 8px;
     font-size: 12px;

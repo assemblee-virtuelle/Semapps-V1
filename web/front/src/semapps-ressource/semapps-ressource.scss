@@ -1,3 +1,5 @@
+@import "./../../../common/css/color.scss";
+
 #ressourceTools {
   border-bottom: 1px dashed #EEE;
   a {
@@ -7,7 +9,7 @@
     color: #555555;
     cursor: pointer;
     span {
-      color: #1e90ff;
+      color: $DarkTwoColorOne;
       margin-right: 9px;
     }
   }

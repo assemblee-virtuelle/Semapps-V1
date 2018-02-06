@@ -37,7 +37,7 @@
 
 header {
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
-  background-color: #1e90ff;
+  background-color: #28ccfb;
   padding: 1.5px 20px;
   top: 0;
   left: 0;
@@ -66,15 +66,15 @@ header {
     header .search .search-fields {
       width: 100%; }
     header .search #searchText {
-      border-color: #1e90ff;
+      border-color: #28ccfb;
       border-radius: 0; }
     header .search input[type=submit] {
-      background: #333;
+      background: #a4de37;
       border: 0;
-      color: #888;
+      color: #65767B;
       text-shadow: none; }
     header .search input[type=submit]:hover {
-      background: #fff192; }
+      background: #cef482; }
   @media (max-width: 768px) {
     header .logo-circle {
       position: initial;
@@ -96,12 +96,6 @@ header {
     border-bottom: 2px dashed black;
     padding-bottom: 14px;
     text-transform: uppercase; }
-  header #my-account-link {
-    margin: 7px 0 0 0;
-    display: inline-block; }
-  header #my-account-disconnect {
-    margin: 7px 0 0 0;
-    display: inline-block; }
 
 @media (max-width: 768px) {
   header {
@@ -127,8 +121,11 @@ body {
   border-radius: 4px;
   width: 200px; }
 
+.dropdown > a {
+  color: #01acdd; }
+
 .dropdown-menu > li > a {
-  color: #428bca; }
+  color: #01acdd; }
 
 .dropdown ul.dropdown-menu {
   border-radius: 4px;

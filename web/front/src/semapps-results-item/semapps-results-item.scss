@@ -1,3 +1,5 @@
+@import "./../../../common/css/color.scss";
+
 a, a:hover, a:active {
   position: relative;
   text-decoration: none;
@@ -89,7 +91,7 @@ $imageWidth: 80px;
   }
 
   a:hover .chevron {
-    color: #1e90ff;
+    color: $DarkTwoColorOne;
     display: block;
     position: absolute;
     right: 27px;

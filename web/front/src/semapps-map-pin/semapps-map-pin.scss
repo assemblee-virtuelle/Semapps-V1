@@ -1,3 +1,5 @@
+@import "./../../../common/css/color.scss";
+
 .semapps-map-pin-wrapper {
   $circlePinRadius: 33px;
   visibility: visible;
@@ -26,7 +28,7 @@
       width: 33px;
       height: 33px;
       margin: -44px auto 0;
-      background: #1e90ff;
+      background: $DarkTwoColorOne;
       border-radius: 100px;
       display: block;
       color: #FFF;

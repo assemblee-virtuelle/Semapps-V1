@@ -6,7 +6,7 @@ header {
     100% { top: 0; }
   }
   animation: headerFadeIn 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
-  background-color: #1e90ff;
+  background-color: $mainColorOne;
   padding: 1.5px 20px;
   top: 0;
   left: 0;
@@ -35,17 +35,17 @@ header {
       width:100%;
     }
     #searchText {
-      border-color: #1e90ff;
+      border-color: $mainColorOne;
       border-radius: 0;
     }
     input[type=submit] {
-      background: #333;
+      background: $mainColorTwo;
       border: 0;
-      color: #888;
+      color: $greyDark;
       text-shadow: none;
     }
     input[type=submit]:hover {
-      background: #fff192;
+      background: $ClearTwoColorTwo;
     }
   }
   // Responsive.
@@ -77,14 +77,14 @@ header {
     text-transform: uppercase;
   }
 
-  #my-account-link {
-    margin: 7px 0 0 0;
-    display: inline-block;
-  }
-  #my-account-disconnect {
-    margin: 7px 0 0 0;
-    display: inline-block;
-  }
+  //#my-account-link {
+  //  margin: 7px 0 0 0;
+  //  display: inline-block;
+  //}
+  //#my-account-disconnect {
+  //  margin: 7px 0 0 0;
+  //  display: inline-block;
+  //}
 }
 
 @media (max-width: 768px) {
@@ -114,8 +114,12 @@ body {
   border-radius:4px;
   width:200px;
 }
+.dropdown>a {
+  color:$DarkTwoColorOne;
+
+}
 .dropdown-menu>li>a {
-  color:#428bca;
+  color:$DarkTwoColorOne;
 }
 .dropdown ul.dropdown-menu {
   border-radius:4px;
