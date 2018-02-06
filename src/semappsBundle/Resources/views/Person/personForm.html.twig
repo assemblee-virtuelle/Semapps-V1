@@ -21,14 +21,14 @@
                 {% if sf_domain not in entityUri and app.user.id == currentUser.id%}
                     <li role="presentation" class="active pull-right">
                         <a  href="{{ path('personActualizeComponent', {'uniqueComponentName':'person'}) }}"><span
-                                    class="glyphicon glyphicon-eye-open"></span>
+                                    class="glyphicon glyphicon-refresh"></span>
                             actualiser</a>
                     </li>
                 {% endif %}
                 {% if app.user.id == currentUser.id %}
-                    <li role="presentation" class="active pull-right">
-                        <a  href="{{ path('personRemoveComponent', {'uniqueComponentName':'person'}) }}"><span
-                                    class="glyphicon glyphicon-eye-open"></span>
+                    <li role="presentation" class="user-remove-profile active pull-right" rel="{{ path('personRemoveComponent', {'uniqueComponentName':'person'}) }}">
+                        <a  href="#"><span
+                                    class=" glyphicon glyphicon-trash"></span>
                             retirer</a>
                     </li>
                 {% endif %}

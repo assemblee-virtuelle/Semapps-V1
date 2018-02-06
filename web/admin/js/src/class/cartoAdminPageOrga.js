@@ -2,15 +2,17 @@ class CartoAdminPageOrga extends CartoAdminPage {
     init() {
         super.init();
 
-        // On user profile, remove user button.
-        $('.orga-delete').click((e) => {
+        $('.orga-remove-profile').click((e) => {
             // Disable default click behavior.
             e.preventDefault();
-            var orgaId = $(e.currentTarget).attr('rel');
+            let route = $(e.currentTarget).attr('rel');
+            let uri = $(e.currentTarget).attr('data-uri');
             // Use custom modal for message.
-            this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer cette organisation ? Tous les membres associés vont être supprimés.', () => {
-                window.location.replace('/administration/organization/delete/'+encodeURI(orgaId));
-            });
+            this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer ce profil ? ' +
+                'Toutes les informations du profil seront supprimées. '
+                , () => {
+                    window.location.replace(route+'?uri='+uri);
+                });
         });
 
         // Change image field.

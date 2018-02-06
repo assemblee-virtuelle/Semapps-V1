@@ -165,6 +165,13 @@ class OrganizationController extends AbstractMultipleComponentController
         }
         return $this->redirectToRoute('orgaComponentForm',["uniqueComponentName" => $uniqueComponentName,"id" => urlencode($uri)]);
     }
+    public function removeAction($uniqueComponentName,Request $request){
+        $uri = $request->get('uri');
+        $this->removeComponent($uri);
+        return $this->redirectToRoute(
+            'personComponentFormWithoutId', ["uniqueComponentName" => 'person']
+        );
+    }
 
     public function getGraph($id = null)
     {
