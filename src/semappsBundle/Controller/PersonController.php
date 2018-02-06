@@ -64,7 +64,7 @@ class PersonController extends UniqueComponentController
                 $sparqlRepository->changeImage($form->uri,$form->uri,$fileUploader->generateUrlForFile($user->getPictureName()));
                 $this->addFlash(
                     'success',
-                    'Votre image a bien été changé.'
+                    'Votre image a bien été changée.'
                 );
             } else {
                 $user->setPictureName($oldPictureName);
@@ -105,10 +105,10 @@ class PersonController extends UniqueComponentController
                     $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
 
                     if(is_null($dataToSave)){
-                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
+                        $this->addFlash("info","L'URI renseignée ne renvoie aucune donnée");
 
                     }elseif(!$dataToSave){
-                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
+                        $this->addFlash("info","L'URI renseignée ne correspond pas au type d'entité que vous avez sélectionné");
 
                     }else{
                         $this->addFlash("success","Votre profil a été importé avec succès !");
@@ -120,7 +120,7 @@ class PersonController extends UniqueComponentController
                     }
 
                 }else{
-                    $this->addFlash("info","l'Uri existe déjà");
+                    $this->addFlash("info","L'URI existe déjà");
                 }
 
                 if(!$id)
@@ -173,14 +173,14 @@ class PersonController extends UniqueComponentController
             $em->persist($user);
             try {
                 $em->flush();
-                $this->addFlash('success','ok');
+                $this->addFlash('success',"Le profil de l'utilisateur a été supprimé avec succès");
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "Problème mise à jour");
+                $this->addFlash('danger', "Problème lors de la suppression du profil");
                 return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' => $uniqueComponentName]);
 
             }
         }else{
-            $this->addFlash('success','NOK !!!');
+            $this->addFlash('success',"L'utilisateur courant n'a pas d'URI");
         }
 
         return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => $uniqueComponentName]);

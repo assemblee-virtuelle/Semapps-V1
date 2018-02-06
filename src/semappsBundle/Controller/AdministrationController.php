@@ -33,7 +33,7 @@ class AdministrationController extends Controller
         // voter pour le token
         $email = $inviteManager->verifyInvite($token);
         if(!$email){
-            $this->addFlash('info', "token non reconnu");
+            $this->addFlash('info', "Token non reconnu");
             return $this->redirectToRoute("fos_user_security_login");
         }
         //get the form
@@ -65,11 +65,11 @@ class AdministrationController extends Controller
             try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "l'utilisateur saisi existe déjà, vous pouvez essayer de réinitialiser votre mot de passe en renseignant votre e-mail ou votre login");
+                $this->addFlash('danger', "L'utilisateur saisi existe déjà, vous pouvez essayer de réinitialiser votre mot de passe en renseignant votre e-mail ou votre login");
 
                 return $this->redirectToRoute('fos_user_resetting_request',array('email' => $newUser->getEmail()));
             }
-            $this->addFlash('success', 'votre compte est maintenant créé, vous pouvez vous connecter et commencer à remplir votre profil !');
+            $this->addFlash('success', 'Votre compte est maintenant créé, vous pouvez vous connecter et commencer à remplir votre profil !');
 
 
             return $this->redirectToRoute('fos_user_security_login');
@@ -124,7 +124,7 @@ class AdministrationController extends Controller
                     } else {
                         $this->addFlash(
                             'info',
-                            "les mots de passe saisi ne correspondent pas"
+                            "Les mots de passe saisis ne correspondent pas"
                         );
                     }
                 }
@@ -134,14 +134,14 @@ class AdministrationController extends Controller
                         $em->flush();
                         $this->addFlash(
                             "success",
-                            "les informations ont été correctement enregistés"
+                            "Les informations ont été correctement enregistrées"
                         );
                     }
 
                 } catch (UniqueConstraintViolationException $e) {
                     $this->addFlash(
                         'danger',
-                        "le nom d'utilisateur saisi existe déjà"
+                        "Le nom d'utilisateur saisi existe déjà"
                     );
 
                     return $this->redirectToRoute('settings');
@@ -149,7 +149,7 @@ class AdministrationController extends Controller
             } else {
                 $this->addFlash(
                     'info',
-                    "le mot de passe courant saisi est incorrect"
+                    "Le mot de passe courant saisi est incorrect"
                 );
             }
         }
@@ -167,7 +167,7 @@ class AdministrationController extends Controller
         /** @var contextManager $contextManager */
         $contextManager = $this->container->get('semappsBundle.contextManager');
         $contextManager->setContext($this->getUser()->getSfLink(),urldecode($context));
-        $this->addFlash('success',"le contexte a bien été changé");
+        $this->addFlash('success',"Le contexte a bien été changé");
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
 
@@ -193,7 +193,7 @@ class AdministrationController extends Controller
 
             $user = $userRepository->findOneBy(['email' => $email]);
             if ($user){
-                $this->addFlash("info","l'email existe déjà");
+                $this->addFlash("info","L'email existe déjà");
                 return $this->redirectToRoute('invite');
             }
 
@@ -201,7 +201,7 @@ class AdministrationController extends Controller
 
             $website = $this->getParameter('carto.domain');
             $url = "http://".$website.'/register/'.$token;
-            $sujet = "[".$website."] Vous avez recu une invitation !";
+            $sujet = "[".$website."] Vous avez reçu une invitation !";
             $content= "Bonjour ".$email." !<br><br> 
                         L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
                         Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br><br>

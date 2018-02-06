@@ -68,7 +68,7 @@ class OrganizationController extends AbstractMultipleComponentController
                     $actualImageName = $newPictureName;
                     $this->addFlash(
                         'success',
-                        'Votre image a bien été changé.'
+                        'Votre image a bien été changée.'
                     );
                 }
 
@@ -110,11 +110,11 @@ class OrganizationController extends AbstractMultipleComponentController
                     //dump($dataToSave);exit;
                     if(is_null($dataToSave)){
                         $this->setSfLink(null);
-                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
+                        $this->addFlash("info","L'URI renseignée ne renvoie aucune donnée");
 
                     }elseif(!$dataToSave){
                         $this->setSfLink(null);
-                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
+                        $this->addFlash("info","L'URI renseignée ne correspond pas au type d'entité que vous avez sélectionné");
 
                     }else{
                         $this->addFlash("success","Le profil organisation a été importé avec succès !");
@@ -132,7 +132,7 @@ class OrganizationController extends AbstractMultipleComponentController
                         return $this->redirectToRoute('orgaComponentForm',['uniqueComponentName' => $componentName, 'id' => urlencode($uri)]);
                     }
                 }else{
-                    $this->addFlash("info","l'Uri existe déjà");
+                    $this->addFlash("info","L'URI existe déjà");
                 }
             }
         }

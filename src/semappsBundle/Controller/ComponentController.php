@@ -58,13 +58,13 @@ class ComponentController extends AbstractMultipleComponentController
                     }
                     $newPictureName = $fileUploader->upload($newPicture);
                     $sparqlRepository->changeImage($graphURI,$form->uri,$fileUploader->generateUrlForFile($newPictureName));
-                    $this->addFlash('success', "l'image a été rajouté avec succès");
+                    $this->addFlash('success', "L'image a été rajoutée avec succès");
                     return $this->redirectToRoute(
                         'componentForm', ["componentName" => $componentName, "uri" => $form->uri]
                     );
                 }
             }
-            $this->addFlash('success', 'Le contenu à bien été mis à jour.');
+            $this->addFlash('success', 'Le contenu a bien été mis à jour.');
             return $this->redirectToRoute(
                 'componentList', ["componentName" => $componentName]
             );
@@ -96,11 +96,11 @@ class ComponentController extends AbstractMultipleComponentController
                     //dump($dataToSave);exit;
                     if(is_null($dataToSave)){
                         $this->setSfLink(null);
-                        $this->addFlash("info","l'Uri donnée ne renvoie aucune donnée");
+                        $this->addFlash("info","L'URI renseignée ne renvoie aucune donnée");
 
                     }elseif(!$dataToSave){
                         $this->setSfLink(null);
-                        $this->addFlash("info","l'uri donnée ne correspond pas au type actuel");
+                        $this->addFlash("info","L'URI renseignée ne correspond pas au type d'entité que vous avez sélectionné");
 
                     }else{
                         $this->addFlash("success","Le profil a été importé avec succès !");
@@ -109,7 +109,7 @@ class ComponentController extends AbstractMultipleComponentController
                         return $this->redirectToRoute('componentForm', ["componentName" => $componentName, "uri" => urlencode($uri)]);
                     }
                 }else{
-                    $this->addFlash("info","l'Uri existe déjà");
+                    $this->addFlash("info","L'URI existe déjà");
                 }
             }
         }

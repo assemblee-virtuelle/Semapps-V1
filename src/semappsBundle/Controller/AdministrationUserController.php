@@ -62,7 +62,7 @@ class AdministrationUserController extends Controller
             try {
                 $em->flush();
             } catch (UniqueConstraintViolationException $e) {
-                $this->addFlash('danger', "l'utilisateur saisi existe déjà");
+                $this->addFlash('danger', "L'utilisateur saisi existe déjà");
 
                 return $this->redirectToRoute('userList');
             }
@@ -131,7 +131,7 @@ class AdministrationUserController extends Controller
         );
 
         if ($result) {
-            $this->addFlash('info', "email envoyé pour l'utilisateur <b>" . $user->getUsername() . "</b> à l'adresse <b>" . $user->getEmail() . "</b>");
+            $this->addFlash('info', "Email envoyé pour l'utilisateur <b>" . $user->getUsername() . "</b> à l'adresse <b>" . $user->getEmail() . "</b>");
         }
         return $this->redirectToRoute($nameRoute);
     }
