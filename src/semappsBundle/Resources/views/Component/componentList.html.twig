@@ -18,12 +18,17 @@
             <tr>
                 <td style="width:100%">{{ item.title }}</td>
                 <td>
+                    <a class="btn" target="_parent" href="/detail?uri={{ item.uri }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        Voir</a>
+                </td>
+                <td>
                     <a href="{{ path('componentForm',{'componentName':componentName,uri:item.uri}) }}"
                        class="btn"><span
                                 class="glyphicon glyphicon-edit"></span>&nbsp;Editer</a>
                 </td>
-                <td class="padded-value">
-                    <a class="component-delete" href="{{ path('componentDelete',{'componentName':componentName,'uri':item.uri}) }}" name="{{ componentName }}">
+                <td>
+                    <a class="btn component-delete" href="{{ path('componentDelete',{'componentName':componentName,'uri':item.uri}) }}" name="{{ componentName }}">
                         <span class="glyphicon glyphicon-trash"></span>
                     </a>
                 </td>
