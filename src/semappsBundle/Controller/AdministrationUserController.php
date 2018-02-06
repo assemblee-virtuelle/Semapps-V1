@@ -153,7 +153,7 @@ class AdministrationUserController extends Controller
             $sparqlClient   = $this->container->get('sparqlbundle.client');
 
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-            $sparqlDeux = clone $sparql;
+//            $sparqlDeux = clone $sparql;
 
             $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
 
@@ -162,7 +162,7 @@ class AdministrationUserController extends Controller
                 ->addWhere('?S','?P','?O',$uri);
 
             $sfClient->update($sparql->getQuery());
-            $sfClient->update($sparqlDeux->getQuery());
+//            $sfClient->update($sparqlDeux->getQuery());
         }
         $em->remove($user);
         try{

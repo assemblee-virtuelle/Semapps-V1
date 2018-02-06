@@ -77,37 +77,35 @@
                     </th>
                 </tr>
                 <tr>
-                    <th class="padded-value" style="width:25%">
+                    <th class="padded-value" style="width:40%">
                         Login
                     </th>
-                    <th class="padded-value" style="width:25%">
+                    <th class="padded-value" style="width:40%">
                         Email
                     </th>
-                    <th class="padded-value" style="width:10%">
+                    <th class="padded-value" style="width:20%">
                         Date dernière connexion
                     </th>
-                    <th class="padded-value" style="width:20%">
-                        Organisation
-                    </th>
-                    <th></th>
+                    <th ></th>
                 </tr>
                 {% for key,user in userEnabled %}
                     <tr rel="{{key }}">
-                        <td class="padded-value" style="width:25%">
+                        <td class="padded-value" style="width:40%">
                             {{ user.username }}
                         </td>
-                        <td class="padded-value" style="width:25%">
+                        <td class="padded-value" style="width:40%">
                             {{ user.email }}
                         </td>
-                        <td class="padded-value" style="width:10%">
+                        <td class="padded-value" style="width:20%">
                             {% if user.lastLogin is not null %}
                                 {{ user.lastLogin|date("d/m/Y") }}
                             {% endif %}
                         </td>
-                        <td class="padded-value" style="width:20%">
-                            {{ user.organization }}
+                        <td class="padded-value" >
+                            <a class="team-user-delete" href="#" rel="{{key}}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
                         </td>
-
                     </tr>
                 {% endfor %}
             </table>
