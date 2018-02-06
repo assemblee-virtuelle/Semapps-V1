@@ -242,7 +242,7 @@
         }
 
         isMember() {
-            return (this.user.access === 'super_admin') || this.isAdmin();
+            return (this.user.access === 'member') || this.isAdmin();
         }
 
         isAnonymous() {

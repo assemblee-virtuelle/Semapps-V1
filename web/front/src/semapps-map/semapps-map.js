@@ -27,8 +27,10 @@ Polymer({
         this.globalX = 48.862725;
         this.globalY = 2.287592000000018;
         this.globalZoom = 6;
+        let maxZoom = (semapps.isAnonymous())? 12:18;
+        let minZoom = 0;
 
-        this.OSM = L.map('semapps').setView([this.globalX,this.globalY], this.globalZoom);
+        this.OSM = L.map('semapps',{maxZoom: maxZoom, minZoom:minZoom}).setView([this.globalX,this.globalY], this.globalZoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(this.OSM );

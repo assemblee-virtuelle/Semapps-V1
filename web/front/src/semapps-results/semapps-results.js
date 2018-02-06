@@ -72,7 +72,7 @@ Polymer({
     _routeChanged: function (data) {
         // We are on the search mode.
         if (data.prefix === '/rechercher') {
-            semapps.map.zoomGlobal();
+            // semapps.map.zoomGlobal();
             // Route change may be fired before init.
             window.SemAppsCarto.ready(() => {
                 let split = data.path.split('/');
