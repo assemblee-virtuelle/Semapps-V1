@@ -194,7 +194,7 @@ class AdministrationController extends Controller
             $user = $userRepository->findOneBy(['email' => $email]);
             if ($user){
                 $this->addFlash("info","l'email existe déjà");
-                $this->redirectToRoute('invite');
+                return $this->redirectToRoute('invite');
             }
 
             $token= $inviteManager->newInvite($email);
@@ -207,8 +207,8 @@ class AdministrationController extends Controller
                         Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br><br>
                         A très bientôt :-)";
             $mailer->sendMessage($email,$sujet,$content);
+            $this->addFlash('success', "Email envoyé à l'adresse <b>" . $email . "</b> !");
         }
-
         return $this->render(
             'semappsBundle:Admin:invite.html.twig',
             array(
