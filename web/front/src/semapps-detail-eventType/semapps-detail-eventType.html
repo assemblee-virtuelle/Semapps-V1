@@ -64,11 +64,9 @@
         <!-- typeOf -->
         <template is="dom-if" if="[[typeOf.event.length]]">
           <h3>type de</h3>
-          <div class="tags-cloud">
+          <div>
             <template is="dom-repeat" items="{{typeOf.event}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
             </template>
             <div class="clearfix"></div>
           </div>

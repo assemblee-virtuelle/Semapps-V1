@@ -1,0 +1,19 @@
+<dom-module id="semapps-tag">
+  <link rel="import" type="css" href="semapps-tag.css">
+  <template>
+
+      <template is="dom-if" if="{{isDetail }}">
+      <a class="tag-cloud" href="#"  on-click="handleClickDetail" rel="{{ uri }}"  style="background:{{ color }} ; border: 1px solid {{ color }};">
+          {{name}}</a>
+      </template>
+      <template is="dom-if" if="{{ isThematic }}">
+          <a class="tag-cloud" href="#"  on-click="onClickThematic" rel="{{ uri }}"  style="background:{{ color }} ; border: 1px solid {{ color }};">
+              {{name}}</a>
+      </template>
+      <template is="dom-if" if="{{ isRessource }}">
+          <a class="tag-cloud" href="#"  on-click="handleClickRessource" rel="{{ uri }}"  style="background:{{ color }} ; border: 1px solid {{ color }};">
+              {{name}}</a>
+      </template>
+  </template>
+  <script src="semapps-tag.min.js"></script>
+</dom-module>

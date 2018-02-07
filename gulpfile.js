@@ -36,6 +36,7 @@ var filesJs = {
   ],
   // Front
   'web/front/src/semapps-avatar/semapps-avatar': true,
+  'web/front/src/semapps-tag/semapps-tag': true,
   'web/front/src/semapps-carto/semapps-carto': true,
   'web/front/src/semapps-header/semapps-header': true,
   'web/front/src/semapps-results/semapps-results': true,
@@ -68,6 +69,7 @@ var filesScss = {
   // Front
   'web/front/css/style': true,
   'web/front/src/semapps-avatar/semapps-avatar': true,
+  'web/front/src/semapps-tag/semapps-tag': true,
   'web/front/src/semapps-carto/semapps-carto': true,
   'web/front/src/semapps-spinner/semapps-spinner': true,
   'web/front/src/semapps-results/semapps-results': true,

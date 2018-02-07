@@ -67,10 +67,6 @@ Polymer({
                 icon: 'folder-open',
                 markerColor: 'black'
             }),
-            "http://virtual-assembly.org/pair#DocumentType":L.AwesomeMarkers.icon({
-                icon: 'pushpin',
-                markerColor: 'black'
-            }),
         }
 
     },

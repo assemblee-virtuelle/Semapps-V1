@@ -146,20 +146,18 @@
 
         <template is="dom-if" if="[[hasInterest.length]]">
           <h3>Centres d'intérêts</h3>
-          <div class="tags-cloud">
+          <div>
             <template is="dom-repeat" items="{{hasInterest}}">
-              <a href="#" rel="{{ item.uri }}" target="_blank" on-click="onClickThematic">
-                {{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="onClickThematic" name="{{item.name}}" type="dbpedia"></semapps-tag>
             </template>
             <div class="clearfix"></div>
           </div>
         </template>
         <template is="dom-if" if="[[hasSubject.length]]">
           <h3>Mots-clés</h3>
-          <div class="tags-cloud">
+          <div>
             <template is="dom-repeat" items="{{hasSubject}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
-                {{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
             </template>
             <div class="clearfix"></div>
           </div>
@@ -168,54 +166,53 @@
         <!-- involvedIn -->
         <template is="dom-if" if="[[data.involvedIn.project.length]]">
           <h3>Impliquée dans</h3>
-          <template is="dom-repeat" items="{{data.involvedIn.project}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.involvedIn.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of involvedIn -->
         <!-- manages -->
         <template is="dom-if" if="[[data.manages.project.length]]">
           <h3>(Co-)responsable de</h3>
-          <template is="dom-repeat" items="{{data.manages.project}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.manages.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of manages -->
         <!-- organizes -->
         <template is="dom-if" if="[[data.organizes.event.length]]">
           <h3>(Co-)organise</h3>
-          <template is="dom-repeat" items="{{data.organizes.event}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.organizes.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of organizes -->
         <!-- participantOf -->
         <template is="dom-if" if="[[data.participantOf.event.length]]">
           <h3>Participe à</h3>
-          <template is="dom-repeat" items="{{data.participantOf.event}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.participantOf.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of participantOf -->
         <!-- offers -->
         <template is="dom-if" if="[[data.offers.length]]">
           <h3>Offres</h3>
-          <div class="tags-cloud">
+          <div>
             <template is="dom-repeat" items="{{data.offers}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
-                {{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
             </template>
             <div class="clearfix"></div>
           </div>
@@ -224,10 +221,9 @@
         <!-- needs -->
         <template is="dom-if" if="[[data.needs.length]]">
           <h3>Besoins</h3>
-          <div class="tags-cloud">
+          <div>
             <template is="dom-repeat" items="{{data.needs}}">
-              <a href="#"  rel="{{ item.uri }}" on-click="handleClickRessource" target="_blank">
-                {{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
             </template>
             <div class="clearfix"></div>
           </div>
@@ -236,97 +232,85 @@
         <!-- brainstorms -->
         <template is="dom-if" if="[[data.brainstorms.proposal.length]]">
           <h3>Proposition dont l'organisation est à l'origine</h3>
-          <template is="dom-repeat" items="{{data.brainstorms.proposal}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.brainstorms.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of brainstorms -->
         <!-- documentedby -->
         <template is="dom-if" if="[[data.documentedBy.document.length]]">
           <h3>Document(s) descriptif(s)</h3>
-          <template is="dom-repeat" items="{{data.documentedBy.document}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
+          <div>
+            <template is="dom-repeat" items="{{data.documentedBy.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of documentedby -->
         <!-- hasType -->
         <template is="dom-if" if="[[data.hasType.organizationType.length]]">
           <h3>Type</h3>
-
-          <template is="dom-repeat" items="{{data.hasType.organizationType}}">
-            <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-               class="list-item">
-              <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
-          </template>
-          <div class="clearfix"></div>
-
+          <div>
+            <template is="dom-repeat" items="{{data.hasType.organizationType}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="organizationType"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
         </template>
         <!-- end of hasType -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
-          <div class="thumbs">
+          <div>
             <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="proposal"></semapps-tag>
             </template>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
         </template>
         <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
           <h3>Est concerné par ( événements )</h3>
-          <div class="thumbs">
+          <div>
             <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
             </template>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
         </template>
         <!-- internal_author -->
         <template is="dom-if" if="[[data.internal_author.document.length]]">
           <h3>Auteur de</h3>
-          <div class="thumbs">
+          <div>
             <template is="dom-repeat" items="{{data.internal_author.document}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
             </template>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
         </template>
         <!-- end of internal_author -->
         <!-- internal_contributor -->
         <template is="dom-if" if="[[data.internal_contributor.document.length]]">
           <h3>Contributeur de</h3>
-          <div class="thumbs">
+          <div>
             <template is="dom-repeat" items="{{data.internal_contributor.document}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
             </template>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
         </template>
         <!-- end of internal_contributor -->
         <!-- internal_publisher -->
         <template is="dom-if" if="[[data.internal_publisher.document.length]]">
           <h3>Editeur de</h3>
-          <div class="thumbs">
+          <div>
             <template is="dom-repeat" items="{{data.internal_publisher.document}}">
-              <a href="#" rel="{{item.uri}}" on-click="handleClickDetail"
-                 class="list-item">
-                <span class="glyphicon glyphicon-chevron-right"></span>{{item.name}}</a>
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
             </template>
+            <div class="clearfix"></div>
           </div>
-          <div class="clearfix"></div>
         </template>
         <!-- end of internal_publisher -->
       </section>

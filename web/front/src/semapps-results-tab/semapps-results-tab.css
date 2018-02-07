@@ -23,15 +23,15 @@ li {
       opacity: .2; }
   li.active a {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffcc00+0,ffb600+100 */
-    background: #07c3f8;
+    background: #bcef5b;
     /* Old browsers */
     color: #65767B;
-    border-color: #01acdd;
-    border-bottom: 1px solid #01acdd; }
+    border-color: #bcef5b;
+    border-bottom: 1px solid #bcef5b; }
     li.active a .glyphicon {
       opacity: .7; }
   li.active .counter {
-    color: #01acdd; }
+    color: #65767B; }
 
 @media (max-width: 768px) {
   li, a {

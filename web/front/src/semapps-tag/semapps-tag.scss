@@ -1,0 +1,18 @@
+@import "./../../../common/css/color.scss";
+
+.tag-cloud {
+  //background: $ClearOneColorTwo;
+  padding: 4px 14px;
+  margin: 2px 5px;
+  display: block;
+  float: left;
+  border-radius: 38px;
+  color: white;
+  //border: 1px solid $ClearOneColorTwo;
+  text-decoration: none;
+}
+.tag-cloud:hover {
+  background: $greyDark!important;
+  border: 1px solid $greyDark!important;
+  color: $mainColorOne!important;
+}

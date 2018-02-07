@@ -69,9 +69,9 @@ header {
       border-color: #28ccfb;
       border-radius: 0; }
     header .search input[type=submit] {
-      background: #a4de37;
+      background: #65767B;
       border: 0;
-      color: #65767B;
+      color: #FFFFFF;
       text-shadow: none; }
     header .search input[type=submit]:hover {
       background: #cef482; }
