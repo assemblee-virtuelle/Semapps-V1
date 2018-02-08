@@ -43,6 +43,7 @@ var filesJs = {
   'web/front/src/semapps-results-tab/semapps-results-tab': true,
   'web/front/src/semapps-results-item/semapps-results-item': true,
   'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
+  // 'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-detail/semapps-detail': true,
   'web/front/src/semapps-ressource/semapps-ressource': true,
   'web/front/src/semapps-detail-organization/semapps-detail-organization': true,
@@ -91,6 +92,7 @@ var filesScss = {
   'web/front/src/semapps-detail-eventType/semapps-detail-eventType': true,
   'web/front/src/semapps-detail-proposalType/semapps-detail-proposalType': true,
   'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
+  'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-map/semapps-map': true,
   'web/front/src/semapps-map-pin/semapps-map-pin': true
 };
