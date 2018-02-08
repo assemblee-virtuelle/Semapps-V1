@@ -264,7 +264,7 @@ class WebserviceTools
                             if ($label)
                                 $output[$simpleKey][] = [
                                     'uri'  => $uri,
-                                    'name' => $this->sfClient->dbPediaLabel($dbpediaConf,$uri),
+                                    'name' => $label,
                                 ];
                         }
                         break;
