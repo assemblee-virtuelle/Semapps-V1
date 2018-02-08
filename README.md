@@ -26,6 +26,11 @@ In order to contribute, you need to have
 - Then `composer install`
 - Then access your [Semantic Forms install](http://localhost:9000) and create an account
 
+##### set the logo
+- go to `cd yourdirectory/semapps/web/common/images/`
+- place here a file named `logo.png`
+- actualize your webpage
+
 ##### start coding
 [...]
 
