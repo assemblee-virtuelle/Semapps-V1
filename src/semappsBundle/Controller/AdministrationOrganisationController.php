@@ -14,7 +14,7 @@ class AdministrationOrganisationController extends Controller
         /** @var SparqlRepository $sparqlrepository */
         $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
         $organisationConf = $this->getParameter('organizationConf');
-        $listOfContent = $sparqlrepository->getListOfContentByType(semappsConfig::URI_PAIR_ORGANIZATION,$organisationConf,null);
+        $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
 
         return $this->render(
             'semappsBundle:Admin:completeList.html.twig',
@@ -50,7 +50,7 @@ class AdministrationOrganisationController extends Controller
         /** @var SparqlRepository $sparqlrepository */
         $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
         $organisationConf = $this->getParameter('organizationConf');
-        $listOfContent = $sparqlrepository->getListOfContentByType(semappsConfig::URI_PAIR_ORGANIZATION,$organisationConf,null);
+        $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
 
         $lines              = [];
         $sfClient           = $this->container->get('semantic_forms.client');

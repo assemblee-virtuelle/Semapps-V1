@@ -191,11 +191,11 @@ class OrganizationController extends AbstractMultipleComponentController
         return $encryption->decrypt($this->getUser()->getSfUser());
     }
 
-    public function componentList($componentConf, $componentType, $graphURI)
+    public function componentList($componentConf, $graphURI)
     {
         /** @var SparqlRepository $sparqlrepository */
         $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
-        $listOfContent = $sparqlrepository->getListOfContentByType($componentType,$componentConf,$graphURI);
+        $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,$graphURI);
         return $listOfContent;
     }
     public function removeComponent($uri){

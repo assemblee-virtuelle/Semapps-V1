@@ -150,12 +150,12 @@ class SparqlRepository extends SparqlClient
         ));
     }
 
-    public function getListOfContentByType($type,$componentConf,$graphURI =null){
+    public function getListOfContentByType($componentConf,$graphURI =null){
 
         /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
         $sparql = $this->newQuery($this::SPARQL_SELECT);
         $graphURI =($graphURI)? $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL):" ?GR ";
-        $componentType = $sparql->formatValue($type,$sparql::VALUE_TYPE_URL);
+        $componentType = $sparql->formatValue($componentConf['type'],$sparql::VALUE_TYPE_URL);
 
         $sparql->addPrefixes($sparql->prefixes)
             ->addSelect('?URI')
