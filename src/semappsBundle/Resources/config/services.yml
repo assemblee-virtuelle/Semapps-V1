@@ -14,7 +14,7 @@ services:
 
     semappsBundle.webserviceTools:
         class: semappsBundle\Services\WebserviceTools
-        arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client']
+        arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client','@semappsbundle.webservicecache']
 
     semappsBundle.contextManager:
         class: semappsBundle\Services\contextManager
@@ -30,6 +30,9 @@ services:
     semappsBundle.invitemanager:
         class: semappsBundle\Services\InviteManager
         arguments: ['@fos_user.util.token_generator']
+    semappsBundle.webserviceCache:
+        class: semappsBundle\Services\webserviceCache
+        arguments: []
 #
 #    semappsBundle.voter:
 #        class: semappsBundle\Voters\ExampleVoter

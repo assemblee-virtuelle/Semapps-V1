@@ -30,12 +30,15 @@ class WebserviceTools
     protected $tokenStorage;
     /** @var  confManager */
     protected $confmanager;
-    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient){
+    /** @var webserviceCache  */
+    protected $webserviceCache;
+    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache){
         $this->sfClient = $sfClient;
         $this->em = $em;
         $this->checker = $checker;
         $this->tokenStorage = $tokenStorage;
         $this->confmanager = $confmanager;
+        $this->webserviceCache = $webserviceCache;
     }
     public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
@@ -260,7 +263,11 @@ class WebserviceTools
                         break;
                     case 'dbpedia':
                         foreach ($properties[$simpleKey] as $uri) {
-                            $label = $this->sfClient->dbPediaLabel($dbpediaConf,$uri);
+                            $label = $this->webserviceCache->getContent('dbpedia',$uri);
+                            if(!$label){
+                                $label = $this->sfClient->dbPediaLabel($dbpediaConf,$uri);
+                                $this->webserviceCache->setContent('dbpedia',$uri,$label);
+                            }
                             if ($label)
                                 $output[$simpleKey][] = [
                                     'uri'  => $uri,
