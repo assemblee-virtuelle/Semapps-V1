@@ -19,21 +19,23 @@ class Mailer
     protected $templating;
     protected $address;
     private $encryption;
+    private $email;
     CONST TYPE_USER = 1;
     CONST TYPE_RESPONSIBLE= 2;
     CONST TYPE_NOTIFICATION= 3;
-    public function __construct($mailer, EngineInterface $templating,Encryption $encryption, $addressOfTheSite)
+    public function __construct($mailer, EngineInterface $templating,Encryption $encryption, $addressOfTheSite,$emailUser)
     {
         $this->mailer = $mailer;
         $this->templating = $templating;
         $this->encryption = $encryption;
-        $this->address = $addressOfTheSite;
+        $this->email = $emailUser;
     }
 
     public function sendMessage($to, $subject, $body ,$from =null)
     {
+
         $mail = \Swift_Message::newInstance()
-//            ->setFrom('fake@fake.fr')
+            ->setFrom($this->email)
             ->setTo($to)
             ->setSubject($subject)
             ->setBody($body)
