@@ -33,7 +33,7 @@ class Mailer
     public function sendMessage($to, $subject, $body ,$from =null)
     {
         $mail = \Swift_Message::newInstance()
-            ->setFrom('fake@fake.fr')
+//            ->setFrom('fake@fake.fr')
             ->setTo($to)
             ->setSubject($subject)
             ->setBody($body)
