@@ -126,7 +126,6 @@ class AdministrationUserController extends Controller
         $result = $mailer->sendConfirmMessage(
             $mailer::TYPE_USER,//($organisation != null && $user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
             $user,
-            null,
             $url
         );
 

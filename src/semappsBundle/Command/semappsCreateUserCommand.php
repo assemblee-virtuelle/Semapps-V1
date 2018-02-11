@@ -148,7 +148,6 @@ class semappsCreateUserCommand extends ContainerAwareCommand
         $result = $mailer->sendConfirmMessage(
             $mailer::TYPE_USER,
             $user,
-            $organization,
             $url
         );
         if($result){

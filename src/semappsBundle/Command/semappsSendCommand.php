@@ -97,9 +97,7 @@ class semappsSendCommand extends ContainerAwareCommand
         $result = $mailer->sendConfirmMessage(
              $mailer::TYPE_USER,
             $user,
-            null,
-            $url,
-            $email
+            $url
         );
         if($result){
             $output->writeln("Email send ! ");
