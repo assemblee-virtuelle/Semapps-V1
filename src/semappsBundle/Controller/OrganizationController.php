@@ -18,7 +18,8 @@ class OrganizationController extends AbstractMultipleComponentController
         //voter
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-        $this->setSfLink($uri);
+        if($uri)
+            $this->setSfLink($uri);
         $graphURI			= $this->getGraph();
         $sfClient       = $this->container->get('semantic_forms.client');
         /** @var contextManager $contextManager */
