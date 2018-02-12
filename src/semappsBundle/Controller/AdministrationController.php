@@ -204,7 +204,9 @@ class AdministrationController extends Controller
             $sujet = "[".$website."] Vous avez reçu une invitation !";
             $content= "Bonjour ".$email." !<br><br> 
                         L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
-                        Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br><br>
+                        Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br>
+                        Si le lien ne fonctionne pas, veuillez copier-coller ce lien dans un navigateur : <br>".$url."<br><br>
+                        <br>
                         A très bientôt :-)";
             $mailer->sendMessage($email,$sujet,$content);
             $this->addFlash('success', "Email envoyé à l'adresse <b>" . $email . "</b> !");
