@@ -9,6 +9,7 @@
 namespace semappsBundle\Services;
 
 
+use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use semappsBundle\semappsConfig;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
@@ -32,13 +33,16 @@ class WebserviceTools
     protected $confmanager;
     /** @var webserviceCache  */
     protected $webserviceCache;
-    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache){
+
+    protected $parser;
+    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache,MarkdownParserInterface $parser){
         $this->sfClient = $sfClient;
         $this->em = $em;
         $this->checker = $checker;
         $this->tokenStorage = $tokenStorage;
         $this->confmanager = $confmanager;
         $this->webserviceCache = $webserviceCache;
+        $this->parser = $parser;
     }
     public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
@@ -278,7 +282,8 @@ class WebserviceTools
                     default:
                         switch ($simpleKey){
                             case 'description':
-                                $properties[$simpleKey] = nl2br(current($properties[$simpleKey]),false);
+//                                $properties[$simpleKey] = nl2br(current($properties[$simpleKey]),false);
+                                $properties[$simpleKey] = $this->parser->transformMarkdown(current($properties[$simpleKey]));
                                 break;
 
                             case 'hasInterest':

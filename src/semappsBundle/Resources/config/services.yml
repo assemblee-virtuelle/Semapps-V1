@@ -14,7 +14,7 @@ services:
 
     semappsBundle.webserviceTools:
         class: semappsBundle\Services\WebserviceTools
-        arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client','@semappsbundle.webservicecache']
+        arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semappsBundle.confmanager','@semantic_forms.client','@semappsbundle.webservicecache','@knp\bundle\markdownbundle\markdownparserinterface']
 
     semappsBundle.contextManager:
         class: semappsBundle\Services\contextManager
