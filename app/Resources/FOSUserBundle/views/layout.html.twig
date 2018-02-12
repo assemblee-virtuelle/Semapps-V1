@@ -5,7 +5,7 @@
 
     <div class="container-fluid container-auth">
         <div class="row">
-            <div class="col col-sm-4 col-sm-offset-2">
+            <div class="col col-sm-4 col-sm-offset-1">
                 <div class="block-banner-overflow">
                     {% if app.request.hasPreviousSession %}
                         {% for type, messages in app.session.flashbag.all() %}
@@ -23,7 +23,7 @@
                 </div>
             </div>
             {% block bobby %}
-                <div class="col col-sm-5">
+                <div class="col col-sm-4 col-sm-offset-2">
                     <div class="block-banner-overflow-transparent">
                         {% embed "alertBobby.html.twig" %}
                             {% block title %}Bienvenue sur la plateforme !{% endblock %}
