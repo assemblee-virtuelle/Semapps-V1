@@ -93,8 +93,8 @@ fos_user:
     firewall_name: main
     user_class: semappsBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
-        address: noreply@lesgrandsvoisins.org
-        sender_name: mmmfest
+        address: contact@assemblee-virtuelle.org
+        sender_name: Assemblée Virtuelle
     registration:
         confirmation:
             template: email/content_email.email.twig
