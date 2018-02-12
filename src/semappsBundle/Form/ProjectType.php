@@ -96,6 +96,15 @@ class ProjectType extends SemanticFormType
             )
             ->add(
                 $builder,
+                'delivers',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT.'|'.semappsConfig::URI_PAIR_EVENT.'|'.semappsConfig::URI_PAIR_PROPOSAL.'|'.semappsConfig::URI_PAIR_DOCUMENT.'|'
+                ]
+            )
+            ->add(
+                $builder,
                 'documentedBy',
                 UriType::class,
                 [
