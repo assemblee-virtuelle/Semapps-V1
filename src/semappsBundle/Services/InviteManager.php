@@ -16,13 +16,15 @@ class InviteManager
     private $cache;
     private $parameters;
     private $tokenGenerator;
-    public function __construct( TokenGenerator $tokenGenerator)
+    private $cacheDir;
+    public function __construct($cacheDir, TokenGenerator $tokenGenerator)
     {
-        $this->cache = new FilesystemAdapter('cache.invite');
+        $this->cache = new FilesystemAdapter('cache.invite',0,$cacheDir);
         $this->parameters = $this->cache->getItem('semapps.invite');
         $this->tokenGenerator = $tokenGenerator;
     }
     public function newInvite($email){
+
         $parameters = $this->parameters->get();
         $token = $this->tokenGenerator->generateToken();
         $parameters[$email] = $token ;

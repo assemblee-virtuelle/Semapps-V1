@@ -18,7 +18,7 @@ services:
 
     semappsBundle.contextManager:
         class: semappsBundle\Services\contextManager
-        arguments: ['@semappsBundle.sparqlRepository','@doctrine.orm.entity_manager']
+        arguments: ['%kernel.cache_dir%','@semappsBundle.sparqlRepository','@doctrine.orm.entity_manager']
 
     semappsBundle.confmanager:
         class: semappsBundle\Services\confManager
@@ -29,10 +29,10 @@ services:
         arguments: ['@semantic_forms.client','@semappsBundle.sparqlRepository']
     semappsBundle.invitemanager:
         class: semappsBundle\Services\InviteManager
-        arguments: ['@fos_user.util.token_generator']
+        arguments: ['%kernel.cache_dir%','@fos_user.util.token_generator']
     semappsBundle.webserviceCache:
         class: semappsBundle\Services\webserviceCache
-        arguments: []
+        arguments: ['%kernel.cache_dir%']
 #
 #    semappsBundle.voter:
 #        class: semappsBundle\Voters\ExampleVoter

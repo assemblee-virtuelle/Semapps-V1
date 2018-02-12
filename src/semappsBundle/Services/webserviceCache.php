@@ -15,9 +15,9 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 class webserviceCache
 {
     private $cache;
-    public function __construct()
+    public function __construct($cacheDir)
     {
-        $this->cache = new FilesystemAdapter('cache.webservice');
+        $this->cache = new FilesystemAdapter('cache.webservice',0,$cacheDir);
     }
 
     public function setContent($serviceName,$uri,$content){

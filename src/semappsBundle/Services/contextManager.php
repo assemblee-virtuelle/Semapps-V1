@@ -17,11 +17,11 @@ class contextManager
     private $parameters;
     private $sparqlRepository;
     private $em;
-    public function __construct(SparqlRepository $sparqlRepository,EntityManager $em)
+    public function __construct($cacheDir,SparqlRepository $sparqlRepository,EntityManager $em)
     {
         $this->sparqlRepository = $sparqlRepository;
         $this->em = $em;
-        $this->cache = new FilesystemAdapter('cache.context');
+        $this->cache = new FilesystemAdapter('cache.context',0,$cacheDir);
         $this->parameters = $this->cache->getItem('semapps.context');
     }
 
