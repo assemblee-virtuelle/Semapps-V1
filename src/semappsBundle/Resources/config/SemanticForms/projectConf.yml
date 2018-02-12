@@ -56,6 +56,7 @@ parameters:
         http://virtual-assembly.org/pair#delivers: #bien et services
           value: 'delivers'
           access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasSubject:
           value: 'hasSubject'
           access: 'anonymous'

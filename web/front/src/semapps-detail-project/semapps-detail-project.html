@@ -128,6 +128,43 @@
           <div class="clearfix"></div>
         </template>
         <!-- end of involves -->
+        <template is="dom-if" if="[[data.delivers.project.length]]">
+          <h3>Livrables de type Projet</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.delivers.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[data.delivers.event.length]]">
+          <h3>Livrables de type Evénement</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.delivers.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[data.delivers.proposal.length]]">
+          <h3>Livrables de type Proposition</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.delivers.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[data.delivers.document.length]]">
+          <h3>Livrables de type Document</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.delivers.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
         <!-- hasInterest -->
         <template is="dom-if" if="[[hasInterest.length]]">
           <h3>Centres d'intérêts</h3>
@@ -202,7 +239,7 @@
           </div>
         </template>
         <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
-          <h3>Est concerné par ( événements )</h3>
+          <h3>Est concerné par ( Evénements )</h3>
           <div>
             <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
               <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
