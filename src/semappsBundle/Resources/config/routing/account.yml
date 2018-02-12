@@ -1,6 +1,9 @@
 home:
     path:     /
     defaults: { _controller: semappsBundle:Person:home }
+fos_user_profile_show:
+    path:     /
+    defaults: { _controller: semappsBundle:Person:home }
 orgaComponentForm:
     path:     /{uniqueComponentName}/form/{id}
     defaults: { _controller: semappsBundle:Organization:add}
