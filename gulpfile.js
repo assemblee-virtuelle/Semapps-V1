@@ -58,6 +58,7 @@ var filesJs = {
   'web/front/src/semapps-detail-eventType/semapps-detail-eventType': true,
   'web/front/src/semapps-detail-proposalType/semapps-detail-proposalType': true,
   'web/front/src/semapps-map/semapps-map': true,
+  'web/front/src/semapps-prez/semapps-prez': true,
   'web/front/src/semapps-map-pin/semapps-map-pin': true
 };
 
@@ -94,7 +95,9 @@ var filesScss = {
   'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
   'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-map/semapps-map': true,
-  'web/front/src/semapps-map-pin/semapps-map-pin': true
+  'web/front/src/semapps-map-pin/semapps-map-pin': true,
+  'web/front/src/semapps-prez/semapps-prez': true,
+
 };
 
 function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
