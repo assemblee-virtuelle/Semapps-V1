@@ -21,10 +21,10 @@
 }
 #semapps-prez .banner {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: bottom;
   margin: 0 auto;
   width: 85%;
-  //padding-bottom: 30px;
+  padding-bottom: 270px;
   text-align: center;
 }
 
@@ -33,9 +33,10 @@
   font: 90px/1.1em;
   font-family: petitevoisine, patrickhands, sans-serif;
   color: #fff;
-  letter-spacing: -2px;
+  //letter-spacing: -2px;
   margin: 0 auto 18px auto;
   text-shadow: 0px 1px 3px rgba(0, 0, 0, .8);
+  padding-bottom: 5px;
 }
 #semapps-prez .banner-text h3 {
   font: 18px/1.9em ;
