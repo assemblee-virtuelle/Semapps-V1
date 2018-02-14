@@ -92,7 +92,7 @@ class ComponentController extends AbstractMultipleComponentController
                     $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
 
                     $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
-                    $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+                    $dataToSave = $importManager->contentToImport($uri,$componentConf,$type);
                     //dump($dataToSave);exit;
                     if(is_null($dataToSave)){
                         $this->setSfLink(null);
@@ -137,7 +137,7 @@ class ComponentController extends AbstractMultipleComponentController
             $this->setSfLink($uri);
             $testForm = $this->getSfForm($sfClient,$componentName, $request,$uri );
             $type = array_merge([$componentConf['type']],array_key_exists('otherType',$componentConf)? $componentConf['otherType'] : []);
-            $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+            $dataToSave = $importManager->contentToImport($uri,$componentConf,$type);
             $testForm->submit($dataToSave,false);
             $this->addFlash('success','Actualisation ok !');
         }else{

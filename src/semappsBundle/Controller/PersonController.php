@@ -99,10 +99,13 @@ class PersonController extends UniqueComponentController
                 $uri = $importForm->get('import')->getData();
                 $result = $userRepository->findOneBy(['sfLink' =>$uri]);
                 if(!$result){
+                    $user->setSfLink($uri);
+                    $em->persist($user);
+                    $em->flush();
                     $componentConf = $this->getParameter($uniqueComponentName.'Conf');
                     $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
                     $type = array_merge([$componentConf['type']],$componentConf['otherType']);
-                    $dataToSave = $importManager->contentToImport($uri,$componentConf['fields'],$type);
+                    $dataToSave = $importManager->contentToImport($uri,$componentConf,$type);
 
                     if(is_null($dataToSave)){
                         $this->addFlash("info","L'URI renseignée ne renvoie aucune donnée");
@@ -113,9 +116,7 @@ class PersonController extends UniqueComponentController
                     }else{
                         $this->addFlash("success","Votre profil a été importé avec succès !");
                         $testForm->submit($dataToSave);
-                        $user->setSfLink($uri);
-                        $em->persist($user);
-                        $em->flush();
+
                         $contextManager->setContext($uri,null);
                     }
 
@@ -149,7 +150,7 @@ class PersonController extends UniqueComponentController
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
             $type = array_merge([$componentConf['type']],$componentConf['otherType']);
-            $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf['fields'],$type);
+            $dataToSave = $importManager->contentToImport($user->getSfLink(),$componentConf,$type);
             $testForm->submit($dataToSave,false);
             $this->addFlash('success','Actualisation ok !');
         }else{
