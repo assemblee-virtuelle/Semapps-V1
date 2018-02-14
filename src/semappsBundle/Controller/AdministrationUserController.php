@@ -91,6 +91,9 @@ class AdministrationUserController extends Controller
             }
 
         }
+        /** @var \semappsBundle\Services\InviteManager $inviteManager */
+        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+
 
         return $this->render(
             'semappsBundle:Admin:listUser.html.twig',
@@ -103,7 +106,8 @@ class AdministrationUserController extends Controller
                     'ROLE_ADMIN' => 'Administration',
                     'ROLE_MEMBER' => 'Member',
                 ],
-                'userForm' => $form->createView()
+                'userForm' => $form->createView(),
+                'invite'    => $inviteManager->getCache(),
             )
         );
     }

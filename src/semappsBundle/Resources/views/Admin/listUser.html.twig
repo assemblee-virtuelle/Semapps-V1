@@ -11,6 +11,46 @@
         <div class="col-sm-12">
             <table id="userDisabledManager" class="table table-bordered">
                 <th colspan="5">
+                    <h3>Liste d'invitation envoyé</h3>
+                </th>
+                <tr>
+                    <th class="padded-value" style="width:50%">
+                        Email
+                    </th>
+                    <th class="padded-value" style="width:50%">
+                        Token
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for email,token in invite %}
+                    <tr rel="{{ email }}">
+                        <td class="padded-value" style="width:50%">
+                            {{ email }}
+                        </td>
+                        <td class="padded-value" style="width:50%">
+                            {{ token }}
+                        </td>
+                        <td class="padded-value">
+                            <a class="invite-send" href="#" rel="{{ email }}" data-token="{{ token }}">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+
+                        </td>
+                        <td class="padded-value">
+                            <a class="invite-delete" href="#" rel="{{ email }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="userDisabledManager" class="table table-bordered">
+                <th colspan="5">
                     <h3>Liste des utilisateurs n'ayant pas validé leur compte</h3>
                 </th>
                 <tr>

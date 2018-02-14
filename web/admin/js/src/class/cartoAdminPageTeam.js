@@ -25,5 +25,23 @@ class CartoAdminPageTeam extends CartoAdminPage {
                 window.location.replace('/administration/access/'+ userId +'/change/'+ roles);
             });
         });
+
+        $('.invite-delete').click((e) => {
+            // Disable default click behavior.
+            e.preventDefault();
+            let email = $(e.currentTarget).attr('rel');
+            // Use custom modal for message.
+            this.admin.modalConfirm('Êtes-vous sûr de vouloir supprimer cette invitation ? ', () => {
+                window.location.replace('/administration/invite/delete/'+ email );
+            });
+        });
+        $('.invite-send').click((e) => {
+            // Disable default click behavior.
+            e.preventDefault();
+            let email = $(e.currentTarget).attr('rel');
+            let token = $(e.currentTarget).attr('data-token');
+            // Use custom modal for message.
+            window.location.replace('/administration/invite/send/'+email+'/'+token);
+        });
     }
 }

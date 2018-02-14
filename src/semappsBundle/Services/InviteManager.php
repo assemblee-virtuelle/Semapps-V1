@@ -45,5 +45,13 @@ class InviteManager
 
         return $email;
     }
-
+    public function getCache(){
+        return $this->parameters->get();
+    }
+    public function removeInvite($email){
+        $parameters = $this->parameters->get();
+        unset($parameters[$email]);
+        $this->parameters->set($parameters);
+        $this->cache->save($this->parameters);
+    }
 }

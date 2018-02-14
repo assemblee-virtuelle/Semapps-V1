@@ -32,3 +32,9 @@ settings:
 invite:
     path:     /invite
     defaults: { _controller: semappsBundle:Administration:invite }
+sendInvite:
+    path:     /invite/send/{email}/{token}
+    defaults: { _controller: semappsBundle:Administration:sendInvite }
+deleteInvite:
+    path:     /invite/delete/{email}
+    defaults: { _controller: semappsBundle:Administration:deleteInvite }

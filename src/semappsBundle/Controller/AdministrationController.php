@@ -187,8 +187,7 @@ class AdministrationController extends Controller
 
             /** @var \semappsBundle\Services\InviteManager $inviteManager */
             $inviteManager = $this->container->get('semappsBundle.invitemanager');
-            /** @var Mailer $mailer */
-            $mailer = $this->container->get('semappsBundle.EventListener.SendMail');
+
             $email = $form->get('email')->getData();
 
             $user = $userRepository->findOneBy(['email' => $email]);
@@ -199,16 +198,8 @@ class AdministrationController extends Controller
 
             $token= $inviteManager->newInvite($email);
 
-            $website = $this->getParameter('carto.domain');
-            $url = "http://".$website.'/register/'.$token;
-            $sujet = "[".$website."] Vous avez reçu une invitation !";
-            $content= "Bonjour ".$email." !<br><br> 
-                        L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
-                        Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br>
-                        Si le lien ne fonctionne pas, veuillez copier-coller ce lien dans un navigateur : <br>".$url."<br><br>
-                        <br>
-                        A très bientôt :-)";
-            $mailer->sendMessage($email,$sujet,$content);
+            $this->sendEmailInvitation($email,$token);
+
             $this->addFlash('success', "Email envoyé à l'adresse <b>" . $email . "</b> !");
         }
         return $this->render(
@@ -219,4 +210,32 @@ class AdministrationController extends Controller
         );
     }
 
+    public function sendInviteAction($email,$token){
+        $this->sendEmailInvitation($email,$token);
+        $this->addFlash('success', "Email envoyé à l'adresse <b>" . $email . "</b> !");
+        return $this->redirectToRoute('userList');
+    }
+
+    public function deleteInviteAction($email){
+        /** @var \semappsBundle\Services\InviteManager $inviteManager */
+        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+        $inviteManager->removeInvite($email);
+        return $this->redirectToRoute('userList');
+    }
+
+
+    private function sendEmailInvitation($email,$token){
+        /** @var Mailer $mailer */
+        $mailer = $this->container->get('semappsBundle.EventListener.SendMail');
+        $website = $this->getParameter('carto.domain');
+        $url = "http://".$website.'/register/'.$token;
+        $sujet = "[".$website."] Vous avez reçu une invitation !";
+        $content= "Bonjour ".$email." !<br><br> 
+                        L'utilisateur ".$this->getUser()->getEmail(). " vous a invité à vous créer un compte sur le site ".$website." !<br><br>
+                        Pour créer votre compte sur la plateforme, veuillez <a href='".$url."'>cliquer ici</a> <br>
+                        Si le lien ne fonctionne pas, veuillez copier-coller ce lien dans un navigateur : <br>".$url."<br><br>
+                        <br>
+                        A très bientôt :-)";
+        $mailer->sendMessage($email,$sujet,$content);
+    }
 }
