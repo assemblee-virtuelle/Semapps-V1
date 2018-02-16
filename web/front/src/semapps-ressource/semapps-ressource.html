@@ -31,6 +31,19 @@
               </template>
             </table>
           </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[wikipage]]">
+                <template is="dom-repeat" items="{{wikipage}}">
+                  <tr class="field">
+                    <td class="fieldLabel">external link</td>
+                    <td><a href="[[item.label]]" target="_blank">[[item.label]] </a>
+                    </td>
+                  </tr>
+                </template>
+              </template>
+            </table>
+          </div>
         </div>
         <template is="dom-if" if="[[detail.abstract]]">
           <div class="detail-description col col-sm-12">
@@ -41,6 +54,18 @@
         </template>
       </div>
       <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[subject.length]]">
+          <h3>test</h3>
+          <div>
+            <template is="dom-repeat" items="{{subject}}">
+              <a href="#" rel="{{item.uri}}"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+              <!--<semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.label}}" type="dbpedia"></semapps-tag>-->
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
         <template is="dom-if" if="[[skill.person]]">
           <h3>Compétence de</h3>
           <template is="dom-repeat" items="{{skill.person}}">

@@ -30,9 +30,6 @@ Polymer({
     },
     ressourceLoad (encodedUri,encodedUriPerson) {
         "use strict";
-        // log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-        // if (window.location.pathname.indexOf("ressource") !== -1)
-        //     semapps.myRoute = "ressource";
 
         if( semapps.myRoute === "ressource"){
             // Show spinner.
@@ -58,6 +55,10 @@ Polymer({
         this.skill = data.skill;
         this.title = data.name;
         this.detail = data.detail;
+        var myObjSubject = this.detail.subject;
+        var myObjWikipage = this.detail.wikipage;
+        this.subject = Object.keys(myObjSubject).map(function (key) { return {'uri': key, 'label' :myObjSubject[key] }; });
+        this.wikipage = Object.keys(myObjWikipage).map(function (key) { return { 'label' :myObjWikipage[key] }; });
         this.loading = false;
     },
     handleClickDetail(e) {
