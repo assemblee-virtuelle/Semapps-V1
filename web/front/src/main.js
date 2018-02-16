@@ -171,8 +171,8 @@
             let split = this.mainComponent.get('route.path').split('/');
             let isSearchPage = split.length >= 2 && (split[1] === 'rechercher' || split[1] === '');
             // We started on a search page.
-            if (isSearchPage && split[3]) {
-                this.domSearchTextInput.value = split[3];
+            if (isSearchPage && split[2]) {
+                this.domSearchTextInput.value = split[2];
             }
 
             // Ready callbacks.
