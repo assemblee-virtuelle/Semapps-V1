@@ -15,7 +15,7 @@ class OrganizationController extends AbstractMultipleComponentController
     public function addAction($componentName ="organization",$id = null,Request $request)
     {
         $uri = urldecode($id);
-        //voter
+        $componentConf = $this->getParameter($componentName.'Conf');
         /** @var SparqlRepository $sparqlRepository */
         $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
         if($uri)
@@ -73,6 +73,11 @@ class OrganizationController extends AbstractMultipleComponentController
                     );
                 }
 
+            }
+            if(!json_decode($form->get($componentConf['fields']['http://virtual-assembly.org/pair#hasResponsible']['value'])->getData())){
+                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT_DATA);
+                $sparql->addInsert('<'.$form->uri.'>','<http://virtual-assembly.org/pair#hasResponsible>','<'.$this->getUser()->getSfLink().'>','<'.$form->uri.'>');
+                $sfClient->update($sparql->getQuery());
             }
             if(!$newPictureName)
                 $this->addFlash(

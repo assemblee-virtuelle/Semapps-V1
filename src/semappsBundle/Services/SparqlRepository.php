@@ -9,6 +9,7 @@
 namespace semappsBundle\Services;
 
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 
@@ -16,11 +17,12 @@ class SparqlRepository extends SparqlClient
 {
     protected $sfClient;
     protected $confManager;
+    protected $token;
 
-    public function __construct(SemanticFormsClient $sfClient,confManager $confManager){
+    public function __construct(SemanticFormsClient $sfClient,confManager $confManager,TokenStorage $token){
         $this->sfClient = $sfClient;
         $this->confManager = $confManager;
-
+        $this->token = $token;
     }
     public function changeImage($graph,$uri,$newImage){
         $sparql = $this->newQuery(self::SPARQL_DELETE);
@@ -156,32 +158,72 @@ class SparqlRepository extends SparqlClient
         $sparql = $this->newQuery($this::SPARQL_SELECT);
         $graphURI =($graphURI)? $sparql->formatValue($graphURI,$sparql::VALUE_TYPE_URL):" ?GR ";
         $componentType = $sparql->formatValue($componentConf['type'],$sparql::VALUE_TYPE_URL);
-
-        $sparql->addPrefixes($sparql->prefixes)
-            ->addSelect('?URI')
-            ->addWhere('?URI','rdf:type',$componentType,$graphURI);
-        foreach ($componentConf['label'] as $field ){
-            $label = $componentConf['fields'][$field]['value'];
-            $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
-            $sparql->addSelect('?'.$label)
-                ->addWhere('?URI',$fieldFormatted,'?'.$label,$graphURI);
-        }
-
-        $results = $this->sfClient->sparql($sparql->getQuery());
-
         $listContent = [];
-        if (isset($results["results"]["bindings"])) {
-            foreach ($results["results"]["bindings"] as $item) {
-                $title = '';
+        if(array_key_exists('access',$componentConf) && array_key_exists('write',$componentConf['access']) ){
+            $sparqlForList = $this->newQuery($this::SPARQL_SELECT);
+            $sparqlForList->addSelect('?URI');
+            $sparqlForList->addWhere('?URI','<'.$componentConf['access']['write'].'>','<'.$this->token->getToken()->getUser()->getSfLink().'>',$graphURI);
+            $results = $this->sfClient->sparql($sparqlForList->getQuery());
+            $arrayUri= [];
+            if (isset($results["results"]["bindings"])) {
+                foreach ($results["results"]["bindings"] as $item) {
+                    $arrayUri[] = $item['URI']['value'];
+                }
+            }
+            foreach ($arrayUri as $uri){
+                $sparql = $this->newQuery($this::SPARQL_SELECT);
+
+                /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
+                $sparql->addPrefixes($sparql->prefixes);
+                $sparql->addWhere('<'.$uri.'>','rdf:type',$componentType,$graphURI);
+
                 foreach ($componentConf['label'] as $field ){
                     $label = $componentConf['fields'][$field]['value'];
-                    $title .= $item[$label]['value'] .' ';
+                    $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
+                    $sparql->addSelect('?'.$label)
+                        ->addWhere('<'.$uri.'>',$fieldFormatted,'?'.$label,$graphURI);
                 }
-                $listContent[] = [
-                    'uri'   => $item['URI']['value'],
-                    'title' => $title,
-                ];
+                $results = $this->sfClient->sparql($sparql->getQuery());
+                if (isset($results["results"]["bindings"])) {
+                    foreach ($results["results"]["bindings"] as $item) {
+                        $title = '';
+                        foreach ($componentConf['label'] as $field ){
+                            $label = $componentConf['fields'][$field]['value'];
+                            $title .= $item[$label]['value'] .' ';
+                        }
+                        $listContent[] = [
+                            'uri'   => $uri,
+                            'title' => $title,
+                            'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
+                        ];
+                    }
+                }
+            }
 
+        }else{
+            $sparql->addPrefixes($sparql->prefixes)
+                ->addSelect('?URI')
+                ->addWhere('?URI','rdf:type',$componentType,$graphURI);
+            foreach ($componentConf['label'] as $field ){
+                $label = $componentConf['fields'][$field]['value'];
+                $fieldFormatted = $sparql->formatValue($field,$sparql::VALUE_TYPE_URL);
+                $sparql->addSelect('?'.$label)
+                    ->addWhere('?URI',$fieldFormatted,'?'.$label,$graphURI);
+            }
+            $results = $this->sfClient->sparql($sparql->getQuery());
+            if (isset($results["results"]["bindings"])) {
+                foreach ($results["results"]["bindings"] as $item) {
+                    $title = '';
+                    foreach ($componentConf['label'] as $field ){
+                        $label = $componentConf['fields'][$field]['value'];
+                        $title .= $item[$label]['value'] .' ';
+                    }
+                    $listContent[] = [
+                        'uri'   => $item['URI']['value'],
+                        'title' => $title,
+                        'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
+                    ];
+                }
             }
         }
         return $listContent;

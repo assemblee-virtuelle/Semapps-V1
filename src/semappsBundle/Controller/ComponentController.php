@@ -7,6 +7,7 @@ use semappsBundle\Services\contextManager;
 use semappsBundle\Services\ImportManager;
 use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
+use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class ComponentController extends AbstractMultipleComponentController
 {
@@ -20,8 +21,10 @@ class ComponentController extends AbstractMultipleComponentController
         else
             $this->setSfLink(urldecode($request->get('uri')));
         $graphURI			= $this->getGraph();
+        /** @var SemanticFormsClient $sfClient */
         $sfClient       = $this->container->get('semantic_forms.client');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
+        $componentConf = $this->getParameter($componentName.'Conf');
 
         // Remove old picture.
         $fileUploader = $this->get('semappsBundle.fileUploader');
@@ -63,6 +66,12 @@ class ComponentController extends AbstractMultipleComponentController
                         'componentForm', ["componentName" => $componentName, "uri" => $form->uri]
                     );
                 }
+            }
+            if(!json_decode($form->get($componentConf['fields'][$componentConf["access"]['write']]['value'])->getData())){
+                $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT_DATA);
+                $sparql->addInsert('<'.$form->uri.'>','<'.$componentConf["access"]['write'].'>','<'.$this->getUser()->getSfLink().'>','<'.$graphURI.'>');
+                $sfClient->update($sparql->getQuery());
+
             }
             $this->addFlash('success', 'Le contenu a bien été mis à jour.');
             return $this->redirectToRoute(
@@ -170,6 +179,7 @@ class ComponentController extends AbstractMultipleComponentController
         /** @var SparqlRepository $sparqlrepository */
         $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
         $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,$graphURI);
+//        $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,null);
         return $listOfContent;
     }
     public function removeComponent($uri){

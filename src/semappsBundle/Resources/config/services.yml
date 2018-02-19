@@ -10,7 +10,7 @@ services:
 
     semappsBundle.sparqlRepository:
         class: semappsBundle\Services\SparqlRepository
-        arguments: ['@semantic_forms.client',"@semappsBundle.confmanager"]
+        arguments: ['@semantic_forms.client',"@semappsBundle.confmanager","@security.token_storage"]
 
     semappsBundle.webserviceTools:
         class: semappsBundle\Services\WebserviceTools

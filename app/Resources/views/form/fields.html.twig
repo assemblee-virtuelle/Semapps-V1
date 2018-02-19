@@ -1,7 +1,7 @@
 <!-- TODO Integrate this template into SF bundle -->
 
 {% block db_pedia_widget %}
-    <div class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="http://lookup.dbpedia.org/api/search.asmx/PrefixSearch">
+    <div id="{{ id }}" class="select2-tags" data-sf-type="dbPedia" data-sf-lookup="http://lookup.dbpedia.org/api/search.asmx/PrefixSearch">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block adresse_widget %}
-    <div class="select2-tags" data-sf-type="adresse" data-sf-lookup="https://api-adresse.data.gouv.fr/search/">
+    <div id="{{ id }}" class="select2-tags" data-sf-type="adresse" data-sf-lookup="https://api-adresse.data.gouv.fr/search/">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>
@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block multiple_widget %}
-    <div class="select2-tags" data-sf-type="multiple" data-sf-lookup="https://api-adresse.data.gouv.fr/search/" >
+    <div id="{{ id }}" class="select2-tags" data-sf-type="multiple" data-sf-lookup="https://api-adresse.data.gouv.fr/search/" >
         <div class="tags"></div>
         <select class="tags-selector" multiple="multiple" >
         </select>
@@ -29,7 +29,7 @@
 
 {% block uri_widget %}
 
-    <div class="select2-tags" data-sf-type="uri" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}">
+    <div id="{{ id }}" class="select2-tags" data-sf-type="uri" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>
@@ -38,7 +38,7 @@
 {% endblock %}
 {% block thesaurus_widget %}
 
-    <div class="select2-tags" data-sf-type="thesaurus" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}" data-sf-graphuri="{{ graphUri }}">
+    <div id="{{ id }}" class="select2-tags" data-sf-type="thesaurus" data-sf-lookup="{{ path('webserviceFieldUriSearch') }}" data-sf-label="{{ path('webserviceFieldUriLabel') }}" data-sf-rdfType="{{ rdfType }}" data-sf-graphuri="{{ graphUri }}">
         <div class="tags"></div>
         <select class="tags-selector">
         </select>

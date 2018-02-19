@@ -89,3 +89,5 @@ parameters:
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
+      access:
+        write: 'http://virtual-assembly.org/pair#organizedBy'
