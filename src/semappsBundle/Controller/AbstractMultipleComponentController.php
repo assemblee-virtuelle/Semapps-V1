@@ -13,7 +13,6 @@ abstract class AbstractMultipleComponentController extends AbstractComponentCont
     public function listAction($componentName,Request $request)
     {
         $bundleName = $this->getBundleNameFromRequest($request);
-//        $componentList = $this->getParameter('semantic_forms.component');
         $componentConf = $this->getParameter($componentName.'Conf');
 
         if(array_key_exists('graphuri',$componentConf) && $componentConf['graphuri'] != null)

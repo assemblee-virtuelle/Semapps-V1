@@ -18,8 +18,7 @@ abstract class UniqueComponentController extends AbstractComponentController
 
     public function getSfPassword($id = null)
     {
-        /** @var \semappsBundle\Services\Encryption $encryption */
-        $encryption = $this->container->get('semappsBundle.encryption');
+        $encryption = $this->get('semapps_bundle.encryption');
         return $encryption->decrypt($this->getUser()->getSfUser());
     }
 

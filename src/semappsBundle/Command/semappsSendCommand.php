@@ -2,7 +2,6 @@
 
 namespace semappsBundle\Command;
 
-use semappsBundle\semappsConfig;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -78,14 +77,13 @@ class semappsSendCommand extends ContainerAwareCommand
         $email  = (!$input->getArgument('email')) ? null : $input->getArgument('email');
         $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         $mailer = $this->getContainer()->get(
-            'semappsBundle.EventListener.SendMail'
+            'semapps_bundle.event_listener.send_mail'
         );
 
         $userRepository         = $em->getRepository('semappsBundle:User');
 
         /** @var \semappsBundle\Entity\User $user */
         $user = $userRepository->find($id);
-        /** @var \semappsBundle\Entity\Organization $organisation */
 
         $url = $this->getContainer()->get('router')->generate(
             'fos_user_registration_confirm',

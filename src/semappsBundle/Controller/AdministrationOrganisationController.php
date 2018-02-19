@@ -2,8 +2,6 @@
 
 namespace semappsBundle\Controller;
 
-use semappsBundle\semappsConfig;
-use semappsBundle\Services\SparqlRepository;
 use SimpleExcel\SimpleExcel;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -11,8 +9,7 @@ class AdministrationOrganisationController extends Controller
 {
 
     public function completeOragizationListAction(){
-        /** @var SparqlRepository $sparqlrepository */
-        $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
+        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
         $organisationConf = $this->getParameter('organizationConf');
         $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
 
@@ -25,10 +22,8 @@ class AdministrationOrganisationController extends Controller
     }
 
     public function removeOrganizationAction($uriOrganization){
-        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
+        $sfClient = $this->get('semantic_forms.client');
+        $sparqlClient   = $this->get('sparqlbundle.client');
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
         $sparqlDeux = clone $sparql;
@@ -47,13 +42,12 @@ class AdministrationOrganisationController extends Controller
 
     public function orgaExportAction()
     {
-        /** @var SparqlRepository $sparqlrepository */
-        $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
+        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
         $organisationConf = $this->getParameter('organizationConf');
         $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
 
         $lines              = [];
-        $sfClient           = $this->container->get('semantic_forms.client');
+        $sfClient           = $this->get('semantic_forms.client');
         $columns            = [];
 
         foreach ($listOfContent as $content) {

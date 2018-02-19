@@ -9,10 +9,6 @@
 namespace semappsBundle\Controller;
 
 
-//use semappsBundle\Form\ImportType;
-use semappsBundle\Services\contextManager;
-//use semappsBundle\Services\ImportManager;
-use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class ThesaurusController extends AbstractMultipleComponentController
@@ -20,9 +16,8 @@ class ThesaurusController extends AbstractMultipleComponentController
 
     public function addAction($componentName,Request $request)
     {
-        /** @var SparqlRepository $sparqlRepository */
         $this->setSfLink(urldecode($request->get('uri')));
-        $sfClient       = $this->container->get('semantic_forms.client');
+        $sfClient       = $this->get('semantic_forms.client');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -44,8 +39,7 @@ class ThesaurusController extends AbstractMultipleComponentController
 
     function getGraph($id = null)
     {
-        /** @var contextManager $contextManager */
-        $contextManager = $this->container->get("semappsBundle.contextManager");
+        $contextManager = $this->get("semapps_bundle.context_manager");
         return $contextManager->getContext($this->getUser()->getSfLink())['context'];
     }
 
@@ -56,22 +50,18 @@ class ThesaurusController extends AbstractMultipleComponentController
 
     function getSfPassword($id = null)
     {
-        /** @var \semappsBundle\Services\Encryption $encryption */
-        $encryption 	= $this->container->get('semappsBundle.encryption');
+        $encryption 	= $this->get('semapps_bundle.encryption');
         return $encryption->decrypt($this->getUser()->getSfUser());
     }
     public function componentList($componentConf, $graphURI)
     {
-        /** @var SparqlRepository $sparqlrepository */
-        $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
+        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
         $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,$graphURI);
         return $listOfContent;
     }
     public function removeComponent($uri){
-        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
+        $sfClient = $this->get('semantic_forms.client');
+        $sparqlClient   = $this->get('sparqlbundle.client');
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
         $sparqlDeux = clone $sparql;

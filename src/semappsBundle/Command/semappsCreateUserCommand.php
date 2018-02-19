@@ -2,9 +2,7 @@
 
 namespace semappsBundle\Command;
 
-use semappsBundle\Entity\Organization;
 use semappsBundle\Entity\User;
-use semappsBundle\semappsConfig;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,11 +18,7 @@ class semappsCreateUserCommand extends ContainerAwareCommand
         $this
             ->setName('semapps:create:user')
             ->setDescription('Adding a user')
-//            ->addArgument(
-//                'orgaId',
-//                InputArgument::REQUIRED,
-//                'id of the organization'
-//            )
+
             ->addArgument(
                 'username',
                 InputArgument::REQUIRED,
@@ -88,10 +82,10 @@ class semappsCreateUserCommand extends ContainerAwareCommand
         $em     = $this->getContainer()->get('doctrine.orm.entity_manager');
         $token  = $this->getContainer()->get('fos_user.util.token_generator');
         $mailer = $this->getContainer()->get(
-            'semappsBundle.EventListener.SendMail'
+            'semapps_bundle.event_listener.send_mail'
         );
         /** @var \semappsBundle\Services\Encryption $encryption */
-        $encryption = $this->getContainer()->get('semappsBundle.encryption');
+        $encryption = $this->getContainer()->get('semapps_bundle.encryption');
         $user         = new User();
 
         $username         = $input->getArgument('username');
@@ -110,7 +104,6 @@ class semappsCreateUserCommand extends ContainerAwareCommand
             )
         ); // <-- finish
 
-        /** @var \semappsBundle\Entity\Organization $organization */
         $user->setUsername($username);
         $user->setEmail($email);
         $user->setRoles($role);

@@ -6,8 +6,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use semappsBundle\Form\RegisterType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
-use semappsBundle\Services\contextManager;
-use semappsBundle\Services\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,10 +17,8 @@ class AdministrationController extends Controller
 
     public function registerAction(Request $request,$token)
     {
-        /** @var \semappsBundle\Services\Encryption $encryption */
-        $encryption = $this->container->get('semappsBundle.encryption');
-        /** @var \semappsBundle\Services\InviteManager $inviteManager */
-        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+        $encryption = $this->get('semapps_bundle.encryption');
+        $inviteManager = $this->get('semapps_bundle.invite_manager');
 
 
         if($this->getUser()) {
@@ -164,8 +160,7 @@ class AdministrationController extends Controller
     }
 
     public function changeContextAction($context =null){
-        /** @var contextManager $contextManager */
-        $contextManager = $this->container->get('semappsBundle.contextManager');
+        $contextManager = $this->get('semapps_bundle.context_manager');
         $contextManager->setContext($this->getUser()->getSfLink(),urldecode($context));
         $this->addFlash('success',"Le contexte a bien été changé");
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
@@ -185,8 +180,7 @@ class AdministrationController extends Controller
                 ->getManager()
                 ->getRepository('semappsBundle:User');
 
-            /** @var \semappsBundle\Services\InviteManager $inviteManager */
-            $inviteManager = $this->container->get('semappsBundle.invitemanager');
+            $inviteManager = $this->get('semapps_bundle.invite_manager');
 
             $email = $form->get('email')->getData();
 
@@ -217,16 +211,14 @@ class AdministrationController extends Controller
     }
 
     public function deleteInviteAction($email){
-        /** @var \semappsBundle\Services\InviteManager $inviteManager */
-        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+        $inviteManager = $this->get('semapps_bundle.invite_manager');
         $inviteManager->removeInvite($email);
         return $this->redirectToRoute('userList');
     }
 
 
     private function sendEmailInvitation($email,$token){
-        /** @var Mailer $mailer */
-        $mailer = $this->container->get('semappsBundle.EventListener.SendMail');
+        $mailer = $this->get('semapps_bundle.event_listener.send_mail');
         $website = $this->getParameter('carto.domain');
         $url = "http://".$website.'/register/'.$token;
         $sujet = "[".$website."] Vous avez reçu une invitation !";

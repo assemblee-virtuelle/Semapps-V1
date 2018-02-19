@@ -3,7 +3,6 @@
 namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use FOS\UserBundle\Util\TokenGenerator;
 use semappsBundle\Entity\User;
 use semappsBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,11 +34,9 @@ class AdministrationUserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // Get posted data of type user
             $newUser = $form->getData();
-            /** @var \semappsBundle\Services\Encryption $encryption */
-            $encryption = $this->container->get('semappsBundle.encryption');
+            $encryption = $this->get('semapps_bundle.encryption');
             // Generate password.
-            /** @var TokenGenerator $tokenGenerator */
-            $tokenGenerator = $this->container->get(
+            $tokenGenerator = $this->get(
                 'fos_user.util.token_generator'
             );
             $randomPassword = substr($tokenGenerator->generateToken(), 0, 12);
@@ -55,7 +52,6 @@ class AdministrationUserController extends Controller
 
             //Set the roles
             $newUser->addRole($form->get('access')->getData());
-            //$newUser->setFkOrganisation($form->get('organisation')->getData()->getId());
             // Save it.
             $em = $this->getDoctrine()->getManager();
             $em->persist($newUser);
@@ -82,17 +78,16 @@ class AdministrationUserController extends Controller
                 $tabUserEnabled[$user->getId()]["username"] = $user->getUsername();
                 $tabUserEnabled[$user->getId()]["email"] = $user->getEmail();
                 $tabUserEnabled[$user->getId()]["lastLogin"] = $user->getLastLogin();
-                $tabUserEnabled[$user->getId()]["organization"] = null;//($organization)? $organization->getName():null;
+                $tabUserEnabled[$user->getId()]["organization"] = null;
             } else {
                 $tabUserDisabled[$user->getId()]["username"] = $user->getUsername();
                 $tabUserDisabled[$user->getId()]["email"] = $user->getEmail();
-                $tabUserDisabled[$user->getId()]["organization"] = null;//($organization)? $organization->getName():null;
-                $tabUserDisabled[$user->getId()]["isResponsible"] = null; // ($organization && $organization->getFkResponsable() == $user->getId())? true:false;
+                $tabUserDisabled[$user->getId()]["organization"] = null;
+                $tabUserDisabled[$user->getId()]["isResponsible"] = null;
             }
 
         }
-        /** @var \semappsBundle\Services\InviteManager $inviteManager */
-        $inviteManager = $this->container->get('semappsBundle.invitemanager');
+        $inviteManager = $this->get('semapps_bundle.invite_manager');
 
 
         return $this->render(
@@ -126,9 +121,9 @@ class AdministrationUserController extends Controller
             UrlGeneratorInterface::ABSOLUTE_URL
         );
         //send email to the new user
-        $mailer = $this->get('semappsBundle.EventListener.SendMail');
+        $mailer = $this->get('semapps_bundle.event_listener.send_mail');
         $result = $mailer->sendConfirmMessage(
-            $mailer::TYPE_USER,//($organisation != null && $user->getId() == $organisation->getFkResponsable()) ? $mailer::TYPE_RESPONSIBLE : $mailer::TYPE_USER,
+            $mailer::TYPE_USER,
             $user,
             $url
         );
@@ -150,13 +145,10 @@ class AdministrationUserController extends Controller
 
         $uri = $user->getSfLink();
         if($uri){
-            /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-            $sfClient = $this->container->get('semantic_forms.client');
-            /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-            $sparqlClient   = $this->container->get('sparqlbundle.client');
+            $sfClient = $this->get('semantic_forms.client');
+            $sparqlClient   = $this->get('sparqlbundle.client');
 
             $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-//            $sparqlDeux = clone $sparql;
 
             $uri = $sparql->formatValue($uri,$sparql::VALUE_TYPE_URL);
 
@@ -165,7 +157,6 @@ class AdministrationUserController extends Controller
                 ->addWhere('?S','?P','?O',$uri);
 
             $sfClient->update($sparql->getQuery());
-//            $sfClient->update($sparqlDeux->getQuery());
         }
         $em->remove($user);
         try{

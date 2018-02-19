@@ -47,7 +47,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         special_alert: "%special_alert%"
-        context_manager: '@semappsBundle.contextManager'
+        context_manager: '@semapps_bundle.context_manager'
         sf_domain: "%semantic_forms.domain%"
     form_themes:
         - 'form/fields.html.twig'

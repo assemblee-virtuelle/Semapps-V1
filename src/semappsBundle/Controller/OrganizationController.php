@@ -3,9 +3,6 @@
 namespace semappsBundle\Controller;
 
 use semappsBundle\Form\ImportType;
-use semappsBundle\Services\contextManager;
-use semappsBundle\Services\ImportManager;
-use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\HttpFoundation\Request;
 
 class OrganizationController extends AbstractMultipleComponentController
@@ -16,21 +13,19 @@ class OrganizationController extends AbstractMultipleComponentController
     {
         $uri = urldecode($id);
         $componentConf = $this->getParameter($componentName.'Conf');
-        /** @var SparqlRepository $sparqlRepository */
-        $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
+        $sparqlRepository   = $this->get('semapps_bundle.sparql_repository');
         if($uri)
             $this->setSfLink($uri);
         $graphURI			= $this->getGraph();
-        $sfClient       = $this->container->get('semantic_forms.client');
-        /** @var contextManager $contextManager */
-        $contextManager       = $this->container->get('semappsBundle.contextManager');
+        $sfClient       = $this->get('semantic_forms.client');
+        $contextManager       = $this->get('semapps_bundle.context_manager');
         $form 				= $this->getSfForm($sfClient,$componentName, $request);
         if($uri && !$contextManager->actualizeContext($this->getUser()->getSfLink())){
             return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' => 'person']);
         }
 
         // Remove old picture.
-        $fileUploader = $this->get('semappsBundle.fileUploader');
+        $fileUploader = $this->get('semapps_bundle.file_uploader');
         $pictureDir = $fileUploader->getTargetDir();
         //actualPicture
         $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
@@ -93,8 +88,7 @@ class OrganizationController extends AbstractMultipleComponentController
         if(!$this->getSfLink()){
             $importForm = $this->createForm(ImportType::class, null);
             $importForm->handleRequest($request);
-            /** @var ImportManager $importManager */
-            $importManager = $this->container->get('semappsBundle.importmanager');
+            $importManager = $this->get('semapps_bundle.import_manager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
 
@@ -156,9 +150,8 @@ class OrganizationController extends AbstractMultipleComponentController
 
     public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $uri = urldecode($id);
-        $sfClient =$this->container->get('semantic_forms.client');
-        /** @var ImportManager $importManager */
-        $importManager = $this->container->get('semappsBundle.importmanager');
+        $sfClient =$this->get('semantic_forms.client');
+        $importManager = $this->get('semapps_bundle.import_manager');
         if( $uri ){
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$uri );
@@ -192,23 +185,19 @@ class OrganizationController extends AbstractMultipleComponentController
 
     public function getSfPassword($id = null)
     {
-        /** @var \semappsBundle\Services\Encryption $encryption */
-        $encryption 	= $this->container->get('semappsBundle.encryption');
+        $encryption 	= $this->get('semapps_bundle.encryption');
         return $encryption->decrypt($this->getUser()->getSfUser());
     }
 
     public function componentList($componentConf, $graphURI)
     {
-        /** @var SparqlRepository $sparqlrepository */
-        $sparqlrepository = $this->container->get('semappsBundle.sparqlRepository');
+        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
         $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,$graphURI);
         return $listOfContent;
     }
     public function removeComponent($uri){
-        /** @var  $sfClient \VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient  */
-        $sfClient = $this->container->get('semantic_forms.client');
-        /** @var \VirtualAssembly\SparqlBundle\Services\SparqlClient $sparqlClient */
-        $sparqlClient   = $this->container->get('sparqlbundle.client');
+        $sfClient = $this->get('semantic_forms.client');
+        $sparqlClient   = $this->get('sparqlbundle.client');
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
         $sparqlDeux = clone $sparql;

@@ -4,11 +4,8 @@ namespace semappsBundle\Controller;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use semappsBundle\Form\ImportType;
-use semappsBundle\Services\ImportManager;
-use semappsBundle\Services\SparqlRepository;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
-use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 
 class PersonController extends UniqueComponentController
 {
@@ -20,15 +17,11 @@ class PersonController extends UniqueComponentController
 
     public function addAction($uniqueComponentName,$id =null,Request $request)
     {
-        /** @var SemanticFormsClient $sfClient */
-        $sfClient       = $this->container->get('semantic_forms.client');
-        /** @var $user \semappsBundle\Entity\User */
+        $sfClient       = $this->get('semantic_forms.client');
         $user           = $this->getElement($id);
         $userSfLink     = $user->getSfLink();
-        /** @var SparqlRepository $sparqlRepository */
-        $sparqlRepository   = $this->container->get('semappsBundle.sparqlRepository');
-        /** @var \semappsBundle\Services\contextManager $contextManager */
-        $contextManager   = $this->container->get('semappsBundle.contextManager');
+        $sparqlRepository   = $this->get('semapps_bundle.sparql_repository');
+        $contextManager   = $this->get('semapps_bundle.context_manager');
 
         $userRepository = $this
             ->getDoctrine()
@@ -50,7 +43,7 @@ class PersonController extends UniqueComponentController
             $newPicture = $form->get('pictureName')->getData();
             if ($newPicture) {
                 // Remove old picture.
-                $fileUploader = $this->get('semappsBundle.fileUploader');
+                $fileUploader = $this->get('semapps_bundle.file_uploader');
                 if ($oldPictureName) {
                     $dir = $fileUploader->getTargetDir();
                     // Check if file exists to avoid all errors.
@@ -93,8 +86,7 @@ class PersonController extends UniqueComponentController
         if(!$userSfLink){
             $importForm = $this->createForm(ImportType::class, null);
             $importForm->handleRequest($request);
-            /** @var ImportManager $importManager */
-            $importManager = $this->container->get('semappsBundle.importmanager');
+            $importManager = $this->get('semapps_bundle.import_manager');
             if ($importForm->isSubmitted() && $importForm->isValid()) {
                 $uri = $importForm->get('import')->getData();
                 $result = $userRepository->findOneBy(['sfLink' =>$uri]);
@@ -143,9 +135,8 @@ class PersonController extends UniqueComponentController
 
     public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $user = $this->getElement($id);
-        $sfClient =$this->container->get('semantic_forms.client');
-        /** @var ImportManager $importManager */
-        $importManager = $this->container->get('semappsBundle.importmanager');
+        $sfClient =$this->get('semantic_forms.client');
+        $importManager = $this->get('semapps_bundle.import_manager');
         if($user->getSfLink() ){
             $componentConf = $this->getParameter($uniqueComponentName.'Conf');
             $testForm = $this->getSfForm($sfClient,$uniqueComponentName, $request,$id );
@@ -165,8 +156,7 @@ class PersonController extends UniqueComponentController
     public function removeAction($uniqueComponentName, $id =null){
         $user = $this->getElement($id);
 
-        /** @var \semappsBundle\Services\ImportManager $importManager */
-        $importManager = $this->container->get('semappsBundle.importmanager');
+        $importManager = $this->get('semapps_bundle.import_manager');
         if($user->getSfLink()){
             $importManager->removeUri($user->getSfLink());
             $user->setSfLink(null);

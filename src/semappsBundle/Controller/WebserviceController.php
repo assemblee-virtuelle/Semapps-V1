@@ -19,8 +19,8 @@ class WebserviceController extends Controller
     {
         $cache = new FilesystemAdapter();
         $parameters = $cache->getItem('gv.webservice.parameters');
-        $webserviceTools       = $this->get('semappsBundle.webserviceTools');
-        $contextManager        = $this->get('semappsbundle.contextmanager');
+        $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
+        $contextManager        = $this->get('semapps_bundle.context_manager');
         $thematicConf        = $this->getParameter('thematicConf');
         //if (!$parameters->isHit()) {
         /** @var User $user */
@@ -78,7 +78,7 @@ class WebserviceController extends Controller
 
     public function searchAction(Request $request)
     {
-        $webserviceTools       = $this->get('semappsBundle.webserviceTools');
+        $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
 
         // Search
         return new JsonResponse(
@@ -95,7 +95,7 @@ class WebserviceController extends Controller
 
     public function fieldUriSearchAction(Request $request)
     {
-        $webserviceTools       = $this->get('semappsBundle.webserviceTools');
+        $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
         $output = [];
         // Get results.
         $results = $webserviceTools->searchSparqlRequest($request->get('QueryString'),$request->get('rdfType'),null,false, $request->get('graphUri'));
@@ -111,7 +111,7 @@ class WebserviceController extends Controller
 
     public function fieldUriLabelAction(Request $request)
     {
-        $webserviceTools       = $this->get('semappsBundle.webserviceTools');
+        $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
 
         $label = $webserviceTools->sparqlGetLabel(
             $request->get('uri'),
@@ -130,7 +130,7 @@ class WebserviceController extends Controller
      */
     public function detailAction(Request $request)
     {
-        $webserviceTools       = $this->get('semappsBundle.webserviceTools');
+        $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
         return new JsonResponse(
             (object)[
                 'detail' => $webserviceTools->requestPair($request->get('uri')),
@@ -140,8 +140,8 @@ class WebserviceController extends Controller
 
     public function ressourceAction(Request $request){
         $uri                = $request->get('uri');
-        $sfClient           = $this->container->get('semantic_forms.client');
-        $confManager           = $this->container->get('semappsBundle.confmanager');
+        $sfClient           = $this->get('semantic_forms.client');
+        $confManager           = $this->get('semapps_bundle.conf_manager');
         $dbpediaConf		= $this->getParameter('dbpediaConf');
         $ressource      = $sfClient->dbPediaDetail($dbpediaConf,$uri,$request->getLanguages()[0]);
         $sparqlClient = new SparqlClient();
@@ -210,7 +210,7 @@ class WebserviceController extends Controller
     }
 
     public function changeContextAction($id){
-        $contextManager        = $this->get('semappsbundle.contextmanager');
+        $contextManager        = $this->get('semapps_bundle.context_manager');
 
         $contextManager->setContext($this->getUser()->getSfLink(),urldecode($id));
 

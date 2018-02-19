@@ -7,12 +7,12 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    semappsBundle.EventListener.ConfirmRegistration:
+    semapps_bundle.event_listener.confirm_registration:
         class: semappsBundle\EventListener\ConfirmRegistrationListener
-        arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager","@semantic_forms.client",'@semappsBundle.encryption']
+        arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager","@semantic_forms.client",'@semapps_bundle.encryption']
         tags:
             - { name: kernel.event_subscriber }
 
-    semappsBundle.EventListener.SendMail:
+    semapps_bundle.event_listener.send_mail:
         class: semappsBundle\Services\Mailer
-        arguments: ["@swiftmailer.mailer.default.transport.real", "%mailer_user%","@templating",'@semappsBundle.encryption',"%carto.domain%"]
+        arguments: ["@swiftmailer.mailer.default.transport.real", "%mailer_user%","@templating",'@semapps_bundle.encryption',"%carto.domain%"]
