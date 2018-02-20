@@ -106,7 +106,7 @@ class WebserviceTools
             if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
             $personSparql->groupBy('?firstName ?lastName');
             $results = $this->sfClient->sparql($personSparql->getQuery());
-            $persons = $this->sfClient->sparqlResultsValues($results, 'uri');
+            $persons = $this->sfClient->sparqlResultsValues($results);
 
         }
         $projects = [];

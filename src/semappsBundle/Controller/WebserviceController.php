@@ -88,7 +88,6 @@ class WebserviceController extends Controller
             ,$request->get('filter'),
             true
         );
-
         $confTemp = [];
         foreach ($resultsTemp as $uri=> $item){
             $uri = $item['uri'];
@@ -102,12 +101,27 @@ class WebserviceController extends Controller
                     $sparql->addSelect('?GR');
                     $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['read'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
                     $sparqlresult = $sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery()));
+
+                    $graphs = array_keys($sparqlRepository->getAllowedGraphOfCurrentUser($this->getUser()->getSfLink()));
+
+                    foreach ($graphs as $graph){
+                        $sparqlForList = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                        $sparqlForList->addSelect('?GR');
+                        $sparqlForList->addWhere('<'.$uri.'>','<'.$conf['access']['read'].'>','<'.$graph.'>','?GR');
+                        $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
+
+                    }
                     if(array_key_exists('write',$conf['access'])){
                         $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
                         $sparql->addSelect('?GR');
                         $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['write'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
                         $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
-
+                        foreach ($graphs as $graph){
+                            $sparqlForList = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                            $sparqlForList->addSelect('?GR');
+                            $sparqlForList->addWhere('<'.$uri.'>','<'.$conf['access']['write'].'>','<'.$graph.'>','?GR');
+                            $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
+                        }
                     }
                     if(empty($sparqlresult)){
                         unset($results[$uri]);
@@ -115,6 +129,8 @@ class WebserviceController extends Controller
                 }
             }
         }
+//        exit;
+        dump($results);
         // Search
         return new JsonResponse(
             (object)[
