@@ -106,3 +106,4 @@ parameters:
         - http://virtual-assembly.org/pair#preferedLabel
       access:
         write: 'http://virtual-assembly.org/pair#internal_document_author'
+        read: 'http://virtual-assembly.org/pair#internal_document_contributor'

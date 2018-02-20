@@ -79,16 +79,46 @@ class WebserviceController extends Controller
     public function searchAction(Request $request)
     {
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
+        $confmanager       = $this->get('semapps_bundle.conf_manager');
+        $sfClient       = $this->get('semantic_forms.client');
+        $sparqlRepository = $this->get('semapps_bundle.sparql_repository');
+        $results = $resultsTemp = $webserviceTools->searchSparqlRequest(
+            $request->get('term'),
+            ''
+            ,$request->get('filter'),
+            true
+        );
 
+        $confTemp = [];
+        foreach ($resultsTemp as $uri=> $item){
+            $uri = $item['uri'];
+            $conf = (array_key_exists($item['type'],$confTemp))? $confTemp[$item['type']] : $confmanager->getConf($item['type'])['conf'] ;
+
+            if(array_key_exists('access', $conf) && array_key_exists('read',$conf['access'])){
+                if(!$this->getUser()){
+                    unset($results[$uri]);
+                }else{
+                    $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                    $sparql->addSelect('?GR');
+                    $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['read'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
+                    $sparqlresult = $sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery()));
+                    if(array_key_exists('write',$conf['access'])){
+                        $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
+                        $sparql->addSelect('?GR');
+                        $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['write'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
+                        $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
+
+                    }
+                    if(empty($sparqlresult)){
+                        unset($results[$uri]);
+                    }
+                }
+            }
+        }
         // Search
         return new JsonResponse(
             (object)[
-                'results' => $webserviceTools->searchSparqlRequest(
-                    $request->get('term'),
-                    ''
-                    ,$request->get('filter'),
-                    true
-                ),
+                'results' => array_values($results),
             ]
         );
     }

@@ -150,7 +150,7 @@ Polymer({
             for (let result of response.results) {
                 // Data is allowed.
                 if(semapps.entities[result.type]){
-                    log(result.type);
+                    // log(result.type);
                     typesCounter[result.type] = typesCounter[result.type] || 0;
                     typesCounter[result.type]++;
                     totalCounter++;
@@ -158,7 +158,7 @@ Polymer({
                     if (typeof resultTemps[result.type] === 'undefined')
                         resultTemps[result.type] = [];
                     resultTemps[result.type].push(result);
-                    log(resultTemps);
+                    // log(resultTemps);
                     if(result["address"]){
                         if( semapps.map.pins[result["uri"]] === undefined){
                             semapps.getAddressToCreatePoint(result["address"],result["title"],result["type"],result["uri"]);
@@ -169,6 +169,7 @@ Polymer({
                     }
                 }
             }
+
             // semapps.map.pinShowAll();
             if(typeof resultTemps[this.typeSelected] === 'undefined' ){
                 // Deselect tab if current.

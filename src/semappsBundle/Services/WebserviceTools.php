@@ -89,7 +89,7 @@ class WebserviceTools
             if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'")) ');
             //dump($orgaSparql->getQuery());
             $results = $this->sfClient->sparql($orgaSparql->getQuery());
-            $organizations = $this->sfClient->sparqlResultsValues($results);
+            $organizations = $this->sfClient->sparqlResultsValues($results, 'uri');
         }
         $persons = [];
         if($type == semappsConfig::Multiple || $typePerson ){
@@ -102,14 +102,11 @@ class WebserviceTools
                 ->addWhere('?uri','pair:firstName','?firstName','?GR')
                 ->addOptional('?uri','pair:image','?image','?GR')
                 ->addOptional('?uri','pair:comment','?desc','?GR')
-                ->addOptional('?uri','pair:lastName','?lastName','?GR')
-                ->addOptional('?org','rdf:type','pair:Organization','?GR');
-            //->addOptional('?org','pair:hostedIn','?building','?GR');
+                ->addOptional('?uri','pair:lastName','?lastName','?GR');
             if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
             $personSparql->groupBy('?firstName ?lastName');
-            //dump($personSparql->getQuery());exit;
             $results = $this->sfClient->sparql($personSparql->getQuery());
-            $persons = $this->sfClient->sparqlResultsValues($results);
+            $persons = $this->sfClient->sparqlResultsValues($results, 'uri');
 
         }
         $projects = [];
@@ -123,7 +120,7 @@ class WebserviceTools
             //->addOptional('?uri','pair:building','?building','?GR');
             if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
             $results = $this->sfClient->sparql($projectSparql->getQuery());
-            $projects = $this->sfClient->sparqlResultsValues($results);
+            $projects = $this->sfClient->sparqlResultsValues($results, 'uri');
 
         }
         $events = [];
@@ -144,7 +141,7 @@ class WebserviceTools
                 ->groupBy('?start')
                 ->groupBy('?end');
             $results = $this->sfClient->sparql($eventSparql->getQuery());
-            $events = $this->sfClient->sparqlResultsValues($results);
+            $events = $this->sfClient->sparqlResultsValues($results,'uri');
 
         }
         $propositions = [];
@@ -158,7 +155,7 @@ class WebserviceTools
             //$propositionSparql->addOptional('?uri','pair:building','?building','?GR');
             if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
             $results = $this->sfClient->sparql($propositionSparql->getQuery());
-            $propositions = $this->sfClient->sparqlResultsValues($results);
+            $propositions = $this->sfClient->sparqlResultsValues($results,'uri');
         }
         $documents = [];
         if((($type == semappsConfig::Multiple || $typeDocument) ) ){
@@ -170,7 +167,7 @@ class WebserviceTools
             //$documentSparql->addOptional('?uri','pair:building','?building','?GR');
             if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
             $results = $this->sfClient->sparql($documentSparql->getQuery());
-            $documents= $this->sfClient->sparqlResultsValues($results);
+            $documents= $this->sfClient->sparqlResultsValues($results,'uri');
         }
         $thematiques = [];
         if($type == semappsConfig::Multiple || $typeThesaurus ){
@@ -180,11 +177,10 @@ class WebserviceTools
                 ->addWhere('?uri','skos:prefLabel','?title','?GR');
             if($term)$thematiqueSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
             $results = $this->sfClient->sparql($thematiqueSparql->getQuery());
-            $thematiques = $this->sfClient->sparqlResultsValues($results);
+            $thematiques = $this->sfClient->sparqlResultsValues($results,'uri');
         }
 
         $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents);
-
         return $results;
     }
 
