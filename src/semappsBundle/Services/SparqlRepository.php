@@ -149,7 +149,7 @@ class SparqlRepository extends SparqlClient
             }
         }
         GROUP BY ?G ?O"
-        ));
+        ),'G');
     }
 
     public function getListOfContentByType($componentConf,$graphURI =null){
@@ -164,13 +164,19 @@ class SparqlRepository extends SparqlClient
             $sparqlForList->addSelect('?URI');
             $sparqlForList->addWhere('?URI','<'.$componentConf['access']['write'].'>','<'.$this->token->getToken()->getUser()->getSfLink().'>',$graphURI);
             $results = $this->sfClient->sparql($sparqlForList->getQuery());
-            $arrayUri= [];
-            if (isset($results["results"]["bindings"])) {
-                foreach ($results["results"]["bindings"] as $item) {
-                    $arrayUri[] = $item['URI']['value'];
-                }
+            $arrayUri= array_keys($this->sfClient->sparqlResultsValues($results,'URI'));
+
+            $graphs = array_keys($this->getAllowedGraphOfCurrentUser($this->token->getToken()->getUser()->getSfLink()));
+
+            foreach ($graphs as $graph){
+                $sparqlForList = $this->newQuery($this::SPARQL_SELECT);
+                $sparqlForList->addSelect('?URI');
+                $sparqlForList->addWhere('?URI','<'.$componentConf['access']['write'].'>','<'.$graph.'>',$graphURI);
+                $results = $this->sfClient->sparql($sparqlForList->getQuery());
+                $arrayUri= array_merge($arrayUri,array_keys($this->sfClient->sparqlResultsValues($results,'URI')));
             }
-            foreach ($arrayUri as $uri){
+
+            foreach (array_unique($arrayUri) as $uri){
                 $sparql = $this->newQuery($this::SPARQL_SELECT);
 
                 /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
