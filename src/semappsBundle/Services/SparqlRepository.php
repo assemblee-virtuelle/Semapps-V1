@@ -18,7 +18,8 @@ class SparqlRepository extends SparqlClient
     protected $sfClient;
     protected $confManager;
     protected $token;
-
+    const READ = 'read';
+    const WRITE= 'write';
     public function __construct(SemanticFormsClient $sfClient,confManager $confManager,TokenStorage $token){
         $this->sfClient = $sfClient;
         $this->confManager = $confManager;
@@ -160,21 +161,8 @@ class SparqlRepository extends SparqlClient
         $componentType = $sparql->formatValue($componentConf['type'],$sparql::VALUE_TYPE_URL);
         $listContent = [];
         if(array_key_exists('access',$componentConf) && array_key_exists('write',$componentConf['access']) ){
-            $sparqlForList = $this->newQuery($this::SPARQL_SELECT);
-            $sparqlForList->addSelect('?URI');
-            $sparqlForList->addWhere('?URI','<'.$componentConf['access']['write'].'>','<'.$this->token->getToken()->getUser()->getSfLink().'>',$graphURI);
-            $results = $this->sfClient->sparql($sparqlForList->getQuery());
-            $arrayUri= array_keys($this->sfClient->sparqlResultsValues($results,'URI'));
 
-            $graphs = array_keys($this->getAllowedGraphOfCurrentUser($this->token->getToken()->getUser()->getSfLink()));
-
-            foreach ($graphs as $graph){
-                $sparqlForList = $this->newQuery($this::SPARQL_SELECT);
-                $sparqlForList->addSelect('?URI');
-                $sparqlForList->addWhere('?URI','<'.$componentConf['access']['write'].'>','<'.$graph.'>',$graphURI);
-                $results = $this->sfClient->sparql($sparqlForList->getQuery());
-                $arrayUri= array_merge($arrayUri,array_keys($this->sfClient->sparqlResultsValues($results,'URI')));
-            }
+            $arrayUri = array_keys($this->checkAccessWithUri($graphURI,$componentConf,$this::WRITE,$this->token->getToken()->getUser()->getSfLink()));
 
             foreach (array_unique($arrayUri) as $uri){
                 $sparql = $this->newQuery($this::SPARQL_SELECT);
@@ -234,4 +222,32 @@ class SparqlRepository extends SparqlClient
         }
         return $listContent;
     }
+
+    public function checkAccessWithUri($graphURI,$componentConf,$access,$userUri){
+
+        $contexts = array_keys($this->getAllowedGraphOfCurrentUser($userUri));
+        $contexts[] = $userUri;
+
+        return  $this->checkAccess('?URI','?URI','<'.$componentConf['access'][$access].'>',$contexts,$graphURI);
+    }
+
+    public function checkAccessWithGraph($uri,$componentConf,$access,$userUri){
+
+        $contexts = array_keys($this->getAllowedGraphOfCurrentUser($userUri));
+        $contexts[] = $userUri;
+
+        return $this->checkAccess('?GR','<'.$uri.'>','<'.$componentConf['access'][$access].'>',$contexts,'?GR');
+    }
+
+    private function checkAccess($select,$subject,$predicat,$contextList,$graph){
+        $result = [];
+        foreach($contextList as $context){
+            $sparql = $this->newQuery($this::SPARQL_SELECT);
+            $sparql->addSelect($select);
+            $sparql->addWhere($subject,$predicat,'<'.$context.'>',$graph);
+            $result = array_merge($result,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()),ltrim($select,'?')));
+        }
+        return $result;
+    }
+
 }

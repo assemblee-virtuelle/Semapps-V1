@@ -362,33 +362,11 @@ class WebserviceTools
                                 if(!$this->tokenStorage->getToken()->getUser() instanceof User ){
                                     $isAllowed= false;
                                 }else{
-                                    $sparql = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
-                                    $sparql->addSelect('?GR');
-                                    $sparql->addWhere('<'.$uri.'>','<'.$componentConf['access']['read'].'>','<'.$this->tokenStorage->getToken()->getUser()->getSfLink().'>','?GR');
-                                    $sparqlresult = $this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()));
-
-                                    $graphs = array_keys($this->sparqlRepository->getAllowedGraphOfCurrentUser($this->tokenStorage->getToken()->getUser()->getSfLink()));
-
-                                    foreach ($graphs as $graph){
-                                        $sparqlForList = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
-                                        $sparqlForList->addSelect('?GR');
-                                        $sparqlForList->addWhere('<'.$uri.'>','<'.$componentConf['access']['read'].'>','<'.$graph.'>','?GR');
-                                        $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
-
-                                    }
+                                    $arrayUri = $this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::READ,$this->tokenStorage->getToken()->getUser()->getSfLink());
                                     if(array_key_exists('write',$componentConf['access'])){
-                                        $sparql = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
-                                        $sparql->addSelect('?GR');
-                                        $sparql->addWhere('<'.$uri.'>','<'.$componentConf['access']['write'].'>','<'.$this->tokenStorage->getToken()->getUser()->getSfLink().'>','?GR');
-                                        $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
-                                        foreach ($graphs as $graph){
-                                            $sparqlForList = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
-                                            $sparqlForList->addSelect('?GR');
-                                            $sparqlForList->addWhere('<'.$uri.'>','<'.$componentConf['access']['write'].'>','<'.$graph.'>','?GR');
-                                            $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
-                                        }
+                                        $arrayUri = array_merge($arrayUri,$this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::WRITE,$this->tokenStorage->getToken()->getUser()->getSfLink()));
                                     }
-                                    if(empty($sparqlresult)){
+                                    if(empty($arrayUri)){
                                         $isAllowed =false;
                                     }
                                 }

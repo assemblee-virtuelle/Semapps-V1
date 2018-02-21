@@ -80,9 +80,8 @@ class WebserviceController extends Controller
     {
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
         $confmanager       = $this->get('semapps_bundle.conf_manager');
-        $sfClient       = $this->get('semantic_forms.client');
         $sparqlRepository = $this->get('semapps_bundle.sparql_repository');
-        $results = $resultsTemp = $webserviceTools->searchSparqlRequest(
+        $results =$resultsBis =  $resultsTemp = $webserviceTools->searchSparqlRequest(
             $request->get('term'),
             ''
             ,$request->get('filter'),
@@ -94,43 +93,19 @@ class WebserviceController extends Controller
             $conf = (array_key_exists($item['type'],$confTemp))? $confTemp[$item['type']] : $confmanager->getConf($item['type'])['conf'] ;
 
             if(array_key_exists('access', $conf) && array_key_exists('read',$conf['access'])){
-                if(!$this->getUser()){
-                    unset($results[$uri]);
+                if(!$this->getUser() instanceof User ){
+                    unset($resultsBis[$uri]);
                 }else{
-                    $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
-                    $sparql->addSelect('?GR');
-                    $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['read'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
-                    $sparqlresult = $sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery()));
-
-                    $graphs = array_keys($sparqlRepository->getAllowedGraphOfCurrentUser($this->getUser()->getSfLink()));
-
-                    foreach ($graphs as $graph){
-                        $sparqlForList = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
-                        $sparqlForList->addSelect('?GR');
-                        $sparqlForList->addWhere('<'.$uri.'>','<'.$conf['access']['read'].'>','<'.$graph.'>','?GR');
-                        $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
-
-                    }
+                    $arrayUri = $sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::READ,$this->getUser()->getSfLink());
                     if(array_key_exists('write',$conf['access'])){
-                        $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
-                        $sparql->addSelect('?GR');
-                        $sparql->addWhere('<'.$uri.'>','<'.$conf['access']['write'].'>','<'.$this->getUser()->getSfLink().'>','?GR');
-                        $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
-                        foreach ($graphs as $graph){
-                            $sparqlForList = $sparqlRepository->newQuery($sparqlRepository::SPARQL_SELECT);
-                            $sparqlForList->addSelect('?GR');
-                            $sparqlForList->addWhere('<'.$uri.'>','<'.$conf['access']['write'].'>','<'.$graph.'>','?GR');
-                            $sparqlresult = array_merge($sparqlresult,$sfClient->sparqlResultsValues($sfClient->sparql($sparql->getQuery())));
-                        }
+                        $arrayUri = array_merge($arrayUri,$sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::WRITE,$this->getUser()->getSfLink()));
                     }
-                    if(empty($sparqlresult)){
-                        unset($results[$uri]);
+                    if(empty($arrayUri)){
+                        unset($resultsBis[$uri]);
                     }
                 }
             }
         }
-//        exit;
-        dump($results);
         // Search
         return new JsonResponse(
             (object)[
