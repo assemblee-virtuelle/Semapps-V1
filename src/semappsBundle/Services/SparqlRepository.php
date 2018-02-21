@@ -136,7 +136,8 @@ class SparqlRepository extends SparqlClient
     }
 
     public function getAllowedGraphOfCurrentUser($sfLink){
-        return $this->sfClient->sparqlResultsValues($this->sfClient->sparql(" 
+
+        $result = $this->sfClient->sparqlResultsValues($this->sfClient->sparql(" 
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         PREFIX pair: <http://virtual-assembly.org/pair#>
         SELECT ?G ?O
@@ -151,6 +152,21 @@ class SparqlRepository extends SparqlClient
         }
         GROUP BY ?G ?O"
         ),'G');
+        $resultTemp = [];
+        foreach (array_keys($result) as $organization){
+            $resultTemp = array_merge($resultTemp,$this->sfClient->sparqlResultsValues($this->sfClient->sparql(" 
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX pair: <http://virtual-assembly.org/pair#>
+            SELECT ?G ?O
+            WHERE {GRAPH ?G 
+            {
+                ?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:partnerOf <".$organization.">. 
+            }}
+            GROUP BY ?G ?O"
+            ),'G'));
+
+        }
+        return array_merge($resultTemp,$result);
     }
 
     public function getListOfContentByType($componentConf,$graphURI =null){
