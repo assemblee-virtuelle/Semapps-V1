@@ -81,7 +81,7 @@ class WebserviceController extends Controller
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
         $confmanager       = $this->get('semapps_bundle.conf_manager');
         $sparqlRepository = $this->get('semapps_bundle.sparql_repository');
-        $results =$resultsBis =  $resultsTemp = $webserviceTools->searchSparqlRequest(
+        $results =  $resultsTemp = $webserviceTools->searchSparqlRequest(
             $request->get('term'),
             ''
             ,$request->get('filter'),
@@ -94,14 +94,14 @@ class WebserviceController extends Controller
 
             if(array_key_exists('access', $conf) && array_key_exists('read',$conf['access'])){
                 if(!$this->getUser() instanceof User ){
-                    unset($resultsBis[$uri]);
+                    unset($results[$uri]);
                 }else{
                     $arrayUri = $sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::READ,$this->getUser()->getSfLink());
                     if(array_key_exists('write',$conf['access'])){
                         $arrayUri = array_merge($arrayUri,$sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::WRITE,$this->getUser()->getSfLink()));
                     }
                     if(empty($arrayUri)){
-                        unset($resultsBis[$uri]);
+                        unset($results[$uri]);
                     }
                 }
             }
