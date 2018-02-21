@@ -10,6 +10,7 @@ namespace semappsBundle\Services;
 
 
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
+use semappsBundle\Entity\User;
 use semappsBundle\semappsConfig;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
@@ -34,8 +35,10 @@ class WebserviceTools
     /** @var webserviceCache  */
     protected $webserviceCache;
 
+    protected $sparqlRepository;
+
     protected $parser;
-    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache,MarkdownParserInterface $parser){
+    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache,MarkdownParserInterface $parser,SparqlRepository $sparqlRepository){
         $this->sfClient = $sfClient;
         $this->em = $em;
         $this->checker = $checker;
@@ -43,6 +46,7 @@ class WebserviceTools
         $this->confmanager = $confmanager;
         $this->webserviceCache = $webserviceCache;
         $this->parser = $parser;
+        $this->sparqlRepository = $sparqlRepository;
     }
     public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
@@ -334,7 +338,7 @@ class WebserviceTools
 
     }
 
-    private function getData($properties,$tabFieldsAlias,&$output){
+    private function getData(&$properties,$tabFieldsAlias,&$output){
         $cacheTemp = [];
         $cacheComponentConf = [];
         foreach ($tabFieldsAlias as $alias) {
@@ -353,32 +357,73 @@ class WebserviceTools
                                 $componentConfComplete = $this->confmanager->getConf($component['key'],array_flip(explode(',',$component['graph'])));
                                 $componentConf = $cacheComponentConf[$componentType] =$componentConfComplete['conf'];
                             }
-                            $result = null;
-                            switch ($componentConf['type']) {
-                                case semappsConfig::URI_PAIR_PERSON:
-                                    $result = [
-                                        'uri' => $uri,
-                                        'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
-                                        'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
-                                    ];
-                                    $output[$alias][$componentConf['nameType']][] = $result;
-                                    break;
-                                case semappsConfig::URI_SKOS_CONCEPT:
-                                case semappsConfig::URI_PAIR_ORGANIZATION:
-                                case semappsConfig::URI_PAIR_PROJECT:
-                                case semappsConfig::URI_PAIR_EVENT:
-                                case semappsConfig::URI_PAIR_PROPOSAL:
-                                case semappsConfig::URI_PAIR_DOCUMENT:
-                                    $result = [
-                                        'uri' => $uri,
-                                        'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
-                                        'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
-                                    ];
-                                    $output[$alias][$componentConf['nameType']][] = $result;
-                                    break;
+                            $isAllowed = true;
+                            if(array_key_exists('access', $componentConf) && array_key_exists('read',$componentConf['access'])){
+                                if(!$this->tokenStorage->getToken()->getUser() instanceof User ){
+                                    $isAllowed= false;
+                                }else{
+                                    $sparql = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
+                                    $sparql->addSelect('?GR');
+                                    $sparql->addWhere('<'.$uri.'>','<'.$componentConf['access']['read'].'>','<'.$this->tokenStorage->getToken()->getUser()->getSfLink().'>','?GR');
+                                    $sparqlresult = $this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()));
+
+                                    $graphs = array_keys($this->sparqlRepository->getAllowedGraphOfCurrentUser($this->tokenStorage->getToken()->getUser()->getSfLink()));
+
+                                    foreach ($graphs as $graph){
+                                        $sparqlForList = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
+                                        $sparqlForList->addSelect('?GR');
+                                        $sparqlForList->addWhere('<'.$uri.'>','<'.$componentConf['access']['read'].'>','<'.$graph.'>','?GR');
+                                        $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
+
+                                    }
+                                    if(array_key_exists('write',$componentConf['access'])){
+                                        $sparql = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
+                                        $sparql->addSelect('?GR');
+                                        $sparql->addWhere('<'.$uri.'>','<'.$componentConf['access']['write'].'>','<'.$this->tokenStorage->getToken()->getUser()->getSfLink().'>','?GR');
+                                        $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
+                                        foreach ($graphs as $graph){
+                                            $sparqlForList = $this->sparqlRepository->newQuery($this->sparqlRepository::SPARQL_SELECT);
+                                            $sparqlForList->addSelect('?GR');
+                                            $sparqlForList->addWhere('<'.$uri.'>','<'.$componentConf['access']['write'].'>','<'.$graph.'>','?GR');
+                                            $sparqlresult = array_merge($sparqlresult,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery())));
+                                        }
+                                    }
+                                    if(empty($sparqlresult)){
+                                        $isAllowed =false;
+                                    }
+                                }
                             }
-                            $cacheTemp[$uri] = $result;
-                            $cacheTemp[$uri]['type'] = $componentType;
+
+                            $result = null;
+                            if($isAllowed){
+                                switch ($componentConf['type']) {
+                                    case semappsConfig::URI_PAIR_PERSON:
+                                        $result = [
+                                            'uri' => $uri,
+                                            'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
+                                            'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
+                                        ];
+                                        $output[$alias][$componentConf['nameType']][] = $result;
+                                        break;
+                                    case semappsConfig::URI_SKOS_CONCEPT:
+                                    case semappsConfig::URI_PAIR_ORGANIZATION:
+                                    case semappsConfig::URI_PAIR_PROJECT:
+                                    case semappsConfig::URI_PAIR_EVENT:
+                                    case semappsConfig::URI_PAIR_PROPOSAL:
+                                    case semappsConfig::URI_PAIR_DOCUMENT:
+                                        $result = [
+                                            'uri' => $uri,
+                                            'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),
+                                            'image' => (!isset($component['image'])) ? '/common/images/no_avatar.png' : $component['image'],
+                                        ];
+                                        $output[$alias][$componentConf['nameType']][] = $result;
+                                        break;
+                                }
+                                $cacheTemp[$uri] = $result;
+                                $cacheTemp[$uri]['type'] = $componentType;
+                            }else{
+                                unset($properties[$alias]);
+                            }
                         }
                     }
                 }
