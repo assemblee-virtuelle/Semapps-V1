@@ -21,6 +21,7 @@ In order to contribute, you need to have
 
 ###### Installing Semantic Forms
 
+- Ensure that Java JRE 8 is installed, on Debian: `sudo apt-get install default-jre`
 - Download the zip file of version 2.0 of Semantic Forms (SF) from its [repository](https://github.com/jmvanel/semantic_forms/releases)
 - Unzip and change directory to SF: `cd semantic_forms_play-1.0-SNAPSHOT`
 - Copy the start script to the current directory: `cp scripts/start.sh .`
@@ -88,11 +89,20 @@ php -r "unlink('composer-setup.php');"
 ##### start coding
 - Create the SQL database: `php bin/console doctrine:schema:create`
 - Create the first user: `php bin/console semapps:create:user`
+- Run the server: `php bin/console server:run`
 [...]
 
 ### Instance deployment
 
 [...]
+
+## The SemApps architecture
+
+A summary of which modules do what, where are the files.
+
+## Implemanting a new ontology
+
+
 
 ## Instances of Semapps
 
