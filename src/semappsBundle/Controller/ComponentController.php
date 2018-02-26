@@ -62,7 +62,8 @@ class ComponentController extends AbstractMultipleComponentController
                     );
                 }
             }
-            if(!json_decode($form->get($componentConf['fields'][$componentConf["access"]['write']]['value'])->getData())){
+
+            if(array_key_exists('access',$componentConf) && array_key_exists('write',$componentConf["access"]) && !json_decode($form->get($componentConf['fields'][$componentConf["access"]['write']]['value'])->getData())){
                 $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT_DATA);
                 $sparql->addInsert('<'.$form->uri.'>','<'.$componentConf["access"]['write'].'>','<'.$this->getUser()->getSfLink().'>','<'.$graphURI.'>');
                 $sfClient->update($sparql->getQuery());
