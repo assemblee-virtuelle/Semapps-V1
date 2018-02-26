@@ -95,6 +95,22 @@ parameters:
            value: 'hasSubject'
            access: 'anonymous'
            type: 'dbpedia'
+        http://virtual-assembly.org/pair#accessRead:
+          value: 'accessRead'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#accessWrite:
+          value: 'accessWrite'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isPublic:
+          value: 'isPublic'
+          access: 'anonymous'
+#          type: 'uri'
+        http://virtual-assembly.org/pair#isProtected:
+          value: 'isProtected'
+          access: 'anonymous'
+          type: 'uri'
       reverse:
         http://virtual-assembly.org/pair#references: 'http://virtual-assembly.org/pair#referencesBy'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
@@ -104,6 +120,8 @@ parameters:
         http://virtual-assembly.org/pair#internal_document_publisher: 'http://virtual-assembly.org/pair#internal_publisher'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
-      access:
-        write: 'http://virtual-assembly.org/pair#internal_document_author'
-        read: 'http://virtual-assembly.org/pair#internal_document_contributor'
+#      access:
+#        write: 'http://virtual-assembly.org/pair#accessWrite'
+#        read: 'http://virtual-assembly.org/pair#accessRead'
+#        public: 'http://virtual-assembly.org/pair#isPublic'
+#        protected: 'http://virtual-assembly.org/pair#isProtected'

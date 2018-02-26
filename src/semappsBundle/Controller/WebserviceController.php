@@ -91,17 +91,25 @@ class WebserviceController extends Controller
         foreach ($resultsTemp as $uri=> $item){
             $uri = $item['uri'];
             $conf = (array_key_exists($item['type'],$confTemp))? $confTemp[$item['type']] : $confmanager->getConf($item['type'])['conf'] ;
+            $isPublic = false;
+            $isProtected = false;
+            if(array_key_exists('access', $conf) && array_key_exists('public',$conf['access']))
+                $isPublic = $sparqlRepository->checkIsPublic($uri,$conf,$sparqlRepository::ISPUBLIC);
+            if(!$isPublic && array_key_exists('access', $conf) && array_key_exists('protected',$conf['access']))
+                $isProtected = $sparqlRepository->checkIsPublic($uri,$conf,$sparqlRepository::ISPROTECTED);
 
-            if(array_key_exists('access', $conf) && array_key_exists('read',$conf['access'])){
+            if(!$isPublic && array_key_exists('access', $conf) && array_key_exists('read',$conf['access'])){
                 if(!$this->getUser() instanceof User ){
                     unset($results[$uri]);
                 }else{
-                    $arrayUri = $sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::READ,$this->getUser()->getSfLink());
-                    if(array_key_exists('write',$conf['access'])){
-                        $arrayUri = array_merge($arrayUri,$sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::WRITE,$this->getUser()->getSfLink()));
-                    }
-                    if(empty($arrayUri)){
-                        unset($results[$uri]);
+                    if(!$isProtected){
+                        $arrayUri = $sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::READ,$this->getUser()->getSfLink());
+                        if(array_key_exists('write',$conf['access'])){
+                            $arrayUri = array_merge($arrayUri,$sparqlRepository->checkAccessWithGraph($uri,$conf,$sparqlRepository::WRITE,$this->getUser()->getSfLink()));
+                        }
+                        if(empty($arrayUri)){
+                            unset($results[$uri]);
+                        }
                     }
                 }
             }

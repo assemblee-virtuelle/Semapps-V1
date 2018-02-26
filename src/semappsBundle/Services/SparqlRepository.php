@@ -20,6 +20,8 @@ class SparqlRepository extends SparqlClient
     protected $token;
     const READ = 'read';
     const WRITE= 'write';
+    const ISPUBLIC= 'public';
+    const ISPROTECTED= 'protected';
     public function __construct(SemanticFormsClient $sfClient,confManager $confManager,TokenStorage $token){
         $this->sfClient = $sfClient;
         $this->confManager = $confManager;
@@ -253,6 +255,12 @@ class SparqlRepository extends SparqlClient
         $contexts[] = $userUri;
 
         return $this->checkAccess('?GR','<'.$uri.'>','<'.$componentConf['access'][$access].'>',$contexts,'?GR');
+    }
+    public function checkIsPublic($uri,$componentConf,$access){
+        $sparql = $this->newQuery($this::SPARQL_SELECT);
+        $sparql->addSelect("?GR");
+        $sparql->addWhere('<'.$uri.'>','<'.$componentConf['access'][$access].'>','"1"',"?GR");
+        return !empty($this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()),"GR"));
     }
 
     private function checkAccess($select,$subject,$predicat,$contextList,$graph){

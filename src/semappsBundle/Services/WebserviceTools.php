@@ -358,16 +358,26 @@ class WebserviceTools
                                 $componentConf = $cacheComponentConf[$componentType] =$componentConfComplete['conf'];
                             }
                             $isAllowed = true;
-                            if(array_key_exists('access', $componentConf) && array_key_exists('read',$componentConf['access'])){
+                            $isPublic = false;
+                            $isProtected = false;
+                            if(array_key_exists('access', $componentConf) && array_key_exists('public',$componentConf['access']))
+                                $isPublic = $this->sparqlRepository->checkIsPublic($uri,$componentConf,$this->sparqlRepository::ISPUBLIC);
+                            if(!$isPublic && array_key_exists('access', $componentConf) && array_key_exists('protected',$componentConf['access']))
+                                $isProtected = $this->sparqlRepository->checkIsPublic($uri,$componentConf,$this->sparqlRepository::ISPROTECTED);
+
+
+                            if(!$isPublic && array_key_exists('access', $componentConf) && array_key_exists('read',$componentConf['access'])){
                                 if(!$this->tokenStorage->getToken()->getUser() instanceof User ){
                                     $isAllowed= false;
                                 }else{
-                                    $arrayUri = $this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::READ,$this->tokenStorage->getToken()->getUser()->getSfLink());
-                                    if(array_key_exists('write',$componentConf['access'])){
-                                        $arrayUri = array_merge($arrayUri,$this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::WRITE,$this->tokenStorage->getToken()->getUser()->getSfLink()));
-                                    }
-                                    if(empty($arrayUri)){
-                                        $isAllowed =false;
+                                    if(!$isProtected){
+                                        $arrayUri = $this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::READ,$this->tokenStorage->getToken()->getUser()->getSfLink());
+                                        if(array_key_exists('write',$componentConf['access'])){
+                                            $arrayUri = array_merge($arrayUri,$this->sparqlRepository->checkAccessWithGraph($uri,$componentConf,$this->sparqlRepository::WRITE,$this->tokenStorage->getToken()->getUser()->getSfLink()));
+                                        }
+                                        if(empty($arrayUri)){
+                                            $isAllowed =false;
+                                        }
                                     }
                                 }
                             }

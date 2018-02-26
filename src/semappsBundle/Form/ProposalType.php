@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Form;
 
+use semappsBundle\Form\Type\YesNoType;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -93,6 +94,34 @@ class ProposalType extends SemanticFormType
                     'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
                     'graphUri'   => 'urn://semapps/thesaurus/proposaltype',
                 ]
+            )
+            ->add(
+                $builder,
+                'accessRead',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'accessWrite',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'isPublic',
+                YesNoType::class,[]
+            )
+            ->add(
+                $builder,
+                'isProtected',
+                YesNoType::class,[]
             )
         ;
         $builder->add(

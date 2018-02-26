@@ -102,6 +102,29 @@
                     {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.accessWrite, { 'label': 'partager en écriture avec'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.accessRead, { 'label': 'partager en lecture avec'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.isPublic, { 'label': 'partager avec tous le monde ?'}) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.isProtected, { 'label': 'partager avec tous les membres de ce site ?'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                </div>
+            </div>
         </div>
         <div class="col col-sm-4">
             {% embed "alertBobby.html.twig" %}

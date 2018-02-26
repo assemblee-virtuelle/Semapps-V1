@@ -83,6 +83,21 @@ parameters:
           value: 'hasType'
           access: 'anonymous'
           type: 'uri'
+        http://virtual-assembly.org/pair#accessRead:
+          value: 'accessRead'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#accessWrite:
+          value: 'accessWrite'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isPublic:
+          value: 'isPublic'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#isProtected:
+          value: 'isProtected'
+          access: 'anonymous'
+          type: 'uri'
       reverse:
 #        http://virtual-assembly.org/pair#concretizes : 'http://virtual-assembly.org/pair#concretizedBy'
         http://virtual-assembly.org/pair#managedBy: 'http://virtual-assembly.org/pair#manages'
@@ -92,4 +107,7 @@ parameters:
       label:
         - http://virtual-assembly.org/pair#preferedLabel
 #      access:
-#        write: 'http://virtual-assembly.org/pair#managedBy'
+#        write: 'http://virtual-assembly.org/pair#accessWrite'
+#        read: 'http://virtual-assembly.org/pair#accessRead'
+#        public: 'http://virtual-assembly.org/pair#isPublic'
+#        protected: 'http://virtual-assembly.org/pair#isProtected'

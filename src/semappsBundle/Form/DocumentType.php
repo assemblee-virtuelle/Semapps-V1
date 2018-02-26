@@ -2,6 +2,7 @@
 
 namespace semappsBundle\Form;
 
+use semappsBundle\Form\Type\YesNoType;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -175,6 +176,34 @@ class DocumentType extends SemanticFormType
                     'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
                     'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
+            )
+            ->add(
+                $builder,
+                'accessRead',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'accessWrite',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                ]
+            )
+            ->add(
+                $builder,
+                'isPublic',
+                YesNoType::class,[]
+            )
+            ->add(
+                $builder,
+                'isProtected',
+                YesNoType::class,[]
             )
             ->add($builder, 'version', TextType::class, ['required' => false,])
 

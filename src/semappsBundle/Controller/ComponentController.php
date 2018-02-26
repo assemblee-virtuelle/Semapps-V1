@@ -67,7 +67,6 @@ class ComponentController extends AbstractMultipleComponentController
                 $sparql = $sparqlRepository->newQuery($sparqlRepository::SPARQL_INSERT_DATA);
                 $sparql->addInsert('<'.$form->uri.'>','<'.$componentConf["access"]['write'].'>','<'.$this->getUser()->getSfLink().'>','<'.$graphURI.'>');
                 $sfClient->update($sparql->getQuery());
-
             }
             $this->addFlash('success', 'Le contenu a bien été mis à jour.');
             return $this->redirectToRoute(
