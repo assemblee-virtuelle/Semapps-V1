@@ -195,6 +195,7 @@ class SparqlRepository extends SparqlClient
                     $sparql->addSelect('?'.$label)
                         ->addWhere('<'.$uri.'>',$fieldFormatted,'?'.$label,$graphURI);
                 }
+                $sparql->orderBy($sparql::ORDER_ASC,'?'.$componentConf['fields'][$componentConf['label'][0]]['value']);
                 $results = $this->sfClient->sparql($sparql->getQuery());
                 if (isset($results["results"]["bindings"])) {
                     foreach ($results["results"]["bindings"] as $item) {
@@ -203,7 +204,7 @@ class SparqlRepository extends SparqlClient
                             $label = $componentConf['fields'][$field]['value'];
                             $title .= $item[$label]['value'] .' ';
                         }
-                        $listContent[] = [
+                        $listContent[$title.'_'.$uri] = [
                             'uri'   => $uri,
                             'title' => $title,
                             'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
@@ -230,7 +231,7 @@ class SparqlRepository extends SparqlClient
                         $label = $componentConf['fields'][$field]['value'];
                         $title .= $item[$label]['value'] .' ';
                     }
-                    $listContent[] = [
+                    $listContent[$title.'_'.$item['URI']['value']] = [
                         'uri'   => $item['URI']['value'],
                         'title' => $title,
                         'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
@@ -238,6 +239,7 @@ class SparqlRepository extends SparqlClient
                 }
             }
         }
+        ksort($listContent);
         return $listContent;
     }
 
