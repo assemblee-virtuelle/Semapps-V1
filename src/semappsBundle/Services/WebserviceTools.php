@@ -412,6 +412,9 @@ class WebserviceTools
                             }else{
                                 unset($properties[$alias]);
                             }
+                            usort($output[$alias][$componentConf['nameType']],function ($a,$b){
+                                return strcmp($a["name"], $b["name"]);
+                            });
                         }
                     }
                 }
