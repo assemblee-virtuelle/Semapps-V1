@@ -73,7 +73,7 @@ class WebserviceTools
             ->addSelect('?type')
             ->addSelect('?image')
             ->addSelect('?desc')
-            ->addSelect('?address');;
+            ->addSelect('?address');
         //->addSelect('?Address');
         ($filter)? $sparql->addWhere('?uri','pair:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
         //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
@@ -141,7 +141,7 @@ class WebserviceTools
                 ->addOptional('?uri','pair:startDate','?start','?GR')
                 ->addOptional('?uri','pair:endDate','?end','?GR');
             if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $eventSparql->orderBy($sparql::ORDER_ASC,'?start')
+            $eventSparql->orderBy($sparql::ORDER_DESC,'?start')
                 ->groupBy('?start')
                 ->groupBy('?end');
             $results = $this->sfClient->sparql($eventSparql->getQuery());
