@@ -30,15 +30,15 @@ class WebserviceTools
 
     /** @var  \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage */
     protected $tokenStorage;
-    /** @var  confManager */
+    /** @var  ConfManager */
     protected $confmanager;
-    /** @var webserviceCache  */
+    /** @var WebserviceCache  */
     protected $webserviceCache;
 
     protected $sparqlRepository;
 
     protected $parser;
-    public function __construct(EntityManager $em,TokenStorage $tokenStorage,AuthorizationChecker $checker,confManager $confmanager, SemanticFormsClient $sfClient,webserviceCache $webserviceCache,MarkdownParserInterface $parser,SparqlRepository $sparqlRepository){
+    public function __construct(EntityManager $em, TokenStorage $tokenStorage, AuthorizationChecker $checker, ConfManager $confmanager, SemanticFormsClient $sfClient, WebserviceCache $webserviceCache, MarkdownParserInterface $parser, SparqlRepository $sparqlRepository){
         $this->sfClient = $sfClient;
         $this->em = $em;
         $this->checker = $checker;

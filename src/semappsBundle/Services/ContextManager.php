@@ -11,7 +11,7 @@ namespace semappsBundle\Services;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
-class contextManager
+class ContextManager
 {
     private $cache;
     private $parameters;

@@ -13,7 +13,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AdministrationUserController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * Liste l'ensemble des utilisateurs présent dans la base de données SQL
+     */
     public function listUserAction(Request $request)
     {
 
@@ -107,6 +111,12 @@ class AdministrationUserController extends Controller
         );
     }
 
+    /**
+     * @param $userId
+     * @param string $nameRoute
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * (Re)Envoye le lien pour confirmer un compte utilisateur
+     */
     public function sendUserAction($userId, $nameRoute = 'sendUser')
     {
         $user = $this
@@ -134,6 +144,11 @@ class AdministrationUserController extends Controller
         return $this->redirectToRoute($nameRoute);
     }
 
+    /**
+     * @param $userId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Retire un compte utilisateur de la base SQL et le graph de l'uri de l'utilisateur SPARQL
+     */
     public function removeUserAction($userId){
 
         $em = $this

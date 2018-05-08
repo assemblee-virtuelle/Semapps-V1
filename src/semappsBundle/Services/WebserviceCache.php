@@ -12,7 +12,7 @@ use FOS\UserBundle\Util\TokenGenerator;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
-class webserviceCache
+class WebserviceCache
 {
     private $cache;
     public function __construct($cacheDir)

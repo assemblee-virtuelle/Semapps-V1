@@ -17,9 +17,9 @@ deleteOrganization:
 organizationList:
     path:     /organization/list
     defaults: { _controller: semappsBundle:AdministrationOrganisation:completeOragizationList }
-orgaExport:
+organizationExport:
     path:     /organization/export/csv
-    defaults: { _controller: semappsBundle:AdministrationOrganisation:orgaExport }
+    defaults: { _controller: semappsBundle:AdministrationOrganisation:organizationExport }
 changeContext:
     path:     /context/change/{context}
     defaults: { _controller: semappsBundle:Administration:changeContext, context: null}

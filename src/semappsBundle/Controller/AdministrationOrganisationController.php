@@ -7,11 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class AdministrationOrganisationController extends Controller
 {
-
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * Liste l'ensemble des organisations présentent dans la base SPARQl
+     */
     public function completeOragizationListAction(){
-        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
+        $sparqlRepository = $this->get('semapps_bundle.sparql_repository');
         $organisationConf = $this->getParameter('organizationConf');
-        $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
+        $listOfContent = $sparqlRepository->getListOfContentByType($organisationConf,null);
 
         return $this->render(
             'semappsBundle:Admin:completeList.html.twig',
@@ -21,12 +24,16 @@ class AdministrationOrganisationController extends Controller
         );
     }
 
+    /**
+     * @param $uriOrganization
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Supprime tout le graph ayant l'uri de l'organisation de la base SPARQl
+     */
     public function removeOrganizationAction($uriOrganization){
         $sfClient = $this->get('semantic_forms.client');
         $sparqlClient   = $this->get('sparqlbundle.client');
 
         $sparql = $sparqlClient->newQuery($sparqlClient::SPARQL_DELETE);
-        $sparqlDeux = clone $sparql;
 
         $uri = $sparql->formatValue(urldecode($uriOrganization),$sparql::VALUE_TYPE_URL);
 
@@ -35,16 +42,19 @@ class AdministrationOrganisationController extends Controller
             ->addWhere('?S','?P','?O',$uri);
 
         $sfClient->update($sparql->getQuery());
-        $sfClient->update($sparqlDeux->getQuery());
         return $this->redirectToRoute('organizationList');
 
     }
 
-    public function orgaExportAction()
+    /**
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Exporte en CSV la liste de l'ensemble des organisations
+     */
+    public function organizationExportAction()
     {
-        $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
+        $sparqlRepository = $this->get('semapps_bundle.sparql_repository');
         $organisationConf = $this->getParameter('organizationConf');
-        $listOfContent = $sparqlrepository->getListOfContentByType($organisationConf,null);
+        $listOfContent = $sparqlRepository->getListOfContentByType($organisationConf,null);
 
         $lines              = [];
         $sfClient           = $this->get('semantic_forms.client');
@@ -85,7 +95,7 @@ class AdministrationOrganisationController extends Controller
         $writer->setDelimiter(";");
         $writer->saveFile('SemApps-'.date('Y_m_d'));
 
-        return $this->redirectToRoute('orgaList');
+        return $this->redirectToRoute('organizationList');
     }
 
 

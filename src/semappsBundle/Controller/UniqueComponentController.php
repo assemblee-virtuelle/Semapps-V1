@@ -21,25 +21,27 @@ abstract class UniqueComponentController extends AbstractComponentController
         $encryption = $this->get('semapps_bundle.encryption');
         return $encryption->decrypt($this->getUser()->getSfUser());
     }
-
-    protected function getOrga($id){
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-            'semappsBundle:Organization'
-        );
-        if ($id)
-            return $organisationEntity->find($id);
-        else
-            return $organisationEntity->find($this->getUser()->getFkOrganisation());
-    }
-
-    protected function getOrgaByGraph($graph){
-        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
-            'semappsBundle:Organization'
-        );
-        if ($graph)
-            return $organisationEntity->findOneBy(['graphURI'=> $graph]);
-        else
-            return null;
-    }
+//
+//    // TODO : remove unused code  ?
+//    protected function getOrga($id){
+//        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+//            'semappsBundle:Organization'
+//        );
+//        if ($id)
+//            return $organisationEntity->find($id);
+//        else
+//            return $organisationEntity->find($this->getUser()->getFkOrganisation());
+//    }
+//
+//    // TODO : remove unused code  ?
+//    protected function getOrgaByGraph($graph){
+//        $organisationEntity = $this->getDoctrine()->getManager()->getRepository(
+//            'semappsBundle:Organization'
+//        );
+//        if ($graph)
+//            return $organisationEntity->findOneBy(['graphURI'=> $graph]);
+//        else
+//            return null;
+//    }
 
 }

@@ -22,7 +22,7 @@ class SparqlRepository extends SparqlClient
     const WRITE= 'write';
     const ISPUBLIC= 'public';
     const ISPROTECTED= 'protected';
-    public function __construct(SemanticFormsClient $sfClient,confManager $confManager,TokenStorage $token){
+    public function __construct(SemanticFormsClient $sfClient, ConfManager $confManager, TokenStorage $token){
         $this->sfClient = $sfClient;
         $this->confManager = $confManager;
         $this->token = $token;

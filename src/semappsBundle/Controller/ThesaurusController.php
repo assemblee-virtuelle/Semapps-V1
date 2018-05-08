@@ -13,7 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ThesaurusController extends AbstractMultipleComponentController
 {
-
+    /**
+     * @param $componentName
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère la soumission du formulaire du $componentname. Ce formulaire gère la création et la mise à jour de la donnée.
+     * La gestion de l'image est géré également ici mais a son propre comportement.
+     * TODO : renommer la fonction
+     */
     public function addAction($componentName,Request $request)
     {
         $this->setSfLink(urldecode($request->get('uri')));

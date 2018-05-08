@@ -7,7 +7,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ComponentController extends AbstractMultipleComponentController
 {
-
+    /**
+     * @param $componentName
+     * @param null $uri
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère la soumission du formulaire du $componentname. Ce formulaire gère la création et la mise à jour de la donnée.
+     * La gestion de l'image est géré également ici mais a son propre comportement.
+     * TODO : renommer la fonction
+     */
     public function addAction($componentName,$uri =null,Request $request)
     {
         $sparqlRepository   = $this->get('semapps_bundle.sparql_repository');
@@ -129,6 +137,14 @@ class ComponentController extends AbstractMultipleComponentController
 
     }
 
+    /**
+     * @param Request $request
+     * @param $componentName
+     * @param null $uri
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Actualise le contenu par rapport à la source.
+     * Disponible uniquement pour ceux ayant importé le contenu d'une source externe
+     */
     public function actualizeAction(Request $request,$componentName,$uri =null){
         $uri = urldecode($uri);
         $sfClient =$this->get('semantic_forms.client');
@@ -168,7 +184,6 @@ class ComponentController extends AbstractMultipleComponentController
     {
         $sparqlrepository = $this->get('semapps_bundle.sparql_repository');
         $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,$graphURI);
-//        $listOfContent = $sparqlrepository->getListOfContentByType($componentConf,null);
         return $listOfContent;
     }
     public function removeComponent($uri){

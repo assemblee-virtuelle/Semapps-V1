@@ -3,6 +3,8 @@
 namespace semappsBundle\Controller;
 
 use semappsBundle\Entity\User;
+use semappsBundle\Services\WebserviceCache;
+use semappsBundle\Services\WebserviceTools;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 use semappsBundle\semappsConfig;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -11,10 +13,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class WebserviceController
+ * @package semappsBundle\Controller
+ * @see WebserviceTools
+ * utilisé par polymer principalement
+ */
 class WebserviceController extends Controller
 {
-
-
+    /**
+     * @return JsonResponse
+     * Envoie une liste de de paramètre pour la cartographie côté polymer
+     * une liste de mot clé récupérée sur la base SPARQl
+     * les informations sur l'utilisateur courant
+     * table de liaison entre un type et son "nom machine"
+     * table de liaison entre un nom de graph et son "nom machine"
+     */
     public function parametersAction()
     {
         $cache = new FilesystemAdapter();
@@ -76,6 +90,11 @@ class WebserviceController extends Controller
         return new JsonResponse($parameters->get());
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * Lance une recherche globale
+     */
     public function searchAction(Request $request)
     {
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
@@ -122,6 +141,11 @@ class WebserviceController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * Lance une recherche sur un type particulier
+     */
     public function fieldUriSearchAction(Request $request)
     {
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
@@ -137,7 +161,11 @@ class WebserviceController extends Controller
     }
 
 
-
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * Récupère le label d'un uri
+     */
     public function fieldUriLabelAction(Request $request)
     {
         $webserviceTools       = $this->get('semapps_bundle.webservice_tools');
@@ -154,8 +182,8 @@ class WebserviceController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * Envoie le détail complet d'une uri
      */
     public function detailAction(Request $request)
     {
@@ -167,6 +195,11 @@ class WebserviceController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * Envoie le détail complet d'une uri de type ressource (comme wikipedia par exemple)
+     */
     public function ressourceAction(Request $request){
         $uri                = $request->get('uri');
         $sfClient           = $this->get('semantic_forms.client');
@@ -238,10 +271,14 @@ class WebserviceController extends Controller
         );
     }
 
-    public function changeContextAction($id){
+    /**
+     * @param $id
+     * @return Response
+     * Change le contexte d'une personne
+     */
+    public function changeContextAction($uri){
         $contextManager        = $this->get('semapps_bundle.context_manager');
-
-        $contextManager->setContext($this->getUser()->getSfLink(),urldecode($id));
+        $contextManager->setContext($this->getUser()->getSfLink(),urldecode($uri));
 
         return new Response("ok",200);
     }

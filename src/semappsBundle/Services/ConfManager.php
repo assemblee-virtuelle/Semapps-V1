@@ -11,7 +11,7 @@ namespace semappsBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
-class confManager
+class ConfManager
 {
     private $container;
     private $typeToName;

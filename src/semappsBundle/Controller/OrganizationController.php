@@ -8,7 +8,15 @@ use Symfony\Component\HttpFoundation\Request;
 class OrganizationController extends AbstractMultipleComponentController
 {
 
-
+    /**
+     * @param string $componentName
+     * @param null $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère la soumission du formulaire pour le component "organization" . Ce formulaire gère la création et la mise à jour de la donnée.
+     * La gestion de l'image est géré également ici mais a son propre comportement.
+     * TODO renommer la fonction
+     */
     public function addAction($componentName ="organization",$id = null,Request $request)
     {
         $uri = urldecode($id);
@@ -148,6 +156,13 @@ class OrganizationController extends AbstractMultipleComponentController
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $uniqueComponentName
+     * @param null $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Pour ceux qui ont importé un profil d'une organisation, permet d'actualiser le contenu par rapport à la source.
+     */
     public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $uri = urldecode($id);
         $sfClient =$this->get('semantic_forms.client');
@@ -164,6 +179,13 @@ class OrganizationController extends AbstractMultipleComponentController
         }
         return $this->redirectToRoute('orgaComponentForm',["uniqueComponentName" => $uniqueComponentName,"id" => urlencode($uri)]);
     }
+
+    /**
+     * @param $uniqueComponentName
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Supprime l'organisation.
+     */
     public function removeAction($uniqueComponentName,Request $request){
         $uri = $request->get('uri');
         $this->removeComponent($uri);

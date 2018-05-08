@@ -6,6 +6,9 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use semappsBundle\Form\RegisterType;
 use semappsBundle\Repository\UserRepository;
 use semappsBundle\Form\AdminSettings;
+use semappsBundle\Services\ContextManager;
+use semappsBundle\Services\InviteManager;
+use semappsBundle\Services\Mailer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,24 +17,34 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdministrationController extends Controller
 {
-
+    /**
+     * @param Request $request
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère le formulaire d'enregistrement d'une personne. Cette page est disponible uniquement pour les personnes ayant été invité à se créer un compte.
+     * Le token est la clé d'accès à cette page.
+     * @see InviteManager
+     * @see inviteAction
+     */
     public function registerAction(Request $request,$token)
     {
+        //To encrypt the password
         $encryption = $this->get('semapps_bundle.encryption');
+        //the cache who manage invitation
         $inviteManager = $this->get('semapps_bundle.invite_manager');
-
 
         if($this->getUser()) {
             $this->addFlash('info', "Vous devez vous déconnecter avant d'accéder à cette page");
             return $this->redirectToRoute("home");
         }
 
-        // voter pour le token
+        // check if the invitation is correct
         $email = $inviteManager->verifyInvite($token);
         if(!$email){
             $this->addFlash('info', "Token non reconnu");
             return $this->redirectToRoute("fos_user_security_login");
         }
+
         //get the form
         $form = $this->createForm(
             RegisterType::class,
@@ -42,6 +55,7 @@ class AdministrationController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //create a new user
             $newUser = $form->getData();
 
             $newUser->setPassword(
@@ -80,6 +94,11 @@ class AdministrationController extends Controller
         );
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère le changement de mot de passe et de username.
+     */
     public function settingsAction(Request $request)
     {
         $user = $this->GetUser();
@@ -159,6 +178,14 @@ class AdministrationController extends Controller
         );
     }
 
+    /**
+     * @param null $context
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Change le contexte (correspond au menu "éditer en tant que" partie admin).
+     * Si null -> contexte de la personne
+     * Si !null -> contexte d'une organisation
+     * @see ContextManager
+     */
     public function changeContextAction($context =null){
         $contextManager = $this->get('semapps_bundle.context_manager');
         $contextManager->setContext($this->getUser()->getSfLink(),urldecode($context));
@@ -166,6 +193,14 @@ class AdministrationController extends Controller
         return $this->redirectToRoute('personComponentFormWithoutId',['uniqueComponentName' =>'person']);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère le formulaire et l'envoi du mail d'invitation.
+     * Pour le mail d'invitation,le service inviteManager génère un token qui sera placé dans l'url pour accéder à l'action register
+     * @see registerAction
+     * @see InviteManager
+     */
     public function inviteAction(Request $request){
         $form = $this->createFormBuilder(null)
             ->add('email', EmailType::class)
@@ -204,19 +239,37 @@ class AdministrationController extends Controller
         );
     }
 
+    /**
+     * @param $email
+     * @param $token
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Relance le mail d'invitation
+     */
     public function sendInviteAction($email,$token){
         $this->sendEmailInvitation($email,$token);
         $this->addFlash('success', "Email envoyé à l'adresse <b>" . $email . "</b> !");
         return $this->redirectToRoute('userList');
     }
 
+    /**
+     * @param $email
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Supprime une invitation. Retire le token dans l'invite manager
+     * @see InviteManager
+     */
     public function deleteInviteAction($email){
         $inviteManager = $this->get('semapps_bundle.invite_manager');
         $inviteManager->removeInvite($email);
         return $this->redirectToRoute('userList');
     }
 
-
+    /**
+     * @param $email
+     * @param $token
+     * Envoie le mail d'invitation
+     * @see Mailer
+     * TODO : déplacer cette fonction dans Mailer
+     */
     private function sendEmailInvitation($email,$token){
         $mailer = $this->get('semapps_bundle.event_listener.send_mail');
         $website = $this->getParameter('carto.domain');

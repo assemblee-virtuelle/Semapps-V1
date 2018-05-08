@@ -15,6 +15,16 @@ class PersonController extends UniqueComponentController
         return $this->redirectToRoute('personComponentFormWithoutId',["uniqueComponentName" => "person"]);
     }
 
+    /**
+     * @param $uniqueComponentName
+     * @param null $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * Gère la soumission du formulaire person. Ce formulaire gère la création et la mise à jour de la donnée.
+     * La gestion de l'image est géré également ici mais a son propre comportement.
+     * le côté spécifique de cette fonction est que elle est en lien aussi avec la base de donnée SQL pour gérer le fait que un compte = un profil
+     * TODO : renommer la fonction
+     */
     public function addAction($uniqueComponentName,$id =null,Request $request)
     {
         $sfClient       = $this->get('semantic_forms.client');
@@ -133,6 +143,13 @@ class PersonController extends UniqueComponentController
         );
     }
 
+    /**
+     * @param Request $request
+     * @param $uniqueComponentName
+     * @param null $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Pour ceux qui ont importé leur profil, Actualise le contenu par rapport à la source.
+     */
     public function actualizeAction(Request $request,$uniqueComponentName,$id =null){
         $user = $this->getElement($id);
         $sfClient =$this->get('semantic_forms.client');
@@ -153,6 +170,12 @@ class PersonController extends UniqueComponentController
 
     }
 
+    /**
+     * @param $uniqueComponentName
+     * @param null $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * Supprime le profil d'une personne dans la base SPARQL et SQL
+     */
     public function removeAction($uniqueComponentName, $id =null){
         $user = $this->getElement($id);
 
