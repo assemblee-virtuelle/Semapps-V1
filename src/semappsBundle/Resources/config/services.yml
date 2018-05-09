@@ -17,11 +17,11 @@ services:
         arguments: ['@doctrine.orm.entity_manager','@security.token_storage','@security.authorization_checker','@semapps_bundle.conf_manager','@semantic_forms.client','@semapps_bundle.webservice_cache','@knp\bundle\markdownbundle\markdownparserinterface','@semapps_bundle.sparql_repository']
 
     semapps_bundle.context_manager:
-        class: semappsBundle\Services\contextManager
+        class: semappsBundle\Services\ContextManager
         arguments: ['%kernel.cache_dir%','@semapps_bundle.sparql_repository','@doctrine.orm.entity_manager']
 
     semapps_bundle.conf_manager:
-        class: semappsBundle\Services\confManager
+        class: semappsBundle\Services\ConfManager
         arguments: ['@service_container','%typetoname%','%graphtoname%']
 
     semapps_bundle.import_manager:
@@ -31,7 +31,7 @@ services:
         class: semappsBundle\Services\InviteManager
         arguments: ['%kernel.cache_dir%','@fos_user.util.token_generator']
     semapps_bundle.webservice_cache:
-        class: semappsBundle\Services\webserviceCache
+        class: semappsBundle\Services\WebserviceCache
         arguments: ['%kernel.cache_dir%']
 #
 #    semappsBundle.voter:
