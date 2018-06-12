@@ -5,7 +5,7 @@ parameters:
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Project'
       nameType: 'project'
       fields:
-        http://virtual-assembly.org/pair#subjectOf_Pair:
+        http://virtual-assembly.org/pair#isSubjectOf:
           value: 'subjectOfPAIR'
           access: 'anonymous'
           type: 'uri'
@@ -30,11 +30,11 @@ parameters:
 #        http://virtual-assembly.org/pair#concretizes:
 #          value: 'concretizes'
 #          access: 'anonymous'
-        http://virtual-assembly.org/pair#managedBy:
+        http://virtual-assembly.org/pair#isManagedBy:
           value: 'managedBy'
           access: 'anonymous'
           type: 'uri'
-#        http://virtual-assembly.org/pair#representedBy:
+#        http://virtual-assembly.org/pair#isRepresentedBy:
 #          value: 'representedBy'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#offers:
@@ -49,7 +49,7 @@ parameters:
           value: 'involves'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#documentedBy:
+        http://virtual-assembly.org/pair#isDocumentedBy:
           value: 'documentedBy'
           access: 'anonymous'
           type: 'uri'
@@ -57,7 +57,7 @@ parameters:
           value: 'delivers'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#hasSubject:
+        http://virtual-assembly.org/pair#hasKeyword:
           value: 'hasSubject'
           access: 'anonymous'
           type: 'dbpedia'
@@ -100,9 +100,9 @@ parameters:
           type: 'uri'
       reverse:
 #        http://virtual-assembly.org/pair#concretizes : 'http://virtual-assembly.org/pair#concretizedBy'
-        http://virtual-assembly.org/pair#managedBy: 'http://virtual-assembly.org/pair#manages'
-        http://virtual-assembly.org/pair#involves: 'http://virtual-assembly.org/pair#involvedIn'
-        http://virtual-assembly.org/pair#documentedBy: 'http://virtual-assembly.org/pair#documents'
+        http://virtual-assembly.org/pair#isManagedBy: 'http://virtual-assembly.org/pair#manages'
+        http://virtual-assembly.org/pair#involves: 'http://virtual-assembly.org/pair#isInvolvedIn'
+        http://virtual-assembly.org/pair#isDocumentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
       label:
         - http://virtual-assembly.org/pair#preferedLabel

@@ -7,7 +7,7 @@ parameters:
         - http://xmlns.com/foaf/0.1/Person
       nameType: 'person'
       fields:
-        http://virtual-assembly.org/pair#subjectOf_Pair:
+        http://virtual-assembly.org/pair#isSubjectOf:
           value: 'subjectOfPAIR'
           access: 'anonymous'
           type: 'uri'
@@ -26,7 +26,7 @@ parameters:
         http://virtual-assembly.org/pair#alias:
           value: 'alias'
           access: 'anonymous'
-#        http://virtual-assembly.org/pair#representedBy:
+#        http://virtual-assembly.org/pair#isRepresentedBy:
 #          value: 'representedBy'
 #          access: 'anonymous'
         http://virtual-assembly.org/pair#description:
@@ -43,10 +43,10 @@ parameters:
         http://virtual-assembly.org/pair#aboutPage:
           value: 'aboutPage'
           access: 'anonymous'
-#        http://virtual-assembly.org/pair#localizedBy:
+#        http://virtual-assembly.org/pair#isLocatedAt:
 #          value: 'localizedBy'
 #          access: 'anonymous'
-        http://virtual-assembly.org/pair#e-mail:
+        http://virtual-assembly.org/pair#email:
           value: 'email'
           access: 'member'
           otherPredicat:
@@ -59,7 +59,7 @@ parameters:
         http://virtual-assembly.org/pair#hasInterest:
           value: 'hasInterest'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#hasSubject:
+        http://virtual-assembly.org/pair#hasKeyword:
           value: 'hasSubject'
           access: 'anonymous'
           type: 'dbpedia'
@@ -71,19 +71,19 @@ parameters:
           type: 'uri'
           otherPredicat:
             - http://xmlns.com/foaf/0.1/knows
-        http://virtual-assembly.org/pair#memberOf:
+        http://virtual-assembly.org/pair#isMemberOf:
           value: 'memberOf'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#responsibleOf:
+        http://virtual-assembly.org/pair#isResponsibleFor:
           value: 'responsibleOf'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#affiliatedTo:
+        http://virtual-assembly.org/pair#isAffiliatedTo:
           value: 'affiliatedTo'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#involvedIn:
+        http://virtual-assembly.org/pair#isInvolvedIn:
           value: 'involvedIn'
           access: 'anonymous'
           type: 'uri'
@@ -103,7 +103,7 @@ parameters:
           value: 'organizes'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#participantOf:
+        http://virtual-assembly.org/pair#isParticipatingIn:
           value: 'participantOf'
           access: 'anonymous'
           type: 'uri'
@@ -119,11 +119,11 @@ parameters:
           access: 'anonymous'
           otherPredicat:
             - http://xmlns.com/foaf/0.1/img
-        http://virtual-assembly.org/pair#employedBy:
+        http://virtual-assembly.org/pair#isEmployedBy:
           value: 'employedBy'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#documentedBy:
+        http://virtual-assembly.org/pair#isDocumentedBy:
           value: 'documentedBy'
           access: 'anonymous'
           type: 'uri'
@@ -133,15 +133,15 @@ parameters:
         http://virtual-assembly.org/pair#adressLine2:
           value: 'complementAddress'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#internal_author:
+        http://virtual-assembly.org/pair#isAuthorOfDocument:
           value: 'internal_author'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#internal_contributor:
+        http://virtual-assembly.org/pair#isContributorOfDocument:
           value: 'internal_contributor'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#internal_publisher: #person + orga
+        http://virtual-assembly.org/pair#isPublisherOfDocument: #person + orga
            value: 'internal_publisher'
            access: 'anonymous'
            type: 'uri'
@@ -152,12 +152,12 @@ parameters:
 
       reverse:
         http://virtual-assembly.org/pair#knows: 'http://virtual-assembly.org/pair#knows'
-#        http://virtual-assembly.org/pair#memberOf: 'http://virtual-assembly.org/pair#hasMember'
-        http://virtual-assembly.org/pair#involvedIn: 'http://virtual-assembly.org/pair#involves'
-        http://virtual-assembly.org/pair#participantOf: 'http://virtual-assembly.org/pair#hasParticipant'
-        http://virtual-assembly.org/pair#manages: "http://virtual-assembly.org/pair#managedBy"
-        http://virtual-assembly.org/pair#organizes: "http://virtual-assembly.org/pair#organizedBy"
-#        http://virtual-assembly.org/pair#responsibleOf: 'http://virtual-assembly.org/pair#hasResponsible'
+#        http://virtual-assembly.org/pair#isMemberOf: 'http://virtual-assembly.org/pair#hasMember'
+        http://virtual-assembly.org/pair#isInvolvedIn: 'http://virtual-assembly.org/pair#involves'
+        http://virtual-assembly.org/pair#isParticipatingIn: 'http://virtual-assembly.org/pair#hasParticipant'
+        http://virtual-assembly.org/pair#manages: "http://virtual-assembly.org/pair#isManagedBy"
+        http://virtual-assembly.org/pair#organizes: "http://virtual-assembly.org/pair#isOrganizedBy"
+#        http://virtual-assembly.org/pair#isResponsibleFor: 'http://virtual-assembly.org/pair#hasResponsible'
 #        http://virtual-assembly.org/pair#employedBy: 'http://virtual-assembly.org/pair#employs'
       label:
         - http://virtual-assembly.org/pair#firstName

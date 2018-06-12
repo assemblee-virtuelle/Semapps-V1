@@ -233,7 +233,7 @@ class WebserviceController extends Controller
         $requests['ressourcesProposed'] =$ressourceQuery->getQuery();
 
         $ressourceQuery = clone $sparql;
-        $ressourceQuery->addWhere('?uri','pair:hasSubject',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
+        $ressourceQuery->addWhere('?uri','pair:hasKeyword',$sparql->formatValue($uri,$sparql::VALUE_TYPE_URL),'?gr');
         $requests['hasSubject'] =$ressourceQuery->getQuery();
 
         $ressourceQuery = clone $sparql;

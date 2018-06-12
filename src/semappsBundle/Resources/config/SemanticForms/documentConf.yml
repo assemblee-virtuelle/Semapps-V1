@@ -5,7 +5,7 @@ parameters:
       spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Document'
       nameType: 'document'
       fields:
-        http://virtual-assembly.org/pair#subjectOf_Pair:
+        http://virtual-assembly.org/pair#isSubjectOf:
           value: 'subjectOfPAIR'
           access: 'anonymous'
           type: 'uri'
@@ -57,17 +57,17 @@ parameters:
           value: 'internal_document_contributor'
           access: 'anonymous'
           type: 'uri'
-        http://virtual-assembly.org/pair#external_document_author: #person + orga
+        http://virtual-assembly.org/pair#externalAuthor: #person + orga
           value: 'external_document_author'
           access: 'anonymous'
-        http://virtual-assembly.org/pair#external_document_contributor: #person + orga
+        http://virtual-assembly.org/pair#externalContributor: #person + orga
           value: 'external_document_contributor'
           access: 'anonymous'
         http://virtual-assembly.org/pair#internal_document_publisher: #person + orga
            value: 'internal_document_publisher'
            access: 'anonymous'
            type: 'uri'
-        http://virtual-assembly.org/pair#external_document_publisher: # person + orga
+        http://virtual-assembly.org/pair#externalPublisher: # person + orga
            value: 'external_document_publisher'
            access: 'anonymous'
         http://virtual-assembly.org/pair#format:
@@ -91,7 +91,7 @@ parameters:
         http://virtual-assembly.org/pair#hasInterest:
            value: 'hasInterest'
            access: 'anonymous'
-        http://virtual-assembly.org/pair#hasSubject:
+        http://virtual-assembly.org/pair#hasKeyword:
            value: 'hasSubject'
            access: 'anonymous'
            type: 'dbpedia'
@@ -114,10 +114,10 @@ parameters:
       reverse:
         http://virtual-assembly.org/pair#references: 'http://virtual-assembly.org/pair#referencesBy'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
-        http://virtual-assembly.org/pair#documents: 'http://virtual-assembly.org/pair#documentedBy'
-        http://virtual-assembly.org/pair#internal_document_author: 'http://virtual-assembly.org/pair#internal_author'
-        http://virtual-assembly.org/pair#internal_document_contributor: 'http://virtual-assembly.org/pair#internal_contributor'
-        http://virtual-assembly.org/pair#internal_document_publisher: 'http://virtual-assembly.org/pair#internal_publisher'
+        http://virtual-assembly.org/pair#documents: 'http://virtual-assembly.org/pair#isDocumentedBy'
+        http://virtual-assembly.org/pair#internal_document_author: 'http://virtual-assembly.org/pair#isAuthorOfDocument'
+        http://virtual-assembly.org/pair#internal_document_contributor: 'http://virtual-assembly.org/pair#isContributorOfDocument'
+        http://virtual-assembly.org/pair#internal_document_publisher: 'http://virtual-assembly.org/pair#isPublisherOfDocument'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
       access:

@@ -162,7 +162,7 @@ class SparqlRepository extends SparqlClient
             SELECT ?G ?O
             WHERE {GRAPH ?G 
             {
-                ?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:partnerOf <".$organization.">. 
+                ?s pair:preferedLabel ?O. ?s rdf:type pair:Organization . ?s pair:isPartnerOf <".$organization.">. 
             }}
             GROUP BY ?G ?O"
             ),'G'));
