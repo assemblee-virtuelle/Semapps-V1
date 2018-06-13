@@ -12,6 +12,9 @@ imports:
     - { resource: "@semappsBundle/Resources/config/SemanticForms/organizationtypeConf.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/dbpedia.yml" }
     - { resource: "@semappsBundle/Resources/config/SemanticForms/thematicConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/goodConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/serviceConf.yml" }
+    - { resource: "@semappsBundle/Resources/config/SemanticForms/placeConf.yml" }
 
 parameters:
   typeToName:
@@ -21,6 +24,9 @@ parameters:
     http://virtual-assembly.org/pair#Event: 'event'
     http://virtual-assembly.org/pair#Proposal: 'proposal'
     http://virtual-assembly.org/pair#Document: 'document'
+    http://virtual-assembly.org/pair#Good: 'good'
+    http://virtual-assembly.org/pair#Service: 'service'
+    http://virtual-assembly.org/pair#Place: 'place'
 
   graphToName:
     urn://semapps/thesaurus/documenttype: 'documentType'

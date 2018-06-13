@@ -1,0 +1,63 @@
+parameters:
+
+    goodConf:
+      type: 'http://virtual-assembly.org/pair#Good'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Good'
+      nameType: 'good'
+      fields:
+        http://virtual-assembly.org/pair#subjectOf_Pair:
+          value: 'subjectOfPAIR'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#preferedLabel:
+          value: 'preferedLabel'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#alternativeLabel:
+          value: 'alternativeLabel'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#hasSubject:
+          value: 'hasSubject'
+          access: 'anonymous'
+          type: 'dbpedia'
+          otherPredicat:
+            - http://xmlns.com/foaf/0.1/topic_interest
+        http://virtual-assembly.org/pair#description:
+          value: 'description'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#e-mail:
+          value: 'email'
+          access: 'member'
+        http://virtual-assembly.org/pair#phone:
+          value: 'phone'
+          access: 'member'
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#comment:
+          value: 'comment'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#aboutPage:
+          value: 'aboutPage'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#homePage:
+          value: 'homePage'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#image:
+          value: 'image'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#adress:
+          value: 'address'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#offeredBy:
+          value: 'offeredBy'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#neededBy:
+          value: 'neededBy'
+          access: 'anonymous'
+          type: 'uri'
+      reverse:
+        http://virtual-assembly.org/pair#neededBy: 'http://virtual-assembly.org/pair#needs'
+        http://virtual-assembly.org/pair#offeredBy: 'http://virtual-assembly.org/pair#offers'
+      label:
+        - http://virtual-assembly.org/pair#preferedLabel

@@ -1,0 +1,124 @@
+<dom-module id="semapps-detail-place">
+  <link rel="import" type="css" href="semapps-detail-place.css">
+  <link rel="import" href="../semapps-tag/semapps-tag.html">
+  <template>
+    <div id="semapps-detail-place">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.preferedLabel]]</h2>
+        <h4>Lieu</h4>
+
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[image]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[image]]');"></div>
+            </template>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Commentaire</td>
+                  <td>[[comment]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[address]]">
+                <tr class="field">
+                  <td class="fieldLabel">Adresse</td>
+                  <td>[[address]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[complementAddress]]">
+                <tr class="field">
+                  <td class="fieldLabel">Complément d'adresse</td>
+                  <td>[[complementAddress]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[homePage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web</td>
+                  <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
+                  </td>
+                </tr>
+              </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[data.partOf.place.length]]">
+          <h3>Se trouve à ( lieu )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.partOf.place}}">
+              <semapps-avatar uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.hasPart.place.length]]">
+          <h3> Contiens ( lieu )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasPart.place}}">
+              <semapps-avatar uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[data.deliveredBy.person.length]]">
+          <h3>Mis en place par ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.deliveredBy.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.deliveredBy.organization.length]]">
+          <h3>Mis en place par ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.deliveredBy.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.operatedBy.person.length]]">
+          <h3>Géré par ( personne )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.operatedBy.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[data.operatedBy.organization.length]]">
+          <h3>Géré par ( organisation )</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.operatedBy.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                              label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+    </div>
+  </template>
+  <script src="semapps-detail-place.min.js"></script>
+</dom-module>

@@ -97,6 +97,27 @@
                     markerColor: '#01acdd',
                 }
                 ,
+                "http://virtual-assembly.org/pair#Good":{
+                    name: 'Good',
+                    plural: 'Goods',
+                    icon: 'gift',
+                    markerColor: '#a4de37',
+                }
+                ,
+                "http://virtual-assembly.org/pair#Service":{
+                    name: 'Service',
+                    plural: 'Services',
+                    icon: 'wrench',
+                    markerColor: '#a4de37',
+                }
+                ,
+                "http://virtual-assembly.org/pair#Place":{
+                    name: 'Place',
+                    plural: 'Places',
+                    icon: 'map-marker',
+                    markerColor: '#a4de37',
+                }
+                ,
                 "http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl":{
                     name: 'Type d\'organisation',
                     plural: 'Types d\'organisations',
