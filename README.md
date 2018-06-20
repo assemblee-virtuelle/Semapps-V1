@@ -28,7 +28,7 @@ In order to contribute, you need to have
 - One can change the port used by the SF server by changing the `PORT` variable in `start.sh` (9111 by default)
 - Give the execution permission to ```start.sh``` and `bin/semantic_forms_play` and run `start.sh` to start the SF server:
 ```bash
-chmod +x script.sh
+chmod +x start.sh
 chmod +x bin/semantic_forms_play
 ./start.sh
 ```
