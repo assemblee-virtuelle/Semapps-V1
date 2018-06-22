@@ -3,7 +3,8 @@
 {% block title %}SemApps  | component{% endblock %}
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
-
+{% set menuSelected = '' %}
+{% block pageContentTitle %}Ajouter un type : {{ componentName }}{% endblock %}
 {% block pageContent %}
     {{ parent() }}
     <div class="container">

@@ -123,9 +123,15 @@ class ComponentController extends AbstractMultipleComponentController
                 }
             }
         }
+        if($this->container->get('twig.loader')->exists('semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig')){
+            $templateTwig = 'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig';
+        }else{
+
+            $templateTwig = 'semappsBundle:Component:componentForm.html.twig';
+        }
         // Fill form
         return $this->render(
-            'semappsBundle:'.ucfirst($componentName).':'.$componentName.'Form.html.twig',
+            $templateTwig,
             [
                 'image' => $actualImageName,
                 'form' => $form->createView(),
