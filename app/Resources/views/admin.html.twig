@@ -21,14 +21,17 @@
 {% endblock %}
 
 {% macro menuItem(title, route, icon,tooltip = 'hello !', menuSelected, role, pathOptions = {}) %}
+
     {% if (role == '' or is_granted('ROLE_' ~ role)) %}
-        <li class="{% if (menuSelected|default(false)==title or menuSelected|default(false)==route) %}active{% endif %}">
+
+        <li class="{% if (menuSelected|default(false)==title or menuSelected|default(false)==route or (pathOptions.componentName is defined and menuSelected|default(false)==pathOptions['componentName'])) %}active{% endif %}">
             <a href="{{ path(route, pathOptions) }}" data-toggle="tooltip" data-placement="top" title="{{ tooltip }}" >
                 <span class="glyphicon glyphicon-{{ icon }}"></span>
                 {{ title }}
             </a>
         </li>
     {% endif %}
+
 {% endmacro %}
 
 {% macro menuItemContext(title,context, route, icon,tooltip = 'hello !', pathOptions = {}) %}
