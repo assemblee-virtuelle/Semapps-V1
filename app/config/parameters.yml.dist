@@ -22,23 +22,6 @@ parameters:
     semantic_forms.login: 'aa'
     semantic_forms.password: 'aa'
     semantic_forms.timeout: 10
-
-   # This parameters do the work for linking what is a component and use it on the platform
-   # example :
-   # semantic_forms.component:
-   #     project: 'http://virtual-assembly.org/pair#Project'
-   #     event: 'http://virtual-assembly.org/pair#Event'
-   #     proposal: 'http://virtual-assembly.org/pair#Proposal'
-   #     document: 'http://virtual-assembly.org/pair#Document'
-   #     documentType: 'http://virtual-assembly.org/pair#DocumentType'
-   # All component have the possibility to have a "standard comportment" with different function
-    semantic_forms.component:
-       project: 'http://virtual-assembly.org/pair#Project'
-       event: 'http://virtual-assembly.org/pair#Event'
-       proposal: 'http://virtual-assembly.org/pair#Proposal'
-       document: 'http://virtual-assembly.org/pair#Document'
-       documentType: 'http://virtual-assembly.org/pair#DocumentType'
-
    # is here to have a message on all page in admin : typically, if we need to shutdown the Semantic Forms server --> all user can be prevent
    # example :
    # special_alert:
