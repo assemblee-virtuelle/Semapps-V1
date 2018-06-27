@@ -160,6 +160,15 @@ class EventType extends SemanticFormType
             )
             ->add(
                 $builder,
+                'isHostedIn',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_PLACE,
+                ]
+            )
+            ->add(
+                $builder,
                 'hasType',
                 ThesaurusType::class,
                 [

@@ -68,7 +68,13 @@ parameters:
         http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
           value: 'type'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#hosts:
+          value: 'hosts'
+          access: 'anonymous'
+          type: 'uri'
       reverse:
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
+        http://virtual-assembly.org/pair#hosts: 'http://virtual-assembly.org/pair#isHostedIn'
+
       label:
         - http://virtual-assembly.org/pair#preferedLabel

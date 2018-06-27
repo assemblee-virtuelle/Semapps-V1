@@ -95,6 +95,17 @@
           </div>
           <div class="clearfix"></div>
         </template>
+        <!-- hosts -->
+          <template is="dom-if" if="[[data.hosts.event.length]]">
+            <h3>Héberge</h3>
+            <div>
+              <template is="dom-repeat" items="{{data.hosts.event}}">
+                <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+              </template>
+              <div class="clearfix"></div>
+            </div>
+          </template>
+        <!-- end of hosts -->
         <template is="dom-if" if="[[data.operatedBy.person.length]]">
           <h3>Géré par ( personne )</h3>
           <div class="thumbs">

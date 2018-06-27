@@ -163,6 +163,17 @@
           </div>
         </template>
         <!-- end of documentedby -->
+        <!-- isHostedIn -->
+          <template is="dom-if" if="[[data.isHostedIn.place.length]]">
+            <h3>Est hébergé dans</h3>
+            <div>
+              <template is="dom-repeat" items="{{data.isHostedIn.place}}">
+                <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="place"></semapps-tag>
+              </template>
+              <div class="clearfix"></div>
+            </div>
+          </template>
+        <!-- end of isHostedIn -->
         <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
           <h3>Est concerné par ( Propositions )</h3>
           <div>

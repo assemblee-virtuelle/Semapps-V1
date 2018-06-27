@@ -77,6 +77,10 @@ parameters:
         http://virtual-assembly.org/pair#adressLine2:
           value: 'complementAddress'
           access: 'anonymous'
+        http://virtual-assembly.org/pair#isHostedIn:
+          value: 'isHostedIn'
+          access: 'anonymous'
+          type: 'uri'
         http://virtual-assembly.org/pair#hasType:
           value: 'hasType'
           access: 'anonymous'
@@ -102,6 +106,7 @@ parameters:
         http://virtual-assembly.org/pair#isDocumentedBy: 'http://virtual-assembly.org/pair#documents'
         http://virtual-assembly.org/pair#hasSubject: 'http://virtual-assembly.org/pair#isSubjectOf'
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
+        http://virtual-assembly.org/pair#isHostedIn: 'http://virtual-assembly.org/pair#hosts'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
       access:

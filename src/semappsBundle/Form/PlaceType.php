@@ -21,8 +21,6 @@ use VirtualAssembly\SemanticFormsBundle\Form\UriType;
 
 class PlaceType extends SemanticFormType
 {
-
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // This will manage form specification.
@@ -131,6 +129,15 @@ class PlaceType extends SemanticFormType
                 [
                     'required'  => false,
                     'rdfType'   => semappsConfig::URI_PAIR_PLACE,
+                ]
+            )
+            ->add(
+                $builder,
+                'hosts',
+                UriType::class,
+                [
+                    'required'  => false,
+                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(
