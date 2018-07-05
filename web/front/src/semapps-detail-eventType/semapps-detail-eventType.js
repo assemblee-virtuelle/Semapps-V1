@@ -14,7 +14,7 @@ Polymer({
             semapps.initElementGlobals(this);
         });
         // Raw values.
-        log("hello document")
+
         $.extend(this, this.data.properties);
         this.typeOf = this.data.typeOf;
 

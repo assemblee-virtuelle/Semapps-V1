@@ -34,7 +34,7 @@ Polymer({
             }
         }
         this.complementAddress = this.complementAddress[0];
-        log(this.complementAddress);
+        //log(this.complementAddress);
         //this.buildingTitle = semapps.buildings[this.data.properties.building].title;
         if (this.startDate) {
             let startDate = new Date(this.startDate);
@@ -55,7 +55,6 @@ Polymer({
     },
     handleClickRessource(e) {
         e.preventDefault();
-        log('test');
         semapps.goToPath('ressource', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel')),
             person: window.encodeURIComponent(this.uri)

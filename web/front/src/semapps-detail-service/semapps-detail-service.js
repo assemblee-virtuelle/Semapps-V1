@@ -30,7 +30,7 @@ Polymer({
     },
     handleClickRessource(e) {
         e.preventDefault();
-        log('test');
+
         semapps.goToPath('ressource', {
             uri: window.encodeURIComponent(e.currentTarget.getAttribute('rel')),
             person: window.encodeURIComponent(this.uri)

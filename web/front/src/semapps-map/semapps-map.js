@@ -141,14 +141,12 @@ Polymer({
      */
     pinHideAll() {
         "use strict";
-        log('start pinHideAll');
-        log(this.pins);
+        //log(this.pins);
         for (let key in this.pins){
             if (this.pins.hasOwnProperty(key)) {
                 this.pinHide(key);
             }
         }
-        log('stop pinHideAll');
 
     },
 
@@ -169,8 +167,6 @@ Polymer({
 });
 
 function onMapClick(e) {
-    log('onMapClick');
-
     if (semapps.map.OSM.scrollWheelZoom.enabled()) {
         semapps.map.OSM.scrollWheelZoom.disable();
     }
@@ -180,7 +176,7 @@ function onMapClick(e) {
     mouseOver();
 }
 function mouseOver(e) {
-    log('mouseOver');
+
     let element = document.getElementById('semapps-map-black');
     if(!semapps.map.OSM.scrollWheelZoom.enabled()){
         $('#semapps-map-black').animate({ height: "100%"},'fast','linear');
@@ -193,7 +189,6 @@ function mouseOver(e) {
     }
 }
 function mouseOut(e){
-    log('mouseOut');
 
     $('#semapps-map-message').hide();
     $('#semapps-map-black').animate({ height: "0px"},'fast','linear')

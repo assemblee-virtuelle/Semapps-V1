@@ -76,7 +76,7 @@ Polymer({
             // Route change may be fired before init.
             window.SemAppsCarto.ready(() => {
                 let split = data.path.split('/');
-                log(split)
+                //log(split)
                 this.search(split[1]);
             });
         }
@@ -116,6 +116,7 @@ Polymer({
         this.searchQueryLastComplete = complete;
         semapps.ajax('webservice/search?' +
             'term=' + encodeURIComponent(term) +
+            '&type=' + encodeURIComponent(this.typeSelected) +
             '&filter=' + encodeURIComponent(semapps.searchLastFilter), (data) => {
             "use strict";
             // Check that we are on the last callback expected.
@@ -140,7 +141,6 @@ Polymer({
         response = response || this.renderSearchResultResponse || {};
         // Save last data for potential reload.
         this.renderSearchResultResponse = response;
-
         if (response.error) {
             this.searchError = true;
         }
@@ -169,17 +169,9 @@ Polymer({
                     }
                 }
             }
+            //log(resultTemps[this.typeSelected]);
+            results = (typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[this.typeSelected] : [];//resultTemps[this.typeSelected];
 
-            // semapps.map.pinShowAll();
-            if(typeof resultTemps[this.typeSelected] === 'undefined' ){
-                // Deselect tab if current.
-                let key = Object.keys(resultTemps)[0];
-                this.selection(key);
-                results =(typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[Object.keys(resultTemps)[0]] : [];
-            }
-            else{
-                results = resultTemps[this.typeSelected];
-            }
             // Create title.
             let resultsTitle = '';
             // Results number.
@@ -195,8 +187,7 @@ Polymer({
 
         this.tabsRegistry.all && (this.tabsRegistry.all.counter = totalCounter);
         for (let entity in semapps.entities){
-            this.tabsRegistry[entity] && (this.tabsRegistry[entity].counter = typesCounter[entity] || 0);
-
+            this.tabsRegistry[entity] && (this.tabsRegistry[entity].counter = typesCounter[entity] );
         }
         setTimeout(() => {
             this.set('results', results);
@@ -207,11 +198,15 @@ Polymer({
         if (this.typeSelected && this.tabsRegistry[val]) {
             this.tabsRegistry[this.typeSelected].$$('li').classList.remove('active');
         }
-        // Save.
-        this.typeSelected = val;
         // It may not be already created.
         if (this.tabsRegistry[val]) {
             this.tabsRegistry[val].$$('li').classList.add('active');
         }
+        if (val !== this.typeSelected ){
+            // Save.
+            this.typeSelected = val;
+            this.search()
+        }
+
     }
 });

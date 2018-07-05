@@ -44,7 +44,7 @@ Polymer({
       semapps.ajax('webservice/context/change/' + encodeURI(encodeURIComponent(this.idOfGraph)), (data) => {
           "use strict";
           // Check that we are on the last callback expected.
-          log(data);
+          //log(data);
           window.location.replace(path);
       });
 
@@ -115,7 +115,7 @@ Polymer({
     inner.parent = this;
     semapps.detail = this;
     this.currentComponentUri = data.uri;
-    log(semapps.detail.canEdit);
+    //log(semapps.detail.canEdit);
 
       let domInner = document.getElementById('semapps-detail-inner');
     domInner.innerHTML = '';
