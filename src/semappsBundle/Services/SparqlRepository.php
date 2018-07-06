@@ -199,20 +199,21 @@ class SparqlRepository extends SparqlClient
                 $results = $this->sfClient->sparql($sparql->getQuery());
                 if (isset($results["results"]["bindings"])) {
                     foreach ($results["results"]["bindings"] as $item) {
-                        $title = '';
+//                        $title = '';
+                        $detailListContent=[];
                         foreach ($componentConf['label'] as $field ){
                             $label = $componentConf['fields'][$field]['value'];
-                            $title .= $item[$label]['value'] .' ';
+                            $detailListContent[$label] = $item[$label]['value'];
+//                            $title .= $item[$label]['value'] .' ';
                         }
-                        $listContent[$title.'_'.$uri] = [
+                        $listContent[$uri] = [
                             'uri'   => $uri,
-                            'title' => $title,
+                            'content' => $detailListContent,
                             'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
                         ];
                     }
                 }
             }
-
         }else{
             $sparql->addPrefixes($sparql->prefixes)
                 ->addSelect('?URI')
@@ -226,19 +227,22 @@ class SparqlRepository extends SparqlClient
             $results = $this->sfClient->sparql($sparql->getQuery());
             if (isset($results["results"]["bindings"])) {
                 foreach ($results["results"]["bindings"] as $item) {
-                    $title = '';
+//                    $title = '';
+                    $detailListContent=[];
                     foreach ($componentConf['label'] as $field ){
                         $label = $componentConf['fields'][$field]['value'];
-                        $title .= $item[$label]['value'] .' ';
+                        $detailListContent[$label] = $item[$label]['value'];
+//                        $title .= $item[$label]['value'] .' ';
                     }
-                    $listContent[$title.'_'.$item['URI']['value']] = [
+                    $listContent[$item['URI']['value']] = [
                         'uri'   => $item['URI']['value'],
-                        'title' => $title,
+                        'content' => $detailListContent,
                         'graph' => (array_key_exists('GR',$item))? $item['GR']['value']:$graphURI,
                     ];
                 }
             }
         }
+//        dump($listContent);exit;
         ksort($listContent);
         return $listContent;
     }

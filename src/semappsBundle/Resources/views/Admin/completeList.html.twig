@@ -20,7 +20,7 @@
         {% for organisation in organisations %}
             <tr>
                 <td class="padded-value" style="width:60%">
-                    {{ organisation.title }}
+                    {{ organisation.content.preferedLabel }}
                 </td>
                 {% if is_granted('ROLE_ADMIN') %}
                     <td class="padded-value">

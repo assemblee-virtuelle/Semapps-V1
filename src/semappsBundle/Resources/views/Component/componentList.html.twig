@@ -17,7 +17,10 @@
     <table class="table table-bordered">
         {% for item in listContent %}
             <tr>
-                <td style="width:100%">{{ item.title }}</td>
+                {% block itemDisplay %}
+                    <td style="width:100%">{{ item.content|first }}</td>
+                {% endblock %}
+
                 <td>
                     <a class="btn" target="_parent" href="/detail?uri={{ item.uri }}"><span
                                 class="glyphicon glyphicon-eye-open"></span>
