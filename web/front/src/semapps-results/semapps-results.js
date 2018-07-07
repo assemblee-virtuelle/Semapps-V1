@@ -182,6 +182,15 @@ Polymer({
 
             // Display no results section or not.
             this.noResult = results.length === 0;
+            let domInner = document.getElementById('searchResults');
+            domInner.innerHTML = '';
+            // domInner.innerHTML = '';
+            for(let result of results){
+                let inner = document.createElement('semapps-results-item');
+                inner.data = result;
+                inner.parent = this;
+                domInner.appendChild(inner);
+            }
 
         }
 

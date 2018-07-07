@@ -15,11 +15,9 @@
       <div class="col col-sm-12">
         <div class="clearfix"></div>
         <h3 class="resultsTitle">[[resultsTitle]]</h3>
-        <div id="searchResults" class="col col-sm-12">
-          <template is="dom-repeat" items="{{results}}">
-            <semapps-results-item data="[[item]]"></semapps-results-item>
-          </template>
-        </div>
+
+        <div id="searchResults" class="col col-sm-12"></div>
+
         <template is="dom-if" if="[[searchError]]">
           <div id="semapps-results-error" class="alert alert-danger">Une erreur c'est
             produite lors du chargement...
