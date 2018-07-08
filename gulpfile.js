@@ -8,6 +8,22 @@ var sync = require('gulp-sync')(gulp);
 var sass = require('gulp-sass');
 var fs = require('fs');
 
+var components =[
+    'person',
+    'organization',
+    'organizationType',
+    'project',
+    'projectType',
+    'event',
+    'eventType',
+    'proposal',
+    'proposalType',
+    'document',
+    'documentType',
+    'good',
+    'service',
+    'place',
+    ];
 // For each file (with no extension),
 // if value is "true", use the .js version to build .min.js version,
 // if value is an array, aggregate the files to the .min.js version.
@@ -46,20 +62,6 @@ var filesJs = {
   // 'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-detail/semapps-detail': true,
   'web/front/src/semapps-ressource/semapps-ressource': true,
-  'web/front/src/semapps-detail-organization/semapps-detail-organization': true,
-  'web/front/src/semapps-detail-organizationType/semapps-detail-organizationType': true,
-  'web/front/src/semapps-detail-person/semapps-detail-person': true,
-  'web/front/src/semapps-detail-project/semapps-detail-project': true,
-  'web/front/src/semapps-detail-event/semapps-detail-event': true,
-  'web/front/src/semapps-detail-good/semapps-detail-good': true,
-  'web/front/src/semapps-detail-service/semapps-detail-service': true,
-  'web/front/src/semapps-detail-place/semapps-detail-place': true,
-  'web/front/src/semapps-detail-proposal/semapps-detail-proposal': true,
-  'web/front/src/semapps-detail-document/semapps-detail-document': true,
-  'web/front/src/semapps-detail-documentType/semapps-detail-documentType': true,
-  'web/front/src/semapps-detail-projectType/semapps-detail-projectType': true,
-  'web/front/src/semapps-detail-eventType/semapps-detail-eventType': true,
-  'web/front/src/semapps-detail-proposalType/semapps-detail-proposalType': true,
   'web/front/src/semapps-map/semapps-map': true,
   'web/front/src/semapps-prez/semapps-prez': true,
   'web/front/src/semapps-map-pin/semapps-map-pin': true
@@ -84,20 +86,6 @@ var filesScss = {
   'web/front/src/semapps-detail/semapps-detail': true,
   'web/front/src/semapps-ressource/semapps-ressource': true,
   'web/front/src/semapps-detail/semapps-detail-inner': true,
-  'web/front/src/semapps-detail-organization/semapps-detail-organization': true,
-  'web/front/src/semapps-detail-organizationType/semapps-detail-organizationType': true,
-  'web/front/src/semapps-detail-person/semapps-detail-person': true,
-  'web/front/src/semapps-detail-project/semapps-detail-project': true,
-  'web/front/src/semapps-detail-event/semapps-detail-event': true,
-  'web/front/src/semapps-detail-good/semapps-detail-good': true,
-  'web/front/src/semapps-detail-service/semapps-detail-service': true,
-  'web/front/src/semapps-detail-place/semapps-detail-place': true,
-  'web/front/src/semapps-detail-proposal/semapps-detail-proposal': true,
-  'web/front/src/semapps-detail-document/semapps-detail-document': true,
-  'web/front/src/semapps-detail-documentType/semapps-detail-documentType': true,
-  'web/front/src/semapps-detail-projectType/semapps-detail-projectType': true,
-  'web/front/src/semapps-detail-eventType/semapps-detail-eventType': true,
-  'web/front/src/semapps-detail-proposalType/semapps-detail-proposalType': true,
   'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
   'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-map/semapps-map': true,
@@ -134,6 +122,10 @@ function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
 }
 
 function buildFiles(files, action, sourceExt, destExt) {
+  components.forEach(function(element) {
+      files ['web/front/src/semapps-detail-'+element+'/semapps-detail-'+element] = true;
+  });
+  console.log(files)
   // One task for each file separately.
   Object.keys(files).map((destFile) => {
     var fileData = getFilesOptions(destFile, files[destFile], sourceExt);
