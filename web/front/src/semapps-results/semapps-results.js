@@ -180,13 +180,15 @@ Polymer({
             // Display title.
             this.resultsTitle = resultsTitle;
 
+            log(semapps.entities[this.typeSelected].nameType.toLowerCase());
+
             // Display no results section or not.
             this.noResult = results.length === 0;
             let domInner = document.getElementById('searchResults');
             domInner.innerHTML = '';
             // domInner.innerHTML = '';
             for(let result of results){
-                let inner = document.createElement('semapps-results-item');
+                let inner = document.createElement('semapps-results-'+semapps.entities[this.typeSelected].nameType.toLowerCase());
                 inner.data = result;
                 inner.parent = this;
                 domInner.appendChild(inner);

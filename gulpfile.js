@@ -124,6 +124,7 @@ function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
 function buildFiles(files, action, sourceExt, destExt) {
   components.forEach(function(element) {
       files ['web/front/src/semapps-detail-'+element+'/semapps-detail-'+element] = true;
+      files ['web/front/src/semapps-results-'+element+'/semapps-results-'+element] = true;
   });
   console.log(files)
   // One task for each file separately.

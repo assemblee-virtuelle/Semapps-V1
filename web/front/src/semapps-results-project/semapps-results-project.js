@@ -1,5 +1,5 @@
 Polymer({
-  is: 'semapps-results-item',
+  is: 'semapps-results-project',
   properties: {
     uri: String,
     label: String,
