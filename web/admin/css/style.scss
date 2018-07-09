@@ -198,14 +198,14 @@ input.form-control {
 
 .container-auth {
   position: relative;
-  height: 800px;
-  min-height: 500px;
+  //height: 600px;
+  //min-height: 500px;
   width: 100%;
   background: #161415 url(../../common/images/banner.jpg) no-repeat top center;
   background-size: cover !important;
   -webkit-background-size: cover !important;
   text-align: center;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 .navbar-default .navbar-nav > .main {
@@ -270,7 +270,8 @@ input.form-control {
 
 .block-banner-overflow,
 .block-banner-overflow-transparent {
-  margin-top: 450px;
+  margin-top: 350px;
+  margin-bottom: 350px;
   padding: 10px 40px;
 }
 
