@@ -109,6 +109,11 @@ parameters:
         http://virtual-assembly.org/pair#isHostedIn: 'http://virtual-assembly.org/pair#hosts'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
+        - http://virtual-assembly.org/pair#comment
+        - http://virtual-assembly.org/pair#image
+        - http://virtual-assembly.org/pair#adress
+        - http://virtual-assembly.org/pair#startDate
+        - http://virtual-assembly.org/pair#endDate
       access:
         write: 'http://virtual-assembly.org/pair#accessWrite'
         read: 'http://virtual-assembly.org/pair#accessRead'

@@ -162,3 +162,6 @@ parameters:
       label:
         - http://virtual-assembly.org/pair#firstName
         - http://virtual-assembly.org/pair#lastName
+        - http://virtual-assembly.org/pair#comment
+        - http://virtual-assembly.org/pair#image
+        - http://virtual-assembly.org/pair#adress

@@ -138,3 +138,6 @@ parameters:
         http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
+        - http://virtual-assembly.org/pair#comment
+        - http://virtual-assembly.org/pair#image
+        - http://virtual-assembly.org/pair#adress

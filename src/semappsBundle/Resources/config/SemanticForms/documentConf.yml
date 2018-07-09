@@ -120,6 +120,7 @@ parameters:
         http://virtual-assembly.org/pair#internal_document_publisher: 'http://virtual-assembly.org/pair#isPublisherOfDocument'
       label:
         - http://virtual-assembly.org/pair#preferedLabel
+        - http://virtual-assembly.org/pair#comment
       access:
         write: 'http://virtual-assembly.org/pair#accessWrite'
         read: 'http://virtual-assembly.org/pair#accessRead'

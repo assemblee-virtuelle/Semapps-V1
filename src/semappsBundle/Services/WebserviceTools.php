@@ -50,180 +50,43 @@ class WebserviceTools
     }
     public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
-        $this
-            ->em
-            ->getRepository('semappsBundle:User');
+
         $arrayType = explode('|',$type);
-        $arrayType = array_flip($arrayType);
-        $typeOrganization = array_key_exists(semappsConfig::URI_PAIR_ORGANIZATION,$arrayType);
-        $typePerson= array_key_exists(semappsConfig::URI_PAIR_PERSON,$arrayType);
-        $typeProject= array_key_exists(semappsConfig::URI_PAIR_PROJECT,$arrayType);
-        $typeEvent= array_key_exists(semappsConfig::URI_PAIR_EVENT,$arrayType);
-        $typeDocument= array_key_exists(semappsConfig::URI_PAIR_DOCUMENT,$arrayType);
-        $typeProposition= array_key_exists(semappsConfig::URI_PAIR_PROPOSAL,$arrayType);
-        $typeGood = array_key_exists(semappsConfig::URI_PAIR_GOOD,$arrayType);
-        $typeService = array_key_exists(semappsConfig::URI_PAIR_SERVICE,$arrayType);
-        $typePlace = array_key_exists(semappsConfig::URI_PAIR_PLACE,$arrayType);
-        $typeThesaurus= array_key_exists(semappsConfig::URI_SKOS_THESAURUS,$arrayType);
+
         $sparqlClient = new SparqlClient();
-        /** @var \VirtualAssembly\SparqlBundle\Sparql\sparqlSelect $sparql */
-        $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
-        /** TODO: move to sparqlRepository */
-        /* requete génériques */
-        $sparql->addPrefixes($sparql->prefixes)
-            ->addPrefix('pair','http://virtual-assembly.org/pair#')
+        $results = [];
+
+        foreach ($arrayType as $type) {
+            $sparql = $sparqlClient->newQuery(SparqlClient::SPARQL_SELECT);
+            $confType = $this->confmanager->getConf($type,[$graphUri => '0'])['conf'];
+            $fields = $confType['fields'];
+            $arrayOfPred = $confType['label'];
+            $first = array_shift($arrayOfPred);
+            $sparql->addPrefixes($sparql->prefixes)
             ->addSelect('?uri')
             ->addSelect('?type')
-            ->addSelect('?image')
-            ->addSelect('?desc')
-            ->addSelect('?address');
-        //->addSelect('?Address');
-        ($filter)? $sparql->addWhere('?uri','pair:hasInterest',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),'?GR' ) : null;
-        //($term != '*')? $sparql->addWhere('?uri','text:query',$sparql->formatValue($term,$sparql::VALUE_TYPE_TEXT),'?GR' ) : null;
-        $sparql->addWhere('?uri','rdf:type', '?type','?GR')
-            ->addOptional('?uri','pair:adress','?address','?GR')
-            ->groupBy('?uri ?type ?title ?image ?desc ?address')
-            ->orderBy($sparql::ORDER_ASC,'?title');
-        $organizations =[];
-        if($type == semappsConfig::Multiple || $typeOrganization ){
-            $orgaSparql = clone $sparql;
-            $orgaSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_ORGANIZATION,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:image','?image','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //->addOptional('?uri','pair:hostedIn','?building','?GR');
-            if($term)$orgaSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'")) ');
-            //dump($orgaSparql->getQuery());
-            $results = $this->sfClient->sparql($orgaSparql->getQuery());
-            $organizations = $this->sfClient->sparqlResultsValues($results, 'uri');
-        }
-        $persons = [];
-        if($type == semappsConfig::Multiple || $typePerson ){
+            ->addSelect('?'.$fields[$first]['value'])
+            ->addWhere('?uri','rdf:type', '?type',($graphUri)? "<".$graphUri.">" :'?GR')
+            ->addWhere('?uri','rdf:type', $sparql->formatValue($type,$sparql::VALUE_TYPE_URL),($graphUri)? "<".$graphUri.">" :'?GR')
+            ->addWhere('?uri',$sparql->formatValue($first,$sparql::VALUE_TYPE_URL),'?'.$fields[$first]['value'],($graphUri)? "<".$graphUri.">" :'?GR')
+            ->orderBy($sparql::ORDER_ASC,'?'.$fields[$first]['value'])
+            ->groupBy('?uri ?type ?'.$fields[$first]['value']);
 
-            $personSparql = clone $sparql;
-            $personSparql->addSelect('?lastName')
-                ->addSelect('?firstName')
-                ->addSelect('( COALESCE(?lastName, "") As ?result) (fn:concat(?firstName, " " , ?result) as ?title)')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PERSON,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:firstName','?firstName','?GR')
-                ->addOptional('?uri','pair:image','?image','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR')
-                ->addOptional('?uri','pair:lastName','?lastName','?GR');
-            if($term)$personSparql->addFilter('contains( lcase(?firstName)+ " " + lcase(?lastName), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?lastName)  , lcase("'.$term.'")) || contains( lcase(?firstName)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $personSparql->groupBy('?firstName ?lastName');
-            $results = $this->sfClient->sparql($personSparql->getQuery());
-            $persons = $this->sfClient->sparqlResultsValues($results);
+            ($filter)? $sparql->addWhere('?uri','?p',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),($graphUri)? "<".$graphUri.">" :'?GR' ) : null;
+            $filtersLine = '';
+            if (is_array($arrayOfPred)){
+                foreach ($arrayOfPred as $predicat){
+                    $sparql->addSelect('?'.$fields[$predicat]['value'])
+                        ->addOptional('?uri',$sparql->formatValue($predicat,$sparql::VALUE_TYPE_URL),'?'.$fields[$predicat]['value'],($graphUri)? "<".$graphUri.">" :'?GR')
+                        ->groupBy('?'.$fields[$predicat]['value']);
 
-        }
-        $projects = [];
-        if($type == semappsConfig::Multiple || $typeProject ){
-            $projectSparql = clone $sparql;
-            $projectSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROJECT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:image','?image','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$projectSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($projectSparql->getQuery());
-            $projects = $this->sfClient->sparqlResultsValues($results, 'uri');
+                    if($term)$filtersLine .='contains( lcase(?'.$fields[$predicat]['value'].') , lcase("'.$term.'")) ||';
+                }
+            }
 
+            if($term)$sparql->addFilter(substr($filtersLine,0,-2));
+            $results = array_merge($results,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()), 'uri'));
         }
-        $events = [];
-        if(($type == semappsConfig::Multiple || $typeEvent) ){
-            $eventSparql = clone $sparql;
-            $eventSparql->addSelect('?title')
-                ->addSelect('?start')
-                ->addSelect('?end')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_EVENT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:image','?image','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR')
-                //->addOptional('?uri','pair:localizedBy','?Address','?GR')
-                ->addOptional('?uri','pair:startDate','?start','?GR')
-                ->addOptional('?uri','pair:endDate','?end','?GR');
-            if($term)$eventSparql->addFilter('contains( lcase(?title), lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $eventSparql->orderBy($sparql::ORDER_DESC,'?start')
-                ->groupBy('?start')
-                ->groupBy('?end');
-            $results = $this->sfClient->sparql($eventSparql->getQuery());
-            $events = $this->sfClient->sparqlResultsValues($results,'uri');
-
-        }
-        $propositions = [];
-        if(($type == semappsConfig::Multiple || $typeProposition) ){
-            $propositionSparql = clone $sparql;
-            $propositionSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PROPOSAL,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:image','?image','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$propositionSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$propositionSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'"))|| contains( lcase(?address) , lcase("'.$term.'")) ');
-            $results = $this->sfClient->sparql($propositionSparql->getQuery());
-            $propositions = $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-        $documents = [];
-        if((($type == semappsConfig::Multiple || $typeDocument) ) ){
-            $documentSparql = clone $sparql;
-            $documentSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_DOCUMENT,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$documentSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$documentSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($documentSparql->getQuery());
-            $documents= $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-        $goods = [];
-        if((($type == semappsConfig::Multiple || $typeGood) ) ){
-            $goodSparql = clone $sparql;
-            $goodSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_GOOD,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$goodSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$goodSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($goodSparql->getQuery());
-            $goods= $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-        $services = [];
-        if((($type == semappsConfig::Multiple || $typeService) ) ){
-            $serviceSparql = clone $sparql;
-            $serviceSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_SERVICE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$serviceSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$serviceSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($serviceSparql->getQuery());
-            $services= $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-        $places = [];
-        if((($type == semappsConfig::Multiple || $typePlace) ) ){
-            $placeSparql = clone $sparql;
-            $placeSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_PAIR_PLACE,$sparql::VALUE_TYPE_URL),'?GR')
-                ->addWhere('?uri','pair:preferedLabel','?title','?GR')
-                ->addOptional('?uri','pair:comment','?desc','?GR');
-            //$placeSparql->addOptional('?uri','pair:building','?building','?GR');
-            if($term)$placeSparql->addFilter('contains( lcase(?title)  , lcase("'.$term.'")) || contains( lcase(?desc)  , lcase("'.$term.'")) || contains( lcase(?address) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($placeSparql->getQuery());
-            $places= $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-        $thematiques = [];
-        if($type == semappsConfig::Multiple || $typeThesaurus ){
-            $thematiqueSparql = clone $sparql;
-            $thematiqueSparql->addSelect('?title')
-                ->addWhere('?uri','rdf:type', $sparql->formatValue(semappsConfig::URI_SKOS_THESAURUS,$sparql::VALUE_TYPE_URL),($graphUri)? "<".$graphUri.">" :'?GR')
-                ->addWhere('?uri','skos:prefLabel','?title','?GR');
-            if($term)$thematiqueSparql->addFilter('contains( lcase(?title) , lcase("'.$term.'"))');
-            $results = $this->sfClient->sparql($thematiqueSparql->getQuery());
-            $thematiques = $this->sfClient->sparqlResultsValues($results,'uri');
-        }
-
-        $results = array_merge($organizations,$persons,$projects,$events,$propositions,$thematiques,$documents,$goods,$services,$places);
         return $results;
     }
 

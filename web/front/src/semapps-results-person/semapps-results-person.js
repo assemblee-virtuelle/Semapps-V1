@@ -22,22 +22,9 @@ Polymer({
     this.image = semapps.imageOrFallback(this.image, this.type);
     this.info = '';
     let c = '';
-    //log(this.data);
-    if (this.start) {
-        let eventBegin = new Date(this.start);
-        this.info += c + "le " + eventBegin.getDate() + '/' + (eventBegin.getMonth() + 1) + '/' + eventBegin.getFullYear() + ' à ' + eventBegin.getHours() + ' H ' + eventBegin.getMinutes() + ' min ';
-        c=' | ';
-    }
-    if (this.desc) {
-        this.info += c + (this.desc.length > 150)?  this.desc.substr(0,150)+'...' : this.desc;
-        c=' | ';
-    }
-    if (this.subject) {
-      this.info += c + this.subject;
+    if (this.comment) {
+        this.info += c + (this.comment.length > 150)?  this.comment.substr(0,150)+'...' : this.comment;
         c=' | ';
     }
   },
-    haveTitle(value){
-        return value != null;
-    }
 });

@@ -52,7 +52,7 @@ class WebserviceController extends Controller
         foreach ($results as $item) {
             $thesaurus[] = [
                 'uri'   => $item['uri'],
-                'label' => $item['title'],
+                'label' => $item[$thematicConf['fields'][$thematicConf['label'][0]]['value']],
             ];
         }
 
