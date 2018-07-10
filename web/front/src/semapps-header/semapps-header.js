@@ -6,6 +6,13 @@ Polymer({
     semapps.realLink(e);
   },
 
+  handleResetClick(e) {
+      "use strict";
+      semapps.domId('searchText').value = '';
+      semapps.domId('searchThemeFilter').value = '';
+      semapps.goSearch();
+  },
+
   attached() {
     "use strict";
     SemAppsCarto.ready(this.start.bind(this));
