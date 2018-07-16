@@ -181,6 +181,7 @@ Polymer({
             this.resultsTitle = resultsTitle;
 
             log(semapps.entities[this.typeSelected].nameType.toLowerCase());
+            log(results.length);
 
             // Display no results section or not.
             this.noResult = results.length === 0;
