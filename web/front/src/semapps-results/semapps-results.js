@@ -147,17 +147,19 @@ Polymer({
         else if (response.results) {
             semapps.map.pinHideAll();
 
+
+
             for (let result of response.results) {
-                // Data is allowed.
-                if(semapps.entities[result.type]){
+                // // Data is allowed.
+                // if(semapps.entities[result.type]){
                     // log(result.type);
-                    typesCounter[result.type] = typesCounter[result.type] || 0;
-                    typesCounter[result.type]++;
+                    typesCounter[this.typeSelected] = typesCounter[this.typeSelected] || 0;
+                    typesCounter[this.typeSelected]++;
                     totalCounter++;
 
-                    if (typeof resultTemps[result.type] === 'undefined')
-                        resultTemps[result.type] = [];
-                    resultTemps[result.type].push(result);
+                    if (typeof resultTemps[this.typeSelected] === 'undefined')
+                        resultTemps[this.typeSelected] = [];
+                    resultTemps[this.typeSelected].push(result);
                     // log(resultTemps);
                     if(result["address"]){
                         if( semapps.map.pins[result["uri"]] === undefined){
@@ -167,7 +169,7 @@ Polymer({
                             semapps.map.pinShow(result["uri"]);
                         }
                     }
-                }
+                // }
             }
             //log(resultTemps[this.typeSelected]);
             results = (typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[this.typeSelected] : [];//resultTemps[this.typeSelected];
