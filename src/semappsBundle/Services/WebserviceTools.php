@@ -73,18 +73,18 @@ class WebserviceTools
             ->groupBy('?uri ?type ?'.$fields[$first]['value']);
 
             ($filter)? $sparql->addWhere('?uri','?p',$sparql->formatValue($filter,$sparql::VALUE_TYPE_URL),($graphUri)? "<".$graphUri.">" :'?GR' ) : null;
-            $filtersLine = '';
+            $filtersLine = ($term)? 'contains( lcase(?'.$fields[$first]['value'].') , lcase("'.$term.'")) ' : '';
             if (is_array($arrayOfPred)){
                 foreach ($arrayOfPred as $predicat){
                     $sparql->addSelect('?'.$fields[$predicat]['value'])
                         ->addOptional('?uri',$sparql->formatValue($predicat,$sparql::VALUE_TYPE_URL),'?'.$fields[$predicat]['value'],($graphUri)? "<".$graphUri.">" :'?GR')
                         ->groupBy('?'.$fields[$predicat]['value']);
 
-                    if($term)$filtersLine .='contains( lcase(?'.$fields[$predicat]['value'].') , lcase("'.$term.'")) ||';
+                    if($term)$filtersLine .='|| contains( lcase(?'.$fields[$predicat]['value'].') , lcase("'.$term.'")) ';
                 }
             }
 
-            if($term)$sparql->addFilter(substr($filtersLine,0,-2));
+            if($term)$sparql->addFilter($filtersLine);
             $results = array_merge($results,$this->sfClient->sparqlResultsValues($this->sfClient->sparql($sparql->getQuery()), 'uri'));
         }
         return $results;
