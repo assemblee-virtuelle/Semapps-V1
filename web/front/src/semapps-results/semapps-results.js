@@ -76,8 +76,7 @@ Polymer({
             // Route change may be fired before init.
             window.SemAppsCarto.ready(() => {
                 let split = data.path.split('/');
-                //log(split)
-                this.search(split[1]);
+                this.search(split[2],split[1]);
             });
         }
     },
@@ -137,6 +136,7 @@ Polymer({
         let totalCounter = 0;
         let typesCounter = {};
         let resultTemps = {};
+        let buildingsCounter = {};
         // Allow empty response.
         response = response || this.renderSearchResultResponse || {};
         // Save last data for potential reload.
@@ -147,16 +147,17 @@ Polymer({
         else if (response.results) {
             semapps.map.pinHideAll();
 
-
-
             for (let result of response.results) {
-                // // Data is allowed.
-                // if(semapps.entities[result.type]){
+                // Data is allowed.
+                if(semapps.buildingSelected === semapps.buildingSelectedAll || result.building === semapps.buildingSelected ){
                     // log(result.type);
                     typesCounter[this.typeSelected] = typesCounter[this.typeSelected] || 0;
                     typesCounter[this.typeSelected]++;
                     totalCounter++;
-
+                    if (semapps.buildings[result.building]) {
+                        buildingsCounter[result.building] = buildingsCounter[result.building] || 0;
+                        buildingsCounter[result.building]++;
+                    }
                     if (typeof resultTemps[this.typeSelected] === 'undefined')
                         resultTemps[this.typeSelected] = [];
                     resultTemps[this.typeSelected].push(result);
@@ -169,7 +170,7 @@ Polymer({
                             semapps.map.pinShow(result["uri"]);
                         }
                     }
-                // }
+                }
             }
             //log(resultTemps[this.typeSelected]);
             results = (typeof resultTemps[this.typeSelected] !== 'undefined' )? resultTemps[this.typeSelected] : [];//resultTemps[this.typeSelected];
@@ -181,10 +182,6 @@ Polymer({
             // Building.
             // Display title.
             this.resultsTitle = resultsTitle;
-
-            log(semapps.entities[this.typeSelected].nameType.toLowerCase());
-            log(results.length);
-
             // Display no results section or not.
             this.noResult = results.length === 0;
             let domInner = document.getElementById('searchResults');
@@ -195,6 +192,15 @@ Polymer({
                 inner.data = result;
                 inner.parent = this;
                 domInner.appendChild(inner);
+            }
+            // Show pins with results only.
+            if(typeof semapps.schema !== 'undefined'){
+                semapps.schema.pinHideAll();
+                $.each(semapps.buildings, (building) => {
+                    if (buildingsCounter[building] || building === semapps.buildingSelected) {
+                        semapps.schema.pinShow(building, buildingsCounter[building] || 0);
+                    }
+                });
             }
 
         }

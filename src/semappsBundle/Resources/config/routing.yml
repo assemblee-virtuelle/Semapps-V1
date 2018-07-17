@@ -12,9 +12,21 @@ administration:
 index:
     path:     /
     defaults: { _controller: semappsBundle:WebSite:index }
+searchHome:
+    path:     /rechercher
+    defaults: { _controller: semappsBundle:WebSite:index }
+
+searchHomeEmpty:
+    path:     /rechercher/
+    defaults: { _controller: semappsBundle:WebSite:index }
+
+searchBuilding:
+    path:     /rechercher/{building}/
+    defaults: { _controller: semappsBundle:WebSite:index }
+
 searchBuildingTerm:
-    path:     /rechercher/{term}
-    defaults: { _controller: semappsBundle:WebSite:index,term: null }
+    path:     /rechercher/{building}/{term}
+    defaults: { _controller: semappsBundle:WebSite:index }
 detail:
     path:     /detail
     defaults: { _controller: semappsBundle:WebSite:index }

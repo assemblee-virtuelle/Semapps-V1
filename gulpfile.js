@@ -63,6 +63,7 @@ var filesJs = {
   'web/front/src/semapps-detail/semapps-detail': true,
   'web/front/src/semapps-ressource/semapps-ressource': true,
   'web/front/src/semapps-map/semapps-map': true,
+  'web/front/src/semapps-schema/semapps-schema': true,
   'web/front/src/semapps-prez/semapps-prez': true,
   'web/front/src/semapps-map-pin/semapps-map-pin': true
 };
@@ -89,6 +90,7 @@ var filesScss = {
   'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
   'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
   'web/front/src/semapps-map/semapps-map': true,
+  'web/front/src/semapps-schema/semapps-schema': true,
   'web/front/src/semapps-map-pin/semapps-map-pin': true,
   'web/front/src/semapps-prez/semapps-prez': true,
 

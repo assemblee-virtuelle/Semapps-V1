@@ -30,8 +30,8 @@ Polymer({
   attached() {
     "use strict";
 
-    if (typeof( semapps.buildings[this.building].x ) != "undefined" || semapps.buildings[this.building].x != null) {
-      semapps.map.pinsRegistry[this.building] = this;
+    if (typeof( semapps.buildings[this.building].x ) !== "undefined" || semapps.buildings[this.building].x != null) {
+      semapps.schema.pinsRegistry[this.building] = this;
       this.x = semapps.buildings[this.building].x;
       this.y = semapps.buildings[this.building].y;
       this.domWrapper = this.querySelector('.semapps-map-pin-wrapper');
@@ -40,7 +40,7 @@ Polymer({
         this.select();
       }
     }else{
-      semapps.map.pinsRegistry[this.building] = null;
+      semapps.schema.pinsRegistry[this.building] = null;
     }
   },
 
@@ -73,17 +73,17 @@ Polymer({
     "use strict";
     if (this.display !== 'none') {
       // Select building or deselect if already selected.
-      semapps.map.buildingClick(this.building !== semapps.buildingSelected && this.building);
+      semapps.schema.buildingClick(this.building !== semapps.buildingSelected && this.building);
     }
   },
 
   handleMouseOver() {
     "use strict";
-    semapps.map.buildingHighlight(this.building);
+    semapps.schema.buildingHighlight(this.building);
   },
 
   handleStopFixedSelection() {
     "use strict";
-    semapps.map.buildingSelect();
+    semapps.schema.buildingSelect();
   }
 });

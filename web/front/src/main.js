@@ -19,6 +19,8 @@
             this.mainComponent = mainComponent;
             this.$window = $(window);
             this.detailAddress= [];
+            this.buildingSelectedAll = 'partout';
+            this.buildingSelected = this.buildingSelectedAll;
             this.entities = {
                 "http://virtual-assembly.org/pair#Person":{
                     name: 'Personne',
@@ -192,8 +194,8 @@
             let split = this.mainComponent.get('route.path').split('/');
             let isSearchPage = split.length >= 2 && (split[1] === 'rechercher' || split[1] === '');
             // We started on a search page.
-            if (isSearchPage && split[2]) {
-                this.domSearchTextInput.value = split[2];
+            if (isSearchPage && split[3]) {
+                this.domSearchTextInput.value = split[3];
             }
 
             // Ready callbacks.
@@ -207,9 +209,9 @@
 
         goSearch() {
             let term = this.domSearchTextInput.value;
-            // let building = this.buildingSelected.split('/')[this.buildingSelected.split('/').length-1] || 'partout';
-            let path = '/rechercher'; ///' + building ;//+ '/' + term;
-            path += (term)? '/' + term : '';
+            let building = this.buildingSelected || 'partout';
+            let path = '/rechercher/'+ building + '/' + term;
+            // path += (term)? '/' + term : '';
             if (document.location.pathname === path) {
                 // Reload search manually.
                 this.results.search(term, '');
