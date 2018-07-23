@@ -1,0 +1,83 @@
+#semapps-map {
+  @keyframes mapZoneFadeIn {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 0.8;
+    }
+  }
+  @keyframes mapZoneFadeInStrong {
+    from {
+      opacity: 0.5;
+    }
+    to {
+      opacity: 0.8;
+    }
+  }
+  @keyframes mapZoneFadeOut {
+    from {
+      opacity: 0.8;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
+  margin-top: 60px;
+  .mapContent {
+    position: relative;
+
+    .mapZone {
+      cursor: pointer;
+      animation: mapZoneFadeIn 0.2s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .mapZone.strong {
+      opacity: 0.4;
+    }
+    .mapZone.discreet:not(.strong) {
+      animation: mapZoneFadeOut 0.5s cubic-bezier(0.8, 0, 0.3, 0.9) forwards;
+    }
+    .semapps-mapInner {
+      border: 8px dashed #F0F0F0;
+      transform: rotate(-1deg);
+      max-width: 200vh;
+      margin: 20px auto;
+    }
+  }
+  #semapps-map-black{
+    display:none;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 4500;
+    background-color:rgba(0, 0, 0, 0.6);
+    text-align:center;
+  }
+  #semapps-map-message{
+    display:inline-block;
+    color:white;
+  }
+}
+
+#semapps-map-pins {
+  position: absolute;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+// Responsive.
+@media (max-width: 768px) {
+  #semapps-map {
+    .mapContent {
+      .semapps-mapInner {
+        border: 0;
+        transform: none;
+        max-width: inherit;
+        margin: 0;
+      }
+    }
+  }
+}

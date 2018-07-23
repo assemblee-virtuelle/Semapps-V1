@@ -1,0 +1,14 @@
+<dom-module id="semapps-results-tab">
+  <link rel="import" type="css" href="semapps-results-tab.css">
+  <template>
+    <li rel$="[[type]]" style$="display:[[show]];">
+      <a href="#" on-click="handleTabClick">
+        <span class$="glyphicon glyphicon-[[icon]]"></span>[[plural]] {{show}}
+        <template is="dom-if" if="[[counter]]">
+          <span class="counter">[[counter]]</span>
+        </template>
+      </a>
+    </li>
+  </template>
+  <script src="semapps-results-tab.min.js"></script>
+</dom-module>

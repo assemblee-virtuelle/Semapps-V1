@@ -1,0 +1,63 @@
+<dom-module id="semapps-carto">
+  <link rel="import" type="css" href="semapps-carto.css">
+  <link rel="import" href="../semapps-header/semapps-header.html">
+  <link rel="import" href="../semapps-logo-animated/semapps-logo-animated.html">
+  <link rel="import" href="../semapps-map/semapps-map.html">
+  <link rel="import" href="../semapps-schema/semapps-schema.html">
+  <link rel="import" href="../semapps-results/semapps-results.html">
+  <link rel="import" href="../semapps-ressource/semapps-ressource.html">
+  <link rel="import" href="../semapps-detail/semapps-detail.html">
+  <link rel="import" href="../semapps-prez/semapps-prez.html">
+  <template>
+    <div id="semapps-carto">
+      <semapps-header></semapps-header>
+      <semapps-prez></semapps-prez>
+      <!--<semapps-schema></semapps-schema>-->
+      <semapps-map></semapps-map>
+      <div class="container">
+        <!-- app-location binds with the URL and produces a route for
+        app-route elements to consume. Since this demo needs to run without
+        server cooperation (e.g. with polyserve, in the elements catalog, etc) we'll
+        use the hash portion of the URL for our route paths. -->
+        <app-location route='{{route}}'
+                      query-params="{{queryParams}}"></app-location>
+
+        <app-route route="{{route}}" pattern="/:page" data="{{routeData}}"
+                   tail="{{searchTail}}"></app-route>
+
+        <div id="pageContent"></div>
+        <iron-pages selected="[[routeData.page]]" attr-for-selected="name">
+          <semapps-results name="rechercher"
+                           route="{{searchTail}}"></semapps-results>
+          <semapps-detail name="detail"
+                          route="{{routeData}}"
+                          query-params="{{queryParams}}"></semapps-detail>
+          <semapps-ressource name="ressource"
+                             route="{{routeData}}"
+                             query-params="{{queryParams}}"></semapps-ressource>
+        </iron-pages>
+      </div>
+
+      <!-- Overlay -->
+      <!--<semapps-logo-animated></semapps-logo-animated>-->
+      <footer>
+        <div class="about-av">
+
+          <br>Cette plateforme est propulsée par <a href="https://www.virtual-assembly.org/semapps/">SemApps</a>, logiciel libre sous licence GPL, développé par l'<a href="https://www.virtual-assembly.org"
+                                                                                                                                                                      target="_blank">Assemblée Virtuelle</a>
+          <br><a href="https://www.virtual-assembly.org/faire-un-don/"
+                 target="_blank">Cliquez ici pour soutenir le projet</a>
+          <br>Pour toute question, contactez nous sur
+          <a href="mailto:contact@assemblee-virtuelle.org" target="_blank">contact@assemblee-virtuelle.org</a>
+          <br><a href="https://github.com/assemblee-virtuelle/Semapps" target="_blank">Accédez au code sur GitHub</a>
+        </div>
+        <br>
+        <br>
+        2017
+      </footer>
+    </div>
+  </template>
+  <script src="../../../bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+  <script src="../../../bower_components/jquery.scrollTo/jquery.scrollTo.js"></script>
+  <script src="semapps-carto.min.js"></script>
+</dom-module>

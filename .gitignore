@@ -14,3 +14,7 @@ composer.lock
 /web/front/**/*.css
 web/admin/css/menu.css
 web/admin/css/style.css
+src/web/bower_components
+src/*Bundle/**/*.min.js
+src/*Bundle/**/*.map
+src/*Bundle/Resources/Public/front/src/**/*.css

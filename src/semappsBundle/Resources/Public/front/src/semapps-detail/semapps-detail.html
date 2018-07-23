@@ -1,0 +1,41 @@
+<dom-module id="semapps-detail">
+  <link rel="import" type="css" href="semapps-detail.css">
+  <link rel="import" href="../semapps-detail-person/semapps-detail-person.html">
+  <link rel="import" href="../semapps-detail-organizationType/semapps-detail-organizationType.html">
+  <link rel="import" href="../semapps-detail-organization/semapps-detail-organization.html">
+  <link rel="import" href="../semapps-detail-project/semapps-detail-project.html">
+  <link rel="import" href="../semapps-detail-projectType/semapps-detail-projectType.html">
+  <link rel="import" href="../semapps-detail-event/semapps-detail-event.html">
+  <link rel="import" href="../semapps-detail-eventType/semapps-detail-eventType.html">
+  <link rel="import" href="../semapps-detail-proposal/semapps-detail-proposal.html">
+  <link rel="import" href="../semapps-detail-proposalType/semapps-detail-proposalType.html">
+  <link rel="import" href="../semapps-detail-document/semapps-detail-document.html">
+  <link rel="import" href="../semapps-detail-documentType/semapps-detail-documentType.html">
+  <link rel="import" href="../semapps-detail-good/semapps-detail-good.html">
+  <link rel="import" href="../semapps-detail-service/semapps-detail-service.html">
+  <link rel="import" href="../semapps-detail-place/semapps-detail-place.html">
+  <template>
+    <div id="detail" class="page-detail" style="display: none">
+      <ul id="detailTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack" on-click="handleBack" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
+        </li>
+        <template is="dom-if" if="[[canEdit]]">
+          <li role="presentation" class="active">
+            <a on-click="handleEdit" href="#" >
+              <span class="glyphicon glyphicon-edit"></span>Editer</a>
+          </li>
+        </template>
+
+      </ul>
+      <div id="semapps-detail-inner"></div>
+    </div>
+    <template is="dom-if" if="[[loading]]">
+      <div id="detailSpinner" class="pageLoadingSpinner">
+        <semapps-spinner></semapps-spinner>
+      </div>
+    </template>
+  </template>
+  <script src="semapps-detail.min.js"></script>
+</dom-module>

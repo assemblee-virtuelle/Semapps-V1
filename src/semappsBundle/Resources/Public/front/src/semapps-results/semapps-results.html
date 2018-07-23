@@ -1,0 +1,62 @@
+<dom-module id="semapps-results">
+  <link rel="import" type="css" href="semapps-results.css">
+  <link rel="import" href="../semapps-results-person/semapps-results-person.html">
+  <link rel="import" href="../semapps-results-organizationType/semapps-results-organizationType.html">
+  <link rel="import" href="../semapps-results-organization/semapps-results-organization.html">
+  <link rel="import" href="../semapps-results-project/semapps-results-project.html">
+  <link rel="import" href="../semapps-results-projectType/semapps-results-projectType.html">
+  <link rel="import" href="../semapps-results-event/semapps-results-event.html">
+  <link rel="import" href="../semapps-results-eventType/semapps-results-eventType.html">
+  <link rel="import" href="../semapps-results-proposal/semapps-results-proposal.html">
+  <link rel="import" href="../semapps-results-proposalType/semapps-results-proposalType.html">
+  <link rel="import" href="../semapps-results-document/semapps-results-document.html">
+  <link rel="import" href="../semapps-results-documentType/semapps-results-documentType.html">
+  <link rel="import" href="../semapps-results-good/semapps-results-good.html">
+  <link rel="import" href="../semapps-results-service/semapps-results-service.html">
+  <link rel="import" href="../semapps-results-place/semapps-results-place.html">
+  <link rel="import" href="../semapps-results-tab/semapps-results-tab.html">
+  <link rel="import" href="../semapps-spinner/semapps-spinner.html">
+  <template>
+    <div class="row">
+      <div class="col col-sm-12">
+        <ul id="searchTabs" class="nav nav-tabs">
+          <template id="searchResultsList" is="dom-repeat" items="{{tabs}}">
+            <semapps-results-tab data="[[item]]"></semapps-results-tab>
+          </template>
+        </ul>
+      </div>
+      <div class="col col-sm-12">
+        <div class="clearfix"></div>
+        <h3 class="resultsTitle">[[resultsTitle]]</h3>
+
+        <div id="searchResults" class="col col-sm-12"></div>
+
+        <template is="dom-if" if="[[searchError]]">
+          <div id="semapps-results-error" class="alert alert-danger">Une erreur c'est
+            produite lors du chargement...
+          </div>
+        </template>
+        <template is="dom-if" if="[[noResult]]">
+          <div id="semapps-results-empty" class="alert alert-info">
+            Ouch !
+          </div>
+        </template>
+        <div id="searchLoadingSpinner" class="pageLoadingSpinner">
+          <semapps-spinner></semapps-spinner>
+        </div>
+      </div>
+      <!--<div class="col col-sm-4 col-blocks">-->
+        <!--<div class="block">-->
+          <!--SemApps-->
+        <!--</div>-->
+        <!--<div class="content">-->
+          <!--Cet outil répertorie les structures et/ou personnes participant au projet SemApps .<br>Il permet à tous ces acteurs de mieux se connaître et d'intégrer plus facilement la dynamique du projet.<br>-->
+          <!--Pour le grand public, la Cartographie est un annuaire en ligne permettant d’identifier ou de retrouver les Voisins. <br>La recherche peut se faire par bâtiment et par domaines, et à terme par projet et par événement.<br>-->
+          <!--La Cartographie "SemApps" est développée par l’Assemblée virtuelle.-->
+        <!--</div>-->
+      <!--</div>-->
+    </div>
+
+  </template>
+  <script src="semapps-results.min.js"></script>
+</dom-module>

@@ -14,7 +14,7 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>src/coreBundle/tests</directory>
+            <directory>src/semappsBundle/tests</directory>
 
         </testsuite>
     </testsuites>

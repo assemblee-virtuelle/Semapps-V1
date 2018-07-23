@@ -1,0 +1,34 @@
+@import "./../../../common/css/color.scss";
+
+.avatar {
+  width: 100px;
+  float: left;
+  display: block;
+  height: 100px;
+  margin: 0 5px 5px 0;
+  position: relative;
+  span.thumb {
+    background-size: cover;
+    border-radius: 200px;
+    border: 2px solid #F0F0F0;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  span.name {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    background: $ClearOneColorTwo;
+    color: $greyDark;
+    text-align: center;
+    padding: 5px 8px;
+    font-size: 12px;
+    transform: rotate(-4deg);
+  }
+}

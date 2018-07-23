@@ -119,72 +119,10 @@ class OrganizationType extends SemanticFormType
             )
             ->add(
                 $builder,
-                'offers',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'needs',
-                DbPediaType::class,
-                [
-                    'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
                 'hasSubject',
                 DbPediaType::class,
                 [
                     'required' => false,
-                ]
-            )
-            ->add(
-                $builder,
-                'documentedBy',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'rdfType'   => coreConfig::URI_PAIR_DOCUMENT,
-                ]
-            )
-
-            ->add(
-                $builder,
-                'involvedIn',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
-                ]
-            )
-            ->add(
-                $builder,
-                'manages',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
-                ]
-            )
-            ->add(
-                $builder,
-                'organizes',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
-                ]
-            )
-            ->add(
-                $builder,
-                'participantOf',
-                UriType::class,
-                [
-                    'required'  => false,
-                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(

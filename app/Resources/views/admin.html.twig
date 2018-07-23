@@ -131,14 +131,16 @@
                                     {% endif %}
 
                                     {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
+                                        {# TODO: set a foreach for type list
                                         {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
                                         {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
                                         {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
                                         {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
                                         {{ admin.menuItem('Biens', 'componentList', 'gift','Référencer des biens', menuSelected, 'MEMBER',{'componentName':'good'}) }}
                                         {{ admin.menuItem('Services', 'componentList', 'wrench','Référencer des services', menuSelected, 'MEMBER',{'componentName':'service'}) }}
-                                        {{ admin.menuItem('Lieux', 'componentList', 'map-marker','Référencer des lieux', menuSelected, 'MEMBER',{'componentName':'place'}) }}
-                                        {% endif %}
+                                        {{ admin.menuItem('Lieux', 'componentList', 'map-marker','Référencer des lieux', menuSelected, 'MEMBER',{'componentName':'place'}) }} 
+                                        #}
+                                    {% endif %}
                                     {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
                                     <li class="main">
                                         <h5>
@@ -147,9 +149,7 @@
                                     </li>
                                         {{ admin.menuItem('Type de document', 'thesaurusList', 'pushpin','référencer des types de documents', menuSelected, 'MEMBER',{'componentName':'documentType'}) }}
                                         {{ admin.menuItem('Type d\'organisation', 'thesaurusList', 'pushpin','référencer des types d\'organisation', menuSelected, 'MEMBER',{'componentName':'organizationType'}) }}
-                                        {{ admin.menuItem('Type de projet', 'thesaurusList', 'pushpin','référencer des types de projet', menuSelected, 'MEMBER',{'componentName':'projectType'}) }}
-                                        {{ admin.menuItem('Type d\'événement', 'thesaurusList', 'pushpin','référencer des types d\'événnement', menuSelected, 'MEMBER',{'componentName':'eventType'}) }}
-                                        {{ admin.menuItem('Type de proposition', 'thesaurusList', 'pushpin','référencer des types de proposition', menuSelected, 'MEMBER',{'componentName':'proposalType'}) }}
+                                        {# TODO: set a foreach for each type of type #}
                                     {% endif %}
                                     {% if is_granted("ROLE_ADMIN") %}
                                         <li class="main">

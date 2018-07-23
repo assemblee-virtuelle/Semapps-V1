@@ -1,0 +1,57 @@
+@import "./../../../common/css/color.scss";
+
+#searchTabs {
+  margin-bottom: 10px;
+}
+
+#semapps-results-empty {
+  text-align: center;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #AAA;
+  padding: 40px;
+}
+
+.col-blocks {
+  .block {
+    background: $DarkTwoColorOne;
+    color: #FFF;
+    padding: 10px 15px;
+    box-shadow: -8px 8px 0 rgba(0, 0, 0, .1);
+    font-family: petitevoisine, sans-serif;
+    text-align: center;
+    transform: rotate(-4deg);
+  }
+  .content {
+    background: #ffffff;
+    color: #000000;
+    margin-top: 22px;
+    padding: 10px 15px;
+    border: 1px solid #DDD;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
+    font-family: petitevoisine, sans-serif;
+    text-align: center;
+  }
+  img.image {
+    width: 90%;
+    border: 1px solid #DDD;
+    margin: 5%;
+    box-shadow: 7px 7px 0 rgba(0, 0s, 0, .1);
+  }
+}
+
+.resultsTitle {
+  font-family: petitevoisine, sans-serif;
+}
+
+@media (max-width: 768px) {
+  semapps-results-tab {
+    float: left;
+    display: block;
+    clear: both;
+    width: 100%;
+  }
+}
+
+

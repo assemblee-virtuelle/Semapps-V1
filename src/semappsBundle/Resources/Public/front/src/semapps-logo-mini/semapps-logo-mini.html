@@ -1,0 +1,22 @@
+<dom-module id="semapps-logo-mini">
+  <link rel="import" type="css" href="semapps-logo-mini.css">
+  <template>
+    <div class="semapps-logo-mini-inner">
+      <div class="semapps-logo-mini-limit">
+		  <img src="{{ picture }}" />
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'semapps-logo-mini',
+      properties: {
+        picture: String,
+        textColor: {
+          type: String,
+          value: '#FFFFFF'
+        }
+      }
+    });
+  </script>
+</dom-module>

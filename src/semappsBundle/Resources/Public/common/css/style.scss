@@ -1,0 +1,50 @@
+@import "./color.scss";
+
+@font-face {
+  font-family: 'petitevoisineexpanded';
+  src: url('../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff2') format('woff2'),
+  url('../../common/fonts/petitevoisine/petite_voisine_bold_final-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'patrickhands';
+  src: url("/common/fonts/patrickhands/PatrickHandSC-Regular.ttf");
+}
+
+.btn-primary-lgv {
+  background: $mainColorOne;
+  border-radius: 0;
+}
+
+.table tbody tr td.padded-value {
+  padding: 16px;
+}
+
+.panel-gv {
+  background: #F0F0F0;
+  color: $greyDark;
+}
+
+.logo-circle {
+  position: absolute;
+  background: $mainColorOne;
+  border-radius: 1000px;
+  z-index: 100;
+  width: 110px;
+  height: 110px;
+  /*padding: 12px 10px;*/
+  top: -27px;
+  /*border: 7px dotted #FFF;*/
+  //img {
+  //  width: 80px;
+  //}
+  h1 {
+    display: none;
+  }
+}
+
+.clearfix {
+  clear:both;
+}

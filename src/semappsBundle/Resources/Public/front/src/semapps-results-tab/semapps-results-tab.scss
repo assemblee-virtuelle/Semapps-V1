@@ -1,0 +1,66 @@
+@import "./../../../common/css/color.scss";
+
+li {
+  float: left;
+  margin-bottom: -1px;
+  position: relative;
+  display: block;
+
+  a {
+    text-decoration: none;
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: $greyDark;
+    .counter {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 3px 5px;
+      border-radius: 50px;
+      color: $greyDark;
+    }
+    .glyphicon {
+      margin-right: 8px;
+      opacity: .2;
+    }
+  }
+
+  &.active {
+    a {
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffcc00+0,ffb600+100 */
+      background: $ClearOneColorTwo; /* Old browsers */
+      //background: -moz-linear-gradient(top, #ffcc00 0%, #ffb600 100%); /* FF3.6-15 */
+      //background: -webkit-linear-gradient(top, #ffcc00 0%, #ffb600 100%); /* Chrome10-25,Safari5.1-6 */
+      //background: linear-gradient(to bottom, #ffcc00 0%, #ffb600 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      //filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffcc00', endColorstr='#ffb600', GradientType=0); /* IE6-9 */
+      color: $greyDark;
+      border-color: $ClearOneColorTwo;
+      border-bottom: 1px solid $ClearOneColorTwo;
+      .glyphicon {
+        opacity: .7;
+      }
+    }
+    .counter {
+      color: $greyDark;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  li, a {
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+    span.counter {
+      float: right;
+    }
+  }
+  li.active a {
+    border: 0;
+    border-radius: 4px;
+  }
+}

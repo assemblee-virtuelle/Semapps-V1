@@ -1,5 +1,0 @@
-{% extends "semappsBundle:Component:componentList.html.twig" %}
-
-{% block pageContentTitle %}Propositions {{ (context_manager.getContext(app.user.sfLink).contextName)? "de la part de " ~ context_manager.getContext(app.user.sfLink).contextName : 'personnels'}}{% endblock %}
-
-{% set menuSelected = 'Proposition' %}

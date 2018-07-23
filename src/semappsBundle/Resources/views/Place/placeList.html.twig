@@ -1,5 +1,0 @@
-{% extends "semappsBundle:Component:componentList.html.twig" %}
-
-{% block pageContentTitle %}Lieux  {{ (context_manager.getContext(app.user.sfLink).contextName)? "de " ~ context_manager.getContext(app.user.sfLink).contextName : 'personnels'}}{% endblock %}
-
-{% set menuSelected = 'Places' %}

@@ -1,0 +1,51 @@
+@keyframes displayPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes logoHide {
+  from {
+    bottom: 0;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+  }
+  to {
+    bottom: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+#semapps-logo-animated-inner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 10vh;
+  overflow: hidden;
+  #semapps-logo-animated-limit {
+    max-width: 80vh;
+    margin: 0 auto;
+  }
+  animation: logoHide 1s cubic-bezier(.8, 0, .3, .9) forwards;
+  animation-delay: 2s;
+}
+
+#semapps-logo-animated-inner-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  animation: logoHide 1s cubic-bezier(.8, 0, .3, .9) forwards;
+  animation-delay: 2s;
+}
+
+#semapps-logo-animated-inner-svg {
+  z-index: 1;
+}
+

@@ -1,0 +1,17 @@
+<dom-module id="semapps-avatar">
+  <link rel="import" type="css" href="semapps-avatar.css">
+  <template>
+
+    <a id="test" class="avatar"
+       href="#"
+       rel="[[uri]]"
+       on-click="handleClickAvatar"
+       >
+                <span class="thumb"
+                      style$="background-image: url([[image]])"></span>
+        <span class="name">[[cutlabel]]</span>
+    </a>
+      <paper-tooltip for="test" position="top" ><span style="font-size: 16px">[[label]]</span></paper-tooltip>
+  </template>
+  <script src="semapps-avatar.min.js"></script>
+</dom-module>

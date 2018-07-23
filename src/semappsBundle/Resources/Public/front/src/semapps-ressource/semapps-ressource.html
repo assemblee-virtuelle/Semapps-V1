@@ -1,0 +1,230 @@
+<dom-module id="semapps-ressource">
+  <link rel="import" type="css" href="semapps-ressource.css">
+  <template>
+    <div id="ressource" class="page-ressource" style="display: none">
+      <ul id="ressourceTools" class="nav nav-tabs">
+        <li role="presentation" class="active">
+          <a id="detailBack" on-click="handleBack" href="#">
+            <span class="glyphicon glyphicon-chevron-left"></span>Recherche</a>
+        </li>
+      </ul>
+    <div class="row">
+      <div class="col col-sm-8">
+        <h2>[[ detail.label ]]</h2>
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[detail.depiction]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[detail.depiction]]');"></div>
+            </template>
+          </div>
+
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[detail.comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Résumé</td>
+                  <td>[[detail.comment]]
+                  </td>
+                </tr>
+              </template>
+            </table>
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[wikipage]]">
+                <template is="dom-repeat" items="{{wikipage}}">
+                  <tr class="field">
+                    <td class="fieldLabel">external link</td>
+                    <td><a href="[[item.label]]" target="_blank">[[item.label]] </a>
+                    </td>
+                  </tr>
+                </template>
+              </template>
+            </table>
+          </div>
+        </div>
+        <template is="dom-if" if="[[detail.abstract]]">
+          <div class="detail-description col col-sm-12">
+            <div class="detail-description-inner">
+              <template is="juicy-html" content$="{{detail.abstract}}"></template>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div class="col col-sm-4 side-blocks">
+        <template is="dom-if" if="[[subject.length]]">
+          <h3>test</h3>
+          <div>
+            <template is="dom-repeat" items="{{subject}}">
+              <a href="#" rel="{{item.uri}}"
+                 class="list-item">
+                <span class="glyphicon glyphicon-chevron-right"></span>{{item.label}}</a>
+              <!--<semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.label}}" type="dbpedia"></semapps-tag>-->
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[skill.person]]">
+          <h3>Compétence de</h3>
+          <template is="dom-repeat" items="{{skill.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <!-- ressourcesNeeded -->
+        <template is="dom-if" if="[[ressourcesNeeded.person]]">
+          <h3>Besoin de (personne)</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.organization]]">
+          <h3>Besoin de (organisation)</h3>
+          <template is="dom-repeat" items="{{ressourcesNeeded.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.project]]">
+          <h3>Besoin de (projet)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesNeeded.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.event]]">
+          <h3>Besoin de (evennement)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesNeeded.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[ressourcesNeeded.proposal]]">
+          <h3>Besoin de (proposition)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesNeeded.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
+
+        <!-- ressourcesProposed -->
+        <template is="dom-if" if="[[ressourcesProposed.person]]">
+          <h3>Proposé par (personne)</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.organization]]">
+          <h3>Proposé par (organisation)</h3>
+          <template is="dom-repeat" items="{{ressourcesProposed.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.project]]">
+          <h3>Proposé par (projet)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesProposed.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.event]]">
+          <h3>Proposé par (evennement)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesProposed.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[ressourcesProposed.proposal]]">
+          <h3>Proposé par (proposition)</h3>
+          <div>
+            <template is="dom-repeat" items="{{ressourcesProposed.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
+        <!-- hasSubject -->
+        <template is="dom-if" if="[[hasSubject.person]]">
+          <h3>Mot-clé de (personne)</h3>
+          <template is="dom-repeat" items="{{hasSubject.person}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.organization]]">
+          <h3>Mot-clé de (organisation)</h3>
+          <template is="dom-repeat" items="{{hasSubject.organization}}">
+            <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                            label="[[item.label]]"></semapps-avatar>
+          </template>
+          <div class="clearfix"></div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.project]]">
+          <h3>Mot-clé de (projet)</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasSubject.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.event]]">
+          <h3>Mot-clé de (evennement)</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasSubject.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.proposal]]">
+          <h3>Mot-clé de (proposition)</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasSubject.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.document]]">
+          <h3>Mot-clé de (document)</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasSubject.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.label}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+    </div>
+    </div>
+      <template is="dom-if" if="[[loading]]">
+      <div id="ressourceSpinner" class="pageLoadingSpinner">
+        <semapps-spinner></semapps-spinner>
+      </div>
+    </template>
+    </div>
+  </template>
+  <script src="semapps-ressource.min.js"></script>
+</dom-module>

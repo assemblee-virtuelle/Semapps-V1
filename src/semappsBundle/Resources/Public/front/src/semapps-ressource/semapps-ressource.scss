@@ -1,0 +1,24 @@
+@import "./../../../common/css/color.scss";
+
+#ressourceTools {
+  border-bottom: 1px dashed #EEE;
+  a {
+    border: 1px solid #EEE;
+    border-bottom-color: transparent;
+    border-radius: 0;
+    color: #555555;
+    cursor: pointer;
+    span {
+      color: $DarkTwoColorOne;
+      margin-right: 9px;
+    }
+  }
+}
+
+.illustration {
+  width: 100%;
+  margin: 20px 0;
+}
+@import "../semapps-detail/semapps-detail-inner.scss";
+
+

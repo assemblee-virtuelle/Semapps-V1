@@ -1,0 +1,31 @@
+@import "./../../../common/css/color.scss";
+
+//#my-account-link {
+//  z-index: 10;
+//  position: fixed;
+//  bottom: 30px;
+//  left: 30px;
+//  background-color: #1e90ff;
+//  border-radius: 1000px;
+//  padding: 20px;
+//  color: #333;
+//  width: 60px;
+//  height: 60px;
+//  text-align: center;
+//  box-shadow: -1px 2px 2px rgba(0, 0, 0, .2);
+//}
+
+footer {
+  letter-spacing: 5px;
+  font-size: 16px;
+  font-family: petitevoisine;
+  .about-av {
+    color: $greyDark;
+    font-family: Helvetica;
+    letter-spacing: normal;
+    font-size: 18px;
+    a {
+      color: $mainColorOne;
+    }
+  }
+}

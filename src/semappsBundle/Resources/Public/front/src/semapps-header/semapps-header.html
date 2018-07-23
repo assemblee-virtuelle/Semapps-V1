@@ -1,0 +1,81 @@
+<dom-module id="semapps-header">
+  <link rel="import" type="css" href="semapps-header.css">
+  <link rel="import" href="../semapps-logo-mini/semapps-logo-mini.html">
+  <template>
+    <header id="semapps-header">
+      <div class="container-fluid">
+        <div class="search row">
+          <form id="searchForm">
+            <h1>SemApps </h1>
+            <div class="col hidden-xs col-sm-2 col-md-2 col-lg-offset-1 col-lg-2 col-search-logo ">
+              <div class="logo-circle">
+                <a title="Accueil" href="/rechercher/partout" target="_self" on-tap="handleResetClick">
+                  <semapps-logo-mini picture="../../../common/images/logo.png"></semapps-logo-mini>
+                </a>
+              </div>
+            </div>
+
+
+            <div class="col col-xs-12 col-sm-7 col-md-7 col-lg-6 col-search-text">
+              <div class="input-group row search-fields">
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="padding: 0">
+                <input id="searchText" class="form-control" type="text"
+                       placeholder="Vous recherchez sur le lieu...">
+                </div>
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" style="padding: 0">
+                  <select id="searchThemeFilter" class="form-control">
+                    <option value="">- Thématique -</option>
+                    <template is="dom-repeat" items="{{thesaurus}}">
+                      <option value="{{ item.uri }}">{{ item.label }}</option>
+                    </template>
+                  </select>
+                 </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="padding: 0">
+                  <input class="form-control btn btn-default btn-info"
+                         type="submit"
+                         value="Hop !">
+                 </div>
+              </div>
+            </div>
+            <div class="col col-xs-12 hidden-lg hidden-md hidden-sm " style="padding-left: 0px">
+              <ul class="nav navbar-nav " style="margin-left: 0px;">
+                <li class="dropdown">
+                  <template is="dom-if" if="{{haveName}}">
+                    <a href="#" class="dropdown-toggle " data-toggle="dropdown" style="padding-top: 5px; padding-bottom: 5px">{{name}}<span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                    <ul class="dropdown-menu" style="margin: 0px">
+                      <li><a  href="/mon-compte" target="_parent" on-tap="handleAccountClick"><span class="glyphicon glyphicon-cog pull-right"></span>Mon compte </a></li>
+                      <li class="divider" style="margin-top: 5px; margin-bottom: 5px"></li>
+                      <li><a  href="/logout" target="_parent" on-tap="handleAccountClick"><span class="glyphicon glyphicon-log-out pull-right"></span>Deconnexion </a></li>
+                    </ul>
+                  </template>
+                  <template is="dom-if" if="{{!haveName}}">
+                    <a on-tap="handleAccountClick" href="/login" class="dropdown-toggle" data-toggle="dropdown">Connexion<span class="glyphicon glyphicon-user pull-right"></span></a>
+                  </template>
+                </li>
+              </ul>
+            </div>
+            <div class="hidden-xs col-sm-3 col-md-3 col-lg-3" style="padding: 0">
+              <ul class="nav navbar-nav ">
+                <li class="dropdown">
+                  <template is="dom-if" if="{{haveName}}">
+                    <a href="#" class="dropdown-toggle " data-toggle="dropdown">{{name}}<span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a  href="/mon-compte" target="_parent" on-tap="handleAccountClick"><span class="glyphicon glyphicon-cog pull-right"></span>Mon compte </a></li>
+                      <li class="divider"></li>
+                      <li><a  href="/logout" target="_parent" on-tap="handleAccountClick"><span class="glyphicon glyphicon-log-out pull-right"></span>Deconnexion </a></li>
+                    </ul>
+                  </template>
+                  <template is="dom-if" if="{{!haveName}}">
+                    <a on-tap="handleAccountClick" href="/login" class="dropdown-toggle" data-toggle="dropdown">Connexion<span class="glyphicon glyphicon-user pull-right"></span></a>
+                  </template>
+                </li>
+              </ul>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </header>
+  </template>
+  <script src="semapps-header.min.js"></script>
+</dom-module>

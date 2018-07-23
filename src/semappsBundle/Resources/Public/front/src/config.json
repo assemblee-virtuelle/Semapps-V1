@@ -1,0 +1,22 @@
+{
+    "http://virtual-assembly.org/pair#Person":{
+        "name": "Personne",
+        "plural": "Personnes",
+        "icon": "user",
+        "markerColor": "#28ccfb"
+    }
+    ,
+    "http://virtual-assembly.org/pair#Organization":{
+        "name": "Organisation",
+        "plural": "Organisations",
+        "icon": "tower",
+        "markerColor": "#01acdd"
+    }
+    ,
+    "http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl":{
+        "name": "Type d\"organisation",
+        "plural": "Types d\"organisations",
+        "icon": "pushpin",
+        "markerColor": "#838e91"
+    }
+}

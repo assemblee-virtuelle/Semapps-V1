@@ -1,6 +1,6 @@
 {% extends "::admin.html.twig" %}
 
-{% block title %}SemApps  | profil{% endblock %}
+{% block title %}SemApps | profil{% endblock %}
 
 {% block pageContentTitle %}Mon profil{% endblock %}
 
@@ -53,7 +53,7 @@
                     <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
                         {% if form is not null %}
                             <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                                <img src="{{ asset(currentUser.pictureName == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~currentUser.pictureName) | imagine_filter('profile') }}"/>
+                                <img src="{{ asset(currentUser.pictureName == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~currentUser.pictureName) }}"/>
                                 <span id="profileEditPictureField">
                         {{ form_widget(form.pictureName) }}
                     </span>
@@ -145,37 +145,6 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 {{ form_row(form.memberOf) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_row(form.involvedIn) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_row(form.manages) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_row(form.participantOf) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                {{ form_row(form.organizes, { 'label': 'Evénements que vous (co-)organisez'}) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.offers, { 'label': 'Ce que vous proposez'}) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12" data-toggle="tooltip" data-placement="bottom" title="Saisissez des termes en anglais (temporaire) - Petite précision, vous renseignez des termes issus de wikipedia !">
-                                {{ form_row(form.needs, { 'label': 'Ce dont vous avez besoin'  }) }}
                             </div>
                         </div>
 

@@ -1,0 +1,81 @@
+body.skip-intro #semapps-logo-animated-inner {
+  animation-delay: 0s;
+  display: none;
+}
+
+.pageLoadingSpinner {
+  .semapps-spinner {
+    width: 50px;
+    margin: 40px auto;
+  }
+}
+
+footer {
+  margin-top: 80px;
+  background-color: #F5F5F5;
+  padding: 20px;
+  text-align: center;
+  $logoColor: rgba(0, 0, 0, .3);
+  color: $logoColor;
+
+  a, a:hover {
+    text-decoration: none;
+  }
+
+  .wexample-logo,
+  .aurore-logo,
+  .semapps-logo-mini,
+  .semapps-logo-mini div,
+  .semapps-logo-mini svg,
+  .av-logo-svg {
+    width: 40px;
+    display: inline;
+    vertical-align: middle;
+  }
+
+  .logo-aurore {
+    fill: $logoColor;
+    height: 40px;
+  }
+
+  .wexample-logo {
+    fill: $logoColor;
+    width: 20px;
+    height: 20px;
+  }
+
+  .av-logo-svg {
+    path {
+      fill: $logoColor;
+    }
+  }
+
+  .semapps-logo-mini svg {
+    path {
+      stroke: $logoColor;
+    }
+  }
+
+  .separator {
+    border-right: 1px solid rgba(0, 0, 0, .1);
+    margin: 0 30px;
+    height: 10px;
+  }
+}
+
+@keyframes barWidth {
+  to {
+    x:0;
+    width: 100%;
+  }
+  to {
+    x:100%;
+    width: 0;
+  }
+}
+
+.logoIntroBar {
+  background: pink;
+  animation: barWidth 1s cubic-bezier(.8, 0, .3, .9) forwards;
+}
+

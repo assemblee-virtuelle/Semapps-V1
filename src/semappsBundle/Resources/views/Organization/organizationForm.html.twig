@@ -53,7 +53,7 @@
                     <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
                         {% if form is not null %}
                             <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
-                                <img src="{{ asset(image == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~image) | imagine_filter('profile') }}"/>
+                                <img src="{{ asset(image == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~image) }}"/>
 
                                 <span id="profileEditPictureField">
                         {{ form_widget(form.organisationPicture) }}
@@ -128,32 +128,6 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12">{{ form_row(form.partnerOf, { 'label': 'Ses partenaires'}) }}</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.involvedIn, { 'label': 'Projets dans lesquels elle est impliquée'}) }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.manages, { 'label': 'Projets dont elle est (co-)responsable'}) }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.organizes, { 'label': 'Événement(s) qu’elle (co-)organise'}) }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.participantOf, { 'label': 'Événement(s) auquel(s) elle participe'}) }}</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.offers, { 'label': "Ce qu'elle propose" }) }}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">{{ form_row(form.needs, { 'label': 'Ce dont elle a besoin' }) }}</div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-12" data-toggle="tooltip" data-placement="bottom" title="Saisir les documents à partir de l'interface d'administration, vous pourrez ensuite les renseigner ici">
-                                {{ form_row(form.documentedBy, { 'label': "Documents descriptifs"}) }}
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">

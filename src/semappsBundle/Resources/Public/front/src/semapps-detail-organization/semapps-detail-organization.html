@@ -1,0 +1,319 @@
+<dom-module id="semapps-detail-organization">
+  <link rel="import" type="css" href="semapps-detail-organization.css">
+  <template>
+    <div id="semapps-detail-organization" class="row">
+      <div class="col col-sm-8">
+        <h2>[[data.properties.preferedLabel]]</h2>
+        <h4>Organisation</h4>
+
+        <div class="detail-header row">
+          <div class="detail-image col col-sm-4">
+            <template is="dom-if" if="[[image]]">
+              <div class="image thumbnail"
+                   style$="background-image:url('[[image]]');"></div>
+            </template>
+
+          </div>
+          <div class="detail-header col col-sm-8">
+            <table class="detailInfo">
+              <template is="dom-if" if="[[alternativeLabel]]">
+                <tr class="field">
+                  <td class="fieldLabel">Surnom</td>
+                  <td>[[alternativeLabel]]</td>
+                </tr>
+              </template>
+              <!--<template is="dom-if" if="[[hostedIn]]">-->
+                <!--<tr class="field">-->
+                  <!--<td class="fieldLabel">hostedIn</td>-->
+                  <!--<td>[[hostedIn]]</td>-->
+                <!--</tr>-->
+              <!--</template>-->
+              <template is="dom-if" if="[[address]]">
+                <tr class="field">
+                  <td class="fieldLabel">Adresse</td>
+                  <td>[[address]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[complementAddress]]">
+                <tr class="field">
+                  <td class="fieldLabel">Complément d'adresse</td>
+                  <td>[[complementAddress]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[homePage]]">
+                <tr class="field">
+                  <td class="fieldLabel">Site web </td>
+                  <td><a href="[[homePage]]" target="_blank">[[homePage]]</a>
+                  </td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[aboutPage]]">
+                <template is="dom-repeat" items="{{aboutPage}}">
+                  <tr class="field">
+                    <td class="fieldLabel">Autre lien</td>
+                    <td><a href="[[item]]" target="_blank">[[item]]</a>
+                  </tr>
+                </template>
+              </template>
+              <template is="dom-if" if="[[comment]]">
+                <tr class="field">
+                  <td class="fieldLabel">Description courte</td>
+                  <td>[[comment]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[email]]">
+                <tr class="field">
+                  <td class="fieldLabel">E-mail</td>
+                  <td>[[email]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[phone]]">
+                <tr class="field">
+                  <td class="fieldLabel">Téléphone</td>
+                  <td>[[phone]]</td>
+                </tr>
+              </template>
+              <template is="dom-if" if="[[allowUri]]">
+              <template is="dom-if" if="[[data.uri]]">
+                <tr class="field">
+                  <td class="fieldLabel">uri</td>
+                  <td>[[data.uri]]</td>
+                </tr>
+              </template>
+              </template>
+            </table>
+          </div>
+          <template is="dom-if" if="[[description]]">
+            <div class="detail-description col col-sm-12">
+              <div class="detail-description-inner">
+                <template is="juicy-html" content$="{{description}}"></template>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+      <section class="col col-sm-4 side-blocks">
+        <!-- responsible -->
+        <template is="dom-if" if="[[data.hasResponsible.person.length]]">
+          <h3>Responsables</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasResponsible.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of responsible -->
+        <!-- hasMember -->
+        <template is="dom-if" if="[[data.hasMember.person.length]]">
+          <h3>Membres</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.hasMember.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of hasMember -->
+
+        <!-- employs -->
+        <template is="dom-if" if="[[data.employs.person.length]]">
+          <h3>Employés</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.employs.person}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of employs -->
+        <!-- partnerOf -->
+        <template is="dom-if" if="[[data.partnerOf.organization.length]]">
+          <h3>Organisations partenaires</h3>
+          <div class="thumbs">
+            <template is="dom-repeat" items="{{data.partnerOf.organization}}">
+              <semapps-avatar image="[[item.image]]" uri="[[item.uri]]"
+                         label="[[item.name]]"></semapps-avatar>
+            </template>
+          </div>
+          <div class="clearfix"></div>
+        </template>
+        <!-- end of partnerOf -->
+
+        <template is="dom-if" if="[[hasInterest.length]]">
+          <h3>Centres d'intérêts</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasInterest}}">
+              <semapps-tag uri="{{ item.uri }}" route="onClickThematic" name="{{item.name}}" type="dbpedia"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[hasSubject.length]]">
+          <h3>Mots-clés</h3>
+          <div>
+            <template is="dom-repeat" items="{{hasSubject}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+
+        <!-- involvedIn -->
+        <template is="dom-if" if="[[data.involvedIn.project.length]]">
+          <h3>Impliquée dans</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.involvedIn.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of involvedIn -->
+        <!-- manages -->
+        <template is="dom-if" if="[[data.manages.project.length]]">
+          <h3>(Co-)responsable de</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.manages.project}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="project"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of manages -->
+        <!-- organizes -->
+        <template is="dom-if" if="[[data.organizes.event.length]]">
+          <h3>(Co-)organise</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.organizes.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of organizes -->
+        <!-- participantOf -->
+        <template is="dom-if" if="[[data.participantOf.event.length]]">
+          <h3>Participe à</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.participantOf.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of participantOf -->
+        <!-- offers -->
+        <template is="dom-if" if="[[data.offers.length]]">
+          <h3>Offres</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.offers}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of offers -->
+        <!-- needs -->
+        <template is="dom-if" if="[[data.needs.length]]">
+          <h3>Besoins</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.needs}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickRessource" name="{{item.name}}" type="dbpedia"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of needs -->
+        <!-- brainstorms -->
+        <template is="dom-if" if="[[data.brainstorms.proposal.length]]">
+          <h3>Proposition dont l'organisation est à l'origine</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.brainstorms.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of brainstorms -->
+        <!-- documentedby -->
+        <template is="dom-if" if="[[data.documentedBy.document.length]]">
+          <h3>Document(s) descriptif(s)</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.documentedBy.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of documentedby -->
+        <!-- hasType -->
+        <template is="dom-if" if="[[data.hasType.organizationType.length]]">
+          <h3>Type</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.hasType.organizationType}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="organizationType"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of hasType -->
+        <template is="dom-if" if="[[data.subjectOfPAIR.proposal.length]]">
+          <h3>Est concerné par ( Propositions )</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.proposal}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="proposal"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <template is="dom-if" if="[[data.subjectOfPAIR.event.length]]">
+          <h3>Est concerné par ( événements )</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.subjectOfPAIR.event}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="event"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- internal_author -->
+        <template is="dom-if" if="[[data.internal_author.document.length]]">
+          <h3>Auteur de</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.internal_author.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of internal_author -->
+        <!-- internal_contributor -->
+        <template is="dom-if" if="[[data.internal_contributor.document.length]]">
+          <h3>Contributeur de</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.internal_contributor.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of internal_contributor -->
+        <!-- internal_publisher -->
+        <template is="dom-if" if="[[data.internal_publisher.document.length]]">
+          <h3>Editeur de</h3>
+          <div>
+            <template is="dom-repeat" items="{{data.internal_publisher.document}}">
+              <semapps-tag uri="{{ item.uri }}" route="handleClickDetail" name="{{item.name}}" type="document"></semapps-tag>
+            </template>
+            <div class="clearfix"></div>
+          </div>
+        </template>
+        <!-- end of internal_publisher -->
+      </section>
+    </div>
+  </template>
+  <script src="semapps-detail-organization.min.js"></script>
+</dom-module>

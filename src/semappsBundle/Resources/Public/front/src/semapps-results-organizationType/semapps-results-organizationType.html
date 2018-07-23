@@ -1,0 +1,20 @@
+<dom-module id="semapps-results-organizationType">
+  <link rel="import" type="css" href="semapps-results-organizationType.css">
+  <link rel="import" href="../semapps-logo-mini/semapps-logo-mini.html">
+  <template>
+    <a class="search-result-content" on-tap="handleClick" href="#"
+       rel="[[uri]]">
+      <div class="image-wrapper" style$="background-image:url([[image]])">
+      </div>
+      <div class="info col">
+        <template is="dom-if" if="[[haveTitle(title)]]">
+          <h2>[[title]] </h2>
+        </template>
+        <div class="description">[[info]]</div>
+      </div>
+      <div class="chevron glyphicon glyphicon-chevron-right"></div>
+    </a>
+    <div class="clearfix"></div>
+  </template>
+  <script src="semapps-results-organizationType.min.js"></script>
+</dom-module>

@@ -1,0 +1,22 @@
+@import "./../../../common/css/color.scss";
+
+#detailTools {
+  border-bottom: 1px dashed #EEE;
+  a {
+    border: 1px solid #EEE;
+    border-bottom-color: transparent;
+    border-radius: 0;
+    color: $greyDark;
+    cursor: pointer;
+    span {
+      color: $ClearOneColorTwo;
+      margin-right: 9px;
+    }
+  }
+}
+
+.illustration {
+  width: 100%;
+  margin: 20px 0;
+}
+
