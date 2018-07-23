@@ -2,8 +2,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: "@semappsBundle/Resources/config/services.yml" }
-    - { resource: "@semappsBundle/Resources/config/semanticforms.yml" }
+    - { resource: "@coreBundle/Resources/config/services.yml" }
+    - { resource: "@coreBundle/Resources/config/conf.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -72,7 +72,7 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-                semappsBundle:
+                coreBundle:
                     type: yml #On your case it should be annotation
                     dir: Resources/config/doctrine
 
@@ -90,7 +90,7 @@ swiftmailer:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: semappsBundle\Entity\User
+    user_class: coreBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
         address: contact@assemblee-virtuelle.org
         sender_name: Assemblée Virtuelle
@@ -100,22 +100,22 @@ fos_user:
             enabled: false
 
 # Liip configuration to resize picture
-liip_imagine :
-    resolvers :
-        default :
-            web_path : ~
-    filter_sets :
-        cache : ~
-        # the name of the "filter set"
-        profile :
-            # adjust the image quality to 75%
-            quality : 75
-            # list of transformations to apply (the "filters")
-            filters :
-                # create a thumbnail: set size to 140x140 and use the "outbound" mode
-                # to crop the image when the size ratio of the input differs
-                thumbnail  : { size : [140, 140], mode : outbound }
-        organisation:
-            quality: 75
-            filters:
-                thumbnail: {size : [140, 140], mode: outbound}
+# liip_imagine :
+#     resolvers :
+#         default :
+#             web_path : ~
+#     filter_sets :
+#         cache : ~
+#         # the name of the "filter set"
+#         profile :
+#             # adjust the image quality to 75%
+#             quality : 75
+#             # list of transformations to apply (the "filters")
+#             filters :
+#                 # create a thumbnail: set size to 140x140 and use the "outbound" mode
+#                 # to crop the image when the size ratio of the input differs
+#                 thumbnail  : { size : [140, 140], mode : outbound }
+#         organisation:
+#             quality: 75
+#             filters:
+#                 thumbnail: {size : [140, 140], mode: outbound}

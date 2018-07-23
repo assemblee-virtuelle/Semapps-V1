@@ -2,7 +2,7 @@
 
 namespace semappsBundle\Form;
 
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -84,7 +84,7 @@ class OrganizationType extends SemanticFormType
                 [
                     'required'  => false,
 
-                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                    'rdfType'   => coreConfig::URI_PAIR_PERSON,
                 ]
             )
             ->add(
@@ -94,7 +94,7 @@ class OrganizationType extends SemanticFormType
                 [
                     'required'  => false,
 
-                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                    'rdfType'   => coreConfig::URI_PAIR_PERSON,
                 ]
             )
             ->add(
@@ -104,7 +104,7 @@ class OrganizationType extends SemanticFormType
                 [
                     'required'  => false,
 
-                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                    'rdfType'   => coreConfig::URI_PAIR_PERSON,
                 ]
             )
             ->add(
@@ -114,7 +114,7 @@ class OrganizationType extends SemanticFormType
                 [
                     'required'  => false,
 
-                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+                    'rdfType'   => coreConfig::URI_PAIR_ORGANIZATION,
                 ]
             )
             ->add(
@@ -147,7 +147,7 @@ class OrganizationType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
+                    'rdfType'   => coreConfig::URI_PAIR_DOCUMENT,
                 ]
             )
 
@@ -157,7 +157,7 @@ class OrganizationType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
                 ]
             )
             ->add(
@@ -166,7 +166,7 @@ class OrganizationType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
                 ]
             )
             ->add(
@@ -175,7 +175,7 @@ class OrganizationType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(
@@ -184,7 +184,7 @@ class OrganizationType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(
@@ -192,7 +192,7 @@ class OrganizationType extends SemanticFormType
                 'hasInterest',
                 ThesaurusType::class,
                 [
-                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'rdfType'   => coreConfig::URI_SKOS_THESAURUS,
                     'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
@@ -218,7 +218,7 @@ class OrganizationType extends SemanticFormType
                 ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'rdfType'   => coreConfig::URI_SKOS_CONCEPT,
                     'graphUri'   => 'urn://semapps/thesaurus/organizationtype',
                 ]
             )

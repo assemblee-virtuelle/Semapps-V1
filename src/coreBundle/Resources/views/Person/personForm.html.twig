@@ -1,0 +1,196 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps | profil{% endblock %}
+
+{% block pageContentTitle %}Mon profil{% endblock %}
+
+{% set menuSelected = 'Mon profil' %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <div class="container">
+        {% if entityUri %}
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active pull-right">
+                    <a target="_blank" href="/detail?uri={{ entityUri }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        Voir</a>
+                </li>
+                {% if sf_domain not in entityUri and app.user.id == currentUser.id%}
+                    <li role="presentation" class="active pull-right">
+                        <a  href="{{ path('personActualizeComponent', {'uniqueComponentName':'person'}) }}"><span
+                                    class="glyphicon glyphicon-refresh"></span>
+                            actualiser</a>
+                    </li>
+                {% endif %}
+                {% if app.user.id == currentUser.id %}
+                    <li role="presentation" class="user-remove-profile active pull-right" rel="{{ path('personRemoveComponent', {'uniqueComponentName':'person'}) }}">
+                        <a  href="#"><span
+                                    class=" glyphicon glyphicon-trash"></span>
+                            retirer</a>
+                    </li>
+                {% endif %}
+            </ul>
+            <br>
+        {% endif %}
+
+        <div class="row">
+            {% if importForm is not null %}
+                <ul id="myTab" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profil</a>
+                    </li>
+                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i>Lier une donnée</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {% if importForm is not null %}
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="service-one">
+                    {% endif %}
+                    {{ form_start(form) }}
+                    <div class="col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2 formEditAvatar">
+                        {% if form is not null %}
+                            <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                                <img src="{{ asset(currentUser.pictureName == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~currentUser.pictureName) }}"/>
+                                <span id="profileEditPictureField">
+                        {{ form_widget(form.pictureName) }}
+                    </span>
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                {{ form_row(form.firstName, { 'label': 'Prénom'}) }}
+                            </div>
+                            <div class="col-xs-4">
+                                {{ form_row(form.lastName, { 'label': 'Nom'}) }}
+                            </div>
+                            <div class="col-xs-4">
+                                {{ form_row(form.alias, { 'label': 'Pseudo'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.description) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.address, { 'label': 'Adresse '}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.complementAddress, { 'label': 'Complément d\'Adresse '}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.homePage) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.aboutPage) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                {{ form_row(form.email) }}
+                            </div>
+                            <div class="col-xs-4">
+                                {{ form_row(form.phone) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.hasInterest, { 'label': "Domaines thématiques"}) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.hasSubject) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.skill) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.knows, { 'label': 'Vos amis et collaborateurs'}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.responsibleOf) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                {{ form_row(form.employedBy) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.memberOf) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
+                        {#{{ form_widget(form) }}#}
+                    </div>
+                    {{ form_end(form) }}
+                    {% if importForm is not null %}
+                </div>
+                <div class="tab-pane fade" id="service-two">
+                    {{ form_start(importForm) }}
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                {{ form_row(importForm.import, { 'label': 'import', attr:{class:'form-control'} }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(importForm.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(importForm) }}
+                </div>
+            </div>
+            {% endif%}
+            <div class="col col-sm-4">
+                {% embed "alertBobby.html.twig" %}
+                    {% block title %}Qui êtes-vous ?{% endblock %}
+                    {% block content %}
+                        <p>Vous êtes libres de remplir les champs que vous voulez, les numéros de téléphone et mails ne sont pas publics, ils ne sont partagés qu’entre les membres de la plateforme.
+                        </p>
+                        <p>/!\ ATTENTION /!\ : Pour celles et ceux qui décident d'importer un profil (<a href="http://xmlns.com/foaf/spec/" target="_blank">foaf</a> et <a href="https://www.virtual-assembly.org/ontologie-pair/" target="_blank">pair</a> actuellement),
+                            les modifications ne toucheront pas la source de vos données !
+                            Elles resteront locales, c'est-à-dire visibles uniquement sur ce site</p>
+
+
+                    {% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

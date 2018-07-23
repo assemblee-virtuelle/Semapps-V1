@@ -1,0 +1,22 @@
+{% extends "::admin.html.twig" %}
+
+{% block pageContentTitle %}Inviter un nouvel utilisateur !{% endblock %}
+
+{% set menuSelected = 'invite' %}
+
+{% block pageContent %}
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="form-group">
+        <div class="row">
+            <div class="col col-sm-8">
+                {{ form_label(form.email, "Envoyer une invitation à un nouvel utilisateur sur la plateforme via son adresse e-mail !") }}
+                {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+                <br>
+                {{ form_widget(form.submit, {'attr':{'class':'btn btn-primary-lgv'}}) }}
+            </div>
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

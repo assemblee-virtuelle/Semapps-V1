@@ -1,0 +1,190 @@
+{% extends '::admin.html.twig' %}
+
+{% block pageContentTitle %}
+    Liste des user
+{% endblock %}
+
+{% set menuSelected = 'userList' %}
+
+{% block pageContent %}
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="userDisabledManager" class="table table-bordered">
+                <th colspan="5">
+                    <h3>Liste d'invitation envoyé</h3>
+                </th>
+                <tr>
+                    <th class="padded-value" style="width:50%">
+                        Email
+                    </th>
+                    <th class="padded-value" style="width:50%">
+                        Token
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for email,token in invite %}
+                    <tr rel="{{ email }}">
+                        <td class="padded-value" style="width:50%">
+                            {{ email }}
+                        </td>
+                        <td class="padded-value" style="width:50%">
+                            {{ token }}
+                        </td>
+                        <td class="padded-value">
+                            <a class="invite-send" href="#" rel="{{ email }}" data-token="{{ token }}">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+
+                        </td>
+                        <td class="padded-value">
+                            <a class="invite-delete" href="#" rel="{{ email }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="userDisabledManager" class="table table-bordered">
+                <th colspan="5">
+                    <h3>Liste des utilisateurs n'ayant pas validé leur compte</h3>
+                </th>
+                <tr>
+                    <th class="padded-value" style="width:25%">
+                        Login
+                    </th>
+                    <th class="padded-value" style="width:25%">
+                        Email
+                    </th>
+                    <th class="padded-value" style="width:20%">
+                        Organisation
+                    </th>
+                    <th class="padded-value" style="width:20%">
+                        Responsable / Membre
+                    </th>
+                    <th></th>
+                </tr>
+                {% for key,user in userDisabled %}
+                    <tr rel="{{ key }}">
+                        <td class="padded-value" style="width:25%">
+                            {{ user.username }}
+                        </td>
+                        <td class="padded-value" style="width:25%">
+                            {{ user.email }}
+                        </td>
+                        <td class="padded-value" style="width:20%">
+                            {{ user.organization }}
+                        </td>
+                        <td class="padded-value" style="width:20%">
+                            {% if user.isResponsible %}
+                                Responsable
+                            {% else %}
+                                Utilisateur
+                            {% endif %}
+                        </td>
+                        <td class="padded-value">
+                            <a class="user-send-email" href="#" rel="{{key }}" nameRoute={{ nameRoute }}>
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </a>
+
+                        </td>
+                        <td class="padded-value">
+                            <a href="{{ path('personComponentForm', {'uniqueComponentName':'person' , 'id': key}) }}" >
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                        </td>
+                        <td class="padded-value">
+                            <a class="team-user-delete" href="#" rel="{{key}}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <table id="userEnabledManager" class="table table-bordered">
+                <tr >
+                    <th colspan="5">
+                        <h3>Liste des utilisateur ayant validé leur compte</h3>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="padded-value" style="width:40%">
+                        Login
+                    </th>
+                    <th class="padded-value" style="width:40%">
+                        Email
+                    </th>
+                    <th class="padded-value" style="width:20%">
+                        Date dernière connexion
+                    </th>
+                    <th ></th>
+                </tr>
+                {% for key,user in userEnabled %}
+                    <tr rel="{{key }}">
+                        <td class="padded-value" style="width:40%">
+                            {{ user.username }}
+                        </td>
+                        <td class="padded-value" style="width:40%">
+                            {{ user.email }}
+                        </td>
+                        <td class="padded-value" style="width:20%">
+                            {% if user.lastLogin is not null %}
+                                {{ user.lastLogin|date("d/m/Y") }}
+                            {% endif %}
+                        </td>
+                        <td class="padded-value" >
+                            <a class="team-user-delete" href="#" rel="{{key}}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_granted('ROLE_ADMIN')%}
+                <h2>Ajouter</h2>
+                <div class="panel panel-gv">
+                    <div class="panel-body">
+                        Vous pouvez créer des comptes pour les membres de votre équipe. Les
+                        editeurs auront la possibilité de modifier les informations
+                        relatives à
+                        votre organisation, les membres auront uniquement accès aux données
+                        de
+                        l'annuaire de SemApps.
+                    </div>
+                </div>
+                {{ form_start(userForm) }}
+                {{ form_errors(userForm) }}
+                <div class="col col-sm-3">
+                    <div class="form-group ">
+                        {{ form_row(userForm.username, { 'attr': {'class': 'form-control', 'placeholder':'Nom d\'utilisateur'} }) }}
+                    </div>
+                </div>
+                <div class="col col-sm-3">
+                    <div class="form-group ">
+                        {{ form_row(userForm.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'} }) }}
+
+                    </div>
+                </div>
+                <div class="col col-sm-2">
+                    {{ form_row(userForm.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
+                </div>
+                {{ form_row(userForm.access) }}
+
+                {{ form_end(userForm) }}
+
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}
+

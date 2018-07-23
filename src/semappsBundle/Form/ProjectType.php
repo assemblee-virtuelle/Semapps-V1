@@ -3,7 +3,7 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\Form\Type\YesNoType;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -67,7 +67,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -92,7 +92,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -101,7 +101,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT.'|'.semappsConfig::URI_PAIR_EVENT.'|'.semappsConfig::URI_PAIR_PROPOSAL.'|'.semappsConfig::URI_PAIR_DOCUMENT.'|'
+                    'rdfType'   => coreConfig::URI_PAIR_PROJECT.'|'.coreConfig::URI_PAIR_EVENT.'|'.coreConfig::URI_PAIR_PROPOSAL.'|'.coreConfig::URI_PAIR_DOCUMENT.'|'
                 ]
             )
             ->add(
@@ -110,7 +110,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
+                    'rdfType'   => coreConfig::URI_PAIR_DOCUMENT,
                 ]
             )
             ->add(
@@ -126,7 +126,7 @@ class ProjectType extends SemanticFormType
                 'hasInterest',
                 ThesaurusType::class,
                 [
-                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'rdfType'   => coreConfig::URI_SKOS_THESAURUS,
                     'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
@@ -152,7 +152,7 @@ class ProjectType extends SemanticFormType
                 ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'rdfType'   => coreConfig::URI_SKOS_CONCEPT,
                     'graphUri'   => 'urn://semapps/thesaurus/projecttype',
                 ]
             )
@@ -162,7 +162,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -171,7 +171,7 @@ class ProjectType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(

@@ -33,7 +33,7 @@ class ImportType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'semappsbundle_import';
+        return 'semappsBundle_import';
     }
 
 

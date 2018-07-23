@@ -1,0 +1,54 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | {{ componentName }}{% endblock %}
+
+{% block pageContent %}
+    {{ parent() }}
+    <div class="col col-md-8">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path('thesaurusForm',{'componentName':componentName}) }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Ajouter</a>
+        </li>
+    </ul>
+    <br>
+
+    <table class="table table-bordered">
+        {% for item in listContent %}
+            <tr>
+                {% block itemDisplay %}
+                    <td style="width:100%">{{ item.content|first }}</td>
+                {% endblock %}
+                <td>
+                    <a class="btn" target="_parent" href="/detail?uri={{ item.uri }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        Voir</a>
+                </td>
+                <td>
+                    <a href="{{ path('thesaurusForm',{'componentName':componentName,uri:item.uri}) }}"
+                       class="btn"><span
+                                class="glyphicon glyphicon-edit"></span>&nbsp;Editer</a>
+                </td>
+                <td>
+                    <a class="btn component-delete" href="{{ path('thesaurusDelete',{'componentName':componentName,'uri':item.uri}) }}" name="{{ componentName }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <div class="col col-md-4">
+        {% embed "alertBobby.html.twig" %}
+            {% block title %}/!\ Attention /!\{% endblock %}
+            {% block content %}
+                <p>L'édition des types est partagée entre l'ensemble des membres de la plateforme. </p>
+                <p>Veillez donc à en faire bon usage ! </p>
+                <p>Si vous souhaitez supprimer ou refondre en profondeur la logique des types, rapprochez vous de l'administrateur de la plateforme en envoyant un mail à contact@assemblee-virtuelle.org</p>
+
+
+            {% endblock %}
+        {% endembed %}
+    </div>
+{% endblock %}

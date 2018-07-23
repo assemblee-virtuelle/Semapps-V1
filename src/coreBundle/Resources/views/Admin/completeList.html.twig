@@ -1,0 +1,41 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | organisation{% endblock %}
+
+{% block pageContentTitle %}Organisations{% endblock %}
+
+{% set menuSelected = 'organizationList' %}
+
+
+{% block pageContent %}
+    {{ parent() }}
+    <h2>Membres</h2>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path('organizationExport') }}">Export CSV</a>
+        </li>
+    </ul>
+    <br>
+    <table class="table table-bordered">
+        {% for organisation in organisations %}
+            <tr>
+                <td class="padded-value" style="width:60%">
+                    {{ organisation.content.preferedLabel }}
+                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td class="padded-value">
+                        <a href="{{ path('orgaComponentForm', {'uniqueComponentName':'organization' , 'id': organisation.uri|url_encode}) }}" >
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td class="padded-value">
+                        <a class="orga-delete" href="#" rel="{{ organisation.uri|url_encode }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

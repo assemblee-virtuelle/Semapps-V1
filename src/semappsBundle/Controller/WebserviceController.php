@@ -6,7 +6,7 @@ use semappsBundle\Entity\User;
 use semappsBundle\Services\WebserviceCache;
 use semappsBundle\Services\WebserviceTools;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +42,7 @@ class WebserviceController extends Controller
         // Get results.
         $results = $webserviceTools->searchSparqlRequest(
             '',
-            semappsConfig::URI_SKOS_THESAURUS,
+            coreConfig::URI_SKOS_THESAURUS,
             null,
             false,
             $thematicConf['graphuri']
@@ -80,7 +80,7 @@ class WebserviceController extends Controller
                 'graphToName'      => $this->getParameter("graphToName"),
                 'thesaurus'     => $thesaurus,
                 'buildings'     => [],
-//                'buildings'     => semappsConfig::$buildings,
+//                'buildings'     => coreConfig::$buildings,
             ];
         }
 
@@ -174,7 +174,7 @@ class WebserviceController extends Controller
 
         $label = $webserviceTools->sparqlGetLabel(
             $request->get('uri'),
-            semappsConfig::Multiple
+            coreConfig::Multiple
         );
 
         return new JsonResponse(

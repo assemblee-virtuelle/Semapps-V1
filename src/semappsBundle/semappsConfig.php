@@ -9,7 +9,7 @@
 namespace semappsBundle;
 
 /** TODO remove this file */
-class semappsConfig
+class coreConfig
 {
     //class
     const URI_PAIR_PERSON = 'http://virtual-assembly.org/pair#Person';

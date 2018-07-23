@@ -1,0 +1,26 @@
+parameters:
+  dbpediaConf:
+    fields:
+      http://www.w3.org/2000/01/rdf-schema#comment:
+        value: 'comment'
+        access: 'anonymous'
+      http://www.w3.org/2000/01/rdf-schema#label:
+        value: 'label'
+        access: 'anonymous'
+      http://xmlns.com/foaf/0.1/depiction:
+        value: 'depiction'
+        access: 'anonymous'
+      http://dbpedia.org/ontology/abstract:
+        value: 'abstract'
+        access: 'anonymous'
+      http://purl.org/dc/terms/subject:
+        value: 'subject'
+        access: 'anonymous'
+        type: 'uri'
+      http://dbpedia.org/ontology/wikiPageExternalLink:
+        value: 'wikipage'
+        access: 'anonymous'
+        type: 'autre'
+    reverse: null
+    label:
+      - http://www.w3.org/2000/01/rdf-schema#label

@@ -11,7 +11,7 @@ namespace semappsBundle\Services;
 
 use Knp\Bundle\MarkdownBundle\MarkdownParserInterface;
 use semappsBundle\Entity\User;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use VirtualAssembly\SemanticFormsBundle\Services\SemanticFormsClient;
 use VirtualAssembly\SparqlBundle\Services\SparqlClient;
 use Doctrine\ORM\EntityManager;
@@ -48,7 +48,7 @@ class WebserviceTools
         $this->parser = $parser;
         $this->sparqlRepository = $sparqlRepository;
     }
-    public function searchSparqlRequest($term, $type = semappsConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
+    public function searchSparqlRequest($term, $type = coreConfig::Multiple, $filter=null, $isBlocked = false,$graphUri = null)
     {
 
         $arrayType = explode('|',$type);
@@ -101,25 +101,25 @@ class WebserviceTools
             ->addFilter('?uri = <'.$url.'>');
 
         switch ($uriType) {
-            case semappsConfig::URI_PAIR_PERSON :
+            case coreConfig::URI_PAIR_PERSON :
                 $sparql->addSelect('( COALESCE(?lastName, "") As ?result)  (fn:concat(?firstName, " ", ?result) as ?label)')
                     ->addWhere('?uri','pair:firstName','?firstName','?gr')
                     ->addOptional('?uri','pair:lastName','?lastName','?gr');
 
                 break;
-            case semappsConfig::URI_PAIR_ORGANIZATION :
-            case semappsConfig::URI_PAIR_PROJECT :
-            case semappsConfig::URI_PAIR_PROPOSAL :
-            case semappsConfig::URI_PAIR_EVENT :
-            case semappsConfig::URI_PAIR_DOCUMENT :
-            case semappsConfig::URI_PAIR_GOOD :
-            case semappsConfig::URI_PAIR_SERVICE :
-            case semappsConfig::URI_PAIR_PLACE :
+            case coreConfig::URI_PAIR_ORGANIZATION :
+            case coreConfig::URI_PAIR_PROJECT :
+            case coreConfig::URI_PAIR_PROPOSAL :
+            case coreConfig::URI_PAIR_EVENT :
+            case coreConfig::URI_PAIR_DOCUMENT :
+            case coreConfig::URI_PAIR_GOOD :
+            case coreConfig::URI_PAIR_SERVICE :
+            case coreConfig::URI_PAIR_PLACE :
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','pair:preferedLabel','?label','?gr');
 
                 break;
-            case semappsConfig::URI_SKOS_THESAURUS:
+            case coreConfig::URI_SKOS_THESAURUS:
                 $sparql->addSelect('?label')
                     ->addWhere('?uri','skos:prefLabel','?label','?gr');
                 break;
@@ -195,7 +195,7 @@ class WebserviceTools
                                 foreach ($properties[$simpleKey] as $uri) {
                                     $result = [
                                         'uri' => $uri,
-                                        'name' => $this->sparqlGetLabel($uri,semappsConfig::URI_SKOS_THESAURUS)
+                                        'name' => $this->sparqlGetLabel($uri,coreConfig::URI_SKOS_THESAURUS)
                                     ];
                                     $output[$simpleKey][] = $result;
                                 }
@@ -208,39 +208,39 @@ class WebserviceTools
 
         switch (current($properties['type'])) {
             // Orga.
-            case  semappsConfig::URI_PAIR_ORGANIZATION:
+            case  coreConfig::URI_PAIR_ORGANIZATION:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             // Person.
-            case  semappsConfig::URI_PAIR_PERSON:
+            case  coreConfig::URI_PAIR_PERSON:
                 $output ['title'] = current($properties['firstName']).' '.current($properties['lastName']);
                 break;
             // Project.
-            case semappsConfig::URI_PAIR_PROJECT:
+            case coreConfig::URI_PAIR_PROJECT:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             // Event.
-            case semappsConfig::URI_PAIR_EVENT:
+            case coreConfig::URI_PAIR_EVENT:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             // Proposition.
-            case semappsConfig::URI_PAIR_PROPOSAL:
+            case coreConfig::URI_PAIR_PROPOSAL:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
             // document
-            case semappsConfig::URI_PAIR_DOCUMENT:
+            case coreConfig::URI_PAIR_DOCUMENT:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
-            case semappsConfig::URI_PAIR_GOOD:
+            case coreConfig::URI_PAIR_GOOD:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
-            case semappsConfig::URI_PAIR_SERVICE:
+            case coreConfig::URI_PAIR_SERVICE:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
-            case semappsConfig::URI_PAIR_PLACE:
+            case coreConfig::URI_PAIR_PLACE:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
-            case semappsConfig::URI_SKOS_CONCEPT:
+            case coreConfig::URI_SKOS_CONCEPT:
                 $output['title'] = current($properties['preferedLabel']);
                 break;
         }
@@ -299,7 +299,7 @@ class WebserviceTools
                             $result = null;
                             if($isAllowed){
                                 switch ($componentConf['type']) {
-                                    case semappsConfig::URI_PAIR_PERSON:
+                                    case coreConfig::URI_PAIR_PERSON:
                                         $result = [
                                             'uri' => $uri,
                                             'name' => ((current($component['firstName'])) ? current($component['firstName']) : "") . " " . ((current($component['lastName'])) ? current($component['lastName']) : ""),
@@ -307,15 +307,15 @@ class WebserviceTools
                                         ];
                                         $output[$alias][$componentConf['nameType']][] = $result;
                                         break;
-                                    case semappsConfig::URI_SKOS_CONCEPT:
-                                    case semappsConfig::URI_PAIR_ORGANIZATION:
-                                    case semappsConfig::URI_PAIR_PROJECT:
-                                    case semappsConfig::URI_PAIR_EVENT:
-                                    case semappsConfig::URI_PAIR_PROPOSAL:
-                                    case semappsConfig::URI_PAIR_DOCUMENT:
-                                    case semappsConfig::URI_PAIR_GOOD:
-                                    case semappsConfig::URI_PAIR_SERVICE:
-                                    case semappsConfig::URI_PAIR_PLACE:
+                                    case coreConfig::URI_SKOS_CONCEPT:
+                                    case coreConfig::URI_PAIR_ORGANIZATION:
+                                    case coreConfig::URI_PAIR_PROJECT:
+                                    case coreConfig::URI_PAIR_EVENT:
+                                    case coreConfig::URI_PAIR_PROPOSAL:
+                                    case coreConfig::URI_PAIR_DOCUMENT:
+                                    case coreConfig::URI_PAIR_GOOD:
+                                    case coreConfig::URI_PAIR_SERVICE:
+                                    case coreConfig::URI_PAIR_PLACE:
                                         $result = [
                                             'uri' => $uri,
                                             'name' => ((current($component['preferedLabel'])) ? current($component['preferedLabel']) : ""),

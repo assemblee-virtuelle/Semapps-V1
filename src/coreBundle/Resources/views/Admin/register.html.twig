@@ -1,0 +1,50 @@
+{% extends "@FOSUser/layout.html.twig" %}
+{% block fos_user_content %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-xs-6 ">
+            {{ form_row(form.username, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+        <div class="col-xs-6 ">
+            {{ form_row(form.email, {'attr' : {'class' : 'form-control', 'value':email}}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 ">
+            {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+        <div class="col-xs-6 ">
+            {{ form_row(form.confPassword, {'attr' : {'class' : 'form-control'}}) }}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12 ">
+            {{ form_row(form.submit, {'attr' : {'class' : ' form-control btn btn-primary-lgv pull-right'}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <br/>
+    <a href="{{ url('fos_user_security_login') }}">
+        Connexion
+    </a>
+{% endblock fos_user_content %}
+
+{% block bobby %}
+    <div class="col col-sm-6 col-sm-offset-1">
+        <div class="block-banner-overflow-transparent">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Bonjour à toi et bienvenue sur SemApps !
+                {% endblock %}
+                {% block content %}
+                    <p>Je m’appelle Bobby, et je te souhaite la bienvenue sur SemApps
+                    </p>
+
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+    <script>
+
+    </script>
+{% endblock bobby %}

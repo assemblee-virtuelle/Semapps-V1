@@ -1,0 +1,143 @@
+parameters:
+
+    organizationConf:
+      type: 'http://virtual-assembly.org/pair#Organization'
+      spec: 'http://assemblee-virtuelle.github.io/mmmfest/semapps-form.ttl#form-Organization'
+      nameType: 'organization'
+      fields:
+        http://virtual-assembly.org/pair#isSubjectOf:
+          value: 'subjectOfPAIR'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#preferedLabel:
+          value: 'preferedLabel'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#alternativeLabel:
+          value: 'alternativeLabel'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#isRepresentedBy:
+          value: 'representedBy'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#description:
+          value: 'description'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#comment:
+          value: 'comment'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#homePage:
+          value: 'homePage'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#aboutPage:
+          value: 'aboutPage'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#hasInterest:
+          value: 'hasInterest'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#email:
+          value: 'email'
+          access: 'member'
+        http://virtual-assembly.org/pair#phone:
+          value: 'phone'
+          access: 'member'
+        http://virtual-assembly.org/pair#isHostedIn:
+          value: 'hostedIn'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#isDocumentedBy:
+          value: 'documentedBy'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#hasKeyword:
+          value: 'hasSubject'
+          access: 'anonymous'
+          type: 'dbpedia'
+        http://virtual-assembly.org/pair#hasMember:
+          value: 'hasMember'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#hasResponsible:
+          value: 'hasResponsible'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#employs:
+          value: 'employs'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isPartnerOf:
+          value: 'partnerOf'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isInvolvedIn:
+          value: 'involvedIn'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#manages:
+          value: 'manages'
+          access: 'anonymous'
+          type: 'uri'
+#        http://virtual-assembly.org/pair#operates:
+#          value: 'operates'
+#          access: 'anonymous'
+        http://virtual-assembly.org/pair#organizes:
+          value: 'organizes'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isParticipatingIn:
+          value: 'participantOf'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#offers:
+          value: 'offers'
+          access: 'anonymous'
+          type: 'dbpedia'
+        http://virtual-assembly.org/pair#needs:
+          value: 'needs'
+          access: 'anonymous'
+          type: 'dbpedia'
+        http://virtual-assembly.org/pair#brainstorms:
+          value: 'brainstorms'
+          access: 'anonymous'
+          type: 'uri'
+        http://www.w3.org/1999/02/22-rdf-syntax-ns#type:
+          value: 'type'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#image:
+          value: 'image'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#adress:
+          value: 'address'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#adressLine2:
+          value: 'complementAddress'
+          access: 'anonymous'
+        http://virtual-assembly.org/pair#isAuthorOfDocument:
+          value: 'internal_author'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isContributorOfDocument:
+          value: 'internal_contributor'
+          access: 'anonymous'
+          type: 'uri'
+        http://virtual-assembly.org/pair#isPublisherOfDocument: #person + orga
+           value: 'internal_publisher'
+           access: 'anonymous'
+           type: 'uri'
+        http://virtual-assembly.org/pair#hasType:
+           value: 'hasType'
+           access: 'anonymous'
+           type: 'uri'
+      reverse:
+        http://virtual-assembly.org/pair#hasMember: 'http://virtual-assembly.org/pair#isMemberOf'
+        http://virtual-assembly.org/pair#hasResponsible: 'http://virtual-assembly.org/pair#isResponsibleFor'
+        http://virtual-assembly.org/pair#employs: 'http://virtual-assembly.org/pair#isEmployedBy'
+        http://virtual-assembly.org/pair#isPartnerOf: 'http://virtual-assembly.org/pair#isPartnerOf'
+        http://virtual-assembly.org/pair#isDocumentedBy: 'http://virtual-assembly.org/pair#documents'
+        http://virtual-assembly.org/pair#isInvolvedIn: 'http://virtual-assembly.org/pair#involves'
+        http://virtual-assembly.org/pair#organizes: 'http://virtual-assembly.org/pair#isOrganizedBy'
+        http://virtual-assembly.org/pair#manages: 'http://virtual-assembly.org/pair#isManagedBy'
+        http://virtual-assembly.org/pair#isParticipatingIn: 'http://virtual-assembly.org/pair#hasParticipant'
+        http://virtual-assembly.org/pair#hasType: 'http://virtual-assembly.org/pair#typeOf'
+      label:
+        - http://virtual-assembly.org/pair#preferedLabel
+        - http://virtual-assembly.org/pair#comment
+        - http://virtual-assembly.org/pair#image
+        - http://virtual-assembly.org/pair#adress

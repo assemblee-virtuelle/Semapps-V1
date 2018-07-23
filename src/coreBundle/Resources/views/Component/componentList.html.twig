@@ -1,0 +1,43 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | {{ componentName }}{% endblock %}
+{% set menuSelected = componentName %}
+{% block pageContentTitle %}Liste pour type : {{ componentName }}{% endblock %}
+{% block pageContent %}
+    {{ parent() }}
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path('componentForm',{'componentName':componentName}) }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Ajouter</a>
+        </li>
+    </ul>
+    <br>
+
+    <table class="table table-bordered">
+        {% for item in listContent %}
+            <tr>
+                {% block itemDisplay %}
+                    <td style="width:100%">{{ item.content|first }}</td>
+                {% endblock %}
+
+                <td>
+                    <a class="btn" target="_parent" href="/detail?uri={{ item.uri }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        Voir</a>
+                </td>
+                <td>
+                    <a href="{{ path('componentForm',{'componentName':componentName,uri:item.uri}) }}"
+                       class="btn"><span
+                                class="glyphicon glyphicon-edit"></span>&nbsp;Editer</a>
+                </td>
+
+                <td>
+                    <a class="btn component-delete" href="{{ path('componentDelete',{'componentName':componentName,'uri':item.uri}) }}" name="{{ componentName }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

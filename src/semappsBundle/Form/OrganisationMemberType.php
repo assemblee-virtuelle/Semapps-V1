@@ -3,7 +3,7 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\Form\Type\YesNoType;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

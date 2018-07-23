@@ -2,7 +2,7 @@
 
 namespace semappsBundle\Form;
 
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -81,7 +81,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'rdfType'   => coreConfig::URI_SKOS_THESAURUS,
                 ]
             )
             ->add(
@@ -90,7 +90,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PERSON,
+                    'rdfType'   => coreConfig::URI_PAIR_PERSON,
                 ]
             )
             ->add(
@@ -99,7 +99,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+                    'rdfType'   => coreConfig::URI_PAIR_ORGANIZATION,
                 ]
             )
             ->add(
@@ -108,7 +108,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+                    'rdfType'   => coreConfig::URI_PAIR_ORGANIZATION,
                 ]
             )
             ->add(
@@ -117,7 +117,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_ORGANIZATION,
+                    'rdfType'   => coreConfig::URI_PAIR_ORGANIZATION,
                 ]
             )
             ->add(
@@ -126,7 +126,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(
@@ -135,7 +135,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
                 ]
             )
             ->add(
@@ -144,7 +144,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_PROJECT,
+                    'rdfType'   => coreConfig::URI_PAIR_PROJECT,
                 ]
             )
             ->add(
@@ -153,7 +153,7 @@ class PersonType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_EVENT,
+                    'rdfType'   => coreConfig::URI_PAIR_EVENT,
                 ]
             )
             ->add(

@@ -1,0 +1,24 @@
+coreBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: coreBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        sfLink:
+            type: text
+            nullable: true
+        sfUser:
+            type: text
+            nullable: true
+        fkOrganisation:
+            type: integer
+            nullable: true
+        pictureName:
+            type: text
+            nullable: true
+    lifecycleCallbacks: {  }

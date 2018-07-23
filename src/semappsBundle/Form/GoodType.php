@@ -3,7 +3,7 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\Form\Type\YesNoType;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -101,7 +101,7 @@ class GoodType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => true,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -110,7 +110,7 @@ class GoodType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => true,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
         ;

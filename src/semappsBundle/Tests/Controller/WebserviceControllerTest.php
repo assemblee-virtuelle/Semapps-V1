@@ -3,17 +3,17 @@
 namespace semappsBundle\Tests\Controller;
 
 
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use VirtualAssembly\SemanticFormsBundle\SemanticFormsBundle;
 
 class WebserviceControllerTest extends toolsTest
 {
     var $entities = [
-      semappsConfig::URI_FOAF_ORGANIZATION,
-      semappsConfig::URI_FOAF_PERSON,
-      semappsConfig::URI_FOAF_PROJECT,
-      semappsConfig::URI_PURL_EVENT,
-      semappsConfig::URI_FIPA_PROPOSITION,
+      coreConfig::URI_FOAF_ORGANIZATION,
+      coreConfig::URI_FOAF_PERSON,
+      coreConfig::URI_FOAF_PROJECT,
+      coreConfig::URI_PURL_EVENT,
+      coreConfig::URI_FIPA_PROPOSITION,
     ];
     public function testWebserviceParameters(){
         //not logged
@@ -32,7 +32,7 @@ class WebserviceControllerTest extends toolsTest
         self::assertEmpty($jsonResponse['name']);
         self::assertArrayHasKey('buildings', $jsonResponse);
         foreach ($jsonResponse['buildings'] as $building => $detail){
-            self::assertArrayHasKey($building,semappsConfig::$buildingsExtended);
+            self::assertArrayHasKey($building,coreConfig::$buildingsExtended);
             self::assertArrayHasKey('title',$detail);
         }
         self::assertArrayHasKey('entities', $jsonResponse);

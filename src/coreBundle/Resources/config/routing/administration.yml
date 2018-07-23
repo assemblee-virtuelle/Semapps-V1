@@ -1,0 +1,40 @@
+userDelete:
+    path:     /user/{userId}/delete
+    defaults: { _controller: coreBundle:AdministrationUser:removeUser}
+userList:
+    path:     /user/list
+    defaults: { _controller: coreBundle:AdministrationUser:listUser }
+sendUser:
+    path:     /user/{userId}/send/{nameRoute}
+    defaults: { _controller: coreBundle:AdministrationUser:sendUser }
+#changeAccess:
+#    path:    /access/{userId}/change/{roles}
+#    defaults: { _controller: coreBundle:AdministrationUser:changeAccess }
+deleteOrganization:
+    path:     /organization/delete/{uriOrganization}
+    defaults: { _controller: coreBundle:AdministrationOrganisation:removeOrganization }
+
+organizationList:
+    path:     /organization/list
+    defaults: { _controller: coreBundle:AdministrationOrganisation:completeOragizationList }
+organizationExport:
+    path:     /organization/export/csv
+    defaults: { _controller: coreBundle:AdministrationOrganisation:organizationExport }
+changeContext:
+    path:     /context/change/{context}
+    defaults: { _controller: coreBundle:Administration:changeContext, context: null}
+#team:
+#    path:     /invite
+#    defaults: { _controller: coreBundle:AdministrationUser:team }
+settings:
+    path:     /parametres
+    defaults: { _controller: coreBundle:Administration:settings }
+invite:
+    path:     /invite
+    defaults: { _controller: coreBundle:Administration:invite }
+sendInvite:
+    path:     /invite/send/{email}/{token}
+    defaults: { _controller: coreBundle:Administration:sendInvite }
+deleteInvite:
+    path:     /invite/delete/{email}
+    defaults: { _controller: coreBundle:Administration:deleteInvite }

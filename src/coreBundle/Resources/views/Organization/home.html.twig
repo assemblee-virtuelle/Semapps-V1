@@ -1,0 +1,104 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | organisation{% endblock %}
+
+{% block pageContentTitle %}Organisations{% endblock %}
+
+{% set menuSelected = 'orgaList' %}
+
+
+{% block pageContent %}
+    {{ parent() }}
+    <h2>Membres</h2>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active pull-right">
+            <a href="{{ path('organizationExport') }}">Export CSV</a>
+        </li>
+    </ul>
+    <br>
+    <table class="table table-bordered">
+        {% for organisation in organisations %}
+            <tr>
+                <td class="padded-value" style="width:60%">
+                    {{ organisation.name }}
+                </td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td class="padded-value">
+                        <a href="{{ path('orgaComponentForm', {'uniqueComponentName':'organization' , 'id': organisation.id}) }}" >
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td class="padded-value">
+                        <a class="orga-delete" href="#" rel="{{ organisation.id }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>
+
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <h2>Ajouter</h2>
+        <div class="panel panel-gv">
+            <div class="panel-body">
+                Vous pouvez crée de nouvelles organisations faisant partie de SemApps. Choisissez d'inviter tout de suite l'utilisateur en disant oui, dans ce cas, le mail partira à la validation du formulaire.
+                En revanche, si vous dites non, pour envoyer le mail d'invitation, Vous devrez vous rendre sur l'onglet "les utilisateurs" et lui envoyer la confirmation.
+            </div>
+        </div>
+        {{ form_start(formAddOrganisation) }}
+        {{ form_errors(formAddOrganisation) }}
+        <div class="col col-sm-3">
+            <div class="form-group {% if formAddOrganisation.name.vars.errors|length %}has-error has-feedback{% endif %}">
+                {{ form_row(formAddOrganisation.name, { 'attr': {'class': 'form-control', 'placeholder':"nom de l'organisation"} }) }}
+                {% if formAddOrganisation.name.vars.errors|length %}
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(formAddOrganisation.name) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col col-sm-2">
+            <div class="form-group {% if formAddOrganisation.username.vars.errors|length %}has-error has-feedback{% endif %}">
+                {{ form_row(formAddOrganisation.username, { 'attr': {'class': 'form-control', 'placeholder':'Pseudo'} }) }}
+                {% if formAddOrganisation.username.vars.errors|length %}
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(formAddOrganisation.username) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col col-sm-3">
+            <div class="form-group {% if formAddOrganisation.email.vars.errors|length %}has-error has-feedback{% endif %}">
+                {{ form_row(formAddOrganisation.email, { 'attr': {'class': 'form-control', 'placeholder':'Email'}, 'type' : 'email' }) }}
+                {% if formAddOrganisation.email.vars.errors|length %}
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(formAddOrganisation.email) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col col-sm-3">
+            <div class="form-group {% if formAddOrganisation.sendEmail.vars.errors|length %}has-error has-feedback{% endif %}">
+                {{ form_row(formAddOrganisation.sendEmail) }}
+                {% if formAddOrganisation.sendEmail.vars.errors|length %}
+                    <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                        {{ form_errors(formAddOrganisation.sendEmail) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col col-sm-1">
+            {{ form_widget(formAddOrganisation.submit, { 'attr': {'class': 'btn btn-primary-lgv'}, 'label': 'Créer' }) }}
+        </div>
+        {{ form_end(formAddOrganisation) }}
+    {% endif %}
+{% endblock %}

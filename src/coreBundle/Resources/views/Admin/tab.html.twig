@@ -1,0 +1,38 @@
+{% extends "::admin.html.twig" %}
+
+{% block pageContentTitle %}Bienvenue !{% endblock %}
+
+{% set menuSelected = 'home' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet"
+          href="{{ asset('bower_components/datatables/media/css/jquery.dataTables.min.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bower_components/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bower_components/datatables/media/js/dataTables.bootstrap.min.js') }}"></script>
+
+    <script type="text/javascript" language="javascript">
+        var vmConfigs = {{ data|json_encode()|raw }};
+
+        $(document).ready(function() {
+            $('#example').DataTable( {
+                data: vmConfigs ,
+                columns: [
+                    {% for val in key|keys  %}
+                    { title: '{{ val }}'},
+                    {% endfor %}
+                ]
+            } );
+        } );
+
+    </script>
+{% endblock %}
+{% block pageContent %}
+    {{ parent() }}
+    Voici votre espace d'administration.
+    <table id="example" class="display nowrap dataTable dtr-inline stripe" role="grid" width="100%"></table>
+{% endblock %}

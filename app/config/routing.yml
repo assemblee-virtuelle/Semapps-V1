@@ -1,5 +1,5 @@
 grands_voisins:
-    resource: "@semappsBundle/Resources/config/routing.yml"
+    resource: "@coreBundle/Resources/config/routing.yml"
     prefix:   /
 
 fos_user_security:

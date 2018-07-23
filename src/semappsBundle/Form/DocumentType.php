@@ -3,7 +3,7 @@
 namespace semappsBundle\Form;
 
 use semappsBundle\Form\Type\YesNoType;
-use semappsBundle\semappsConfig;
+use semappsBundle\coreConfig;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -56,7 +56,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_PAIR_DOCUMENT,
+                    'rdfType'   => coreConfig::URI_PAIR_DOCUMENT,
                 ]
             )
             ->add(
@@ -65,7 +65,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   =>  implode('|',semappsConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
+                    'rdfType'   =>  implode('|',coreConfig::URI_ALL_PAIR_EXCEPT_DOC_TYPE),
                 ]
             )
             ->add(
@@ -74,7 +74,7 @@ class DocumentType extends SemanticFormType
                 ThesaurusType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => semappsConfig::URI_SKOS_CONCEPT,
+                    'rdfType'   => coreConfig::URI_SKOS_CONCEPT,
                     'graphUri'   => 'urn://semapps/thesaurus/documenttype',
                 ]
             )
@@ -84,7 +84,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -93,7 +93,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add($builder, 'external_document_author',
@@ -114,7 +114,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add($builder, 'external_document_publisher',
@@ -173,7 +173,7 @@ class DocumentType extends SemanticFormType
                 'hasInterest',
                 ThesaurusType::class,
                 [
-                    'rdfType'   => semappsConfig::URI_SKOS_THESAURUS,
+                    'rdfType'   => coreConfig::URI_SKOS_THESAURUS,
                     'graphUri'  => 'http://assemblee-virtuelle.github.io/grands-voisins-v2/thesaurus.ttl'
                 ]
             )
@@ -183,7 +183,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(
@@ -192,7 +192,7 @@ class DocumentType extends SemanticFormType
                 UriType::class,
                 [
                     'required'  => false,
-                    'rdfType'   => implode('|',semappsConfig::URI_MIXTE_PERSON_ORGANIZATION),
+                    'rdfType'   => implode('|',coreConfig::URI_MIXTE_PERSON_ORGANIZATION),
                 ]
             )
             ->add(

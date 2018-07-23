@@ -1,0 +1,66 @@
+{% extends "::admin.html.twig" %}
+
+{% block title %}SemApps  | component{% endblock %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+{% set menuSelected = '' %}
+{% block pageContentTitle %}Ajouter un type : {{ componentName }}{% endblock %}
+{% block pageContent %}
+    {{ parent() }}
+    <div class="container">
+        {% if entityUri %}
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active pull-right">
+                    <a target="_blank" href="/detail?uri={{ entityUri }}"><span
+                                class="glyphicon glyphicon-eye-open"></span>
+                        Voir</a>
+                </li>
+                <li role="presentation" class="active pull-right">
+                    <a  href="{{ path('actualizeComponent', {'componentName':componentName, 'uri': entityUri|url_encode}) }}"><span
+                                class="glyphicon glyphicon-refresh"></span>
+                        actualiser</a>
+                </li>
+            </ul>
+            <br>
+        {% endif %}
+        <div class="row">
+            {% if importForm is not null %}
+                <ul id="myTab" class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#service-one" data-toggle="tab"><i class="fa "></i> Créer un profil</a>
+                    </li>
+                    <li class=""><a href="#service-two" data-toggle="tab"><i class="fa"></i> Lier une donnée</a>
+                    </li>
+                </ul>
+            {% endif %}
+            {% if importForm is not null %}
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade active in" id="service-one">
+                    {% endif %}
+
+                    {{ form_start(form) }}
+                    {% block formContent %}
+                    {% endblock %}
+                    {{ form_end(form) }}
+                    {% if importForm is not null %}
+                </div>
+                <div class="tab-pane fade" id="service-two">
+                    {{ form_start(importForm) }}
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <div class="col-xs-12 form-group">
+                                {{ form_row(importForm.import, { 'label': 'import', attr:{class:'form-control'} }) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                {{ form_row(importForm.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(importForm) }}
+                </div>
+            </div>
+            {% endif%}
+        </div>
+    </div>
+{% endblock %}

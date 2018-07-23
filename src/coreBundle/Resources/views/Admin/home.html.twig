@@ -1,0 +1,10 @@
+{% extends "::admin.html.twig" %}
+
+{% block pageContentTitle %}Bienvenue !{% endblock %}
+
+{% set menuSelected = 'home' %}
+
+{% block pageContent %}
+    {{ parent() }}
+    Voici votre espace d'administration.
+{% endblock %}

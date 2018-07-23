@@ -1,0 +1,81 @@
+home:
+    path:     /
+    defaults: { _controller: coreBundle:Person:home }
+fos_user_profile_show:
+    path:     /
+    defaults: { _controller: coreBundle:Person:home }
+orgaComponentForm:
+    path:     /{uniqueComponentName}/form/{id}
+    defaults: { _controller: coreBundle:Organization:add}
+    requirements:
+      uniqueComponentName: 'organization'
+orgaComponentFormWithoutId:
+    path:     /{uniqueComponentName}/form
+    defaults: { _controller: coreBundle:Organization:add}
+    requirements:
+      uniqueComponentName: 'organization'
+orgaActualizeComponent:
+    path:     /{uniqueComponentName}/actualize/{id}
+    defaults: { _controller: coreBundle:Organization:actualize}
+    requirements:
+      uniqueComponentName: 'organization'
+orgaRemoveComponent:
+    path:     /{uniqueComponentName}/remove
+    defaults: { _controller: coreBundle:Organization:remove}
+    requirements:
+      uniqueComponentName: 'organization'
+personComponentForm:
+    path:     /{uniqueComponentName}/form/{id}
+    defaults: { _controller: coreBundle:Person:add}
+    requirements:
+      uniqueComponentName: 'person'
+
+personComponentFormWithoutId:
+    path:     /{uniqueComponentName}/form
+    defaults: { _controller: coreBundle:Person:add}
+    requirements:
+      uniqueComponentName: 'person'
+
+personActualizeComponent:
+    path:     /{uniqueComponentName}/actualize
+    defaults: { _controller: coreBundle:Person:actualize}
+    requirements:
+      uniqueComponentName: 'person'
+personRemoveComponent:
+    path:     /{uniqueComponentName}/remove
+    defaults: { _controller: coreBundle:Person:remove}
+    requirements:
+      uniqueComponentName: 'person'
+
+componentDelete:
+    path:     /component/{componentName}/delete
+    defaults: { _controller: coreBundle:Component:remove }
+
+componentList:
+    path:     /component/{componentName}/list
+    defaults: { _controller: coreBundle:Component:list}
+
+componentForm:
+    path:     /component/{componentName}/form
+    defaults: { _controller: coreBundle:Component:add}
+componentFormWithUri:
+    path:     /component/{componentName}/form/{uri}
+    defaults: { _controller: coreBundle:Component:add}
+actualizeComponent:
+    path:     /component/{componentName}/actualize/{uri}
+    defaults: { _controller: coreBundle:Component:actualize}
+
+thesaurusDelete:
+    path:     /thesaurus/{componentName}/delete
+    defaults: { _controller: coreBundle:Thesaurus:remove }
+
+thesaurusList:
+    path:     /thesaurus/{componentName}/list
+    defaults: { _controller: coreBundle:Thesaurus:list}
+
+thesaurusForm:
+    path:     /thesaurus/{componentName}/form
+    defaults: { _controller: coreBundle:Thesaurus:add}
+site:
+    path:     /sites
+    defaults: { _controller: coreBundle:SiteFederation:manageSite }
