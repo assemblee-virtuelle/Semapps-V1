@@ -29,6 +29,7 @@ Polymer({
         this.globalZoom = 6;
         let maxZoom = (semapps.isAnonymous())? 12:18;
         let minZoom = 0;
+        this.entities = semapps.entities;
 
         this.OSM = L.map('semapps',{maxZoom: maxZoom, minZoom:minZoom}).setView([this.globalX,this.globalY], this.globalZoom);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -42,33 +43,19 @@ Polymer({
         this.OSM.on('mouseover',mouseOver);
         this.OSM.on('mouseout',mouseOut);
         this.pinAvailaible = [];
-        this.awesome= {
-            "http://virtual-assembly.org/pair#Person":L.AwesomeMarkers.icon({
-                icon: 'user',
-                markerColor: 'blue'
-            }),
-            "http://virtual-assembly.org/pair#Organization":L.AwesomeMarkers.icon({
-                icon: 'tower',
-                markerColor: 'blue'
-            }),
-            "http://virtual-assembly.org/pair#Project":L.AwesomeMarkers.icon({
-                icon: 'screenshot',
-                markerColor: 'red'
-            }),
-            "http://virtual-assembly.org/pair#Event":L.AwesomeMarkers.icon({
-                icon: 'calendar',
-                markerColor: 'orange'
-            }),
-            "http://virtual-assembly.org/pair#Proposal":L.AwesomeMarkers.icon({
-                icon: 'info-sign',
-                markerColor: 'green'
-            }),
-            "http://virtual-assembly.org/pair#Document":L.AwesomeMarkers.icon({
-                icon: 'folder-open',
-                markerColor: 'black'
-            }),
-        }
+        this.awesome = this.getMarkers();
+    },
 
+    getMarkers() {
+        "use strict";
+        let ret = {};
+        for (let entity in this.entities){
+            ret[entity] = L.AwesomeMarkers.icon({
+                icon:this.entities[entity].icon,
+                makerColor:this.entities[entity].markerColor
+            })
+        }
+        return ret;
     },
 
     /**
