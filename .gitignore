@@ -11,4 +11,4 @@ package-lock.json
 composer.lock
 /web/**/*.min.js
 /web/**/*.map
-/web/**/*.css
+/web/front/**/*.css
