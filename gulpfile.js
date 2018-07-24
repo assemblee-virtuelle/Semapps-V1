@@ -11,24 +11,13 @@ var fs = require('fs');
 var components =[
     'person',
     'organization',
-    'organizationType',
-    'project',
-    'projectType',
-    'event',
-    'eventType',
-    'proposal',
-    'proposalType',
-    'document',
-    'documentType',
-    'good',
-    'service',
-    'place',
+    'organizationType'
     ];
 // For each file (with no extension),
 // if value is "true", use the .js version to build .min.js version,
 // if value is an array, aggregate the files to the .min.js version.
 var filesJs = {
-  'web/front/src/main': true,
+  'web/bundles/semapps/front/src/main': true,
   // Main admin script.
   'web/admin/js/dist/script': [
     'web/admin/js/src/class/cartoAdmin.js',
@@ -51,21 +40,21 @@ var filesJs = {
     'web/admin/js/src/main.js'
   ],
   // Front
-  'web/front/src/semapps-avatar/semapps-avatar': true,
-  'web/front/src/semapps-tag/semapps-tag': true,
-  'web/front/src/semapps-carto/semapps-carto': true,
-  'web/front/src/semapps-header/semapps-header': true,
-  'web/front/src/semapps-results/semapps-results': true,
-  'web/front/src/semapps-results-tab/semapps-results-tab': true,
-  'web/front/src/semapps-results-item/semapps-results-item': true,
-  'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
-  // 'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
-  'web/front/src/semapps-detail/semapps-detail': true,
-  'web/front/src/semapps-ressource/semapps-ressource': true,
-  'web/front/src/semapps-map/semapps-map': true,
-  'web/front/src/semapps-schema/semapps-schema': true,
-  'web/front/src/semapps-prez/semapps-prez': true,
-  'web/front/src/semapps-map-pin/semapps-map-pin': true
+  'web/bundles/semapps/front/src/semapps-avatar/semapps-avatar': true,
+  'web/bundles/semapps/front/src/semapps-tag/semapps-tag': true,
+  'web/bundles/semapps/front/src/semapps-carto/semapps-carto': true,
+  'web/bundles/semapps/front/src/semapps-header/semapps-header': true,
+  'web/bundles/semapps/front/src/semapps-results/semapps-results': true,
+  'web/bundles/semapps/front/src/semapps-results-tab/semapps-results-tab': true,
+  'web/bundles/semapps/front/src/semapps-results-item/semapps-results-item': true,
+  'web/bundles/semapps/front/src/semapps-logo-animated/semapps-logo-animated': true,
+  // 'web/bundles/semapps/front/src/semapps-logo-mini/semapps-logo-mini': true,
+  'web/bundles/semapps/front/src/semapps-detail/semapps-detail': true,
+  'web/bundles/semapps/front/src/semapps-ressource/semapps-ressource': true,
+  'web/bundles/semapps/front/src/semapps-map/semapps-map': true,
+  'web/bundles/semapps/front/src/semapps-schema/semapps-schema': true,
+  'web/bundles/semapps/front/src/semapps-prez/semapps-prez': true,
+  'web/bundles/semapps/front/src/semapps-map-pin/semapps-map-pin': true
 };
 
 var filesScss = {
@@ -75,24 +64,24 @@ var filesScss = {
   'web/admin/css/menu': true,
   'web/admin/css/style': true,
   // Front
-  'web/front/css/style': true,
-  'web/front/src/semapps-avatar/semapps-avatar': true,
-  'web/front/src/semapps-tag/semapps-tag': true,
-  'web/front/src/semapps-carto/semapps-carto': true,
-  'web/front/src/semapps-spinner/semapps-spinner': true,
-  'web/front/src/semapps-results/semapps-results': true,
-  'web/front/src/semapps-results-tab/semapps-results-tab': true,
-  'web/front/src/semapps-results-item/semapps-results-item': true,
-  'web/front/src/semapps-header/semapps-header': true,
-  'web/front/src/semapps-detail/semapps-detail': true,
-  'web/front/src/semapps-ressource/semapps-ressource': true,
-  'web/front/src/semapps-detail/semapps-detail-inner': true,
-  'web/front/src/semapps-logo-animated/semapps-logo-animated': true,
-  'web/front/src/semapps-logo-mini/semapps-logo-mini': true,
-  'web/front/src/semapps-map/semapps-map': true,
-  'web/front/src/semapps-schema/semapps-schema': true,
-  'web/front/src/semapps-map-pin/semapps-map-pin': true,
-  'web/front/src/semapps-prez/semapps-prez': true,
+  'web/bundles/semapps/front/css/style': true,
+  'web/bundles/semapps/front/src/semapps-avatar/semapps-avatar': true,
+  'web/bundles/semapps/front/src/semapps-tag/semapps-tag': true,
+  'web/bundles/semapps/front/src/semapps-carto/semapps-carto': true,
+  'web/bundles/semapps/front/src/semapps-spinner/semapps-spinner': true,
+  'web/bundles/semapps/front/src/semapps-results/semapps-results': true,
+  'web/bundles/semapps/front/src/semapps-results-tab/semapps-results-tab': true,
+  'web/bundles/semapps/front/src/semapps-results-item/semapps-results-item': true,
+  'web/bundles/semapps/front/src/semapps-header/semapps-header': true,
+  'web/bundles/semapps/front/src/semapps-detail/semapps-detail': true,
+  'web/bundles/semapps/front/src/semapps-ressource/semapps-ressource': true,
+  'web/bundles/semapps/front/src/semapps-detail/semapps-detail-inner': true,
+  'web/bundles/semapps/front/src/semapps-logo-animated/semapps-logo-animated': true,
+  'web/bundles/semapps/front/src/semapps-logo-mini/semapps-logo-mini': true,
+  'web/bundles/semapps/front/src/semapps-map/semapps-map': true,
+  'web/bundles/semapps/front/src/semapps-schema/semapps-schema': true,
+  'web/bundles/semapps/front/src/semapps-map-pin/semapps-map-pin': true,
+  'web/bundles/semapps/front/src/semapps-prez/semapps-prez': true,
 
 };
 
@@ -125,8 +114,8 @@ function getFilesOptions(destFile, sourceFiles, sourceExt, destExt) {
 
 function buildFiles(files, action, sourceExt, destExt) {
   components.forEach(function(element) {
-      files ['web/front/src/semapps-detail-'+element+'/semapps-detail-'+element] = true;
-      files ['web/front/src/semapps-results-'+element+'/semapps-results-'+element] = true;
+      files ['web/bundles/semapps/front/src/semapps-detail-'+element+'/semapps-detail-'+element] = true;
+      files ['web/bundles/semapps/front/src/semapps-results-'+element+'/semapps-results-'+element] = true;
   });
   console.log(files)
   // One task for each file separately.

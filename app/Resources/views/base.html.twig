@@ -42,15 +42,15 @@
     <!-- css -->
     {% block stylesheets %}
         <link type="text/css" rel="stylesheet"
-              href="{{ asset('bower_components/bootstrap/dist/css/bootstrap.css') }}">
+              href="{{ asset('bundles/semapps/bower_components/bootstrap/dist/css/bootstrap.css') }}">
         <link type="text/css" rel="stylesheet"
-              href="{{ asset('bower_components/bootstrap/dist/css/bootstrap-theme.css') }}">
+              href="{{ asset('bundles/semapps/bower_components/bootstrap/dist/css/bootstrap-theme.css') }}">
         <link href="https://fonts.googleapis.com/css?family=Crafty+Girls" rel="stylesheet">
     {% endblock %}
 
     {% block javascripts %}
-        <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('bundles/semapps/bower_components/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/semapps/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script>
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()

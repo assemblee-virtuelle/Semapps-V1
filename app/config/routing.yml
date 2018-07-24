@@ -1,7 +1,3 @@
-test:
-    resource: "@testBundle/Resources/config/routing.yml"
-    prefix:   /
-
 semapps:
     resource: "@semappsBundle/Resources/config/routing.yml"
     prefix:   /

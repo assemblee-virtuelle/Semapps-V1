@@ -5,7 +5,6 @@ imports:
     - { resource: personal_conf.yml}
     - { resource: "@semappsBundle/Resources/config/services.yml" }
     - { resource: "@semappsBundle/Resources/config/conf.yml" }
-    - { resource: "@testBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -92,7 +91,7 @@ swiftmailer:
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: semappsBundle\Entity\User
+    user_class: VirtualAssembly\semappsBundle\Entity\User
     from_email: #nouveau champs imposé par Symfony ou FOSUser
         address: contact@assemblee-virtuelle.org
         sender_name: Assemblée Virtuelle

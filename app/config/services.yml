@@ -8,11 +8,11 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     semapps_bundle.event_listener.confirm_registration:
-        class: semappsBundle\EventListener\ConfirmRegistrationListener
+        class: VirtualAssembly\semappsBundle\EventListener\ConfirmRegistrationListener
         arguments: ["@router", "@security.token_storage", "@doctrine.orm.entity_manager","@semantic_forms.client",'@semapps_bundle.encryption']
         tags:
             - { name: kernel.event_subscriber }
 
     semapps_bundle.event_listener.send_mail:
-        class: semappsBundle\Services\Mailer
+        class: VirtualAssembly\semappsBundle\Services\Mailer
         arguments: ["@swiftmailer.mailer.default.transport.real", "%mailer_user%","@templating",'@semapps_bundle.encryption',"%carto.domain%"]

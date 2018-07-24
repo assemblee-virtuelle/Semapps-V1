@@ -20,8 +20,7 @@ class AppKernel extends Kernel
             new \Liip\ImagineBundle\LiipImagineBundle(),
             new VirtualAssembly\SparqlBundle\SparqlBundle(),
             new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
-            new semappsBundle\semappsBundle(),
-            new testBundle\testBundle(),
+            new VirtualAssembly\semappsBundle\semappsBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
