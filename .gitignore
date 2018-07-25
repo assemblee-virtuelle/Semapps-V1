@@ -12,8 +12,8 @@ composer.lock
 /web/**/*.min.js
 /web/**/*.map
 /web/bundles/semapps/front/**/*.css
-web/admin/css/menu.css
-web/admin/css/style.css
+web/bundles/semapps/admin/css/menu.css
+web/bundles/semapps/admin/css/style.css
 src/web/bower_components
 src/*Bundle/**/*.min.js
 src/*Bundle/**/*.map

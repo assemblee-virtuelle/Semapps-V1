@@ -19,16 +19,16 @@ var components =[
 var filesJs = {
   'web/bundles/semapps/front/src/main': true,
   // Main admin script.
-  'web/admin/js/dist/script': [
-    'web/admin/js/src/class/cartoAdmin.js',
-    'web/admin/js/src/class/cartoAdminPage.js',
+  'web/bundles/semapps/admin/js/dist/script': [
+    'web/bundles/semapps/admin/js/src/class/cartoAdmin.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPage.js',
     // Page specific scripts.
-    'web/admin/js/src/class/cartoAdminPageTeam.js',
-    'web/admin/js/src/class/cartoAdminPageUser.js',
-    'web/admin/js/src/class/cartoAdminPageProfile.js',
-    'web/admin/js/src/class/cartoAdminPageOrga.js',
-    'web/admin/js/src/class/cartoAdminPageComponent.js',
-    'web/admin/js/src/class/cartoAdminPageComponentAddress.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageTeam.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageUser.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageProfile.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageOrga.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageComponent.js',
+    'web/bundles/semapps/admin/js/src/class/cartoAdminPageComponentAddress.js',
     // Fields.
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.uri.js',
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.dbPedia.js',
@@ -37,7 +37,7 @@ var filesJs = {
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/field.thesaurus.js',
       'vendor/VirtualAssembly/SemanticFormsBundle/VirtualAssembly/SemanticFormsBundle/Resources/js/semanticForms.js',
     // Launcher
-    'web/admin/js/src/main.js'
+    'web/bundles/semapps/admin/js/src/main.js'
   ],
   // Front
   'web/bundles/semapps/front/src/semapps-avatar/semapps-avatar': true,
@@ -61,8 +61,8 @@ var filesScss = {
   // Semantic Forms.
   //'src/VirtualAssembly/SemanticFormsBundle/Resources/css/semanticForms': true,
   // Admin
-  'web/admin/css/menu': true,
-  'web/admin/css/style': true,
+  'web/bundles/semapps/admin/css/menu': true,
+  'web/bundles/semapps/admin/css/style': true,
   // Front
   'web/bundles/semapps/front/css/style': true,
   'web/bundles/semapps/front/src/semapps-avatar/semapps-avatar': true,
