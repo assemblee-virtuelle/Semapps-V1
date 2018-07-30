@@ -51,7 +51,7 @@ twig:
         context_manager: '@semapps_bundle.context_manager'
         sf_domain: "%semantic_forms.domain%"
     form_themes:
-        - 'form/fields.html.twig'
+        - '@semapps/form/fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
