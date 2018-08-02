@@ -2,9 +2,8 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: personal_conf.yml}
     - { resource: "@semappsBundle/Resources/config/services.yml" }
-    - { resource: "@semappsBundle/Resources/config/conf.yml" }
+    - { resource: "@semappsBundle/Resources/config/config.yml" }
     - { resource: "@mainBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -106,7 +105,8 @@ semapps:
         person: 'http://virtual-assembly.org/pair#Person'
         organization: 'http://virtual-assembly.org/pair#Organization'
         thesaurus: 'http://www.w3.org/2004/02/skos/core#Concept'
-    ontology_types: "%ontology_types%"
+    ontology_types: 
+        place: 'http://virtual-assembly.org/pair#Place'
 
 # Liip configuration to resize picture
 # liip_imagine :

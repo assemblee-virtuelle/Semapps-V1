@@ -1,5 +1,5 @@
 {% extends "::base.html.twig" %}
-
+{# TODO: mettre ce fichier dans le semappsBundle (et tout les autres fichiers specifiques de vue)#}
 {% block stylesheets %}
     {{ parent() }}
     <link type="text/css" rel="stylesheet"
@@ -131,8 +131,8 @@
                                     {% endif %}
 
                                     {% if app.user.sfLink or context_manager.getContext(app.user.sfLink).contextName %}
-                                        {# TODO: set a foreach for type list
-                                        {{ admin.menuItem('Projets', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'project'}) }}
+                                    {{ admin.menuItem('Test', 'componentList', 'screenshot','Référencez vos projets ', menuSelected, 'MEMBER',{'componentName':'test'}) }}
+                                    {# TODO: set a foreach for type list
                                         {{ admin.menuItem('Evénements', 'componentList', 'calendar','Référencez vos événements', menuSelected, 'MEMBER',{'componentName':'event'}) }}
                                         {{ admin.menuItem('Proposition', 'componentList', 'info-sign','Faites des propositions', menuSelected, 'MEMBER',{'componentName':'proposal'}) }}
                                         {{ admin.menuItem('Document', 'componentList', 'folder-open','référencer des documents', menuSelected, 'MEMBER',{'componentName':'document'}) }}
