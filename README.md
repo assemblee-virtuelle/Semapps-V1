@@ -21,9 +21,15 @@ In order to contribute, you need to have
 
 ###### Installing Semantic Forms
 
-- Ensure that Java JRE 8 is installed, on Debian: `sudo apt-get install default-jre`
+- Ensure that Java JRE 8 is installed, on Debian: 
+```bash
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+java -version
+```
 - Download the zip file of version 2.0 of Semantic Forms (SF) from its [repository](https://github.com/jmvanel/semantic_forms/releases)
-- Unzip and change directory to SF: `cd semantic_forms_play-1.0-SNAPSHOT`
+- Unzip and change directory : `cd semantic_forms_play-1.0-SNAPSHOT`
 - Copy the start script to the current directory: `cp scripts/start.sh .`
 - One can change the port used by the SF server by changing the `PORT` variable in `start.sh` (9111 by default)
 - Give the execution permission to ```start.sh``` and `bin/semantic_forms_play` and run `start.sh` to start the SF server:
@@ -37,14 +43,14 @@ chmod +x bin/semantic_forms_play
 
 ###### Configuring MySQL
 
-- Install the MySQL client and server, run the MySQL server.
+- Install the MySQL client and server, run the MySQL server `sudo apt-get install mysql-server mysql-client`
 - From root, create a MySQL user as you want, create a database for symfony and grant the permissions to that user for this database. For example, to create a user `admin` with privileges on a database `symfony`:
 ```bash
-mysql -u root -p
-Enter password:
+sudo mysql
 mysql> CREATE USER 'admin'@'localhost' IDENFIED BY 'yourpassword';
 mysql> CREATE DATABASE symfony;
 mysql> GRANT ALL PRIVILEGES ON symfony.* TO 'admin'@'localhost' WITH GRANT OPTION;
+mysql> FLUSH PRIVILEGES;
 ```
 - MacPorts users may need to comment the line `!include /opt/local/etc/mysql57/macports-default.cnf` in `/opt/local/etc/mysql57/my.cnf` and to configure the default port by adding there:
 ```bash
