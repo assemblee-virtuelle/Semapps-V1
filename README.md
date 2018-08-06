@@ -63,7 +63,7 @@ php -r "unlink('composer-setup.php');"
 ```
 - Clone the project wherever you wish, `git clone https://github.com/assemblee-virtuelle/Semapps`
 - Change directory to Semapps, `cd yourdirectory/Semapps`
-- Install Bower in this directory, `npm install bower`
+- Install npm dependencies in this directory, `npm install`
 - Install some dependencies `bower install` or `node_modules/bower/bin/bower install`
 - Install some other dependencies `composer install`. When asked, provide:
   * The host for the database
