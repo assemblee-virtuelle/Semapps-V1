@@ -5,28 +5,28 @@ componentDelete:
     path:     /component/{componentName}/delete
     defaults: { _controller: mainBundle:Component:remove }
     requirements:
-      componentName: "%component%"
+      componentName: project|event|proposal|projecttype|eventtype|proposaltype|place|good|service
 
 componentList:
     path:     /mon-compte/component/{componentName}/list
     defaults: { _controller: mainBundle:Component:list}
     requirements:
-      componentName: "%component%"
+      componentName: project|event|proposal|projecttype|eventtype|proposaltype|place|good|service
 
 componentForm:
     path:     /mon-compte/component/{componentName}/form
     defaults: { _controller: mainBundle:Component:add}
     requirements:
-      componentName: "%component%"
+      componentName: project|event|proposal|projecttype|eventtype|proposaltype|place|good|service
 
 componentFormWithUri:
     path:     /mon-compte/component/{componentName}/form/{uri}
     defaults: { _controller: mainBundle:Component:add}
     requirements:
-      componentName: "%component%"
+      componentName: project|event|proposal|projecttype|eventtype|proposaltype|place|good|service
 
 actualizeComponent:
     path:     /mon-compte/component/{componentName}/actualize/{uri}
     defaults: { _controller: mainBundle:Component:actualize}
     requirements:
-      componentName: "%component%"
+      componentName: project|event|proposal|projecttype|eventtype|proposaltype|place|good|service

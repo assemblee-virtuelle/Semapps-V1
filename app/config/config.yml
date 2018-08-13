@@ -49,7 +49,7 @@ twig:
         special_alert: "%special_alert%"
         context_manager: '@semapps_bundle.context_manager'
         sf_domain: "%semantic_forms.domain%"
-        ontology_types: "%semapps.ontology_types%"
+        # ontology_types: "%semapps.ontology_types%"
     form_themes:
         - '@semapps/form/fields.html.twig'
 
