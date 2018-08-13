@@ -1,3 +1,32 @@
 # main_homepage:
 #     path:     /
 #     defaults: { _controller: mainBundle:Default:index }
+componentDelete:
+    path:     /component/{componentName}/delete
+    defaults: { _controller: mainBundle:Component:remove }
+    requirements:
+      componentName: "%component%"
+
+componentList:
+    path:     /mon-compte/component/{componentName}/list
+    defaults: { _controller: mainBundle:Component:list}
+    requirements:
+      componentName: "%component%"
+
+componentForm:
+    path:     /mon-compte/component/{componentName}/form
+    defaults: { _controller: mainBundle:Component:add}
+    requirements:
+      componentName: "%component%"
+
+componentFormWithUri:
+    path:     /mon-compte/component/{componentName}/form/{uri}
+    defaults: { _controller: mainBundle:Component:add}
+    requirements:
+      componentName: "%component%"
+
+actualizeComponent:
+    path:     /mon-compte/component/{componentName}/actualize/{uri}
+    defaults: { _controller: mainBundle:Component:actualize}
+    requirements:
+      componentName: "%component%"

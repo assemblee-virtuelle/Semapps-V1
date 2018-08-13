@@ -1,0 +1,113 @@
+{% extends "semappsBundle:Component:componentForm.html.twig" %}
+
+{% block pageContentTitle %}Ajouter un lieu {{ (context_manager.getContext(app.user.sfLink).contextName)? "pour " ~ context_manager.getContext(app.user.sfLink).contextName : 'personnel'}}{% endblock %}
+
+{%  set menuSelected = 'Places' %}
+
+{% block formContent %}
+    {{ parent() }}
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-8">
+                    {{ form_row(form.preferedLabel, { 'label': 'Nom'}) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.alternativeLabel) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.comment, { 'label': 'Description en une phrase'}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.homePage) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.aboutPage) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.description) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.hasPart) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.partOf) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 formEditAvatar">
+                    {% if form is not null %}
+                        <a href="#" id="profilePicture" class="thumbnail" data-toggle="tooltip" data-placement="bottom" title="Cliquez ici pour télécharger une image (2Mo max !)">
+                            <img src="{{ asset(image == null ? 'common/images/no_avatar.png' : 'uploads/pictures/'~image) | imagine_filter('profile') }}"/>
+                            <span id="profileEditPictureField">
+                            {{ form_widget(form.componentPicture) }}
+                        </span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.address) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.complementAddress) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    {{ form_row(form.email) }}
+                </div>
+                <div class="col-xs-6">
+                    {{ form_row(form.phone) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasType) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hasInterest) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.hosts) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{ form_row(form.deliveredBy) }}
+                </div>
+                <div class="col-sm-6">
+                    {{ form_row(form.operatedBy) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    {{ form_row(form.save, {attr:{class:'btn btn-primary-lgv pull-right'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-4">
+            {% embed "alertBobby.html.twig" %}
+                {% block title %}Les lieux{% endblock %}
+                {% block content %}
+                    <p>Un lieu important pour vous.</p>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

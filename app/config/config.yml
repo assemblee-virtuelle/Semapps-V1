@@ -49,6 +49,7 @@ twig:
         special_alert: "%special_alert%"
         context_manager: '@semapps_bundle.context_manager'
         sf_domain: "%semantic_forms.domain%"
+        ontology_types: "%semapps.ontology_types%"
     form_themes:
         - '@semapps/form/fields.html.twig'
 
@@ -102,11 +103,90 @@ fos_user:
 
 semapps:
     default_types:
-        person: 'http://virtual-assembly.org/pair#Person'
-        organization: 'http://virtual-assembly.org/pair#Organization'
-        thesaurus: 'http://www.w3.org/2004/02/skos/core#Concept'
-    ontology_types: 
-        place: 'http://virtual-assembly.org/pair#Place'
+        person:
+          uri: 'http://virtual-assembly.org/pair#Person'
+        organization:
+          uri: 'http://virtual-assembly.org/pair#Organization'
+        thesaurus:
+          uri: 'http://www.w3.org/2004/02/skos/core#Concept'
+    ontology_types:
+        project:
+          uri: 'http://virtual-assembly.org/pair#Project'
+          title: 'Projets'
+          icon: 'map-maker'
+          tooltip: 'Référencer des lieux'
+          role: 'MEMBER'
+          route: 'componentList'
+        event:
+          uri: 'http://virtual-assembly.org/pair#Event'
+          title: 'Evénements'
+          icon: 'calendar'
+          tooltip: 'Référencez vos événements'
+          role: 'MEMBER'
+          route: 'componentList'
+        proposal:
+          uri: 'http://virtual-assembly.org/pair#Proposal'
+          title: 'Proposition'
+          icon: 'info-sign'
+          tooltip: 'Faites des propositions'
+          role: 'MEMBER'
+          route: 'componentList'
+        document:
+          uri: 'http://virtual-assembly.org/pair#Document'
+          title: 'Document'
+          icon: 'folder-open'
+          tooltip: 'Référencer des documents'
+          role: 'MEMBER'
+          route: 'componentList'
+        documenttype:
+          uri: 'http://virtual-assembly.org/pair#DocumentType'
+          title: 'Type de document'
+          icon: 'pushpin'
+          tooltip: 'Référencer des types de documents'
+          role: 'MEMBER'
+          route: 'thesaurusList'
+        eventtype:
+          uri: 'http://virtual-assembly.org/pair#EventType'
+          title: 'Type dévennement'
+          icon: 'pushpin'
+          tooltip: 'Référencer des types dévennement'
+          role: 'MEMBER'
+          route: 'thesaurusList'
+        good:
+          uri: 'http://virtual-assembly.org/pair#Good'
+          title: 'Biens'
+          icon: 'gift'
+          tooltip: 'Référencer des biens'
+          role: 'MEMBER'
+          route: 'componentList'
+        place:
+          uri: 'http://virtual-assembly.org/pair#Place'
+          title: 'Lieux'
+          icon: 'map-marker'
+          tooltip: 'Référencer des lieux'
+          role: 'MEMBER'
+          route: 'componentList'
+        projecttype:
+          uri: 'http://virtual-assembly.org/pair#ProjectType'
+          title: 'Type de projet'
+          icon: 'pushpin'
+          tooltip: 'Référencer des types de projet'
+          role: 'MEMBER'
+          route: 'thesaurusList'
+        proposaltype:
+          uri: 'http://virtual-assembly.org/pair#ProposalType'
+          title: 'Type de proposition'
+          icon: 'pushpin'
+          tooltip: 'Référencer des types de proposition'
+          role: 'MEMBER'
+          route: 'thesaurusList'
+        service:
+          uri: 'http://virtual-assembly.org/pair#Service'
+          title: 'Services'
+          icon: 'wrench'
+          tooltip: 'Référencer des services'
+          role: 'MEMBER'
+          route: 'componentList'
 
 # Liip configuration to resize picture
 # liip_imagine :

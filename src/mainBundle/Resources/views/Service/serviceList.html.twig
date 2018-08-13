@@ -1,0 +1,5 @@
+{% extends "semappsBundle:Component:componentList.html.twig" %}
+
+{% block pageContentTitle %}Services  {{ (context_manager.getContext(app.user.sfLink).contextName)? "de " ~ context_manager.getContext(app.user.sfLink).contextName : 'personnels'}}{% endblock %}
+
+{% set menuSelected = 'Services' %}
