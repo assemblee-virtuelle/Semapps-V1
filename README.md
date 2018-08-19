@@ -2,6 +2,8 @@
 
 ## Installation
 
+This installation guide has been tested on raw Debian 9. If you do the same, check carefully your RAM, 4GB seems required to avoid memory exhaustion.
+
 ### For developers
 
 #### Prerequesites 
@@ -10,12 +12,15 @@ In order to contribute, you need to have
 - [Composer](https://getcomposer.org "Composer")
 - [NPM](https://www.npmjs.com/ "NPM")
 - [Bower](https://bower.io/ "Bower")
-- PHP >= 5.6
+- PHP = 5.6
 - [Semantic Forms up and running](https://github.com/jmvanel/semantic_forms/wiki/User_manual
  "Bower")
  - MySQL server
  
 #### Installation steps
+
+Install add-apt-repository before starting.
+`apt-get install software-properties-common`
 
 ##### Dependencies
 
@@ -47,7 +52,7 @@ chmod +x bin/semantic_forms_play
 - From root, create a MySQL user as you want, create a database for symfony and grant the permissions to that user for this database. For example, to create a user `admin` with privileges on a database `symfony`:
 ```bash
 sudo mysql
-mysql> CREATE USER 'admin'@'localhost' IDENFIED BY 'yourpassword';
+mysql> CREATE USER 'admin'@'localhost' IDENTIFIED BY 'yourpassword';
 mysql> CREATE DATABASE symfony;
 mysql> GRANT ALL PRIVILEGES ON symfony.* TO 'admin'@'localhost' WITH GRANT OPTION;
 mysql> FLUSH PRIVILEGES;
