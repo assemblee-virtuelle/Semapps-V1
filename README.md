@@ -10,7 +10,7 @@ This installation guide has been tested on raw Debian 9. If you do the same, che
 
 In order to contribute, you need to have 
 - [Composer](https://getcomposer.org "Composer")
-- [NPM](https://www.npmjs.com/ "NPM")
+- [Yarn](https://yarnpkg.com/en/ "Yarn")
 - [Bower](https://bower.io/ "Bower")
 - PHP = 5.6
 - [Semantic Forms up and running](https://github.com/jmvanel/semantic_forms/wiki/User_manual
@@ -64,7 +64,11 @@ port = 3306
 ```
 
 ###### NPM, Bower and Composer and the SemApps dependencies
-- Install NPM and Composer. On Debian, `sudo apt-get install npm composer`. If the Composer is not packaged, install it manually to a binary directory `INSTALLDIR` in your `PATH`:
+- Install Yarn and Composer.
+For Yarn, follow theses steps https://yarnpkg.com/en/docs/install. 
+
+For Composer, on Debian, run `sudo apt-get install composer`.
+If the Composer is not packaged, install it manually to a binary directory `INSTALLDIR` in your `PATH`:
 ```bash
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
@@ -72,10 +76,10 @@ export INSTALLDIR=$HOME/local/bin
 php composer-setup.php --install-dir=$INSTALLDIR --filename=composer
 php -r "unlink('composer-setup.php');"
 ```
+
 - Clone the project wherever you wish, `git clone https://github.com/assemblee-virtuelle/Semapps`
 - Change directory to Semapps, `cd yourdirectory/Semapps`
-- Install npm dependencies in this directory, `npm install`
-- Install some dependencies `bower install` or `node_modules/bower/bin/bower install`
+- Install node dependencies in this directory, run command `yarn`
 - Install some other dependencies `composer install`. When asked, provide:
   * The host for the database
   * The database port

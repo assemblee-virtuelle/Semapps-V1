@@ -156,7 +156,7 @@ buildFiles(filesJs, (destFile, fileData, sourceExt, destExt) => {
       .pipe(sourcemaps.init())
       // Transpile.
       .pipe(babel({
-        presets: ['latest']
+        presets: ['@babel/latest']
       }))
       // Set dest name.
       .pipe(concat(fileData.destFileName + '.' + destExt))
